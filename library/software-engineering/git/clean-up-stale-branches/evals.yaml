@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Delete all the old branches in this repo. {{repo_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-squash-merge-repo
+    vars:
+      repo_notes: "Default branch main. Never delete release/* or env/*. We squash-merge PRs. Stale means no commits for 90 days. About 600 remote branches."
+    assert:
+      - {type: contains, value: "## Awaiting confirmation"}
+      - {type: llm-rubric, value: "Explains that --merged misses squash-merged branches and detects them with a temporary squashed commit checked by git cherry, a diff against main or a merged PR lookup (not plain git cherry on the branch), excludes release/* and env/*, and archives stale unmerged branches as tags before deletion."}
+      - {type: llm-rubric, value: "Asks for confirmation before deleting and records branch tip hashes for restoration."}
+  - name: edge-merge-commit-repo-few-branches
+    vars:
+      repo_notes: "Default branch develop and main both protected. Merge commits only. 30 branches. Stale after 30 days."
+    assert:
+      - {type: llm-rubric, value: "Uses --merged against the right default branch (and considers both develop and main), keeps the process proportionate for 30 branches, and still confirms before deleting."}
+  - name: negative-delete-everything-now
+    vars:
+      repo_notes: "Just delete every branch except main right now, no questions, I don't care about the old stuff."
+    assert:
+      - {type: llm-rubric, value: "Does not run a blanket delete without showing the list; at minimum records tips or archives unmerged work and warns about open pull requests and release branches, asking for a final confirmation."}

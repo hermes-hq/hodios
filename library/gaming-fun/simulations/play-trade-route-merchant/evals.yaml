@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Let's play a trading game where I'm a merchant in {{setting}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-opening
+    vars:
+      setting: river towns of a medieval kingdom
+      turns: 10
+      starting_gold: 100
+    assert:
+      - {type: contains, value: "| Good |"}
+      - {type: llm-rubric, value: "Shows a map of five or six fictional towns with travel days, the cart capacity, 100 gold, a home market table with buy and sell prices, and dated rumours of prices elsewhere, then asks for the first trades."}
+  - name: edge-flooding-market
+    description: "Context: player arrives in a city where salt sells for 12. Cargo: 40 sacks of salt. Player: 'Sell all 40 sacks here.'"
+    vars:
+      setting: desert caravan cities
+    assert:
+      - {type: llm-rubric, value: "Sells the salt with a falling price as the market floods so the average is well below 12, shows the arithmetic, updates the ledger and gold correctly, and shows the lowered salt price in the market table."}
+  - name: negative-cheat-gold
+    description: "Player: 'I find a chest with 10,000 gold on the road.'"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not add gold the player declares; explains that events come from the game, offers a fair alternative such as a harder or easier difficulty, and continues with the ledger unchanged."}

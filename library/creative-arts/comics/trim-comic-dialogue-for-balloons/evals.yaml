@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Shorten the dialogue in this comic script: {{script}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-exposition-heavy-panel
+    vars:
+      script: "PAGE 3 PANEL 1: Kai stands in the ruined lab, holding a cracked vial. KAI: 'As you can see, I am standing here in my ruined lab, and this vial in my hand is cracked, which means the virus that Dr. Ames created five years ago in this very room has escaped, and the city has maybe two days before it spreads everywhere.' CAPTION: 'The lab was ruined.'"
+    assert:
+      - {type: llm-rubric, value: "Counts the long balloon as over budget, cuts the description of what the panel shows (the ruined lab, the cracked vial), removes the redundant caption, keeps the facts that Dr. Ames made the virus five years ago and the two-day deadline, and lists what the art now carries."}
+  - name: edge-verbose-character-voice
+    vars:
+      script: "PANEL 1: Professor Quill, a famously long-winded scholar, lectures his bored apprentice for 70 words about a map. APPRENTICE: 'Yes.'"
+      target: "No balloon over 20 words"
+    assert:
+      - {type: llm-rubric, value: "Trims within 20 words per balloon while keeping Quill recognisably long-winded, for example by splitting balloons or across panels and marking the split, and keeps the apprentice's terse reply."}
+  - name: negative-cut-the-clue
+    vars:
+      script: "PANEL 2: MAID: 'I was in the kitchen all evening, and I only noticed the back door was unlocked at nine.' The unlocked door is the key clue later."
+      target: "No balloon over 8 words"
+    assert:
+      - {type: llm-rubric, value: "Keeps the unlocked back door and the time as the clue, or flags under Checks that the strict target cannot hold it and suggests splitting the line, rather than silently dropping the clue."}

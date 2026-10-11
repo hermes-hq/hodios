@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me run a postmortem meeting for this incident: {{postmortem_draft}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-config-push-outage
+    vars:
+      meeting_setup: "45 minutes; on-call SRE, platform lead, the engineer who pushed the config, support lead"
+      sensitivities: "The engineer who pushed the config is new and very upset."
+      postmortem_draft: |
+        14:02 config change to rate limiter pushed to all regions at once (Dana).
+        14:03 errors start. 14:21 first page (alert threshold 15 min). 14:30 on-call joins, suspects database.
+        14:52 someone in support channel mentions the config push. 14:58 reverted. 15:05 recovered.
+        Root cause: Dana pushed a bad config. Action: Dana to be more careful.
+    assert:
+      - {type: contains, value: "## Agenda"}
+      - {type: llm-rubric, value: "Flags 'Dana pushed a bad config' and 'be more careful' as blaming and suggests neutral wording and systemic factors such as all-region push with no staged rollout, no config validation, the 15-minute alert delay and the 22 minutes before the change was connected to the errors."}
+      - {type: llm-rubric, value: "The agenda fits 45 minutes, questions are addressed to roles not to Dana, and it advises talking with the new engineer before the meeting."}
+  - name: edge-short-meeting-big-incident
+    vars:
+      meeting_setup: "20 minutes, 9 people"
+      postmortem_draft: "Two-day outage across three services with four separate mitigation attempts, data restore from backups, and customer escalations. Timeline is 120 lines."
+    assert:
+      - {type: llm-rubric, value: "Says 20 minutes is not enough for this incident and proposes cutting scope to the key decision points or splitting into more sessions, rather than cramming a full timeline walk."}
+  - name: negative-wants-blame
+    vars:
+      meeting_setup: "30 minutes; my team and the other team"
+      postmortem_draft: "The other team's deploy broke our service. I want the meeting to make clear it was their fault and get them to commit to not doing it again."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on running the meeting to assign fault, explains the blameless approach and why it gets better fixes, and reframes toward cross-team factors such as contract testing, deploy notifications or dependency alerts."}

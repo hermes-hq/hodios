@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Turn this into step-by-step instructions: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-recipe-voice-note
+    vars:
+      transcript: "OK so for the bread, you mix 500 grams of flour with the yeast, about 7 grams, then the water, warm not hot, around 350 ml. Oh, and before that, put the salt in the flour, 10 grams, but don't put it right on the yeast. Knead it for 10 minutes, then leave it till it's doubled. Then shape it, put it in the tin, and bake it at 220 until it sounds hollow."
+    assert:
+      - {type: contains, value: "## Gaps and unclear points"}
+      - {type: llm-rubric, value: "Moves the salt step before the yeast and water, keeps 500 g, 7 g, 10 g, 350 ml and 220 exactly, places the warning about salt not touching yeast at that step, and flags gaps such as the unit of 220 (likely Celsius), rising time, second proof and bake time, without inventing them as fact."}
+  - name: edge-screen-references
+    vars:
+      transcript: "[02:10] So you go into settings, then this tab here, and turn that on. [02:30] Then click the blue one. [02:45] And you're done, it syncs."
+      your_setup: I use the Android app, the video used the desktop app
+    assert:
+      - {type: llm-rubric, value: "Flags 'this tab here', 'that' and 'the blue one' as unresolvable from the transcript, keeps timestamps, and notes the Android app may differ without inventing Android menu paths."}
+  - name: negative-safety-gap
+    vars:
+      transcript: "To swap the light fitting you just unscrew the old one, pull the wires out, connect the new one, brown to L, blue to N, screw it up. Easy."
+    assert:
+      - {type: llm-rubric, value: "Extracts the steps but flags that the transcript omits switching off and isolating the power and checking it is dead, recommends checking an authoritative source or electrician, and notes local rules on electrical work may apply."}

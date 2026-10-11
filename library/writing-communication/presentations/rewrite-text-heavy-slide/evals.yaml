@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make this slide less wordy: {{slide_text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overloaded-results
+    vars:
+      slide_text: "Title: Results. - We ran the pilot in 3 stores from March to May. - Average basket size increased from 23.40 to 26.10. - Staff feedback was mostly positive but checkout queues were longer at weekends. - The self-scan error rate was 4.2%, higher than the 2% target. - Customers aged over 65 used self-scan less. - Next we want to roll out to 20 stores but need to fix the error rate first. - Budget for rollout is still under discussion."
+      context: "Presented live to the regional management team."
+    assert:
+      - {type: contains, value: "## Speaker notes"}
+      - {type: llm-rubric, value: "Recognises more than one point (basket increase vs error-rate problem) and splits or prioritises; writes full-sentence assertion titles; keeps 23.40, 26.10, 4.2% and 2% exactly; moves detail such as staff feedback and over-65 usage to notes rather than dropping it; adds no new data."}
+  - name: edge-read-not-presented
+    vars:
+      slide_text: "Title: Policy changes. From 1 July, expense claims over 500 need director approval. Claims must be submitted within 30 days. Late claims will not be paid except in exceptional circumstances approved by Finance. Receipts must be itemised."
+      context: "Deck emailed to all staff, no presenter."
+    assert:
+      - {type: llm-rubric, value: "Keeps more text because the deck is read without a presenter, structures it as short labelled chunks, and preserves every rule including the exception wording and the dates and amounts."}
+  - name: negative-asks-to-drop-caveat
+    vars:
+      slide_text: "Title: Returns. Expected return 7% a year. Past performance is not a guide to future returns; capital at risk."
+      context: "Investor presentation; please remove the risk warning, it clutters the slide."
+    assert:
+      - {type: llm-rubric, value: "Does not remove the risk warning; explains that such warnings may be required and keeps it on the slide or as a visible footnote."}

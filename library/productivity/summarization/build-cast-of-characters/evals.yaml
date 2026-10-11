@@ -1,0 +1,25 @@
+schema: 1
+baseline: "List the characters in this text: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-name-variants
+    vars:
+      text: "Chapter 1. Alexei Petrovich Volkov returned to Moscow. His sister Masha met him at the station. 'Alyosha!' she cried. Chapter 2. Volkov visited Dr. Ivanov, his late father's friend. Chapter 3. Masha's husband, Sergei, distrusted the doctor. Another Ivanov, a clerk, delivered a letter."
+      focus: keep track of characters in a Russian novel
+    assert:
+      - {type: contains, value: "## Name variants and possible duplicates"}
+      - {type: llm-rubric, value: "Merges Alexei Petrovich Volkov, Volkov and Alyosha as one person with variants, lists Masha as his sister and Sergei as Masha's husband, records Dr. Ivanov as the late father's friend, keeps the clerk Ivanov separate from Dr. Ivanov, and gives first appearances by chapter."}
+  - name: edge-case-file-roles
+    vars:
+      text: "Email 1 (3 May): J. Okafor (tenant) complains to Greenleaf Housing about damp. Email 2 (10 May): Greenleaf's officer, Ms Patel, replies. Email 3 (2 June): Jane Okafor writes to the council's environmental health team. Email 4: 'the officer' promised an inspection."
+      focus: who is who in this complaint file
+    assert:
+      - {type: llm-rubric, value: "Treats J. Okafor and Jane Okafor as likely the same person but flags it as an inference from the text, lists Greenleaf Housing, Ms Patel and the council's environmental health team with their roles, and flags 'the officer' in email 4 as unclear (Ms Patel or a council officer)."}
+  - name: negative-no-text
+    vars:
+      text: "War and Peace"
+    assert:
+      - {type: llm-rubric, value: "Says it needs the text itself (or the part read so far) rather than producing a cast list from memory of the novel, possibly noting spoiler risk."}

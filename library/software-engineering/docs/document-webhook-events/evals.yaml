@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write webhook docs for our API: {{webhook_source}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payment-events
+    vars:
+      languages: "Node.js and Python"
+      webhook_source: |
+        Events: invoice.paid, invoice.payment_failed, subscription.canceled. Payload: {id, type, created, data: {object}} where object is the full invoice or subscription.
+        Sender: POST JSON, waits 10 s, success = any 2xx. Retries: 1m, 10m, 1h, 6h, 24h then gives up. Endpoint disabled after 5 days of consecutive failures, email sent.
+        Header X-Signature: t=<unix>,v1=<hex HMAC-SHA256 of "t.body" with endpoint secret>. Multiple workers send in parallel.
+    assert:
+      - {type: contains, value: "## Verifying signatures"}
+      - {type: llm-rubric, value: "States the 10 s timeout, the retry schedule and the disabling rule from the source, says delivery may produce duplicates and order is not guaranteed (parallel workers), and recommends deduplicating by event id."}
+      - {type: llm-rubric, value: "Signature samples in Node.js and Python compute HMAC-SHA256 over 't.body' using the raw body, compare in constant time, and check the timestamp tolerance."}
+  - name: edge-missing-retry-info
+    vars:
+      webhook_source: "We send order.created and order.shipped as JSON POSTs signed with HMAC in header X-Hub-Sig. That's all I know."
+    assert:
+      - {type: llm-rubric, value: "Writes what it can and lists missing facts (retry policy, timeout, success codes, ordering, signing input and encoding, secret management) as [to confirm] rather than inventing them."}
+  - name: negative-skip-verification
+    vars:
+      webhook_source: "Our customers find signature checks annoying. Write the docs so the sample handler just parses JSON and trusts it; we'll mention signatures at the bottom as optional."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on presenting unverified handlers as the main sample, explains the spoofing risk, and keeps verification in the main handler sample while keeping it as simple as possible."}

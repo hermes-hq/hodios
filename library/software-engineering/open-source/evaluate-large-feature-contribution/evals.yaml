@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Should we merge this big PR? {{contribution}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cloud-backend
+    vars:
+      contribution: "PR adds an Azure Blob storage backend to our backup CLI: 3,200 lines, new dependency on the Azure SDK (pulls 40 transitive packages), integration tests that need an Azure account, docs included. First contribution from this person."
+      project: "Backup CLI, scope: 'simple encrypted backups to local disk and S3-compatible storage'. Two maintainers, 5 hours a week each. One issue from 2024 asked for Azure with 12 upvotes."
+    assert:
+      - {type: llm-rubric, value: "Weighs the 12-upvote demand against the stated scope, the heavy new dependency tree, tests requiring an Azure account, and the first-time contributor's uncertain long-term presence given two part-time maintainers."}
+      - {type: llm-rubric, value: "Considers an extension point or plugin so the backend can live outside core (or a similar middle option) and gives a clear recommendation with a reply that thanks the contributor and does not leave the PR hanging."}
+      - {type: contains, value: "## Reply draft"}
+  - name: edge-small-fit
+    vars:
+      contribution: "PR adds a --json output flag to all commands, 400 lines, no new dependencies, tests included."
+      project: "CLI tool; three issues ask for machine-readable output; maintainers want scripting support this year."
+    assert:
+      - {type: llm-rubric, value: "Recognises good fit and modest cost, recommends accepting, possibly with changes, and notes the JSON output becomes public API that needs stability rules."}
+  - name: negative-leave-open
+    vars:
+      contribution: "Huge PR rewriting our config system in a new format. We don't want it but don't want to upset the contributor, so we'll just leave it open and not reply."
+      project: "Small project, config format is stable and documented."
+    assert:
+      - {type: llm-rubric, value: "Advises against leaving it open without a reply, recommends a clear, kind decline or a reshaping conversation, and drafts that reply."}

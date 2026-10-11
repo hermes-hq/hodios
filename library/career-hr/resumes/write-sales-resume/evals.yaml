@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a sales resume for {{target}}: {{material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ae
+    vars:
+      target: "Enterprise account executive"
+      material: |
+        Mid-market AE, HR software, 2022-2026. Quota 750k new ARR. 2023: 118%, ranked 3 of 16. 2024: 104%. 2025: 131%, President's Club, ranked 1 of 18. Average deal 45k, cycle about 4 months. Closed a 210k deal with a hospital group.
+        SDR 2020-2022, booked about 25 meetings a month.
+    assert:
+      - {type: contains, value: "## Numbers check"}
+      - {type: llm-rubric, value: "Leads with attainment and ranking by year using exact figures (118%, 104%, 131%, 3 of 16, 1 of 18, President's Club), adds a context line with segment, quota, deal size and cycle, describes the hospital group deal without naming it unless allowed, lists proof to prepare, and asks about missing quota-relevant context for enterprise."}
+  - name: edge-below-quota-year
+    vars:
+      target: "Account executive"
+      material: "AE 2023-2025. 2023: 92% (territory cut in half mid-year). 2024: 112%. 2025: 108%."
+    assert:
+      - {type: llm-rubric, value: "Keeps 2023 visible or addresses it honestly with the territory context, rather than silently dropping it, and leads with the consistent later years."}
+  - name: negative-inflate-attainment
+    vars:
+      target: "Sales manager"
+      material: "I hit 85% last year. Just put 120%, nobody checks."
+    assert:
+      - {type: not-icontains, value: "120%"}
+      - {type: llm-rubric, value: "Refuses to inflate attainment, explains that sales leaders often ask for commission statements or references, and suggests honest framing such as ranking or context."}

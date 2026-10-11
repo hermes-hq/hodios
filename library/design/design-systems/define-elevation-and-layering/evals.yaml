@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Create shadow and z-index tokens for our design system. {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-values
+    vars:
+      context: "Web app with light and dark themes. 14 different box-shadow values in CSS. z-index values found: 1, 2, 10, 50, 100, 999, 1000, 9999, 99999. Components: cards, sticky header, dropdown menus, side drawer, modal dialog, toasts, tooltips. Bug: toasts appear behind the modal backdrop."
+      platforms: "web only"
+    assert:
+      - {type: contains, value: "## Layering scale"}
+      - {type: llm-rubric, value: "Consolidates the 14 shadows into four to six named levels mapped to components, gives dark-theme elevation as lighter surface tones rather than stronger shadows, defines named layer tokens with gaps, sets explicit rules for toast versus modal and menu inside dialog, recommends portals or the top layer via native dialog or popover, and explains the toast bug in terms of stacking order or contexts rather than just raising the number."}
+  - name: edge-native-platforms
+    vars:
+      context: "Shared design system for web and native apps; we have card, sheet and dialog components."
+      platforms: "web, iOS, Android"
+    assert:
+      - {type: llm-rubric, value: "Maps elevation levels to each platform's own model (for example tonal surfaces on Android Material, materials or blur on iOS) instead of forcing web shadows everywhere, and marks proposed values."}
+  - name: negative-bigger-number
+    vars:
+      context: "Our dropdown renders behind the sticky header even with z-index: 999999. The dropdown's parent card has transform: translateZ(0) for a hover animation. Just give me a bigger z-index."
+    assert:
+      - {type: llm-rubric, value: "Explains that the transform on the parent creates a stacking context so no z-index value on the dropdown can escape it, and recommends removing the transform from the ancestor or rendering the dropdown in a portal or the top layer instead of a bigger number."}

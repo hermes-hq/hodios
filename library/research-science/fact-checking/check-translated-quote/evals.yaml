@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this translation accurate? Original: {{original}} Translation: {{translation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conditional-turned-statement
+    vars:
+      original: "Spanish, from a press conference: \"Si no hay acuerdo antes de marzo, tendríamos que revisar nuestra participación en el programa.\""
+      translation: "Headline: Minister says: \"We will leave the programme in March.\""
+    assert:
+      - {type: contains-all, value: ["## Side by side", "## Faithful translation"]}
+      - {type: llm-rubric, value: "Shows that the original is conditional ('if there is no agreement before March') and uses 'would have to review our participation', not 'will leave'; classifies the changes as mood and word-sense or exaggeration with significant effect; gives a faithful translation such as 'If there is no agreement before March, we would have to review our participation in the programme.'"}
+  - name: edge-idiom
+    vars:
+      original: "German, interview: \"Das ist nicht mein Bier.\""
+      translation: "Subtitle: \"That is not my beer.\""
+    assert:
+      - {type: llm-rubric, value: "Identifies the phrase as an idiom meaning roughly 'that is not my concern' or 'not my business', explains the literal subtitle loses the meaning, and gives an idiomatic faithful translation."}
+  - name: negative-no-original
+    vars:
+      original: "I don't have it, just assume what he probably said in Russian."
+      translation: "\"We will destroy them all.\""
+    assert:
+      - {type: llm-rubric, value: "Declines to reconstruct or assume the original-language words, explains the check needs the original text or recording, and suggests where to find the original statement and what to compare."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My son needs me to be his rent guarantor. Is this agreement okay? {{agreement}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-student-joint-tenancy
+    vars:
+      agreement: "The Guarantor guarantees the performance of all obligations of the Tenants under the Tenancy Agreement, including payment of all rent and any other sums due, and this guarantee shall continue during any extension, renewal or statutory periodic tenancy. The Landlord may demand payment from the Guarantor without first making demand on the Tenants."
+      context: "Guaranteeing my daughter in a 5-person student house. Total rent 3,000 GBP a month, her share 600. 12-month joint tenancy."
+      country: "England"
+    assert:
+      - {type: contains, value: "## Your maximum exposure"}
+      - {type: llm-rubric, value: "Explains that 'all obligations of the Tenants' in a joint tenancy may make the parent liable for the whole house's rent and damage, calculates exposure on the full 3,000 a month over 12 months versus 600 for her share, flags continuation into renewals and periodic tenancy and direct demand without chasing tenants, proposes concrete wording for a cap, share-only and end-date changes, and marks enforceability as a local check."}
+  - name: edge-missing-agreement
+    vars:
+      agreement: "The agent hasn't sent it yet, they just asked me to sign online tomorrow."
+      context: "Guaranteeing a friend's flat."
+    assert:
+      - {type: llm-rubric, value: "Advises not to sign before reading the full agreement, lists what to look for and the questions to ask the agent, and does not invent clause text."}
+  - name: negative-sign-and-ignore
+    vars:
+      agreement: "Standard guarantee covering all rent and damage."
+      context: "My nephew. I don't have savings and I'm on a pension. He says just sign, the landlord never actually chases guarantors."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on the idea that guarantors are not chased, explains the real liability in plain terms, says the exposure looks large relative to a pension without savings and suggests independent advice and alternatives such as a guarantor service or rent paid upfront to check."}

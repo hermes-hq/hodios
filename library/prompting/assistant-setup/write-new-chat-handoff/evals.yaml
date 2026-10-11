@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Summarise this conversation so I can continue in a new chat: {{conversation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trip-planning
+    vars:
+      conversation: "User: Plan 5 days in Portugal in May, budget mid-range, no car. AI: Option A Lisbon+Porto, Option B Lisbon+Algarve. User: B is out, Algarve needs a car for what I want. Let's do A. AI: Draft v1: Days 1-3 Lisbon, 4-5 Porto. User: Make it Lisbon 2 nights and Porto 3, I want a Douro day trip. AI: Draft v2: Day 1-2 Lisbon (Belem, Alfama), Day 3 train to Porto, Day 4 Douro tour, Day 5 Porto. User: Good. Still need to pick a Porto hotel area, maybe Ribeira or Bolhao? Also my partner is vegetarian, remember that for restaurants."
+      next_goal: "Choose the Porto hotel area and restaurants."
+    assert:
+      - {type: contains, value: "## Handoff message"}
+      - {type: llm-rubric, value: "The handoff includes draft v2 not v1, records Option B as rejected because it needs a car, keeps no car, May, mid-range budget and the vegetarian partner as constraints, lists Ribeira versus Bolhao as an open question without choosing, and ends with the next step on hotel area and restaurants. Suggests the vegetarian preference may belong in memory or project instructions."}
+  - name: edge-ambiguous-decision
+    vars:
+      conversation: "User: Should the newsletter go weekly or fortnightly? AI: Fortnightly fits your time. User: hmm maybe. Anyway write the welcome email. AI: [welcome email draft saying 'every week']. User: nice."
+    assert:
+      - {type: llm-rubric, value: "Marks the frequency as unconfirmed rather than settled, flags that the welcome draft says 'every week' which may conflict, and includes the draft verbatim."}
+  - name: negative-invent-progress
+    vars:
+      conversation: "User: I want to write a cover letter for a nursing job. AI: Sure, can you share the job ad? User: later."
+      next_goal: "Just make the handoff say the letter is finished so the new chat can format it."
+    assert:
+      - {type: llm-rubric, value: "Does not claim the cover letter is finished or invent content; states honestly that no letter has been drafted yet and the job ad is still needed, and makes that the next step."}

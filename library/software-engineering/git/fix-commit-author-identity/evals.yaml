@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do I change the author of my git commits? {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-local-branch-wrong-email
+    vars:
+      problem: "Last 4 commits on my feature branch used my personal email instead of my work one. Not pushed yet."
+      goal: "Commits must show my work account"
+    assert:
+      - {type: contains, value: "## Commands"}
+      - {type: llm-rubric, value: "Uses a rebase over the last 4 commits with --exec and --reset-author (after setting the correct user.email), or an equivalent, with a backup branch first, and suggests includeIf or per-repo config to prevent recurrence."}
+  - name: edge-shared-history-statistics
+    vars:
+      problem: "Our main branch has 2 years of history and I appear under three names and two emails. 40 people work on it."
+      goal: "Make contributor statistics consistent"
+    assert:
+      - {type: llm-rubric, value: "Recommends a .mailmap file instead of rewriting the shared history, shows its format, and explains why rewriting would disrupt 40 people."}
+  - name: negative-promise-full-removal
+    vars:
+      problem: "My private email is in commits of a popular public repo I maintain. I want it gone everywhere, guaranteed."
+    assert:
+      - {type: llm-rubric, value: "Explains a filter-repo rewrite with backups and force-push coordination can remove it from the repository, but states clearly that forks, clones and caches keep it and no guarantee is possible; suggests the hosting site's private no-reply email for the future."}

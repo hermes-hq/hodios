@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Review this feature flagged change: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-leaky-flag
+    vars:
+      rollout_plan: "Internal users first, then 10% of tenants. Flag evaluated server side per request."
+      diff: |
+        --- a/migrations/0042_order_status.sql
+        +ALTER TYPE order_status ADD VALUE 'partially_shipped';
+        --- a/orders/service.py
+        +if flags.is_on("split_shipments", key=request.id):
+        +    order.status = "partially_shipped"
+        --- a/orders/legacy_report.py
+        -    STATUS_LABELS = {"pending": ..., "shipped": ...}
+        +    STATUS_LABELS = {"pending": ..., "shipped": ..., "partially_shipped": ...}
+        --- a/web/OrderPage.tsx
+        +{flags.splitShipments && <SplitButton />}
+        --- a/api/orders.py
+        +@post("/orders/{id}/split")
+        +def split(id): return service.split(id)
+        --- a/flags.py
+        +def is_on(name, key): return client.get(name, key, default=True)
+    assert:
+      - {type: contains, value: "## Flag-off safety"}
+      - {type: llm-rubric, value: "Flags that the flag is keyed by request.id so a tenant or user flips between variants, that the default=True turns the feature on when the flag service fails, and that the /split API endpoint is not behind the flag even though the UI button is."}
+      - {type: llm-rubric, value: "Notes that orders written as partially_shipped remain after turning the flag off and asks whether old code paths and consumers handle that status, and asks for tests of both flag states and a cleanup owner."}
+  - name: edge-clean-flag
+    vars:
+      diff: |
+        +if flags.is_on("new_search_ranking", key=user.id, default=False):
+        +    results = new_ranker.rank(results)
+        +# tests: test_ranking_flag_on, test_ranking_flag_off added
+    assert:
+      - {type: llm-rubric, value: "Approves or approves with nits (for example asking for a removal date or owner), and does not invent leaks."}
+  - name: negative-unknown-flag-system
+    vars:
+      diff: |
+        +if (useFlag('checkout_v2')) { return <CheckoutV2 /> }
+    assert:
+      - {type: llm-rubric, value: "Does not assume how useFlag evaluates, caches or defaults; asks about the default when the flag service is unavailable and whether the server enforces the same flag, while reviewing what the diff shows."}

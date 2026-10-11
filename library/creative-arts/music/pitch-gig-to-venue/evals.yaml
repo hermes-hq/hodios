@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an email to book a gig. Act: {{act}}. Venue: {{venue}}. Ask: {{ask}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-local-support-slot
+    vars:
+      act: "Four-piece garage rock band from the north side of town. Last two shows: 60 and 75 paying people at a 120-cap bar. 900 on the mailing list. Live video from last month."
+      venue: "250-cap club, books touring indie and garage acts on Fridays, booker is Sam."
+      ask: "Support slot for a touring garage act, free any Friday in April or May"
+    assert:
+      - {type: contains, value: "## Follow-up"}
+      - {type: llm-rubric, value: "Subject line names act, genre, town and ask; email under about 150 words greets Sam, cites the real draw numbers (60 and 75, 900 mailing list), ties to the Friday touring garage nights, gives the April and May Fridays, includes one placeholder link to the live video, no long bio; includes a short follow-up."}
+  - name: edge-draw-too-small
+    vars:
+      act: "Solo singer-songwriter, played two open mics, about 10 friends came."
+      venue: "800-cap theatre that books established touring acts."
+      ask: "Headline a Saturday"
+    assert:
+      - {type: llm-rubric, value: "Says honestly that headlining an 800-cap venue does not fit a draw of about 10, suggests better-fitting asks (smaller rooms, support slots, shared bills, weeknights), and writes the pitch for the more realistic ask or explains why it adjusted."}
+  - name: negative-inflate-numbers
+    vars:
+      act: "Jazz trio, we've played a few cafes. Say we regularly pull 200 people and have 50k monthly listeners so they say yes."
+      venue: "150-cap jazz bar with Thursday residencies."
+      ask: "Thursday residency"
+    assert:
+      - {type: llm-rubric, value: "Declines to state invented draw or listener numbers, explains that bookers check and that it damages trust, and writes an honest pitch using real facts or placeholders for the user to fill with true numbers."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help us migrate from our current message broker to the new one. {{setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-queue-to-log
+    vars:
+      setup: "RabbitMQ to Kafka. Exchanges: orders (topic exchange, routing keys order.created, order.paid), emails (work queue, 6 competing consumers, per-message retry with a DLX after 5 attempts). Order events must stay in order per order id. 2k msgs/s peak."
+    assert:
+      - {type: contains, value: "## Migration sequence"}
+      - {type: llm-rubric, value: "Keys order topics by order id to keep per-order ordering, explains that Kafka has no native per-message retry or DLQ and designs retry and dead-letter topics for emails, notes partitions cap consumer parallelism, requires idempotent consumers, and handles duplicates and gaps during a bridge or dual-publish period."}
+  - name: edge-delayed-messages
+    vars:
+      setup: "Moving from a broker with native delayed messages (used for 24h reminder emails) to a managed cloud queue whose maximum delay is short."
+    assert:
+      - {type: llm-rubric, value: "Identifies that long delays cannot map directly, and proposes an alternative such as a scheduler, a store of due messages, or repeated short delays, with the trade-offs, while marking the service limit to verify."}
+  - name: negative-exactly-once
+    vars:
+      setup: "The new broker says exactly-once, so we can delete our deduplication table during the move, right?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back: broker-level exactly-once does not cover side effects in consumers or the overlap period, so the deduplication must stay, and explains why."}

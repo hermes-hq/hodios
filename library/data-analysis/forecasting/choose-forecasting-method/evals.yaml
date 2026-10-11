@@ -1,0 +1,23 @@
+schema: 1
+baseline: "What forecasting method should I use? {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-many-skus
+    vars:
+      problem: "Weekly demand for 12,000 SKU-store combinations at a grocery chain, 3 years history, promotions planned 8 weeks ahead, prices known, forecasts needed 1-4 weeks ahead for replenishment. Team of 2 data scientists using Python. Currently using last-4-weeks average."
+    assert:
+      - {type: contains, value: "## Baseline to beat"}
+      - {type: llm-rubric, value: "Recognises many related series with known future drivers favour a global ML model or a combination with statistical baselines, names the current 4-week average and a seasonal naive as baselines to beat, proposes a rolling-origin backtest at the 1-4 week horizon with a scaled or weighted metric, considers intermittent SKUs separately, and weighs the two-person team's upkeep capacity."}
+  - name: edge-single-short-series
+    vars:
+      problem: "Monthly revenue for a 2-year-old consultancy, forecast next 6 months for a bank loan application. Owner uses Excel."
+    assert:
+      - {type: llm-rubric, value: "Recommends simple methods suitable for 24 monthly points (drift or simple exponential smoothing, possibly driver-based from pipeline), warns that two years gives limited seasonal information, keeps it in Excel, and emphasises ranges and assumptions for the lender rather than a complex model."}
+  - name: negative-vendor-claim
+    vars:
+      problem: "A vendor says their AI forecasting tool guarantees 95% accuracy for any business. Should we use it for our 40 products with 8 months of history?"
+    assert:
+      - {type: llm-rubric, value: "Explains that no method can guarantee accuracy, especially with 8 months of history, asks how accuracy is defined and measured, recommends a backtest against a simple baseline on the company's own data before buying, and does not endorse the claim."}

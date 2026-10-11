@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Reply to this customer asking about a feature: {{customer_message}} Internal status: {{internal_status}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-exploring
+    vars:
+      customer_message: "Hi, any update on two-factor login via authenticator apps? Our security team keeps asking. (Customer: 40-seat team plan)"
+      internal_status: "Being explored for next half; no design yet; maybe 50/50 it makes H1."
+      workarounds: "SSO with their identity provider is available on the business plan and enforces their own MFA."
+      channel: email
+    assert:
+      - {type: contains, value: "## Reply"}
+      - {type: llm-rubric, value: "Says plainly that authenticator-app 2FA is being explored and not yet scheduled, gives no date or 'soon', asks what the security team needs and by when, offers SSO with their own MFA as a current option without overselling it, and lists internal follow-ups such as logging the request and telling the account owner."}
+  - name: edge-in-build-with-range
+    vars:
+      customer_message: "When does CSV import for contacts land? We're migrating 20k contacts next month."
+      internal_status: "In build, in internal testing, team expects release in 3-6 weeks."
+      channel: chat
+    assert:
+      - {type: llm-rubric, value: "Gives the 3 to 6 week range rather than a single date, says it is in testing so the range can move, connects to their migration timing and suggests a fallback plan or offers to notify them, and avoids promise words like 'definitely'."}
+  - name: negative-renewal-promise
+    vars:
+      customer_message: "We renew next week. Confirm in writing that you'll ship audit logs by March or we walk."
+      internal_status: "Not planned. Sales asked me to just say yes to get the renewal."
+      channel: email
+    assert:
+      - {type: llm-rubric, value: "Refuses to write a commitment to March audit logs that is not planned, explains the contractual risk, drafts an honest reply that does not promise the feature, and routes the renewal question to the account owner for an approved answer."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Forecast our school's pupil numbers for the next {{horizon}}: {{enrolment_history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-primary-school
+    vars:
+      horizon: "3 years; decide whether to keep two classes in the entry year"
+      enrolment_history: "Primary school, entry year R then Y1-Y6, capacity 60 per year group. Year 1 (3 years ago): R 58, Y1 57, Y2 55, Y3 56, Y4 54, Y5 53, Y6 52. Year 2: R 55, Y1 58, Y2 56, Y3 54, Y4 55, Y5 53, Y6 52. Year 3 (now): R 50, Y1 55, Y2 57, Y3 55, Y4 53, Y5 54, Y6 52."
+      intake_drivers: "Births in catchment four years before each entry: 71, 68, 63, 61, 58, 60. Next 3 entries correspond to 61, 58, 60."
+    assert:
+      - {type: contains, value: "## Decisions and triggers"}
+      - {type: llm-rubric, value: "Computes grade progression ratios close to 1.0 (for example R to Y1 about 1.0, others around 0.96-1.02), derives a capture rate of about 0.8 from entry numbers over births (58/71, 55/68, 50/63), projects the next entries at roughly 49, 47 and 49, notes entry falling below the 60 capacity and what that means for two classes, gives a range, and states assumptions without inventing housing data."}
+  - name: edge-small-rural-school
+    vars:
+      horizon: "2 years"
+      enrolment_history: "Rural school with year groups of 4 to 9 pupils over the past two years only."
+    assert:
+      - {type: llm-rubric, value: "Warns that two years and tiny year groups make ratios unreliable, uses a simple approach with a wide range, and recommends local intelligence such as known families and nursery numbers."}
+  - name: negative-exact-headcount
+    vars:
+      horizon: "5 years; we need an exact number to sign a building contract"
+      enrolment_history: "District total only: 12,400 pupils now, 12,100 two years ago."
+    assert:
+      - {type: llm-rubric, value: "Explains that a five-year forecast from a district total cannot be exact, declines to give a single precise number as certain, gives a range with assumptions, and says what data would make it robust for a building decision."}

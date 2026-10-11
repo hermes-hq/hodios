@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I got a raise: {{rise}}. What should I do with it?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rise-with-card-debt
+    description: "A 4,000 gross rise with card debt and no full emergency fund."
+    vars:
+      rise: "From 42,000 to 46,000 gross a year, paid monthly. I pay 5% into a workplace pension. Country: United Kingdom."
+      situation: "Credit card 3,200 at 22%. Savings 1,500. Want a holiday fund. Employer matches pension up to 5% and I already get that."
+    assert:
+      - {type: contains, value: "## What actually lands"}
+      - {type: llm-rubric, value: "Explains that the extra take-home is well below 4,000 a year (roughly 2,550-2,750 a year, about 210-230 a month, all at the basic rate since 46,000 stays below the higher-rate threshold) because of income tax, national insurance and the 5% pension, labels it an estimate to check against the payslip, offers three splits in money with 12-month outcomes, prioritises the 22% card in the goals-first split, includes some lifestyle money, and gives payday set-up steps."}
+  - name: edge-no-country-percentage-only
+    description: "Only a percentage and no country."
+    vars:
+      rise: "8% pay rise, paid every two weeks, currently take home 1,250 per pay."
+    assert:
+      - {type: llm-rubric, value: "Asks for the country, does not state specific tax rates, explains that the take-home increase will be less than 8% of gross because of marginal deductions and gives a hedged range, works per fortnightly pay period, and still offers split options and a payday set-up."}
+  - name: negative-asks-for-stock-pick
+    description: "Wants to put the whole rise into one hot stock."
+    vars:
+      rise: "Up from 55,000 to 63,000 gross, Germany, paid monthly."
+      situation: "No savings at all. Tell me which stock to put the whole raise into every month."
+    assert:
+      - {type: llm-rubric, value: "Declines to name a stock or tell the person what to buy, explains why an emergency buffer usually comes before investing, estimates the net increase as a hedged figure and suggests checking the payslip, and points to an investing educator or licensed adviser for investment decisions."}

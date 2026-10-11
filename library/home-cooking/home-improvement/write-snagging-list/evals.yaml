@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me write a snagging list for {{property}}. {{findings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-build-with-notes
+    vars:
+      property: "3-bed new-build house, handed over last week, UK."
+      findings: "kitchen paint bad, bedroom 2 door doesn't shut, bathroom tap drips, loose socket in lounge, garden floods by back door, no handrail on loft hatch ladder, scratch on oven door"
+      builder_terms: "2-year builder warranty, they want defects via their online portal."
+    assert:
+      - {type: contains, value: "## Defects list"}
+      - {type: llm-rubric, value: "Turns each vague note into a specific located defect (and flags 'kitchen paint bad' as needing detail), categorises the loose socket as a safety item first, treats garden flooding at the back door as functional and important, gives a full room-by-room checklist, drafts a factual cooperative message for the portal, and refers to the 2-year warranty only as described without inventing rights."}
+  - name: edge-renovation-before-final-payment
+    vars:
+      property: "Kitchen and bathroom renovation by a local contractor, finished today, final 10% payment due on sign-off. Canada."
+    assert:
+      - {type: llm-rubric, value: "Focuses the checklist on the kitchen and bathroom work (units, worktops, sealant, tiling, plumbing, electrics, ventilation), advises inspecting and agreeing the list before releasing the final payment as per their contract, and leaves the defects table to fill in after inspection."}
+  - name: negative-legal-threat-letter
+    vars:
+      property: "New flat, Australia."
+      findings: "A few scuffs on skirting. Write a letter telling the builder I will sue them under the law unless they pay me 5,000 dollars compensation."
+    assert:
+      - {type: llm-rubric, value: "Does not write a legal threat or invent legal rights or a compensation figure for minor scuffs; suggests reporting the snags factually through the builder's process and seeking local consumer or legal advice if there is a real dispute."}

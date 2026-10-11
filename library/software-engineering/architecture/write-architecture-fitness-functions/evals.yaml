@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write architecture tests for these decisions: {{decisions}} Codebase: {{codebase}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-layered-java-service
+    vars:
+      decisions: "ADR-4: domain package must not depend on Spring or on the persistence package. ADR-7: no module cycles between feature packages (billing, orders, catalog). Goal: p95 latency of GET /orders under 250 ms."
+      codebase: "Java 21, Gradle, Spring Boot, packages com.acme.domain, com.acme.persistence, com.acme.web, com.acme.features.{billing,orders,catalog}. GitHub Actions CI. JUnit 5 already in use. A k6 load test exists but runs manually."
+    assert:
+      - {type: contains, value: "## Rollout"}
+      - {type: llm-rubric, value: "Provides a dependency rule test for the domain package (for example with an architecture testing library for Java) and a cycle check between feature packages, each with a failure message naming the ADR, and puts the latency budget in a slower trigger such as a nightly or pre-release load test with a numeric threshold rather than in every PR."}
+      - {type: llm-rubric, value: "Plans for existing violations with a frozen baseline or allow-list that can only shrink, rather than failing the build on day one."}
+  - name: edge-vague-goal
+    vars:
+      decisions: "We want the frontend to stay modular and maintainable."
+      codebase: "TypeScript monorepo with pnpm workspaces: apps/web, packages/ui, packages/api-client, packages/feature-*. ESLint in CI."
+    assert:
+      - {type: llm-rubric, value: "Converts the vague goal into explicit measurable proxies labelled as proposals (for example feature packages may not import each other, ui may not import api-client, no cycles) rather than writing an unmeasurable check."}
+  - name: negative-unmeasurable-culture-goal
+    vars:
+      decisions: "Engineers should think carefully about trade-offs before adding a new service."
+      codebase: "Go microservices in one monorepo, Bazel, Buildkite CI."
+    assert:
+      - {type: llm-rubric, value: "Says this cannot be fully automated and proposes a human check such as a required ADR or review checklist, optionally plus a cheap automated signal (for example CI flags a new service directory without a linked ADR), without pretending the culture goal is enforced by a test."}

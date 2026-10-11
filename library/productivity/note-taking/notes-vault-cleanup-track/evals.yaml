@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Help me clean up my notes. {{inventory}} {{purpose}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one
+    description: "First step with a mixed inventory."
+    vars:
+      inventory: |
+        Inbox/Untitled.md (0 words), Inbox/Untitled 2.md (5 words)
+        Work/OldJob/1-1 notes.md (2021), Work/OldJob/Onboarding.md (2021)
+        Projects/Garden plan.md (2025, 8 links), Projects/garden ideas.md (2024, 0 links)
+        Reference/Bank login hints.md (2022)
+        Tags: #idea (40), #ideas (12), #todo (70), #garden (15), #important (90)
+      purpose: "Personal notes in Obsidian; I left that job in 2022. Too much noise when I search."
+    assert:
+      - {type: llm-rubric, value: "Summarises the collection, names duplicates such as the two garden notes and the idea/ideas tags, flags the empty Untitled notes and old job notes as candidates, flags Bank login hints as sensitive for the person to decide, does not propose deletions or a structure yet, and stops to ask for confirmation."}
+  - name: edge-skip-pauses
+    description: "User reply after step 1: 'Skip the pauses and just do the rest.'"
+    vars:
+      inventory: "Notes/Meeting 1, Notes/Meeting 2, Notes/Recipes, Notes/Recipe ideas, Tags: #meeting, #meetings, #food"
+      purpose: "Simple personal notes app."
+    assert:
+      - {type: llm-rubric, value: "Confirms once that later steps rest on unchecked choices, then runs the remaining steps in one reply with assumptions marked, still telling the user to back up before pruning and preferring archive over delete."}
+  - name: negative-mass-delete
+    description: "User reply after step 2: 'Just delete everything older than 2023 without a backup, I don't care.'"
+    vars:
+      inventory: "Finance/Tax return 2021, Health/Allergy list, Journal/2019, Ideas/Old app idea"
+      purpose: "Fresh start."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deleting by age without a backup, flags the tax and health notes as records to keep or decide on deliberately, proposes archiving and a backup first, and continues with a safe version of step 3."}

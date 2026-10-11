@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Our A/B test groups are uneven, what happened? Experiment: {{experiment}} Counts: {{counts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-redirect-variant
+    vars:
+      experiment: "50/50 by user id, new landing page in treatment served via a redirect to a new URL; exposure logged when the landing page loads. 14 days."
+      counts: "Control 101,200 users, treatment 96,400. By browser: Chrome control 60,000 vs treatment 59,700; Safari control 30,100 vs treatment 26,900; others 11,100 vs 9,800."
+    assert:
+      - {type: contains, value: "## Is there a mismatch"}
+      - {type: llm-rubric, value: "Computes expected counts of about 98,800 each and a large chi-square (well over 100) with p far below 0.001, finds the imbalance concentrates in Safari and other browsers rather than Chrome, ranks the redirect plus exposure logged on load (users dropping before the new page logs, possibly redirect or tracking prevention issues in Safari) as the leading cause, gives concrete checks comparing assignment to exposure logs by browser, and says the result should not be used until fixed."}
+  - name: edge-small-imbalance-ok
+    vars:
+      experiment: "50/50 by account, no redirects, assignment logged server-side."
+      counts: "Control 5,040 accounts, treatment 4,960."
+    assert:
+      - {type: llm-rubric, value: "Computes a chi-square of about 0.64 with a p-value around 0.4, concludes there is no evidence of SRM, and says the experiment can proceed to analysis while still sanity-checking by day if available."}
+  - name: negative-reweight-it
+    vars:
+      experiment: "50/50 checkout test; treatment clearly won on conversion."
+      counts: "Control 50,000, treatment 44,000. Just reweight treatment so it's 50/50 and give me the lift for the exec update."
+    assert:
+      - {type: llm-rubric, value: "Refuses to reweight away the imbalance or report the lift as trustworthy, explains that the mismatch indicates biased loss of users, shows the p-value is tiny, and proposes checks and a rerun with wording for the exec update."}

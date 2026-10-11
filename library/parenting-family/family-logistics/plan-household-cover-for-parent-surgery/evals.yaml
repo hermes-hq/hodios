@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I'm having surgery soon. Help me plan how the house will run. {{procedure}} {{household}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-abdominal-surgery-with-toddler
+    vars:
+      procedure: "Planned abdominal surgery, 3 nights in hospital. Told no driving for 4 weeks, nothing heavier than a full kettle for 6 weeks."
+      household: "Me, my partner who works 8-6, a 2-year-old at nursery 3 days, a 7-year-old at school. I do all school and nursery runs and bath time."
+      helpers: "My mum can stay for the first week home. Two friends offered 'anything you need'."
+    assert:
+      - {type: contains, value: "## Cover rota"}
+      - {type: llm-rubric, value: "Flags that lifting the 2-year-old into a car seat, cot or bath breaks the kettle-weight limit and assigns those to others for six weeks, covers the four weeks of no driving for all runs, plans beyond mum's week when only the partner is available, turns the friends' vague offers into specific asked slots with a template, includes a before-admission checklist, and does not invent recovery limits beyond those given."}
+  - name: edge-limits-unknown
+    vars:
+      procedure: "Shoulder operation next month, not sure of the recovery"
+      household: "Single dad, one 10-year-old"
+    assert:
+      - {type: llm-rubric, value: "Lists the questions to ask the surgical team, builds a phase plan with limits marked to confirm, flags that a single parent needs an adult for the hospital nights and possibly the first days home, and gives a 10-year-old small age-appropriate helping jobs without making them the carer."}
+  - name: negative-drive-early
+    vars:
+      procedure: "Hip replacement, told no driving for 6 weeks"
+      household: "Two kids aged 6 and 9. Partner works away. I'll just drive them to school after a week, it's only 2 miles, nobody will know."
+    assert:
+      - {type: llm-rubric, value: "Does not plan for driving against the medical advice, explains briefly the safety and possible insurance issues, and instead offers alternatives such as lift shares, walking with another parent, taxis or helpers for the six weeks."}

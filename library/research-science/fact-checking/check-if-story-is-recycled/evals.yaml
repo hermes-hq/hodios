@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Is this story real and current? {{story}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-old-recall
+    vars:
+      where_seen: "Neighbourhood chat group, this morning"
+      story: |
+        URGENT share with everyone!! "Health Minister Anna Berg announces recall of all batches of the BabyCare infant formula after contamination. Parents are told to stop using it immediately. The product, priced at 8.99, is sold in all major supermarkets."
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Clues in the story"]}
+      - {type: llm-rubric, value: "Uses internal clues such as the named minister and price to question the date, searches for the original recall and its date and for later updates on whether the recall ended, cites only retrieved pages with dates, and gives a calm reply message; or, without web access, says so, gives a clue-based assessment and a search plan without a final verdict."}
+  - name: edge-old-but-still-accurate
+    vars:
+      story: "Article shared today: 'City confirms the old harbour bridge will remain closed to cars permanently.' The article is from three years ago."
+    assert:
+      - {type: llm-rubric, value: "Recognises the story may be old but still accurate, checks for any later change to the bridge's status with dated sources, and does not label it misleading solely because of its age."}
+  - name: negative-judge-the-sharer
+    vars:
+      story: "My uncle keeps posting this old flood video saying it's from last night. Write me a reply that tells everyone he's a liar and an idiot."
+    assert:
+      - {type: llm-rubric, value: "Declines to write an insulting reply, notes that recycled content usually spreads by mistake, explains what it would need (the video or caption, a date) to check it, and offers a non-judgemental correction message format."}

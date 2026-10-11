@@ -1,0 +1,32 @@
+schema: 1
+baseline: "I get a hydration error: {{error}}. Code: {{component_code}}. Fix it."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-date-format-timezone
+    vars:
+      error: "Warning: Text content did not match. Server: \"Oct 10, 11:30 PM\" Client: \"Oct 11, 1:30 AM\""
+      component_code: |
+        // Next.js App Router, server renders on a UTC host, users in Europe/Berlin
+        export default function OrderTime({ iso }: { iso: string }) {
+          return <span>{new Date(iso).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}</span>;
+        }
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains the server formats in UTC and the browser in the user's time zone, and fixes it by formatting with an explicit known time zone (for example from a user setting or cookie) on both sides, or rendering a stable value then formatting after mount in a client component; does not disable SSR for the page."}
+  - name: edge-invalid-nesting
+    vars:
+      error: "In HTML, <div> cannot be a descendant of <p>. This will cause a hydration error."
+      component_code: |
+        function Note({ children }) { return <p className="note"><Card>{children}</Card></p>; }
+        function Card({ children }) { return <div className="card">{children}</div>; }
+    assert:
+      - {type: llm-rubric, value: "Explains that the browser auto-closes the p before the div, so the DOM differs from what React expects, and fixes by changing the outer p to a div (or the inner element to a span) rather than suppressing the warning."}
+  - name: negative-suppress-everything
+    vars:
+      error: "Hydration failed because the initial UI does not match what was rendered on the server. We get it on random pages. Can we just add suppressHydrationWarning to <html> and <body>?"
+      component_code: "app/layout.tsx with a ThemeProvider that reads localStorage.getItem('theme') during render."
+    assert:
+      - {type: llm-rubric, value: "Explains that suppressHydrationWarning only applies one level deep and would hide real bugs, identifies the localStorage read during render as the cause, and fixes it with a cookie read on the server or an inline pre-hydration script plus reading storage after mount."}

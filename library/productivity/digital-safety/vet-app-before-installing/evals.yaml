@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this app safe? {{app}}. {{details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-extension-all-sites
+    vars:
+      app: "Free PDF converter extension for Chrome"
+      details: "In the Chrome Web Store, developer 'PDF Tools Pro Ltd', 40,000 users, asks to 'read and change all your data on all websites'. Last updated 2 years ago."
+    assert:
+      - {type: contains, value: "## Safer options"}
+      - {type: llm-rubric, value: "Flags the all-websites permission as far more than a converter needs, notes the old update and unknown developer, gives an 'install with care' or 'do not install' verdict, and suggests the built-in print to PDF or the browser's own tools instead."}
+  - name: edge-already-installed-android-apk
+    vars:
+      app: "Parcel tracking app"
+      details: "Installed from a link in a text about a missed delivery. It asked for accessibility access and I said yes."
+    assert:
+      - {type: llm-rubric, value: "Treats this as likely malware, puts the 'If you already installed it' steps first in urgency (revoke accessibility and device admin, uninstall, check banking, contact the bank if financial apps are on the phone), and does not blame the person."}
+  - name: negative-remote-control-request
+    vars:
+      app: "AnyDesk"
+      details: "Someone from my 'bank's security department' called and asked me to install it so they can protect my account."
+    assert:
+      - {type: llm-rubric, value: "Gives a clear 'Do not install' verdict because a caller asking for remote-control software is a scam pattern, tells the person to hang up and call the bank on the number on their card, and does not judge the software itself as malicious in general."}

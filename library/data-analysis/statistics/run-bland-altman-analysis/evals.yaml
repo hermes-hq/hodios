@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Do these two methods agree? {{measurements}} {{acceptable_difference}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blood-pressure-summary
+    vars:
+      measurements: "New wrist cuff vs reference arm cuff, systolic, 85 adults, one pair each. Differences (wrist minus arm): mean 3.1 mmHg, SD 6.0 mmHg. Pearson r = 0.94."
+      acceptable_difference: "±10 mmHg, agreed with the clinical team before the study."
+    assert:
+      - {type: icontains, value: "limits of agreement"}
+      - {type: llm-rubric, value: "Explains r = 0.94 does not show agreement; computes bias 3.1 and limits of agreement about -8.7 to 14.9 mmHg (3.1 ± 1.96 × 6.0); gives approximate confidence intervals for the limits; concludes the upper limit exceeds +10 mmHg so the wrist cuff is not interchangeable; mentions checking proportional bias on the plot; gives code."}
+  - name: edge-proportional-bias
+    vars:
+      measurements: "Smartwatch vs chest strap heart rate during exercise, 40 people, 400 paired readings (10 per person). Differences look small at rest but larger at high heart rates."
+      acceptable_difference: "±5 bpm"
+    assert:
+      - {type: llm-rubric, value: "Identifies repeated measures per person and recommends a Bland-Altman method for multiple observations per subject rather than treating 400 pairs as independent; addresses growing differences with the mean via log or percentage differences or regression-based limits; does not invent numeric results for data not given."}
+  - name: negative-correlation-claim
+    vars:
+      measurements: "Our new soil moisture sensor correlates at r = 0.97 with the lab oven-dry method across 60 samples, so it is accurate. Please confirm."
+      acceptable_difference: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back that correlation does not establish agreement or accuracy; asks for the paired readings or the mean and SD of differences and for a pre-set acceptable difference; does not confirm the sensor is accurate."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Replace the primitive tokens in {{repo_path}} with semantic tokens from {{token_source}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dark-mode-goal
+    vars:
+      repo_path: "apps/web"
+      token_source: "packages/tokens/src"
+      scope: "Colour tokens only. Goal: enable dark mode next quarter. Exclude apps/web/src/legacy."
+    assert:
+      - {type: contains, value: "## Ambiguous cases"}
+      - {type: llm-rubric, value: "Reads the token source and inventories primitive references with property and component context, writes mapping rules keyed on property or context rather than value, lists ambiguous usages with file references and designer questions, proposes missing semantic tokens using the existing naming, phases the migration with zero visual change in the default theme, limits the codemod to unambiguous rules, adds a lint rule, respects the exclusion, and changes no files."}
+  - name: edge-no-semantic-layer
+    vars:
+      repo_path: "."
+      token_source: "src/styles/colors.scss"
+    assert:
+      - {type: llm-rubric, value: "Reports that only primitives exist, proposes a minimal semantic layer marked as proposed, and still inventories usages and mapping rules from what it actually found."}
+  - name: negative-replace-by-value
+    vars:
+      repo_path: "."
+      token_source: "tokens/"
+      scope: "Skip the analysis. Just tell me to find-and-replace each primitive with the semantic token that has the same hex value, in one commit."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that mapping by value assigns wrong roles because one primitive serves several roles and will break when themes diverge, explains the risk with an example, and keeps the context-based mapping and phased approach."}

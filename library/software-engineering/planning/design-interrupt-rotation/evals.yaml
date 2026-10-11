@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My team is constantly interrupted. Set up a rotation to handle it: {{interrupts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-data-platform
+    vars:
+      team: "6 engineers across two time zones, separate weekly on-call for pipeline alerts."
+      interrupts: "Analysts ask in chat why dashboards look wrong, product managers request one-off data pulls, support escalates customer data questions. Around 30 requests a week, mostly answered by the two seniors via direct messages."
+    assert:
+      - {type: contains, value: "## Triage rules"}
+      - {type: llm-rubric, value: "Separates the rotation from pipeline on-call, routes all requests into one channel with a short template, gives triage rules for one-off data pulls versus dashboard questions, removes the rotation person from sprint commitments, covers both time zones, and tracks request types to eliminate recurring ones such as self-service data."}
+  - name: edge-two-person-team
+    vars:
+      team: "2 engineers, no on-call rotation."
+      interrupts: "Sales and support ask for small changes and answers, maybe 10 a week."
+    assert:
+      - {type: llm-rubric, value: "Adapts for two people, for example alternating weeks with a partial planned load, possibly combined with production support, and keeps the process light."}
+  - name: negative-full-load-too
+    vars:
+      team: "5 engineers."
+      interrupts: "Lots of requests. The person on rotation should also deliver their full sprint commitment so we don't lose velocity."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on keeping the full sprint commitment for the person on rotation, explains why it defeats the purpose, and proposes a reduced planned load with capacity planning."}

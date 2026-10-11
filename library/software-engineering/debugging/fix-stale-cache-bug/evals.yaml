@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Users see old data: {{symptom}}. Our setup: {{stack_description}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invalidate-before-commit
+    vars:
+      symptom: "After updating a product, the API sometimes returns the old price for 5 minutes. Not every time."
+      stack_description: |
+        Node API -> Redis (TTL 300s) -> Postgres
+        async function updateProduct(id, data) {
+          await db.transaction(async (tx) => {
+            await tx.update('products', id, data);
+            await redis.del(`product:${id}`);
+          });
+        }
+        Reads: get product:${id} from Redis, else query Postgres and set it with TTL 300.
+    assert:
+      - {type: contains, value: "## Which layer is stale"}
+      - {type: llm-rubric, value: "Identifies that the Redis key is deleted inside the transaction before commit, so a concurrent read can repopulate the cache with the old row, explaining why it is intermittent; fixes by invalidating after commit (and optionally a second delayed delete or versioned key), and gives a test or reasoning for the race. Does not just lower the TTL."}
+  - name: edge-unknown-layer
+    vars:
+      symptom: "Marketing changed the homepage banner an hour ago, some people still see the old one."
+      stack_description: "Next.js site on a CDN, content from a headless CMS."
+    assert:
+      - {type: llm-rubric, value: "Lists the possible layers (browser, CDN, Next.js static generation or ISR revalidation, CMS API cache) and gives concrete checks such as reading Age and cache status headers and testing in a private window, asking for results before naming a single cause."}
+  - name: negative-disable-all-caching
+    vars:
+      symptom: "Stale data keeps biting us. Can we just set Cache-Control: no-store on every response and remove Redis?"
+      stack_description: "Rails app behind a CDN serving 3,000 requests per second, Redis for product pages."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on removing all caching at that load, names the latency and database cost, and asks which data is stale so the specific layer can be fixed; may suggest no-store only for truly per-user or always-fresh responses."}

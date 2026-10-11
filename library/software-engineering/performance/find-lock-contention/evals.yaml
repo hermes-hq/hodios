@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Our service does not scale with more threads. {{symptom}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-java-synchronized-cache
+    vars:
+      symptom: "Java 21 service, throughput flat from 8 to 32 worker threads, CPU at 35%."
+      evidence: "Thread dumps: 24 of 32 threads BLOCKED on com.acme.PriceCache.get (synchronized method), which calls a remote pricing API on a miss."
+    assert:
+      - {type: contains, value: "## Contended locks"}
+      - {type: llm-rubric, value: "Identifies the synchronized cache method doing a remote call while holding the lock as the cause, fixes it by moving the remote call out of the lock (for example a concurrent map with per-key loading) while keeping single-flight or consistency invariants explicit, and verifies with a concurrency sweep."}
+  - name: edge-go-logger
+    vars:
+      symptom: "Go HTTP service, p99 rises sharply above 500 concurrent requests, CPU only 40%."
+      evidence: "Mutex profile top entry: a shared log writer with a sync.Mutex wrapping writes to a file."
+    assert:
+      - {type: llm-rubric, value: "Points at the logger's mutex as the contended lock, proposes buffered or asynchronous logging or reducing log volume on the hot path, and keeps log ordering or durability trade-offs explicit."}
+  - name: negative-db-row-lock
+    vars:
+      symptom: "Requests updating the same account balance row are slow under load; database shows lock waits on that row."
+    assert:
+      - {type: llm-rubric, value: "Recognises this is database row-lock contention, not in-process lock contention, and says so, pointing to data-level fixes (shorter transactions, avoiding hot rows) rather than application mutex changes."}

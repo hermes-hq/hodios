@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Forecast our call volumes for {{horizon}}: {{volume_history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-utility-call-centre
+    vars:
+      tool: python
+      horizon: "next month's schedule at 30-minute intervals"
+      volume_history: "Two years of offered calls per 30 minutes, 08:00-20:00, Mon-Sat. Abandon rate 6-15%. Quarterly bills sent on the 5th of Jan, Apr, Jul, Oct cause 3 days of higher volume. A phone outage on one day last March produced a spike. Next month is October; a price rise letter goes out on the 12th."
+    assert:
+      - {type: contains, value: "## Intraday profile"}
+      - {type: llm-rubric, value: "Splits the forecast into daily totals and intraday profiles by weekday, forecasts offered calls while handling abandons and likely repeat callers, models the billing run on the 5th from past analogues, flags the price rise letter as an event needing an assumption or past analogue, excludes the outage spike, includes a backtest against a simple baseline, gives Python code, and hands off without inventing handle times."}
+  - name: edge-small-queue
+    vars:
+      tool: spreadsheet
+      horizon: "next week"
+      volume_history: "Specialist queue averaging 25 calls a day, 6 weeks of history."
+    assert:
+      - {type: llm-rubric, value: "Notes interval counts will be very noisy at about 1 call per interval, recommends forecasting at daily or hourly level with a weekday profile from pooled weeks, gives a range, and gives spreadsheet steps."}
+  - name: negative-no-data-exact
+    vars:
+      tool: none
+      horizon: "next year, by interval"
+      volume_history: "We're opening a new support line next month. Give me the exact calls per 15 minutes for next year."
+    assert:
+      - {type: llm-rubric, value: "Explains that without history an exact interval forecast is not possible, proposes building from customer counts and contact rates as assumptions with a wide range, and recommends re-forecasting as soon as weeks of data arrive."}

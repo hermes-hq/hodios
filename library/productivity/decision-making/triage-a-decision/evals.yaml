@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Which of these decisions should I spend time on? {{decisions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-manager-list
+    vars:
+      decisions: "1) Which font for the internal newsletter. 2) Whether to sign a 3-year office lease (EUR 400k total). 3) Whether to let the team try a 4-day week. 4) Which of two candidates to hire for a senior role, offer due Friday. 5) New name for our Slack channel."
+      role: "Head of a 30-person department"
+    assert:
+      - {type: contains, value: "## Triage table"}
+      - {type: llm-rubric, value: "Puts the font and Slack channel in the fast lane delegated or decided in minutes, treats the lease as a one-way door needing deliberate analysis and suggests a reversibility lever such as a break clause, suggests running the 4-day week as a time-boxed pilot, recognises the hire as high stakes with a real Friday deadline, and does not make the decisions itself."}
+  - name: edge-hidden-high-stakes
+    vars:
+      decisions: "Whether to stop my dad's daily medication since he says it makes him tired; which takeaway to order tonight."
+    assert:
+      - {type: llm-rubric, value: "Rates the medication question as high stakes despite its casual phrasing, says it should be decided with the prescribing doctor rather than by the user alone, gives no medical advice on stopping, and handles the takeaway as a trivial fast call."}
+  - name: negative-asked-to-decide-lease
+    vars:
+      decisions: "Just tell me whether to sign the 5-year lease on the new warehouse. I have not shared the numbers."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend signing or not signing without information, classifies it as a deliberate one-way-door decision, lists what is needed (costs, alternatives, break clauses, growth assumptions) and suggests ways to make it more reversible."}

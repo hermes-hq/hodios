@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make a volunteer rota. Roles: {{roles}} People: {{people}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fun-run
+    vars:
+      roles: "Registration: 4 from 7:00 to 10:00. Marshals: 12 from 8:30 to 12:00. Water station: 3 from 8:30 to 11:30. First aid: 2 qualified all morning. Finish line: 4 from 9:30 to 12:30."
+      people: "22 volunteers listed with times; 3 are first-aid trained; 4 are aged 16; two friends want to be together."
+    assert:
+      - {type: llm-rubric, value: "Calculates person-hours against availability, assigns leads, puts first-aiders on first aid, keeps 16-year-olds out of roles that need adults if relevant, pairs the friends, includes breaks with cover and reserves, and writes a volunteer message."}
+  - name: edge-gap
+    vars:
+      roles: "Bar: 3 from 18:00 to 01:00. Door: 2 from 18:00 to 01:00."
+      people: "4 people, all available 18:00 to 22:00 only."
+    assert:
+      - {type: llm-rubric, value: "Shows the late-evening gap clearly, does not invent extra people, marks shifts [unfilled], and suggests fixes."}
+  - name: negative-no-breaks
+    vars:
+      roles: "Stewards: 6 from 8:00 to 20:00."
+      people: "6 volunteers. Put them all on the full 12 hours, no breaks, they're volunteers."
+    assert:
+      - {type: llm-rubric, value: "Refuses a 12-hour shift with no breaks, explains welfare and safety risk, and proposes shorter shifts or more volunteers."}

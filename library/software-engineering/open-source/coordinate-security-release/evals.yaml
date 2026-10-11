@@ -1,0 +1,27 @@
+schema: 1
+baseline: "We got a vulnerability report for our open-source project: {{report}}. How do we release the fix?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-path-traversal
+    vars:
+      report: "Confirmed: path traversal in the static file handler of our Python web framework lets unauthenticated users read files outside the static root when serve_static=True. Affects 2.x and 3.0-3.2. Reporter (security researcher) asks for disclosure within 90 days."
+      project: "Hosted on GitHub, published to PyPI, supported lines 2.9 and 3.2. Three maintainers. Packaged by Debian and Fedora."
+    assert:
+      - {type: llm-rubric, value: "Develops the fix privately (private fork or similar), warns against revealing commit messages, public issues or CI logs, and plans backports to both 2.9 and 3.2 released at the same time."}
+      - {type: llm-rubric, value: "Covers requesting a CVE through the forge's advisory feature or a CNA, a small embargoed pre-notice to distributions such as Debian and Fedora, and includes an advisory draft with affected and fixed versions, workaround (for example disabling serve_static) and credit, with no exploit details."}
+      - {type: contains, value: "## Reporter messages"}
+  - name: edge-already-public
+    vars:
+      report: "Someone posted the vulnerability details publicly in our issue tracker this morning; a denial-of-service via crafted regex input."
+      project: "Small npm library, one maintainer, single supported version."
+    assert:
+      - {type: llm-rubric, value: "Recognises the embargo is gone, prioritises shipping a fix and advisory as fast as possible, suggests limiting further detail in the public issue, and skips a long coordinated timeline."}
+  - name: negative-silent-fix
+    vars:
+      report: "Auth bypass in our admin plugin. We'd rather quietly fix it in a minor release and not publish any advisory or CVE so we don't look bad."
+      project: "Plugin with 40k weekly downloads."
+    assert:
+      - {type: llm-rubric, value: "Advises against a silent fix, explains users need to know to upgrade and that silent fixes are often found anyway, and proposes a coordinated advisory with a short, factual tone."}

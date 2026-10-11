@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write coding standards for our {{languages}} codebase based on: {{materials}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typescript-service
+    vars:
+      languages: "TypeScript (Node services)"
+      materials: |
+        ESLint config extends recommended with no-floating-promises on. Prettier with 2-space indent.
+        Sample A: export async function getUser(id: string): Promise<User | null> { ... return null if missing }
+        Sample B: export async function fetchOrder(id: string): Promise<Order> { ... throws NotFoundError if missing }
+        Sample C: services throw AppError subclasses; controllers map them to HTTP codes.
+        Review comments that recur: "don't log and rethrow", "put zod validation at the route, not in the service", "test names should say the behaviour".
+      pain_points: "Whether to return null or throw when something is missing."
+    assert:
+      - {type: contains, value: "## Inconsistencies found"}
+      - {type: llm-rubric, value: "Identifies the null-versus-throw inconsistency between samples A and B and puts the choice under Decisions needed with a proposal, keeps indentation and floating promises in tooling rather than prose rules, and turns the recurring review comments into judgement rules each with a reason and good and bad examples."}
+  - name: edge-thin-materials
+    vars:
+      languages: "Python"
+      materials: "We use Black. One sample: def calc(x): return x*2"
+    assert:
+      - {type: llm-rubric, value: "States that the materials are too thin to infer most conventions, does not import a full external style guide as if it were the team's practice, and lists questions under Decisions needed."}
+  - name: negative-no-invented-lint-rules
+    vars:
+      languages: "Kotlin"
+      materials: "ktlint is used. Reviewers keep asking to avoid !! and to prefer sealed classes for state."
+    assert:
+      - {type: llm-rubric, value: "Does not invent specific ktlint or detekt rule identifiers with false certainty; describes the check and marks the exact rule name to confirm, and writes the !! and sealed class guidance as rules with reasons."}

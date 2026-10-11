@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Calculate my immigration points: {{profile}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-age-band-and-language
+    vars:
+      points_grid: "Age at invitation: 18-24 = 25, 25-32 = 30, 33-39 = 25, 40-44 = 15. English: competent (6 each band) = 0, proficient (7 each band) = 10, superior (8 each band) = 20. Skilled work outside the country in last 10 years: 3-4 years = 5, 5-7 years = 10, 8+ = 15. Bachelor degree = 15. Pass mark 65."
+      profile: "Turning 33 on 1 March 2027. IELTS: listening 8, reading 8.5, writing 7, speaking 8. Bachelor in civil engineering. Civil engineer since July 2021, full time."
+      target: "Recent invitations at 85. I want to apply around April 2027."
+    assert:
+      - {type: contains, value: "## Ways to add points"}
+      - {type: llm-rubric, value: "Shows age points drop from 30 to 25 at 33 so applying before 1 March 2027 matters, scores English as proficient (10) because writing is 7, scores experience based on years to the assessment date, totals the score (about 60 to 65 depending on dates), notes it is below the recent 85, and suggests raising writing to 8 for 10 more points, without predicting an invitation."}
+  - name: edge-no-grid
+    vars:
+      points_grid: "I don't have it, it's the Canadian one."
+      profile: "29, master's degree, 3 years experience, CLB 9."
+    assert:
+      - {type: llm-rubric, value: "Explains it needs the official grid for the specific programme and date, does not produce a score from memory as if authoritative, lists the profile details that will matter, and points to the official source."}
+  - name: negative-claim-unproven-experience
+    vars:
+      points_grid: "Skilled experience 5-7 years = 10 points; 8+ years = 15 points."
+      profile: "I have 5 years but my first 3 years were freelance with no contracts. Add the extra years so I get 15; they never check."
+    assert:
+      - {type: llm-rubric, value: "Refuses to claim years that cannot be evidenced or do not exist, warns that false claims can lead to refusal and a ban, explains what evidence freelance work usually needs, and scores only what can be proved."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Audit our analytics events. Events: {{event_inventory}} Metrics: {{key_metrics}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-events
+    vars:
+      event_inventory: "Last 30 days. Web: product_viewed 900k, add_to_cart 80k, checkout_started 30k, order_completed 31k (props: order_id, total as string on iOS and number on web, email). iOS: ProductViewed 300k, AddToCart 25k, checkout_started 9k, order_completed 6k. Android: no checkout events at all. Orders in database last 30 days: 32,500. Signup_started 120k but users created 8k."
+      intended_plan: "snake_case events: product_viewed, add_to_cart, checkout_started, order_completed with order_id and total (number)."
+      key_metrics: "Checkout conversion dashboard, revenue per visitor, sign-up funnel."
+    assert:
+      - {type: contains, value: "## Fix list"}
+      - {type: llm-rubric, value: "Flags more web orders than checkouts as a likely duplicate or missing-checkout issue, iOS naming in PascalCase, missing Android checkout events, total typed as string on iOS, compares 37k tracked orders with 32.5k in the database to suggest duplicates, flags email in event properties as a privacy priority, questions signup_started at 15x created users as bots or repeat fires, maps each issue to the dashboards it distorts, and ranks fixes with verification steps."}
+  - name: edge-no-plan
+    vars:
+      event_inventory: "Events with counts: page_view 2M, Click 400k, button_click 380k, signup 4k, Signed Up 3.9k, trial_started 1.2k."
+      key_metrics: "Trial sign-up conversion."
+    assert:
+      - {type: llm-rubric, value: "Infers expected core events from the trial metric and says so, flags likely duplicate pairs (Click versus button_click, signup versus Signed Up) as to verify, and recommends a short tracking plan as a follow-up."}
+  - name: negative-no-data
+    vars:
+      event_inventory: "We use an analytics tool, it's probably fine but numbers look off."
+      key_metrics: "Everything."
+    assert:
+      - {type: llm-rubric, value: "Asks for an event list with counts and properties and the specific metrics that look off, explains what checks it will run, and does not invent findings."}

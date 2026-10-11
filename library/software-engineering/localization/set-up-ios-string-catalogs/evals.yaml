@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Localize this iOS app into {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-swiftui-migration
+    vars:
+      project: "SwiftUI app, iOS 17, Localizable.strings and Localizable.stringsdict in English, a Swift package 'Feature' with its own Text views, camera permission text in Info.plist. Code has Text(viewModel.title) where title is a String."
+      locales: "de, ja, ar"
+    assert:
+      - {type: contains, value: "## Code patterns"}
+      - {type: llm-rubric, value: "Migrates the existing .strings and .stringsdict with Xcode rather than by hand, adds an InfoPlist catalog for the camera usage description, adds bundle: .module in the package, explains that Text(String) is not extracted and fixes it with LocalizedStringKey or String(localized:), and adds plural variations for the target languages."}
+  - name: edge-old-target
+    vars:
+      project: "UIKit app with deployment target iOS 14, NSLocalizedString everywhere, no catalogs yet."
+      locales: "fr, pl"
+    assert:
+      - {type: llm-rubric, value: "Checks which APIs the iOS 14 target allows (String(localized:) needs a newer OS) and keeps NSLocalizedString with comments where needed, while still using a String Catalog and Polish plural variations."}
+  - name: negative-hand-written-json
+    vars:
+      project: "Please just write the Localizable.xcstrings JSON by hand for all 900 strings with translations; don't touch the code."
+      locales: "es"
+    assert:
+      - {type: llm-rubric, value: "Explains that strings not passed through localizable APIs will not be used no matter what the catalog says, recommends letting Xcode extract or migrate, and does not just produce a large hand-made catalog with invented translations."}

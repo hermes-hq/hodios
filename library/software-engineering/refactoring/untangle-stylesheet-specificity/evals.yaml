@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Clean up this CSS: {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-important-chain
+    vars:
+      scope: "styles/main.css: #app .sidebar ul li a.nav-link { color: #333 } ... .nav-link.active { color: blue !important } ... #app #sidebar .nav-link.active:hover { color: navy !important } plus bootstrap.min.css loaded after main.css."
+      setup: "Plain CSS, Bootstrap 4 from a CDN loaded after our file. Evergreen browsers only."
+      safety_net: "No visual tests; we can check a style guide page manually."
+    assert:
+      - {type: contains, value: "## Pages to check"}
+      - {type: llm-rubric, value: "Explains that the !important chain and ID selectors come from fighting Bootstrap and each other, fixes load order or isolates Bootstrap without editing it, flattens to low-specificity component classes in small steps, removes !important only where no longer needed, and lists states such as hover, active and focus to compare manually."}
+  - name: edge-old-browser-support
+    vars:
+      scope: "Legacy admin theme with 40 !important rules."
+      setup: "Must support an embedded browser engine from 2019 used by a kiosk."
+    assert:
+      - {type: llm-rubric, value: "Does not rely on cascade layers or other newer features given the old engine, uses load order and selector flattening instead, and states this choice."}
+  - name: negative-redesign-request
+    vars:
+      scope: "components/card.css. While you refactor, make the cards look more modern with bigger shadows and rounded corners."
+    assert:
+      - {type: llm-rubric, value: "Keeps the refactor free of visual change, declines to mix the redesign into it, and suggests doing the visual change as a separate step after the refactor."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me deprecate this component: {{component}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-legacy-modal
+    vars:
+      component: "LegacyModal, replaced by Dialog. LegacyModal does not trap focus and cannot be themed for dark mode."
+      replacement: "Dialog: props open, onOpenChange, title (required), size sm|md|lg. No 'fullscreen' option. LegacyModal had isOpen, onClose, header, width (number), fullscreen, closeOnOverlay."
+      context: "Used 140 times across 6 web products and 1 React Native app. Semantic versioning, releases every two weeks. Figma library. Teams reached via a Slack channel and a monthly demo."
+    assert:
+      - {type: contains, value: "## Replacement mapping"}
+      - {type: llm-rubric, value: "Maps each old prop (isOpen, onClose, header, width, fullscreen, closeOnOverlay) to the new API and marks them automatic, manual or no equivalent, proposes an answer for fullscreen and numeric width, plans removal only in a major release with a longer window for the React Native app, covers code annotations, dev-only warnings, a lint rule and hiding the component in the Figma library while keeping instances working, and drafts an announcement."}
+  - name: edge-no-usage-data
+    vars:
+      component: "Tag component, being merged into Chip."
+    assert:
+      - {type: llm-rubric, value: "Notes that no usage data or replacement API was given, explains how to collect usage (code search, design analytics, survey) and marks the inventory as to be done, and uses placeholders rather than inventing numbers, teams or dates."}
+  - name: negative-remove-next-week
+    vars:
+      component: "Card. We want it gone. Remove it in next week's minor release."
+      context: "Card is used in every product. There is no replacement yet; we will design one later."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that removal in a minor release breaks semantic versioning and that deprecating a widely used component with no replacement is premature, and proposes a sequence that starts with designing the replacement before any removal."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design a multi-region setup for: {{system}} Drivers: {{drivers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-residency-and-latency
+    vars:
+      system: "B2B document collaboration SaaS on one cloud region in the US: stateless API pods, Postgres, Redis, object storage for files, Elasticsearch. 40% of customers are in the EU."
+      drivers: "Enterprise EU customers require EU-only storage of their documents. Target p95 API latency under 200 ms for EU users (currently 380 ms). Survive a region outage within 1 hour with at most 5 minutes of data loss."
+      limits: "Team of 12 engineers, 2 SREs. Budget can grow by about 50%."
+    assert:
+      - {type: contains, value: "## Data strategy"}
+      - {type: llm-rubric, value: "Recommends homing each tenant in one region (partitioned by tenant, EU tenants in an EU region) rather than fully active-active writes, keeps EU document data, search indexes and object storage in the EU, and explains how global data such as accounts and auth is handled."}
+      - {type: llm-rubric, value: "Addresses failover with async replication or backups matching the 5-minute RPO and 1-hour RTO, notes that residency must be confirmed with compliance owners, and does not invent cloud prices."}
+  - name: edge-unclear-driver
+    vars:
+      system: "Consumer recipe app, one region, Postgres and a CDN for images."
+      drivers: "Leadership wants to be multi-region because it seems more professional."
+    assert:
+      - {type: llm-rubric, value: "Asks what concrete latency, availability or residency targets exist, or labels assumptions, and points out that zonal redundancy, backups and the CDN may meet realistic needs at far lower cost than multi-region."}
+  - name: negative-lww-on-money
+    vars:
+      system: "Wallet service with balances in a single Postgres primary in one region."
+      drivers: "The CTO wants active-active writes in two regions with last-writer-wins replication so either region can accept transfers during an outage."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on last-writer-wins for balances, explaining lost updates and double spending, and proposes an alternative such as a single home region per account, a consistent database with cross-region writes, or failover with a known RPO."}

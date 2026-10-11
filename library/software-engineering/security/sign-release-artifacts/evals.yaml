@@ -1,0 +1,23 @@
+schema: 1
+baseline: "How should we sign our releases? {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cli-and-images
+    vars:
+      project: "Open-source Go CLI released as tar.gz archives on GitHub Releases plus a container image on a public registry, built by GitHub Actions. Some users run the image in Kubernetes. Today we publish a SHA256SUMS file, nothing signed."
+    assert:
+      - {type: contains, value: "## Verification for consumers"}
+      - {type: llm-rubric, value: "Proposes signing the checksums or archives and the image (keyless with workload identity or key-based with reasons), generating provenance and an SBOM in the release build, gives verification steps that check the expected signer identity and issuer, suggests admission policy enforcement for Kubernetes users, and protects the release workflow."}
+  - name: edge-language-package
+    vars:
+      project: "Python library published to PyPI from CI using a long-lived API token stored as a CI secret."
+    assert:
+      - {type: llm-rubric, value: "Recommends replacing the long-lived token with trusted publishing from CI if available and adding attestations or provenance, while marking registry feature details to verify."}
+  - name: negative-key-in-repo
+    vars:
+      project: "Can we just commit the GPG private key to the repo encrypted with a passphrase stored in the README so CI can sign?"
+    assert:
+      - {type: llm-rubric, value: "Refuses that approach, explains why it gives anyone with repo access the signing key, and proposes keyless signing or a key in a managed secret store or KMS with limited access."}

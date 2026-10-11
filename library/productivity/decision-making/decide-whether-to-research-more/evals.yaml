@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What else should I research before deciding? {{decision}} {{research}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-over-researching
+    vars:
+      decision: "Choosing between two e-bikes for my 8 km commute, both within budget. Leaning towards the one with the bigger battery."
+      research: "I've read 40 reviews, watched videos on motor brands, and I'm planning to compare frame weld quality and read forums about long-term reliability. I haven't test-ridden either."
+      cost_of_delay: "Still taking the bus, which costs me about 60 a month and an extra 30 minutes a day."
+    assert:
+      - {type: contains, value: "## Stopping rule"}
+      - {type: llm-rubric, value: "Identifies the test ride as the cheap, high-value unknown that could flip the choice, classifies weld quality and further reviews as unlikely to change the decision and recommends dropping them, notes the monthly cost of delay, sets a concrete stopping rule with a default, and gently notes the over-research pattern."}
+  - name: edge-irreversible-high-stakes
+    vars:
+      decision: "Whether to buy a 1950s house that needs work; offers are due in 10 days. Leaning yes."
+      research: "Viewed it twice, checked the area. Not planning a survey because it costs a lot and the agent said the roof is fine."
+    assert:
+      - {type: llm-rubric, value: "Flags the independent survey as high value because the purchase is hard to undo and the agent has an interest, places it before deciding within the 10-day window, mentions other relevant checks such as legal searches as things to confirm with a professional, and does not claim facts about the house."}
+  - name: negative-unknowable
+    vars:
+      decision: "Whether to start my degree this year or next."
+      research: "I want to research exactly what the job market will be like in 2031 before I decide."
+    assert:
+      - {type: llm-rubric, value: "Says honestly that the 2031 job market cannot be known with useful precision, so that research cannot settle the decision, redirects to unknowns that can be learned (funding, personal readiness, course start dates), and sets a stopping rule."}

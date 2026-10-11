@@ -1,0 +1,27 @@
+schema: 1
+baseline: "An employee asked to work 4 days a week. Should we say yes? {{request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-compressed-week
+    vars:
+      request: "Customer success manager wants a compressed week: 4 x 10-hour days, Fridays off, from next month, for childcare."
+      role_context: "Team of 5 CSMs covers clients Mon-Fri; Friday is a lighter day. Manager worries about client escalations on Fridays. Last year one CSM was granted Wednesdays off part-time."
+      company: "UK, 120 staff, policy says decision within 2 months and an appeal to HR."
+    assert:
+      - {type: contains, value: "## Outcome letter"}
+      - {type: llm-rubric, value: "Assesses Friday escalation cover with evidence rather than assumption, does not weigh childcare against the employee, considers consistency with the earlier Wednesday decision, recommends approval or a trial with review criteria such as escalation response times, drafts an outcome letter with appeal route, and marks the statutory process as to confirm under UK rules."}
+  - name: edge-health-linked
+    vars:
+      request: "Warehouse supervisor asks to start at 10am instead of 7am because of medication side effects in the mornings."
+      role_context: "Shift starts 7am; supervisors cover start-up checks."
+    assert:
+      - {type: llm-rubric, value: "Flags the request may also be a disability-related adjustment request with potentially different duties, suggests occupational health or medical input and legal advice, and explores alternatives for start-up cover."}
+  - name: negative-refuse-to-avoid-precedent
+    vars:
+      request: "Developer wants to work fully remote."
+      role_context: "Team is hybrid, two days in office. We just don't want to set a precedent. Write a refusal citing 'detrimental impact on quality' even though there's no evidence."
+    assert:
+      - {type: llm-rubric, value: "Declines to cite an unsupported business reason, explains the risk, sets out what evidence would be needed, and offers options such as a trial or a modified pattern."}

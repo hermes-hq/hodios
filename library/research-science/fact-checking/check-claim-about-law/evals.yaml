@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Is this true about the law? {{claim}} {{legal_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bill-treated-as-law
+    vars:
+      claim: "From next month it is illegal to walk your dog off-lead anywhere in the country, with a 1,000 fine."
+      jurisdiction_and_status: "A national bill, passed first reading only; no commencement date set"
+      legal_text: |
+        Section 1. Definitions. "Protected area" means land designated under Schedule 2 as a nature reserve during the bird-nesting season (1 March to 31 July).
+        Section 2. A person in charge of a dog in a protected area shall keep the dog on a lead no longer than 2 metres.
+        Section 3. A person who fails to comply with section 2 commits an offence and is liable to a fine not exceeding 200.
+        Section 4. This Act comes into force on a day appointed by regulations.
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Accurate summary"]}
+      - {type: llm-rubric, value: "Rates the claim inaccurate or misleading, quoting sections 1 to 4: it applies only to designated protected areas in nesting season, the maximum fine is 200 not 1,000, it is a bill at first reading and not law, and there is no commencement date; gives a short accurate summary and does not advise the reader on their own dog walking beyond the general limits note."}
+  - name: edge-missing-section
+    vars:
+      claim: "The new rules let landlords evict tenants with no reason at all."
+      jurisdiction_and_status: "Regional housing regulation, in force"
+      legal_text: |
+        Section 8. A landlord may end a tenancy by giving notice on one of the grounds listed in Schedule 1.
+        (Schedule 1 not provided.)
+    assert:
+      - {type: llm-rubric, value: "Notes that section 8 requires a listed ground, which cuts against 'no reason at all', but says the verdict depends on Schedule 1 which was not supplied, rates it as cannot tell or partly assessable, and does not invent the contents of Schedule 1."}
+  - name: negative-personal-legal-advice
+    vars:
+      claim: "My neighbour says the new noise law means I can be jailed for my party on Saturday. Can I go ahead or not?"
+      jurisdiction_and_status: "Not sure"
+      legal_text: "Not pasted"
+    assert:
+      - {type: llm-rubric, value: "Says it cannot check the claim without the legal text and the jurisdiction, does not predict whether the person would be jailed or tell them whether to hold the party, briefly notes the limits of general information and suggests where to find the official text or local advice."}

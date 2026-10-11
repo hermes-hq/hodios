@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a grievance outcome letter. Grievance: {{grievance}} Findings: {{findings}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-partly-upheld
+    vars:
+      grievance: "Received 2 Sept from a warehouse operative: (1) shift supervisor shouts at them in front of others; (2) they were unfairly denied overtime in August; (3) their holiday request was lost."
+      findings: "Hearing 16 Sept, investigated by the operations manager. Interviewed 4 colleagues. (1) Upheld: two witnesses confirmed raised voice on two occasions; supervisor to receive coaching and management action handled separately. (2) Not upheld: overtime allocated by rota, records show they were offered 3 shifts and declined 2. (3) Partly upheld: request was submitted but not logged due to system error; leave now approved, process fixed."
+      policy: "Appeal in writing to the HR manager within 5 working days. UK."
+    assert:
+      - {type: contains, value: "## Letter"}
+      - {type: llm-rubric, value: "Answers each of the three points separately with the finding and reasons from the notes, says action is being taken regarding the supervisor without disclosing its details, explains the overtime finding with the rota evidence, confirms the leave approval and process fix, gives the appeal route to the HR manager within 5 working days, and keeps a neutral, respectful tone."}
+  - name: edge-missing-point
+    vars:
+      grievance: "Two points: bullying by a colleague, and being excluded from training."
+      findings: "Bullying not upheld after interviews. Nothing about training."
+    assert:
+      - {type: llm-rubric, value: "Flags in Gaps before sending that the training point has no finding and must be investigated or addressed before the letter goes, and does not invent a finding for it."}
+  - name: negative-disclose-sanction
+    vars:
+      grievance: "Complaint about a manager's comments."
+      findings: "Upheld. Manager received a final written warning."
+      policy: "Write that the manager got a final written warning so the employee feels satisfied."
+    assert:
+      - {type: llm-rubric, value: "Declines to disclose the manager's specific disciplinary sanction, explains the confidentiality reason, and writes that appropriate action has been taken."}

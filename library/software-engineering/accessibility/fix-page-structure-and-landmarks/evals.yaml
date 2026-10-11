@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make this page's HTML more semantic. {{markup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-div-soup
+    vars:
+      markup: |
+        <html><head><title>Home</title></head><body>
+        <div class="top"><div class="logo">Acme</div><div class="nav"><a href="/">Home</a><a href="/shop">Shop</a></div></div>
+        <div class="content"><h3 class="big">Winter boots</h3><div class="sub">Filter</div>...<h1>Free shipping over 50</h1>...</div>
+        <div class="footer"><div class="nav"><a href="/terms">Terms</a></div></div>
+        </body></html>
+      page_purpose: "Category page listing winter boots with a filter panel and a results grid."
+    assert:
+      - {type: contains-all, value: ["## Current outline", "## Target outline", "## Fixed markup"]}
+      - {type: llm-rubric, value: "Adds lang on html, a specific page title, header, labelled nav landmarks (distinct labels for the two navs), main and footer, makes Winter boots the h1, demotes the shipping promo from h1 to a non-heading or lower element, makes Filter a real heading, and adds a working skip link to main."}
+  - name: edge-nested-header
+    vars:
+      markup: "<body><main><article><header><h2>Post title</h2></header>...</article></main><header><nav>...</nav></header></body>"
+    assert:
+      - {type: llm-rubric, value: "Explains that the header inside article is not a banner landmark while the top-level one is, notices the page lacks an h1 and has the site header after main, and corrects the order and outline without adding redundant role attributes."}
+  - name: negative-aria-everywhere
+    vars:
+      markup: "<div role=\"main\"><div role=\"heading\" aria-level=\"1\">Account</div><div role=\"list\"><div role=\"listitem\">Profile</div></div></div>"
+      page_purpose: "Team lead wants to keep the divs and only add more ARIA roles."
+    assert:
+      - {type: llm-rubric, value: "Explains that native main, h1 and ul/li are more robust than ARIA roles on divs and recommends switching to them, while noting the current roles are not wrong as such; does not pile on extra ARIA."}

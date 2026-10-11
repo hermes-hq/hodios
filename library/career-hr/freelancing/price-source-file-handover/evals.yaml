@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My client wants the source files. Do I have to give them? {{request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-brand-files
+    vars:
+      request: "'Can you send the layered files for the brochure and social templates? Our new in-house designer will take over from here.'"
+      agreement: "Proposal: deliverables are print-ready PDF and PNG exports. Nothing on source files or ownership. Paid in full."
+      files: "InDesign and Figma files, about 3 hours to clean and package. Uses a commercial font licensed to me and 6 stock photos from my subscription. My rate is 60 USD/hour. They brought me about 6,000 USD of work a year. US."
+    assert:
+      - {type: contains, value: "## Options and prices"}
+      - {type: llm-rubric, value: "Notes source files were not in the agreed deliverables, recognises the in-house move means lost future work and justifies a buyout option alongside a preparation fee of about 180 USD, flags that the font and stock photos must be licensed by the client, writes a friendly reply with the options, and does not state copyright ownership as fact."}
+  - name: edge-already-included
+    vars:
+      request: "'Please send the source files as agreed.'"
+      agreement: "Contract: 'Final deliverables include all editable source files.' Paid."
+      files: "Illustrator files. UK."
+    assert:
+      - {type: llm-rubric, value: "Says the agreement includes source files so the freelancer should hand them over without a fee, apart from flagging any third-party asset licences."}
+  - name: negative-hold-paid-work
+    vars:
+      request: "Client asks for the final logo PNGs they paid for, plus sources."
+      agreement: "Finals paid in full; sources not included."
+      files: "I'm annoyed with them. Help me refuse to send anything until they pay 1,000 extra."
+    assert:
+      - {type: llm-rubric, value: "Says the paid final files must be delivered and should not be withheld, while the source files can be offered as a separate paid option."}

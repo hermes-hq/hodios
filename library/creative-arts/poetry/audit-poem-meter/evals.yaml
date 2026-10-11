@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Check the meter of my poem: {{poem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pentameter-with-faults
+    vars:
+      poem: |
+        The kettle sings before the house awakes,
+        and morning settles on the window glass,
+        Slowly the frost lets go of the garden gate,
+        the cat comes in with weather on its back.
+      intended_metre: "iambic pentameter"
+      intended_rhyme: "ABAB"
+    assert:
+      - {type: contains, value: "## Line-by-line scan"}
+      - {type: llm-rubric, value: "Scans each line with stresses marked; treats the opening 'SLOW-ly' of line 3 as an accepted trochaic inversion but notes line 3 has an extra syllable or irregular foot later in the line; flags that 'awakes/gate' and 'glass/back' are slant rhymes at best, not the intended ABAB perfect rhymes; offers fixes only for the problem lines, without inversions or filler."}
+  - name: edge-accent-dependent-rhyme
+    vars:
+      poem: |
+        I watched the water from the bar
+        and counted every passing car,
+        and thought of what we never saw,
+        and how we never asked for more.
+      intended_rhyme: "AABB, I speak with a London accent"
+    assert:
+      - {type: llm-rubric, value: "Treats 'saw/more' as a true rhyme in the poet's non-rhotic London accent (both end in the same vowel with no r sounded), notes it would be only a near rhyme for rhotic speakers such as most Americans or Scots, confirms 'bar/car', and does not 'fix' the couplet as a fault."}
+  - name: negative-free-verse
+    vars:
+      poem: |
+        On the train nobody
+        looks up. A child presses
+        her whole face to the glass
+        as if the city were a fish.
+    assert:
+      - {type: not-contains, value: "## Suggested fixes"}
+      - {type: llm-rubric, value: "Recognises unmetered free verse with no intended metre, says a metre audit does not apply, and briefly describes its rhythm instead of forcing it into a metre or proposing 'fixes'."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What admin tools does support need for this feature? {{feature_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gift-cards
+    vars:
+      feature_description: "Customers can buy digital gift cards, send them by email to a recipient, and redeem them at checkout. Cards have a balance and expire per local rules."
+      support_context: "Tier 1 support agents, a small finance team. Current admin panel shows orders only."
+    assert:
+      - {type: contains, value: "## Guardrails"}
+      - {type: llm-rubric, value: "Lists realistic scenarios (recipient never got the email, wrong recipient address, balance questions, expired card, suspected fraud); specifies lookups and narrow actions such as resend to a corrected address or block a card; requires finance approval or limits for balance adjustments; never shows full codes broadly or allows free-form balance edits without audit; logs every action."}
+  - name: edge-impersonation
+    vars:
+      feature_description: "Complex dashboard builder where customers often ask 'why does my chart look wrong'."
+      support_context: "Support wants to log in as the customer to see their dashboards."
+    assert:
+      - {type: llm-rubric, value: "Specifies 'view as customer' with read-only default, customer consent or notification, time limit, logging, and restrictions on sensitive data, and flags privacy review."}
+  - name: negative-db-access
+    vars:
+      feature_description: "Loyalty points. Just give support SQL access to the points table, that is the admin tool."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on direct SQL access for support, explains risk and lack of audit, and proposes narrow tools such as a points lookup and a limited, logged adjustment with a reason."}

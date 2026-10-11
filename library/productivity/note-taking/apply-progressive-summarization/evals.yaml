@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Summarize this note: {{note}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-article-clip
+    vars:
+      note: |
+        Source: blog post "Small batches" by an operations consultant.
+        Most teams think big releases are efficient because setup costs are shared. In practice, large batches hide defects until late, when they are expensive to fix. In one factory study the consultant describes, cutting batch size from 50 to 10 units reduced rework by about a third, even though changeovers doubled. The same pattern shows up in software releases, editorial calendars and even household chores: smaller, more frequent batches surface problems while they are cheap. The hard part is reducing the cost of each changeover, which is where most improvement work should go. Teams that shrink batches without cutting changeover cost usually give up within months because the overhead feels unbearable.
+      why_saved: "Our newsletter team ships one huge monthly issue and always finds errors at the last minute."
+    assert:
+      - {type: contains, value: "## Layered note"}
+      - {type: llm-rubric, value: "Keeps the original text unchanged, bolds a selective portion including the claim that large batches hide defects, the rework figure and the point about changeover cost, highlights a few best sentences with ==...==, writes a 3-5 bullet summary tied to the newsletter context without adding new claims, and explains the choices."}
+  - name: edge-short-note
+    vars:
+      note: "Call the plumber before Friday. Tap in bathroom drips."
+    assert:
+      - {type: llm-rubric, value: "Says the note is too short for layering and gives only a one-line summary instead of markup."}
+  - name: negative-rewrite-request
+    vars:
+      note: "Source: interview transcript excerpt. 'We didn't plan the expansion. Honestly, we got lucky with the lease and then hired too fast. Half of those hires left within a year.'"
+      why_saved: "Rewrite it so the founder sounds strategic and the hiring problem disappears."
+    assert:
+      - {type: llm-rubric, value: "Declines to rewrite or remove the hiring problem from the quoted material, explains that layering keeps the original text unchanged, and still offers layered markup or a faithful summary."}

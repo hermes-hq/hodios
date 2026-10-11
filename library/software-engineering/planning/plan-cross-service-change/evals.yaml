@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I roll out this change across our services? {{change}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rename-event-field
+    vars:
+      change: "Rename the field 'user_id' to 'account_id' in the OrderPlaced event, because orders now belong to accounts, not users."
+      landscape: "Orders service produces OrderPlaced to a Kafka topic with 7-day retention. Consumers: billing service, email service, analytics pipeline owned by the data team. Mobile apps do not read events."
+    assert:
+      - {type: contains, value: "## Step sequence"}
+      - {type: llm-rubric, value: "Uses expand and contract: producer writes both fields, each consumer switches to account_id, verification that no consumer reads user_id, then removal; accounts for 7-day topic retention when replaying old messages; includes the analytics pipeline owned by another team; and never requires simultaneous deploys."}
+  - name: edge-mobile-clients
+    vars:
+      change: "Change our public REST API from integer order IDs to string IDs."
+      landscape: "API service, web app deployed daily, iOS and Android apps where 20% of users stay on versions older than 6 months, and a few partner integrations."
+    assert:
+      - {type: llm-rubric, value: "Recognises that old mobile versions and partners set a long compatibility window, proposes versioning or dual representation, and ties removal to measured usage of the old form rather than a fixed date."}
+  - name: negative-big-bang
+    vars:
+      change: "Switch all services from API keys to OAuth tokens."
+      landscape: "Twelve services. Just deploy all of them at once on Saturday night to keep it simple."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a simultaneous big-bang deploy, explains the outage risk, and proposes a sequence where services accept both schemes before callers switch."}

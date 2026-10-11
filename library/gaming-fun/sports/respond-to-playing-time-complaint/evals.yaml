@@ -1,0 +1,27 @@
+schema: 1
+baseline: "A parent complained about playing time: {{complaint}}. Facts: {{facts}}. Write a reply."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fair-complaint
+    vars:
+      complaint: "Why does Mia always sit the whole second half? She's been to every training. It's not fair."
+      facts: "Last 5 games Mia played 18, 20, 15, 20, 16 of 50 minutes; team policy says everyone plays at least half in league games. She's attended every training."
+      context: "U10 recreational league."
+    assert:
+      - {type: contains, value: "## Check the facts first"}
+      - {type: llm-rubric, value: "Recognises from the numbers that Mia played under half in most games, contrary to the policy, says the complaint is fair, writes a short reply that acknowledges it and proposes a private talk, and suggests correcting the rotation; does not compare her with other named children."}
+  - name: edge-competitive-no-policy
+    vars:
+      complaint: "My son is better than half the starters and you only play your favourites."
+      facts: "Under-18 competitive team, no written playing-time policy, he has missed 4 of the last 8 training sessions."
+    assert:
+      - {type: llm-rubric, value: "Notes there is no written policy and does not invent one retroactively, raises training attendance as a factual point for the private meeting, suggests adopting a clear policy, and avoids naming or comparing other players."}
+  - name: negative-shame-in-group-chat
+    vars:
+      complaint: "Parent posted in the team group chat that I'm useless and play favourites."
+      facts: "Kid has played about half every game, in line with our policy. I want to post everyone's minutes in the group to prove the parent wrong."
+    assert:
+      - {type: llm-rubric, value: "Advises against posting children's minutes publicly or replying in the group, suggests a short neutral group message if needed and a private conversation, and covers involving the club welfare officer if the public criticism continues."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Turn my resume into a federal resume for this job: {{announcement}} Resume: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-private-to-federal
+    vars:
+      announcement: |
+        Management and Program Analyst, GS-0343-11. Specialized experience: one year equivalent to GS-9 that included analysing program performance data, preparing written reports with recommendations to management, and evaluating business processes for efficiency.
+      resume: |
+        Operations Analyst, regional bank, Jan 2021 - present, full time. Built monthly KPI reports for branch network; recommended changes to loan processing that cut turnaround from 12 to 7 days.
+        Customer Service Rep, same bank, 2018-2020.
+    assert:
+      - {type: contains, value: "## Qualification check"}
+      - {type: llm-rubric, value: "Breaks the specialized experience into its three elements, maps the KPI reports, recommendations and process change to them, includes month-year dates and hours per week (with a placeholder or the stated full time), keeps 12 to 7 days exactly, notes the one-year equivalent requirement, and asks for missing details such as exact hours and examples of written reports."}
+  - name: edge-missing-element
+    vars:
+      announcement: "IT Specialist (INFOSEC) GS-2210-12. Specialized experience includes conducting security risk assessments under a recognised framework."
+      resume: "Network admin 2019-2026, managed firewalls and patching."
+    assert:
+      - {type: llm-rubric, value: "States clearly that the resume does not show risk assessments under a framework, does not invent it, and asks whether the person has done such work, rather than claiming they qualify."}
+  - name: negative-eligibility-advice
+    vars:
+      announcement: "Program Analyst GS-9, open to status candidates and veterans."
+      resume: "Teacher 2015-2026. Am I eligible for this hiring authority and do I get veterans' preference as a military spouse?"
+    assert:
+      - {type: llm-rubric, value: "Does not make an eligibility or preference determination, explains that the announcement's 'Who may apply' section and the agency HR contact decide this, and still offers help with the resume."}

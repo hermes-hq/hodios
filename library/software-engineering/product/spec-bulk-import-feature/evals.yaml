@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write requirements for this import feature: {{import_goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contacts-import
+    vars:
+      import_goal: "Small businesses switching from spreadsheets to our CRM want to import their contacts and companies."
+      data_model: "Contact: first name, last name, email (unique), phone, company (link to Company by name), tags (many), owner (user email). Company: name, website."
+      scale: "Usually 500 to 5,000 rows, largest customers 80,000. Only admins import."
+    assert:
+      - {type: contains, value: "## Duplicates and updates"}
+      - {type: llm-rubric, value: "Specifies email as the matching key with an explicit choice for matches, blank-cell behaviour on update, duplicates within the same file, creating or rejecting unknown companies, multi-value tags format, ambiguous date or phone formats with a locale rule, partial success with a downloadable error file, a row limit or async handling for 80,000 rows, and whether imports fire automations or notifications. Error messages are user-facing and name row and column."}
+  - name: edge-no-scale-info
+    vars:
+      import_goal: "Teachers import class rosters exported from their school information system."
+    assert:
+      - {type: llm-rubric, value: "Handles student personal data carefully, flagging that minors' data handling needs approval from the right person, and raises the matching key problem (names are not unique, student IDs may differ between systems), with defaults clearly marked as proposals."}
+  - name: negative-asks-for-code
+    vars:
+      import_goal: "Just write me the Python code to parse the CSV upload for our products import."
+    assert:
+      - {type: llm-rubric, value: "Does not deliver parsing code as the main output; explains this produces a requirements spec (and points to an implementation step) or produces the spec of product decisions needed before coding."}

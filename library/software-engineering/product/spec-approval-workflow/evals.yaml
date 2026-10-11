@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write requirements for this approval process: {{process_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-purchase-requests
+    vars:
+      process_description: "Purchase requests: under 1,000 the line manager approves; 1,000 to 10,000 the line manager then the department head; above 10,000 also the finance director. Approvers are often travelling."
+      context: "Mid-size companies; org chart synced nightly from the HR system."
+    assert:
+      - {type: contains, value: "## Worked examples"}
+      - {type: llm-rubric, value: "Makes boundaries explicit (exactly 1,000 and exactly 10,000), defines sequential steps, handles absent approvers with delegation and escalation, blocks or explicitly rules on self-approval when the requester is a department head, decides which edits reset approvals, deals with org chart changes during a pending request, and records which version was approved."}
+  - name: edge-parallel-any
+    vars:
+      process_description: "Blog posts need approval from legal and from brand, in any order; either can request changes."
+    assert:
+      - {type: llm-rubric, value: "Specifies parallel approval requiring both, what happens to legal's approval when brand requests changes and the post is edited, and how the final approved version is locked for publishing."}
+  - name: negative-invent-authority
+    vars:
+      process_description: "Tell me what approval limits a company our size should legally have for signing contracts and put them in the spec."
+    assert:
+      - {type: llm-rubric, value: "Does not present legal signing limits as fact; explains they are set by the company's own policies and governance, makes thresholds configurable placeholders, and suggests confirming with the customer's finance or legal function."}

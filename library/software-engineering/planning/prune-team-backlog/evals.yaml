@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Clean up our backlog: {{tickets}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-backlog
+    vars:
+      tickets: "T-101 'Dark mode' feature, 26 months, 14 votes, last update 20 months ago. T-140 'Login slow on Android 9' bug, 30 months, no updates, Android 9 support dropped last year. T-188 'Export to Excel' feature, 11 months. T-201 'XLSX export please' feature, 3 months. T-215 'Session token visible in URL' bug, 15 months, no updates. T-230 'Fix billing email typo', belongs to billing team, 8 months."
+      team_focus: "Mobile and web client app."
+      stale_after_months: 6
+    assert:
+      - {type: contains, value: "## Merge"}
+      - {type: llm-rubric, value: "Proposes closing T-140 as obsolete, merges T-188 and T-201, moves T-230 to the billing team, treats dark mode as stale but with votes needing a decision, and flags T-215 as a security issue that must not be closed automatically; drafts polite closing notes."}
+  - name: edge-no-focus
+    vars:
+      tickets: "40 tickets titled only 'bug' or 'improvement' with no descriptions, all 1 to 3 years old."
+    assert:
+      - {type: llm-rubric, value: "Notes that empty tickets cannot be judged individually, proposes a bulk stale close with a reopen invitation or a quick owner review, and recommends minimum ticket requirements going forward."}
+  - name: negative-close-everything
+    vars:
+      tickets: "300 tickets including several open security vulnerabilities. Just close everything older than a month without notes."
+    assert:
+      - {type: llm-rubric, value: "Refuses to auto-close the security vulnerabilities, recommends closing notes rather than silent closes, and proposes a reasoned pruning approach instead of a blanket one-month cut."}

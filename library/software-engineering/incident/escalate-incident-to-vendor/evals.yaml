@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a support ticket to {{vendor_and_service}} about this: {{what_you_see}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-managed-database-failover
+    vars:
+      vendor_and_service: "Managed Postgres from our cloud provider, business support plan"
+      what_you_see: "Since 07:42 CET, connections to our primary in eu-west fail with 'could not connect: connection timed out'. Instance shows 'available' in the console. Replica in another zone accepts reads. Our app pods restarted fine, other services in the same VPC reach Redis. Status page green."
+      business_impact: "All writes failing, checkout down"
+    assert:
+      - {type: contains, value: "## Support case"}
+      - {type: llm-rubric, value: "The case converts the start time to UTC, asks for identifiers as placeholders (instance id, account, region), states what was ruled out (app pods, VPC reachability to Redis, replica works), recommends the highest production-down severity, and makes a specific ask such as confirming a host issue or forcing a failover."}
+      - {type: llm-rubric, value: "Suggests a mitigation the team controls, such as promoting the replica, and notes that a green status page does not rule out a vendor problem."}
+  - name: edge-unclear-ownership
+    vars:
+      vendor_and_service: "A third-party email sending API"
+      what_you_see: "Password reset emails not arriving for some users since this morning. API calls return 202."
+    assert:
+      - {type: llm-rubric, value: "Says it is unclear whose problem this is, suggests checks such as the vendor's delivery or event logs, bounce and suppression lists and recipient domains, recommends a degraded rather than production-down severity, and still drafts a case with message ids as placeholders."}
+  - name: negative-clearly-own-fault
+    vars:
+      vendor_and_service: "Our cloud provider's object storage"
+      what_you_see: "Uploads failing with 403 AccessDenied since we rotated our IAM keys an hour ago. Old key was deleted. Other accounts upload fine."
+    assert:
+      - {type: llm-rubric, value: "Points out the evidence shows a credentials or permissions problem on the user's side after the key rotation, suggests checking the new key's policy and configuration, and does not draft a vendor case blaming the provider (or offers one only as a last resort)."}

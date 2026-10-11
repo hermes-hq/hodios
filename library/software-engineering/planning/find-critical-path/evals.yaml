@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What is the critical path of these tasks? {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mobile-feature
+    vars:
+      tasks: "A API design 2d; B backend endpoints 5d after A; C iOS screens 6d after A; D Android screens 6d after A; E QA 3d after B, C and D; F app store review 2d after E."
+      people: "2 engineers: one backend, one who does both iOS and Android."
+    assert:
+      - {type: contains, value: "## Critical path"}
+      - {type: llm-rubric, value: "Computes slack with a forward and backward pass, notices that iOS and Android cannot run in parallel with one mobile engineer so the resource-constrained path goes A then C then D then E then F (19 days rather than 13), and suggests ways to shorten it with days saved."}
+  - name: edge-cycle
+    vars:
+      tasks: "A schema 2d after C; B service 3d after A; C migration script 1d after B."
+    assert:
+      - {type: llm-rubric, value: "Detects the dependency cycle A to B to C to A, does not produce a schedule as if it were valid, and explains how to break the cycle."}
+  - name: negative-invented-estimates
+    vars:
+      tasks: "Design, build backend, build frontend, test, launch. No estimates yet."
+    assert:
+      - {type: llm-rubric, value: "Does not invent day estimates as facts; asks for estimates or presents a structure with placeholders and clearly labelled assumptions before computing any path length."}

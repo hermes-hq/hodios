@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Summarise this panel discussion: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-remote-work-panel
+    vars:
+      transcript: "[00:00] Moderator (Kate): Is remote work here to stay? [00:01] Omar (startup CEO): Yes, fully remote is our edge for hiring. [00:03] Lin (HR director): Hybrid, yes, but juniors learn faster in person. [00:05] Paul (property investor): Offices will be full again in two years. [00:07] Omar: Paul, you own offices. [00:07] Paul: I disclosed that, but the data supports me. [00:10] Lin: I agree with Omar on flexibility, but flexibility for us means two office days. [00:20] Audience: What about mental health? [00:21] Lin: It cuts both ways. Omar: Pass to Lin."
+    assert:
+      - {type: contains, value: "## Agreement and disagreement"}
+      - {type: llm-rubric, value: "Summarises each panellist's position with a quote and timestamp, shows the real split (fully remote vs hybrid vs return to office), notes that Lin's 'agree on flexibility' hides a different meaning, captures the Omar-Paul exchange about Paul's office interest and that Paul disclosed it, flags Paul's 'data supports me' as unsupported, and does not invent a consensus."}
+  - name: edge-bad-labels
+    vars:
+      transcript: "Speaker 1: Welcome. I think regulation will kill innovation, but also I think we need regulation. Speaker 1: Thanks, great question. Speaker 2: Agreed."
+    assert:
+      - {type: llm-rubric, value: "Flags that speaker labels look unreliable (Speaker 1 appears to be moderator and panellist at once) and avoids confident attribution of the contradictory statements."}
+  - name: negative-not-a-panel
+    vars:
+      transcript: "Summarise the main arguments of the famous 2023 AI safety panel at Davos."
+    assert:
+      - {type: llm-rubric, value: "Asks for the transcript instead of reconstructing a panel from memory, and does not invent speakers or quotes."}

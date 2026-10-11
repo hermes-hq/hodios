@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Create features for a LightGBM sales forecast. {{data_description}} {{forecast_setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retail-weekly
+    vars:
+      data_description: "sales(item_id, store_id, week, units), prices(item_id, store_id, week, price), promo_calendar(item_id, week, promo_flag) planned 12 weeks ahead, items(item_id, category), 3,000 item-stores, 3 years weekly."
+      forecast_setup: "Every Monday forecast weeks 2 to 9 ahead at item-store level. Last week's sales land on Tuesday, so at forecast time the most recent complete week is two weeks old."
+    assert:
+      - {type: contains, value: "## Leakage rules"}
+      - {type: llm-rubric, value: "Accounts for the one-week data latency so the minimum usable lag equals horizon plus latency (no lag-1 for a 2-week horizon), chooses a direct or recursive strategy with reasons, treats the planned promo calendar and planned prices as future-known features, builds rolling statistics on shifted data, uses rolling-origin validation against a seasonal naive baseline, and includes pandas code with a cutoff argument and an assertion that fails on future data use."}
+  - name: edge-daily-intermittent
+    vars:
+      data_description: "Daily spare-part demand for 20,000 parts, 80% of days zero."
+      forecast_setup: "Forecast 30-day total demand per part each month."
+    assert:
+      - {type: llm-rubric, value: "Suggests forecasting the 30-day aggregate or using a Tweedie or Poisson objective, features such as days since last demand and demand rate over long windows, warns that per-day errors are misleading for zero-heavy series, and compares against a simple intermittent benchmark."}
+  - name: negative-random-cv
+    vars:
+      data_description: "Daily website sessions for 50 sites."
+      forecast_setup: "My model gets 2% error with lag_1 and shuffled 5-fold cross-validation, but forecasting 14 days ahead it's terrible. Just tune hyperparameters."
+    assert:
+      - {type: llm-rubric, value: "Identifies leakage from lag_1 at a 14-day horizon and from shuffled K-fold, says tuning will not fix it, and redesigns features and validation rather than proposing hyperparameter tuning first."}

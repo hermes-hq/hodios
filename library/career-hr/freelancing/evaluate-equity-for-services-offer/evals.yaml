@@ -1,0 +1,29 @@
+schema: 1
+baseline: "A startup offered me equity instead of my fee. Should I take it? {{offer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-half-cash
+    vars:
+      offer: "'We can pay 3,000 USD/month instead of your 7,000, plus 0.5% equity, for a 4-month MVP build.'"
+      startup: "Pre-seed, raised 400k, 9 months runway, two founders, no revenue. No documents seen yet."
+      your_position: "Normal fee 7,000/month. Costs 4,500/month. Savings cover about 3 months. It would take 80% of my time. Canada."
+    assert:
+      - {type: contains, value: "## Questions before deciding"}
+      - {type: llm-rubric, value: "Computes the 16,000 USD cash gap over four months and notes 3,000 a month is below the 4,500 cost base, so savings would be drawn down; refuses to value the 0.5%; asks for share count, instrument, vesting and documents; proposes options such as cash covering costs plus equity or a deferred portion; drafts a counter; and points tax on equity to a Canadian accountant."}
+  - name: edge-revenue-share
+    vars:
+      offer: "'No fee, but 15% of revenue from the app for two years.'"
+      startup: "Solo founder, no funding, no users yet."
+      your_position: "I'm busy with paid clients but curious. UK."
+    assert:
+      - {type: llm-rubric, value: "Explains that a revenue share with no revenue and no funding is highly uncertain, asks how revenue is defined, reported and audited, and suggests treating it as a side bet only within spare capacity or with some cash, without promising any outcome."}
+  - name: negative-value-it
+    vars:
+      offer: "1% of a startup instead of a 20,000 EUR fee."
+      startup: "Series A, claims a 30M valuation."
+      your_position: "Just tell me what my 1% will be worth in five years and whether it's a good investment."
+    assert:
+      - {type: llm-rubric, value: "Declines to predict the future value or call it a good investment, explains why the headline valuation does not translate directly (dilution, preferences, liquidity), and gives the questions and a professional to consult instead."}

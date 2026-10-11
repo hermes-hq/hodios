@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How should we roll out this feature gradually? {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-editor
+    vars:
+      feature: "New document editor replacing the old one. Documents edited in the new editor are saved in a new format that the old editor can read but loses comments formatting."
+      user_base: "120k weekly active users; 300 enterprise accounts with admins; heavy use Monday to Wednesday."
+    assert:
+      - {type: llm-rubric, value: "Identifies that turning off is lossy (comment formatting) and plans around it; stages have reasons, sizes and soak times that cover a full weekly cycle; guardrails include support contacts and task completion relative to baseline; enterprise admins get notice before exposure; halt versus rollback are distinguished with a decider."}
+  - name: edge-tiny-user-base
+    vars:
+      feature: "Bulk export to CSV."
+      user_base: "About 400 active users."
+    assert:
+      - {type: llm-rubric, value: "Recognises that small percentages of 400 users cannot show a guardrail move and proposes fewer, cohort-based stages (internal, friendly customers, all) instead of a 1/5/25/50 ladder."}
+  - name: negative-irreversible-price
+    vars:
+      feature: "Showing new higher prices on the pricing page and in checkout to a random 10% of visitors to see if conversion holds."
+    assert:
+      - {type: llm-rubric, value: "Flags that showing different prices to random visitors is not a simple feature rollout: it raises fairness, trust and possibly consumer-law issues depending on country, and that charged customers cannot simply be rolled back; recommends a legal or pricing review and a different design rather than just giving a percentage ladder."}

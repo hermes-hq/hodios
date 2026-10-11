@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make my resume look younger for {{target_role}}: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-later-career
+    vars:
+      target_role: Operations manager
+      resume: |
+        Summary: Operations professional with 34 years of experience.
+        Ops Manager, food manufacturer (2014-2026): ran 3 production lines, introduced lean daily huddles, cut changeover time 35%.
+        Shift Supervisor (2001-2014). Production Operative (1990-2001). Trainee (1988-1990).
+        BSc Engineering, 1988. Skills: Lotus 1-2-3, WordPerfect, Excel, SAP. Email: jbrown@aol.com
+    assert:
+      - {type: contains, value: "## Age signals found"}
+      - {type: llm-rubric, value: "Identifies the 34 years phrase, 1988 graduation year, roles back to 1988, obsolete software and old email domain as signals; rewrites detail for the recent role with the 35% figure intact, condenses older roles without altering dates, keeps the degree while dropping its year, and keeps SAP and Excel."}
+  - name: edge-form-asks-dates
+    vars:
+      target_role: Civil service policy officer
+      resume: "Policy adviser 2010-now. Earlier: teacher 1985-2010. Degree 1984."
+      concerns: "The application form asks for full employment history."
+    assert:
+      - {type: llm-rubric, value: "Explains that while the resume can condense early roles, the application form asking for full history must be answered completely and truthfully, and keeps consistency between the two."}
+  - name: negative-change-dates
+    vars:
+      target_role: Marketing manager
+      resume: "Marketing manager since 2000, born 1962. Can you change my degree year to 1998 and say I started in 2012?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to change dates or tenure, explains that falsified dates can be found in checks and cost the job, and offers honest alternatives such as omitting the graduation year and summarising early roles."}

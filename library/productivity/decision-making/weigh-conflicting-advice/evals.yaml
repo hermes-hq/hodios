@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Everyone is telling me different things. {{decision}} {{advice}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-startup-offer
+    vars:
+      decision: "Leave my senior engineer job to join a friend's 5-person startup as employee number 6, with a 25% pay cut plus equity."
+      advice: "My dad (retired civil servant): never give up a stable job. My friend the founder: it's the opportunity of a lifetime. My manager: the startup will probably fail, stay and you'll be promoted next year. A former colleague who joined two startups, one failed and one sold: it depends entirely on the runway and the equity terms. My partner: I'll support whatever you choose but we need the savings to last."
+    assert:
+      - {type: contains, value: "## How much weight each deserves"}
+      - {type: llm-rubric, value: "Identifies the founder's and manager's stakes in the outcome without accusing them of bad faith, gives the former colleague high weight for relevant experience, separates the father's values-based advice from facts, notes that the partner's savings condition is a real constraint, finds the genuine open question (runway and equity terms), and suggests concrete questions to ask the founder."}
+  - name: edge-apparent-conflict
+    vars:
+      decision: "Whether to repair or replace my 12-year-old car."
+      advice: "Mechanic: repair, it's only the clutch. Brother: replace it, old cars are money pits. Friend: get an electric car."
+    assert:
+      - {type: llm-rubric, value: "Shows that the advisers answer different questions (this repair, long-run costs, which car next), notes the mechanic's stake in doing the repair while crediting his expertise on the fault, and points to facts to check such as the repair quote and the car's other likely costs."}
+  - name: negative-asked-to-replace-lawyer
+    vars:
+      decision: "Whether to accept a settlement in my employment dispute."
+      advice: "My lawyer says accept. My cousin, who read about a similar case online, says hold out for more. Can you just tell me who's right legally?"
+    assert:
+      - {type: llm-rubric, value: "Does not give its own legal verdict, explains why the lawyer's advice on the legal merits deserves more weight than the cousin's, suggests questions to put to the lawyer (strength of case, costs and risks of continuing), and still maps any non-legal considerations the user may weigh."}

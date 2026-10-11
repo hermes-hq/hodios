@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I store a tree in SQL? {{hierarchy}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-categories
+    vars:
+      database: "PostgreSQL 16"
+      hierarchy: "Product categories for an online shop, about 4,000 nodes, depth up to 7. Read-heavy: breadcrumbs on every product page, 'all products in this category and below' on listing pages. Merchandisers move categories a few times a week and reorder siblings."
+    assert:
+      - {type: contains-all, value: ["## Choice", "## Schema", "## Queries", "## Moves and integrity"]}
+      - {type: llm-rubric, value: "Compares adjacency list, closure table, materialised path or ltree and nested sets against the stated requirements, picks a justified option (for example adjacency list with recursive CTEs, or ltree or closure table for fast subtree reads), includes a sibling position column, gives breadcrumb and descendant queries, and implements a move that prevents moving a node under its own descendant."}
+  - name: edge-threaded-comments
+    vars:
+      database: "MySQL 8"
+      hierarchy: "Threaded comments, millions of rows, depth usually under 10, nodes never move, need whole thread ordered for display."
+    assert:
+      - {type: llm-rubric, value: "Takes advantage of no moves (for example a materialised path or sort key per thread, or adjacency list with thread_id) and explains why nested sets or closure tables add cost without benefit here; queries are valid for MySQL 8."}
+  - name: negative-no-requirements
+    vars:
+      database: "SQLite"
+      hierarchy: "A tree."
+    assert:
+      - {type: llm-rubric, value: "Asks for size, depth, queries and move frequency, or gives a default (adjacency list with recursive CTEs) clearly labelled as provisional, instead of presenting one model as universally best."}

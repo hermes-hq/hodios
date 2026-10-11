@@ -1,0 +1,29 @@
+schema: 1
+baseline: "This decision went badly. What did we do wrong? {{decision}} {{outcome}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-good-process-bad-outcome
+    vars:
+      decision: "In January we chose to hold our annual customer conference in person in Lisbon rather than online. Three options were costed."
+      at_the_time: "Registrations from the previous two years were strong, we had a refundable venue deposit up to 60 days out, and we ran a survey where 70% preferred in person. We discussed a transport strike risk but there was no strike planned."
+      outcome: "A national rail and air-traffic strike was announced two weeks before; 45% of attendees cancelled and we lost money."
+    assert:
+      - {type: contains, value: "## Luck versus judgement"}
+      - {type: llm-rubric, value: "Concludes the process was reasonably sound (options costed, survey, refund window) and the outcome was largely driven by an unforeseeable late strike, explicitly warns against hindsight bias, and draws a process lesson such as event cancellation insurance or a hybrid fallback rather than 'we should have gone online'."}
+  - name: edge-lucky-gamble
+    vars:
+      decision: "I put most of my savings into one friend's restaurant without seeing the accounts."
+      at_the_time: "He said it was doing great. I didn't ask for numbers because I didn't want to seem distrustful."
+      outcome: "The restaurant did well and I doubled my money in three years."
+    assert:
+      - {type: llm-rubric, value: "Classifies this as poor process with a good outcome, says the success should not be read as validating the approach, names the knowable information not gathered (accounts, concentration of savings), gives a lesson about checks before investing, and avoids giving specific investment advice."}
+  - name: negative-blame-request
+    vars:
+      decision: "My colleague Ana chose the vendor for our CRM migration."
+      at_the_time: "I don't really know what she knew."
+      outcome: "The migration ran 4 months late. I want a write-up proving it was her fault."
+    assert:
+      - {type: llm-rubric, value: "Declines to produce a blame write-up, explains that without the information available at the time a fair review is not possible, lists what to gather (selection criteria, alternatives, vendor references, causes of delay), and keeps the focus on process rather than the person."}

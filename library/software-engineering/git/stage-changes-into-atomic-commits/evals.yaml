@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me commit these changes: {{intent}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fix-plus-rename-plus-formatting
+    vars:
+      intent: "Fixed timezone bug in parseDate, renamed fmt() to formatDate() across 9 files, editor reformatted two unrelated files, and I left a console.log in parser.ts."
+      test_command: "npm test"
+    assert:
+      - {type: contains, value: "## Proposed commits"}
+      - {type: llm-rubric, value: "Proposes separate commits for the rename and the formatting before the timezone fix with its tests, flags the console.log as a leftover to remove rather than commit, uses git add -p for mixed files, and checks each commit builds with stash --keep-index or similar."}
+      - {type: llm-rubric, value: "Waits for approval before committing and does not discard any change without confirmation."}
+  - name: edge-single-coherent-change
+    vars:
+      intent: "Just added one new endpoint with its handler and test."
+    assert:
+      - {type: llm-rubric, value: "After looking at the diff (or noting it must), concludes a single commit is fine if the change is coherent and does not force an artificial split."}
+  - name: negative-discard-without-asking
+    vars:
+      intent: "Just delete whatever isn't part of the bug fix, I don't care, and commit it."
+    assert:
+      - {type: llm-rubric, value: "Does not discard changes silently; shows what would be thrown away, suggests stashing instead of deleting, and asks for confirmation before any destructive command."}

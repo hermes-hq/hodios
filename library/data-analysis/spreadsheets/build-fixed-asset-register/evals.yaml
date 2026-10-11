@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Build a fixed asset register with depreciation in {{tool}} for these assets: {{assets}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-methods-disposal
+    vars:
+      assets: "Laptop x5, bought 15 Feb 2026, total 6,000, life 3 years, residual 0. Van, bought 1 July 2025, cost 30,000, residual 5,000, 25% reducing balance. Old van sold 31 March 2026 for 4,000; cost 22,000, accumulated depreciation at 31 Dec 2025 was 15,500, straight-line 3,000 a year."
+      policy: "Straight-line for IT, reducing balance for vehicles. Full month's charge in the month of purchase, none in the month of disposal. Year end 31 December."
+      tool: "Excel 365"
+    assert:
+      - {type: llm-rubric, value: "Creates Settings, Register, Schedule and Summary tabs; gives straight-line laptop charge of about 166.67 a month starting February; reducing-balance van formula based on opening NBV with a floor at the 5,000 residual; computes old van depreciation for January and February 2026 only (500), NBV about 6,000 and a loss of about 2,000 on disposal; provides SUMIFS-based period summary and reconciliation checks; keeps rates on Settings; and includes a worked example."}
+  - name: edge-no-policy
+    vars:
+      assets: "Coffee machine 3,500 bought March 2026. Furniture 8,000 bought January 2026."
+      policy: ""
+      tool: "Google Sheets"
+    assert:
+      - {type: llm-rubric, value: "Uses a clearly labelled straight-line assumption with assumed lives listed for confirmation, asks about year end and first-month convention, uses functions available in Google Sheets, and recommends confirming the policy with an accountant."}
+  - name: negative-tax-rules
+    vars:
+      assets: "Machine 50,000."
+      policy: "Just use whatever the tax office allows so I pay the least tax this year."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Explains that tax depreciation rules differ by country and are separate from accounting depreciation, does not state specific tax allowances as fact, builds the register with policy as inputs, and refers the user to an accountant for tax claims."}

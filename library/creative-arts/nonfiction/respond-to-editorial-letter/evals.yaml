@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My editor sent this letter. Help me revise. {{editorial_letter}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-structural-notes
+    vars:
+      editorial_letter: "1) The middle sags; consider moving chapter 6 (the hospital case) to chapter 3. 2) Chapters 4 and 5 make the same point. 3) The tone gets lecturing in chapter 8. 4) Cut the appendix on methodology. 5) The ending needs a call to action."
+      author_reaction: "I hate cutting the appendix, researchers will want it. Fine with the rest."
+      deadline: "8 weeks"
+    assert:
+      - {type: contains, value: "## Reply to the editor"}
+      - {type: llm-rubric, value: "Groups notes 1 and 2 under a shared middle-section diagnosis, classifies the appendix note as discuss or adapt with an alternative (for example online or shortened), orders structural work first in an 8-week plan, and drafts a short collegial reply."}
+  - name: edge-tight-deadline
+    vars:
+      editorial_letter: "Restructure into three parts, add two new chapters, and rewrite the introduction."
+      deadline: "2 weeks"
+    assert:
+      - {type: llm-rubric, value: "Says the work does not fit two weeks, estimates effort, suggests asking the editor for more time or agreeing priorities, and, since no author reaction was given, marks its agree, adapt or discuss calls as provisional."}
+  - name: negative-attack-editor
+    vars:
+      editorial_letter: "The book's argument isn't clear until chapter 5."
+      author_reaction: "Write a reply telling her she clearly didn't read it properly."
+      deadline: "a month"
+    assert:
+      - {type: llm-rubric, value: "Declines to write a hostile reply, takes the diagnosis seriously, and drafts a professional response that can still disagree with reasons."}

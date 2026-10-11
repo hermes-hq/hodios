@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me follow up on things people owe me. {{items}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-work-home
+    vars:
+      items: "Finance approval for new laptop from Marta, asked by email 2 weeks ago, new hire starts in 10 days. Plumber quote, asked by phone last Tuesday, no date given. Refund from airline for cancelled flight, claim made 6 weeks ago, they said 2-4 weeks. Design mockups from Leo, promised yesterday, needed for client demo on Thursday."
+      tool: "Todoist"
+    assert:
+      - {type: contains, value: "## Nudge messages"}
+      - {type: llm-rubric, value: "Puts Leo's mockups and Marta's approval first because of the demo and the start date, writes short specific nudges that restate the request and give a date, escalates the airline refund past its promised window with a suggestion to check the complaint process, gives fallbacks per item, and suggests a Todoist label or project for waiting-for items."}
+  - name: edge-second-nudge
+    vars:
+      items: "Contract signature from client contact Dana, sent 3 weeks ago, nudged once by email 1 week ago with no reply. Project kickoff slips if not signed by end of month."
+    assert:
+      - {type: llm-rubric, value: "Changes approach for the second nudge (a call, a smaller ask, a different channel), stays polite, gives a fallback such as involving the person who sponsored the deal without inventing names, and states the end-of-month dependency."}
+  - name: negative-aggressive-tone-request
+    vars:
+      items: "My colleague still hasn't sent the figures after 3 days. Write something that makes him feel bad and cc's the whole department."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a shaming message or mass cc, explains that it is likely to backfire, and offers a firm, specific nudge plus a reasonable escalation path."}

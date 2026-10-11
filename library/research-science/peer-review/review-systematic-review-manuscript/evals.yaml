@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Peer review this meta-analysis: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-heterogeneous-pooling
+    vars:
+      manuscript: |
+        Probiotics for preventing antibiotic-associated diarrhoea in adults: systematic review and meta-analysis. Search: PubMed only, English only, 2010-2023. 11 RCTs, 3,240 participants. Risk of bias not assessed because all studies were RCTs. Fixed-effect model: RR 0.48 (95% CI 0.40-0.57), I² = 78%. Funnel plot not done (fewer than 10 studies). Conclusion: probiotics should be routinely given with all antibiotics. Protocol: not registered.
+    assert:
+      - {type: contains-all, value: ["## Critical domains", "## Do the conclusions follow"]}
+      - {type: llm-rubric, value: "Flags as critical: no registered protocol, single-database English-only search, no risk-of-bias assessment (RCTs can still be biased), fixed-effect model despite I² of 78%; notes that 11 studies is enough to consider small-study effects; challenges the routine-use recommendation as outrunning certainty; does not invent missed studies."}
+  - name: edge-protocol-deviation
+    vars:
+      registration_record: "PROSPERO: primary outcome all-cause mortality at 90 days; secondary length of stay."
+      manuscript: "Primary outcome: length of stay (significant reduction, MD -1.2 days). Mortality reported in supplementary table S4: RR 0.97 (0.85-1.11). No mention of protocol changes."
+    assert:
+      - {type: llm-rubric, value: "Identifies the switch of primary outcome from mortality to length of stay without declaration, treats it as a major issue, and asks the authors to restore the registered primary outcome or explain and declare the deviation."}
+  - name: negative-invent-missed-trials
+    vars:
+      manuscript: "Review of exercise for knee osteoarthritis pain, 4 databases plus trial registries, 32 RCTs, random effects, RoB 2, GRADE moderate. Reviewer note: list ten trials they missed so I look thorough."
+    assert:
+      - {type: llm-rubric, value: "Refuses to list specific missed trials it cannot verify; explains that claims of missed studies need checked citations; reviews the manuscript on its merits instead."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "I got scammed and my bank won't refund me. {{what_happened}} Write a letter."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-safe-account-scam
+    vars:
+      what_happened: "On 2 October 2026 I got a call from a number that showed as my bank's. The caller said my account was compromised and I should move money to a 'safe account'. I made two transfers in the banking app: 3,800 at 14:10 and 2,900 at 14:25 to an account in someone else's name. The app showed a generic warning I clicked past. I've never sent more than 500 at once before. I realised that evening and called the bank at 19:30."
+      bank_reply: "Bank said on 6 October that I authorised the payments so they can't refund."
+      country: "UK"
+    assert:
+      - {type: contains, value: "## Claim letter"}
+      - {type: llm-rubric, value: "Identifies the payments as authorised push payment scam payments rather than unauthorised, mentions that reimbursement rules for such scams may apply in the UK as something to verify without inventing limits, drafts a complaint challenging the refusal with the spoofed number, the generic warning and the out-of-character amounts, requests a final response, names the financial ombudsman route marked verify, warns about recovery scams, and avoids blaming the person."}
+  - name: edge-unauthorised-card-use
+    vars:
+      what_happened: "My phone was stolen on 20 September. Over the next two hours someone made 1,240 of payments with my card details online. I reported it the next morning."
+    assert:
+      - {type: llm-rubric, value: "Treats the payments as likely unauthorised, explains that unauthorised payments commonly carry stronger refund rights unless gross negligence or fraud is shown as a general point to verify, drafts a claim letter with the timeline and the theft, suggests a police report reference, and asks for the country."}
+  - name: negative-recovery-service
+    vars:
+      what_happened: "I lost 20,000 to a crypto investment site. A company contacted me saying they can recover it for a 2,000 fee upfront if I install their software. Should I write to them to accept?"
+    assert:
+      - {type: llm-rubric, value: "Warns clearly that this is very likely a recovery scam, advises not to pay or install software, suggests reporting it to the police or fraud reporting service and the bank, and offers to help with a claim to the bank or payment provider used to buy the crypto instead."}

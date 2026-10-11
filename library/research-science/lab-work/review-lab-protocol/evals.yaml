@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Review this lab protocol: {{protocol}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vague-extraction
+    vars:
+      protocol: "1. Lyse cells in buffer. 2. Spin down. 3. Take supernatant, add ethanol. 4. Leave on ice a while. 5. Spin again, wash pellet, dry, resuspend in water."
+      reader: "new master's student"
+    assert:
+      - {type: contains-all, value: ["## Gaps by step", "## Revised steps"]}
+      - {type: llm-rubric, value: "Flags missing buffer composition and volumes, centrifuge speed in g, time and temperature, ethanol volume and concentration, how long 'a while' is, wash solution, and resuspension volume; marks them [to fill] rather than inventing values, asks about pause points, and notes missing controls and expected yield checks."}
+  - name: edge-good-protocol
+    vars:
+      protocol: "Purpose: isolate plasmid DNA from 5 ml overnight E. coli culture with a commercial miniprep kit (kit name and lot recorded). Controls: a known plasmid prep processed alongside. 1. Pellet 5 ml culture at 6,800 x g, 3 min, room temperature (20-25 C); discard supernatant. 2. Resuspend pellet in 250 ul resuspension buffer with RNase A (stored at 4 C) by vortexing until no clumps remain. 3. Add 250 ul lysis buffer, invert 6 times, max 5 min at room temperature. 4. Add 350 ul neutralisation buffer, invert 6 times immediately. 5. Centrifuge 17,900 x g, 10 min. 6. Load supernatant on the column, 17,900 x g, 1 min, discard flow-through. 7. Wash with 750 ul wash buffer (ethanol added per kit label), 1 min; spin empty column 1 min more. 8. Elute in 50 ul 10 mM Tris-HCl pH 8.5 after 1 min on the column, 1 min spin. Expected: 5-20 ug, A260/280 about 1.8. Pause point: eluted DNA can be stored at -20 C. Do not pause between steps 3 and 5. Safety: lysis buffer contains sodium hydroxide; wear gloves and eye protection. Waste: flow-through to the lab chemical waste stream per safety office rules."
+      reader: ""
+    assert:
+      - {type: llm-rubric, value: "Says plainly the protocol is in good shape, does not manufacture problems or rewrite it wholesale, and limits comments to genuine minor gaps (for example the culture medium or how to measure yield) labelled as minor."}
+  - name: negative-fill-values
+    vars:
+      protocol: "Incubate with antibody. Wash. Image."
+      reader: "Just fill in standard values for everything so I can hand it out today."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent dilutions, times and settings, explains the risk, marks gaps to fill, and lists the specific questions to answer before handing it out."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How should I structure this backend service? {{service}} Stack: {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-complex-rules-hexagonal
+    vars:
+      service: "Insurance claims service: intake, fraud scoring rules, payout calculation with many policy-specific rules, integrations with a document store, two external fraud vendors that we may switch, and a payments API."
+      stack: "Kotlin with Spring Boot"
+      team: "6 engineers, comfortable with Spring, little DDD experience. Today everything is in controller, service and repository packages."
+    assert:
+      - {type: contains, value: "## Dependency rules"}
+      - {type: llm-rubric, value: "Recommends a hexagonal core (possibly combined with feature slices) because of complex rules and replaceable fraud vendors, shows a package tree with domain code free of Spring and persistence types, and places the fraud vendors behind ports with adapters."}
+      - {type: llm-rubric, value: "Explains where transactions, validation versus invariants and error mapping live, and gives incremental steps from the current controller-service-repository layout instead of a rewrite."}
+  - name: edge-go-idioms
+    vars:
+      service: "Internal URL shortener: create link, redirect, basic click counts. Postgres only."
+      stack: "Go with chi"
+    assert:
+      - {type: llm-rubric, value: "Recommends a simple structure suited to a small CRUD service and to Go idioms (a few packages by responsibility or feature, no deep layer hierarchy or Java-style interfaces for everything) and explicitly notes that full hexagonal layering would be overhead here."}
+  - name: negative-hypothetical-features
+    vars:
+      service: "A webhook relay that receives events from one provider and forwards them to an internal queue. The PM says we might add analytics, billing and a UI one day."
+      stack: "TypeScript with NestJS"
+    assert:
+      - {type: llm-rubric, value: "Designs for the relay that exists today, keeps the layout minimal and does not create folders or modules for hypothetical analytics, billing or UI features, saying how to extend later if they arrive."}

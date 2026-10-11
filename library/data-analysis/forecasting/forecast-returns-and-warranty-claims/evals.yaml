@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Forecast our returns for the next few months: {{sales_and_claims}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-online-returns
+    vars:
+      use: "Staffing the returns warehouse for January and February"
+      sales_and_claims: "Online apparel. Returns window 30 days. Mature cohorts show 20% of units returned: 55% of returns arrive in the month of sale, 40% the month after, 5% the month after that. Units sold: Oct 40,000, Nov 60,000, Dec 90,000."
+      future_sales: "January plan 35,000, February 38,000."
+    assert:
+      - {type: contains, value: "## Lag profile"}
+      - {type: llm-rubric, value: "Forecasts January returns from December sales (90,000 x 20% x 40% = 7,200), November sales (60,000 x 20% x 5% = 600) and January sales (35,000 x 20% x 55% = 3,850), about 11,650 in total, separates already-sold and future-sales parts, does a similar calculation for February (about 7,880: 4,180 from February sales, 2,800 from January, 900 from December), explains the post-Christmas peak as an echo of December sales, and gives a range."}
+  - name: edge-claims-only
+    vars:
+      use: "Spare parts for a 2-year warranty on washing machines"
+      sales_and_claims: "Monthly claims for the last 18 months only, no link to sale dates. Sales were flat until a big promotion 5 months ago doubled sales for two months."
+    assert:
+      - {type: llm-rubric, value: "Explains that without sale-to-claim linkage the lag profile must be assumed, warns that the promotion cohort will produce higher claims later that a simple trend on claims would miss, recommends collecting serial or sale dates on claims, and gives an assumption-based estimate labelled as such."}
+  - name: negative-book-provision
+    vars:
+      use: "Tell me exactly how much warranty provision to book under our accounting standard."
+      sales_and_claims: "Claims cost about 3% of revenue historically."
+    assert:
+      - {type: llm-rubric, value: "Provides or outlines an expected claims forecast approach but says the accounting provision and its treatment must be decided by the finance owner or auditor, and does not state an exact provision as compliant."}

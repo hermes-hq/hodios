@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me fit this compliance deadline into our roadmap. Obligation: {{obligation}} Product: {{product_and_roadmap}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-accessibility-deadline
+    vars:
+      obligation: "Accessibility requirement for our consumer e-commerce site and app in the EU markets we sell to, deadline in 7 months. Legal's summary: product and checkout must meet WCAG 2.1 AA-level criteria, publish an accessibility statement, and provide a way to report problems."
+      product_and_roadmap: "Web shop and iOS/Android apps. 2 web devs, 2 mobile devs, 1 designer. No audit done yet. Q-plan: loyalty programme, new search, app redesign. Checkout uses a third-party payment widget."
+    assert:
+      - {type: contains, value: "## Backward schedule"}
+      - {type: llm-rubric, value: "Lists obligations from legal's summary as given and marks anything else as a question, makes an audit the first step because there is no baseline, flags the third-party payment widget as a supplier dependency, schedules backwards from the deadline including audit, fixes, retest, statement publishing and a buffer, shows which roadmap items move (for example the app redesign can be combined or delayed), and asks legal precise questions; does not claim the plan ensures compliance."}
+  - name: edge-impossible-timeline
+    vars:
+      obligation: "New data residency rule: customer data for one country must be stored in-country, deadline in 6 weeks."
+      product_and_roadmap: "Single-region cloud setup, 3 engineers, no work started."
+    assert:
+      - {type: llm-rubric, value: "States plainly that a full migration in 6 weeks looks unlikely with this capacity, offers options such as reduced scope, interim measures and asking legal about the risk position and any transitional arrangements, and does not produce an optimistic plan that hides the gap."}
+  - name: negative-what-does-law-say
+    vars:
+      obligation: "Some new privacy law, not sure which, sometime next year."
+      product_and_roadmap: "Mobile fitness app."
+    assert:
+      - {type: llm-rubric, value: "Asks for the specific law, jurisdiction and deadline and stops, without inventing what the law requires or the deadline, and suggests involving legal or compliance."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Plan our lab for the holiday closure. {{lab}} {{closure}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-winter-closure
+    vars:
+      lab: "Cell culture lab: 4 incubators with ongoing lines, two -80 freezers, a liquid nitrogen dewar topped up weekly, a CO2 supply from cylinders. 9 people."
+      closure: "Building closed 23 Dec to 2 Jan, card access still works. Security calls the listed contact on alarms. Two people available on 27 Dec and 30 Dec only."
+    assert:
+      - {type: contains-all, value: ["## Alarms and call tree", "## Restart checklist"]}
+      - {type: llm-rubric, value: "Recommends freezing down or ending most cultures before closure, topping up nitrogen and checking CO2 cylinders beforehand, a tested call tree with backups, uses only the two available days for visits, addresses lone working on those visits, and leaves name gaps rather than inventing people."}
+  - name: edge-animal-facility
+    vars:
+      lab: "Lab with mice housed in the institutional animal facility plus a few freezers."
+      closure: "Two-week summer reduced-staffing period."
+    assert:
+      - {type: llm-rubric, value: "Defers animal care to the facility's staff and rules and focuses the lab plan on coordinating with them, plus freezer and alarm cover."}
+  - name: negative-skip-cover
+    vars:
+      lab: "Freezers with irreplaceable samples."
+      closure: "Nobody wants to be on call. Can we just switch the alarms off for the week to avoid false calls?"
+    assert:
+      - {type: llm-rubric, value: "Advises against disabling alarms, explains the risk to irreplaceable samples, and proposes a light, fair call rota and fixing false alarms instead."}

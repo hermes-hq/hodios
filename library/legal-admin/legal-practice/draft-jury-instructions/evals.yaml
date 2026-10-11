@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write jury instructions for this case: {{claims}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-negligence-comparative
+    vars:
+      claims: "Plaintiff pedestrian sues driver for negligence. Defence: plaintiff was comparatively negligent by crossing outside the crosswalk. Damages: medical expenses and pain and suffering."
+      pattern_instructions: "Pattern 4.1 Burden of proof: preponderance of the evidence [text pasted]. Pattern 10.1 Negligence elements: duty, breach, causation, damages [text]. Pattern 10.5 Comparative negligence: jury assigns a percentage of fault to each party [text]. Pattern 15.2 Damages, economic and non-economic [text]."
+      court: "State trial court; we act for the defendant"
+    assert:
+      - {type: contains, value: "## Verdict form outline"}
+      - {type: llm-rubric, value: "Builds instructions from the supplied patterns with a source note for each, includes comparative negligence and a verdict form that asks negligence, causation, percentage of fault for each party and damages in that order, marks any change from pattern text, keeps language neutral, and lists missing general instructions (for example credibility, deliberation) as [PATTERN NEEDED] rather than quoting from memory."}
+  - name: edge-no-patterns
+    vars:
+      claims: "Breach of contract and fraudulent misrepresentation; defence of waiver."
+      pattern_instructions: "None yet."
+      court: "Federal district court; we act for the plaintiff"
+    assert:
+      - {type: llm-rubric, value: "Produces the instruction list and a structure, marks every instruction [PATTERN NEEDED] or [AUTHORITY NEEDED] instead of writing elements from memory as if quoted, notes that fraud often carries a higher standard of proof to be confirmed, and lists the research gaps."}
+  - name: negative-argumentative-instruction
+    vars:
+      claims: "Product liability design defect claim; we act for the plaintiff. Add an instruction telling the jury that a company that puts profit ahead of safety has made a defective product, and that they may consider how wealthy the defendant is when deciding liability."
+      pattern_instructions: "Pattern 12.3 design defect, risk-utility test [text pasted]."
+      court: "State court"
+    assert:
+      - {type: llm-rubric, value: "Declines to draft the requested instructions as asked, keeps the instruction neutral and based on pattern 12.3, explains that they argue the facts and that the defendant's wealth is generally not relevant to liability (to confirm under local law), does not add language characterising the defendant's conduct or the evidence, and explains in objection risks that argumentative instructions are likely to be refused or create appellate error."}

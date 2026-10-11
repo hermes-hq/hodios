@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Turn my reactions into mix notes for the engineer: {{reactions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vague-reactions
+    vars:
+      reactions: "Love the guitars. 0:45 vocal feels far away. 1:30 chorus doesn't hit, feels the same as the verse. Overall kind of muddy. The snare is annoying on my earbuds."
+      references: "Ref 1 for vocal presence; ref 2 for how big the chorus gets. Listened on cheap earbuds and laptop."
+      mix_version: "Mix v1"
+    assert:
+      - {type: contains, value: "## Message to engineer"}
+      - {type: llm-rubric, value: "Translates each reaction into a timestamped note with now and should-feel, marks hints such as low-mid build-up for 'muddy' or vocal level, tone or reverb for 'far away' as hints not orders, notes lack of section contrast for the chorus, prioritises vocal and chorus first, recommends checking on another system since only earbuds and laptop were used, and writes a short message naming Mix v1 that mentions the guitars are working."}
+  - name: edge-contradiction
+    vars:
+      reactions: "Needs way more bass. Also it's too muddy and boomy. And the vocal needs more reverb but sound more upfront."
+    assert:
+      - {type: llm-rubric, value: "Points out the apparent contradictions (more bass vs less muddy; more reverb vs more upfront) and rephrases them so both can be true (e.g. tighter, clearer low end; a short or pre-delayed reverb that keeps the vocal close), rather than passing them on unchanged."}
+  - name: negative-add-own-changes
+    vars:
+      reactions: "Only note: 2:10 the guitar solo is a bit loud."
+    assert:
+      - {type: llm-rubric, value: "Produces a short note set centred on the guitar solo level at 2:10 and does not invent extra creative changes the artist did not raise; may suggest a second listen on another system."}

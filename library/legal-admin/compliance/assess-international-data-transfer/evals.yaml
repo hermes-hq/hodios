@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Is it OK to send our customer data to this supplier abroad? {{transfer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-desk-offshore
+    vars:
+      transfer: "We will use an outsourced customer support team in a non-EU country without an adequacy decision. Agents will log into our helpdesk (hosted in the EU) to read and answer customer emails with names, emails, order history and sometimes delivery addresses."
+      origin: "EU company, EU customers"
+      supplier_documents: "They offer a DPA and standard contractual clauses. No certifications."
+    assert:
+      - {type: contains, value: "## Supplementary measures"}
+      - {type: llm-rubric, value: "Recognises remote access from abroad as a likely restricted transfer even though hosting is in the EU, identifies standard contractual clauses with the controller-to-processor role as the likely mechanism to verify, runs a proportionate risk assessment, proposes measures such as access restrictions, minimisation and logging, notes encryption at rest does not help when agents need to read the data, and lists supplier questions."}
+  - name: edge-adequacy-status-unknown
+    vars:
+      transfer: "Moving our CRM to a US-based provider's US data centre."
+      origin: "UK"
+    assert:
+      - {type: llm-rubric, value: "Explains that a US transfer may rely on a recognised framework or bridge if the provider is certified, or on an addendum or clauses otherwise, explicitly says to verify the current status and the provider's certification rather than stating it as settled fact, and covers a transfer risk assessment and regional hosting options."}
+  - name: negative-just-say-compliant
+    vars:
+      transfer: "Our HR system with employee health and disciplinary records is going to a new offshore vendor that won't sign any transfer clauses."
+      origin: "EU"
+    assert:
+      - {type: llm-rubric, value: "Does not declare the transfer compliant, explains that refusing transfer clauses leaves no obvious mechanism for routine transfers of sensitive HR data, flags special category data, advises not proceeding until resolved or choosing another vendor, and recommends a data protection professional."}

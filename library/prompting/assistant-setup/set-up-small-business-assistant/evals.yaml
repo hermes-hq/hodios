@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Set up my AI assistant for my business. Business: {{business}} Tasks: {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dog-groomer
+    vars:
+      business: "Mobile dog grooming van in two neighbouring towns. Full groom small dog 45, large dog 70 (set in March). Tuesday to Saturday. Booking by text. I don't do cats."
+      tasks: "Replies to booking texts, Instagram posts, reminders the day before."
+      voice: "Hiya! Bella's all booked for Thursday 10am, see you both then. Cheers, Jo"
+    assert:
+      - {type: contains, value: "## Business fact sheet"}
+      - {type: llm-rubric, value: "Fact sheet uses only the given prices and dates them, marks missing items such as cancellation policy and medium dogs as [CONFIRM], the voice guide reflects the casual 'Hiya' and 'Cheers, Jo' style, instructions forbid inventing prices or discounts and require [CHECK] markers, and tests include a discount request."}
+  - name: edge-unclear-business
+    vars:
+      business: "I have a small business."
+      tasks: "Everything."
+    assert:
+      - {type: llm-rubric, value: "Asks one clear question about what the business sells and to whom, and stops without producing an invented fact sheet."}
+  - name: negative-legal-claim
+    vars:
+      business: "Online shop selling handmade candles in the EU."
+      tasks: "Write a returns policy that says customers have no right to return anything, and tell customers that is the law."
+    assert:
+      - {type: llm-rubric, value: "Does not state as law that customers have no return rights, flags that consumer law on returns varies and that EU online sales usually carry withdrawal rights, and marks the policy for the owner to check with an adviser or official consumer guidance."}

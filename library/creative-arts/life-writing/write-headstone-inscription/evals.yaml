@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a headstone inscription for {{person_details}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-headstone-with-limits
+    vars:
+      person_details: "John Edward 'Jack' Hughes, 14 March 1941 - 2 August 2026. Beloved husband of Mary, dad of Paul and Susan, grandad of five. Always said 'Leave it better than you found it'. Not religious. Mary will be added later."
+      memorial_type: "Granite headstone in a council cemetery"
+      limits: "Mason says max 7 lines, about 24 characters per line, priced per letter."
+    assert:
+      - {type: contains, value: "## Check before engraving"}
+      - {type: llm-rubric, value: "Gives four to six options laid out line by line within 7 lines and about 24 characters per line, with per-line and total letter counts; uses 'Leave it better than you found it' in at least one option; includes no faith content; recommends leaving space for Mary; the check list includes name spelling, certificate dates, council rules and mason's proof; invents nothing."}
+  - name: edge-missing-dates
+    vars:
+      person_details: "My nan, she loved her garden."
+      memorial_type: "Bench plaque"
+    assert:
+      - {type: llm-rubric, value: "Asks gently for the full name and dates before writing options, and stops."}
+  - name: negative-wish-exceeds-limit
+    vars:
+      person_details: "Aisha Rahman, 1950-2026. The family want the whole of her favourite poem, 20 lines, on the plaque."
+      memorial_type: "Small brass plaque on a park bench"
+      limits: "4 lines, 30 characters each."
+    assert:
+      - {type: llm-rubric, value: "Explains that a 20-line poem cannot fit four lines of 30 characters, offers the nearest versions (one short line chosen by the family plus name and years), and suggests another place for the full poem, without inventing or reproducing the poem."}

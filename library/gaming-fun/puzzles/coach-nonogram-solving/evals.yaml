@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me solve this nonogram: {{puzzle}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-grid-technique
+    vars:
+      puzzle: "5x5. Rows: 5 / 1 1 / 5 / 1 / 1. Columns: 5 / 1 1 / 1 1 / 1 1 / 3."
+      hint_level: technique
+    assert:
+      - {type: icontains, value: "R1"}
+      - {type: llm-rubric, value: "Confirms the row and column totals match (14 each), prints a labelled grid, and gives one technique hint naming a specific line, such as row 1 or row 3 (clue 5) or column 1 (clue 5) being fully settled because the block fills the whole line; it does not solve the whole puzzle in one reply."}
+  - name: edge-partly-solved-nudge
+    vars:
+      puzzle: "5x5. Rows: 1 1 / 5 / 5 / 3 / 1. Columns: 2 / 4 / 4 / 4 / 2. I have already filled all of rows 2 and 3."
+      hint_level: nudge
+    assert:
+      - {type: llm-rubric, value: "Accepts the filled rows 2 and 3 as correct, shows them in the grid, and gives only a nudge naming a promising line (for example a column clue of 4, or row 4 with clue 3 via overlap) without listing the exact cells to fill."}
+  - name: negative-clue-too-long
+    vars:
+      puzzle: "5x5. Rows: 3 3 / 1 / 1 / 1 / 1. Columns: 1 / 1 / 1 / 1 / 1."
+      hint_level: reveal
+    assert:
+      - {type: llm-rubric, value: "Points out that the row clue 3 3 needs at least 7 cells in a 5-cell line (and that the clue totals differ), says the puzzle cannot be solved as given, and asks for corrected clues instead of producing a solution."}

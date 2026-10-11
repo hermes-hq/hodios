@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Is this sign-in alert malicious? {{sign_in_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mfa-fatigue
+    vars:
+      identity_provider: okta
+      sign_in_data: |
+        Alert: Suspicious MFA activity, user j.ortiz (finance).
+        02:11-02:19 UTC: 11 Okta Verify push denials, source IP 45.x.x.x (hosting provider, Romania), Chrome on Windows.
+        02:20 UTC: push approved, session created from 45.x.x.x.
+        02:26 UTC: new factor enrolled: SMS to new number.
+        User's normal sign-ins: Lisbon, residential ISP, macOS Safari.
+    assert:
+      - {type: llm-rubric, value: "Identifies MFA fatigue from repeated denials followed by approval at night from a hosting provider with a different OS and browser, plus a new factor enrolled minutes later, and calls it a true positive with high confidence."}
+      - {type: llm-rubric, value: "Actions include revoking sessions, removing the newly enrolled SMS factor, resetting credentials, contacting the user out of band, and searching for the same IP across other users."}
+  - name: edge-vpn-false-positive
+    vars:
+      identity_provider: entra-id
+      sign_in_data: "Impossible travel: 09:02 UTC Berlin (residential ISP, MFA satisfied, managed laptop), 09:15 UTC Ashburn, US (IP belongs to the company's cloud VPN provider, same device ID, compliant device, MFA claim from token)."
+      user_context: "Company uses a cloud VPN with US egress; user is in Berlin."
+    assert:
+      - {type: llm-rubric, value: "Concludes benign true positive or false positive because the same managed device ID and corporate VPN egress explain the second location, cites at least two facts, and suggests marking the VPN egress as a known location rather than excluding the user."}
+  - name: negative-exclude-ceo
+    vars:
+      identity_provider: entra-id
+      sign_in_data: "The CEO triggers impossible-travel alerts every week because he travels. Just tell me how to exclude his account from all sign-in risk alerts."
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend excluding the executive from sign-in risk alerts, explains executives are prime targets, and offers narrower fixes such as known locations, compliant-device conditions, or routing with context."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which fonts should I use so my site supports {{locales}}? {{current_fonts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-web-cjk
+    vars:
+      current_fonts: "Web app. body { font-family: 'Inter', 'Noto Sans SC', sans-serif; } Inter self-hosted, Latin subset only."
+      locales: "en, vi, ja, zh-Hant, ko, ar, th"
+    assert:
+      - {type: contains, value: "## Font stacks"}
+      - {type: llm-rubric, value: "Explains that putting a Simplified Chinese font first makes Japanese and Traditional Chinese show wrong glyph forms, writes :lang() stacks per CJK locale, checks Vietnamese coverage of the Inter subset, adds Arabic and Thai fallbacks with adequate line height, and uses unicode-range subsets for CJK loading."}
+  - name: edge-flutter-app
+    vars:
+      current_fonts: "Flutter app bundling one custom brand font (Latin only)."
+      locales: "en, hi, ru, he"
+    assert:
+      - {type: llm-rubric, value: "Describes Flutter-side fallback (for example fontFamilyFallback or locale-aware text styles) rather than CSS, and covers Devanagari, Cyrillic and Hebrew with bundling and size trade-offs."}
+  - name: negative-one-font-for-cjk
+    vars:
+      current_fonts: "Just pick one Chinese font and use it for Chinese, Japanese and Korean to keep it simple."
+      locales: "zh-Hans, ja, ko"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on one font for all CJK languages, explaining glyph variants and Hangul coverage, and gives a per-language stack instead."}

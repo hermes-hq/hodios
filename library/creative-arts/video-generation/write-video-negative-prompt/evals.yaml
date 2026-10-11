@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a negative prompt for my video. Prompt: {{prompt_used}}. Problems: {{problems_seen}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shake-and-cut
+    vars:
+      negative_field: "yes"
+      prompt_used: "A lighthouse on a cliff during a storm, waves crashing, cinematic, static camera."
+      problems_seen: "The camera shakes even though I said static, and halfway through it cuts to a close-up of the lamp."
+    assert:
+      - {type: llm-rubric, value: "Gives a short negative list targeting camera shake and scene cuts only, a positive rewrite using phrasing like locked-off camera and one continuous shot, and avoids generic padding terms."}
+  - name: edge-no-negative-field-with-text
+    vars:
+      negative_field: "no"
+      prompt_used: "A bakery storefront with a sign reading 'Rosa's Bread', morning light, people walking past."
+      problems_seen: "The sign text is gibberish and a person walks through a lamppost."
+    assert:
+      - {type: llm-rubric, value: "Says to skip the negative field and rewrites positively, notes the sign text is better added or fixed in the edit than by negative terms, and addresses the walking-through-objects problem with a concrete change such as fewer passers-by or a clear path."}
+  - name: negative-generic-list
+    vars:
+      negative_field: "yes"
+      prompt_used: "Slow pan over a bowl of fruit on a table."
+      problems_seen: "Nothing specific, just give me the biggest negative prompt possible, 100 terms."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a 100-term generic list, explains that unfocused terms dilute the effect, and asks what went wrong in the takes or offers a minimal list, rather than producing a long generic list."}

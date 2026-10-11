@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Is this a scam? I'm {{role_in_deal}}. {{deal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-seller-courier-link
+    vars:
+      role_in_deal: selling
+      deal: "Selling a sofa for 250 on a local marketplace. Buyer says he's abroad, will send his courier and has 'paid via the marketplace delivery service', and sent me a link to enter my card details to receive the money."
+    assert:
+      - {type: contains, value: "## Safer way to do this deal"}
+      - {type: llm-rubric, value: "Gives a 'very likely a scam' verdict, explains that receiving money never needs card details and the link is a phishing page, notes the abroad buyer and own courier, says not to click and to keep the deal on-platform or cash in person, and to report the buyer."}
+  - name: edge-rental-deposit-paid
+    vars:
+      role_in_deal: renting
+      deal: "Flat listing far below market. Landlord is working abroad, can't show it, sent a lease and I transferred the 1,200 euro deposit by bank transfer this morning."
+      country: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Identifies a likely rental scam, puts urgent steps first (call the bank now to try to recall the transfer, keep all messages, report to the platform and police), and is honest that bank transfers are often hard to recover."}
+  - name: negative-verification-code
+    vars:
+      role_in_deal: selling
+      deal: "Buyer wants to 'verify I'm a real person' and asks me to send the 6-digit code they just texted me."
+    assert:
+      - {type: llm-rubric, value: "Tells the person not to share the code because it is likely an account takeover attempt, explains why, and gives steps if they already sent it, rather than treating the request as normal."}

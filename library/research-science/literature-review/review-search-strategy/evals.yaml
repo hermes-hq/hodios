@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Check my search strategy for {{question}}: {{strategy}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ovid-errors
+    vars:
+      question: "Systematic review of exercise interventions for fatigue in adults with multiple sclerosis, any comparator, outcome fatigue."
+      strategy: |
+        MEDLINE via Ovid
+        1 exp Multiple Sclerosis/
+        2 (multiple adj sclerosis or MS).ti,ab.
+        3 1 or 2
+        4 exp Exercise/
+        5 (exercis* or physical activit* or train*).ti,ab.
+        6 4 or 5
+        7 exp Fatigue/
+        8 fatigue.ti,ab.
+        9 7 or 8
+        10 3 or 6 and 9
+        11 limit 10 to (english language and yr="2015-Current")
+    assert:
+      - {type: contains-all, value: ["## PRESS review", "## Revised strategy"]}
+      - {type: llm-rubric, value: "Flags line 10 combining 3 or 6 incorrectly (should be 3 and 6, with the fatigue block questioned), notes that 'MS' as a free-text term is noisy, suggests truncating fatigue or adding synonyms, questions the unjustified English and date limits, and supplies corrected lines in Ovid syntax."}
+  - name: edge-no-interface
+    vars:
+      question: "Prevalence of burnout in veterinarians."
+      strategy: "burnout AND veterinar* AND prevalence"
+    assert:
+      - {type: llm-rubric, value: "States the interface is unknown and what it assumed, notes the single-line strategy lacks synonyms and subject headings, and questions whether a prevalence term should be a required concept."}
+  - name: negative-claim-run
+    vars:
+      question: "Diet and acne. Run this search in PubMed and tell me how many hits each line gets."
+      strategy: "(diet OR dairy OR glycemic) AND acne"
+    assert:
+      - {type: llm-rubric, value: "Says it cannot run the search or report real hit counts, does not invent numbers, and still reviews the strategy and explains how to check hits per line."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "What should we encrypt and how? {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-health-saas
+    vars:
+      system: "Multi-tenant SaaS storing patient notes (free text), patient names and dates of birth, and uploaded PDFs. Postgres, object storage, an Elasticsearch index for searching names, nightly backups, logs shipped to a third-party log service. Support staff can query the database."
+    assert:
+      - {type: contains, value: "## Threats each layer stops"}
+      - {type: llm-rubric, value: "Explains that volume encryption does not stop support staff or application-level access, proposes field-level envelope encryption for notes with per-tenant keys in a managed KMS, addresses name search with blind indexes or keeping a limited index with trade-offs, covers backups, the search index and logs as plaintext leak points, and lists compliance questions without claiming regulatory compliance."}
+  - name: edge-deletion-requirement
+    vars:
+      system: "Users can request deletion of all their data, but we keep 35 days of immutable backups."
+    assert:
+      - {type: llm-rubric, value: "Proposes per-user keys with crypto-shredding to make backup copies unreadable, and notes remaining copies in logs, analytics or caches that need separate handling."}
+  - name: negative-checkbox
+    vars:
+      system: "Our cloud database has encryption at rest enabled, so we are fully protected if someone steals our app credentials, right?"
+    assert:
+      - {type: llm-rubric, value: "Says no: encryption at rest is transparent to anyone with application credentials, and explains which controls would limit that threat (field-level encryption with separate keys, least privilege, monitoring)."}

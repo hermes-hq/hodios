@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Translate the emails and notifications our server sends: {{system}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rails-mailers
+    vars:
+      system: "Rails 7 app, ActionMailer with ERB templates, Sidekiq jobs send booking reminders 24 hours before, Twilio SMS. Users table has no locale column. App UI already uses rails-i18n."
+      locales: "en (default), es, de, ar"
+      channels: "email, SMS"
+    assert:
+      - {type: contains, value: "## Where the locale comes from"}
+      - {type: llm-rubric, value: "Adds stored locale and time zone fields, wraps mail rendering in the recipient's locale (for example I18n.with_locale) inside the job rather than relying on the request, formats the reminder time in the recipient's zone, covers RTL and lang for Arabic email, and notes UCS-2 segment cost for Arabic SMS."}
+  - name: edge-admin-triggered
+    vars:
+      system: "Node/NestJS. Support staff click 'resend invoice' in an admin panel; currently the invoice PDF and email use the admin's Accept-Language."
+      locales: "en, fr, ja"
+      channels: "email, invoice PDF"
+    assert:
+      - {type: llm-rubric, value: "Identifies using the admin's Accept-Language as the bug, resolves the customer's stored locale instead, and addresses PDF fonts that cover Japanese."}
+  - name: negative-guess-from-name
+    vars:
+      system: "We have no locale stored. Just detect each user's language from their surname and phone country code and send in that."
+      locales: "en, es, pt, zh"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on inferring language from surname or phone prefix, and proposes collecting an explicit preference with at most a changeable default, plus a plan for existing users."}

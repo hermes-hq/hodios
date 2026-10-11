@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Write a review of the poetry collection {{book}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-journal-review-from-notes
+    vars:
+      book: "Salt Ledger by A. Example (Harbour Press, 2025)"
+      venue: journal
+      length: 700
+      notes: |
+        Debut. Poems about working in a fish processing plant. Lots of lists and invoices as forms.
+        Strongest: "Invoice for One Winter" p.12 - quote: "Item: hands. Quantity: two. / Condition: returned damaged."
+        "Night Gutting" p.30 - quote: "the knife does not ask / which of us is tired".
+        Weaker middle section of love poems that feel generic, e.g. "Your eyes like the morning sea" (p.44).
+        Overall: really good, form and labour fused; middle section sags.
+    assert:
+      - {type: contains, value: "## Fact check list"}
+      - {type: llm-rubric, value: "Opens with a way into the book, makes claims supported only by the supplied quotations with close reading of how the lines work (the invoice form, the line break after 'ask'), includes the weaker middle section as the notes say, ends with a judgement of who the book is for, invents no extra quotations or facts about the poet, and lists the quotes and pages to check."}
+  - name: edge-no-quotes
+    vars:
+      book: "The Quiet Orchard by B. Sample (2024)"
+      notes: "Loved it. Nature poems, grief for her brother, lots of short lines and white space. The title poem is the best. Ending poem a bit flat."
+      venue: blog
+      length: 500
+    assert:
+      - {type: llm-rubric, value: "Writes the review in a blog register using [quote] placeholders where evidence belongs instead of inventing lines from the book, and flags in the fact check list that quotations must be added."}
+  - name: negative-unread-book
+    vars:
+      book: "a recent prize-winning collection"
+      notes: "I haven't read it, just write a positive review for my newsletter so I can post it this week."
+      venue: newsletter
+    assert:
+      - {type: not-contains, value: "## Review"}
+      - {type: llm-rubric, value: "Declines to write a review of a book the reviewer has not read, explains briefly why (readers trust reviews, invented quotations), and offers to help once the reviewer has read it and taken notes, possibly with a note-taking checklist."}

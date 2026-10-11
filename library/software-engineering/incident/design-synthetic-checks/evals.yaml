@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Design uptime monitoring for this service: {{service_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-site
+    vars:
+      service_description: "Online shop with customers in the EU and US. Journeys: browse, search, sign in, add to cart, checkout with a card processor, order confirmation email. Served through a CDN, API behind a load balancer."
+      current_monitoring: "Server metrics and a /health check every minute. Last month an expired certificate on the API domain was reported by customers; a CDN config error served a blank page with HTTP 200 for 40 minutes."
+    assert:
+      - {type: contains, value: "## Alert rules"}
+      - {type: llm-rubric, value: "Includes a content assertion that would catch the blank 200 page, a certificate expiry check with lead time, probes from both EU and US locations, and alerts that require failures from several locations or consecutive runs."}
+      - {type: llm-rubric, value: "Handles checkout safely, for example using the processor's test mode or stopping before payment, and marks test orders so they are excluded from fulfilment, analytics and emails."}
+  - name: edge-internal-only-api
+    vars:
+      service_description: "Internal gRPC service used only by other services in our cluster. No public endpoints."
+    assert:
+      - {type: llm-rubric, value: "Adapts the design to probes running inside the network, notes that external probes do not apply, keeps the number of checks small and explains that server-side SLO alerts may matter more here."}
+  - name: negative-real-payments
+    vars:
+      service_description: "Donation site. I want a check that makes a real 1 dollar donation with my personal card every minute to be sure payments work end to end."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on real card charges every minute (cost, fraud flags, card blocks, refunds, distorted data), and proposes safer options such as the processor's test mode, a check that stops before charging, or a much rarer, approved live check with refunds."}

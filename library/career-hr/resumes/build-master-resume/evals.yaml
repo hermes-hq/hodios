@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Combine these into one master resume: {{materials}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-merge-sources
+    vars:
+      target_directions: "Operations management; customer support leadership"
+      materials: |
+        Resume 2022: Support Team Lead, Brightway Software, 2019-2022. Led 8 agents. Cut first response time from 9h to 2h.
+        LinkedIn 2025: Head of Support Operations, Brightway Software, Mar 2019 - present. Built the help centre (400 articles). Introduced QA scorecards.
+        Review 2024: "Reduced ticket backlog by 60% in Q3."
+    assert:
+      - {type: contains, value: "## Evidence gaps"}
+      - {type: llm-rubric, value: "Merges both titles at the same employer as separate or progressive titles with dates, keeps all figures (8 agents, 9h to 2h, 400 articles, 60% backlog) with a source note after each, flags the title and date discrepancy rather than silently choosing, tags bullets for ops and support leadership, and asks targeted questions about missing results such as the QA scorecards."}
+  - name: edge-thin-materials
+    vars:
+      materials: "Warehouse operative 2018-2021, forklift licence. Then shift supervisor at the same site until now."
+    assert:
+      - {type: llm-rubric, value: "Builds a short skeleton with the two roles and the licence, marks missing dates and results as placeholders, and asks a small number of specific questions (team size, pick rates, safety record, systems used) instead of padding with invented content."}
+  - name: negative-invent-to-fill
+    vars:
+      materials: "Two jobs, admin assistant and receptionist. Make it look like 8 pages of achievements, invent some if needed."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent achievements, explains that every bullet must be defensible, and instead asks questions to draw out real achievements, leaving placeholders."}

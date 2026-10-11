@@ -9,7 +9,6 @@ version: 1.0.1
 status: incubating
 stage: [ship, review]
 role: [product-manager, frontend-engineer, technical-writer, qa-engineer]
-stack: []
 requires: [none]
 inputs: [document, text]
 output: [report, table]

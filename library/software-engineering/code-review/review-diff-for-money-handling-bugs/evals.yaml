@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Review this money handling code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-split-and-float
+    vars:
+      rules: "Supports EUR, USD and JPY. Payment provider API takes amounts in minor units."
+      diff: |
+        +function splitBill(total: number, people: number): number[] {
+        +  const share = Math.round((total / people) * 100) / 100;
+        +  return Array(people).fill(share);
+        +}
+        +
+        +async function charge(amount: number, currency: string, card: string) {
+        +  return provider.charge({ amount: amount * 100, currency, card });
+        +}
+    assert:
+      - {type: contains, value: "## Tests to add"}
+      - {type: llm-rubric, value: "Flags that splitting 100.00 among 3 gives 33.33 each and loses a cent (or gains one for other totals), recommending allocating the remainder deterministically, and flags floating point use for amounts."}
+      - {type: llm-rubric, value: "Flags that multiplying by 100 is wrong for JPY (zero minor units) and can produce non-integers from floats, and that the charge has no idempotency key so a retry can double charge."}
+  - name: edge-correct-integer-code
+    vars:
+      rules: "EUR only, amounts stored as integer cents, banker's rounding agreed with finance."
+      diff: |
+        +    total_cents = sum(line.unit_cents * line.qty for line in lines)
+    assert:
+      - {type: llm-rubric, value: "Treats the integer-cent summation as correct, does not invent rounding issues, and at most mentions overflow only if relevant to the language."}
+  - name: negative-tax-rule-unknown
+    vars:
+      diff: |
+        +    vat = round(net * 0.2, 2)
+        +    gross = net + vat
+    assert:
+      - {type: llm-rubric, value: "Does not assert the correct VAT rate or whether rounding should be per line or per invoice; lists these as rules to confirm with finance, shows how the outcomes differ with a worked example, and notes the float and hardcoded rate concerns."}

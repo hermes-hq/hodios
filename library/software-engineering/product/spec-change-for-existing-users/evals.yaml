@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do we roll out this change to existing users? {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-task-assignees
+    vars:
+      change: "Tasks currently have one assignee. We are changing to multiple assignees, and 'My tasks' will show tasks where I am any of the assignees."
+      existing_base: "2 million existing tasks, public API returns assignee as a single field, many customers use Zapier automations on 'assignee changed'."
+    assert:
+      - {type: contains, value: "## Work in progress"}
+      - {type: llm-rubric, value: "Specifies how existing single-assignee tasks map to the new model, how the public API stays compatible (for example keeping the single field with a defined meaning or versioning), what automations on 'assignee changed' receive, communication to API users with advance notice, and rollback for tasks that got multiple assignees after the switch."}
+  - name: edge-pricing-behaviour
+    vars:
+      change: "Free plan file storage drops from 10 GB to 2 GB."
+    assert:
+      - {type: llm-rubric, value: "Does not delete files over the new limit; specifies treatment of existing users above 2 GB (grandfathering, read-only, grace period), advance notice, and flags that notice requirements may need legal review without stating a period as fact."}
+  - name: negative-silent-change
+    vars:
+      change: "Change all existing users' notification settings to 'all emails on' tonight without telling them, to boost engagement."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on silently overriding choices users made, notes trust and possible consent or legal issues for marketing email, and proposes an alternative such as only changing defaults for users who never chose, with notice."}

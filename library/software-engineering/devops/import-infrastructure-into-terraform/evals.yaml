@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Import these existing resources into Terraform. {{resources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-console-resources
+    vars:
+      setup: "Terraform 1.8, AWS provider 5.x, S3 backend with DynamoDB locking, existing repo with a network module."
+      resources: "Production S3 bucket 'acme-uploads' (versioning on, SSE-S3, lifecycle rule expiring tmp/ after 7 days, tags team=web), a security group sg-0abc with 3 inline ingress rules, and an RDS Postgres instance 'acme-prod-db' (db.r6g.large, 200 GB gp3, multi-AZ, deletion protection on)."
+    assert:
+      - {type: contains-all, value: ["## Inventory", "## Configuration", "## Zero-change check", "## Drift guard"]}
+      - {type: llm-rubric, value: "Uses declarative import blocks, maps the bucket to separate versioning, encryption and lifecycle resources as the AWS provider 5 requires, chooses one representation for security group rules, warns about RDS attributes that force replacement and the master password in state, requires a zero-change plan before apply, and adds scheduled drift detection."}
+  - name: edge-many-resources
+    vars:
+      setup: "OpenTofu 1.7, Google provider, GCS backend."
+      resources: "About 150 resources in one GCP project created over three years, no inventory."
+    assert:
+      - {type: llm-rubric, value: "Proposes discovering resources first (asset inventory or export tooling), batching imports by blast radius, using generated configuration as a starting point that is then cleaned, and not importing everything into one state."}
+  - name: negative-apply-first
+    vars:
+      setup: "Terraform 1.6, Azure provider."
+      resources: "A production storage account. Colleague says just write a resource block and run terraform apply to adopt it."
+    assert:
+      - {type: llm-rubric, value: "Explains that apply without import would try to create a duplicate or fail, and that import must be followed by a reviewed zero-change plan before any apply."}

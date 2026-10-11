@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a list of action items from these meeting notes: {{meeting_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-meetings
+    vars:
+      meeting_notes: "3 Sep: Kim to draft volunteer policy by 17 Sep. Ali to get two quotes for the hall roof. We should update the website.\n17 Sep: Kim - policy needs another week, now 24 Sep. Ali has one quote, chasing second.\n1 Oct: Policy approved. Treasurer report. Ali away."
+      today: 8 October
+    assert:
+      - {type: contains, value: "## Tracker"}
+      - {type: llm-rubric, value: "Shows Kim's policy as one row with its due date moved to 24 Sep and closed as approved on 1 Oct, Ali's quotes as open and not mentioned since 17 Sep (not marked done or abandoned), and the website update as having no owner, with these last two listed under needs attention."}
+  - name: edge-conflicting-status
+    vars:
+      meeting_notes: "Meeting A (5 May): Lee to send contract to supplier by 12 May. Meeting B (19 May): Lee said contract sent. Meeting C (2 June): supplier says they never got the contract; Lee to resend."
+      today: 3 June
+    assert:
+      - {type: llm-rubric, value: "Records the conflict between 'sent' and the supplier not receiving it, keeps one row for the contract with its history, shows the item as open again after meeting C, and does not invent a new due date for the resend."}
+  - name: negative-single-vague-note
+    vars:
+      meeting_notes: "We talked about lots of stuff, everyone has things to do."
+      today: 1 May
+    assert:
+      - {type: llm-rubric, value: "Says no actions, owners or meetings can be identified from the input and asks for the actual notes, rather than fabricating a tracker."}

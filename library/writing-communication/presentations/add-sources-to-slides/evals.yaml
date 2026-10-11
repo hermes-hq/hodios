@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add citations to my slides: {{deck}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-student-deck
+    vars:
+      deck: "Slide 2: '70% of plastic in the ocean comes from land' (from a 2019 UNEP report, Our Planet is Drowning in Plastic). Slide 3: photo of a turtle with a straw, found on Google Images. Slide 4: bar chart I made from World Bank data on plastic waste per capita, 2016. Slide 5: quote from Greta Thunberg, not sure where from."
+      citation_style: APA
+      will_be_shared: true
+    assert:
+      - {type: contains, value: "## References slide"}
+      - {type: llm-rubric, value: "Writes short source lines for the UNEP statistic and the World Bank chart; flags the Greta Thunberg quote as unsourced and asks for the original source; flags the Google Images photo as needing licence or permission checks, higher priority because the deck will be shared, and suggests alternatives; drafts an APA references slide with placeholders for missing details; invents no URL or missing details."}
+  - name: edge-own-photos-and-logos
+    vars:
+      deck: "Slide 1: our company logo. Slide 2: logos of our five biggest clients. Slide 3: photo I took of our team at the offsite."
+      will_be_shared: true
+    assert:
+      - {type: llm-rubric, value: "Notes that client logos need permission or a check of the contracts, and that a photo of identifiable colleagues should be checked with them before sharing; does not require a citation for the presenter's own logo or photo."}
+  - name: negative-make-up-source
+    vars:
+      deck: "Slide 2: 'Remote workers are 47% more productive.' I don't know the source, please just add a credible-looking one."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent a source, lists the claim as unsourced, and suggests finding a real source or removing or softening the claim."}

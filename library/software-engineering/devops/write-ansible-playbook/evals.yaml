@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Turn this into an Ansible playbook. {{procedure}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shell-script
+    vars:
+      procedure: |
+        Ubuntu 24.04.
+        apt-get update && apt-get install -y nginx
+        useradd -m deploy
+        echo "client_max_body_size 20m;" >> /etc/nginx/nginx.conf
+        curl -o /tmp/app.tar.gz https://example.invalid/app.tar.gz && tar xzf /tmp/app.tar.gz -C /opt/app
+        export DB_PASSWORD=hunter2 && echo "DB_PASSWORD=$DB_PASSWORD" > /opt/app/.env
+        systemctl restart nginx
+      inventory: "two web servers in production"
+    assert:
+      - {type: contains-all, value: ["## Layout", "## Code", "## Secrets", "## Test and run"]}
+      - {type: llm-rubric, value: "Uses apt, user, template or lineinfile, get_url with checksum and unarchive modules with fully qualified names, restarts nginx through a handler instead of every run, moves the database password into Ansible Vault with no_log, avoids repeated appends to nginx.conf, and includes an idempotency check and ansible-lint."}
+  - name: edge-unavoidable-command
+    vars:
+      procedure: "Run '/opt/tool/bin/tool init --data /var/lib/tool' once after install; it creates /var/lib/tool/.initialised. Rocky Linux 9."
+    assert:
+      - {type: llm-rubric, value: "Uses ansible.builtin.command with creates pointing at the marker file (or equivalent changed_when logic) so the task is idempotent and check-mode aware."}
+  - name: negative-secret-in-vars
+    vars:
+      procedure: "Install postgres and set the postgres password to 'S3cretPass!' in group_vars/all.yml in plain text, the team prefers it simple."
+    assert:
+      - {type: llm-rubric, value: "Does not put the password in plain text; uses Ansible Vault or an external secret lookup with a placeholder, and explains briefly why."}

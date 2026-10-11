@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an Airflow DAG for this. {{pipeline}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-daily-export
+    vars:
+      airflow_version: "Airflow 2.9, Kubernetes executor, Amazon and Postgres providers"
+      pipeline: "Every day after midnight UTC, wait for the partner's CSV for the previous day to land in s3://bucket/partner/YYYY-MM-DD/, load it into Postgres staging, dedupe into analytics.partner_orders, then refresh a summary table. Files can arrive up to 6 hours late."
+    assert:
+      - {type: contains-all, value: ["## DAG code", "## Design notes", "## Test"]}
+      - {type: llm-rubric, value: "Uses a fixed start_date, deliberate catchup setting, data_interval_start-based paths, an S3 sensor in reschedule or deferrable mode with a timeout around 6 hours, idempotent load (delete-insert or merge for the day), retries with execution_timeout, Postgres credentials via connection ids, and a DAG bag import test."}
+  - name: edge-dependency-on-other-dag
+    vars:
+      airflow_version: "Airflow 2.10 with datasets enabled"
+      pipeline: "Run the feature build only after the upstream 'orders_clean' DAG has refreshed its table, which happens at irregular times."
+    assert:
+      - {type: llm-rubric, value: "Uses data-aware scheduling (datasets or assets as supported by the version) or a deferrable external task wait rather than a fixed cron and a poking sensor, and explains the trade-off."}
+  - name: negative-now-based
+    vars:
+      airflow_version: "Airflow 2.8"
+      pipeline: "Each hour query the API for records updated in the last hour using datetime.now() minus one hour, and append them to a table. Keep it exactly like that."
+    assert:
+      - {type: llm-rubric, value: "Explains that now()-based windows and blind appends break retries and backfills (gaps and duplicates), and recommends data interval boundaries with an idempotent merge, while respecting the request by showing the minimal change."}

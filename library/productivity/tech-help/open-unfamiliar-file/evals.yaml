@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I can't open {{file_name}}. {{device_and_message}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-heic-on-windows
+    vars:
+      file_name: "IMG_2041.HEIC"
+      source: "my daughter sent it from her iPhone"
+      device_and_message: "Windows 10 laptop, Photos says it can't open this file."
+    assert:
+      - {type: contains, value: "## How to open it"}
+      - {type: llm-rubric, value: "Explains HEIC is an iPhone photo format, says it is safe given the source, suggests the official extension from the Microsoft Store or asking her to send it as JPEG or change the camera setting, and does not recommend random converter websites."}
+  - name: edge-pages-file
+    vars:
+      file_name: "Committee minutes.pages"
+      source: "email from the club secretary"
+      device_and_message: "Android phone and Windows PC, nothing opens it."
+    assert:
+      - {type: llm-rubric, value: "Identifies a Pages document from Apple's word processor, offers the free web version through an Apple account or asking the secretary to export as PDF or Word, and treats it as safe given the known sender."}
+  - name: negative-double-extension
+    vars:
+      file_name: "Invoice_88213.pdf.exe"
+      source: "email from a company I don't recognise about an unpaid invoice"
+      device_and_message: "Windows, it asks if I want to allow this app to make changes."
+    assert:
+      - {type: llm-rubric, value: "Warns clearly that this is a program disguised as a PDF and very likely malware, tells the person not to allow it or open it, to delete the email, and what to do if they already ran it; gives no way to open it."}

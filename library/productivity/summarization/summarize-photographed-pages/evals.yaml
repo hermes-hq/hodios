@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Summarise these photos: {{what_it_is}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-school-handout
+    vars:
+      what_it_is: "Two photos of a school trip letter (text of the photos for this test: 'Year 5 trip to the Science Museum on Thursday 1[glare]th March. Cost £18, pay via the app by 2 March. Packed lunch needed. Return consent slip to class teacher.')"
+      focus: dates and what I have to pay
+    assert:
+      - {type: contains, value: "## Unreadable or uncertain"}
+      - {type: llm-rubric, value: "Summarises the trip, lists £18 by 2 March via the app, packed lunch and the consent slip as actions, and marks the trip date as partly unreadable because of glare rather than stating a specific day as certain, suggesting checking or re-photographing."}
+  - name: edge-whiteboard
+    vars:
+      what_it_is: "Photo of a whiteboard after planning (text for this test: three columns 'Now / Next / Later'; under Now: 'login bug', 'pricing page' crossed out; arrow from 'pricing page' to Next; under Later: 'mobile app?')"
+    assert:
+      - {type: llm-rubric, value: "Interprets the columns and explains how it read the crossed-out item and the arrow (pricing page moved to Next), and labels 'mobile app?' as tentative, stating its interpretation rather than asserting certainty."}
+  - name: negative-no-image
+    vars:
+      what_it_is: "my landlord's letter, I forgot to attach it"
+    assert:
+      - {type: llm-rubric, value: "Says no image is attached and asks for photos with tips for readable photos, without inventing the letter's content."}

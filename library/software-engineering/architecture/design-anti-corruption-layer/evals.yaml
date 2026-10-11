@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me integrate with this system: {{foreign_system}} Our domain: {{our_domain}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-legacy-erp
+    vars:
+      our_domain: "Customer (a company) with Contacts (people), Subscription with states trial, active, past_due, cancelled. All dates in UTC."
+      foreign_system: "A 20-year-old ERP where accounts and contacts are rows in one PARTY table distinguished by a TYPE char, statuses are integers 1-9 (some undocumented), dates are local time strings without zone, and customer numbers are reused after deletion."
+      direction: "We read customers from the ERP nightly and write subscription status back. The ERP should be retired in two years."
+    assert:
+      - {type: contains, value: "## Concept mapping"}
+      - {type: llm-rubric, value: "Maps the single PARTY table into separate Customer and Contact concepts, translates integer statuses with undocumented ones flagged as unknowns, converts local time strings to UTC with a stated time zone assumption, and owns an id mapping that copes with reused customer numbers."}
+      - {type: llm-rubric, value: "Keeps ERP types out of the domain, covers invariant violations and reconciliation, and gives an exit plan that moves concepts off the ERP one at a time."}
+  - name: edge-thin-wrapper-enough
+    vars:
+      our_domain: "We send transactional emails: to, template, variables."
+      foreign_system: "A modern email provider REST API whose message model (to, template id, variables) matches ours closely."
+    assert:
+      - {type: llm-rubric, value: "Concludes a full anti-corruption layer is unnecessary and recommends a thin client wrapper behind an interface, explaining why."}
+  - name: negative-invent-field-meanings
+    vars:
+      our_domain: "Order with lines and a fulfilment status."
+      foreign_system: "Warehouse system exposes fields FLG_A, FLG_B and STAT2 with no documentation."
+    assert:
+      - {type: llm-rubric, value: "Does not assert what FLG_A, FLG_B or STAT2 mean; lists them as unknowns to confirm with the warehouse system owners or by sampling data, and designs the mapping so unknown values are quarantined rather than guessed."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an opening statement for trial. Facts: {{case_facts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrongful-dismissal
+    vars:
+      case_facts: "Client, a warehouse supervisor of 11 years, reported a forklift safety defect by email on 2 May (exhibit 3). She was dismissed on 20 May for 'lateness' (exhibit 5). Timesheets show two late arrivals in 11 years (exhibit 8, payroll manager to testify). Her manager will say the decision was made in April, but the only record is dated 19 May (exhibit 6). Bad fact: she swore at the manager on 15 May (witness: co-worker)."
+      side_and_forum: "Claimant, jury trial, US state court, 15 minutes"
+    assert:
+      - {type: contains, value: "## Evidence promise list"}
+      - {type: llm-rubric, value: "Opens with the story rather than thanks, uses a short theme about the timing of the report and dismissal, presents facts as what the evidence will show, addresses the swearing incident before the defence does, maps every factual line to the listed exhibits or witnesses, stays roughly within 15 minutes, and avoids personal opinions on credibility."}
+  - name: edge-no-theme-bench-trial
+    vars:
+      case_facts: "Commercial dispute over late delivery of machine parts; contract clause 9 sets delivery dates; emails show the buyer changed specifications twice."
+      side_and_forum: "Seller, judge alone, England and Wales, no fixed time limit"
+    assert:
+      - {type: llm-rubric, value: "Proposes theme options, adapts tone and length for a judge rather than a jury (more concise, issues-led), notes that opening practice in that forum may differ and flags it for the advocate, and maps statements to the contract and emails."}
+  - name: negative-overpromise
+    vars:
+      case_facts: "Defence in a theft trial. We have no alibi witness yet, but tell the jury that a witness will confirm he was at his mother's house, and say the police officer is known to lie."
+      side_and_forum: "Defence, jury, Ontario"
+    assert:
+      - {type: llm-rubric, value: "Refuses to promise an alibi witness who is not confirmed and to call the officer a liar, explains that unkept promises and personal attacks damage credibility and draw objections, and drafts an opening based on the burden of proof and the evidence actually available."}

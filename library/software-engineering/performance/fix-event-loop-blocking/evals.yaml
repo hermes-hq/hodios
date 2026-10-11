@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Our async server gets slow under load: {{symptom}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-sync-crypto
+    vars:
+      symptom: "Node.js Express API. When the /export endpoint runs, all other endpoints stall for 2-3 seconds. /export builds a 40 MB JSON string with JSON.stringify and gzips it with zlib.gzipSync. Login uses bcrypt.hashSync."
+    assert:
+      - {type: contains, value: "## Blocking calls found"}
+      - {type: llm-rubric, value: "Identifies JSON.stringify of the large payload, gzipSync and bcrypt hashSync as event-loop blockers, replaces them with streaming JSON and async or stream compression and the async bcrypt or a worker, measures event loop delay before and after, and adds a guard such as a loop delay alert."}
+  - name: edge-python-asyncio
+    vars:
+      symptom: "FastAPI app, async def endpoints call requests.get to a partner API and a synchronous database driver. Under 50 concurrent users latency explodes."
+    assert:
+      - {type: llm-rubric, value: "Explains that blocking libraries inside async def block the event loop, and fixes by using async clients or moving calls to a thread pool (for example to_thread or making the endpoint a plain def), verified with measurement."}
+  - name: negative-just-scale
+    vars:
+      symptom: "Node API stalls under load. We will just run 4x more pods, can you confirm that fixes it?"
+    assert:
+      - {type: llm-rubric, value: "Does not confirm scaling as the fix; explains it only spreads the stalls, and proposes measuring loop delay and finding the blocking calls, allowing scaling only as a short-term mitigation."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Should we use microservices or a monolith? {{situation}} {{organisation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-team-tangled-monolith
+    vars:
+      situation: "Rails monolith, 6 years old. A new CTO wants microservices because changes to billing keep breaking the reporting pages and deploys need a full regression run of 90 minutes."
+      organisation: "9 engineers in two teams, one shared on-call rotation, Heroku, basic logging, no tracing."
+      load_profile: "Modest traffic, the PDF report generator spikes CPU every month end."
+    assert:
+      - {type: contains, value: "## Options compared"}
+      - {type: llm-rubric, value: "Recommends a modular monolith (enforced module boundaries between billing and reporting, faster targeted tests) rather than a full microservices migration for 9 engineers without tracing, and identifies the slow regression suite and coupling as the real problems."}
+      - {type: llm-rubric, value: "Considers extracting or isolating only the PDF report generator (for example as a background worker) because of its different scaling, and lists measurable signals that would justify more services later."}
+  - name: edge-missing-team-info
+    vars:
+      situation: "We are building a new marketplace app. Microservices or monolith?"
+      organisation: "Not sure yet."
+    assert:
+      - {type: llm-rubric, value: "Asks focused questions about team size, platform maturity and expected load, or clearly labels assumptions and conditions the answer on them, rather than giving an unconditional verdict."}
+  - name: negative-pain-not-architectural
+    vars:
+      situation: "Our CI takes 50 minutes because the test suite runs serially and half the tests hit a real staging database. Management thinks splitting into microservices will make CI faster."
+      organisation: "25 engineers, four teams, Kubernetes platform team exists, good observability."
+    assert:
+      - {type: llm-rubric, value: "Says the main pain is CI and test design, not architecture, and recommends fixing test parallelism and test isolation first, while not dismissing that four teams might later benefit from some service boundaries."}

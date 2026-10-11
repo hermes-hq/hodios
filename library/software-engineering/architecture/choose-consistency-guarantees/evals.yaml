@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What consistency do we need for these operations? {{operations}} Topology: {{topology}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace
+    vars:
+      operations: "1) Seller edits a listing title and is redirected to the listing page. 2) Buyers browse search results. 3) Buyer purchases the last item in stock. 4) Buyer pages through order history."
+      topology: "Postgres primary with two async read replicas (lag usually under 1 s, spikes to 30 s during batch jobs). Redis cache for listing pages with a 5-minute TTL. Elasticsearch fed by change events for search."
+    assert:
+      - {type: contains, value: "## Decision table"}
+      - {type: llm-rubric, value: "Assigns read-your-writes to the seller edit (for example primary pinning or cache invalidation for that seller), eventual consistency to buyer search, a conditional write or transaction on the primary for the last-item purchase, and monotonic reads or stable pagination for order history."}
+      - {type: llm-rubric, value: "Mentions the 30-second replica lag spike and the 5-minute cache TTL as concrete risks and proposes tests that inject lag or staleness."}
+  - name: edge-everything-eventual-ok
+    vars:
+      operations: "Show the number of likes on public posts; show trending tags."
+      topology: "Counters in Redis, aggregated to Postgres every minute."
+    assert:
+      - {type: llm-rubric, value: "Concludes eventual consistency or bounded staleness is acceptable for both and does not prescribe strong consistency, possibly noting a user should see their own like immediately via an optimistic UI."}
+  - name: negative-cache-for-permission
+    vars:
+      operations: "Admin revokes a user's access to a project; the API checks project membership on each request."
+      topology: "Membership is cached in each API node's memory for 15 minutes to save database load."
+    assert:
+      - {type: llm-rubric, value: "Flags that a revoked user keeps access for up to 15 minutes, treats this as unacceptable for a permission decision, and proposes invalidation on revoke, a short TTL with versioning, or checking the authoritative store for sensitive operations."}

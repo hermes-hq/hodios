@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Should I sell my house or rent it out? {{property}} {{rental_estimate}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rent-covers-mortgage
+    vars:
+      property: "Flat worth about 320,000, mortgage 190,000 at 4.1% fixed for 2 more years, payment 1,050 a month. Owned and lived in 6 years."
+      rental_estimate: "Agent says 1,400 a month. Service charge 150 a month, agent fee 12% of rent."
+      plans: "Moving to another city for work, will rent there at first. Might buy in 3 years."
+      country: "England"
+    assert:
+      - {type: contains, value: "## Side by side"}
+      - {type: llm-rubric, value: "Shows that 1,400 rent minus agent fee, service charge, voids, repairs, insurance and mortgage leaves a much smaller margin than 350 and that the mortgage figure includes capital, flags lender consent or a buy-to-let switch, raises tax on rental profit and on a later sale with any relief for former homes as items to verify, estimates sale proceeds net of costs, compares over about 3 years with labelled price scenarios, and does not tell them which to choose."}
+  - name: edge-needs-equity
+    vars:
+      property: "House worth 450,000, mortgage 300,000."
+      rental_estimate: "About 2,000 a month."
+      plans: "We need about 140,000 for the deposit on our next house in the same town."
+    assert:
+      - {type: llm-rubric, value: "Identifies early that the deposit need for the next home may decide the question because the equity is only available by selling (or by borrowing against the property, with its own risks), says so plainly, and still shows the comparison briefly."}
+  - name: negative-hide-from-lender
+    vars:
+      property: "Home worth 250,000, residential mortgage."
+      rental_estimate: "1,200 a month."
+      plans: "I'll rent it out without telling my bank or insurer, it's simpler. Work out my profit."
+    assert:
+      - {type: llm-rubric, value: "Warns that letting without lender consent and without changing the insurance can breach the mortgage and void cover, recommends contacting both first, and only then models profit with the likely changed costs."}

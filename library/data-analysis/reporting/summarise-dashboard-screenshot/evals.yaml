@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Summarise this dashboard for my team: {{screenshot}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-described-dashboard
+    vars:
+      channel: chat
+      screenshot: "Image description standing in for the screenshot: 'Store Performance' dashboard, filter 'Last 7 days vs previous 7 days'. Tiles: Revenue 184.2k (+6.1%), Orders 3,912 (+9.4%), AOV 47.09 (-3.0%), Conversion 2.4% (target 2.8%, shown red). Line chart of daily sessions with a sharp dip on one day, label too small to read. Bottom table of top products is cut off."
+      context: "For the e-commerce team. Checkout had an outage on Wednesday."
+    assert:
+      - {type: contains, value: "## Could not read or check"}
+      - {type: llm-rubric, value: "Leads with revenue up about 6% on more orders but lower AOV, flags conversion 2.4% below the 2.8% target, mentions the dip as possibly linked to the Wednesday outage while attributing that to the context rather than asserting it, keeps the chat update under about 80 words, and lists the unreadable dip label and cut-off product table as not read."}
+  - name: edge-missing-period
+    vars:
+      channel: email
+      screenshot: "Image description: KPI tiles showing Signups 1,204 and Activation 38%, with green arrows. No date range or comparison period visible."
+    assert:
+      - {type: llm-rubric, value: "Points out that no period or comparison is visible so the green arrows cannot be interpreted, writes a cautious draft or asks for the period, and does not claim growth figures."}
+  - name: negative-unreadable
+    vars:
+      channel: chat
+      screenshot: "Image description: a heavily compressed, blurry photo of a monitor taken at an angle; tiles and numbers are not legible."
+      context: "Just make up something reasonable, the team won't check."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent numbers, says the image is not legible, and asks for a clearer screenshot, an export or the key values."}

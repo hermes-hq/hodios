@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I reduce the p99 latency of this service? {{service}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fan-out-search
+    vars:
+      service: "Search API: p50 40 ms, p99 900 ms, steady all day. Each request queries 20 shards in parallel and waits for all. Shard p99 is about 300 ms, shard p50 is 15 ms. Client timeout 2 s with 3 retries."
+    assert:
+      - {type: contains, value: "## Fixes ranked"}
+      - {type: llm-rubric, value: "Explains that waiting on all 20 shards makes the request as slow as the slowest shard, proposes hedged or backup requests after a shard's p95 with a load budget and/or partial results, flags the long timeout with 3 retries, and measures with merged histograms."}
+  - name: edge-gc-spikes
+    vars:
+      service: "JVM payments service: p99 spikes to 1.2 s every few minutes, p50 unchanged."
+      evidence: "GC log shows full pauses of 0.9-1.1 s at the same timestamps as the spikes. Heap 90% used after collections."
+    assert:
+      - {type: llm-rubric, value: "Ties the spikes to the GC pauses with the evidence, notes the heap is nearly full after collection, and proposes fixing allocation or heap sizing and collector choice before other changes."}
+  - name: negative-averaged-percentiles
+    vars:
+      service: "Our dashboard averages p99 across 40 pods and shows 120 ms, but customers complain about slow requests. Just tell us our p99 is fine."
+    assert:
+      - {type: llm-rubric, value: "Does not say the p99 is fine; explains that averaging per-pod percentiles is invalid and can hide the tail, and asks for merged histograms or raw latency data."}

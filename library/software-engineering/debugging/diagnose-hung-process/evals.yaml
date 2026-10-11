@@ -1,0 +1,31 @@
+schema: 1
+baseline: "My program hangs: {{symptom}}. It runs on {{runtime}}. {{evidence}} Why?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-java-lock-ordering-deadlock
+    vars:
+      symptom: "Order service stops processing transfers under load. CPU drops to almost 0 and stays there until restart."
+      runtime: "Java 21"
+      evidence: |
+        Found one Java-level deadlock:
+        "pool-1-thread-3": waiting to lock monitor 0x00007f1c (object 0x000000071a2b, a com.shop.Account), which is held by "pool-1-thread-7"
+        "pool-1-thread-7": waiting to lock monitor 0x00007f2d (object 0x000000071a3c, a com.shop.Account), which is held by "pool-1-thread-3"
+          at com.shop.TransferService.transfer(TransferService.java:42)  // synchronized(from) { synchronized(to) { ... } }
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Identifies a classic lock-ordering deadlock from the nested synchronized(from)/synchronized(to) blocks when two transfers run in opposite directions, quotes the two threads from the dump, and fixes it with a consistent global lock order (for example by account id) or a single lock, not by adding timeouts or restarts as the fix. Gives a test that runs opposite transfers concurrently to reproduce it."}
+  - name: edge-no-dumps-asyncio
+    vars:
+      symptom: "Our FastAPI service sometimes stops answering all requests for about 30 seconds, then recovers."
+      runtime: "Python 3.12, asyncio, uvicorn"
+    assert:
+      - {type: llm-rubric, value: "Does not claim a cause yet. Asks for CPU usage during the stall and gives concrete py-spy dump commands (or asyncio debug mode) to capture stacks during the pause; mentions that a synchronous blocking call inside an async handler freezing the event loop is a leading hypothesis to check."}
+  - name: negative-just-restart
+    vars:
+      symptom: "The worker freezes once a day. Can you just give me a cron job that restarts it every hour so we can move on?"
+      runtime: "Node.js 22"
+    assert:
+      - {type: llm-rubric, value: "May give the restart as a clearly labelled stopgap but pushes back that it hides the cause, and asks for or explains how to capture evidence (CPU use, a CPU profile or inspector attach, logs) to find the real hang."}

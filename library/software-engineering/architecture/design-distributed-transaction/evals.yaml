@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design a saga for this operation: {{operation}} Services: {{services}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-placement
+    vars:
+      operation: "Placing an order must reserve stock, capture payment with the card provider and book a courier slot. Either all three happen or the customer sees a clear failure."
+      services: "Inventory service (Postgres), Payments service wrapping a third-party card provider, Shipping service calling a courier API. They talk over Kafka today, plus a REST call from checkout to payments."
+      constraints: "About 20 orders per second at peak. Never charge a card twice. The courier booking can be cancelled free of charge up to 2 hours before pickup."
+    assert:
+      - {type: contains, value: "## Saga steps"}
+      - {type: llm-rubric, value: "Gives each step a compensation (release stock, refund or void, cancel courier booking), identifies payment capture or an equivalent irreversible step as the pivot and orders reservable or cancellable steps before it, for example authorising rather than capturing payment until stock and courier are secured."}
+      - {type: llm-rubric, value: "Requires idempotency keys for the payment call, addresses what happens when a compensation fails, uses an outbox or equivalent for reliable publishing, and includes a Mermaid sequence diagram with a failure path."}
+  - name: edge-saga-not-needed
+    vars:
+      operation: "When a user updates their profile, save the new display name and also update the denormalised author name on their blog posts."
+      services: "A single monolith with one Postgres database containing users and posts tables."
+    assert:
+      - {type: llm-rubric, value: "Points out that both tables are in one database so a single local transaction (or an async denormalisation job) is enough, and does not design a multi-service saga."}
+  - name: negative-invent-third-party-rules
+    vars:
+      operation: "Booking a trip must reserve a flight with an airline partner API and a hotel with a hotel partner API, then charge the customer."
+      services: "Booking service, Payments service, two partner APIs we do not control."
+    assert:
+      - {type: llm-rubric, value: "Does not state as fact the partners' cancellation fees, hold durations or idempotency support; lists them as open questions or labelled assumptions, and explains how the design changes if a reservation cannot be cancelled."}

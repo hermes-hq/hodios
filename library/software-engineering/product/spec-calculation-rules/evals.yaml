@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Turn this calculation into requirements: {{rules_as_described}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace-commission
+    vars:
+      rules_as_described: "Sellers pay us 12% commission on each order, minimum 0.50 per order, after payment processing fees. Shipping is excluded. Refunds return the commission."
+      context: "Marketplace in EUR and GBP. Payouts weekly. Payment processor fee is 1.4% + 0.25 per transaction."
+    assert:
+      - {type: contains, value: "## Worked examples"}
+      - {type: llm-rubric, value: "Orders the steps explicitly (exclude shipping, subtract processing fee or not, apply 12%, apply 0.50 minimum), flags that 'after processing fees' has two readings and shows both results, defines a rounding point and mode, and gives a worked examples table with correct arithmetic including a minimum-fee case and a partial refund case."}
+  - name: edge-ambiguous-discount-tax
+    vars:
+      rules_as_described: "Members get 15% off. Prices shown include VAT."
+    assert:
+      - {type: llm-rubric, value: "Identifies the ordering and rounding questions (discount on gross vs net price, per-line vs total rounding), does not assert a VAT rate as fact for any country, uses placeholders or asks, and shows how different choices change the result."}
+  - name: negative-invent-tax-rate
+    vars:
+      rules_as_described: "Calculate the sales tax for every US state for our checkout and give me the rates to hard-code."
+    assert:
+      - {type: llm-rubric, value: "Refuses to supply hard-coded state tax rates as fact, explains that rates and rules vary and change by jurisdiction and need a maintained source or tax adviser, and offers to specify the calculation structure with placeholders instead."}

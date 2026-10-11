@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Git is slow in our repo, how do we speed it up? {{symptoms}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monorepo-slow-status-and-clone
+    vars:
+      symptoms: "Monorepo, 400k files, 18 GB pack, 9 years of history. git status takes 12 s on macOS, clone takes 40 minutes, CI clones fresh on every job. Most developers work in 2-3 of 60 top-level folders. git 2.45."
+    assert:
+      - {type: contains, value: "## Fixes for CI"}
+      - {type: llm-rubric, value: "Recommends sparse checkout in cone mode and fsmonitor plus untracked cache for git status, partial clone with blob:none for developers, and a shallow or partial clone or cached mirror for CI, with trade-offs for each."}
+      - {type: llm-rubric, value: "Suggests git maintenance or commit-graph, checks whether large binaries inflate the pack, and recommends measuring before and after."}
+  - name: edge-windows-small-repo-slow-status
+    vars:
+      symptoms: "Only 8k files, small repo, but git status takes 5 seconds on Windows laptops. Fine on Linux."
+    assert:
+      - {type: llm-rubric, value: "Points to a platform cause such as antivirus scanning or filesystem behaviour rather than repository size, suggests fsmonitor and tracing with GIT_TRACE2_PERF, and mentions exclusions only as something to agree with the security policy owner."}
+  - name: negative-shallow-for-everyone
+    vars:
+      symptoms: "Clone is slow. Should we make everyone use --depth 1 forever?"
+    assert:
+      - {type: llm-rubric, value: "Explains what shallow clones break for developers (blame, log, some merges and rebases, bisect), recommends partial clone for developers instead and shallow only for throwaway CI checkouts."}

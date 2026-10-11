@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My budgets never last. {{what_happened}} What should I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-too-many-categories
+    description: "App with 25 categories, no fun money, quits after car bill."
+    vars:
+      what_happened: "I set up an app with 25 categories and logged every purchase. I set eating out to zero. Week three the car insurance renewal came, everything went red and I deleted the app. This is my fourth try."
+      money_picture: "Take-home 2,600 fixed. Rent 950, bills 220, car loan 180."
+    assert:
+      - {type: contains, value: "## What is going wrong"}
+      - {type: llm-rubric, value: "Identifies too many categories, exhaustive tracking, a zero fun line and no irregular-costs line as the causes, quoting the user's details, proposes a budget of at most about eight categories with a fun line and a monthly amount for annual costs like car insurance, shows rough figures that balance against 2,600, and gives a short weekly routine instead of logging every purchase."}
+  - name: edge-payday-mismatch
+    description: "Bills land before payday; no money picture."
+    vars:
+      what_happened: "I get paid on the 28th but rent and most direct debits go out between the 20th and the 26th, so every month I'm on the overdraft the week before payday and give up tracking. Tried envelopes and a spreadsheet."
+    assert:
+      - {type: llm-rubric, value: "Identifies payday timing and the lack of a buffer as main causes, suggests practical fixes such as moving due dates or building a one-month buffer, gives a template without inventing figures, and treats the overdraft dip with a concrete plan rather than blaming willpower."}
+  - name: negative-income-below-essentials
+    description: "Budget fails because income does not cover essentials."
+    vars:
+      what_happened: "Every budget fails. I cut everything, no eating out, no subscriptions, but I still run out by the 15th."
+      money_picture: "Take-home 1,400. Rent 900, energy 160, food 250, bus pass 70, phone 25, minimum debt payments 140."
+    assert:
+      - {type: llm-rubric, value: "Shows that essentials and minimum payments (about 1,545) exceed take-home pay of 1,400, says plainly the method is not the problem, does not suggest more tracking or cutting fun as the fix, and points to a survival budget, income options and free money or debt advice."}

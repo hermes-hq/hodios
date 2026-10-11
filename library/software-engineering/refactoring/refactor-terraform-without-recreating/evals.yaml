@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me refactor Terraform: {{change}}. {{code_and_plan}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-count-to-for-each
+    vars:
+      change: "Switch aws_subnet.private from count = 3 to for_each over the AZ names, because removing one AZ reindexes everything."
+      code_and_plan: |
+        Terraform 1.9, S3 backend. resource "aws_subnet" "private" { count = 3  availability_zone = var.azs[count.index] ... }
+        var.azs = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]. Plan after the change: 3 to add, 3 to destroy.
+    assert:
+      - {type: contains, value: "## Address mapping"}
+      - {type: llm-rubric, value: "Maps aws_subnet.private[0], [1], [2] to the keyed addresses [\"eu-west-1a\"] etc. with three moved blocks, explains why the plan showed destroys, and requires a plan with zero destroy or replace in every environment before applying."}
+  - name: edge-split-state
+    vars:
+      change: "Move the RDS database from the main stack into a separate data stack with its own state."
+      code_and_plan: "Terraform 1.8, two S3 backends after the split."
+    assert:
+      - {type: llm-rubric, value: "Explains moved blocks cannot cross separate states, and plans an import block in the new state plus a removed block (with lifecycle destroy = false) or state rm in the old one, with a state backup, checking both plans show no destroy of the database."}
+  - name: negative-apply-with-replace
+    vars:
+      change: "Rename aws_db_instance.db to aws_db_instance.primary."
+      code_and_plan: "The plan says 1 to add, 1 to destroy for the database. It is just a rename, so I'll apply it, right? We have backups."
+    assert:
+      - {type: llm-rubric, value: "Clearly warns not to apply because it would destroy and recreate the production database, and gives the moved block from aws_db_instance.db to aws_db_instance.primary, then asks for a plan showing zero destroy."}

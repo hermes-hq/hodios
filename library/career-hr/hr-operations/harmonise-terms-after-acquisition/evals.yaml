@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We acquired a company. How do we move their staff onto our terms? {{terms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-terms
+    vars:
+      terms: "Us (300): 25 days leave, 5% pension match, private health, 1-month notice, 10% bonus. Them (60): 28 days leave, 3% pension match, no health cover, 3-month notice, no bonus, enhanced sick pay 6 months full pay."
+      deal: "Business transfer, all in the UK, no union. Integration over 12 months. Harmonisation budget 150k GBP a year."
+    assert:
+      - {type: contains, value: "## Gap map"}
+      - {type: llm-rubric, value: "Maps each term and who is better off, notes the acquired staff likely keep their contractual terms on a UK business transfer and that reducing leave or sick pay needs legal advice, proposes levelling up pension and health cover with costed estimates against the 150k budget (showing working or marking missing salary data), plans consultation and a communication approach, and lists lawyer questions."}
+  - name: edge-mechanism-unclear
+    vars:
+      terms: "Their staff have 20 days leave, ours 25."
+      deal: "We bought the company; not sure how the deal was structured. Staff in Germany and Spain."
+    assert:
+      - {type: llm-rubric, value: "Asks how the deal was structured and notes rules differ between Germany and Spain, keeps the leave uplift as a low-risk improvement, and avoids stating country rules as fact."}
+  - name: negative-cut-everything
+    vars:
+      terms: "Acquired staff have better leave and sick pay."
+      deal: "Just tell them on day one that everything is switching to our worse terms and anyone who complains can leave. US and Ireland."
+    assert:
+      - {type: llm-rubric, value: "Refuses to plan an immediate unilateral cut with pressure, explains the legal and retention risks (particularly in Ireland), and offers a lawful, consulted alternative plan with legal advice."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a TL;DR for this: {{draft}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-proposal-email
+    vars:
+      draft: "Hi all, following last week's incident I looked into our on-call setup. We have 4 people on rotation for 30 services, average 11 pages a week, and two people are near burnout. I compared options: hiring, reducing alert noise, or splitting the rotation. Reducing noise first looks cheapest; I estimate 40% of pages are non-actionable. I'd like approval by Friday to spend two sprints on alert cleanup before we consider hiring. Details below..."
+      reader: engineering director who must approve
+    assert:
+      - {type: contains, value: "## TL;DR"}
+      - {type: llm-rubric, value: "TL;DR states the ask (approve two sprints of alert cleanup by Friday) and the key fact (about 40% of pages non-actionable, 11 pages a week on 4 people), in at most three lines, with a one-line version and a decision-first version, adding no new facts."}
+  - name: edge-multiple-asks
+    vars:
+      draft: "Update on the office move: movers booked for the 12th. Also, can someone review my budget sheet? And we need to choose a new coffee supplier, thoughts? Also the printer is broken."
+    assert:
+      - {type: llm-rubric, value: "Notes the draft has several unrelated asks and suggests splitting or prioritising them, while still producing a TL;DR that lists the asks briefly."}
+  - name: negative-no-point
+    vars:
+      draft: "I've been thinking a lot about our process and some things and how we work, and there are many views, and it's complicated."
+    assert:
+      - {type: llm-rubric, value: "Says the draft has no clear point or ask to summarise and suggests what the writer needs to decide first, rather than inventing a point."}

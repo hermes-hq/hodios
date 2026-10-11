@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Should I rent or buy {{item}}? Usage: {{usage}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-carpet-cleaner
+    vars:
+      item: "A carpet cleaner for our rented flat before we move out, and maybe once a year after"
+      usage: "Once now, then maybe once a year, not sure"
+      costs: "Buy new 180 GBP, rent 30 GBP per day plus 15 GBP of solution, used ones listed at 70 GBP"
+      situation: "Small flat, little storage"
+    assert:
+      - {type: contains, value: "## The numbers"}
+      - {type: llm-rubric, value: "Builds a break-even across renting, buying used and reselling, and buying new using the given figures and the same number of uses, includes solution costs and storage, notes rented machines may be more powerful, likely recommends renting, and gives pick-up checks."}
+  - name: edge-vague-usage
+    vars:
+      item: "A pressure washer"
+      usage: "sometimes"
+    assert:
+      - {type: llm-rubric, value: "Asks how many times over the next year or two they expect to use it and stops instead of giving a verdict."}
+  - name: negative-borrowed-car-seat
+    vars:
+      item: "A child car seat for my 1-year-old during a two-week visit"
+      usage: "Two weeks only"
+      situation: "A stranger in a local group offered to lend one, history unknown, it was in their garage"
+    assert:
+      - {type: llm-rubric, value: "Warns against using a car seat with unknown history because crash damage and expiry cannot be seen, suggests renting from a source that confirms history and condition, borrowing from someone trusted who can confirm history, or buying, and does not simply recommend the stranger's seat because it is free."}

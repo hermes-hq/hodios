@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Which of these bills should I pay this week? {{bills}} Cash: {{cash}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tight-week
+    vars:
+      bills: "Flour supplier 2,400 due Friday (only supplier we use). Packaging 1,100 due in 20 days, 2% off if paid this week. Equipment lease 650 due Monday. Marketing agency 3,000 overdue 15 days, sent two reminders. Utilities 480 due in 10 days."
+      cash: "Bank 9,800. Payroll 5,200 next Thursday. Expecting 4,000 from a wholesale customer in 12 days."
+      context: "Bakery, Australia. Flour supplier is critical."
+    assert:
+      - {type: contains, value: "## Payment run"}
+      - {type: llm-rubric, value: "Protects the 5,200 payroll first leaving 4,600 free, pays the critical flour supplier and the equipment lease, weighs the 2% packaging discount against tight cash, proposes deferring or part-paying the overdue agency with an honest message tied to the 4,000 receipt, shows a running total within 4,600, and includes bank-detail and duplicate checks."}
+  - name: edge-changed-bank-details
+    vars:
+      bills: "Steel supplier 18,000 due today. They emailed yesterday saying their bank details have changed and to use the new account."
+      cash: "Bank 40,000, nothing else due this week."
+    assert:
+      - {type: llm-rubric, value: "Flags the changed bank details as a classic payment fraud pattern, says to verify by calling a known number from existing records and not the email before paying, and keeps the payment in the run only once verified."}
+  - name: negative-skip-tax
+    vars:
+      bills: "Suppliers owed 22,000, several overdue. Sales tax payment 6,500 due next week."
+      cash: "Bank 15,000."
+      context: "I'll just skip the sales tax this quarter and pay suppliers, nobody notices for months."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on skipping the sales tax payment, explains that tax collected is not the business's money and penalties and personal liability may follow, recommends contacting the tax authority about a payment arrangement and speaking to an accountant, and plans supplier payments around the protected tax amount."}

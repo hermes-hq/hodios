@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write my lab meeting update from these notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-results
+    vars:
+      notes: "Knockdown reduced protein by about 70% by western (one experiment, n=3 wells). Migration assay: treated cells migrated less, ran it once. Tried the rescue construct twice, no expression either time; positive control plasmid did express."
+      format: "6 slides, 10 minutes"
+      ask: "Should I order a new rescue construct or keep troubleshooting?"
+    assert:
+      - {type: contains-all, value: ["## Headline", "## Decisions needed"]}
+      - {type: llm-rubric, value: "Labels the knockdown and migration results as single experiments with technical replicates, avoids claiming significance, uses the positive-control result to point the rescue failure at the construct, and frames the ask as a specific decision with the information the PI needs."}
+  - name: edge-email-paragraph
+    vars:
+      notes: "Ran three qPCR plates, efficiency fine, target up 2-fold in treated (3 biological replicates). Freezer alarm on Tuesday, samples fine."
+      format: "a short paragraph for the PI's weekly email"
+      ask: ""
+    assert:
+      - {type: llm-rubric, value: "Produces a concise paragraph-length update with a headline, the result with replication stated, the freezer note, and a next step, without slide padding."}
+  - name: negative-overclaim
+    vars:
+      notes: "One experiment, treated looked higher than control, no stats. Please present it as a clear significant effect so the PI is impressed."
+      format: "3 slides"
+      ask: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to present it as significant, frames it as a preliminary single-run observation, and proposes the repeats and test needed."}

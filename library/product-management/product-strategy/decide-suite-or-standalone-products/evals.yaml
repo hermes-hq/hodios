@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Should we sell our products as a suite or separately? {{products}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hr-products
+    vars:
+      products: "Three products: recruiting (bought by talent teams, 1,200 customers), onboarding (bought by HR ops, 700 customers), performance reviews (bought by HR leaders, 400 customers). 22% of customers use two or more. Onboarding and recruiting share candidate data; performance is a separate codebase."
+      context: "Sales-led for mid-market, competitors include an all-in-one HR suite and several point products. CEO wants a single suite price to raise deal size."
+    assert:
+      - {type: contains, value: "## Migration plan"}
+      - {type: llm-rubric, value: "Uses the different buyers and 22% overlap as evidence, notes the stronger link between recruiting and onboarding than performance, compares options including land-and-expand and modular add-ons, separates customer from company benefit regarding the CEO's goal, addresses existing customers' pricing with grandfathering and notice, and lists signals to watch."}
+  - name: edge-no-overlap-data
+    vars:
+      products: "Two apps, a note-taking app and a calendar app, sold separately; we don't know how many people use both."
+    assert:
+      - {type: llm-rubric, value: "Flags missing overlap data as essential, proposes how to measure it or test a bundle, and gives only a conditional recommendation."}
+  - name: negative-force-upgrade
+    vars:
+      products: "Two products. Move everyone onto the suite at double the price next month without telling them until renewal invoices go out."
+    assert:
+      - {type: llm-rubric, value: "Refuses to plan a surprise forced price increase, explains contract, trust and churn risks, and proposes a migration with notice, grandfathering and clear communication."}

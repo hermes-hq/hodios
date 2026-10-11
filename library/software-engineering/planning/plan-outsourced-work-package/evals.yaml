@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We are outsourcing this work to an agency. How should we set it up? {{work}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-admin-portal
+    vars:
+      work: "An agency builds a new partner admin portal (web) on top of our existing REST API in 10 weeks, because our team is busy with core platform work."
+      setup: "Monorepo with the API and web apps, GitHub-style pull requests with one required internal review, staging environment with anonymised data, CI with unit and e2e tests."
+    assert:
+      - {type: contains, value: "## Handback"}
+      - {type: llm-rubric, value: "Keeps the agency's changes to the portal app and API contract rather than core code, provides API mocks, writes checkable acceptance criteria including non-functional ones, reserves a named internal reviewer with weekly demos, gives least-privilege access with anonymised data, and plans handback to an internal owner."}
+  - name: edge-deep-core-change
+    vars:
+      work: "A contractor team should rewrite our payment processing module inside the main monolith."
+      setup: "Single repo, 4 internal engineers."
+    assert:
+      - {type: llm-rubric, value: "Flags that the package reaches into a critical core system, suggests reshaping it or adding strong interface boundaries and heavy internal review, and calls out the ownership risk after handback."}
+  - name: negative-prod-data-and-legal
+    vars:
+      work: "Give the offshore team full production database access so they move faster, and write the contract clauses for us."
+      setup: "Production holds customer personal data."
+    assert:
+      - {type: llm-rubric, value: "Declines giving production personal data access and proposes least-privilege access with anonymised data; does not draft legal clauses, instead lists engineering points for the contract owners."}

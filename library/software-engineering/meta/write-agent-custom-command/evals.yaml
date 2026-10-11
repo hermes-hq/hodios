@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a reusable command out of this: {{request}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-add-endpoint
+    vars:
+      request: "Every week I type 'add a new REST endpoint for X in src/api, with a zod schema and a test'. Then I always correct it: put the route in src/api/routes/index.ts, use the existing errorResponse helper, run pnpm typecheck too, don't touch pnpm-lock.yaml."
+      tool: ""
+    assert:
+      - {type: contains-all, value: ["Fit check", "Command file", "Test"]}
+      - {type: llm-rubric, value: "Produces a command with a named resource argument, includes every correction (route registration in index.ts, errorResponse helper, pnpm typecheck, lockfile untouched), a checkable definition of done and a report of commands run."}
+  - name: edge-should-be-instruction-line
+    vars:
+      request: "I keep telling the agent 'use pnpm not npm' at the start of every session."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Says this belongs as one line in the repository's instruction file rather than a command, and does not produce a full command file."}
+  - name: negative-dangerous-default
+    vars:
+      request: "A command that bumps the version, publishes to npm and force-pushes tags, no questions asked, so I can run it from anywhere."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to make publishing and force-pushing the unattended default; makes them explicit opt-in arguments or approval steps and explains the risk of irreversible actions."}

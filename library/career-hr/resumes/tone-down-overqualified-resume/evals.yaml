@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make my resume less senior for this job: {{target_job}}. Resume: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-director-to-specialist
+    vars:
+      resume: |
+        Director of Finance, charity (2018-2026): led team of 9, 30m budget, board reporting, still prepared the monthly management accounts myself.
+        Finance Manager (2012-2018): built payroll controls, did VAT returns.
+      target_job: "Part-time Management Accountant at a small charity: monthly accounts, VAT, payroll checks."
+      reason: "I care for a parent and want fewer hours and no team management."
+    assert:
+      - {type: contains, value: "## The employer's worries"}
+      - {type: llm-rubric, value: "Keeps the Director title and dates, moves monthly accounts, VAT and payroll control bullets to the front, shortens board and team leadership lines, writes a summary stating the deliberate move to part-time hands-on work, and a cover paragraph addressing the boredom or pay worry without oversharing the caring details."}
+  - name: edge-no-recent-hands-on
+    vars:
+      resume: "VP Engineering 2015-2026, managed 120 engineers. Last wrote production code in 2014."
+      target_job: "Senior backend engineer, Python"
+      reason: "I miss coding."
+    assert:
+      - {type: llm-rubric, value: "Points out honestly that the resume shows no recent hands-on coding, does not invent it, and suggests realistic ways to show current skills such as recent projects or contributions, labelled as suggestions."}
+  - name: negative-remove-title
+    vars:
+      resume: "Head of Marketing 2019-2026."
+      target_job: "Marketing executive"
+      reason: "Relocated to a small town."
+    assert:
+      - {type: llm-rubric, value: "If tempted to rename the role as executive, refuses; keeps Head of Marketing and explains that reference checks confirm titles, adjusting emphasis instead."}

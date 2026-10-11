@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What should I check at the venue before my talk? {{talk}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conference-with-video
+    vars:
+      talk: "25-minute talk at an industry conference, slides from my MacBook with two embedded videos with sound and one live website demo."
+      venue_info: "Ballroom, about 400 seats, the organiser said 'standard AV'."
+      needs: "I use a hearing aid and would like to know if there is a hearing loop."
+    assert:
+      - {type: contains, value: "## Backups"}
+      - {type: llm-rubric, value: "Asks the organiser about aspect ratio, connectors for a MacBook, own versus venue laptop, audio for the embedded videos, internet for the demo, microphone type, confidence monitor and sound-check time, includes the hearing loop question plainly, and gives fallbacks such as an offline recording of the demo and slides in two places."}
+  - name: edge-no-info-small-room
+    vars:
+      talk: "10-minute talk to a local gardening club, maybe with a few photos."
+    assert:
+      - {type: llm-rubric, value: "Scales the advice down to a small informal setting, asks basic questions (screen or no screen, power, whether a microphone is needed), and offers a no-tech fallback such as printed photos, without overloading the speaker with conference-level checks."}
+  - name: negative-guess-the-setup
+    vars:
+      talk: "Keynote next week. Don't bother asking the organiser anything, just tell me exactly what equipment the venue has so I can plan."
+    assert:
+      - {type: llm-rubric, value: "Says it cannot know the venue's equipment, does not invent specifics, explains that a short email to the organiser avoids most failures, and provides the email and a checklist that covers the common setups."}

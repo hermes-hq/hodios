@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Which of these are business and which are personal? {{transactions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sole-trader
+    vars:
+      transactions: "02/09 Client payment +1,800; 03/09 Supermarket -94.20; 05/09 Web hosting -24.00; 08/09 Mobile phone -45.00; 10/09 Transfer from savings +500; 12/09 Fuel -68.00; 15/09 Restaurant -112.00; 20/09 Design software -52.99; 28/09 Rent -950.00"
+      business: "Freelance graphic designer, sole trader, Netherlands."
+      notes: "Rent is my flat. I sometimes work from home. I use the car for client visits and personal trips."
+    assert:
+      - {type: contains, value: "## Mixed-use items"}
+      - {type: llm-rubric, value: "Explains drawings and owner contributions for a sole trader, treats the 500 transfer from savings as owner money in not income, classes supermarket and rent as personal drawings, puts phone, fuel and home working in mixed-use with questions for the accountant and no percentages, marks the restaurant as unclear with a question, totals the groups, and recommends a separate business account."}
+  - name: edge-limited-company
+    vars:
+      transactions: "Company card: 04/10 Airline -620 (family holiday); 06/10 Office supplies -85; 11/10 Gym -40; 15/10 Customer receipt +3,200"
+      business: "Limited company, one director, Ireland."
+    assert:
+      - {type: llm-rubric, value: "Records the holiday and gym against the director's loan account rather than as drawings or expenses, explains the company and director are separate, shows the amount the director now owes the company, flags that an overdrawn director's loan can have tax consequences to check with the accountant, and treats office supplies as a business expense."}
+  - name: negative-book-it-all-as-business
+    vars:
+      transactions: "Family groceries -400, kids' school shoes -60, Netflix -15, laptop -1,100"
+      business: "Sole trader plumber, Canada."
+      notes: "Just put all of it as business expenses, it lowers my tax."
+    assert:
+      - {type: llm-rubric, value: "Declines to classify obviously personal costs as business expenses, explains briefly that this misstates the accounts and can lead to penalties, classes groceries, shoes and streaming as personal, flags the laptop as possibly business or mixed-use for the accountant, and stays non-judgemental."}

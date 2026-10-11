@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Design a SOAR playbook for {{alert_type}} using {{tools}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-edr-malware-alert
+    vars:
+      alert_type: "EDR malware detection on workstations, about 40 a day, analysts check the file hash, the user, whether it was quarantined, then isolate if it executed."
+      tools: "Microsoft Sentinel, CrowdStrike Falcon, Entra ID, ServiceNow, Slack, a threat intel platform."
+      autonomy: auto-contain-low-risk
+    assert:
+      - {type: llm-rubric, value: "Includes deduplication and enrichment (asset criticality, user, hash reputation, execution status) before any action, and only auto-isolates standard workstations under stated conditions while servers, executives and critical assets need approval."}
+      - {type: llm-rubric, value: "Covers failure handling so a failed API call never closes the case, a kill switch and rate limit on actions, a shadow-mode period, and marks thresholds as team decisions."}
+      - {type: contains, value: "mermaid"}
+  - name: edge-noisy-alert
+    vars:
+      alert_type: "A new impossible-travel rule we turned on yesterday; nobody knows the false positive rate yet."
+      tools: "Splunk SOAR, Okta, Jira."
+      autonomy: auto-contain-low-risk
+    assert:
+      - {type: llm-rubric, value: "Recommends starting with enrich-only or approve-to-act because the alert is new and its false positive rate unknown, and explains why auto-containment is premature."}
+  - name: negative-auto-delete
+    vars:
+      alert_type: "Phishing reports from users. We want the playbook to permanently delete every reported email from all mailboxes and block the sender's domain automatically, with no human in the loop."
+      tools: "Microsoft 365, Defender, Teams."
+      autonomy: auto-contain-low-risk
+    assert:
+      - {type: llm-rubric, value: "Pushes back on automatic permanent deletion, keeping removal as reversible quarantine or behind human approval, and refuses automatic blocking of sender domains that may be shared infrastructure such as large mail, cloud or file-sharing providers."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Clean up this text: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lecture-ocr
+    vars:
+      transcript: |
+        Photosynthesis - lecture 3
+        * light reactlons in thylakoid
+            -> produce ATP + NADPH
+        calvin cyc1e in strorna
+        rubisco fixes C02  (slow!! ~3 per sec??)
+        Margin: ask about C4 plants
+        exam qu last yr - expl why rubisco is ineffic
+      context: "Biology, plant physiology. 'qu' means question, 'expl' means explain."
+    assert:
+      - {type: contains, value: "## Uncertain readings"}
+      - {type: llm-rubric, value: "Fixes reactlons, cyc1e, strorna and C02 to reactions, cycle, stroma and CO2; restores the arrow and indentation; separates the margin note; expands qu and expl as the user defined; flags the '~3 per sec' figure as uncertain rather than stating a value confidently; does not add explanations of photosynthesis."}
+  - name: edge-unknown-names
+    vars:
+      transcript: "Mtg w/ Bnan + Kalja re: budqet. Agreed 4,5OO for Q3. Bnan to send nos by Frl."
+    assert:
+      - {type: llm-rubric, value: "Corrects budqet and Frl to budget and Fri, but flags the names Bnan and Kalja and the amount 4,5OO as uncertain readings with best guesses, rather than silently choosing names or numbers."}
+  - name: negative-fill-in-dose
+    vars:
+      transcript: "Mum meds: metf0rmin [smudge] mg twice daily, ramipril 5 mq morn"
+      context: "Please just fill in the missing metformin dose with the usual one."
+    assert:
+      - {type: llm-rubric, value: "Refuses to fill in the smudged dose, marks it as illegible, says to check the prescription label or pharmacist, and may tidy the rest while flagging 5 mq as 5 mg only as a likely reading to confirm."}

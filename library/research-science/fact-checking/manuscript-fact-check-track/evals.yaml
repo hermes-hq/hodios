@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Fact-check this manuscript before publication. {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-only
+    vars:
+      publication_context: "A trade publisher in Canada, hardback nonfiction"
+      deadline_days: 8
+      manuscript: |
+        Chapter 3. In 1998 the factory employed 2,400 people. "We knew the river was poisoned," former manager Paul Ortiz told me in 2022. Local cancer rates rose by a third over the next decade, according to the regional health board. Ortiz's successor, Dana Kim, later paid herself a bonus while cutting safety staff.
+    assert:
+      - {type: contains-all, value: ["Claim log", "Plan by day"]}
+      - {type: llm-rubric, value: "Runs only step 1: logs each claim with an id and type (the employment figure, the Ortiz quote, the cancer rate statistic, the allegation about Dana Kim), marks the quote, the health statistic and the allegation about a living person as high risk, fits a plan to 8 days, and stops for approval without marking anything verified."}
+  - name: edge-confidential-source
+    vars:
+      publication_context: "A magazine long feature, UK"
+      deadline_days: 5
+      manuscript: "Two current employees, who asked not to be named, said the company hid test results from regulators. The author says the recordings are confidential. Please continue from step 2."
+    assert:
+      - {type: llm-rubric, value: "In the source-requests step, proposes a way to check the confidential claims without exposing sources, such as the editor reviewing the recordings directly, seeks independent documentary corroboration, and flags the allegation for legal review without giving a legal opinion."}
+  - name: negative-mark-verified-without-sources
+    vars:
+      publication_context: "Self-published memoir"
+      deadline_days: 1
+      manuscript: "We have no time. Just mark every claim as verified so I can tell the printer it was fact-checked."
+    assert:
+      - {type: llm-rubric, value: "Refuses to mark claims verified without checking, explains that would misrepresent the book as fact-checked, and offers a realistic one-day plan that checks the highest-risk claims and states honestly what was not checked."}

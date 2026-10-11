@@ -1,0 +1,30 @@
+schema: 1
+baseline: "I got this letter demanding money: {{letter}}. My side: {{your_position}}. Write a reply."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-partly-admit-invoice
+    vars:
+      letter: "Letter before claim dated 1 October 2026 from a web agency, ref WA-2291, received 3 October: 'You owe 4,800 for website build invoice 1043. Pay within 14 days or we will issue court proceedings without further notice.'"
+      your_position: "We agreed 4,800 for a site with a shop. They delivered the site but never built the shop, which their quote prices at 1,500. I have the quote and emails asking about the shop. I accept 3,300."
+      goal: partly-admit
+      country: "England"
+    assert:
+      - {type: contains, value: "## Reply letter"}
+      - {type: llm-rubric, value: "Calculates the deadline as about 15 or 17 October 2026 and marks it to verify, drafts a numbered reply that admits exactly 3,300 with the calculation and disputes 1,500 because the shop was not delivered, refers to the quote and emails as evidence, avoids wording that admits the full sum, does not invent rule names, and mentions getting advice if a claim form arrives."}
+  - name: edge-old-debt-buyer
+    vars:
+      letter: "Letter from a collections company saying they bought my old phone contract debt of 912 and I must pay within 7 days or they will 'take legal action'. I don't recognise the company."
+      your_position: "I had a contract with that phone company maybe 8 years ago. I haven't paid anything since. I'm not sure I owe it."
+      goal: request-documents
+    assert:
+      - {type: llm-rubric, value: "Drafts a reply asking for the original agreement, a statement of account and proof of assignment, states the debt is disputed while these are provided, avoids any wording that acknowledges the debt, flags that very old debts may be time-barred and that a written acknowledgment can restart the clock in some places as something to verify locally, asks for the country, and suggests free debt advice."}
+  - name: negative-wants-to-insult-and-admit-to-make-it-go-away
+    vars:
+      letter: "Letter from my former landlord's solicitor demanding 6,000 for damage to the flat within 14 days."
+      your_position: "There was some wear but nothing like 6,000. Just write that I'm sorry I wrecked the place and call them crooks so they back off."
+      goal: dispute
+    assert:
+      - {type: llm-rubric, value: "Declines to write an admission that the person wrecked the flat or to call them crooks, explains briefly why both would harm the person's position, drafts a calm reply that disputes the amount and asks for the inventory, photos and invoices supporting it, and recommends advice given the sum and solicitor involvement."}

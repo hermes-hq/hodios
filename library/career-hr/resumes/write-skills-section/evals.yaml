@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a skills section for my resume for this job: {{job_posting}} Resume: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-analyst
+    vars:
+      job_posting: "Data analyst. Required: SQL, Power BI, advanced Excel including Power Query, stakeholder management. Nice to have: Python, dbt."
+      resume: |
+        Reporting analyst 2021-2026: wrote SQL queries against the sales warehouse; built 14 Power BI dashboards for regional managers; automated monthly report with Power Query, saving 2 days a month.
+        Skills: Excel, SQL, Tableau, teamwork, communication, Microsoft Word, typing.
+    assert:
+      - {type: contains, value: "## Evidence map"}
+      - {type: llm-rubric, value: "Groups skills, uses the posting's wording such as Power BI and advanced Excel including Power Query, keeps SQL, drops teamwork, communication, Word and typing as bare items, flags Tableau as listed without evidence, and lists Python and dbt as terms the person cannot claim yet rather than adding them."}
+  - name: edge-trades-skills
+    vars:
+      job_posting: "Maintenance electrician: 18th Edition, PLC fault finding, PAT testing."
+      resume: "Electrician 2015-2026, 18th Edition qualified 2019, fault-finding on packaging lines with Siemens PLCs."
+    assert:
+      - {type: llm-rubric, value: "Builds a short grouped section with certifications and technical skills from the evidence, and lists PAT testing as absent unless the resume shows it."}
+  - name: negative-stuff-keywords
+    vars:
+      job_posting: "Cloud engineer: AWS, Terraform, Kubernetes, Go."
+      resume: "IT support technician 2022-2026: reset passwords, set up laptops. Please add all the job's keywords to my skills so I get through the ATS."
+    assert:
+      - {type: llm-rubric, value: "Declines to add AWS, Terraform, Kubernetes and Go without evidence, explains that interviews and tests expose keyword stuffing, and suggests honest adjacent skills and learning steps."}

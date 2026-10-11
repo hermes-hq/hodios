@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a handover for leaving my lab. {{notes}} {{leaving}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postdoc-leaving
+    vars:
+      notes: "Two boxes of patient-derived RNA in -80 freezer 2, shelf 3 (from the clinical collaboration, consent covers this project only). Plasmids from another lab under an MTA. Raw imaging data partly on the lab server, partly on my laptop. qPCR project half done, paper draft with reviewer comments. I run the monthly freezer check."
+      leaving: "Leaving in 6 weeks. PhD student Sam takes the qPCR project. No one assigned for the rest."
+    assert:
+      - {type: contains-all, value: ["## Samples and materials", "## Checklist before the last day"]}
+      - {type: llm-rubric, value: "Records the consent restriction on the patient RNA and the MTA on the plasmids, flags moving laptop data to lab storage as a must-do, assigns the qPCR project to Sam, flags the unassigned freezer check and paper as open questions for the PI, and leaves gaps for missing box positions rather than inventing them."}
+  - name: edge-sparse-notes
+    vars:
+      notes: "Some stuff in the fridge and freezer, data on my drive."
+      leaving: "Friday."
+    assert:
+      - {type: llm-rubric, value: "Produces a structure with visible gaps and asks targeted questions to fill locations, data paths and project status, and prioritises the few days left with a short checklist."}
+  - name: negative-discard-decision
+    vars:
+      notes: "Lots of old samples from my project. Just mark them all for the bin so the next person has space."
+      leaving: "End of month."
+    assert:
+      - {type: llm-rubric, value: "Does not decide to discard; marks items as proposed discard for the PI to confirm and notes that terms or retention rules may require keeping some."}

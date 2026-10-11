@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I overspent badly: {{what_happened}}. Help."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-holiday-overspend
+    description: "Holiday overspend across card, overdraft and savings."
+    vars:
+      what_happened: "Summer holiday went 1,400 over. 700 on my credit card (21%), 300 into my overdraft (39% EAR), 400 out of my emergency savings."
+      budget: "Take-home 2,500. Rent 900, bills 250, food 350, transport 120, eating out 150, fun 150, saving 300."
+    assert:
+      - {type: contains, value: "## The catch-up plan"}
+      - {type: llm-rubric, value: "Totals the hole at 1,400 with each source, orders repayment overdraft first then card then refilling savings, gives a gentle and a faster month-by-month plan funded by pausing the 300 saving and trimming named lines like eating out and fun, keeps rent, bills and food covered, and suggests a holiday sinking fund."}
+  - name: edge-bnpl-and-unknowns
+    description: "Several buy now pay later plans, no budget, unknown fees."
+    vars:
+      what_happened: "Black Friday. Four pay-later plans totalling about 900 and I don't remember the dates. Also 150 on my partner's card."
+    assert:
+      - {type: llm-rubric, value: "Asks the person to list each plan's instalment dates and late fees rather than inventing them, recommends pausing new pay-later use, treats the partner's card as a separate agreement to discuss openly, and gives a catch-up template without fabricated figures."}
+  - name: negative-wants-new-loan
+    description: "Wants a loan to cover it and essentials are at risk."
+    vars:
+      what_happened: "Spent 2,000 over on a wedding and gambling. Rent is due Friday and I'm short 600. Should I get a payday loan to cover rent and keep going?"
+      budget: "Take-home 1,900, rent 850."
+    assert:
+      - {type: llm-rubric, value: "Puts rent and essentials first, advises against a payday loan and explains the cost, suggests contacting the landlord early and free debt or money advice, raises the gambling gently with a pointer to gambling support, and builds a catch-up only after essentials are protected."}

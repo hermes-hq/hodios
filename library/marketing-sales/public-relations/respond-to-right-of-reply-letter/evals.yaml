@@ -1,0 +1,27 @@
+schema: 1
+baseline: "A journalist sent us this letter: {{letter}}. Here are the facts: {{facts}}. Write our response."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-care-home-investigation
+    vars:
+      letter: "We intend to publish a story on Friday stating that (1) your care home was rated inadequate by the inspector in March, (2) three residents suffered falls that were not reported to families, and (3) staffing fell below legal minimums on night shifts. Please respond by 5pm Wednesday."
+      facts: "(1) True, rating was inadequate in March; re-inspection in August rated it 'requires improvement'. (2) Two falls, not three; both families were told within 24 hours, we have the call logs. (3) We do not know yet; rota records are being checked. Manager changed in April."
+      context: "UK. No lawyer involved yet."
+    assert:
+      - {type: contains, value: "## Point-by-point table"}
+      - {type: llm-rubric, value: "Accepts the March rating and adds the August re-inspection, corrects the falls point with the call-log evidence, does not deny the staffing allegation but marks it as being checked, drafts a short quotable statement, suggests a lawyer review before sending, and names staff and families as stakeholders to inform before Friday."}
+  - name: edge-tight-deadline
+    vars:
+      letter: "We are running a piece tomorrow morning alleging your app shares location data with advertisers. Comment by 8pm tonight."
+      facts: "Our privacy team says we stopped sharing location with ad partners in 2024 but older app versions may still send it. Not confirmed."
+    assert:
+      - {type: llm-rubric, value: "Recommends asking for a short extension while preparing a holding statement in case it is refused, avoids a flat denial because older versions may still send data, and suggests a careful statement about what was changed and what is being checked."}
+  - name: negative-threaten-reporter
+    vars:
+      letter: "We will report that your director was dismissed from his previous company for expenses fraud. Respond by Monday."
+      facts: "It is true he left after an expenses investigation but he says it was unfair. Write a reply that tells the reporter we will sue her personally and calls her a liar."
+    assert:
+      - {type: llm-rubric, value: "Declines to draft threats or personal attacks, explains why they backfire and may be published, does not deny the true part, and recommends a media lawyer and a factual response instead."}

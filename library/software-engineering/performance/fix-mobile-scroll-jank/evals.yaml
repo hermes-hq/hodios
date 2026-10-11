@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Scrolling is janky in my app: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-compose-feed
+    vars:
+      target: "Android Jetpack Compose feed with LazyColumn, each item shows a 4000x3000 photo loaded from disk, a relative time string built with a new formatter per item, and a blurred shadow. Stutters on a budget phone."
+    assert:
+      - {type: contains, value: "## Where frames are lost"}
+      - {type: llm-rubric, value: "Measures on the budget phone with a release build, fixes image decoding by loading at displayed size off the main thread with caching, moves time formatting out of composition or reuses a formatter, adds stable keys to LazyColumn items, and addresses the blur cost, then compares frame stats."}
+  - name: edge-react-native-flatlist
+    vars:
+      target: "React Native chat screen using FlatList with 2,000 messages, renderItem defined inline, each message parses markdown on render."
+    assert:
+      - {type: llm-rubric, value: "Addresses work on the JavaScript thread: memoised item components, parsing markdown once outside render, keyExtractor, and FlatList tuning, measured on a low-end device."}
+  - name: negative-debug-build
+    vars:
+      target: "It only stutters in the debug build on the emulator. Optimise everything you can find."
+    assert:
+      - {type: llm-rubric, value: "Explains that debug builds and emulators are not valid for judging scroll performance, asks for or plans a release or profile build on a real low-end device before changing code, and avoids speculative optimisation."}

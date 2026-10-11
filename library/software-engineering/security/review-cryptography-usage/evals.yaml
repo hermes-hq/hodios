@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Review the crypto in this code: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multiple-misuses
+    vars:
+      code: |
+        Python.
+        KEY = b"0123456789abcdef0123456789abcdef"
+        def encrypt(data): return AESGCM(KEY).encrypt(b"\x00"*12, data, None)
+        def hash_password(p): return hashlib.sha256(SALT + p.encode()).hexdigest()
+        def reset_token(): return str(random.randint(100000, 999999))
+        def check_sig(msg, sig): return hmac.new(KEY, msg, 'sha256').hexdigest() == sig
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags the hard-coded key, the fixed all-zero GCM nonce (catastrophic reuse), SHA-256 for passwords (recommends Argon2id, scrypt or bcrypt), random.randint for reset tokens (recommends the secrets module), and the non-constant-time comparison (recommends hmac.compare_digest), with migration notes for existing password hashes."}
+  - name: edge-jwt-and-tls
+    vars:
+      code: "Node.js: jwt.verify(token, publicKeyOrSecret) with no algorithms option, using the same variable for an HS256 secret and an RS256 public key; axios configured with httpsAgent rejectUnauthorized: false for an internal service."
+    assert:
+      - {type: llm-rubric, value: "Explains algorithm confusion risk when the algorithm is not pinned and recommends specifying allowed algorithms, and flags disabled TLS verification with a fix such as trusting the internal CA."}
+  - name: negative-fine-code
+    vars:
+      code: "Go: passwords hashed with golang.org/x/crypto/argon2 IDKey with a random 16-byte salt per user; tokens from crypto/rand; data encrypted with a library sealed box API using keys from a KMS."
+    assert:
+      - {type: llm-rubric, value: "Does not invent serious findings; confirms the patterns are sound, perhaps checking Argon2 parameters and key rotation, and says no exploitable misuse was found."}

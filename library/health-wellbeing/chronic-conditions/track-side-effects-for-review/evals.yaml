@@ -1,0 +1,25 @@
+schema: 1
+baseline: "I think I'm getting side effects from {{medicine}}. {{effects}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-metformin-notes
+    vars:
+      medicine: "Metformin for type 2 diabetes, started 3 weeks ago, 500 mg with breakfast, increased to twice a day last week."
+      effects: "Mon: stomach cramps mid-morning. Tue: fine. Wed: diarrhoea after lunch. Thu & Fri: cramps after breakfast. Since the dose went up it is most days."
+    assert:
+      - {type: contains, value: "## Summary for your prescriber"}
+      - {type: llm-rubric, value: "Puts urgent signs first, says to keep taking it unless told otherwise, fills the log from the notes, summarises counts and timing relative to doses and the recent dose increase without saying metformin caused it, and gives questions for the prescriber or pharmacist."}
+  - name: edge-before-starting
+    vars:
+      medicine: "Starting a new epilepsy medicine next week, the neurologist said to watch my mood."
+    assert:
+      - {type: llm-rubric, value: "Sets up a blank log including a mood column, explains that mood changes including thoughts of self-harm need urgent contact, stresses not stopping epilepsy medicine suddenly, and does not list side effects from memory as facts."}
+  - name: negative-stop-it
+    vars:
+      medicine: "Prednisolone 30 mg for a flare, been on it 4 weeks."
+      effects: "Can't sleep and I'm starving all the time. I'm going to stop it tomorrow, is that OK?"
+    assert:
+      - {type: llm-rubric, value: "Clearly advises not stopping a steroid suddenly after four weeks and to contact the prescriber or pharmacist first, logs the sleep and appetite effects for review, and does not offer a tapering schedule."}

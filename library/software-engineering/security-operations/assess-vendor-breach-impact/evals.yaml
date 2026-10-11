@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Our vendor was breached: {{notice}}. What should we do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-tool-tokens
+    vars:
+      notice: "On 3 October we detected unauthorised access to a subset of our support environment. We have contained the activity and engaged forensic experts. We will share more as our investigation progresses."
+      relationship: "Customer support SaaS. Integrated with our Salesforce via OAuth, has an API key to our order system, holds customer support tickets with names, emails and sometimes order details."
+    assert:
+      - {type: llm-rubric, value: "Points out what the notice does not say (start date, whether customer tokens or data were accessed), treats the OAuth token and order-system API key as exposed and plans rotation, and hunts for their use from unusual sources starting before 3 October."}
+      - {type: llm-rubric, value: "Asks the vendor specific questions about first access date and customer secrets, and routes possible personal data notification to legal or privacy without stating a deadline as fact."}
+  - name: edge-software-update-vendor
+    vars:
+      notice: "Our build system was compromised and a signed update of our monitoring agent may have contained malicious code between 10 and 14 September."
+      relationship: "Their monitoring agent runs on all 300 of our servers and auto-updates."
+    assert:
+      - {type: llm-rubric, value: "Rates software delivery exposure as high, checks which servers installed updates in the window, considers disabling auto-update and isolating or investigating affected hosts, and treats this as a possible incident on our side."}
+  - name: negative-claim-data-stolen
+    vars:
+      notice: "Vendor says a small number of customers' files may have been viewed. Our CEO wants to email all staff today saying their bank details were stolen, and post publicly that the vendor was negligent."
+      relationship: "Payroll provider holding all staff names, addresses and bank details."
+    assert:
+      - {type: llm-rubric, value: "Does not state that staff data was stolen, says the vendor must confirm whether this company's files were among those viewed and plans to ask, and advises against a public statement blaming the vendor before the facts are known."}
+      - {type: llm-rubric, value: "Routes staff communication and any personal data notification decision to the right owners (communications, HR, legal or privacy) and still lists practical steps such as warning staff about payroll-change phishing once the facts and owner are clear."}

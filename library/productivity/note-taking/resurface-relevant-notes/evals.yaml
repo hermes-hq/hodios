@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Which of my notes are relevant to: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-semantic-match
+    vars:
+      project: "Starting a project to improve customer renewal rates for our yoga studio memberships."
+      notes: |
+        2022-05 "Why members quit - exit survey themes" (schedule clashes, price)
+        2021-11 "Decided not to offer annual discounts" (cash flow worries then)
+        2023-02 "Idea: buddy pass for lapsed members" (never tried)
+        2024-01 "Contact - Priya, ran retention at a gym chain"
+        2023-08 "Studio cleaning rota"
+        2020-03 "Pricing sheet" (old prices)
+        2024-06 "Notes from podcast on habit loops"
+    assert:
+      - {type: contains, value: "## Forgotten ideas and decisions"}
+      - {type: llm-rubric, value: "Ranks the exit survey, buddy pass idea, annual discount decision and Priya contact as most relevant even though none use the word renewal, says what each contributes, calls out the 2021 decision as worth revisiting and the 2020 pricing sheet as likely out of date, leaves the cleaning rota out, and lists what is missing such as current renewal figures."}
+  - name: edge-titles-only
+    vars:
+      project: "Writing a talk on burnout in nursing."
+      notes: "Shift patterns, Moral injury, Staff room chat, Self-care is not enough, Rota software"
+    assert:
+      - {type: llm-rubric, value: "Picks plausible notes such as Moral injury, Self-care is not enough and Shift patterns, and states that relevance is a guess from titles only."}
+  - name: negative-no-notes
+    vars:
+      project: "Plan my garden redesign."
+      notes: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the notes to search and does not invent notes or garden advice in their place."}

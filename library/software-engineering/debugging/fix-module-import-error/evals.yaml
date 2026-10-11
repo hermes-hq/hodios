@@ -1,0 +1,32 @@
+schema: 1
+baseline: "I get this error: {{error}}. {{context}} How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-relative-import-as-script
+    vars:
+      error: |
+        Traceback (most recent call last):
+          File "/home/dev/shop/app/main.py", line 1, in <module>
+            from .db import connect
+        ImportError: attempted relative import with no known parent package
+      context: "I run it with `python app/main.py` from /home/dev/shop. app/ has __init__.py, db.py and main.py."
+    assert:
+      - {type: contains, value: "## Fix"}
+      - {type: llm-rubric, value: "Explains that running main.py as a script gives it no parent package, and fixes it by running `python -m app.main` from the project root (or an entry point), rather than editing sys.path or switching to absolute-path hacks."}
+  - name: edge-ts-paths-alias-in-tests
+    vars:
+      error: "Cannot find module '@/lib/format' from 'src/components/Price.test.ts'"
+      context: |
+        tsconfig.json: "paths": { "@/*": ["src/*"] }
+        App builds with Vite fine; tests run with Jest and ts-jest.
+    assert:
+      - {type: llm-rubric, value: "Explains that tsconfig paths are understood by the compiler and Vite (via config) but not by Jest's resolver, and fixes it with a matching moduleNameMapper (or a paths-to-mapper helper) in the Jest config; says to check CI too."}
+  - name: negative-ambiguous-interpreter
+    vars:
+      error: "ModuleNotFoundError: No module named 'pandas'"
+      context: "I already ran pip install pandas and it says Requirement already satisfied. Running from VS Code."
+    assert:
+      - {type: llm-rubric, value: "Does not tell the user to reinstall blindly or edit sys.path; explains that pip and the VS Code interpreter are likely different environments and gives commands (python -m pip, sys.executable, selecting the interpreter) to confirm before fixing."}

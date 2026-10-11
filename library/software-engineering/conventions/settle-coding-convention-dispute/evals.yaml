@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our team argues about this coding convention, which is right? {{dispute}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-barrel-files
+    vars:
+      dispute: "Should we use index.ts barrel files in every folder? Pro: shorter imports. Con: slow test startup and circular import bugs."
+      codebase_facts: "TypeScript monorepo, Vite and Vitest, 140 barrel files, test startup 40 s, two circular import incidents last quarter."
+    assert:
+      - {type: llm-rubric, value: "Classifies it as consequential, links barrel files to module loading cost and circular imports as mechanisms, recommends limiting barrels for example to package public entry points, writes a decision record, and proposes a lint check and a migration such as fix on touch or a mechanical change."}
+  - name: edge-preference-only
+    vars:
+      dispute: "Single quotes or double quotes in JavaScript strings?"
+      codebase_facts: "Prettier is installed but the quote option is not set; code is 70% double quotes."
+    assert:
+      - {type: llm-rubric, value: "Classifies it as preference-only, recommends picking one quickly (likely double quotes to match the existing majority and Prettier default) enforced by the formatter, and suggests a single formatting commit added to the blame-ignore list."}
+  - name: negative-unsupported-performance-claim
+    vars:
+      dispute: "A senior says early returns make code slower than a single exit point, so we must ban them."
+    assert:
+      - {type: llm-rubric, value: "Does not accept the performance claim without a mechanism or measurement, explains that compilers typically produce equivalent code or that it must be measured, and treats the decision mainly on readability grounds."}

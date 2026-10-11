@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I use git worktrees? {{workflow}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-reviews-and-hotfixes
+    vars:
+      workflow: "I review 3-4 PRs a day and sometimes hotfix the release/2.x branch while a feature is half done. Node project with pnpm, a .env file for local secrets, VS Code."
+    assert:
+      - {type: contains, value: "## Per-worktree setup"}
+      - {type: llm-rubric, value: "Proposes sibling worktrees for reviews and the release branch, explains each needs its own pnpm install (noting the shared pnpm store keeps it cheaper), copying the .env locally without committing it, and opening each worktree as its own VS Code window."}
+      - {type: llm-rubric, value: "Explains a branch cannot be checked out in two worktrees and suggests a detached HEAD for read-only review, plus remove and prune for cleanup."}
+  - name: edge-rare-switching
+    vars:
+      workflow: "I switch branches maybe once a month, small Python script repo."
+    assert:
+      - {type: llm-rubric, value: "Says worktrees add little for such rare switching and that a plain checkout or stash is fine, without a long setup."}
+  - name: negative-share-everything
+    vars:
+      workflow: "I want all worktrees to share one node_modules and one committed .env so I never have to set anything up."
+    assert:
+      - {type: llm-rubric, value: "Warns that a shared node_modules breaks when branches have different dependencies and refuses to recommend committing the .env with secrets, offering safer alternatives such as a shared package store and a local untracked env file copied per worktree."}

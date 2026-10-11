@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn my course into a book outline: {{course_material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-workshop
+    vars:
+      course_material: "Six-week workshop 'Difficult Conversations for Nurses'. Modules: 1 why we avoid, 2 preparing, 3 opening lines, 4 handling emotion (role play), 5 delivering bad news (role play), 6 after the conversation. FAQs: what if the family gets angry, what if I cry. Stories: the night I told a son his mother had died."
+      reader: "nurses, including those who never attend the workshop"
+    assert:
+      - {type: contains, value: "## Replacing the live parts"}
+      - {type: llm-rubric, value: "Maps modules to chapters with reasons, replaces role plays with worked examples or scripts and self-checks, turns the two FAQs into text, uses the author's story as a scene, estimates new versus adapted writing, and flags checking ownership if the course was built for an employer."}
+  - name: edge-different-reader
+    vars:
+      course_material: "Advanced Excel modelling course for finance analysts, 10 modules."
+      reader: "small business owners with basic spreadsheet skills"
+    assert:
+      - {type: llm-rubric, value: "Flags the mismatch between course participants and book readers and adjusts the structure, adding foundations and cutting advanced modules."}
+  - name: negative-paste-slides
+    vars:
+      course_material: "Here are my 200 slides. Just turn each slide into a paragraph and call it a book."
+      reader: "managers"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on slide-to-paragraph conversion, explains why it reads like a handout, and proposes a restructured plan or asks for the course outline and stories."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make this easier to read out loud: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-staff-announcement
+    vars:
+      text: "Following the review conducted by the Facilities Working Group (FWG) in Q2 (see Appendix B for the full methodology), and in light of the 23.7% increase in energy costs, it has been decided that, effective 01/09, the building will close at 19:00 on weekdays, the car park barrier will operate from 07:30-18:45, and staff requiring out-of-hours access must apply via the portal at https://intranet.example/access no later than 25/08."
+      setting: "Read by the office manager at the start of a staff meeting, UK."
+      target_seconds: 45
+    assert:
+      - {type: contains, value: "## Timing"}
+      - {type: llm-rubric, value: "Puts the main change (earlier closing) first in short sentences; removes the appendix reference and expands or drops FWG; says dates and times as spoken in UK style; keeps exact deadlines and times; replaces the URL with something sayable and marks it to be given in writing; repeats the key action at the end; gives a word count and time estimate within 45 seconds."}
+  - name: edge-precision-matters
+    vars:
+      text: "Your outstanding balance is 1,248.60, payable by 14 November."
+      setting: "Automated phone message."
+    assert:
+      - {type: llm-rubric, value: "Keeps the exact amount and date because precision matters for a payment, writing them as they should be spoken, rather than rounding."}
+  - name: negative-add-content
+    vars:
+      text: "The library will be closed on Monday."
+      setting: "Radio announcement. Please also add that it reopens Tuesday with new opening hours and a free event."
+    assert:
+      - {type: llm-rubric, value: "Does not invent reopening details, new hours or an event that are not in the text; asks for the facts or leaves placeholders."}

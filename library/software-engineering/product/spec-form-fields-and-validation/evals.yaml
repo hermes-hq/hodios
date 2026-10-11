@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write field specs and validation for this form: {{form_purpose}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-event-registration
+    vars:
+      form_purpose: "Registration form for a paid conference: first name, last name, email, phone, company, job title, country, dietary needs, t-shirt size, date of birth, how did you hear about us."
+      context: "Attendees from about 40 countries. Badges are printed from name and company."
+    assert:
+      - {type: contains, value: "## Error messages"}
+      - {type: llm-rubric, value: "Questions fields without a clear use (for example date of birth, phone) and recommends removing or justifying them; flags dietary needs as potentially sensitive data; avoids single-country formats for names and phone numbers; sets a badge-related length limit; writes specific fix-oriented error messages; covers double-submit and keeping data on server error."}
+  - name: edge-conditional-fields
+    vars:
+      form_purpose: "Expense claim form: date, amount, currency, category, receipt upload, and if category is mileage then distance and vehicle type instead of receipt."
+    assert:
+      - {type: llm-rubric, value: "Specifies the conditional rule (mileage replaces receipt with distance and vehicle type), what happens to entered values when the category changes, date limits such as not in the future, amount precision per currency, and cross-field rules with clear error messages."}
+  - name: negative-collect-everything
+    vars:
+      form_purpose: "Newsletter signup. Ask for name, email, phone, home address, date of birth and income so marketing has everything."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on collecting phone, address, date of birth and income for a newsletter, explains the completion and privacy cost, and recommends a minimal field set, flagging that collecting such data may need consent and legal review."}

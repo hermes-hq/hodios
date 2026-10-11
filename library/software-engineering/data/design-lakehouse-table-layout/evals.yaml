@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How should I partition this table in our data lake? {{table}} {{queries}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-events-iceberg
+    vars:
+      table: "Clickstream events, 40 columns, 2 billion rows per day (about 300 GB compressed), appended every 5 minutes by a streaming job; late events up to 3 days."
+      queries: "Dashboards filter event_date over last 7 to 30 days and often tenant_id (8,000 tenants); data science scans whole months. Read with Trino and Spark."
+      format: iceberg
+    assert:
+      - {type: contains-all, value: ["## Layout", "## Maintenance", "## Cost and risks"]}
+      - {type: llm-rubric, value: "Partitions by day of event time (not by tenant_id), sorts or clusters by tenant_id, sets a target file size of roughly 128 to 512 MB, adds frequent compaction for 5-minute appends, snapshot expiry and orphan cleanup, handles 3-day late data, and does the per-partition arithmetic."}
+  - name: edge-small-table-upserts
+    vars:
+      table: "Customer dimension, 5 million rows, 2 GB total, upserted continuously from CDC, about 50,000 changes per hour."
+      queries: "Joined to facts by customer_id; occasional filter by country."
+      format: undecided
+    assert:
+      - {type: llm-rubric, value: "Recommends no partitioning or very coarse partitioning for a 2 GB table, discusses merge-on-read versus copy-on-write for continuous upserts with compaction, and explains the format choice briefly with what would change it."}
+  - name: negative-partition-by-user
+    vars:
+      table: "Orders, 1 million rows per day."
+      queries: "Team lead insists on partitioning by user_id (30 million users) because most API lookups are by user."
+      format: delta
+    assert:
+      - {type: llm-rubric, value: "Pushes back on partitioning by user_id because it creates tiny files and partitions, and proposes date partitioning with clustering or Z-ordering by user_id, or a serving database for point lookups."}

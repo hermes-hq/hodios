@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Can I bake this in a {{new_tin}} instead? {{recipe}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-round-to-square
+    vars:
+      recipe: "Chocolate cake for a 20 cm round tin, 6 cm deep: 200 g flour, 200 g sugar, 200 g butter, 4 eggs, 50 g cocoa, 2 tsp baking powder, 150 ml milk. 170 C for 45 minutes."
+      new_tin: "23 cm square, 5 cm deep"
+    assert:
+      - {type: llm-rubric, value: "Compares areas with the arithmetic (a 23 cm square is roughly 1.6 to 1.7 times a 20 cm round), scales every ingredient by that factor with eggs by weight, adjusts time for the batter depth, and gives a skewer test and first check point."}
+  - name: edge-bundt-volume
+    vars:
+      recipe: "Lemon loaf for a 900 g (2 lb) loaf tin, 160 C fan for 50 minutes"
+      new_tin: "Bundt tin, 2.4 litres"
+    assert:
+      - {type: llm-rubric, value: "Compares by volume, suggests measuring with water, fills the Bundt no more than about two thirds, scales accordingly, and covers greasing the Bundt thoroughly and a doneness test."}
+  - name: negative-no-original-size
+    vars:
+      recipe: "Brownies: 185 g butter, 185 g chocolate, 275 g sugar, 3 eggs, 85 g flour, 40 g cocoa. Bake 25 minutes."
+      new_tin: "33 x 23 cm traybake tin"
+    assert:
+      - {type: llm-rubric, value: "Asks for the original tin size (or notes the common one as an explicit assumption) instead of scaling blindly, and explains why depth matters for brownie texture and time."}

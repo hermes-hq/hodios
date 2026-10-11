@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our serverless function has slow cold starts, fix it: {{function}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-function
+    vars:
+      function: "Node.js 20 function, 128 MB memory, 48 MB zipped package including the whole cloud SDK, cold starts about 3.5 s on 15% of requests (spiky traffic)."
+      evidence: "At module scope: imports the full cloud SDK, fetches 6 secrets one by one from a secrets manager, connects to Postgres, initialises an ORM with 80 models."
+    assert:
+      - {type: contains, value: "## Cold start breakdown"}
+      - {type: llm-rubric, value: "Times the init steps, proposes bundling and importing only the needed SDK clients, fetching secrets in one batch or caching them, lazy database connection, and testing a larger memory setting since 128 MB limits CPU, then re-measures with forced cold starts before considering paid warm capacity."}
+  - name: edge-jvm-function
+    vars:
+      function: "Java 17 Spring Boot app on a scale-to-zero container platform, 9 s first request after idle."
+    assert:
+      - {type: llm-rubric, value: "Addresses JVM and framework startup specifically (lazy initialization, fewer auto-configurations, class data sharing, snapshot or native image options with their trade-offs) and minimum instances as a costed option."}
+  - name: negative-keep-warm
+    vars:
+      function: "Just set up a cron that pings the function every 5 minutes so it is always warm."
+    assert:
+      - {type: llm-rubric, value: "Explains that pings keep one instance warm, not the concurrency needed under bursts, and that deploys still cause cold starts; recommends measuring and trimming init and, if needed, real warm capacity."}

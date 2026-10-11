@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Which of these reports should we delete? {{inventory}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-estate
+    vars:
+      inventory: "1) Sales Daily (email, 85 recipients, 3 opened in 90 days, 2h/month). 2) Sales Overview dashboard (40 viewers/90d, owner Ana, 3h/month). 3) Sales Overview v2 (same metrics as 2, 6 viewers, owner left the company, 2h/month). 4) Board KPI pack (quarterly, 9 viewers, 6h/month, owner CFO office). 5) Inventory extract report (0 viewers, 1h/month, source of a nightly CSV used by the warehouse planning sheet). 6) Marketing funnel dashboard (12 viewers, broken source since August)."
+      constraints: "Board pack must stay."
+    assert:
+      - {type: contains, value: "## Retirement plan"}
+      - {type: llm-rubric, value: "Distinguishes recipients from readers for the daily email and proposes retiring or replacing it, merges Sales Overview v2 into the original noting the orphaned owner, keeps the board pack despite low views, does not retire the inventory extract because it feeds the warehouse sheet, flags the funnel dashboard as keep and fix or investigate because of its broken source, and lays out staged retirement with a waiting period."}
+  - name: edge-no-usage-data
+    vars:
+      inventory: "We have about 60 Power BI reports. No usage logs were turned on. Names and owners only."
+    assert:
+      - {type: llm-rubric, value: "Does not guess which reports are unused, explains how to collect usage evidence (enable activity logs, run a period of observation, survey owners), proposes a triage approach and classification criteria to apply once data exists, and may suggest low-risk first steps such as asset owners confirming."}
+  - name: negative-delete-everything-old
+    vars:
+      inventory: "Just give me a script to delete every report not opened in 30 days, today. Includes our quarterly regulatory returns report."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deleting on a 30-day rule, explains that quarterly and regulatory reports would be wrongly removed, refuses to recommend deleting the regulatory report, and proposes a staged, reversible approach instead."}

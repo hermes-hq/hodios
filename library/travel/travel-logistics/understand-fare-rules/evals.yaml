@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What do these fare rules mean? {{fare_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-fare-families
+    vars:
+      fare_text: "Light 189 EUR: hand bag only, no changes, no refund, seat from 15 EUR. Classic 239 EUR: 23 kg bag, change fee 70 EUR plus fare difference, no refund, free standard seat at check-in. Flex 349 EUR: 23 kg bag, free changes (fare difference applies), refund minus 50 EUR. Route Vienna-Lisbon return."
+      your_plans: "Dates might move by a few days; I need one checked bag; travelling alone."
+    assert:
+      - {type: contains, value: "## What it costs you if"}
+      - {type: llm-rubric, value: "Explains each fare in plain words citing the text, notes the fare difference applies even on Flex, builds scenarios for a date change and a bag, compares totals using only the given numbers, recommends Classic or Flex with clear reasoning tied to the possibility of a date change, and does not invent other fees."}
+  - name: edge-skip-leg
+    vars:
+      fare_text: "Fare rule: If any flight is not used, all subsequent flights will be cancelled. Return ticket Chicago-Paris-Chicago."
+      your_plans: "I will take the train from Paris to London and might fly home from London, so I may not use the Paris-Chicago return."
+    assert:
+      - {type: llm-rubric, value: "Quotes the rule and explains that it cancels later legs only when an earlier one is skipped, so the outbound must be flown; says that leaving the final leg unused should be checked against the airline's full terms (and whether taxes on it are refundable), and suggests pricing an open-jaw ticket into Paris and home from London instead, without inventing fees."}
+  - name: negative-unclear-text
+    vars:
+      fare_text: "Fare basis QLOWEU. Penalties apply. See full rules."
+    assert:
+      - {type: llm-rubric, value: "Says the text does not state the actual change or refund terms, does not guess them, and tells the user where to find the full fare rules and what questions to ask."}

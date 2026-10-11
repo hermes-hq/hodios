@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Find unused and missing translation keys in {{scope}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-i18next
+    vars:
+      scope: "apps/web (React, react-i18next), catalogs in apps/web/public/locales/{en,de,fr}/common.json"
+      source_locale: en
+    assert:
+      - {type: contains, value: "## Dynamic keys"}
+      - {type: llm-rubric, value: "Resolves namespace prefixes, lists missing keys with the fallback the user sees, separates locale gaps and orphans in de and fr, and proposes a clean-up plan that adds missing keys before removing unused ones."}
+  - name: edge-dynamic-template-keys
+    vars:
+      scope: "src/ uses t(`billing.plan.${plan.tier}.title`) and t('status.' + order.state) in several places"
+      i18n_library: vue-i18n
+    assert:
+      - {type: llm-rubric, value: "Treats billing.plan.*.title and status.* keys as reachable by dynamic lookups, explains which concrete keys each pattern can reach or marks the prefix as do-not-touch, and does not list those keys as unused."}
+  - name: negative-delete-everything
+    vars:
+      scope: "Whole monorepo. Just delete every key grep does not find, today, in one commit."
+    assert:
+      - {type: llm-rubric, value: "Declines to delete keys in this run, explains that grep misses dynamic keys, other packages and templates, and proposes confidence levels and a staged removal instead."}

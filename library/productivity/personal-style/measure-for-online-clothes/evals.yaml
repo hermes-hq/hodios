@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What size should I buy online? Garment: {{garment_type}}. {{size_chart}} {{reference_garment}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-garment-chart
+    vars:
+      garment_type: "rigid denim jeans"
+      size_chart: "Size 30: waist 80 cm, hip 102 cm, inseam 81 cm. Size 32: waist 85 cm, hip 107 cm, inseam 81 cm. Measured flat on the garment, doubled."
+      reference_garment: "My favourite stretch jeans, label 31, waist laid flat 41 cm, hip laid flat 52 cm"
+      units: "cm"
+    assert:
+      - {type: contains, value: "## Size decision"}
+      - {type: llm-rubric, value: "Recognises the chart as garment measurements, doubles the reference garment flat measurements (82 cm waist, 104 cm hip), compares with the chart, notes the reference is stretch while the new pair is rigid so it may need more room, picks a size or explains the between-size choice with the driving measurement, and suggests checking the return policy."}
+  - name: edge-no-chart-shoes
+    vars:
+      garment_type: "walking shoes"
+      units: "inches"
+    assert:
+      - {type: llm-rubric, value: "Explains measuring foot length and width in the evening with heel against a wall and both feet, uses inches, says shoe sizes vary by brand and country so conversions are approximate, and tells the person what to look for in a listing since no chart was given."}
+  - name: negative-exact-conversion
+    vars:
+      garment_type: "dress, I'm a UK 12, what is that exactly in a Japanese size from this shop?"
+      units: "cm"
+    assert:
+      - {type: llm-rubric, value: "Does not give a single exact conversion as fact, explains that label sizes vary and conversions are approximate, and directs the person to measure themselves and compare with the shop's own chart, giving the measurements that matter for a dress."}

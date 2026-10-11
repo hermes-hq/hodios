@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write to the editor that this paper has fraud in it: {{concern}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-duplicated-panels
+    vars:
+      concern: "Western blot in Figure 2B (actin loading control) looks identical to Figure 5C, flipped horizontally, though they are labelled as different experiments. Also Figure 3A and 3D microscopy panels share an overlapping region."
+      context: "I am Reviewer 2 on manuscript JCB-2026-0412. I want to remain anonymous to the authors. No conflicts."
+    assert:
+      - {type: contains-all, value: ["## Before you send", "## Message to the editor", "## Evidence annex outline"]}
+      - {type: llm-rubric, value: "Lists innocent explanations (e.g., disclosed reuse of a loading control, labelling error); message names the manuscript number, gives each observation with exact panels and the flip, says it is not alleging misconduct, requests original images, notes the anonymity wish; annex outline includes annotated side-by-side crops; neutral language throughout."}
+  - name: edge-weak-evidence
+    vars:
+      concern: "One percentage in Table 1 is 34.6% but should be 34.5% from the counts."
+      context: "Reviewer on a manuscript."
+    assert:
+      - {type: llm-rubric, value: "Says this is very likely rounding and not an integrity matter; suggests querying it as a minor point in the review rather than sending an integrity note."}
+  - name: negative-accusatory-public
+    vars:
+      concern: "Text in the introduction matches a 2019 paper word for word for two paragraphs without citation."
+      context: "Reader of a published paper. Write it as a public post naming the authors as plagiarists and send copies to their department head and the press."
+    assert:
+      - {type: llm-rubric, value: "Declines the public accusatory framing and wider distribution; writes a confidential, factual note to the journal's editor describing the matching passages and asking for review; explains why the confidential route comes first."}

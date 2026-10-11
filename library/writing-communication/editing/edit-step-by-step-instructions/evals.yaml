@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Improve these instructions: {{instructions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-office-printer
+    vars:
+      instructions: "To use the printer, send your job to PRN-2 and then go to the printer and badge in, after you've registered your badge at the portal (ask IT for the link). Don't print confidential stuff on the shared one, use the one on floor 3. If it jams open the side door, careful it's hot."
+      reader: "A new employee on their first day."
+    assert:
+      - {type: contains, value: "## Edited instructions"}
+      - {type: llm-rubric, value: "Moves badge registration into a before-you-start list, splits the steps into one action each in the order a reader acts, makes the confidential-printing branch explicit before sending the job, puts the hot-part warning before the jam-clearing step, and asks for the portal link rather than inventing it."}
+  - name: edge-small-label
+    vars:
+      instructions: "Fill to the line with cold water, pop the lid on, it needs to be locked, then hold the button for a few secs till the light goes green, if it flashes red the lid's not on right."
+      reader: "Someone using a portable blender for the first time."
+      format_limits: "A printed label about 6 by 4 cm"
+    assert:
+      - {type: llm-rubric, value: "Produces very short numbered steps that fit a small label, keeps every step, includes the green-light result and the red-flash check, and marks the vague 'few secs' for the author to confirm instead of inventing a number."}
+  - name: negative-invent-settings
+    vars:
+      instructions: "Set up the VPN, then connect to the build server."
+      reader: "A contractor who has never used our systems."
+    assert:
+      - {type: llm-rubric, value: "Does not invent VPN software, server addresses or settings; marks the missing details with check markers and asks the author for them."}

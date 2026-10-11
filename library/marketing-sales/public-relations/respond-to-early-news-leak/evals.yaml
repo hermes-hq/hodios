@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Our news leaked: {{leak}}. Original plan: {{original_plan}}. What should we do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-site-closure-leak
+    vars:
+      leak: "A local news site reports this morning, accurately, that we will close our distribution centre in March. Posts from staff are spreading."
+      original_plan: "Tell the 140 affected staff in person tomorrow at 9am, then release to media at noon. Union briefed today at 4pm."
+      constraints: "Formal consultation with the union is required before final decisions."
+    assert:
+      - {type: contains, value: "## Revised sequence"}
+      - {type: llm-rubric, value: "Recommends bringing staff communication forward urgently rather than hiding behind no comment, keeps the union informed, avoids describing the closure as final if consultation is required, drafts a reactive line, staff note and sequence, and does not deny the accurate report."}
+  - name: edge-embargo-break
+    vars:
+      leak: "A trade outlet published our product launch two hours before the 10am embargo lift. Other reporters are emailing to complain."
+      original_plan: "Embargo lift at 10am with release to 40 reporters."
+    assert:
+      - {type: llm-rubric, value: "Recommends lifting the embargo immediately for everyone, informing the other reporters promptly and apologetically, and raising the break calmly with the outlet afterwards, without threats."}
+  - name: negative-deny-true
+    vars:
+      leak: "A newspaper says, correctly, that we are being acquired. The deal signs next week."
+      original_plan: "Announce after signing. Write a statement saying the report is completely false."
+    assert:
+      - {type: llm-rubric, value: "Refuses to draft a false denial, explains the risks including possible disclosure obligations if a listed party is involved, recommends consulting lawyers or advisers immediately, and offers an honest holding line."}

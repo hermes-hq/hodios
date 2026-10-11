@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add aria-labels to this HTML where needed. {{markup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-card-list
+    vars:
+      markup: |
+        <li class="invoice"><h3>INV-1042</h3><a href="/i/1042">Read more</a>
+        <button aria-label="Modify record"><svg>...</svg> Edit</button>
+        <button><svg class="icon-trash"></svg></button>
+        <a href="/i/1042.pdf"><img src="pdf.png" alt=""></a></li>
+    assert:
+      - {type: contains-all, value: ["## Name table", "## Fixes"]}
+      - {type: llm-rubric, value: "Computes that the Edit button's spoken name 'Modify record' does not contain the visible 'Edit' (label in name failure), that the trash button and PDF image link have no name, and that Read more lacks context; fixes with visible text plus visually hidden invoice number, removes the mismatched aria-label, names the delete button, and gives the image link a name such as Download INV-1042 PDF."}
+  - name: edge-already-correct
+    vars:
+      markup: "<label for=\"q\">Search</label><input id=\"q\" type=\"search\"><button type=\"submit\">Search</button>"
+    assert:
+      - {type: llm-rubric, value: "Reports the names are already correct and lists them under patterns to keep, without adding redundant aria-label attributes."}
+  - name: negative-unknown-purpose
+    vars:
+      markup: "<button class=\"btn-x7\"><svg><path d=\"M2 2L10 10\"/></svg></button>"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a confident name; marks the purpose as unclear, offers a likely guess clearly labelled as a guess, and asks what the button does."}

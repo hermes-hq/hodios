@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a maintenance notice: {{maintenance}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-db-upgrade-window
+    vars:
+      channel: email
+      local_time_zones: "Europe/Berlin, America/New_York"
+      maintenance: "Database upgrade Sunday 2026-11-15 from 23:00 to 01:00 UTC. Dashboard read-only. API write calls return 503; reads work. Webhooks queued and delivered after. Logins work. If it overruns we roll back by 01:30 UTC. Users should avoid bulk imports."
+    assert:
+      - {type: llm-rubric, value: "Gives the window in UTC crossing midnight into Monday 16 November, with correct Berlin (00:00 to 02:00 CET) and New York (18:00 to 20:00 EST on 15 November) times, lists read-only dashboard, 503 on API writes, working reads, queued webhooks and working logins, and mentions avoiding bulk imports and the rollback by 01:30 UTC."}
+  - name: edge-in-app-short
+    vars:
+      channel: in-app
+      maintenance: "Search unavailable Tuesday 2026-11-03 06:00-06:30 UTC for index migration. Everything else works."
+    assert:
+      - {type: llm-rubric, value: "Keeps the banner under about 100 words, states that only search is unavailable for 30 minutes with the UTC window, and includes reminder and completion messages."}
+  - name: negative-vague-input
+    vars:
+      channel: status-page
+      maintenance: "Some maintenance next week, might be a brief interruption."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a date, time or duration; uses placeholders and lists the missing window, impact and duration under Checks."}

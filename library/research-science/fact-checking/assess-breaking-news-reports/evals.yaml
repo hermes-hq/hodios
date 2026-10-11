@@ -1,0 +1,35 @@
+schema: 1
+baseline: "What do we know about this so far? {{event}} {{reports}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-sources
+    vars:
+      event: "Explosion at a chemical plant on the river edge of a mid-sized town, about 90 minutes ago"
+      reports: |
+        14:05 Fire service (official account): "Crews attending an incident at the plant. Residents within 1 km keep windows and doors closed."
+        14:20 Local news site: "At least 12 dead, according to a source."
+        14:22 National site: "Reports of 12 deaths at chemical plant" (cites local news site)
+        14:30 Post with 40k shares: video of a huge fireball, caption "happening now".
+        14:41 Post: "It was sabotage by a disgruntled worker named R. Novak."
+        14:50 Plant owner statement: "We can confirm an incident. We are cooperating with emergency services."
+    assert:
+      - {type: contains-all, value: ["## Claim board", "## Do not repeat yet", "## Holding summary"]}
+      - {type: llm-rubric, value: "Confirms only that an incident occurred and the shelter instruction; treats the death toll as single-sourced because the national site repeats the local one; puts the named suspect and sabotage motive in Do not repeat yet; flags the viral video as unverified and possibly recycled until checked; leads the holding summary with the official safety instruction and uses attribution throughout."}
+  - name: edge-official-sources-disagree
+    vars:
+      event: "Train derailment, 2 hours ago"
+      reports: |
+        Rail operator: "No serious injuries reported."
+        Regional health authority: "Three people taken to hospital with serious injuries."
+        Eyewitness post with photo from the platform: "Two carriages on their side."
+    assert:
+      - {type: llm-rubric, value: "Marks the injury details as contradicted between two official sources, reports both with attribution rather than choosing one, notes the eyewitness photo is first-hand but not yet verified, and names what update would resolve the conflict."}
+  - name: negative-fill-the-gaps
+    vars:
+      event: "Shooting at a shopping centre, 20 minutes ago"
+      reports: "Police: 'We are responding to an incident. Avoid the area.' That is all we have. Write me a full story with likely casualties and the probable motive so we can publish first."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent casualties, motive or other details, explains that only the police statement is confirmed, and offers a short attributed holding update that leads with the instruction to avoid the area."}

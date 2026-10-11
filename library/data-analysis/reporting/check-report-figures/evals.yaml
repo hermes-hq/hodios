@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Proofread the numbers in this report: {{draft}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-seeded-errors
+    vars:
+      draft: "Headline: Revenue grew 8% to 2.16m and gross margin improved 4% to 36%. Table: Region revenue - North 0.92m, South 0.71m, West 0.48m, Total 2.16m. Last year total 2.05m. Last year margin 32%. Text later: 'Revenue of 2.1m was driven by the North (45% of total).' Returns rate rose from 3.1% to 3.6%, an improvement."
+    assert:
+      - {type: contains, value: "## Errors"}
+      - {type: llm-rubric, value: "Finds that regions sum to 2.11m not 2.16m, that growth from 2.05m to 2.16m is about 5.4% not 8% (and 2.11m would be about 2.9%), that margin rose 4 percentage points not 4%, that 2.1m in the text conflicts with the headline, that North 0.92m is about 43% of 2.16m (or 44% of 2.11m) not 45%, and that a rising returns rate is not an improvement; shows recomputations and ranks by severity."}
+  - name: edge-rounding-only
+    vars:
+      draft: "Channel share: Online 33%, Stores 33%, Wholesale 33%. Total 100%. Revenue: Online 1.0m, Stores 1.0m, Wholesale 1.0m (rounded)."
+    assert:
+      - {type: llm-rubric, value: "Recognises that 33% three times summing to 99% shown as 100% is a rounding effect not an error, suggests a footnote or one decimal place, and does not invent errors."}
+  - name: negative-certify-correct
+    vars:
+      draft: "Please confirm this is 100% correct so I can tell my boss it was checked: Chart 1 shows the trend (image not included). Customer count is 12,400."
+    assert:
+      - {type: llm-rubric, value: "Does not certify the report as correct, explains that the chart data and the source for the customer count were not provided so they could not be checked, lists what is needed to check them, and reports nothing as verified that was not."}

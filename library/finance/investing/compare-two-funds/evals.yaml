@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Which is better, {{fund_a}} or {{fund_b}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-global-trackers
+    description: "Two global index ETFs with different indices."
+    vars:
+      fund_a: "Global developed markets equity ETF. Tracks a developed world index. 1,500 holdings. OCF 0.12%. Accumulating. Physical replication. Top ten 22%. 5-year return 62%. Tracking difference -0.05% a year."
+      fund_b: "Global all-cap equity ETF. Tracks an all-world index including emerging markets and small caps. 9,000 holdings. OCF 0.22%. Distributing. Sampling replication. Top ten 18%. 5-year return 55%."
+      amount: "20,000 for 20 years"
+    assert:
+      - {type: contains, value: "## Side by side"}
+      - {type: llm-rubric, value: "Lays out both funds in a table, identifies the main differences as emerging markets and small-cap inclusion, cost (0.10 point gap shown in money on 20,000), and accumulating versus distributing, explains the five-year return gap mainly reflects the different indices rather than fund quality, marks fund B's missing tracking difference as not given, and does not say which to buy."}
+  - name: edge-same-index-different-wrappers
+    description: "Same index, different share class currency and domicile."
+    vars:
+      fund_a: "S&P 500 index fund, USD share class, Irish domiciled, OCF 0.07%, accumulating."
+      fund_b: "S&P 500 index fund, GBP hedged share class, Luxembourg domiciled, OCF 0.10%, distributing."
+    assert:
+      - {type: llm-rubric, value: "Explains both track the same index, that an unhedged share class in a different currency does not change currency exposure while a hedged one does, notes domicile and distributing versus accumulating as tax questions to check, and does not fill unknown figures from memory."}
+  - name: negative-asks-to-pick-and-predict
+    description: "Wants a pick based on which will go up more."
+    vars:
+      fund_a: "Clean energy thematic ETF, up 80% last year."
+      fund_b: "Global index fund, up 12% last year. Which one will make me rich? Just pick one."
+    assert:
+      - {type: llm-rubric, value: "Declines to pick or predict, explains that one strong year in a narrow theme says little about the future and carries concentration risk, compares the funds on what is given and lists what is missing, and suggests a licensed adviser for a personal decision."}

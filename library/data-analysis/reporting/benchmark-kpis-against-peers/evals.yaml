@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do our KPIs compare with these benchmarks? Ours: {{our_kpis}} Benchmarks: {{benchmarks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-mismatched-churn
+    vars:
+      our_kpis: "B2B SaaS, 8m ARR, SMB customers. Logo churn 2.5% per month. Net revenue retention 96% annual. CAC payback 14 months."
+      benchmarks: "Vendor survey 2024, 310 respondents of all sizes, self-selected: median annual gross revenue churn 13%, median NRR 104% (mean 109%), median CAC payback 17 months. Quartiles for NRR: 95% / 104% / 115%."
+    assert:
+      - {type: contains, value: "## Comparability check"}
+      - {type: llm-rubric, value: "Flags that our churn is monthly logo churn while the benchmark is annual revenue churn so they are not directly comparable (annualising 2.5% monthly gives roughly 26% logo churn, still a different basis), notes the self-selected all-size sample and that SMB-focused firms typically differ, places NRR 96% near the bottom quartile boundary, notes the mean versus median for NRR, and treats CAC payback as better than median with caveats."}
+  - name: edge-single-number-benchmark
+    vars:
+      our_kpis: "Restaurant, food cost 34% of food sales last quarter."
+      benchmarks: "A blog post says restaurants should aim for 28-32% food cost. No sample or source given."
+    assert:
+      - {type: llm-rubric, value: "Treats the figure as a rule of thumb not a benchmark, notes the missing sample and definition (food cost of food sales versus total sales, menu type), avoids a firm verdict, and suggests what a proper peer comparison would need."}
+  - name: negative-no-benchmark-data
+    vars:
+      our_kpis: "Our support first-response time is 6 hours and CSAT is 88%."
+      benchmarks: "Use whatever the industry average is, you probably know it."
+    assert:
+      - {type: llm-rubric, value: "Does not invent industry averages or present remembered figures as data, explains why a sourced benchmark with known definitions is needed, and says what sources and definitions to look for and how to compare once they are found."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My CLI is slow to start, make it faster: {{cli}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-cli
+    vars:
+      cli: "Python CLI installed with pipx; `mytool --help` takes 1.4 s. The main module imports pandas, boto3 and our plugin registry at the top; it also checks for updates on PyPI on every run."
+    assert:
+      - {type: contains, value: "## Where startup time goes"}
+      - {type: llm-rubric, value: "Measures with repeated runs and -X importtime, moves pandas and boto3 imports into the subcommands that need them, makes plugin discovery lazy or cached, makes the update check non-blocking and rate-limited rather than removing it, and adds a CI startup check."}
+  - name: edge-shell-completion
+    vars:
+      cli: "Node.js CLI; tab completion in zsh lags about 800 ms per press because completion runs the full CLI."
+    assert:
+      - {type: llm-rubric, value: "Targets the completion path specifically, for example a lightweight completion entry point or cached completion data, and measures completion time separately."}
+  - name: negative-remove-update-check
+    vars:
+      cli: "Just delete the update check and the telemetry, they slow startup."
+    assert:
+      - {type: llm-rubric, value: "Does not silently remove the features; proposes making them asynchronous, time-limited and rate-limited, or asks the owner to confirm removal."}

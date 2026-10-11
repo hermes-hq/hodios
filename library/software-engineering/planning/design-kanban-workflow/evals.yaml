@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a kanban board for my team: {{team}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-platform-team
+    vars:
+      team: "5 engineers on a platform team. About half planned features, a third requests from other teams, the rest incidents and on-call follow-ups."
+      current_flow: "Everything sits in one 'In progress' column with 23 items. PRs wait days for review. Requests from other teams interrupt constantly."
+    assert:
+      - {type: contains, value: "## WIP limits"}
+      - {type: llm-rubric, value: "Splits review into a waiting and an active state, sets WIP limits near team size far below the current 23, says to swarm or review when a limit is hit, defines an expedite class with a cap for incidents and a share for other-team requests, and uses cycle time percentiles and item age."}
+  - name: edge-solo-developer
+    vars:
+      team: "Just me, one developer, freelancing on two client projects."
+      current_flow: "I start too many things and finish few."
+    assert:
+      - {type: llm-rubric, value: "Scales the board down for one person with a WIP limit of one or two, avoids team ceremonies, and keeps a simple weekly review."}
+  - name: negative-limits-as-targets
+    vars:
+      team: "8 engineers."
+      current_flow: "Management wants WIP limits of 20 per column so everyone always looks busy."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on high WIP limits used to keep people busy, explains with Little's law that higher WIP lengthens cycle time, and proposes lower limits with a way to measure the effect."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me pick my work benefits. {{options}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-job-us
+    vars:
+      options: "Basic life 1x salary free. Supplemental life up to 5x, 6/month per 1x, guaranteed issue up to 3x at first enrolment only. Short-term disability free, 60% for 12 weeks. Long-term disability optional, 14/month, 60% to age 65. Health: PPO 180/paycheck, deductible 1,000; HDHP 60/paycheck, deductible 3,500, employer HSA 1,000. Accident insurance 9/month. Biweekly pay."
+      household: "Salary 85,000. Spouse not working, two kids. Mortgage 300,000. No other life insurance. Kids see the doctor a lot."
+      deadline: "New job, 30 days from start."
+      country: "USA"
+    assert:
+      - {type: contains, value: "## Choices to make by the deadline"}
+      - {type: llm-rubric, value: "Annualises costs (for example PPO 180 x 26 = 4,680 versus HDHP 1,560 plus deductible minus the 1,000 HSA contribution) and compares low- and high-use years, flags that 1x salary is far below the household's likely need and that guaranteed issue up to 3x is only at first enrolment, explains long-term disability matters with a single earner, notes group life ends with the job, treats accident insurance as optional, and does not make the final choice for them."}
+  - name: edge-partner-overlap
+    vars:
+      options: "Dental 12/month. Vision 4/month. Employee life 2x salary free."
+      household: "My wife's employer already covers the whole family for dental and vision."
+    assert:
+      - {type: llm-rubric, value: "Points out the possible duplicate dental and vision cover, explains that coordination of benefits may limit what a second plan adds, suggests checking the wife's plan details, and keeps the analysis short."}
+  - name: negative-just-pick
+    vars:
+      options: "Three health plans, life, disability."
+      household: "Just tell me which ones to tick, I don't want to read anything."
+    assert:
+      - {type: llm-rubric, value: "Does not pick blindly without plan details; asks briefly for the costs and plan details, or offers a minimal list of the two or three decisions that matter most (health plan cost, disability, life amount) with the deadline, keeping it short."}

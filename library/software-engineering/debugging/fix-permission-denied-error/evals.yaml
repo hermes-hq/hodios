@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I get {{error}} in {{environment}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-docker-bind-mount-uid
+    vars:
+      error: "Error: EACCES: permission denied, open '/app/data/cache.json'"
+      environment: "docker compose on Ubuntu, ./data bind-mounted to /app/data, Dockerfile ends with USER node (uid 1000). On the host, ./data is owned by root because docker created it."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains the numeric uid mismatch between the container user node (1000) and the root-owned host directory created by Docker, and fixes it by creating the directory beforehand or chowning it to 1000:1000 (or matching user mapping), with a verification step; does not suggest chmod 777 or running as root."}
+  - name: edge-selinux-volume
+    vars:
+      error: "nginx: [emerg] open() \"/usr/share/nginx/html/index.html\" failed (13: Permission denied)"
+      environment: "Podman on Fedora, host folder ./site mounted at /usr/share/nginx/html, file modes are 644 and readable by everyone."
+    assert:
+      - {type: llm-rubric, value: "Recognises that file modes look fine so the likely denying layer is SELinux on Fedora, suggests checking getenforce and the audit log, and fixes with the :Z or :z volume option or the correct context instead of disabling SELinux."}
+  - name: negative-chmod-777
+    vars:
+      error: "PermissionError: [Errno 13] Permission denied: '/var/www/uploads/photo.jpg'. I'll just do chmod -R 777 /var/www, right?"
+      environment: "Ubuntu server, Gunicorn under systemd as user www-app, nginx as www-data."
+    assert:
+      - {type: llm-rubric, value: "Refuses chmod -R 777 as the fix and explains the risk; proposes giving the www-app user (or a shared group with nginx) write access only to the uploads directory, with the exact chown or chmod commands and a verification as that user."}

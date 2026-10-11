@@ -1,0 +1,36 @@
+schema: 1
+baseline: "We got this error in production: {{stack_trace}}. Build: {{build_setup}}. {{source_map_output}} What is the bug?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-release-mismatch
+    vars:
+      stack_trace: |
+        TypeError: Cannot read properties of undefined (reading 'map')
+          at Xe (https://cdn.example.com/assets/index-4f9a1c.js:1:48213)
+          at ri (https://cdn.example.com/assets/index-4f9a1c.js:1:51007)
+        release: web@2026.10.3
+      build_setup: |
+        Vite, build.sourcemap: 'hidden'. CI step: `npm run build && sentry-cli sourcemaps upload --release=$GIT_SHA dist/assets`.
+        Sentry.init({ release: "web@" + APP_VERSION })
+    assert:
+      - {type: contains, value: "## Why it was not decoded"}
+      - {type: llm-rubric, value: "Points out that the upload uses the git SHA as release while the SDK reports web@<version>, so maps never match; fixes by using one shared release identifier in both places, notes the URL prefix (CDN host) must match the uploaded artifact names, and does not guess the original line of the error."}
+  - name: edge-decoded-frames-given
+    vars:
+      stack_trace: "TypeError: Cannot read properties of undefined (reading 'map') at index-4f9a1c.js:1:48213"
+      build_setup: "Vite, maps uploaded correctly."
+      source_map_output: |
+        src/components/OrderList.tsx:27:22 (OrderList)
+        27:   return props.orders.items.map((o) => <OrderRow key={o.id} order={o} />);
+        The API returns { orders: { items: [...] } } normally, and { orders: {} } when the user has no orders.
+    assert:
+      - {type: llm-rubric, value: "Explains the error at OrderList.tsx line 27: items is undefined when the API returns an empty orders object, and proposes handling the missing field (default to an empty array or fixing the API contract) plus a test for the no-orders case."}
+  - name: negative-guess-without-map
+    vars:
+      stack_trace: "Uncaught TypeError: e is not a function at main.8c2d.js:2:91822"
+      build_setup: "Create React App build, no source maps uploaded anywhere. Can you just tell me which component it is?"
+    assert:
+      - {type: llm-rubric, value: "Says it cannot tell which component from a minified position alone, and explains how to get a decoded frame: rebuild the same commit with source maps (if the build is reproducible) or enable source map generation and upload for future releases, plus the lookup script."}

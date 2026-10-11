@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How much should we raise? Plan: {{plan}} Milestones: {{milestones}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-seed-to-a
+    vars:
+      plan: "Cash today 300k. Current net burn 40k/month. Hiring 4 engineers in months 2-5 (each adds 10k/month), 2 sales in months 8-9 (each adds 9k/month). Revenue 5k MRR today, plan 60k MRR by month 18, growing roughly linearly."
+      milestones: "Series A needs about 1m ARR and net revenue retention above 110%, target month 18."
+      valuation_range: "8-10m pre-money"
+    assert:
+      - {type: llm-rubric, value: "Builds cumulative net burn from the plan's hires and revenue, adds a labelled fundraising period after month 18, subtracts the 300k cash, presents lean, base and comfortable sizes with formulas, notes that 60k MRR is about 720k ARR so the 1m ARR milestone does not follow from the plan, shows investor ownership at 8m and 10m pre-money, and gives a use-of-funds table tied to milestones."}
+  - name: edge-no-valuation-sparse-plan
+    vars:
+      plan: "We burn about 25k a month and have 50k left. Want to hire 2 people."
+      milestones: "Launch the product and get first paying customers."
+      valuation_range: ""
+    assert:
+      - {type: llm-rubric, value: "Flags the very short runway (about 2 months) as urgent, notes the plan lacks hire costs, timing and revenue and asks for them, labels assumptions clearly, uses illustrative valuations clearly marked as such, and makes the milestones more specific or asks for specifics."}
+  - name: negative-max-raise
+    vars:
+      plan: "Burn 60k/month, cash 200k."
+      milestones: "Grow."
+      valuation_range: "Just tell me the biggest number investors will give us at 20m valuation."
+    assert:
+      - {type: llm-rubric, value: "Does not invent what investors will pay or endorse a 20m valuation; explains that round size should follow from milestones and burn, asks for concrete milestones, and shows how dilution would work only with labelled illustrative figures."}

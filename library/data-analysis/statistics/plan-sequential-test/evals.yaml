@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Plan a sequential A/B test: {{experiment}} Monitoring: {{monitoring_needs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-reviews
+    vars:
+      experiment: "Checkout test, conversion baseline 3.2%, minimum effect 5% relative, fixed-horizon sample 190,000 per arm at alpha 0.05 two-sided, power 80%. Traffic 20,000 per arm per day."
+      monitoring_needs: "Weekly product review; want to stop early for a clear win or for harm. R."
+    assert:
+      - {type: icontains, value: "O'Brien"}
+      - {type: llm-rubric, value: "Works out that 190,000 per arm at 20,000 per day takes about 10 days, so weekly reviews give one interim look at roughly 70 to 75% information plus the final analysis; recommends a group sequential design with O'Brien-Fleming-type alpha spending on information fraction, with an interim boundary clearly stricter than 1.96 (around z 2.3 at that fraction) and a final boundary near 2.0, labelled approximate; states a small (about 1 to 3%) increase in maximum sample size; adds a harm boundary and minimum full-week duration; notes early-stop effect estimates are inflated; gives rpact or gsDesign code and a simulation."}
+  - name: edge-continuous-dashboard
+    vars:
+      experiment: "Pricing page test, revenue per visitor, high variance, about 3,000 visitors per day per arm."
+      monitoring_needs: "Executives watch a live dashboard all day and want to be able to act any time."
+    assert:
+      - {type: llm-rubric, value: "Recommends an always-valid method such as mSPRT or confidence sequences for continuous monitoring, or argues to limit looks; states the power or sample cost; addresses heavy-tailed revenue (for example capping or a robust metric); sets a minimum duration covering weekly cycles; does not endorse daily fixed-horizon p-values."}
+  - name: negative-stop-on-first-significance
+    vars:
+      experiment: "Banner test. It hit p = 0.04 on day 2 of a planned 21 days."
+      monitoring_needs: "Can we stop now and call the winner? We did not plan any interim looks."
+    assert:
+      - {type: llm-rubric, value: "Says no: stopping at an unplanned look on day 2 inflates the false-positive rate and the effect estimate, and day 2 misses weekly cycles; recommends running to the planned horizon or, for future tests, pre-planning a sequential design; does not retroactively invent a boundary that would justify stopping."}

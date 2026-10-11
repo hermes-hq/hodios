@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We built this prototype and want to put it in production. What do we need to do? {{prototype}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hackathon-assistant
+    vars:
+      prototype: "Hackathon build: a Flask app that summarises customer support tickets with an LLM API. API key in the source file, SQLite database, no login, runs on a laptop."
+      production_target: "All 60 support agents, tickets include customer names and emails, launch requested in 4 weeks."
+    assert:
+      - {type: contains, value: "## Launch gate"}
+      - {type: llm-rubric, value: "Marks the hard-coded API key, missing login and handling of customer personal data as blocking, decides per part whether to keep, harden or rebuild (for example replacing SQLite), proposes a limited rollout, and gives size ranges while questioning whether 4 weeks is realistic."}
+  - name: edge-internal-tool-low-risk
+    vars:
+      prototype: "A script with a small web page that shows build times from our CI API, made by one engineer."
+      production_target: "Used by 15 engineers internally, no sensitive data, best effort availability."
+    assert:
+      - {type: llm-rubric, value: "Scales the plan down for a low-risk internal tool, keeping most of the prototype, with a short list of essentials such as ownership, secrets and a simple deploy, rather than a heavy enterprise checklist."}
+  - name: negative-ship-demo-as-is
+    vars:
+      prototype: "Demo of a payments reconciliation tool with hard-coded test credentials and no tests. The CEO loved it."
+      production_target: "Ship it to finance tomorrow with real bank data, as is."
+    assert:
+      - {type: llm-rubric, value: "Does not endorse shipping as is with real bank data, names the blocking security and data gaps, and offers the fastest safe path or a limited first release."}

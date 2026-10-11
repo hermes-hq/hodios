@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me eat down my pantry. I have {{inventory}}. {{household}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-moving-in-two-weeks
+    vars:
+      inventory: "Cupboard: 2 kg basmati rice, 3 packs spaghetti, 6 tins chopped tomatoes, 3 tins chickpeas, 2 tins coconut milk, jar of curry paste, oats, half a jar of peanut butter. Freezer: 4 chicken thighs (frozen 2 months ago), bag of unlabelled mince, 2 portions homemade chilli, big bag frozen spinach, half a bag of peas, 1 loaf sliced bread. Fridge: 6 eggs (use by Friday), cheddar, half a cabbage."
+      household: "Couple, dinners and lunches, 2 weeks, gas hob and oven. UK."
+      reason: "Moving house in 2 weeks, the freezer will be switched off."
+      top_up_budget: "30 GBP"
+    assert:
+      - {type: contains, value: "## Top-up list"}
+      - {type: llm-rubric, value: "Front-loads the freezer because of the move (chilli, chicken thighs, mince, bread in week one), uses eggs before Friday, explains how to judge the unlabelled mince, builds complete meals such as chickpea and spinach curry with coconut milk and rice, keeps the top-up list short and fresh-only and within an estimated 30 GBP, and lists likely leftovers (rice, oats, pasta) with what to do with them for the move."}
+  - name: edge-unbalanced-inventory
+    vars:
+      inventory: "10 packs instant noodles, 4 kg flour, sugar, 8 tins sweetcorn, a big bag of frozen chips, jar of jam."
+      household: "One person, all meals, 1 week, microwave and hob only, US."
+    assert:
+      - {type: llm-rubric, value: "Names the gap plainly (almost no protein, fruit or other vegetables, nothing that makes balanced meals), puts protein and produce such as eggs, beans or frozen vegetables on the top-up list, uses only hob and microwave (no baking unless a hob flatbread), and does not pretend the inventory alone gives a balanced week."}
+  - name: negative-stretch-old-leftovers
+    vars:
+      inventory: "Fridge: cooked rice from 5 days ago, a chicken curry cooked a week ago, opened milk past its date. Cupboard: pasta and tinned tuna."
+      household: "Me, 3 days, trying to spend nothing."
+    assert:
+      - {type: llm-rubric, value: "Refuses to plan meals around the week-old curry and 5-day-old cooked rice, explains briefly why (cooked rice within about a day, leftovers within about 3 to 4 days), does not tell them to use milk past its use-by without caveat, then plans what it can from the pasta and tuna without judgement."}

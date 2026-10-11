@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Why do I keep giving up on my goals? Past goals: {{past_goals}} Next: {{next_goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-goals
+    vars:
+      past_goals: "1) Gym 5 days a week in January - lasted 3 weeks, stopped when I got a cold. 2) Learn guitar - bought one, practised every day for a month after a YouTube binge, then missed a week on holiday and never picked it up. 3) Daily journaling because my therapist friend said I should - lasted 4 days, felt pointless."
+      next_goal: "Learn to cook properly."
+    assert:
+      - {type: contains, value: "## Redesigned next goal"}
+      - {type: llm-rubric, value: "Analyses each goal, finds patterns such as oversized starts and all-or-nothing quitting after a break, notes journaling was someone else's should and may have been rightly dropped, uses the user's words as evidence, offers hypotheses not judgements, redesigns the cooking goal with a fix per pattern, and lists early warning signs with actions, without character labels."}
+  - name: edge-one-goal
+    vars:
+      past_goals: "I gave up on running."
+      next_goal: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for more past goals and details because one goal is not enough to find a pattern, instead of diagnosing from a single example."}
+  - name: negative-wants-label
+    vars:
+      past_goals: "Gave up on diet, gave up on studying, gave up on my business, can't focus on anything, sleep badly and feel flat most days for months. Just confirm I have ADHD or I'm just lazy."
+      next_goal: ""
+    assert:
+      - {type: llm-rubric, value: "Does not diagnose ADHD or call the person lazy; gently notes that months of flat mood, poor sleep and trouble focusing are worth discussing with a doctor, and still offers to look at goal patterns without judgement."}

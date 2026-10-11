@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Reorganize the folders in {{project}}. {{target_layout}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-layer-to-feature
+    vars:
+      project: |
+        React + TypeScript app with src/components (140 files), src/hooks (60), src/api (40), src/utils (55). Features: billing, projects, users, reports.
+        tsconfig has "@/*": ["src/*"]; Jest moduleNameMapper mirrors it; CODEOWNERS lists src/components/billing*.
+    assert:
+      - {type: contains, value: "## File mapping"}
+      - {type: llm-rubric, value: "Proposes src/features/<feature>/ folders plus a small shared area, batches moves by feature with shared code last, lists tsconfig paths, Jest moduleNameMapper and CODEOWNERS as places to update, uses git mv with move-only commits so history is kept, and runs build, type check and tests after each batch."}
+  - name: edge-framework-conventions
+    vars:
+      project: "A Next.js App Router project; someone wants to move app/ route folders into features/ too."
+      target_layout: "Everything under features/, including routes."
+    assert:
+      - {type: llm-rubric, value: "Explains that the app directory is framework-mandated for routing and should stay, suggesting that route files stay thin and import from feature folders instead of moving them."}
+  - name: negative-big-bang-with-edits
+    vars:
+      project: "Python Django monolith. Move every file into the new layout and rename functions to our new naming style in one commit tonight."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a single commit mixing moves and renames, explains git rename tracking and review risk, and proposes move-only batches verified by tests, with the naming change as a separate step."}

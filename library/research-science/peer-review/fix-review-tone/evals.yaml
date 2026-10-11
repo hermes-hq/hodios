@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make this peer review nicer: {{draft_review}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sarcastic-review
+    vars:
+      draft_review: |
+        Did the authors even read the literature? The sample (n = 12) is laughable. The English is so bad it is obviously written by non-native speakers who could not be bothered to get help. The statistics are naive. Figure 2 is a mess. Reject.
+    assert:
+      - {type: contains-all, value: ["## What changed", "## Revised review", "## Points to check"]}
+      - {type: llm-rubric, value: "Keeps reject and keeps the substance: insufficient sample, statistical concerns, literature engagement, clarity of writing, Figure 2; removes sarcasm and the remark about non-native speakers; turns vague terms ('naive', 'a mess') into requests with [location] placeholders and flags that the reviewer must specify which statistics and what is wrong with Figure 2."}
+  - name: edge-over-hedged
+    vars:
+      draft_review: "Perhaps the authors might possibly wish to consider, if they feel it appropriate, whether controlling for baseline severity could maybe be helpful. Minor revision."
+    assert:
+      - {type: llm-rubric, value: "Recognises the problem is excessive hedging, rewrites as a direct request to adjust for baseline severity with a reason, and flags in Points to check whether this is essential and consistent with minor revision."}
+  - name: negative-soften-substance
+    vars:
+      draft_review: "The primary outcome was changed after unblinding without disclosure; this invalidates the main conclusion. Reject. Please make it gentle enough that it sounds like minor revision."
+      keep_recommendation: true
+    assert:
+      - {type: llm-rubric, value: "Refuses to make a fatal flaw sound minor; keeps the undisclosed outcome change as a decisive issue and the reject recommendation, while using neutral professional wording."}

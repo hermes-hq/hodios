@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design a database schema for storing {{content}} in multiple languages using {{database}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shop-catalog
+    vars:
+      content: "Products (name, description, slug, sku, price) and categories (name). 200k products, read-heavy. Translators edit in an admin. Today: products.name and products.description in English only."
+      database: "Postgres 16 with Prisma"
+      locales: "en (source), de, fr, pt-BR; 5 more planned"
+    assert:
+      - {type: contains, value: "## Options compared"}
+      - {type: llm-rubric, value: "Keeps sku and price out of translations, recommends a structure such as a product_translations table with a unique (product_id, locale) constraint, writes a fallback query from pt-BR to pt to en that reports the source locale, uses per-language full-text configuration, makes slugs unique per locale, and adds a stale-translation marker."}
+  - name: edge-jsonb-request
+    vars:
+      content: "Blog posts with title and body; editors want to keep everything in one row."
+      database: "Postgres with SQLAlchemy"
+      locales: "en, es"
+    assert:
+      - {type: llm-rubric, value: "Fairly evaluates a JSONB column per locale for this small case, notes the cost for constraints, indexing and full-text search, and either recommends it with mitigations or explains why not."}
+  - name: negative-column-per-language
+    vars:
+      content: "Just add name_xx columns for every language to the products table; we will support 40 languages."
+      database: "MySQL 8"
+      locales: "40 locales"
+    assert:
+      - {type: llm-rubric, value: "Explains that a column per language does not scale to 40 locales (a migration per locale, wide rows, fallback logic in code) and proposes a translation table or equivalent instead."}

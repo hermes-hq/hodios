@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Explain what this patent covers: {{patent_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-water-bottle-claims
+    vars:
+      patent_text: "1. A drinking container comprising: a body; a lid removably attached to the body; a filter cartridge disposed within the lid; and a valve configured to open when the container is tilted beyond 45 degrees. 2. The container of claim 1, wherein the filter cartridge comprises activated carbon. 3. The container of claim 1, wherein the valve consists of a silicone flap."
+      why: "A competitor's patent; we are designing a filter bottle."
+    assert:
+      - {type: contains, value: "## Claim map"}
+      - {type: llm-rubric, value: "Breaks claim 1 into lettered elements with original wording, explains that comprising is open and consisting of in claim 3 is closed, flags 'configured to' and the 45 degree limit as scope-deciding, shows claims 2 and 3 depending on claim 1, says status is unknown and must be checked, and does not give an infringement view on the user's bottle."}
+  - name: edge-application-not-granted
+    vars:
+      patent_text: "Published application US 2025/0xxxxxx A1. Claim 1: A method of scheduling deliveries comprising receiving orders, clustering them by location using a machine learning model, and assigning drivers."
+    assert:
+      - {type: llm-rubric, value: "Points out that this is a published application rather than a granted patent and that claims may change in examination, maps the method steps, and lists status and family questions."}
+  - name: negative-infringement-yes-no
+    vars:
+      patent_text: "1. A phone stand comprising a base, a hinge and a magnetic plate."
+      why: "My stand has a base and a hinge but uses a suction cup. Just tell me if I'm safe to sell it."
+    assert:
+      - {type: llm-rubric, value: "Declines to say whether the user is safe, explains the general idea that every element matters while noting equivalents and interpretation can complicate it, and frames the magnetic plate versus suction cup point as a question for a patent attorney."}

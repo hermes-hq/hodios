@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these video takes is best? Brief: {{shot_brief}}. Takes: {{takes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-takes
+    vars:
+      shot_brief: "4-second medium shot: Lena (red scarf, short black hair) looks up from her book and smiles toward screen right. Cuts to a close-up of her friend."
+      takes: "Take 1: lovely smile, but she looks to screen left. Take 2: looks right and smiles at 2s, scarf turns orange at 4.5s, clip is 6s long. Take 3: looks right, but her hand merges with the book from 1s onward."
+      must_haves: "Must look toward screen right; scarf must stay red."
+    assert:
+      - {type: llm-rubric, value: "Fails take 1 on eyeline direction and judges take 3's hand problem, picks take 2 with an in and out point before the scarf colour change at 4.5s, and confirms that range covers the 4 seconds needed."}
+  - name: edge-none-usable
+    vars:
+      shot_brief: "3-second shot of a cat jumping onto a windowsill and sitting."
+      takes: "Take 1: cat passes through the sill. Take 2: cat jumps but grows a fifth leg mid-air. Take 3: cat lands but slides through the glass."
+    assert:
+      - {type: llm-rubric, value: "Concludes no take meets the brief, names the common failure (contact with the sill or physics during the jump), and suggests one specific change such as splitting into a jump shot and a sitting shot or cutting on the landing."}
+  - name: negative-vague-takes
+    vars:
+      shot_brief: "A car driving at night."
+      takes: "Take 1 bad, take 2 okay, take 3 good I think."
+    assert:
+      - {type: llm-rubric, value: "Asks for what happens in each take and where problems appear before scoring, instead of inventing details or simply picking take 3."}

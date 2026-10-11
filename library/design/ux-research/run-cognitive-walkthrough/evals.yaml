@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Do a cognitive walkthrough of this task: {{task}} for {{user}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-task
+    vars:
+      task: "Send first invoice: 1) Click 'Sales' in sidebar. 2) Click 'Documents'. 3) Click '+ New' and pick 'Invoice' from a menu of 6 document types. 4) Must first click 'Add contact' (customer field is empty, no hint). 5) Fill line items. 6) Click 'Finalise'. 7) Click 'Share' to email. No confirmation shown after sending."
+      user: "New freelance designer, uses online banking, never used accounting software."
+    assert:
+      - {type: contains-all, value: ["## Step-by-step walkthrough", "## Fixes"]}
+      - {type: llm-rubric, value: "Applies the four questions at each step, flags that 'Sales' and 'Documents' may not match the goal 'send an invoice', that the add-contact prerequisite is hidden, that 'Finalise' does not suggest sending, and that no confirmation means no visible progress, with fixes in the user's language."}
+  - name: edge-missing-sequence
+    vars:
+      task: "Set up two-factor authentication."
+      user: "Older adult, basic smartphone use."
+    assert:
+      - {type: llm-rubric, value: "Asks for the action sequence and screen details before walking through, or clearly marks an assumed sequence, rather than inventing the interface."}
+  - name: negative-expert-view
+    vars:
+      task: "A five-step export flow."
+      user: "Just evaluate it as yourself, a UX expert; no need for a user profile."
+    assert:
+      - {type: llm-rubric, value: "Explains the method needs a defined user profile and asks for one or proposes a realistic profile clearly labelled as an assumption."}

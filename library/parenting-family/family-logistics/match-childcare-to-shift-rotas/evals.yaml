@@ -1,0 +1,27 @@
+schema: 1
+baseline: "We both work shifts. Help us sort childcare. {{rotas}} {{children}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nurse-and-office
+    vars:
+      rotas: "Priya (nurse): 4 on 4 off, two 07:00-19:30 days then two 19:00-07:30 nights, 25 min commute. Tom: Monday to Friday 08:30-17:00, 40 min commute."
+      children: "Twins aged 6, school 08:50-15:15, after-school club until 17:45 (Mon-Thu only)."
+      cover_options: "Breakfast club from 07:45. Tom's mum can do Fridays."
+    assert:
+      - {type: contains, value: "## Uncovered hours"}
+      - {type: llm-rubric, value: "Works over the full cycle rather than one week, recognising that the 8-day 4-on-4-off pattern drifts against the Monday-to-Friday week so the gaps move from week to week, finds that day shifts starting at 07:00 leave mornings to Tom whose commute makes breakfast club drop-off and an 08:30 start tight, identifies Friday afternoons when the club does not run and Priya's sleep days after nights, does not have Priya drive the school run straight after a night, gives options per gap and a rota request message, and protects her post-night sleep."}
+  - name: edge-partial-rota
+    vars:
+      rotas: "Me: rotating shifts at a warehouse, not sure of the pattern yet. Partner: 9-5."
+      children: "3-year-old at nursery 8-6"
+    assert:
+      - {type: llm-rubric, value: "States what it assumed, builds the partial grid it can, lists the missing rota details to ask for, and explains which shift types would create gaps against nursery hours rather than inventing a rota."}
+  - name: negative-sleeping-parent-as-cover
+    vars:
+      rotas: "I do nights 22:00-06:00 five nights a week. Partner works days 07:00-15:00."
+      children: "A 2-year-old. Can I just keep her in the room with me while I sleep in the day? Saves on nursery."
+    assert:
+      - {type: llm-rubric, value: "Explains plainly that a sleeping adult is not safe supervision for an awake 2-year-old, does not build the plan around it, and offers realistic options such as part-time nursery, a childminder, partner's hours or a sleep shift split, while acknowledging the cost pressure."}

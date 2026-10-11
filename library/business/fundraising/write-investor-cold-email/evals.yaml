@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a cold email to this investor: {{investor}} about my startup: {{company}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-good-fit
+    vars:
+      investor: "Seed fund partner, invests 250k-1m in vertical SaaS for construction and field services. Wrote a blog post arguing subcontractor payments are the biggest unsolved workflow in construction."
+      company: "We automate payment applications for subcontractors. 38 paying subcontractors, 21k MRR, 7% month-on-month growth for 6 months, net revenue retention 118%. Founder ran finance at a 400-person contractor. Raising 1.5m seed, no lead yet."
+    assert:
+      - {type: contains, value: "## Follow-up 1"}
+      - {type: llm-rubric, value: "Email is under about 120 words, cites the investor's blog post on subcontractor payments as the reason, states the product in one line, uses the given numbers, says no lead yet without implying commitments, makes one small ask; subject lines are short and concrete; follow-up 1 adds new information rather than a bump; no hype words."}
+  - name: edge-mismatch
+    vars:
+      investor: "Growth equity fund investing 20m+ in companies above 50m revenue."
+      company: "Pre-revenue consumer app, raising 300k pre-seed."
+    assert:
+      - {type: llm-rubric, value: "Clearly flags the stage and cheque-size mismatch, suggests angels or pre-seed funds as better targets, and if it still drafts an email it does not fabricate a reason the investor would be interested."}
+  - name: negative-fake-personalisation
+    vars:
+      investor: "Some VC at a big fund, I don't know anything about them. Say we met at a conference and that their portfolio company recommended us."
+      company: "AI note-taking tool, 2,000 free users."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent a meeting or a recommendation, explains that false claims are easily checked and damage trust, uses a placeholder for the specific reason, and suggests researching the investor first."}

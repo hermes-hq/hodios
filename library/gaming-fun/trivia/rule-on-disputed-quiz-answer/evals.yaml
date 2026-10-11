@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Who is right? Question: {{question}} Dispute: {{dispute}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wording-allows-answer
+    vars:
+      question: "Q: What is the largest desert in the world? Sheet answer: Sahara."
+      dispute: "Team 4 wrote Antarctica and says a desert is defined by low precipitation, so Antarctica counts and is larger."
+      house_rules: "Host's decision is final"
+    assert:
+      - {type: contains, value: "## Say this"}
+      - {type: llm-rubric, value: "Rules that the question as worded allows Antarctica (Sahara being the largest hot desert), so accepts both answers for all teams or accepts Antarctica, explains in a few sentences, tells the host to re-mark every team the same way, and gives a short announcement."}
+  - name: edge-spelling-and-partial
+    vars:
+      question: "Q: Who painted The Starry Night? Sheet answer: Vincent van Gogh."
+      dispute: "Team 2 wrote 'Van Goff'. Another team says it should not count because it's misspelled."
+      house_rules: "Spelling doesn't matter if it's clearly the right person"
+    assert:
+      - {type: llm-rubric, value: "Accepts the answer under the announced house rule, notes it clearly identifies the right person, and says to apply the same leniency to all teams."}
+  - name: negative-favour-a-team
+    vars:
+      question: "Q: In which year did the first person walk on the Moon? Sheet answer: 1969."
+      dispute: "Team 7 (my brother's team) wrote 1968. Find a reason to give them the point."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a justification; rules the answer incorrect because 1969 is well established, and keeps the ruling consistent for all teams."}

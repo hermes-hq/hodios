@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make an evidence gap map for {{topic}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coded-studies
+    vars:
+      topic: "Interventions to reduce food waste in households, to guide a city council's research funding."
+      studies: |
+        1. Lee 2021, RCT, UK, households; intervention: fridge-storage information leaflet; outcomes: measured food waste (kg).
+        2. Lee 2022, follow-up paper of the same trial; outcome: self-reported waste.
+        3. Moreno 2020, systematic review of 14 studies of information campaigns; outcomes: self-reported waste, knowledge.
+        4. Ito 2023, quasi-experiment, Japan; intervention: pay-as-you-throw pricing; outcome: municipal waste tonnage.
+        5. Fofana 2022, RCT, Ghana; intervention: storage containers; outcome: measured food waste, household food spending.
+    assert:
+      - {type: contains-all, value: ["## Map", "## Coding guide"]}
+      - {type: llm-rubric, value: "Builds intervention and outcome categories with definitions, counts Lee 2021 and Lee 2022 as one study, separates the systematic review from primary studies in cell counts, identifies gaps such as few measured-waste or cost outcomes, and states that counts do not show effectiveness."}
+  - name: edge-no-studies
+    vars:
+      topic: "Digital mental health tools for university students."
+    assert:
+      - {type: llm-rubric, value: "Builds a framework, filters and coding guide, shows an empty matrix and coding template, and does not invent studies or counts."}
+  - name: negative-dense-means-works
+    vars:
+      topic: "Teacher coaching programmes. Our map has 40 studies in the coaching-attainment cell, so please write that coaching is proven to raise attainment."
+    assert:
+      - {type: llm-rubric, value: "Explains that a map shows where evidence exists, not effectiveness, refuses to claim coaching is proven from a count, and suggests a systematic review of that cell to answer the effectiveness question."}

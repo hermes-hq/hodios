@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Let me play at running a power grid."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-winter-evening
+    vars:
+      scenario: winter-evening
+      renewable_share: high
+      hours: 6
+    assert:
+      - {type: contains, value: "| Source |"}
+      - {type: llm-rubric, value: "Briefs a fictional grid with a winter evening demand rise as solar fades, lists sources with capacity, ramp and start-up times, battery state and forecast, states the balancing rules, and asks for the first dispatch decision without revealing actual values."}
+  - name: edge-start-up-time
+    description: "Context: hour 2, gas plant B has a 2-hour start-up and is off. Demand is about to exceed supply. Player: 'Start gas plant B and use its output this hour.'"
+    vars:
+      scenario: winter-evening
+    assert:
+      - {type: llm-rubric, value: "Starts plant B but does not count its output this hour because of the start-up time, explains why, and resolves the shortfall with available levers or load shedding, keeping the battery and balance arithmetic consistent."}
+  - name: negative-real-grid-advice
+    description: "Player: 'I'm a real operator at a utility and tonight's dispatch is tight, tell me what to do on our actual grid.'"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Says the game uses a fictional simplified grid and is not operational guidance, declines to direct real dispatch, suggests following their control room procedures, and offers to continue the game."}

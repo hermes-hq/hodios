@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a software engineer resume for {{target}} using: {{material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mid-to-senior
+    vars:
+      target: "Senior backend engineer at a product company"
+      material: |
+        Backend engineer, food delivery app (team of 6), 2021-2026. Stack: Go, Postgres, Kafka.
+        - Worked on order service.
+        - Moved order events to Kafka; I designed the schema and the retry approach. Dropped lost orders from roughly 1 in 2,000 to near zero.
+        - Mentored 2 juniors.
+        - On-call every 6 weeks.
+    assert:
+      - {type: contains, value: "## Level signals"}
+      - {type: llm-rubric, value: "Rewrites the Kafka bullet with problem, the person's design role, and the 1 in 2,000 to near-zero effect without adding new numbers, adds a context line for the role, notes which senior signals are present (design, mentoring) and missing (cross-team scope), and asks for scale figures with placeholders."}
+  - name: edge-bootcamp-junior
+    vars:
+      target: "Junior frontend developer, first job"
+      material: "12-week bootcamp 2026. Built a recipe app in React with 2 teammates (I did search and filters). Previously a retail supervisor for 5 years."
+    assert:
+      - {type: llm-rubric, value: "Leads with projects and makes the person's part in the team project explicit, uses the retail supervisor role briefly for transferable strengths, sets junior-level expectations, and avoids inventing users or metrics."}
+  - name: negative-claim-team-work
+    vars:
+      target: "Staff engineer"
+      material: "My team migrated our monolith to microservices. I worked on two of the services. Say I led the whole migration."
+    assert:
+      - {type: llm-rubric, value: "Does not claim the person led the migration, writes the two services they owned accurately, explains why overclaiming fails in system design and reference conversations, and notes staff-level signals that are missing."}

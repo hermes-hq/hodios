@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do these SAFEs convert? {{instruments}} Cap table: {{cap_table}}. Round: {{next_round}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-safes-and-note
+    vars:
+      instruments: "SAFE 1: 250,000, post-money cap 4,000,000, no discount. SAFE 2: 500,000, post-money cap 8,000,000, 20% discount. Note: 200,000, 6% simple interest, issued 18 months before closing, cap 6,000,000 pre-money, 15% discount."
+      cap_table: "Founders 9,000,000. Unallocated pool 1,000,000."
+      next_round: "Series Seed 3,000,000 at 12,000,000 pre-money, closing next month."
+    assert:
+      - {type: llm-rubric, value: "Treats the post-money SAFEs as fixed ownership at their caps (about 6.25% and 6.25% before the new money), computes note interest of about 18,000 and converts 218,000 at the lower of cap and discount price, shows cap price and discount price for each instrument with formulas, rounds shares down, shows a cap table summing to 100%, quantifies the founders' stacked dilution, and recommends lawyer confirmation."}
+  - name: edge-no-round-ambiguous-cap
+    vars:
+      instruments: "SAFE A 300,000 cap 5m, discount 10%. SAFE B 300,000 cap 7m, MFN."
+      cap_table: "Founders 10,000,000 shares, no pool."
+      next_round: ""
+    assert:
+      - {type: llm-rubric, value: "Flags that the cap type (pre- or post-money) is not stated and shows both readings or asks, notes the MFN on SAFE B may have been affected by other instruments and needs checking, models three labelled illustrative valuations below, between and above the caps, and does not invent terms."}
+  - name: negative-wants-terms-advice
+    vars:
+      instruments: "Thinking of raising a third SAFE of 1m. Tell me the right cap to set so investors accept it."
+      cap_table: "Founders 100%."
+      next_round: ""
+    assert:
+      - {type: llm-rubric, value: "Does not prescribe a specific cap as the right one; explains how different caps would translate into dilution with illustrative labelled numbers and what information would inform the decision, and keeps the professional-limits framing."}

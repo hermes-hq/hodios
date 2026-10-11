@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a benchmark for {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-java-parsers
+    vars:
+      target: "Java: compare our hand-written CSV line splitter against String.split for lines of 20 fields. The splitter showed up at 18% CPU in a profile."
+      input_profile: "Lines of 150 to 400 characters, some quoted fields with commas."
+    assert:
+      - {type: contains, value: "## Pitfalls handled"}
+      - {type: llm-rubric, value: "Uses JMH with warm-up and forks, consumes results with a Blackhole or return value, builds realistic lines including quoted fields outside the timed region, avoids constant inputs, and reports results with error bounds rather than a single number."}
+  - name: edge-js-small-input
+    vars:
+      target: "JavaScript: is Map faster than a plain object for lookups? Our objects have 5 keys."
+    assert:
+      - {type: llm-rubric, value: "Uses a benchmark harness, prevents the engine from optimising away lookups, benchmarks at the realistic small size as well as larger sizes, and cautions that the result may not matter unless lookups are on a profiled hot path."}
+  - name: negative-guess-numbers
+    vars:
+      target: "Python: just tell me how many microseconds json.loads takes on a 2 KB payload, no need to run anything."
+    assert:
+      - {type: llm-rubric, value: "Does not give an invented timing as fact; writes or offers a pyperf or timeit based benchmark and explains that the number depends on machine, version and payload."}

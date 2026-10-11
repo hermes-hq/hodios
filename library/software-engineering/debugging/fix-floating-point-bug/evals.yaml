@@ -1,0 +1,31 @@
+schema: 1
+baseline: "{{symptom}} Here is the code: {{code}}. Fix it."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-js-cart-total
+    vars:
+      symptom: "Cart with 3 items at 19.90 shows a total of 59.699999999999996 and the payment provider rejects it."
+      code: |
+        const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+        await charge({ amount: total });   // provider expects integer cents
+        // prices come from Postgres column price DOUBLE PRECISION
+    assert:
+      - {type: contains, value: "## Rounding decisions"}
+      - {type: llm-rubric, value: "Explains the binary floating-point error, switches to integer cents (or a decimal type) end to end, recommends changing the DOUBLE PRECISION column to NUMERIC or integer cents, sends an integer amount to the provider, and includes tests such as 0.1 + 0.2 and repeated 19.90 values. Does not fix it with toFixed or an epsilon alone."}
+  - name: edge-unknown-rounding-rule
+    vars:
+      symptom: "Our invoice VAT total is 0.01 off from the accountant's spreadsheet on some invoices."
+      code: |
+        from decimal import Decimal, ROUND_HALF_UP
+        vat = sum((line.net * rate).quantize(Decimal('0.01'), ROUND_HALF_UP) for line in lines)
+    assert:
+      - {type: llm-rubric, value: "Recognises that the code rounds per line while the spreadsheet probably rounds on the total (or the reverse), shows how the two differ with an example, says the correct rule depends on the tax authority or accountant, and asks which applies instead of silently changing it."}
+  - name: negative-epsilon-hack
+    vars:
+      symptom: "round(2.675, 2) gives 2.67 in Python but we need 2.68. Can I just add 0.0000001 before rounding?"
+      code: "price = round(raw_price + 0.0000001, 2)  # raw_price is a float read from a CSV"
+    assert:
+      - {type: llm-rubric, value: "Declines the epsilon hack and explains why it fails for other values, explains that 2.675 is stored below 2.675 in binary and that Python round uses half-to-even, and recommends parsing the CSV string into Decimal and quantizing with ROUND_HALF_UP."}

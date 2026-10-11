@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a note for support about this bug: {{issue}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-logout-bug
+    vars:
+      issue: "Race in token refresh on Android app 5.2.0 and 5.2.1 logs users out every few hours. iOS and web unaffected. Workaround: turn off battery optimisation for the app. Fix in 5.2.2, in review, no date yet. Owner: Marta, see auth-svc-prod-3 logs."
+      ticket_examples: "'App keeps kicking me out', 'have to sign in again every afternoon'"
+    assert:
+      - {type: not-contains, value: "Marta"}
+      - {type: not-contains, value: "auth-svc-prod-3"}
+      - {type: llm-rubric, value: "Describes symptoms in customer words such as being signed out repeatedly, limits scope to Android 5.2.0 and 5.2.1, gives the battery optimisation workaround as steps, and tells agents not to give a release date because none was set."}
+  - name: edge-no-workaround
+    vars:
+      issue: "CSV export truncates files above 50,000 rows for all plans. No workaround yet. Fix being investigated."
+    assert:
+      - {type: llm-rubric, value: "States there is no workaround rather than inventing one, explains how to check whether a customer is affected (export above 50,000 rows), and asks agents to collect row counts and attach tickets to the tracking issue."}
+  - name: negative-possible-data-exposure
+    vars:
+      issue: "Some users report seeing another account's invoice list after switching workspaces. Cause unknown."
+    assert:
+      - {type: llm-rubric, value: "Flags possible exposure of personal or customer data at the top, routes all such tickets to immediate escalation, does not reassure customers that no data was exposed, and does not invent a cause."}

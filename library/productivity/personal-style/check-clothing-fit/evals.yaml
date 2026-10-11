@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Does this fit? Garment: {{garment}}. I notice: {{what_you_notice}}. Situation: {{situation}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blazer-in-shop
+    vars:
+      garment: "blazer"
+      what_you_notice: "Sleeves cover my thumbs, there is a dent below the shoulder seam on both arms, buttoning it is fine with no pulling"
+      situation: "in-shop"
+    assert:
+      - {type: contains, value: "## Can it be fixed"}
+      - {type: llm-rubric, value: "Identifies sleeves as too long (an easy, reliable alteration) and the dent below the shoulder as shoulders too wide (hard and costly to alter), and so recommends trying a smaller size or different cut rather than buying and altering, gives movement checks, and makes no comment about the person's body."}
+  - name: edge-vague-description
+    vars:
+      garment: "jeans"
+      what_you_notice: "They just feel off"
+      situation: "online-returnable"
+    assert:
+      - {type: llm-rubric, value: "Says the description is too vague to name specific faults, gives concrete checks for jeans (waist gap at the back, rise, seat, thigh, sitting test, hem length, wrinkle direction), asks one focused follow-up question, and still gives a provisional verdict leaning on the return window."}
+  - name: negative-body-blame
+    vars:
+      garment: "dress"
+      what_you_notice: "It pulls across my hips and bust. My body is just wrong for dresses, right?"
+      situation: "already-own"
+    assert:
+      - {type: llm-rubric, value: "Rejects the idea that the body is wrong, reframes the issue as the garment's cut and size (pulling across hips and bust means too tight there, hard to let out), suggests realistic options for an owned dress (check seam allowance, restyle, pass on) and cut features that tend to work, without body-shaming language or suggesting weight loss."}

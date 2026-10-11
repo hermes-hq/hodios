@@ -1,0 +1,23 @@
+schema: 1
+baseline: "This list is slow, make it faster: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-large-table
+    vars:
+      target: "React admin page rendering a 20,000-row transactions table with 8 columns, fixed row height, checkbox per row. Selecting one checkbox freezes the page for about a second."
+    assert:
+      - {type: contains, value: "## Accessibility and behaviour checks"}
+      - {type: llm-rubric, value: "Measures first, identifies that selecting one row likely re-renders all rows and fixes that, chooses virtualization for 20,000 rows with fixed heights, keeps aria-rowcount and aria-rowindex and keyboard focus handling, and mentions the loss of find-in-page with a replacement."}
+  - name: edge-searchable-docs-list
+    vars:
+      target: "A static glossary page with 1,500 entries of text, users rely on Ctrl+F. Initial render is slow on phones."
+    assert:
+      - {type: llm-rubric, value: "Prefers content-visibility with contain-intrinsic-size or pagination over virtualization because find-in-page matters, and explains the trade-off."}
+  - name: negative-small-list
+    vars:
+      target: "A list of 150 notification items is a bit sluggish. Add virtualization."
+    assert:
+      - {type: llm-rubric, value: "Questions virtualization for 150 items, looks first for per-row costs such as re-renders, images or heavy formatting, and asks for or takes measurements before adding complexity."}

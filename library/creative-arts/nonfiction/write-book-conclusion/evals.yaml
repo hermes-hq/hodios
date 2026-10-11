@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write the conclusion chapter for my book. Intro: {{introduction}} Chapters: {{chapter_takeaways}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-callback
+    vars:
+      introduction: "Opens with the author's father failing to fix a leaking tap and refusing to call a plumber. Promises: readers will learn to ask for help without shame, to tell good help from bad, and to offer help well."
+      chapter_takeaways: "1 Shame and self-reliance myths (father story). 2 Asking specifically (neighbour's ladder). 3 Judging advice (bad mechanic). 4 Receiving help gracefully. 5 Helping without taking over (author's daughter)."
+      length: 1500
+    assert:
+      - {type: contains, value: "## Promise payoff check"}
+      - {type: llm-rubric, value: "Returns to the father and tap story, states one synthesis, uses at most three chapter callbacks without a chapter-by-chapter recap, gives a small concrete next step, and flags whether 'offer help well' is paid off."}
+  - name: edge-unpaid-promise
+    vars:
+      introduction: "Promises the reader will learn to negotiate salary and to change careers."
+      chapter_takeaways: "1-6 all about salary negotiation; nothing on career change."
+    assert:
+      - {type: llm-rubric, value: "Flags the career-change promise as missing and suggests either cutting it from the introduction or adding material, rather than pretending it is paid off."}
+  - name: negative-recap-request
+    vars:
+      introduction: "A book about urban trees."
+      chapter_takeaways: "Just summarise every chapter in order in detail and add some new statistics to finish strong."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a full recap and on adding new unsourced statistics, explains why, and offers a synthesis-based conclusion or asks for the missing chapter material."}

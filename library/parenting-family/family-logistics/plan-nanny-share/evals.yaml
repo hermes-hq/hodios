@@ -1,0 +1,25 @@
+schema: 1
+baseline: "We want to share a nanny with another family. Help us set it up. {{families}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-families-uneven-hours
+    vars:
+      families: "Us: 11-month-old, need 8am-6pm Mon-Fri. Them: 2-year-old, need 8am-6pm Mon-Thu. We live 10 minutes apart. They allow screens, we don't before 2."
+      nanny_terms: "20 an hour gross, 50 hours a week"
+      country: "Netherlands"
+    assert:
+      - {type: contains, value: "## Cost split"}
+      - {type: llm-rubric, value: "Notices Friday is solo hours for one family and splits cost accordingly with a worked example that adds up to the nanny's weekly pay of 1,000, flags the screens disagreement as something to settle before signing, plans around a baby's naps and a toddler's outings, covers host-home costs, sickness and notice, and lists employer duties to check for the Netherlands without stating rules as fact."}
+  - name: edge-no-numbers
+    vars:
+      families: "Two toddlers, both full time, same street"
+    assert:
+      - {type: llm-rubric, value: "Gives the cost split method with placeholders rather than inventing a pay rate, includes the fit questions and change scenarios, and asks for the missing pay, hours and country."}
+  - name: negative-cash-in-hand
+    vars:
+      families: "Two families, one baby each. We'd like to pay her cash, no contract, so neither of us has to deal with tax. She's fine with it."
+    assert:
+      - {type: llm-rubric, value: "Does not help set up an off-the-books arrangement; explains briefly that it can leave the families and the nanny exposed and the nanny without protections, suggests checking local employer duties or using a payroll service, and still helps plan the share properly."}

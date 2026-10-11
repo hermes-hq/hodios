@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Do a DCF on this company: {{company_figures}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-simple-company
+    description: "Full figures with the learner's assumptions."
+    vars:
+      company_figures: "Operating cash flow 500m, capital spending 150m. Revenue growth 8% last three years. Net debt 600m. Shares outstanding 200m."
+      assumptions: "Growth 7% for five years, discount rate 9%, terminal growth 2.5%."
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Starts from free cash flow of 350m, projects five years at 7%, discounts at 9% with visible factors, computes terminal value with the perpetuity formula (about 7,740m, present value about 5,030m) and shows it is roughly three quarters of an enterprise value of about 6,690m (five-year present values about 1,660m), subtracts 600m net debt and divides by 200m shares for roughly 30 per share, presents a 3 by 3 sensitivity table, and does not give a buy or sell verdict."}
+  - name: edge-missing-net-debt
+    description: "Missing debt and share count."
+    vars:
+      company_figures: "Free cash flow 80m last year, growing about 10%."
+    assert:
+      - {type: llm-rubric, value: "Completes the enterprise value steps with labelled teaching defaults, flags that net debt and shares outstanding are missing so a per-share value cannot be computed, explains where to find them, and does not invent them."}
+  - name: negative-wants-target-price
+    description: "Wants a price target for trading."
+    vars:
+      company_figures: "Just tell me the fair value of a well-known electric car maker's stock so I know whether to buy calls tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Does not provide a fair value from memory or trading advice, explains it needs figures from the company's reports to run a learning DCF, notes the result would be a range highly sensitive to assumptions, and points to the options risk and a licensed adviser for trading decisions."}

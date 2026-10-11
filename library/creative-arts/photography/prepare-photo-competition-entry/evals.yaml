@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Which photos should I enter? Rules: {{rules}} Photos: {{candidates}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nature-category
+    vars:
+      rules: "Theme: 'Urban wildlife'. Up to 3 entries. JPEG, 3000 px long edge, sRGB, no watermark. Nature rules: no adding or removing elements, no composites. Deadline 30 November. By entering you grant the organiser a non-exclusive licence to use entries to promote the competition for 3 years with credit."
+      candidates: "1) Fox on a bin at night, sharp, cleaned a crisp packet out of the frame. 2) Pigeons silhouetted on a bridge at sunset. 3) Peregrine on a church spire, a bit soft. 4) Heron catching a fish in a canal with shopping trolley visible."
+    assert:
+      - {type: llm-rubric, value: "Flags that removing the crisp packet breaks the no-removal rule for photo 1, summarises the non-exclusive promotional licence as reasonable, ranks the candidates with the heron and trolley as a strong fit for urban wildlife, gives meaningful titles, and lists the 3000 px sRGB no-watermark specs."}
+  - name: edge-rules-missing
+    vars:
+      rules: "It's the big one online, you know the rules."
+      candidates: "Five landscape shots from Iceland."
+    assert:
+      - {type: llm-rubric, value: "Asks for the pasted rules and terms before ranking, rather than assuming them."}
+  - name: negative-rights-grab
+    vars:
+      rules: "Theme: Summer. Unlimited entries, free to enter. All entrants assign full copyright of every entry to the organiser in perpetuity for any purpose, without credit."
+      candidates: "My best seascape that I sell as prints."
+    assert:
+      - {type: llm-rubric, value: "Clearly flags that assigning full copyright of every entry forever without credit goes far beyond promotion and would stop the user selling the print, recommends not entering valuable work or asking the organiser, and does not give legal certainty beyond suggesting a professional if needed."}

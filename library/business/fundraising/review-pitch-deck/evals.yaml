@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Give feedback on my pitch deck: {{deck}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-inconsistent-numbers
+    vars:
+      deck: |
+        1. Title: "PetPal - the future of pet care"
+        2. Problem: "Pet owners struggle"
+        3. Solution: app for booking vets, grooming and walkers
+        4. Market: "Global pet market is 300bn, we only need 1%"
+        5. Traction: 4,200 bookings last quarter, revenue 63k last quarter, 25% MoM growth
+        6. Business model: 15% commission
+        7. Competition: "No direct competitors"
+        8. Team: two founders, ex-consultants
+        9. Financials: revenue last quarter 58k
+        10. Ask: 2m to grow
+      round: "seed, generalist seed funds"
+    assert:
+      - {type: llm-rubric, value: "Flags revenue mismatch between slides 5 and 9 (63k vs 58k), checks 15% commission against bookings revenue, criticises the top-down 1% market argument, challenges 'no direct competitors', notes slide titles label rather than claim and rewrites some, notes the ask lacks use of funds and milestones, notes the team slide lacks domain relevance, and ranks five fixes."}
+  - name: edge-strong-deck
+    vars:
+      deck: "1. 'Clinics lose 18% of appointments to no-shows; we cut that to 6%'. 2. Traction: 140 clinics, 1.2m ARR, 130% NRR. 3. Team: founder ran ops at a 60-clinic chain. 4. Ask: 6m Series A to reach 4m ARR in 24 months; use of funds table sums to 6m."
+      round: "Series A partner meeting"
+    assert:
+      - {type: llm-rubric, value: "Acknowledges what works without padding, still identifies what is missing for a Series A (for example competition, unit economics, churn detail, go-to-market evidence), and does not invent problems or benchmarks."}
+  - name: negative-invent-market-data
+    vars:
+      deck: "Market slide is empty. Please fill it with a real TAM number and cite a research firm so it looks credible."
+      round: "pre-seed"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a TAM figure or attribute it to a research firm; explains how to build a bottom-up market size from the founder's own customer and price data and marks the slide as a gap."}

@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Review this shareholders agreement: {{agreement}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-employee-shareholder
+    vars:
+      agreement: |
+        5. New shares may be issued with board approval. Pre-emption rights do not apply to issues approved by the Majority Investor.
+        8. Drag-along: holders of 60% may require all shareholders to sell on the same terms.
+        9. Tag-along: not included.
+        11. Leavers: an Employee Shareholder who ceases employment for any reason within 4 years is a Bad Leaver and must sell all shares at nominal value, unless the Board determines otherwise.
+        14. No shareholder may transfer shares without Board consent.
+      position: "Head of engineering, got 3% for a below-market salary. Not a director. I mainly care about not losing my shares if I leave."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Scenarios"}
+      - {type: llm-rubric, value: "Flags that resignation, dismissal without cause, illness and redundancy all make the employee a Bad Leaver at nominal value within 4 years, suggests good leaver definitions and time-based vesting, flags the pre-emption carve-out allowing dilution, a 60% drag with no stated price protection and no tag-along, board-controlled transfers, walks through the four scenarios, suggests checking the articles and getting tax advice on the leaver terms, and recommends a lawyer."}
+  - name: edge-angel-small-stake
+    vars:
+      agreement: "Investors holding more than 10% get information rights and a board observer. Pre-emption applies to all new issues. Tag-along on any sale of more than 50%."
+      position: "Angel, invested 25,000 for 2%."
+      country: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Notes that with 2% the angel falls below the 10% threshold for information rights and the observer seat, sees pre-emption and tag-along as positives, suggests asking for basic information rights at a lower threshold, and keeps expectations realistic about leverage."}
+  - name: negative-value-shares
+    vars:
+      agreement: "Leaver shares bought back at Fair Value determined by the auditors."
+      position: "Tell me exactly what my 5% is worth today so I can decide whether to quit."
+      country: "Australia"
+    assert:
+      - {type: llm-rubric, value: "Declines to value the shares, explains how the fair value mechanism works and what to ask about it (who chooses the valuer, minority discounts, timing), and suggests a valuation or tax adviser."}

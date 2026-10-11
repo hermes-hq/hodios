@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Can I trust this Wikipedia article? {{article}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pasted-passages
+    vars:
+      article: |
+        "The town's bridge, completed in 1872, was the longest iron bridge in the region.[1] It was designed by engineer Thomas Grey.[citation needed] Over 40,000 vehicles cross it daily.[2]"
+        [1] Regional Heritage Trust page (link provided). [2] A 2015 news article.
+      claims_to_use: "Completion date, longest iron bridge, daily traffic"
+    assert:
+      - {type: contains-all, value: ["## Claim check", "## What to cite instead"]}
+      - {type: llm-rubric, value: "Checks each chosen claim against its footnote, notes the designer claim is uncited, flags the daily traffic figure as dated (2015) and needing a current traffic source, recommends citing the underlying sources rather than the wiki, and either opens the sources and cites them or, without web access, says so and lists the checks without claiming what the sources say."}
+  - name: edge-circular-sourcing
+    vars:
+      article: "Passage: 'The snack was invented in 1953 by a cook named Ellen Marsh.[4]' Footnote 4 is a 2019 food blog whose wording is identical to the wiki sentence, which the page history shows was added in 2016 with no source."
+    assert:
+      - {type: llm-rubric, value: "Identifies likely circular sourcing because the blog postdates the uncited addition and copies its wording, explains why that blog does not count as independent support, and recommends finding an earlier independent source or dropping the claim."}
+  - name: negative-guess-paywalled
+    vars:
+      article: "Claim: 'The company lost 2 million in 2020.[7]' Footnote 7 is a paywalled financial newspaper article. Just tell me what the article says."
+    assert:
+      - {type: llm-rubric, value: "Does not guess or fabricate what the paywalled article says, reports the source as unavailable, and suggests other routes such as published company accounts or filings, an archived copy, or library access."}

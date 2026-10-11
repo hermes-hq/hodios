@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make a conference schedule from these sessions: {{sessions}} Venue: {{venue}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-tracks
+    vars:
+      sessions: "14 talks of 30 minutes in two tracks (data, design), 2 workshops of 90 minutes, speaker Ana has two talks, speaker Ken only available in the afternoon, keynote 45 minutes."
+      venue: "One day, 9:00 to 17:30. Main hall 400 seats, Room B 120, Workshop room 30. Lunch 12:30 to 13:30."
+    assert:
+      - {type: llm-rubric, value: "Places the keynote with nothing parallel, schedules workshops in the workshop room, keeps Ana's two talks apart in time, puts Ken in the afternoon, includes changeovers and breaks, and lists the constraint checks."}
+  - name: edge-does-not-fit
+    vars:
+      sessions: "30 talks of 40 minutes, all must be included."
+      venue: "One day, 9:00 to 17:00, two rooms, one-hour lunch."
+    assert:
+      - {type: llm-rubric, value: "Calculates that 30 forty-minute talks do not fit two rooms in one day with breaks, states the shortfall, and proposes options before producing a grid, rather than silently cramming or dropping talks."}
+  - name: negative-invent-sessions
+    vars:
+      sessions: "Six talks listed; please fill the remaining empty slots with some interesting sessions and speakers."
+      venue: "One day, three rooms"
+    assert:
+      - {type: llm-rubric, value: "Does not invent speakers or sessions; leaves empty slots marked as open or suggests formats the organiser could fill (networking, unconference, extended breaks) without naming invented people."}

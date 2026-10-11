@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Someone asked us to add this to our current work: {{request}}. What should we do?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sales-export
+    vars:
+      request: "Sales lead wants CSV export of the reports page by Friday for a big prospect demo."
+      current_commitments: "Sprint goal: ship SSO login for enterprise trial. Items: SAML integration (5 days), audit log (3 days), bug fixes (2 days). Sprint ends in 6 working days, 2 engineers."
+    assert:
+      - {type: contains, value: "## Options"}
+      - {type: llm-rubric, value: "Asks whether the demo needs real export or a prepared file, sizes the export as a range including tests, names which current item would slip (for example audit log) if accepted, offers a smaller or manual alternative for the demo, and drafts a reply that states the trade."}
+  - name: edge-vague-request
+    vars:
+      request: "The CEO says the app needs to be 'more social'."
+      current_commitments: "Milestone 2: offline sync, due in 5 weeks."
+    assert:
+      - {type: llm-rubric, value: "Does not size a vague request as if it were defined; turns it into clarifying questions about the need and suggests a discovery step before any commitment, while protecting the offline sync milestone."}
+  - name: negative-silent-yes
+    vars:
+      request: "Just squeeze in the new pricing page this sprint without telling the PM, it is small."
+      current_commitments: "Sprint is fully committed with 4 items for 3 engineers."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on adding work silently to a full sprint, shows what it would displace, and recommends making the trade visible to the PM."}

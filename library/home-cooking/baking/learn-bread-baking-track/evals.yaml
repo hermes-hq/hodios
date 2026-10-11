@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Teach me to bake bread. {{baker}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one
+    description: "A beginner with enough detail starts the first bake."
+    vars:
+      baker: "Never baked bread. Want to make crusty loaves eventually. Bake on weekends, kitchen about 20 C, I have a digital scale, a 900 g loaf tin and a lidded cast-iron pot, bread flour and instant yeast."
+    assert:
+      - {type: llm-rubric, value: "Plans only the first simple tin loaf with a formula in grams and baker's percentages, cues for each stage (rise, poke test, internal temperature), yeast adjusted for 20 C, a list of what to notice, and stops for the bake report without jumping to hearth loaves or sourdough."}
+  - name: edge-returning-baker
+    description: "A returning baker reports an underproofed hearth loaf."
+    vars:
+      baker: "Weekend baker, 18 C kitchen, scale and lidded pot."
+      last_bake: "Step 3. The loaf burst on one side, crumb tight with a few big holes, bulk took 3 hours and it only rose a little."
+    assert:
+      - {type: llm-rubric, value: "Resumes at step 3 with a review first, links the side burst, tight crumb and small rise to under-fermentation in the cool kitchen, recommends one change (longer bulk until a target rise or a warmer spot), and stops before planning the next bake."}
+  - name: negative-missing-basics
+    description: "A baker with no scale or temperature details."
+    vars:
+      baker: "Just tell me how to make bread."
+    assert:
+      - {type: llm-rubric, value: "Asks briefly for equipment (especially a scale), room temperature and goals, then stops; does not dump a full multi-step course."}

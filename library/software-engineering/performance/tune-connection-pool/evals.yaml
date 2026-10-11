@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How big should my connection pool be? {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-autoscaled-postgres
+    vars:
+      setup: "HikariCP, maximumPoolSize 50, 4 to 20 Kubernetes pods with autoscaling, one Postgres primary with max_connections 500 on 8 vCPU. Two other services also connect."
+      metrics: "Per pod: 300 requests per second, each holds a connection about 15 ms on average. Pool wait p99 is near zero normally but connection errors appear when pods scale past 10."
+    assert:
+      - {type: contains, value: "## Sizing calculation"}
+      - {type: llm-rubric, value: "Computes about 4.5 busy connections per pod from 300 x 0.015, recommends a much smaller pool with headroom, shows that 20 pods x 50 = 1000 exceeds the server limit, and considers an external pooler or the total budget across services."}
+  - name: edge-long-hold-times
+    vars:
+      setup: "Django app with persistent connections, Postgres."
+      metrics: "Average hold time 1.2 s even though queries take 20 ms; views call a payment API inside transaction.atomic blocks."
+    assert:
+      - {type: llm-rubric, value: "Identifies that holding connections or transactions across the remote payment call inflates hold time, and recommends moving the remote call outside the transaction before resizing the pool."}
+  - name: negative-just-raise
+    vars:
+      setup: "We get 'connection pool exhausted' errors. Should we set the pool to 1000 per instance? We have 30 instances and MySQL max_connections is 2000."
+    assert:
+      - {type: llm-rubric, value: "Says no: 30 x 1000 far exceeds the server limit and more connections would degrade the database; asks for hold times and wait metrics and checks for leaks or long-held connections."}

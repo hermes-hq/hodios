@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Combine these notes into one: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-versions-of-howto
+    vars:
+      notes: |
+        Note 1 "Boiler reset" (2023-01-10): Press reset for 5 seconds. Pressure should be 1-1.5 bar. Engineer: Dave's Heating.
+        Note 2 "Boiler - what to do" (2025-02-03): Hold reset 10 seconds (new model). Pressure 1-1.5 bar; top up with the filling loop under the boiler. Service due every October.
+    assert:
+      - {type: contains, value: "## Conflicts and changes"}
+      - {type: llm-rubric, value: "Produces one note keeping the pressure range once, the filling loop step, the October service and the engineer name; treats the 10-second reset from the 2025 note as current and lists the 5-second version as an older value in the conflicts table; suggests keeping the old title as an alias or redirect."}
+  - name: edge-unknown-dates-conflict
+    vars:
+      notes: "Note A 'Team decisions': We chose vendor Kestrel for printing.\nNote B 'Printing': Decided on vendor Lumen. Kestrel too slow."
+      keep_title: "Printing vendor"
+    assert:
+      - {type: llm-rubric, value: "Does not pick a vendor silently; marks the Kestrel versus Lumen conflict as unresolved because no dates are given, asks which is current, and keeps both statements visible."}
+  - name: negative-unrelated-notes
+    vars:
+      notes: "Note 1 'Sourdough starter feeding schedule'. Note 2 'Quarterly tax deadlines'."
+    assert:
+      - {type: llm-rubric, value: "Says the notes are about different topics and should not be merged, and does not force them into one note."}

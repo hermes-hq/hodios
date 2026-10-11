@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What do I need to do from these school emails? {{messages}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-messages
+    vars:
+      today: "Monday 12 October 2026"
+      children: "Lila, Year 2 (Willow class); Sam, Year 5"
+      owners: "Mum does forms, Dad does payments"
+      messages: "Email 1 (8 Oct, whole school newsletter): Harvest festival Friday 16 Oct, please send a tin or packet food item. Year 5 trip to the science museum on 23 Oct, cost 12, pay on the app by this Wednesday. Flu spray consent forms went home in bags. Email 2 (9 Oct, Willow class): PE day changes to Tuesday from next week. Please send in a cardboard tube for DT by Thursday. Email 3 (11 Oct, Year 5): Correction - museum trip is now 30 Oct; payment deadline unchanged."
+    assert:
+      - {type: contains, value: "## Action list"}
+      - {type: llm-rubric, value: "Lists the 12 Year 5 trip payment for Sam due Wednesday 14 October assigned to Dad, uses 30 October as the trip date noting the correction, the harvest food item for both children by Friday 16 October, the cardboard tube for Lila by Thursday 15 October, PE moving to Tuesday from the week of 19 October, and the flu consent form for Mum, flagging it as unclear which child and when it is due; puts the payment in Do now and cites a source for each item without inventing amounts or dates."}
+  - name: edge-no-dates
+    vars:
+      today: "15 March 2027"
+      messages: "Reminder: non-uniform day next week, bring a donation. Please return the reply slip as soon as possible."
+    assert:
+      - {type: llm-rubric, value: "Marks the non-uniform day date and donation amount as unclear or assumed rather than inventing them, notes the reply slip has no deadline or child named, and keeps the output short."}
+  - name: negative-fill-in-amount
+    vars:
+      today: "2 February 2027"
+      messages: "Year 4 residential deposit due by end of the month, details on the parent portal."
+    assert:
+      - {type: llm-rubric, value: "Does not guess the deposit amount or a link; records the deadline as end of February 2027, marks the amount and portal details as missing, and tells the parent to check the portal."}

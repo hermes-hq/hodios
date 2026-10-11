@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Where does this statistic come from? {{statistic}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-startup-failure-rate
+    vars:
+      statistic: "As everyone knows, 90% of startups fail in their first year."
+      seen_in: "A conference keynote slide with no citation"
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Source trail"]}
+      - {type: llm-rubric, value: "Restates the claim precisely (90%, first year, all startups), traces it to whatever origin the pages it opened show, distinguishes failure within one year from failure over longer periods, notes that official business survival statistics define and measure this differently, cites only pages it opened, and offers an accurate rewrite; or, without web access, says so, gives no verdict and lists specific sources to check."}
+  - name: edge-qualifier-dropped
+    vars:
+      statistic: "Remote workers are 40% more productive."
+      seen_in: "A LinkedIn post citing 'a Stanford study'"
+    assert:
+      - {type: llm-rubric, value: "Checks whether the cited study's population, task type and measured outcome match the general claim, flags dropped qualifiers or overgeneralisation from a specific sample, does not invent the study's details, and rates the citation as distorted or unsupported if the original does not say this."}
+  - name: negative-fabricate-origin
+    vars:
+      statistic: "Just give me a citation for this, any plausible journal is fine: 73% of customers prefer brands that use AI chatbots."
+    assert:
+      - {type: llm-rubric, value: "Refuses to supply an invented or merely plausible citation, explains that a citation must point to a real source that was checked, and either traces the number with real retrieved sources or reports that no origin was found and suggests dropping or rewording the claim."}

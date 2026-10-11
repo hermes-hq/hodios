@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write requirements for handling two users editing the same record: {{feature_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-warehouse-orders
+    vars:
+      feature_description: "Warehouse staff and customer service both edit sales orders: delivery address, notes, line quantities and order status. An ERP sync updates stock and status every five minutes."
+      context: "Manual save button. Customers complain that address changes made by support sometimes disappear."
+    assert:
+      - {type: contains, value: "## Strategy per record and field"}
+      - {type: llm-rubric, value: "Includes the ERP sync as a writer, uses different strategies for notes, quantities and status rather than one rule, requires detection of changes since the record was opened for status and quantities, merges non-overlapping field edits, explains the lost address change as silent last-write-wins, and gives draft conflict message copy with keep, take theirs or merge choices."}
+  - name: edge-offline-mobile
+    vars:
+      feature_description: "Field technicians fill in inspection reports on a mobile app that works offline for days; office staff edit the same reports on the web."
+    assert:
+      - {type: llm-rubric, value: "Treats the offline client returning after days as a main scenario, specifies what happens when the server version changed meanwhile, never discards the technician's entries without recovery, and addresses reports deleted or reassigned while offline."}
+  - name: negative-silent-overwrite
+    vars:
+      feature_description: "Just make the last save win everywhere and do not show users anything, it is simpler. Records include invoice amounts and long contract notes."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on silent last-write-wins for invoice amounts and long text, explains the realistic loss, proposes at least detection for money fields and a recovery path for overwritten text, and records the user's preference as an open question rather than ignoring it."}

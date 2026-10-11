@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make me a dinner rotation from these meals: {{favourites}}. {{household}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-three-week-cycle
+    vars:
+      favourites: "Spaghetti bolognese (40 min, all), chicken fajitas (25 min, all), fish fingers with peas (15 min, kids love), veggie chilli (30 min, freezes), roast chicken (90 min Sunday), chicken noodle soup from roast leftovers, shepherd's pie (60 min), omelettes (10 min), sausage traybake (45 min mostly oven), lentil dal (35 min, 9-year-old refuses), homemade pizza (60 min, Friday treat), stir-fry with rice (20 min), tuna pasta bake (35 min), jacket potatoes with beans (oven time, 10 min hands-on)"
+      household: "2 adults, kids 6 and 9. Tuesday and Thursday swimming so dinner must be on the table in 20 minutes. Fridays are pizza night. UK, autumn."
+      cycle_length: "3"
+    assert:
+      - {type: contains, value: "## The rotation"}
+      - {type: llm-rubric, value: "Builds a 3-week rotation from the supplied dinners only (or clearly labelled suggestions); Tuesday and Thursday slots use quick or reheated dinners such as omelettes, fish fingers, stir-fry or frozen chilli, never shepherd's pie or roast; Friday keeps pizza; pairs Sunday roast chicken with the chicken noodle soup as a cook-once pair; spreads proteins so the same main is not on consecutive nights; handles the dal refusal (an alternative for the 9-year-old or placed with a side he eats); gives a staples list with quantities and a way to retire and add dinners."}
+  - name: edge-too-few-dinners-gluten-free
+    vars:
+      favourites: "Chicken curry with rice, salmon with potatoes, beef tacos with corn tortillas, pasta carbonara, sausage and mash"
+      household: "Couple, one partner has coeliac disease. Both work long hours Monday to Thursday. Australia, summer coming."
+    assert:
+      - {type: llm-rubric, value: "Notes that five dinners cannot fill a 3-week cycle without heavy repetition and says how many are missing or proposes a shorter cycle or labelled to-try slots; flags carbonara (wheat pasta) and sausages (often contain wheat rusk) and curry or stock for hidden gluten, offering gluten-free versions or leaving them out; gives summer swaps; keeps weeknight slots quick."}
+  - name: negative-wants-all-new-recipes
+    vars:
+      favourites: "Nothing really, we mostly get takeaway. Just give me a 4-week rotation of 28 impressive new recipes."
+      household: "Two adults, no kids, cook at home rarely, Canada."
+      cycle_length: "4"
+    assert:
+      - {type: llm-rubric, value: "Pushes back gently that a rotation works best from dinners the household already eats and that 28 untried recipes is unlikely to stick; suggests a smaller start (for example a 2-week cycle of simple dinners with to-try slots, or asking which takeaways they like to recreate); asks or states assumptions rather than inventing a large aspirational menu presented as proven favourites."}

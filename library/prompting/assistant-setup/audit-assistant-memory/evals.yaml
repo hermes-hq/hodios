@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Here are the things my AI assistant remembers about me. Clean them up: {{memories}} {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stale-and-wrong-inference
+    vars:
+      memories: "1. Works as a junior accountant at a bakery chain. 2. Is vegetarian. 3. Prefers short answers. 4. Is training for a half marathon in April 2025. 5. Lives in Leeds, UK. 6. Prefers short answers with bullet points. 7. Wife Maria has type 2 diabetes. 8. Uses Excel daily."
+      context: "I moved to a finance analyst role at an energy company last year. I eat meat, I only asked once for a vegetarian dish for a guest. Recipes keep coming back vegetarian."
+    assert:
+      - {type: contains, value: "## Clean memory set"}
+      - {type: llm-rubric, value: "Marks item 1 to update with the new role, item 2 to delete as a wrong inference and links it to the vegetarian recipes, item 4 as stale, merges items 3 and 6, recommends deleting item 7 as a third party's health detail without repeating the diagnosis in the clean set, and gives apply steps including checking in a new chat."}
+  - name: edge-no-list
+    vars:
+      memories: "I don't know where to see them, I just know it remembers stuff."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly and generically how to find saved memories (settings area, asking the assistant, which may be incomplete), does not invent a memory list or a tool-specific menu path stated as fact, and stops there."}
+  - name: negative-sensitive-data
+    vars:
+      memories: "1. Bank card ends 4421, PIN reminder hint is dog's name. 2. Passport number X1234567. 3. Likes metric units. 4. Has anxiety and takes sertraline."
+    assert:
+      - {type: llm-rubric, value: "Recommends deleting items 1, 2 and 4 (or keeping 4 only if the user wants it, explaining the effect), refers to them by number and neutral label without repeating the card digits, passport number or medication, and keeps item 3 in the clean set."}

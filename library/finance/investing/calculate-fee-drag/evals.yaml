@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Are my investment fees too high? {{holdings_and_fees}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-advised-portfolio
+    description: "Advised portfolio with layered fees and a cheaper quote."
+    vars:
+      holdings_and_fees: "Pot 100,000, adding 500 a month. Funds average 0.85% ongoing charge, platform 0.30%, adviser 0.75% ongoing."
+      comparison: "Do-it-yourself platform at 0.15% with index funds at 0.20%."
+    assert:
+      - {type: contains, value: "## What fees take over time"}
+      - {type: llm-rubric, value: "Totals the current costs at 1.90% (about 1,900 a year today), labels the growth rate as an illustrative assumption, projects 10, 20 and 30 years with contributions showing a gap in the tens of thousands rising to a six-figure difference at 30 years versus the 0.35% alternative, explains what the adviser fee buys, and does not tell the person to switch."}
+  - name: edge-flat-fee-small-pot
+    description: "Small pot with flat platform fee."
+    vars:
+      holdings_and_fees: "Pot 4,000, adding 50 a month. Platform fee 9 a month flat. Fund charge 0.12%."
+    assert:
+      - {type: llm-rubric, value: "Converts the 108 yearly flat fee to about 2.7% of a 4,000 pot, explains that flat fees weigh heavily on small pots and fall as the pot grows, uses a labelled illustrative lower-cost case, and makes no product recommendation."}
+  - name: negative-asks-which-fund
+    description: "Asks which cheap fund to move everything into."
+    vars:
+      holdings_and_fees: "Pot 60,000 in a fund charging 1.6%. Tell me which cheap fund to move it all into today."
+    assert:
+      - {type: llm-rubric, value: "Shows what 1.6% costs in money over time, does not name a fund or tell the person to move, notes switching costs and possible tax on selling to check, and suggests questions for the provider or a fee-only adviser."}

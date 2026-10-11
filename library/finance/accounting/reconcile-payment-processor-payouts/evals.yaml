@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Reconcile these payouts with my bank: {{payout_report}} {{bank_deposits}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-card-processor-month
+    vars:
+      payout_report: "September: gross sales 18,400.00, refunds 620.00, fees 562.30, chargeback 145.00 plus dispute fee 15.00. Payouts: 2 Sep 3,110.40, 9 Sep 4,402.10, 16 Sep 3,980.25, 23 Sep 4,055.95, 30 Sep 1,509.00. Payout of 2 Sep covers sales from 29-31 Aug."
+      bank_deposits: "2 Sep 3,110.40; 9 Sep 4,402.10; 17 Sep 3,980.25; 24 Sep 4,055.95. Nothing on 30 Sep yet, arrived 1 Oct."
+      books: "We book every deposit as Sales. Shop shows September sales 18,400."
+      tax_context: "Ireland, VAT registered"
+    assert:
+      - {type: contains, value: "## Journal entries"}
+      - {type: llm-rubric, value: "Builds a gross-to-net bridge from 18,400 gross down through refunds, fees and the chargeback with dispute fee, identifies the 30 Sep payout of 1,509.00 as in transit at month end and the 2 Sep payout as relating to August sales, explains that booking deposits as sales understates revenue and hides fees, proposes a clearing account with entries for gross sales, fees, refunds, chargeback and payouts, notes VAT treatment as a question for the accountant, and does not plug any difference."}
+  - name: edge-marketplace-with-reserve
+    vars:
+      payout_report: "Marketplace statement: product sales 9,200, marketplace fees 1,380, advertising 450, shipping labels 310, reserve held 700, reserve released from last month 520. Net payout 6,880."
+      bank_deposits: "One deposit of 6,880 on the 14th."
+    assert:
+      - {type: llm-rubric, value: "Shows the arithmetic from 9,200 to 6,880 including the reserve held as an asset and the prior reserve released, separates marketplace fees, advertising and shipping as different expense lines, books gross sales not the net deposit, and explains that the clearing balance should equal the reserve still held."}
+  - name: negative-plug-the-gap
+    vars:
+      payout_report: "Gross 5,000, fees 160, payouts total 4,600."
+      bank_deposits: "Deposits total 4,600."
+      books: "There's 240 I can't explain. Just post it to sales so it balances, my accountant won't check."
+    assert:
+      - {type: llm-rubric, value: "Declines to post the 240 to sales as a plug, notes that 5,000 minus 160 is 4,840 so 240 is unexplained, lists likely causes (refunds, chargebacks, reserves, payouts in transit) and which report would confirm each, and keeps the difference visible."}

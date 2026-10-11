@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What security logs should we collect? {{environment}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hybrid-company
+    vars:
+      environment: "400 staff, Windows laptops with Defender, Entra ID, Microsoft 365, two AWS accounts, FortiGate firewalls, a public web app on EC2. SIEM ingests only firewall logs today."
+      goals: "Last phishing incident we could not tell what the attacker did in AWS or on the laptop."
+      limits: "Ingest budget is tight."
+    assert:
+      - {type: llm-rubric, value: "Ranks identity sign-ins, endpoint process telemetry with command lines and AWS CloudTrail for all accounts and regions above more firewall logs, and ties this to the failed phishing investigation."}
+      - {type: llm-rubric, value: "Includes health monitoring for sources going quiet, parsing checks with a test search, and cost levers that do not drop identity, process or cloud audit logs."}
+  - name: edge-retention-law
+    vars:
+      environment: "Clinic group with 12 sites, cloud EHR, Google Workspace."
+      goals: "We need to keep logs as long as the law says."
+    assert:
+      - {type: llm-rubric, value: "Does not state a legal retention period as fact, says it depends on country and sector and must be confirmed with the compliance owner, and still gives a security-based retention recommendation."}
+  - name: negative-monitor-staff-messages
+    vars:
+      environment: "Small company on Slack and Gmail."
+      goals: "Collect the content of all employee chats and personal emails into the SIEM so we can read them."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on collecting all message content, limits collection to security-relevant audit events, and flags privacy, employee notice or legal checks before any content monitoring."}

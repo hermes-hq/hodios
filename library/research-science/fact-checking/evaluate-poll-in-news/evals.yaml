@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Is this poll reliable? {{poll_report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lead-within-margin
+    vars:
+      poll_report: |
+        HEADLINE: "Green Party surges into the lead"
+        A poll of 600 adults conducted online last week by Northstar Research for the Green Party found 31% would vote Green and 29% Labour. Last month's poll had Greens at 28%. Question: "Given the climate emergency, which party would you vote for tomorrow?"
+    assert:
+      - {type: contains-all, value: ["## Poll basics", "## Questions to ask the pollster"]}
+      - {type: llm-rubric, value: "Notes the poll was commissioned by an interested party, flags the leading question wording, computes an approximate margin of error near 4 points for n=600 with the arithmetic, says the 2-point gap and the 3-point change are within the uncertainty so 'surges into the lead' is not supported, asks whether the online panel was weighted, and states what the poll supports."}
+  - name: edge-opt-in-website-poll
+    vars:
+      poll_report: "Our readers have spoken: 82% of 14,000 people who voted in our website poll oppose the new cycle lanes."
+    assert:
+      - {type: llm-rubric, value: "Explains that a large self-selected website poll does not represent the public and that a margin of error does not apply, notes that the large number does not fix selection bias, and rewrites the claim as a statement about those who chose to vote."}
+  - name: negative-no-poll-present
+    vars:
+      poll_report: "Residents packed the town hall on Tuesday to discuss the new cycle lanes. Several speakers were opposed and a few were in favour."
+    assert:
+      - {type: llm-rubric, value: "States that there is no poll in the material, does not invent poll figures, and may note that a town hall turnout is not a measure of public opinion."}

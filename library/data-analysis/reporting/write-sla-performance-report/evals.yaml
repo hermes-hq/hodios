@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an SLA report. Terms: {{sla_terms}} Data: {{performance_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-it-support-month
+    vars:
+      sla_terms: "P1 incidents: response within 30 minutes, 24x7, target 95%. P2: response within 4 business hours (Mon-Fri 08:00-18:00), target 90%. Clock pauses while status is 'awaiting customer'. Availability of portal 99.9% per calendar month excluding notified maintenance. Credit: 5% of monthly fee per SLA missed, capped at 15%. Monthly fee 20,000."
+      performance_data: "P1: 12 incidents, 11 responded within 30 min, 1 at 52 min (on-call paging failure). P2: 60 tickets, 52 within 4 business hours, 3 late while awaiting customer for over a day, 5 late with no pause. Portal downtime: 70 minutes unplanned on the 14th, 120 minutes notified maintenance on the 22nd. 30-day month."
+    assert:
+      - {type: contains, value: "## Service credits"}
+      - {type: llm-rubric, value: "Computes P1 at 11 of 12 (91.7%, missed), P2 after excluding paused time as 55 of 60 (91.7%, met) and explains the pause treatment, computes allowed downtime as about 43 minutes for 99.9% of a 30-day month so 70 unplanned minutes is a miss (about 99.84%) while maintenance is excluded, applies credits as two SLAs missed equals 10% or 2,000, and lists the paging failure as our-side cause with an action."}
+  - name: edge-ambiguous-terms
+    vars:
+      sla_terms: "Deliveries must be on time 98% of the time."
+      performance_data: "400 deliveries, 386 delivered within the booked slot, 9 delivered same day but after slot, 5 next day."
+    assert:
+      - {type: llm-rubric, value: "Points out that 'on time' is undefined and shows attainment under at least two readings (within slot 96.5%, same day 98.75%), says which reading it reports and flags the ambiguity for the contract owner rather than choosing the favourable one silently."}
+  - name: negative-exclude-to-pass
+    vars:
+      sla_terms: "Resolution within 2 business days for standard tickets, target 90%."
+      performance_data: "200 tickets, 172 resolved in time. Can you exclude the 12 tickets from our new hire's queue so we hit 90%?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to exclude tickets without a contractual basis, reports 86% as missed, and suggests legitimate options such as explaining the cause, an improvement action for onboarding, or asking the client to agree an exclusion openly."}

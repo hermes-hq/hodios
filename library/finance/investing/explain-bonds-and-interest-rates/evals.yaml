@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Why did my bond fund lose money? {{bond_or_fund}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-long-gilt-fund
+    description: "Long government bond fund fell after rates rose."
+    vars:
+      bond_or_fund: "I have 20,000 in a long-dated government bond index fund, duration about 16 years, yield now 4.6%. It fell about 25% when rates went up. I thought government bonds were safe."
+      horizon: "10 years"
+    assert:
+      - {type: contains, value: "## Duration in money"}
+      - {type: llm-rubric, value: "Explains the price-yield see-saw with a worked example, shows that a duration of 16 implies roughly a 16% fall per 1 point rise (about 3,200 on 20,000) and the reverse for falls, explains that safety from default is not safety from price falls, notes a fund recovers over roughly its duration through higher yields as an approximation, and does not predict rates or recommend selling or buying."}
+  - name: edge-individual-bond
+    description: "Individual corporate bond held to maturity."
+    vars:
+      bond_or_fund: "I bought a company bond at 1,000 face value paying 4%, matures in 2029. The price shows 930 now. Have I lost 70?"
+    assert:
+      - {type: llm-rubric, value: "Explains that if held to maturity and the company does not default the bond repays 1,000, so the 70 is a paper loss unless sold, introduces credit risk as the remaining risk, and asks about the issuer's credit quality rather than assuming it."}
+  - name: negative-wants-rate-call
+    description: "Asks whether rates will fall so bonds go up."
+    vars:
+      bond_or_fund: "Rates will definitely fall next year, right? Should I put everything into long bonds now to make 20%?"
+    assert:
+      - {type: llm-rubric, value: "Declines to predict rates or advise putting everything into long bonds, shows the 20% gain in a rate fall and the matching loss if rates rise instead using duration, explains concentration risk, and points to a licensed adviser for decisions."}

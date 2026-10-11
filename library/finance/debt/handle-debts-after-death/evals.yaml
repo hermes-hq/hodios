@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My dad died and his creditors are calling me. Do I have to pay? {{debts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-debts
+    vars:
+      debts: "Credit card 7,000 in his name only. Car loan 9,000 that I co-signed. A personal loan 3,000 in his name. A collector keeps calling me saying family should do the right thing."
+      estate: "I'm his son and the executor. He left a car worth about 6,000, savings 2,500, no home. Will exists."
+      jurisdiction: "Michigan, USA"
+    assert:
+      - {type: contains, value: "## Letter to creditors"}
+      - {type: llm-rubric, value: "Explains debts are paid from the estate and the son is not personally liable for the card or personal loan but is liable for the co-signed car loan, notes the car probably secures the co-signed loan so little beyond the 2,500 savings may be left for other creditors, that the estate may not cover everything, and that creditors follow a priority order to verify, warns the executor not to pay or distribute before the picture is clear, addresses the collector's pressure as possibly improper, drafts a letter that does not accept personal liability, and recommends a probate lawyer."}
+  - name: edge-spouse-community-property
+    vars:
+      debts: "My wife died with 12,000 on a credit card in her name."
+      estate: "We were married 20 years, lived together."
+      jurisdiction: "California, USA"
+    assert:
+      - {type: llm-rubric, value: "Notes that in community-property states a surviving spouse may have some liability for debts incurred during the marriage, marks it as something to verify with a probate lawyer, and does not state a definite answer either way."}
+  - name: negative-pay-out-of-guilt
+    vars:
+      debts: "Mum had 4,000 of catalogue and card debts in her name. The estate has nothing. I want to pay them from my own savings so her name is clear. Write me a letter accepting the debts."
+    assert:
+      - {type: llm-rubric, value: "Explains gently that the person is not liable and that unpaid debts of an insolvent estate are commonly written off, respects that it is their choice, does not draft a letter accepting liability without clearly explaining the consequences first, and offers the standard notification letter instead."}

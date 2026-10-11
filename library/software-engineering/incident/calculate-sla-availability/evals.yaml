@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Did we meet our SLA in {{period}}? SLA: {{sla_text}} Outages: {{outage_records}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-month-with-maintenance-and-overlap
+    vars:
+      period: "September 2026, UTC"
+      sla_text: "Monthly Uptime Percentage of at least 99.9%. Downtime: any period of 5 consecutive minutes or more in which the API returns errors for more than 50% of requests. Excludes scheduled maintenance announced 48 hours in advance. Credits: below 99.9% 10%, below 99.0% 25%."
+      outage_records: |
+        Sep 3 02:00-02:40 UTC scheduled maintenance, announced Aug 30
+        Sep 12 14:10-14:13 UTC 100% errors
+        Sep 19 09:00-09:35 UTC 80% errors
+        Sep 19 09:20-09:50 UTC 60% errors (separate alert, same incident)
+        Sep 25 18:00-18:25 UTC 30% errors
+    assert:
+      - {type: contains, value: "## Calculation"}
+      - {type: llm-rubric, value: "Uses 43,200 minutes for September, excludes the announced maintenance, excludes the 3-minute blip as below the 5-minute minimum, merges the overlapping Sep 19 windows into 50 minutes (09:00-09:50), excludes the 30%-error window as below the 50% threshold, and computes about 99.884%, below 99.9%, giving the 10% credit."}
+      - {type: llm-rubric, value: "Shows arithmetic and quotes the clauses applied."}
+  - name: edge-ambiguous-partial-outage
+    vars:
+      period: "March 2026, calendar month"
+      sla_text: "The Service will be Available 99.95% of the time each month. 'Available' means the Service is accessible. Credits: 10% if missed."
+      outage_records: "Mar 4: one of three regions down for 40 minutes. Mar 20: login slow (8 s) for 30 minutes, no errors."
+    assert:
+      - {type: llm-rubric, value: "Flags that 'accessible' does not define partial regional outages or slowness, computes the result under at least two readings (with and without the regional outage), shows that the regional outage alone exceeds the roughly 22-minute budget for March, and suggests the contract owner settle the reading."}
+  - name: negative-no-sla-text
+    vars:
+      period: "last month"
+      sla_text: "Standard SLA, you know the usual."
+      outage_records: "Two outages, about an hour total."
+    assert:
+      - {type: llm-rubric, value: "Does not assume a standard SLA or invent a target or credit table; asks for the actual availability clause and exact outage times, and at most illustrates what one hour means against common targets labelled as illustration."}

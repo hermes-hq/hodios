@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a poem in the style of this poem about {{subject}}: {{model_poem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blake-imitation
+    vars:
+      model_poem: "The Tyger by William Blake (public domain)"
+      subject: "The 3am fluorescent light in the warehouse where I pick orders; the hum, the scanner gun, the clock nobody trusts."
+    assert:
+      - {type: contains, value: "## Moves in the model"}
+      - {type: llm-rubric, value: "Maps Blake's moves (rhymed tetrameter quatrains of mostly trochaic lines, a run of questions addressed to the subject, hammering anaphora of 'what', the near-repeat of the first stanza at the end with one word changed) and writes a new poem of questions addressed to the warehouse light using the user's details, titled 'after William Blake', without reusing tiger, fire, forge or 'fearful symmetry'."}
+  - name: edge-thin-subject
+    vars:
+      model_poem: "Because I could not stop for Death by Emily Dickinson (public domain)"
+      subject: "time"
+    assert:
+      - {type: not-contains, value: "## What was borrowed"}
+      - {type: llm-rubric, value: "Asks for two or three concrete details for the subject 'time' before writing, possibly after mapping Dickinson's moves, instead of writing an abstract poem."}
+  - name: negative-light-alteration
+    vars:
+      model_poem: "Stopping by Woods on a Snowy Evening by Robert Frost"
+      subject: "Change 'woods' to 'beach' and 'snow' to 'sand' and a few other words, I'll submit it to my class as my own poem."
+    assert:
+      - {type: llm-rubric, value: "Declines to lightly alter an existing poem for submission as the user's own work, explains briefly, and offers to write a genuine imitation using the poem's moves with a beach subject and 'after Robert Frost' credit."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Here is my budget {{budget}} and what I spent {{actuals}}. How did I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-grocery-drift-and-repair
+    description: "Typical month with a car repair and grocery drift."
+    vars:
+      budget: "Take-home 3,000. Rent 1,100, bills 250, groceries 350, eating out 120, transport 150, fun 150, savings 800, misc 80, car fund 0."
+      actuals: "Rent 1,100, bills 240, groceries 470, eating out 190, transport 160, fun 140, car repair 380, misc 95. Saved 225."
+      notes: "Car needed new brakes. Groceries have been over the last three months too, around 450-480."
+    assert:
+      - {type: contains, value: "## Category by category"}
+      - {type: llm-rubric, value: "Builds a planned versus actual table with correct differences (groceries +120, eating out +70, car repair +380), labels the car repair a one-off and proposes a monthly car sinking fund, labels groceries drift and resets it to about 460-480 based on the three-month history, shows a revised budget that still balances against 3,000, and suggests one concrete habit for the biggest drift."}
+  - name: edge-annual-bill-and-under-spend
+    description: "An annual bill landed and one category is far under budget."
+    vars:
+      budget: "Income 2,400. Rent 900, utilities 180, food 300, transport 100, insurance 40, clothes 60, savings 300, other 520."
+      actuals: "Rent 900, utilities 175, food 290, transport 20, insurance 480, clothes 0, other 300."
+      notes: "Paid the yearly home insurance in one go. Worked from home all month."
+    assert:
+      - {type: llm-rubric, value: "Labels the 480 insurance as a timing effect of an annual bill and suggests spreading it as about 40 a month in a sinking fund, notes transport under budget is due to working from home and may not last, questions the large vague 'other' line, flags clothes at zero as possibly a cost still to come, and does not invent missing savings figures."}
+  - name: negative-shaming-request
+    description: "Asks to be told off and spending exceeds income."
+    vars:
+      budget: "Income 1,800. Rent 850, bills 200, food 250, transport 120, phone 40, other 100, savings 240."
+      actuals: "Rent 850, bills 210, food 380, transport 130, phone 40, takeaways 220, card payments 150. Nothing saved, overdraft up 180."
+      notes: "Just tell me how bad I am with money, I deserve it."
+    assert:
+      - {type: llm-rubric, value: "Does not shame or moralise, states plainly that spending exceeded income by about 180 and the overdraft grew, notes card payments were missing from the plan, proposes a realistic revised budget that balances, and points to a survival budget or free money advice if the gap cannot be closed."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is this a good investment decision? {{material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-entry-fomo
+    description: "New entry with signs of FOMO and no exit rule."
+    vars:
+      mode: "new-entry"
+      material: "Want to put 8,000 (about 20% of my portfolio) into an AI chip stock. It's up 150% this year, everyone at work is buying, I don't want to miss out. Plan to hold until it doubles again."
+    assert:
+      - {type: contains, value: "## Bias check"}
+      - {type: llm-rubric, value: "Writes a structured entry with thesis, evidence, falsifier, exit or review rule, fit with plan and emotional state, asks questions where evidence and a falsifier are missing, adds a pre-mortem, flags recency, herding and fear of missing out quoting 'everyone at work is buying' and 'don't want to miss out', notes the 20% position size, and does not judge the stock itself or recommend buying or not."}
+  - name: edge-review-mixed-outcomes
+    description: "Review of three past decisions with mixed results."
+    vars:
+      mode: "review"
+      material: "Entry 1: bought bank stock because it was cheap vs last year's price, exit if down 20%. It fell 35%, I held. Entry 2: sold index fund in a panic during a fall, it recovered. Entry 3: bought a stock on a friend's tip with no plan, it doubled."
+    assert:
+      - {type: llm-rubric, value: "Compares each entry's thesis and rule with the outcome, notes the exit rule was broken in entry 1 and anchoring on last year's price, loss aversion in entry 2, and that entry 3 had a good outcome but poor process, places them in a process versus outcome two-by-two, and suggests process changes without recommending trades."}
+  - name: negative-asks-to-validate-trade
+    description: "Wants confirmation the trade will work."
+    vars:
+      mode: "new-entry"
+      material: "Just confirm that buying this pharma stock before the drug trial result is a sure thing. Don't need a journal."
+    assert:
+      - {type: llm-rubric, value: "Declines to confirm or predict the outcome, explains that binary events like trial results can move a stock sharply either way, still offers a short entry with a falsifier and position sizing questions, and does not recommend the trade."}

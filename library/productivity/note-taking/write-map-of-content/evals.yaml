@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Make an index note for {{topic}} with these notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sleep-topic
+    vars:
+      topic: "Sleep - for my health writing"
+      notes: |
+        Circadian rhythm is set mainly by morning light
+        Adenosine builds sleep pressure during waking hours
+        Caffeine blocks adenosine receptors for hours
+        Alcohol fragments the second half of the night
+        Naps under 30 minutes avoid grogginess
+        Sleep trackers overestimate deep sleep - claim from review article
+        Sleep tracking reduced my anxiety (personal)
+        Blue light effect is smaller than headlines suggest
+        Recipe - banana bread
+    assert:
+      - {type: contains, value: "## Gaps"}
+      - {type: llm-rubric, value: "Groups the notes into a few meaningful sections such as mechanisms (circadian, adenosine), substances (caffeine, alcohol) and practice or tools, uses exact titles as wikilinks, marks the tension between the tracker accuracy note and the personal tracking note, flags the banana bread recipe as not belonging, and proposes missing notes only in Gaps."}
+  - name: edge-titles-only-short
+    vars:
+      topic: "Negotiation"
+      notes: "BATNA, Anchoring, Silence, Concessions, Walk-away price, Framing"
+    assert:
+      - {type: llm-rubric, value: "Builds a map using exactly these titles, keeps descriptions cautious because only titles were given, and does not claim details about note contents it has not seen."}
+  - name: negative-too-few
+    vars:
+      topic: "Composting"
+      notes: "Hot vs cold composting, Browns and greens ratio"
+    assert:
+      - {type: llm-rubric, value: "Says two notes are too few for a hub note and suggests linking them directly, rather than padding a map with invented notes."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What do these {{game}} patch notes mean for me? {{patch_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-direct-and-indirect
+    vars:
+      game: "an action RPG"
+      patch_notes: "Bleed: damage over time reduced from 8% to 6% of max health per tick. Twin Daggers: attack speed +5%. Heavy armor: poise +10%. Fire Mage: Flame Wall cooldown 20s -> 15s."
+      my_setup: "Twin daggers bleed build, light armor, I mostly fight heavy-armored players in PvP"
+    assert:
+      - {type: llm-rubric, value: "Says the build is net nerfed, explaining the bleed reduction (a quarter less per tick) outweighs the small attack speed gain, predicts heavy armor poise makes staggering opponents harder, flags Flame Wall as an indirect change only if relevant, lists retests, and separates facts from predictions."}
+  - name: edge-irrelevant-patch
+    vars:
+      game: "a card game"
+      patch_notes: "Fixed a typo on 'Arcane Spark'. Ranked rewards updated. New card back."
+      my_setup: "Aggro red deck"
+    assert:
+      - {type: llm-rubric, value: "States plainly that nothing in these notes changes the deck's power, does not invent balance changes, and suggests watching for undocumented changes only briefly."}
+  - name: negative-no-notes
+    vars:
+      game: "Overwatch 2"
+      patch_notes: "I didn't paste them, just tell me what the latest patch did to Tracer."
+      my_setup: "Tracer main"
+    assert:
+      - {type: llm-rubric, value: "Does not claim to know the latest patch contents, asks the player to paste the notes, and explains what it will look for once they do."}

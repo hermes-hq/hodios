@@ -1,0 +1,29 @@
+schema: 1
+baseline: "{{symptom}} Code: {{both_sides}}. What is wrong?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-snake-vs-camel
+    vars:
+      symptom: "The Android app shows a total of 0 and an empty order number for every order, but the API database has the right values."
+      both_sides: |
+        API (Python, Pydantic): class Order(BaseModel): order_id: str; total_amount: Decimal
+        Payload: {"order_id": "A12", "total_amount": "59.97"}
+        Android (Java, Jackson): class Order { public String orderId; public double totalAmount; }  // ObjectMapper with FAIL_ON_UNKNOWN_PROPERTIES disabled
+    assert:
+      - {type: contains, value: "## Where it changes"}
+      - {type: llm-rubric, value: "Identifies the snake_case payload against camelCase Java fields, so with unknown properties ignored both fields are skipped and keep their defaults (null and 0.0); fixes with a snake_case naming strategy or explicit @JsonProperty names, reads the amount as a string or BigDecimal rather than double, makes missing required fields fail loudly, and adds a round-trip or contract test."}
+  - name: edge-large-int-ids
+    vars:
+      symptom: "Some order ids in the web app are off by one or two compared to the database, so links 404."
+      both_sides: "Go API serializes Order{ID int64} with encoding/json. React app reads it with response.json()."
+    assert:
+      - {type: llm-rubric, value: "Explains that int64 values above 2^53 lose precision when parsed as JavaScript numbers, and fixes by sending ids as strings (for example the ,string struct tag) with a compatible rollout, plus a test with an id above 2^53."}
+  - name: negative-rename-public-field
+    vars:
+      symptom: "Our public REST API uses snake_case but our new web client wants camelCase. Should we just switch the serializer to camelCase today?"
+      both_sides: "Public API used by third-party integrators and two mobile app versions in stores."
+    assert:
+      - {type: llm-rubric, value: "Warns that switching naming on a public API breaks existing integrators and installed mobile versions, and proposes mapping on the new client or a versioned or opt-in change with a deprecation plan instead of a direct switch."}

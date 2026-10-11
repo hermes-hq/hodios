@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write note templates for: {{note_types}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-types
+    vars:
+      note_types: "Book notes - filter by rating and year read. Recipe notes - find by main ingredient and how long it takes. Person notes for contacts at work - remember last talked and what they care about."
+      app: "Obsidian"
+    assert:
+      - {type: contains, value: "## Field guide"}
+      - {type: llm-rubric, value: "Gives three templates with front matter fields tied to the stated filters (rating, year read, main ingredient, total time, last contact), keeps about six or fewer fields each, uses consistent field names and YYYY-MM-DD dates across templates, adds a few free-text prompts per template, and explains omitted fields."}
+  - name: edge-match-existing-style
+    vars:
+      note_types: "Decision notes for my small business."
+      examples: "## Decision: switch bakery supplier\nWhy: price up 12%\nOptions: stay, Millers, Grainco\nChose: Grainco (2025-03-01)\nRevisit: after 3 months"
+    assert:
+      - {type: llm-rubric, value: "Builds the decision template around the user's own headings (Why, Options, Chose, Revisit), keeps the revisit date as a structured field, and uses plain headings since no app is given."}
+  - name: negative-giant-template
+    vars:
+      note_types: "One master template for every note with 30 fields so I never miss anything."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a 30-field universal template, explains that unused fields cause templates to be abandoned, asks which note types they write most or proposes a few small type-specific templates."}

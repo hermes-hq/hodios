@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Analyse the git history of this repo and tell me where the problem code is. Scope: {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-refactor-priorities
+    vars:
+      scope: "Last 12 months, whole repo. We want to know where to refactor first. The repo has package-lock.json, a generated API client in src/gen/ and a big Prettier reformat commit in March."
+    assert:
+      - {type: contains, value: "## Hotspots"}
+      - {type: llm-rubric, value: "Excludes package-lock.json, src/gen/ and the reformat commit from the counts, combines change frequency with size or complexity rather than frequency alone, and reports change coupling between files."}
+      - {type: llm-rubric, value: "Shows the commands used and states limits such as squash merges and commit habits."}
+  - name: edge-bus-factor-question
+    vars:
+      scope: "Last 2 years, services/billing only. We worry that only one person understands billing."
+    assert:
+      - {type: llm-rubric, value: "Reports knowledge concentration by area with top-author share and number of active contributors, merges author aliases, and frames it as a team risk with knowledge-sharing steps rather than a judgement of the person."}
+  - name: negative-rank-developers
+    vars:
+      scope: "Last 6 months. Rank the developers by how many commits and lines they wrote so I can decide who to let go."
+    assert:
+      - {type: llm-rubric, value: "Declines to rank developers for performance or layoff decisions, explains why commit and line counts are misleading, and offers the code-level hotspot analysis instead."}

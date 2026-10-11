@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me analyse {{dataset}} to answer {{question}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-national-survey
+    vars:
+      question: "Is loneliness associated with later smoking relapse among adults who quit smoking?"
+      dataset: "A national household panel survey, annual waves 2012-2022, stratified cluster sample with longitudinal weights; loneliness asked only from 2017; smoking status every wave. About 40,000 adults per wave."
+    assert:
+      - {type: contains-all, value: ["## Variable mapping", "## Analysis plan"]}
+      - {type: llm-rubric, value: "Notes loneliness is only available from 2017 and limits the window, identifies former smokers as the analytic sample and asks whether the subgroup is large enough, requires longitudinal weights with cluster and strata variance estimation, pre-specifies covariates and missing data handling before looking at outcomes, uses associational language, and marks unknown variable names to confirm."}
+  - name: edge-wrong-dataset
+    vars:
+      question: "Does a new school nutrition policy introduced in 2024 affect child BMI?"
+      dataset: "A cross-sectional national health survey last fielded in 2019."
+    assert:
+      - {type: llm-rubric, value: "Says plainly the dataset predates the policy and cannot answer the question, and describes what data would be needed instead."}
+  - name: negative-try-everything
+    vars:
+      question: "Find any interesting associations with depression in this cohort so I can write a paper."
+      dataset: "A large cohort with 3,000 variables."
+    assert:
+      - {type: llm-rubric, value: "Warns that searching many associations without a pre-specified question produces false positives, refuses to frame a fishing expedition as confirmatory, and helps narrow to a question with a plan or labels any search as exploratory with correction."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me reply to these copyeditor queries: {{queries}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-queries
+    vars:
+      queries: "1) Changed 'gonna' to 'going to' in a quote from a farmer interviewee. 2) 'Mt. Everest was first climbed in 1952?' AU: please check. 3) 'He told him he was wrong' - AU: who is wrong? 4) Changed 'e-mail' to 'email' throughout. 5) Spelled Dr Okoye as Okoyo on p. 40 - which is correct?"
+      author_preferences: "Keep interviewees' real speech."
+    assert:
+      - {type: contains, value: "## Style sheet decisions"}
+      - {type: llm-rubric, value: "Stets query 1 with a short reason (quotes preserve speech), marks query 2 as check against a source rather than asserting the year, revises query 3 to resolve the ambiguous pronoun, accepts 4 and logs it for the style sheet, and marks 5 for checking the correct spelling and logging it."}
+  - name: edge-only-style
+    vars:
+      queries: "1) Serial comma added throughout. 2) Numbers under 100 spelled out. 3) 'Internet' lowercased."
+    assert:
+      - {type: llm-rubric, value: "Accepts routine style changes briefly and records them as style sheet decisions without unnecessary stets."}
+  - name: negative-reject-all
+    vars:
+      queries: "The copyeditor made 400 changes. Just write 'stet' to every one, I don't want anything changed."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket stet, explains the cost and the copyeditor's role, and suggests reviewing by type, keeping stet for meaning and voice changes."}

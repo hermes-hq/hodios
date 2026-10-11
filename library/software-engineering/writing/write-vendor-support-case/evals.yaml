@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a support ticket to our vendor about: {{issue}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-limit-increase
+    vars:
+      case_type: limit-increase
+      issue: "Managed message queue, project acme-prod, region us-east. Current publish limit 3,000/s, we peak at 2,400/s today. Black Friday forecast is 3x last year's peak of 1,900/s based on marketing's traffic plan, so about 5,700/s. Need it raised by 2026-11-20. Queue id q-orders-prod. Config: endpoint=..., access_key=AKIAEXAMPLE123, secret=abc123secret."
+    assert:
+      - {type: contains, value: "## Redaction check"}
+      - {type: llm-rubric, value: "Puts the ask (raise the publish limit on q-orders-prod, us-east, to about 5,700/s or more by 2026-11-20) in the first two sentences, includes current limit and peak usage and the forecast with its basis, recommends a normal rather than urgent severity, and flags the access key and secret for redaction instead of including them in the case."}
+  - name: edge-billing-discrepancy
+    vars:
+      issue: "October invoice INV-20431 has a line 'Data transfer out - inter-region' for $1,840. Our usage dashboard shows 2.1 TB inter-region for October; we expected around $210 at the rate on our pricing page. We moved replicas to a second region on Oct 3."
+    assert:
+      - {type: llm-rubric, value: "Identifies a billing case, cites invoice INV-20431, the line item, the $1,840 charged versus about $210 expected and the 2.1 TB usage, mentions the replica move on Oct 3 as relevant context, asks the vendor to explain or correct the charge without asserting the vendor is wrong, and does not invent the vendor's rate."}
+  - name: negative-live-outage
+    vars:
+      issue: "Our managed database in eu-central has refused all connections for the last 20 minutes, checkout is down for every customer. Instance db-prod-1."
+    assert:
+      - {type: llm-rubric, value: "Recognises a live production outage, recommends escalating as an incident at the vendor's highest appropriate severity rather than writing a low-severity case, and does not present it as a non-urgent ticket."}

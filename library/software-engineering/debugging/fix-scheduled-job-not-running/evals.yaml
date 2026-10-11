@@ -1,0 +1,33 @@
+schema: 1
+baseline: "My scheduled job has a problem: {{symptom}}. Config: {{scheduler_config}}. {{logs}} What is wrong?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cron-path-and-percent
+    vars:
+      symptom: "The backup script works when I run it by hand, but the nightly cron run never creates a file."
+      scheduler_config: |
+        0 2 * * * cd ~/app && pg_dump mydb > backups/db-$(date +%F).sql
+      logs: "syslog shows CRON[1234]: (deploy) CMD (cd ~/app && pg_dump mydb > backups/db-$(date +)"
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Spots that the unescaped % in the crontab line is treated as a newline (the syslog line is cut at +), fixes it by escaping as \\% or moving the command into a script, and also flags cron's minimal PATH for pg_dump with an absolute path and logging output to a file."}
+  - name: edge-k8s-timezone-overlap
+    vars:
+      symptom: "Our report CronJob runs at the wrong hour and sometimes two runs overlap and send duplicate emails."
+      scheduler_config: |
+        apiVersion: batch/v1
+        kind: CronJob
+        spec:
+          schedule: "0 8 * * *"
+          concurrencyPolicy: Allow
+    assert:
+      - {type: llm-rubric, value: "Explains the schedule runs in the controller time zone (usually UTC) unless spec.timeZone is set, recommends setting timeZone explicitly, changes concurrencyPolicy to Forbid (or explains Replace), and notes the job should be idempotent so a retried run does not send duplicate emails."}
+  - name: negative-run-as-root
+    vars:
+      symptom: "The cron job fails with 'Permission denied' writing to /var/log/myjob.log. Should I just put it in root's crontab?"
+      scheduler_config: "*/15 * * * * /opt/app/sync.sh >> /var/log/myjob.log 2>&1"
+    assert:
+      - {type: llm-rubric, value: "Does not recommend moving the job to root; instead fixes ownership or location of the log file (for example a directory owned by the job's user or logrotate-managed file) and explains why running as root widens risk."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Which claims in this should I fact-check? We can do {{capacity}}. {{source_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-candidate-debate
+    vars:
+      capacity: "3 claims by tomorrow morning"
+      audience: "city news site"
+      source_text: |
+        MAYOR LEE: Crime in this city has fallen 20% since I took office. We built 1,200 affordable homes last year, more than any year in history. My opponent wants to raise your property tax.
+        COUNCILLOR DIAZ: The bus network lost a third of its riders under this mayor. Our schools are the worst in the region. I will make this the safest city in the country. Half of all new housing went to luxury developers.
+    assert:
+      - {type: contains-all, value: ["## Shortlist", "## Not checkable"]}
+      - {type: llm-rubric, value: "Extracts claims per speaker, separates uncheckable items such as 'I will make this the safest city' and the vague 'wants to raise your property tax' or 'worst in the region' with questions that would make them checkable, scores the rest, picks exactly three or fewer claims with a balance across both speakers, names a primary source type for each (police statistics, housing completions, transit ridership), and does not rate any claim true or false."}
+  - name: edge-repeated-talking-point
+    vars:
+      capacity: "1 claim in 2 hours"
+      source_text: |
+        Interview transcript. Minister: "Unemployment is the lowest it has been in 50 years." (Later) "As I said, lowest unemployment in half a century." (Later) "Also our new app has been downloaded a million times." (Later) "Fifty-year low in unemployment, that's the record."
+    assert:
+      - {type: llm-rubric, value: "Merges the three repetitions of the unemployment claim into one, notes it was repeated three times, prioritises it over the app downloads claim for the single slot on consequence and reach, and suggests checking the official labour statistics series and the definition and period used."}
+  - name: negative-asked-for-verdicts
+    vars:
+      capacity: "2 claims"
+      source_text: "Just tell me which of these are lies: 'Our hospital waiting lists doubled last year' and 'The new bridge cost twice the budget.'"
+    assert:
+      - {type: llm-rubric, value: "Declines to label the claims as lies or false without evidence, explains that triage comes before research, still triages both claims with scores and sources to check, and avoids judging the speaker's honesty."}

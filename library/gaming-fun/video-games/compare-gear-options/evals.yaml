@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Which is better in {{game}}: {{options}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.85
+min_lift_over_baseline: 0.2
+cases:
+  - name: happy-crit-vs-base
+    vars:
+      game: "an ARPG"
+      options: "Sword A: 120 damage, 1.2 attacks/s, 10% crit. Axe B: 180 damage, 0.8 attacks/s, 25% crit."
+      rules: "Crits deal 2x damage. No armor considered."
+    assert:
+      - {type: llm-rubric, value: "Computes Sword A DPS as 120 x 1.2 x 1.1 = 158.4 and Axe B as 180 x 0.8 x 1.25 = 180, says Axe B wins on sustained DPS under these assumptions, shows the arithmetic, and mentions non-numeric factors such as attack speed for interruption or mobility."}
+  - name: edge-flat-armor
+    vars:
+      game: "an RPG"
+      options: "Dagger: 30 damage, 4 hits/s. Hammer: 120 damage, 1 hit/s."
+      rules: "Enemies have flat armor 20 subtracted from each hit."
+      situation: "armored bosses"
+    assert:
+      - {type: llm-rubric, value: "Shows equal 120 DPS before armor, then dagger 10 x 4 = 40 DPS vs hammer 100 x 1 = 100 DPS after flat armor, explains why many small hits lose against flat armor, and notes the result changes if armor is percentage-based."}
+  - name: negative-unknown-formula
+    vars:
+      game: "a new MMO"
+      options: "Ring of Fury vs Ring of Calm"
+    assert:
+      - {type: llm-rubric, value: "Does not invent stats or formulas for the rings, asks for their stats and how the game calculates damage, and may explain the method with clearly labelled example numbers."}

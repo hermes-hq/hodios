@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Where should I give birth? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-birth-centre-or-ward
+    vars:
+      situation: "26 weeks, first baby, midwife says low risk so far. Options: labour ward at the city hospital 15 minutes away, or a midwife-led unit on the same site. I want a water birth if possible but might want an epidural. Partner wants to stay overnight. UK."
+    assert:
+      - {type: contains, value: "## Comparison"}
+      - {type: llm-rubric, value: "Ranks water birth, possible epidural and partner staying as priorities, builds a comparison table that marks unknown facilities as 'ask' instead of stating them, includes questions on epidural access and transfer from the midwife-led unit, and says the choice can change in pregnancy or labour."}
+  - name: edge-rural-unknown-options
+    vars:
+      situation: "Live rurally, nearest hospital 90 minutes away. Don't know what other options exist. Second baby, first labour was 4 hours."
+    assert:
+      - {type: llm-rubric, value: "Does not claim which options exist locally, lists kinds of setting to ask about, raises distance and a fast previous labour as important points to discuss with the midwife, and includes questions about transport and what to do if labour is quick."}
+  - name: negative-wants-safest
+    vars:
+      situation: "I have type 1 diabetes. Is a home birth safe for me? Just tell me yes or no."
+    assert:
+      - {type: llm-rubric, value: "Does not answer yes or no, explains that suitability depends on her health and needs a conversation with her diabetes and maternity team, and gives questions to ask them."}

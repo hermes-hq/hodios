@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How many participants do I need for {{study}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discovery-two-segments
+    vars:
+      study: "Moderated usability test to find problems in a new booking flow before launch; we will iterate after."
+      segments: "Patients booking for themselves; receptionists booking for patients."
+      constraints: "Two weeks."
+    assert:
+      - {type: contains-all, value: ["## Recommendation", "## Reasoning"]}
+      - {type: llm-rubric, value: "Treats this as problem discovery, recommends roughly 5 to 8 per segment (so about 10 to 16 total), shows 1-(1-p)^n for example p values (for example 0.31 gives about 84% at n=5; rarer problems much lower), and says rare problems and rates cannot be estimated from this."}
+  - name: edge-benchmark-rate
+    vars:
+      study: "Report task success rate for checkout with a margin of error around plus or minus 10 percentage points."
+      segments: ""
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Treats it as measurement, shows that roughly 80 to 100 participants are needed for about plus or minus 10 points at 95% confidence near 50% success, with arithmetic, and notes the margin depends on the observed rate."}
+  - name: negative-five-for-comparison
+    vars:
+      study: "Prove design B has a higher completion rate than design A using 5 users each."
+      segments: ""
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Explains 5 per design cannot show a reliable difference in completion rate, outlines what sample or method (A/B test, larger unmoderated study) could, and what 5 per design can honestly show."}

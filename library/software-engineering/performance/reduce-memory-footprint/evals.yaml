@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our service uses too much memory, how do we reduce it? {{service}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jvm-container
+    vars:
+      service: "Java 17 Spring service in a 2 GiB container, RSS flat at 1.8 GiB for days, occasional OOM kills on traffic peaks. 400 threads in the Tomcat pool."
+      evidence: "Heap max set to 1.5 GiB, heap used after GC 500 MB. Heap histogram top: byte[] from a report endpoint that loads whole CSV exports into memory."
+    assert:
+      - {type: contains, value: "## Where the memory goes"}
+      - {type: llm-rubric, value: "Notes memory is flat so it is not a leak, points out that a 1.5 GiB heap plus non-heap areas and 400 thread stacks does not fit in 2 GiB, proposes streaming the CSV export, a smaller thread pool or stack size, and sizing the heap to the container, and verifies under load including latency."}
+  - name: edge-python-many-workers
+    vars:
+      service: "Python Gunicorn app with 16 workers per pod, each 450 MB RSS, mostly from a 300 MB ML model loaded per worker."
+    assert:
+      - {type: llm-rubric, value: "Identifies the model duplicated per worker as the main cost and proposes loading it before fork to share pages, fewer workers with threads, or a separate model service, with the trade-offs."}
+  - name: negative-growing-memory
+    vars:
+      service: "Node service memory grows from 200 MB to 2 GB over 6 hours until it is killed, then restarts. Make it use less memory."
+    assert:
+      - {type: llm-rubric, value: "Recognises unbounded growth as a likely leak rather than a footprint problem, says so, and directs to a leak investigation instead of footprint tuning."}

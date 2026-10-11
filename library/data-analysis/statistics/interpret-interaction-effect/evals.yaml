@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Interpret this interaction: {{model_output}} Question: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-linear-dummy
+    vars:
+      model_output: "OLS, outcome = basket value in euros. Intercept 42.0; discount (1 = got 10% discount) 3.0; new_customer (1 = new) -8.0; discount:new_customer 6.5 (SE 2.1, p = 0.002). n = 4,800."
+      question: "Does the discount work better for new customers than returning ones?"
+    assert:
+      - {type: llm-rubric, value: "Explains the discount coefficient 3.0 is its effect for returning customers only; computes the effect for new customers as 3.0 + 6.5 = 9.5 euros; states the difference of 6.5 euros between groups is the interaction; recommends a plot of predicted basket value by group and discount; gives emmeans or marginaleffects code for intervals; ends with a plain summary."}
+  - name: edge-logistic-scale
+    vars:
+      model_output: "Logistic regression, outcome = churned. Coefficients (log-odds): intercept -2.0; price_increase (1/0) 0.40; tenure_years (uncentred) -0.30; price_increase:tenure_years -0.10. Tenure ranges 0 to 8."
+      question: "Is the churn effect of the price increase smaller for long-tenure customers?"
+    assert:
+      - {type: llm-rubric, value: "Computes the log-odds effect of the price increase at several tenure values (0.40 at 0 years, 0.10 at 3 years, about -0.40 at 8 years) or odds ratios; explains that the effect on the probability scale differs and needs predicted probabilities or average marginal effects; warns tenure is uncentred so the main effect is at tenure 0; stays within 0 to 8 years; gives code."}
+  - name: negative-no-interaction-term
+    vars:
+      model_output: "OLS: sales ~ ad_spend + region. ad_spend 1.8 (p<0.001), regionEast 120 (p=0.04)."
+      question: "Does ad spend work better in the East?"
+    assert:
+      - {type: llm-rubric, value: "Points out the model has no ad_spend by region interaction, so it assumes the same ad spend slope in every region and cannot answer the question; explains that the region coefficient is a shift in level, not a difference in effect; recommends fitting the interaction and gives code; does not invent an interaction estimate."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write tests for {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trial-expiry
+    vars:
+      target: |
+        // src/billing/trial.ts
+        export function isTrialActive(user: { trialStartedAt: Date }) {
+          const end = new Date(user.trialStartedAt);
+          end.setDate(end.getDate() + 14);
+          return new Date() < end;
+        }
+      test_framework: "Vitest with TypeScript"
+    assert:
+      - {type: contains, value: "## Seam"}
+      - {type: llm-rubric, value: "Introduces an injectable now (parameter or clock) with a default to the real time, writes tests with fixed instants just before, at and after the 14-day boundary, covers a daylight saving transition and month end, sets the time zone explicitly, and uses no real waiting."}
+  - name: edge-timer-retry
+    vars:
+      target: "A Python function retry_with_backoff(fn) that calls time.sleep(2 ** attempt) between up to five attempts."
+      test_framework: "pytest"
+    assert:
+      - {type: llm-rubric, value: "Avoids real sleeps by injecting a sleep function or patching time.sleep, and asserts the exact sequence of backoff delays and the number of attempts, including the case where all attempts fail."}
+  - name: negative-sleep-in-test
+    vars:
+      target: "A session cache that expires entries after 30 minutes. My plan is a test that sleeps 30 minutes and 1 second. Write it."
+    assert:
+      - {type: llm-rubric, value: "Declines the 30-minute real sleep and explains why, and instead uses an injected clock or fake timers to advance time to just before and just after the 30-minute expiry."}

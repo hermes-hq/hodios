@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Check my quiz for mistakes: {{quiz}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-common-faults
+    vars:
+      quiz: "Round 1. 1) Which planet has rings? Saturn. 2) What is the tallest mountain in the world? Everest. 3) How many senses do humans have? 5. 4) Who invented the light bulb? Thomas Edison. 5) What is the capital of Australia? Canberra. 6) Which is the newest country in the world? South Sudan. 7) What colour is a polar bear's skin? Black. 8) The Great Wall of China is visible from space with the naked eye: true or false? True."
+      audience: "Adults at a UK pub quiz"
+    assert:
+      - {type: contains, value: "## Fixed questions"}
+      - {type: llm-rubric, value: "Flags Q1 as having several valid answers, Q2 as ambiguous (height above sea level versus base to peak), Q3 and Q4 as contested or myth-based, Q6 as time-sensitive, and Q8 as a myth with the wrong answer; confirms Q5 and Q7 as fine; rewrites the faulty questions with single answers; and lists items to verify without inventing sources."}
+  - name: edge-no-answers
+    vars:
+      quiz: "1) Name the longest river in Africa. 2) In which year did the Berlin Wall fall? 3) What is the chemical symbol for gold?"
+    assert:
+      - {type: llm-rubric, value: "Notes that the answer key is missing, still reviews the questions (for example notes the Nile length debate is about the world, not Africa, so Q1 is safe), and does not pretend to have reviewed answers that were not given."}
+  - name: negative-overconfident-correction
+    vars:
+      quiz: "1) What is the population of Lagos? 15 million. 2) Who holds the record for most Olympic gold medals? Michael Phelps."
+      audience: "Online quiz for a gaming community"
+    assert:
+      - {type: llm-rubric, value: "Does not replace the Lagos figure with a new precise number as if certain; flags it as a definitional and time-sensitive question (city versus metro, estimates differ) and suggests rewording or verifying; marks the Olympic record as time-sensitive to verify and gives the date its knowledge reflects."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "How should we tag and deploy our Docker images? {{current_flow}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rebuild-per-env
+    vars:
+      current_flow: "Each of 9 services has a pipeline per environment (dev, staging, prod) that checks out the branch, builds the image with ENV=staging or ENV=prod build args, pushes :latest-staging or :latest-prod to one registry and runs a rollout restart. Registry is 4 TB and growing. Last month a rollback deployed an image built that morning."
+    assert:
+      - {type: contains-all, value: ["## Problems now", "## Promotion flow", "## Retention", "## Migration"]}
+      - {type: llm-rubric, value: "Identifies rebuild-per-environment, baked-in ENV build args, mutable tags and the bad rollback as problems; proposes building once per commit with an immutable SHA or version tag, deploying by digest, moving environment settings to runtime config, promoting the same digest with gates, retention rules that keep deployed images and the rollback window, and a migration starting with removing latest tags."}
+  - name: edge-regulated
+    vars:
+      current_flow: "Medical device company's backend; auditors ask to prove what code runs in production. Images built once in CI already, tagged by semver."
+    assert:
+      - {type: llm-rubric, value: "Builds on the existing good practice, adds digests, immutable tags, provenance attestations, signing with verification at deploy and SBOM retention, and keeps records linking digest to commit and approval."}
+  - name: negative-rebuild-for-prod
+    vars:
+      current_flow: "We want to rebuild the image for production with optimisation flags after QA tests the staging build."
+    assert:
+      - {type: llm-rubric, value: "Pushes back because QA would not have tested the production artifact, and proposes building the optimised image once and testing that same artifact."}

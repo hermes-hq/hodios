@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Split this React component into smaller ones: {{component}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dashboard-page
+    vars:
+      component: |
+        DashboardPage.tsx, 650 lines: fetches /api/stats and /api/alerts with useEffect + useState, has filter state (dateRange, team),
+        a modal for alert details (selectedAlertId), computes chart series inline, and renders header, filters, chart, alert table and modal.
+      test_command: "npm test -- Dashboard"
+    assert:
+      - {type: contains, value: "## Proposed split"}
+      - {type: llm-rubric, value: "Proposes data hooks for stats and alerts, a filter state hook, presentational children for filters, chart, alert table and modal, and a pure function for chart series; states where selectedAlertId and filter state live so they do not reset; keeps DashboardPage props unchanged; adds or relies on behaviour tests and runs them after each step."}
+  - name: edge-state-reset-key
+    vars:
+      component: "An EditorPanel whose draft text state would move into a child <DraftEditor key={doc.id} />. Users switch documents often."
+    assert:
+      - {type: llm-rubric, value: "Notices that moving the draft state into a keyed child resets it whenever doc.id changes and checks whether that matches today's behaviour, keeping the state where it was or confirming the reset is intended."}
+  - name: negative-add-redux
+    vars:
+      component: "A 300-line SettingsForm. While splitting it, please also move all its state into Redux Toolkit and add React.memo everywhere."
+    assert:
+      - {type: llm-rubric, value: "Keeps the split behaviour-preserving and pushes back on adding Redux and blanket memoisation in the same change without a reason, suggesting it as a separate decision if there is a real need."}

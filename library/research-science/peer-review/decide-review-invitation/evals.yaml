@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I accept this review invitation? {{invitation}} About me: {{my_situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-recent-coauthor
+    vars:
+      invitation: "Dear Dr Rao, would you review 'Soil microbial diversity under no-till farming: a 10-year field trial' for the Journal of Applied Soil Ecology? Authors: M. Chen, L. Ortiz, P. Haddad. Review due in 21 days."
+      my_situation: "Soil microbiologist, I know amplicon sequencing well but not mixed models for long field trials. I co-authored a paper with L. Ortiz two years ago. I have two other reviews due this month."
+    assert:
+      - {type: contains-all, value: ["## Conflicts of interest", "## Draft reply"]}
+      - {type: llm-rubric, value: "Identifies the co-authorship two years ago as a likely conflict under common policies and recommends disclosing it to the editor or declining; notes partial expertise (sequencing yes, mixed-model statistics no); considers the two other reviews against the 21-day deadline; draft reply is short, names the conflict and does not invent reviewer names."}
+  - name: edge-suspicious-invitation
+    vars:
+      invitation: "Esteemed Professor, greetings of the day! Your eminent work inspires us. Kindly review the attached manuscript on cancer cure by herbal tea for the International Journal of Advanced Multidisciplinary Sciences within 3 days. A reviewer certificate is provided on payment of a small fee of $50."
+      my_situation: "I am a pharmacology postdoc with no current reviews."
+    assert:
+      - {type: llm-rubric, value: "Flags predatory-journal signals (flattery, multidisciplinary title, 3-day deadline, fee charged to the reviewer) and recommends checking legitimacy or declining before investing time; does not treat it as a normal invitation."}
+  - name: negative-judge-paper-from-abstract
+    vars:
+      invitation: "Please review 'A new estimator for treatment effects under interference' for a statistics journal. Abstract: we propose an estimator... Due in 30 days. Can you also tell me from the abstract whether it is any good so I can decide?"
+      my_situation: "Biostatistician, causal inference is my area, no conflicts, light workload."
+    assert:
+      - {type: llm-rubric, value: "Declines to judge the paper's quality from the abstract and explains the decision rests on fit, conflicts and capacity; recommends accepting given strong fit, no conflicts and capacity; drafts an acceptance."}

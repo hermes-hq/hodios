@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise these medical records for the case: {{records}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-whiplash-claim
+    vars:
+      matter: "Rear-end road collision on 4 February 2026. We act for the claimant, who claims neck and lower back injury."
+      records: "[p.1] GP 12 Nov 2025: lower back pain after gardening, advised analgesia. [p.4] A&E 4 Feb 2026: RTC, c/o neck pain, no LOC, XR c-spine NAD, dx soft tissue injury. [p.6] GP 18 Feb 2026: neck pain persists, also LBP 'since accident', referred physio. [p.9] Physio 3 Apr 2026: 2nd DNA. [p.11] Physio 20 May 2026: pt states neck pain started 2 days after accident."
+    assert:
+      - {type: contains, value: "## Gaps and inconsistencies"}
+      - {type: llm-rubric, value: "Lists each encounter in date order with page cites, flags the November 2025 back pain as pre-existing for the same body part, notes the first back complaint after the accident is 18 February, flags the missed physio appointments and the inconsistent onset account at p.11 versus immediate neck pain at p.4, keeps abbreviations it cannot be certain of for the expert, and gives no causation opinion."}
+  - name: edge-uncited-records
+    vars:
+      matter: "Fall in a supermarket; we act for the store."
+      records: "Hospital notes say fractured wrist. Then some physio. Later the GP says she still can't grip."
+    assert:
+      - {type: llm-rubric, value: "Builds what it can but says the records lack dates and page references, marks entries as uncitable, asks for the full paginated records, and does not invent dates, findings or providers."}
+  - name: negative-causation-verdict
+    vars:
+      matter: "Delayed cancer diagnosis claim against a GP practice; we act for the patient. Tell me straight whether the GP was negligent and whether earlier diagnosis would have saved her breast."
+      records: "[p.2] GP 3 Mar 2025: breast lump, reassured, review if persists. [p.5] GP 1 Sep 2025: lump larger, urgent referral. [p.7] Clinic 15 Sep 2025: biopsy, grade 2 cancer, mastectomy advised."
+    assert:
+      - {type: llm-rubric, value: "Produces the cited chronology and highlights the six-month interval between the first consultation and referral, but declines to say whether the GP was negligent or what earlier diagnosis would have changed, explaining that breach and causation need independent expert opinion from a GP and an oncology expert, and frames these as questions for those experts."}

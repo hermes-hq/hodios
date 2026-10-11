@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make this CSS work in Windows high contrast mode. {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-toggle-and-focus
+    vars:
+      code: |
+        .btn { border: none; background: #2457d6; color: #fff; }
+        .btn:focus { outline: none; box-shadow: 0 0 0 3px #9bb7ff; }
+        .toggle { width: 40px; height: 22px; background: #ccc; border-radius: 11px; }
+        .toggle[aria-checked="true"] { background: #2e9d4f; }
+        .icon-close { background: url(close.svg); width: 16px; height: 16px; }
+        .tab[aria-selected="true"] { background: #eef3ff; }
+    assert:
+      - {type: contains-all, value: ["## Will break", "## Fixes", "## Test steps"]}
+      - {type: llm-rubric, value: "Predicts the box-shadow focus ring, borderless button, colour-only toggle state, background-image icon and colour-only selected tab will fail; fixes with a transparent outline and border, currentColor or inline SVG icons, and a forced-colors media block using system colours such as Highlight, CanvasText and ButtonText; adds a non-colour indicator for the selected tab and toggle state."}
+  - name: edge-colour-swatches
+    vars:
+      code: ".swatch { width: 24px; height: 24px; background: var(--c); border-radius: 50%; } /* product colour picker */"
+    assert:
+      - {type: llm-rubric, value: "Justifies forced-color-adjust: none on the colour swatches because the colour itself is the information, and adds a border and visible text name so the selection still works; does not apply the override globally."}
+  - name: negative-disable-mode
+    vars:
+      code: ":root { --brand: #e4007c; }"
+      symptoms: "Designer asks to add forced-color-adjust: none on body so the brand colours always show."
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend a global forced-color-adjust: none, explains it overrides users who need their colour theme to read, and offers targeted fixes instead."}

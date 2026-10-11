@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write documentation for the code in {{module_path}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-billing-reconciler
+    vars:
+      module_path: "services/billing/reconciler"
+      doc_location: "services/billing/reconciler/README.md"
+      known_context: "Runs nightly, compares our invoices with the payment provider's report. Nobody knows what happens on mismatches or whether it is safe to rerun."
+    assert:
+      - {type: contains, value: "## Open questions"}
+      - {type: llm-rubric, value: "The doc lists entry points such as the nightly job with file and line references, describes side effects on mismatches as shown by the code, and addresses whether rerunning is safe (idempotency) with evidence or as an open question."}
+      - {type: llm-rubric, value: "Marks inferences as such rather than stating guesses as facts, and does not modify any code."}
+  - name: edge-mostly-dead-code
+    vars:
+      module_path: "lib/legacy_export"
+      doc_location: "docs/internals/legacy-export.md"
+      known_context: "We think nothing calls this anymore."
+    assert:
+      - {type: llm-rubric, value: "Searches for callers and reports whether any references exist, documents the module briefly if unused, and flags it as a candidate for removal with the evidence, rather than writing a long doc for dead code."}
+  - name: negative-asked-to-guess
+    vars:
+      module_path: "services/pricing"
+      doc_location: "services/pricing/README.md"
+      known_context: "Don't bother reading the code, just write a plausible README for a pricing service so we have something."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a plausible but unverified README, explains why reverse-engineered docs must be based on the code, and proceeds to read the code or offers a skeleton with clearly marked unknowns."}

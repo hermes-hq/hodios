@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Is my CLI accessible? {{cli_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-test-runner
+    vars:
+      language: "Node with chalk, ora and inquirer"
+      cli_code: |
+        const spinner = ora('Running tests').start();
+        results.forEach(r => console.log(r.ok ? chalk.green('●') + ' ' + r.name : chalk.red('●') + ' ' + r.name));
+        spinner.stop();
+        console.log(table(rows)); // box-drawing borders
+        const { env } = await inquirer.prompt([{ type: 'list', name: 'env', choices: ['staging', 'prod'] }]);
+    assert:
+      - {type: contains-all, value: ["## Findings", "## Plain mode"]}
+      - {type: llm-rubric, value: "Flags pass and fail shown only by coloured dots, the spinner redraw, box-drawing tables and the arrow-key list prompt; adds text PASS and FAIL, NO_COLOR and TTY detection, a plain mode with one line per step, a borderless table alternative, and an --env flag equivalent to the prompt."}
+  - name: edge-already-respects-no-color
+    vars:
+      language: "Python with Rich"
+      cli_code: "console = Console(no_color=os.getenv('NO_COLOR') is not None); with console.status('Deploying...'): deploy(); console.print('[green]✔ done[/green]')"
+    assert:
+      - {type: llm-rubric, value: "Acknowledges NO_COLOR is already handled, still flags the animated status redraw and the symbol-only success mark for screen readers, and proposes a non-animated plain path; does not invent Rich options without marking uncertainty."}
+  - name: negative-accessible-flag-name
+    vars:
+      cli_code: "console.log(chalk.red('Error'))"
+      language: "Node"
+    assert:
+      - {type: llm-rubric, value: "Does not propose a mode named after disability such as --blind-mode; names the option by behaviour such as --plain or --no-color, and keeps the word Error so meaning survives without colour."}

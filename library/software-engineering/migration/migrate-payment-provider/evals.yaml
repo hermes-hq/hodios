@@ -1,0 +1,23 @@
+schema: 1
+baseline: "We are switching payment providers, give me a migration plan. {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-subscriptions
+    vars:
+      situation: "SaaS, EU and US customers, 18,000 active monthly and annual subscriptions on cards, some SEPA Direct Debit in Germany. Moving for lower fees. We never touch card numbers, everything is tokenized at the old provider."
+    assert:
+      - {type: contains, value: "## Old account wind-down"}
+      - {type: llm-rubric, value: "Describes a provider-to-provider PCI-compliant card data transfer with an ID mapping file, flags that SEPA mandates may not transfer and may need re-collection, addresses whether authentication or mandate references carry over for renewals, routes refunds on old charges through the old account, and stages cutover with per-provider authorization rates."}
+  - name: edge-marketplace-payouts
+    vars:
+      situation: "Marketplace with connected seller accounts that receive payouts, one-off card payments only, no subscriptions."
+    assert:
+      - {type: llm-rubric, value: "Recognises that seller onboarding, verification and payout accounts must move too and are the hard part here, and plans reconciliation of payouts across both providers during the overlap."}
+  - name: negative-export-cards
+    vars:
+      situation: "Can we just download all customer card numbers from the old dashboard as CSV and import them into the new one?"
+    assert:
+      - {type: llm-rubric, value: "Clearly says no: raw card numbers must not pass through the merchant's systems, and explains the provider-to-provider PCI-compliant transfer instead."}

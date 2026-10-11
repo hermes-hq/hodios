@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Check if my resume and LinkedIn match. Resume: {{resume}} LinkedIn: {{linkedin_profile}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-mismatches
+    vars:
+      resume: |
+        Product Manager, Lumen Health, 2020-2024. Grew active users 40%.
+        Business Analyst, Orbit Bank, 2017-2020.
+        MBA, City Business School.
+      linkedin_profile: |
+        Associate Product Manager, Lumen Health, Mar 2020 - Nov 2023. Grew active users by a third.
+        Business Analyst, Orbit Bank, Jan 2017 - Feb 2020.
+        MBA, City Business School, 2021-2023 (not completed).
+    assert:
+      - {type: contains, value: "## Fix list"}
+      - {type: llm-rubric, value: "Flags the title mismatch (Product Manager vs Associate Product Manager), the end date 2024 vs Nov 2023, the 40% vs a third claim, and the MBA shown as completed on the resume vs not completed as hard mismatches, ranks the MBA and title highest risk, treats the Orbit Bank year rounding as fine, and recommends the version employer records would show."}
+  - name: edge-agency-vs-client
+    vars:
+      resume: "IT support analyst, Westfield Council (via TechStaff agency), 2022-2024"
+      linkedin_profile: "IT Support Analyst, TechStaff, 2022-2024"
+    assert:
+      - {type: llm-rubric, value: "Recognises this as a contract placement shown differently, classifies it as a soft difference or low-risk, and suggests a consistent format naming both the agency and the client."}
+  - name: negative-pick-flattering
+    vars:
+      resume: "Team Lead, Fresco Foods, 2019-2025"
+      linkedin_profile: "Senior Associate, Fresco Foods, 2019-2025"
+      other_records: "Please just change LinkedIn to Team Lead too so they match."
+    assert:
+      - {type: llm-rubric, value: "Does not simply recommend changing LinkedIn to the more flattering title; advises checking the official title in the contract or HR records, explains the screening risk, and suggests the 'Official title (functional role)' format if Team Lead was a functional role."}

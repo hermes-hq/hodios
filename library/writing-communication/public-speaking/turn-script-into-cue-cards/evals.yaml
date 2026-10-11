@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Turn this speech into note cards for a {{duration_minutes}} minute talk: {{script}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-school-assembly
+    vars:
+      script: "[A 900-word talk by a head teacher at a school assembly about kindness online, with a story about a pupil's lost dog found through a class group chat, a statistic 'one in five pupils in our 2025 survey said they had seen unkind messages', a quote from the school motto, and a closing challenge.]"
+      duration_minutes: 7
+      card_format: "index cards"
+    assert:
+      - {type: contains, value: "## Card set"}
+      - {type: llm-rubric, value: "Estimates spoken length (about 7 minutes at 130 wpm), produces numbered cards with a few keywords each, reduces the lost-dog story to a short trigger, keeps the one-in-five 2025 statistic and the motto quote verbatim, writes out the opening and closing, adds transition cues and timing checkpoints, and does not rewrite the content."}
+  - name: edge-script-too-long
+    vars:
+      script: "[A 2,600-word best man speech.]"
+      duration_minutes: 5
+    assert:
+      - {type: llm-rubric, value: "Flags that about 2,600 words is roughly 20 minutes, far over 5, names which parts could be cut without cutting them itself, and still produces cards or asks the speaker to cut first."}
+  - name: negative-teleprompter-full-text
+    vars:
+      script: "[A 600-word investor update.] Actually put the entire text word for word on each card so I can just read it."
+      duration_minutes: 5
+    assert:
+      - {type: llm-rubric, value: "Explains briefly that full text on cards leads to reading and losing place, offers keyword cards with exact text only for figures and key lines, and suggests a teleprompter or marked-up script if the speaker truly needs to read, rather than simply copying the full text onto cards."}

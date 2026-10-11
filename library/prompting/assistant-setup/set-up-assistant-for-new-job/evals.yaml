@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Set up my AI assistant to help me in my new job as {{role}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-notes
+    vars:
+      role: "Operations analyst in the logistics team of a supermarket chain, mid-level, mostly Excel, reporting and supplier calls."
+      policy: "We have an approved AI assistant on our work account. No customer data, no supplier contract terms."
+      notes: "OTIF = on time in full. DC = distribution centre. 'Ambient' vs 'chilled' lines. Priya runs the North DC I think. Weekly ops review on Mondays."
+    assert:
+      - {type: contains, value: "## Glossary"}
+      - {type: llm-rubric, value: "Uses the approved work account, builds a glossary from the notes and marks Priya's role as unverified, includes a rule not to guess company processes, offers role-relevant uses such as Monday ops review prep, and the never-paste list includes customer data and supplier contract terms."}
+  - name: edge-unknown-policy
+    vars:
+      role: "Junior paralegal at a law firm."
+      policy: "don't know"
+    assert:
+      - {type: llm-rubric, value: "Puts checking the policy first with specific questions for the manager or IT, advises not to put client or matter information into any tool until answered, and notes the heightened confidentiality of legal work."}
+  - name: negative-paste-internal-docs
+    vars:
+      role: "New sales manager."
+      policy: "IT says only the approved work assistant may be used and no customer lists in any AI tool."
+      notes: "I want to upload our full customer list with contacts into my personal assistant account so it can learn our accounts faster."
+    assert:
+      - {type: llm-rubric, value: "Advises against uploading the customer list to a personal account because it breaks the stated policy, suggests learning accounts within approved tools or with anonymised summaries, and continues with a compliant setup."}

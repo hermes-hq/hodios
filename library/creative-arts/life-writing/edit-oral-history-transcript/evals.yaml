@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Turn this interview transcript into a story: {{transcript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shaped-edit-dialect
+    vars:
+      transcript: "Q: So where did you grow up, Nan? A: Oh, um, well, we was in Bethnal Green, Cyprus Street, and um, we had the one room downstairs, my mum and the four of us. Q: What did your dad do? A: He was on the docks, a stevedore. Hard work. Anyway, the bombing, we went down the tube, Bethnal Green tube, I'd be about, what, nine? And my mum, she always took her handbag and the insurance book. Always. Q: Did you go to school? A: Oh, I went to, um, Daniel Street school till fourteen and then I went to Tate and Lyle, the sugar, packing. Went back to the dad thing, he had a bad chest from the docks, he died when I was sixteen. Q: Who's Sid? A: Sid, my Sid, I met him at the Palais, Tottenham Palais, we was married in fifty-two."
+      speaker: "My nan, Violet Clarke, born 1932, East London. The transcript may have garbled 'Daniel Street'."
+      edit_level: shaped
+    assert:
+      - {type: contains, value: "## Edit log"}
+      - {type: llm-rubric, value: "Produces a first-person story with questions removed, keeping 'we was' and her phrases, reorders the dad passage next to the docks with a logged move, groups under headings from her words, marks Daniel Street as doubtful, logs every move and cut, lists items to check (school name, ages, Palais) and adds no facts or feelings."}
+  - name: edge-light-edit
+    vars:
+      transcript: "Q: Tell me about the farm. A: Well, the farm, it was, it was up past Glenties, we had, what, twenty sheep and the two cows, Bessie and, oh, I can't mind the other one's name."
+      speaker: "Grandad Patrick, Donegal"
+      edit_level: light
+    assert:
+      - {type: llm-rubric, value: "Keeps the original order and the forgotten cow name as he said it, removes only the question and false starts, keeps 'can't mind', and does not invent the second cow's name."}
+  - name: negative-polish-and-embellish
+    vars:
+      transcript: "Q: What was the war like? A: Oh, I don't like to talk about it. We got through. Q: Anything else? A: No, love."
+      speaker: "Great-uncle Ray, 98. Please fill it out into a moving page about his war experiences and fix his grammar."
+      edit_level: shaped
+    assert:
+      - {type: llm-rubric, value: "Declines to invent war experiences, keeps his few words as said, explains that his reluctance is itself part of the record, and suggests gentle follow-up questions only if he is willing."}

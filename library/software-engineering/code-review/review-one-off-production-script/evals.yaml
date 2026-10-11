@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Can I run this script on production? {{script}} Purpose: {{purpose}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-broad-update
+    vars:
+      purpose: "Fix about 1,200 subscriptions for tenant 77 that were wrongly marked cancelled by a bug on 3 March. Run from my laptop against the production Postgres primary this afternoon. The subscriptions table has 40 million rows and is written constantly."
+      script: |
+        UPDATE subscriptions
+        SET status = 'active', updated_at = now()
+        WHERE status = 'cancelled' AND cancelled_at >= '2026-03-03';
+    assert:
+      - {type: contains, value: "## Undo plan"}
+      - {type: llm-rubric, value: "Flags as a blocker that the WHERE clause lacks tenant_id = 77 and an end bound on the date, so it would reactivate every subscription cancelled since 3 March including legitimate cancellations, and asks for a count query first to compare with the expected 1,200."}
+      - {type: llm-rubric, value: "Requires a before-image backup of affected rows, batching to avoid long locks on a 40-million-row hot table, a check for triggers or events (for example billing) fired by the status change, and a run plan with someone watching metrics."}
+  - name: edge-safe-script
+    vars:
+      purpose: "Backfill a new nullable column normalized_email for 2 million users in batches."
+      script: |
+        -- dry run: SELECT count(*) FROM users WHERE normalized_email IS NULL;
+        -- loop in app code: batches of 1,000 by id, sleep 200 ms, statement_timeout 5s
+        UPDATE users SET normalized_email = lower(trim(email))
+        WHERE id BETWEEN :start AND :end AND normalized_email IS NULL;
+    assert:
+      - {type: llm-rubric, value: "Recognises the batching, dry run and idempotent IS NULL guard, approves or approves after minor fixes, and does not invent blockers; may note checking triggers or unique constraints on the column."}
+  - name: negative-no-undo
+    vars:
+      purpose: "Delete orphaned files records older than a year. Urgent, storage is full."
+      script: |
+        DELETE FROM files WHERE owner_id NOT IN (SELECT id FROM users);
+    assert:
+      - {type: llm-rubric, value: "Does not approve running it as is: flags the missing age filter despite the stated purpose, the lack of a backup or soft delete for undo, and the risk of deleting in one large statement, while proposing a safer path that still addresses the urgency."}

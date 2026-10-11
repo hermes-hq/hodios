@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Turn this into small multiples: {{chart_or_data}} Message: {{message}} Tool: {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-store-recovery
+    vars:
+      chart_or_data: "Line chart of weekly sales for 16 stores over 2 years on one chart, a store refit in week 40. Stores range from 20k to 400k per week."
+      message: "Which stores recovered after the refit?"
+      tool: "ggplot2"
+    assert:
+      - {type: llm-rubric, value: "Recommends a 4 by 4 facet grid; because levels differ 20-fold but recovery is about shape, recommends indexing to the pre-refit average (=100) on a shared scale or clearly labelled free scales; adds a vertical line at week 40; orders panels by recovery; puts grey context lines behind each panel; gives facet_wrap code."}
+  - name: edge-one-series-focus
+    vars:
+      chart_or_data: "Unemployment rate for 27 EU countries over 10 years in one line chart."
+      message: "Spain fell faster than any other country."
+      tool: "Datawrapper"
+    assert:
+      - {type: llm-rubric, value: "Recognises the message is about one country against the rest and recommends a single chart with Spain highlighted and others in grey, possibly with small multiples as an optional companion; gives Datawrapper build steps."}
+  - name: negative-too-many-panels
+    vars:
+      chart_or_data: "Daily active users for 3,000 customer accounts over 6 months."
+      message: "Show every account as small multiples on one slide."
+      tool: "Tableau"
+    assert:
+      - {type: llm-rubric, value: "Explains 3,000 panels cannot be read on a slide; proposes reducing by grouping, selecting top or flagged accounts, clustering by trajectory shape, or an interactive drill-down; does not produce a 3,000-panel spec."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "I have this deck for {{original_audience}}. Change it for {{new_audience}}. Deck: {{deck}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-to-execs
+    vars:
+      deck: "1 Sprint 14-18 recap. 2 Migration architecture (Kafka, CDC, dual writes). 3 Jira burndown chart. 4 Incident INC-2231 timeline. 5 p95 latency down from 900ms to 240ms. 6 Checkout errors down 40%. 7 Remaining tech debt list (22 items). 8 Next sprint goals."
+      original_audience: "Engineering team retro."
+      new_audience: "Executive team, 10 minutes; they care about revenue, customer impact and whether to fund phase 2."
+      time_slot: "10 minutes"
+    assert:
+      - {type: contains, value: "## Slide decisions"}
+      - {type: llm-rubric, value: "Moves the latency and checkout-error results to the front framed as customer or revenue impact; moves architecture, burndown and tech-debt list to the appendix or cuts them; adds an ask about phase 2 funding with any missing cost as a placeholder; translates jargon like CDC, p95 and dual writes; does not invent revenue figures."}
+  - name: edge-confidential-content
+    vars:
+      deck: "1 Project goals. 2 Client A's churn data by account name. 3 Our margin on the client contract. 4 Proposed new features. 5 Timeline."
+      original_audience: "Internal account team."
+      new_audience: "Client A's leadership, to agree the feature roadmap."
+    assert:
+      - {type: llm-rubric, value: "Flags the internal margin slide as not for the client and handles the churn data carefully; recommends removing or reworking them; centres the deck on agreeing the roadmap."}
+  - name: negative-vague-audience
+    vars:
+      deck: "1 Intro. 2 Results. 3 Next steps."
+      original_audience: "My team."
+      new_audience: "Others."
+    assert:
+      - {type: llm-rubric, value: "Asks short clarifying questions about who the new audience is and what they should do, rather than producing a generic re-cut."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Turn these meeting notes into requirements: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-warehouse-app
+    vars:
+      notes: "Mon 3 Mar - Priya (ops lead): pickers need to scan bins, we lose 20 min/day looking for stock. Wants a big red button for 'item missing'. Tom (IT): we could use the old handheld scanners. Agreed by Priya and Tom: app must work offline in the cold store. Thu 6 Mar - Priya: actually pickers will use their own phones, not handhelds. Sam (finance): needs a report of missing items per week, maybe daily. Tom: around a thousand SKUs."
+    assert:
+      - {type: contains, value: "## Conflicts"}
+      - {type: llm-rubric, value: "Records offline in the cold store as a firm decision agreed by Priya and Tom; reframes the 'big red button' as a need to report a missing item quickly while keeping the button as a proposed solution; flags the handheld vs own phones conflict with both quotes and dates; marks weekly vs daily reporting and 'around a thousand SKUs' as open questions; ties each requirement to a speaker and date."}
+  - name: edge-transcript-chatter
+    vars:
+      notes: "A: so how was the weekend. B: good. A: right, the portal. Customers keep calling to ask where the invoice is. B: could we email it automatically when it's issued? A: legal said PDF invoices need to be kept for a while, not sure how long. B: let's not decide that today."
+    assert:
+      - {type: llm-rubric, value: "Ignores small talk, extracts the need for customers to get invoices without calling with the auto email as a proposed solution, labels it tentative, and lists retention period as an open question for legal without inventing a number."}
+  - name: negative-no-content
+    vars:
+      notes: "Lunch order: 3 pizzas, 1 salad. Next meeting Tuesday."
+    assert:
+      - {type: llm-rubric, value: "Says the notes contain no requirements and does not invent any."}

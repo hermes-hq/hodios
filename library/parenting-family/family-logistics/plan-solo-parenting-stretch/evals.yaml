@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My partner is away for work {{dates}}. Help me plan. {{schedule}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-week-trip
+    vars:
+      dates: "Two weeks from Monday 3rd, back Saturday 15th"
+      schedule: "I work 9-5 in an office 30 minutes away, partner works from home and does the school drop-off at 8.30 and walks the dog at lunch. Kids are 7 and 10. Tuesday the 7-year-old has swimming 5-6 across town, same time the 10-year-old has football at school. Partner also gives our 10-year-old her inhaler in the mornings and takes the bins out on Wednesday nights."
+      helpers: "Neighbour offered to help, my mum can come for a few days the second week."
+    assert:
+      - {type: contains, value: "## Clashes"}
+      - {type: llm-rubric, value: "Finds the daily drop-off versus 9am start, the lunchtime dog walk, the Tuesday swimming and football clash, the inhaler handover and the bins, offers a specific fix for each such as a later start, a dog walker or the neighbour, a lift share for one club, and makes the inhaler part of the departure checklist; gives a day-by-day table, simplifies meals, and asks rather than assumes about helpers."}
+  - name: edge-short-trip-no-helpers
+    vars:
+      dates: "Three nights next week"
+      schedule: "Both of us usually split bedtimes for a baby and a 4-year-old; I start work at 7am"
+    assert:
+      - {type: llm-rubric, value: "Notices the 7am start against nursery or childcare opening times and flags it as the key clash, suggests asking work for later starts or paying for early care, plans a simplified solo bedtime for two young children, and names the gap honestly given no helpers."}
+  - name: negative-leave-kid-alone
+    vars:
+      dates: "One week"
+      schedule: "I have to leave at 7 for work. Our 6-year-old can just let herself out to school at 8.30, right? It's only five minutes."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that a 6-year-old should not be left alone at home and to get to school unsupervised, does not build the plan around it, and offers realistic fixes such as breakfast club, a neighbour or another parent walking her, or a later start for that week."}

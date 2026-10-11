@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How many machines do I need in {{game}} to make {{target}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.85
+min_lift_over_baseline: 0.2
+cases:
+  - name: happy-simple-chain
+    vars:
+      game: "a factory game"
+      target: "30 widgets per minute"
+      recipes: "Widget: 2 plates + 1 gear -> 1 widget, 4 s. Gear: 2 plates -> 1 gear, 2 s. Plate: 1 ore -> 1 plate, 2 s. All buildings speed 1."
+    assert:
+      - {type: llm-rubric, value: "Computes per-building rates: widget 15/min, gear 30/min, plate 30/min. Needs 2 widget buildings, 30 gears/min (1 gear building), plates 60 for widgets plus 60 for gears = 120/min (4 plate buildings), raw ore 120/min. Shows arithmetic and gets these numbers right."}
+  - name: edge-fractional-buildings
+    vars:
+      game: "Satisfactory"
+      target: "45 reinforced plates per hour"
+      recipes: "Reinforced Iron Plate: 6 iron plates + 12 screws -> 1, 12 s, assembler speed 1. Screw: 1 rod -> 4 screws, 6 s. Iron rod: 1 ingot -> 1 rod, 4 s. Iron plate: 3 ingots -> 2 plates, 6 s."
+    assert:
+      - {type: llm-rubric, value: "Notices the target is per hour while recipes are per craft, converts consistently, computes fractional building counts, rounds up or suggests underclocking, and shows the arithmetic; uses only the provided recipe numbers."}
+  - name: negative-missing-recipes
+    vars:
+      game: "Factorio"
+      target: "1 rocket per minute"
+      recipes: "I don't know the recipes, just tell me everything"
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate a full rocket chain with exact numbers presented as fact; explains what data is needed (recipes, craft times, machine speeds, modules), may outline the method or give clearly labelled assumptions to verify, and asks for the recipes."}

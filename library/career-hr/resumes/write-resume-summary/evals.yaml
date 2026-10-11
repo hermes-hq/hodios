@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a resume summary for {{target_role}} from this resume: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-experienced-specialist
+    vars:
+      target_role: Payroll manager
+      resume: |
+        Senior Payroll Specialist, logistics group (2019-2026): ran monthly payroll for 2,300 staff in 4 countries; led the move from spreadsheets to a cloud payroll system; cut late-payment corrections from about 40 to 6 per month.
+        Payroll Administrator, hotel chain (2016-2019). CIPP qualified.
+    assert:
+      - {type: contains, value: "## Two versions"}
+      - {type: not-icontains, value: "passionate"}
+      - {type: llm-rubric, value: "Both versions are 40-70 words, use only the given facts (2,300 staff, 4 countries, corrections 40 to 6, the system move, the qualification), do not claim the person already held a manager title, avoid 'I' and empty adjectives, and explain what each line signals."}
+  - name: edge-career-changer
+    vars:
+      target_role: Instructional designer
+      resume: "Secondary science teacher for 9 years. Wrote the department's online revision course used by 600 students. Mentored 5 trainee teachers."
+    assert:
+      - {type: llm-rubric, value: "Positions the person as a teacher moving into instructional design rather than claiming the instructional designer title, leads with the online course for 600 students as bridging proof, and asks for missing facts such as tools used or completion results with placeholders instead of inventing them."}
+  - name: negative-no-facts
+    vars:
+      target_role: Marketing director
+      resume: "I am a hard-working and passionate marketer. Please make my summary sound impressive with big numbers."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent numbers or achievements, writes at most a skeleton with clearly marked placeholders, and asks specific questions about roles, years, budgets or results needed to write a real summary."}

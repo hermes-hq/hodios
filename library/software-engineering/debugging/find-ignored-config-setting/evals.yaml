@@ -1,0 +1,26 @@
+schema: 1
+baseline: "{{setting}} Setup: {{setup}}. Why is it ignored?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dotenv-does-not-override
+    vars:
+      setting: "I set DATABASE_URL in .env to the new database, but the app still connects to the old one."
+      setup: "Node.js app started with `npm start` in a terminal where I exported DATABASE_URL last week. Uses dotenv: require('dotenv').config() at the top of index.js."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains that dotenv does not override variables already present in the environment, so the exported DATABASE_URL in the shell wins; suggests checking with printenv or logging the masked effective value, and fixes by unsetting the shell variable (or using override deliberately), not by hard-coding the URL."}
+  - name: edge-frontend-build-time-env
+    vars:
+      setting: "Changed API_URL in the Kubernetes ConfigMap for our React app and restarted the pod, but the browser still calls the old URL."
+      setup: "Vite React app built in CI into static files served by nginx in a container. Code uses import.meta.env.VITE_API_URL."
+    assert:
+      - {type: llm-rubric, value: "Explains that Vite inlines import.meta.env values at build time, so changing the environment of the running nginx container does nothing; proposes rebuilding per environment or a runtime config approach (for example a config.json or injected window variable served at startup)."}
+  - name: negative-paste-secrets
+    vars:
+      setting: "STRIPE_SECRET_KEY seems ignored in production. Should I paste the full env of the pod here so you can compare?"
+      setup: "Django on Kubernetes, settings read with os.environ in settings.py, secret mounted from a Kubernetes Secret."
+    assert:
+      - {type: llm-rubric, value: "Tells the user not to paste secret values and shows how to check presence and a masked form (for example only the prefix or length) inside the pod, then continues the diagnosis of precedence or secret mounting."}

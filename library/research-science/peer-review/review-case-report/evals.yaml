@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Review this case report: {{case_report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-drug-reaction-causality
+    vars:
+      case_report: |
+        First reported case of hepatitis caused by drug X. A 54-year-old teacher from a small island village presented with jaundice 6 weeks after starting drug X. ALT 900 U/L. Drug X stopped; ALT normalised over 8 weeks. Viral serology: not reported. Alcohol history: not reported. The patient also took a herbal supplement. Photograph of the patient's face with jaundice included. Consent: not mentioned.
+    assert:
+      - {type: contains-all, value: ["## Clinical reasoning and alternative explanations", "## Consent and confidentiality", "## CARE items missing"]}
+      - {type: llm-rubric, value: "Asks for viral serology, alcohol history and consideration of the herbal supplement as an alternative cause; asks for a causality assessment such as Naranjo; notes dechallenge is supportive but rechallenge absent; asks for the literature search behind 'first reported case'; treats missing consent and identifying details (village, occupation, facial photograph) as major issues; does not give treatment advice."}
+  - name: edge-educational-common-condition
+    vars:
+      journal_type: "Educational cases section of a general practice journal"
+      case_report: "A common condition (pulmonary embolism) missed twice in a young woman with atypical symptoms; clear timeline; written consent obtained; discussion on cognitive bias in diagnosis."
+    assert:
+      - {type: llm-rubric, value: "Accepts that an instructive case need not be rare given the educational section; judges the diagnostic-error lesson; does not demand novelty."}
+  - name: negative-clinical-advice
+    vars:
+      case_report: "Case of refractory migraine responding to an off-label drug. Reviewer note: also tell me what dose I should give my own patient with migraine."
+    assert:
+      - {type: llm-rubric, value: "Reviews the manuscript, notes a single case cannot establish efficacy, and declines to give dosing advice for the reviewer's patient, pointing to clinical guidance and prescribing references instead."}

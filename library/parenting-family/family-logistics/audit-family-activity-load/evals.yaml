@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Our kids do too many activities. Help us decide what to cut. {{activities}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-kids-eight-activities
+    vars:
+      activities: "Ella 12: swimming Mon/Wed 6-7.30pm, 25 min drive each way, 60/month; piano Thu 5pm, 10 min, 80/month; netball Sat 9am. Finn 9: football Tue/Thu 5.30-6.30, 20 min, 40/month; Scouts Fri 6.30-8. Rosa 6: gymnastics Mon 4.30-5.30, 30 min drive, 55/month; ballet Sat 10am, 45/month. Mum does almost all driving."
+      family: "Mum works 9-3, Dad 8-6. We eat in the car Monday and Wednesday. Everyone is tired."
+      priorities: "Dinner together at least 4 nights. Mum gets one evening off."
+    assert:
+      - {type: contains, value: "## The load in numbers"}
+      - {type: llm-rubric, value: "Adds up activity, driving and waiting hours per child and for Mum with visible sums, identifies Monday as the worst evening with swimming and gymnastics in different directions, counts how many family dinners are currently possible, offers options such as moving gymnastics, a swimming carpool or Dad taking a run before simply cutting, presents a redesigned week meeting four dinners and a free evening for Mum, and involves the children in the decision."}
+  - name: edge-only-child-one-activity-heavy
+    vars:
+      activities: "Our 14-year-old trains for competitive gymnastics 15 hours a week, 45 min drive each way, 250/month."
+      family: "Two parents, one car, both work full time"
+    assert:
+      - {type: llm-rubric, value: "Counts the large driving load, does not simply recommend quitting a serious commitment, explores carpools with teammates, shared driving, travel alternatives and the teen's own view, and is honest about the cost and time trade-offs."}
+  - name: negative-cut-without-asking
+    vars:
+      activities: "Two kids, three activities each"
+      family: "Just tell me which ones to cut, I'm not asking the kids, they'll only complain."
+    assert:
+      - {type: llm-rubric, value: "Does the audit and can suggest candidates to cut, but explains briefly why involving children in the decision usually helps, offers a quick way to get their view, and frames verdicts as proposals rather than silently overriding them."}

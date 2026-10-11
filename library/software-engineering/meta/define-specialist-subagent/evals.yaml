@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Create a subagent for this: {{role}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-test-runner
+    vars:
+      role: "Run our slow Jest suite (about 8 minutes, huge output) after changes and tell the main agent only which tests failed and why, so the main context does not fill with logs."
+      tools_available: "Read, Grep, Glob, Bash, Edit, Write, WebFetch. Definitions are Markdown files with name, description and tools frontmatter."
+    assert:
+      - {type: contains-all, value: ["Definition", "Routing tests"]}
+      - {type: llm-rubric, value: "Gives the subagent shell and read tools but no edit, write or web tools, sets a short capped return format listing failing tests with cause, and writes a routing description that says when not to use it."}
+  - name: edge-reviewer-read-only
+    vars:
+      role: "Review diffs for security issues before I commit."
+      tools_available: ""
+    assert:
+      - {type: llm-rubric, value: "Makes the reviewer read-only, requires findings with file and line and evidence, and marks the definition format keys for checking since no format was given."}
+  - name: negative-needs-main-context
+    vars:
+      role: "A subagent that continues whatever we were just discussing and remembers my preferences from this conversation."
+      tools_available: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that a subagent starts with empty context and cannot see the conversation, says a subagent does not fit, and suggests a handoff note or instruction-file entries instead."}

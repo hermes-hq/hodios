@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should I store these date fields in my database? {{fields}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-booking-app
+    vars:
+      fields: "bookings.created_at (timestamp), bookings.starts_at (timestamp, the appointment time at the clinic), patients.date_of_birth (timestamp), clinics.opens_at (varchar like '08:30')."
+      database: "PostgreSQL 15, Node.js with node-postgres, server set to UTC"
+      symptoms: "After the clocks changed in March, some appointments booked months earlier showed one hour off. Some birthdays show a day early for users in the Americas."
+    assert:
+      - {type: contains, value: "## Field classification"}
+      - {type: llm-rubric, value: "Classifies created_at as an instant, starts_at as a future local event stored as local date-time plus an IANA zone name, date_of_birth as a plain date type, and opens_at as a local time of day; explains the March bug and the birthday shift from those causes; and plans a data fix that first establishes which zone existing values were written in."}
+  - name: edge-unknown-database
+    vars:
+      fields: "event_time stored as an integer, some rows in seconds, some in milliseconds."
+    assert:
+      - {type: llm-rubric, value: "Addresses mixed epoch units with a way to detect each (magnitude check), recommends a time-zone-aware type, describes types by behaviour since the database is unknown or asks for it, and keeps the original column until the conversion is verified."}
+  - name: negative-assume-zone
+    vars:
+      fields: "orders.placed_at is timestamp without time zone. Just convert it all from New York time to UTC, that's where our office is."
+    assert:
+      - {type: llm-rubric, value: "Does not simply assume the values are in New York time; explains that the zone depends on what wrote them (server, driver, application settings), lists evidence to check first, and makes the conversion reversible."}

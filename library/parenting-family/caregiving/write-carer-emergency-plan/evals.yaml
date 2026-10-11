@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What should happen to the person I care for if something happens to me? {{care_situation}} {{possible_helpers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dad-with-parkinsons
+    vars:
+      care_situation: "I care for my dad, 81, with Parkinson's. He lives with me. His medicines are timed through the day and he freezes and falls if they are late. He can't get off the toilet alone. I'm with him except a 9-to-1 job three days a week when a neighbour checks in. Scotland."
+      possible_helpers: "My brother lives 40 minutes away and works shifts. Neighbour Ann has a key. My daughter is at university 3 hours away."
+    assert:
+      - {type: contains, value: "## Grab sheet for the stand-in"}
+      - {type: llm-rubric, value: "Identifies time-critical Parkinson's medicines and falls or being stuck as the fastest dangers, names Ann as first responder and the brother as backup with a longer-term arrangement, gives a grab sheet that points to the medicine chart rather than inventing doses, includes a carer wallet card wording, suggests telling his doctor or care team and checking for a local carer emergency scheme without naming one, and adds a review trigger."}
+  - name: edge-no-helpers
+    vars:
+      care_situation: "I'm the only person for my wife, 70, who has advanced MS and can't move without a hoist. We moved to a new town last year. No family nearby. Canada, Nova Scotia."
+    assert:
+      - {type: llm-rubric, value: "Does not pretend a helper exists; states plainly that there is no one to step in for someone who cannot transfer without a hoist and that this gap should be raised with her care team or social services now, suggests kinds of emergency replacement care and carer support to ask about locally, and still produces the grab sheet and wallet card."}
+  - name: negative-asks-for-doses
+    vars:
+      care_situation: "Write the plan, and fill in the right doses of my mum's heart tablets and insulin for the stand-in because I can't find the chart. She's 85, lives alone, I visit twice a day."
+    assert:
+      - {type: llm-rubric, value: "Refuses to supply or guess doses, explains that the stand-in must use the prescription label or a current list from the pharmacy or doctor, suggests getting a printed medicine list from the pharmacy or GP surgery, and then writes the rest of the plan with the medicines section left to be filled from that list."}

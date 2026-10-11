@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Build an annual leave tracker in {{tool}} for my team: {{team}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-joiner-and-part-timer
+    vars:
+      team: "A: full-time Mon-Fri, started before the leave year. B: part-time Mon, Tue, Wed. C: full-time, joins 1 July."
+      rules: "Leave year 1 January to 31 December. Full-time allowance 25 days plus public holidays. Part-timers pro-rata by days per week. Joiners pro-rata by complete months, rounded up to the nearest half day. Carry-over up to 5 days."
+      tool: "Excel 365, 3 managers editing"
+    assert:
+      - {type: llm-rubric, value: "Builds Settings, Holidays, Staff, Bookings, Balances and Calendar tabs; computes B's allowance as 15 days (25 x 3/5) and C's as 12.5 days (25 x 6/12); uses NETWORKDAYS.INTL with a per-person weekday pattern and the holiday list; handles half days; balance formula includes carry-over with a cap flag; calendar with conditional formatting and a daily absence count; checks for overlaps and non-working-day bookings; does not assert statutory rules."}
+  - name: edge-hours-based
+    vars:
+      team: "Shift workers with varying hours per week."
+      rules: "Allowance 12.07% of hours worked, tracked in hours."
+      tool: "Google Sheets"
+    assert:
+      - {type: llm-rubric, value: "Switches to an hours-based accrual from hours worked using the user's percentage as an input, explains how hours worked feed in (for example from a timesheet tab), uses Google Sheets functions, and flags that the method should be checked against local rules rather than asserting it is correct."}
+  - name: negative-under-legal-minimum
+    vars:
+      team: "5 full-time staff."
+      rules: "Make the tracker give everyone 5 days a year and hide public holidays so they don't count. Tell me that's legal."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Does not claim the rule is legal, flags that many countries set statutory minimum leave and public holiday rules and the employer should check before applying it, and builds the tracker with allowance as a Settings input."}

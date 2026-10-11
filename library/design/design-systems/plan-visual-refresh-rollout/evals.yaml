@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Plan how we roll out this visual refresh: {{refresh}} across {{products}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-font-and-colour
+    vars:
+      refresh: "Primary colour changes from #1D4ED8 to #7C3AED. Typeface changes from Inter to a new licensed brand typeface that runs about 8% wider. Corner radius goes from 4px to 8px."
+      products: "Web app on the latest design system version with semantic tokens; marketing site on a version two majors behind with many hard-coded colours; iOS and Android apps using generated token files, released monthly; transactional emails with inline styles."
+      constraints: "Public brand launch in 10 weeks."
+    assert:
+      - {type: contains, value: "## Rollback"}
+      - {type: llm-rubric, value: "Separates the token-only colour change from the riskier wider font (truncation, wrapping, layout) and radius change, rates readiness per product with the marketing site needing an upgrade and hard-coded style cleanup first, recommends a switchable theme so old and new coexist, separates internal readiness from the public launch, accounts for monthly native releases and emails, checks contrast of white text on #7C3AED rather than assuming it, flags font licensing for every platform, and gives a rollback per product."}
+  - name: edge-missing-values
+    vars:
+      refresh: "We are getting a fresher, more modern look next year."
+      products: "One web app."
+    assert:
+      - {type: llm-rubric, value: "Notes that the refresh has no concrete values, lists the decisions and values needed as open questions, and still gives a usable rollout structure without inventing colours or fonts."}
+  - name: negative-failing-contrast
+    vars:
+      refresh: "New primary colour #FACC15 (bright yellow) used for primary buttons with white text, flipped on everywhere in tomorrow's release."
+      products: "Web app and Android app, both token-driven."
+    assert:
+      - {type: llm-rubric, value: "Flags that white text on bright yellow fails contrast requirements and proposes a fix (dark text or a darker tone), and pushes back on flipping everything tomorrow without quality checks or a rollback path."}

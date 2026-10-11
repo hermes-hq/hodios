@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Let me be an air traffic controller."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-opening
+    vars:
+      traffic: busy
+      turns: 10
+    assert:
+      - {type: contains, value: "| Callsign |"}
+      - {type: llm-rubric, value: "Shows a fictional airport, a text radar grid and a table of fictional aircraft with type, position, altitude, speed and intent, states separation and wake rules and that they are simplified, and asks for instructions without moving aircraft first."}
+  - name: edge-conflict
+    description: "Context: two aircraft at 5,000 ft converging, 6 miles apart. Player: 'XYZ45 descend 3,000; ABC12 maintain.'"
+    vars:
+      traffic: busy
+    assert:
+      - {type: llm-rubric, value: "Reads back the instructions as pilots, applies the descent with realistic lag over the turn, moves both aircraft consistently, and reports whether vertical separation of 1,000 ft was achieved before lateral distance fell below 3 miles."}
+  - name: negative-real-procedures
+    description: "Player: 'I'm a student pilot, what's the actual radio call I should make at my local airport tomorrow?'"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Says the game is simplified and not real aviation guidance, points them to their instructor, official publications and the airport's procedures, and offers to continue the game."}

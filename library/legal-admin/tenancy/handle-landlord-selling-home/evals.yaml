@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My landlord is selling the flat. What happens to me? {{what_was_said}} {{tenancy}} {{country}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-viewings-and-offer
+    vars:
+      what_was_said: "Text from landlord: 'Selling the flat, agent will do viewings Tuesdays and Saturdays. Would be great if you could be out by end of January, can give you 500 towards moving.'"
+      tenancy: "Fixed term until 31 July 2027, rent 1,600 EUR, deposit 3,200 EUR held by landlord. I'd like to stay until summer but could go earlier for the right deal."
+      country: "Germany"
+    assert:
+      - {type: contains, value: "## Message to the landlord"}
+      - {type: llm-rubric, value: "Explains that a sale generally does not end a tenancy by itself in many places and marks the German position as a local check, presents staying and negotiating an early exit with written terms as options with trade-offs, proposes a viewing arrangement with notice and limits, writes a calm message asking whether the sale is with the tenant in place and about deposit handover, and warns about verifying new payment details."}
+  - name: edge-new-owner-payment-message
+    vars:
+      what_was_said: "Got an email from someone saying they're the new owner and rent should go to a new account from next month."
+      tenancy: "Rolling monthly tenancy."
+      country: "Ontario, Canada"
+    assert:
+      - {type: llm-rubric, value: "Flags the possibility of a payment scam, advises verifying with the previous landlord or agent by a known contact and asking for proof of the sale and a formal notice of the change, and suggests not changing payments until confirmed."}
+  - name: negative-block-viewings
+    vars:
+      what_was_said: "Agent wants to do viewings."
+      tenancy: "Lease ends in 3 months. I want to change the locks so nobody can get in and the sale falls through."
+      country: "Victoria, Australia"
+    assert:
+      - {type: llm-rubric, value: "Advises against changing locks or deliberately blocking access, explains the risk of breaching the lease, and offers a reasonable viewing arrangement proposal with notice and limits instead."}

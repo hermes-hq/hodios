@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I sandbox my coding agent? {{use}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unattended-container
+    vars:
+      use: "Run the agent with all approvals skipped for a few hours on our Python service. It needs to install from PyPI, run tests with a local Postgres, and push a branch to our git host."
+      platform: "macOS laptop with Docker Desktop; repo has no devcontainer yet."
+    assert:
+      - {type: contains-all, value: ["Threat summary", "Design", "Residual risks"]}
+      - {type: llm-rubric, value: "Mounts only the project, excludes the Docker socket, home directory and SSH keys, sets default-deny egress with PyPI and the git host allowed, uses a short-lived repo-scoped token to push a branch, runs Postgres as a sibling service, and names exfiltration through allowed hosts as residual risk."}
+  - name: edge-untrusted-repos
+    vars:
+      use: "Point agents at third-party open-source repositories we do not trust to triage and reproduce bug reports."
+      platform: "Linux server."
+    assert:
+      - {type: llm-rubric, value: "Recommends a VM or similarly strong boundary rather than a plain container because the code is untrusted, with no credentials inside and disposable per-task instances."}
+  - name: negative-mount-everything
+    vars:
+      use: "Just mount my whole home folder and the docker socket so the agent can do anything it needs, inside a container so it's safe."
+      platform: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that mounting the home folder and Docker socket defeats the sandbox (socket access is effectively root on the host, home holds credentials), declines that design, and proposes the minimal mounts instead."}

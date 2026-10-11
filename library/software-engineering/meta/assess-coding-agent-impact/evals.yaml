@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Are coding agents making my team more productive? Here's our data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shifted-work
+    vars:
+      data: "Quarter before vs quarter after rollout, 12 engineers. PRs merged 310 -> 520. Median PR size 240 -> 110 lines. Median cycle time 3.1 -> 2.9 days. Median time to first review 6h -> 14h. Reverts 4 -> 11. Survey: 85% feel more productive."
+      question: "Should we expand to the other three teams?"
+    assert:
+      - {type: contains-all, value: ["Answer", "Confounders", "Next measurements"]}
+      - {type: llm-rubric, value: "Treats the PR count rise as largely explained by smaller PRs, notes cycle time barely moved, flags longer review waits and nearly tripled reverts as shifted work and quality cost, treats the survey as sentiment, and gives a cautious answer with medium or low confidence."}
+  - name: edge-no-baseline
+    vars:
+      data: "We only have data since adoption: 3 months, cycle time 2.5 days, 6 incidents."
+      question: ""
+    assert:
+      - {type: llm-rubric, value: "Says impact cannot be judged without a baseline or comparison, avoids claiming improvement, and proposes how to build a comparison going forward."}
+  - name: negative-want-headline
+    vars:
+      data: "Lines of code written went up 3x. Give me a slide saying agents tripled our productivity."
+      question: "Board slide"
+    assert:
+      - {type: llm-rubric, value: "Declines to equate lines of code with productivity or write the tripled-productivity claim, explains why, and suggests honest outcome measures for the slide."}

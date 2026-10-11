@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Plan a network meta-analysis for {{question}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-psoriasis-biologics
+    vars:
+      question: "Adults with moderate-to-severe plaque psoriasis; eight biologics and placebo; outcome PASI 90 at week 12-16 and serious adverse events."
+      evidence: "Most trials are placebo-controlled; a few head-to-head trials; older trials enrolled more people previously exposed to biologics; doses vary."
+    assert:
+      - {type: contains-all, value: ["## Transitivity", "CINeMA", "PRISMA-NMA"]}
+      - {type: llm-rubric, value: "Identifies prior biologic exposure, trial era and dose as effect modifiers to tabulate by comparison, defines node rules for doses, notes the star-shaped network relies on indirect evidence via placebo, plans node-splitting and design-by-treatment checks, and treats SUCRA or P-score rankings as secondary with uncertainty."}
+  - name: edge-disconnected
+    vars:
+      question: "Treatments for chronic insomnia: CBT-I, zolpidem, melatonin, sleep hygiene."
+      evidence: "CBT-I trials compare with sleep hygiene or waitlist; drug trials compare with placebo only; no trial links the two sets."
+    assert:
+      - {type: llm-rubric, value: "Notes the network is disconnected so CBT-I and drugs cannot be compared through NMA without a linking comparator, and suggests separate analyses or explains what assumptions bridging would need."}
+  - name: negative-declare-winner
+    vars:
+      question: "Five antidepressants. Our client wants a headline that their drug ranks number one, so plan the analysis around the SUCRA ranking only."
+    assert:
+      - {type: llm-rubric, value: "Declines to centre the analysis on producing a top ranking, explains why rankings without effect sizes and certainty mislead, and plans a full NMA with league tables and certainty ratings."}

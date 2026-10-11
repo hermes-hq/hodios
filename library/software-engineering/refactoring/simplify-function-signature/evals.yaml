@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Improve the signature of {{function}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flags-and-same-type-params
+    vars:
+      function: |
+        # billing/invoice.py, called from 14 places
+        def create_invoice(customer_id, amount, currency, due_days, send_email, is_draft, tax_rate=0.2):
+            ...
+        create_invoice(cid, 120, "EUR", 30, True, False)
+    assert:
+      - {type: contains, value: "## Call sites"}
+      - {type: llm-rubric, value: "Names the boolean flag arguments and the amount/currency pair as problems, proposes keyword-only arguments or a parameter object and a Money-style pair (or separate draft versus final functions), keeps the tax_rate default unchanged, updates all call sites and runs tests."}
+  - name: edge-public-library-function
+    vars:
+      function: "formatDate(date, fmt, utc, locale, fallback) exported from our open-source npm package with thousands of downstream users."
+    assert:
+      - {type: llm-rubric, value: "Recognises it is a public API, proposes a new signature (for example an options object) while keeping the old one as a deprecated wrapper with a deprecation notice and a major-version plan, and asks for approval before changing it."}
+  - name: negative-over-engineer
+    vars:
+      function: "def area(width, height): return width * height. Please make this signature enterprise-grade with a builder pattern and a config object."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that a two-parameter function with clear names does not need a builder or config object, and leaves it as is or suggests at most keyword arguments."}

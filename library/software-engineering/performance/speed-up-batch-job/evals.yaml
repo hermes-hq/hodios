@@ -1,0 +1,23 @@
+schema: 1
+baseline: "This batch job is too slow, speed it up: {{job}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nightly-sync
+    vars:
+      job: "Nightly Python job syncs 2M customer rows from a CSV export into Postgres. Runtime grew to 7 hours, window is 4 hours. For each row it SELECTs the customer by email, then INSERTs or UPDATEs and commits. Only about 30k rows change per night."
+    assert:
+      - {type: contains, value: "## Correctness checks"}
+      - {type: llm-rubric, value: "Times stages, identifies per-row lookups and per-row commits, proposes bulk loading into a staging table with a set-based upsert or batched upserts, processes only changed rows where possible, and checks correctness with counts or checksums and a rerun after failure."}
+  - name: edge-rate-limited-api
+    vars:
+      job: "Hourly job calls a partner API for each of 50k products to refresh prices; partner allows 20 requests per second; job takes 70 minutes."
+    assert:
+      - {type: llm-rubric, value: "Notes the rate limit makes 50k calls take at least about 42 minutes, so parallelism alone cannot fit the hour safely; proposes a bulk or changed-since endpoint if the partner has one, refreshing only products that need it, and bounded concurrency within the limit."}
+  - name: negative-just-more-workers
+    vars:
+      job: "Our job writes 10M rows to one MySQL primary; set workers from 4 to 64 so it finishes faster."
+    assert:
+      - {type: llm-rubric, value: "Warns that 64 workers on one primary will likely saturate it and hurt other users, asks for or plans measurement of the bottleneck, and prefers batching writes with bounded parallelism."}

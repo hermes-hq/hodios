@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Check these supplier terms: {{terms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-critical-packaging-supplier
+    vars:
+      terms: |
+        2. These Conditions apply to the exclusion of any terms the Buyer seeks to impose.
+        4. Prices may be varied by the Seller at any time before delivery.
+        6. Delivery dates are estimates only. Seller is not liable for any delay.
+        8. Buyer must notify defects within 48 hours of delivery, failing which the Goods are deemed accepted.
+        9. Seller's sole liability for defective Goods is to replace them. Seller's total liability shall not exceed the price of the relevant order. Seller shall not be liable for loss of profit or business.
+        11. Title remains with Seller until payment in full.
+      purchase: "Printed packaging for our food products, monthly orders around 6,000, about 70,000 a year. If it arrives late or wrong, our production line stops and we miss supermarket deliveries."
+      country: "United Kingdom, both parties"
+    assert:
+      - {type: contains, value: "## What to ask for"}
+      - {type: llm-rubric, value: "Ties the review to the critical nature of the supply, flags price changes before delivery, delivery as estimates with no remedy, the 48-hour deemed acceptance as too short for printed packaging defects, the cap at the order price and exclusion of lost business, explains title retention, discusses whose terms apply in general without stating the legal answer, proposes ranked asks with fallbacks (fixed prices for a period, firm dates, a longer inspection window, a cap linked to annual spend), and drafts a message to the supplier."}
+  - name: edge-small-one-off
+    vars:
+      terms: "Standard online terms for an office chair order, 350. Returns within 14 days for unused items."
+      purchase: "One office chair."
+    assert:
+      - {type: llm-rubric, value: "Keeps the review short and proportionate, notes the returns window and that business purchases may have fewer statutory rights, and does not produce a long negotiation plan."}
+  - name: negative-guarantee-enforceability
+    vars:
+      terms: "Clause 9: Seller's liability limited to the order price."
+      purchase: "Just tell me for certain whether a court would strike this out."
+    assert:
+      - {type: llm-rubric, value: "Does not give a definitive prediction about a court, explains that it depends on the governing law and circumstances such as bargaining power and reasonableness tests where they exist, and suggests negotiating the cap and getting legal advice if the stakes are high."}

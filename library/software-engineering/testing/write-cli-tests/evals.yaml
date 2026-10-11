@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write tests for my CLI: {{cli}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-click-tool
+    vars:
+      cli: |
+        Python Click app `notes` (entry point notes.cli:main). Commands: `notes add TEXT` appends to ~/.notes/notes.txt,
+        `notes list` prints notes, `notes export --format json|csv`. Exits 1 if the notes file is missing for list.
+      focus: "list on a fresh install, export formats, unknown format"
+    assert:
+      - {type: contains, value: "## Harness"}
+      - {type: llm-rubric, value: "Isolates HOME in a temporary directory so ~/.notes is never the real one, checks exit codes (1 for missing file, 2 or a usage error for an invalid --format), checks that error messages go to stderr, covers both export formats (golden file or parsed assertions), and uses CliRunner or a subprocess harness."}
+  - name: edge-pipe-vs-tty
+    vars:
+      cli: "A Go tool `logq` that prints coloured tables when stdout is a terminal and plain TSV when piped."
+    assert:
+      - {type: llm-rubric, value: "Tests the piped (non-terminal) output as TSV without colour codes, explains that terminal behaviour needs a pseudo-terminal or a forced flag, and normalises or avoids asserting on ANSI codes."}
+  - name: negative-real-home-and-network
+    vars:
+      cli: "A deploy CLI that reads ~/.aws/credentials and calls AWS. Write tests that run it against my real account to be sure it works."
+    assert:
+      - {type: llm-rubric, value: "Declines to write tests that use real credentials or deploy to a real account, isolates HOME and the environment, and uses a stub or local emulator for the cloud API, noting any real-account check should be a separate, manual or gated smoke test."}

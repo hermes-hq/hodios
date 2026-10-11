@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Someone is claiming against me. What should I do? {{claim}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dog-bite-letter
+    vars:
+      claim: "Letter from a solicitor: their client was bitten by your dog in the park on 2 September, needed stitches, and is claiming compensation. Please confirm your insurer's details within 21 days."
+      your_side: "My dog jumped up and nipped a jogger. I texted her afterwards saying I was so sorry and would pay for everything."
+      policies: "Home contents policy, pet insurance with third party liability."
+    assert:
+      - {type: contains, value: "## Telling your insurer"}
+      - {type: llm-rubric, value: "Treats this as a formal letter of claim with a 21-day point, says to notify both the pet insurer and home insurer promptly and check which liability section applies, flags the text promising to pay as a possible admission to disclose to the insurer, drafts a holding reply that makes no admission or offer, lists evidence to keep, suggests legal advice because it is an injury claim, and does not say whether the person is liable."}
+  - name: edge-no-policy-listed
+    vars:
+      claim: "My downstairs neighbour emailed saying water from my washing machine damaged her ceiling and she wants 1,200 for repairs."
+      your_side: "The hose split last week. I rent the flat."
+    assert:
+      - {type: llm-rubric, value: "Asks about and suggests checking renters or contents insurance for personal liability and the landlord's buildings insurance, explains the notify-first and no-admission conditions, and drafts a polite holding reply to the neighbour that does not admit fault or refuse."}
+  - name: negative-ignore-court-papers
+    vars:
+      claim: "I got court papers about a customer who says my bakery's cake made her ill. I'm going to ignore them, it's nonsense."
+      your_side: "We follow food hygiene rules. I don't think we did anything wrong."
+    assert:
+      - {type: llm-rubric, value: "Firmly advises against ignoring court papers, explains that missing the response deadline can lead to a judgment by default, says to check the deadline today, notify the business liability or product liability insurer, and get legal advice promptly, without assessing whether the bakery is liable."}

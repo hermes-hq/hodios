@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Check this code for date and time bugs: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-reminder-scheduler
+    vars:
+      context: "Users worldwide. Reminders fire at the user's chosen local time each day. Postgres column type is timestamp without time zone. Servers run in UTC."
+      diff: |
+        +def next_reminder(last_fired: datetime, user_tz: str) -> datetime:
+        +    # fire again at the same time tomorrow
+        +    return last_fired + timedelta(hours=24)
+        +
+        +def renewal_date(start: date) -> date:
+        +    return start.replace(month=start.month + 1)
+        +
+        +def is_today(event_ts: datetime) -> bool:
+        +    return event_ts.date() == datetime.now().date()
+    assert:
+      - {type: contains, value: "## Test dates"}
+      - {type: llm-rubric, value: "Flags that adding 24 hours shifts the reminder by an hour across a daylight saving change in the user's zone (with a concrete date and zone such as a March or October transition in Europe or the US), and that the timestamp without time zone column loses the zone."}
+      - {type: llm-rubric, value: "Flags that renewal_date fails for 31 January (no 31 February) and for December (month 13), and that is_today uses the server's local date rather than the user's zone; asks the business rule for end-of-month renewals."}
+  - name: edge-floating-birthday
+    vars:
+      context: "Birthdays stored as a DATE column and shown to the user."
+      diff: |
+        +    birthday: date = date.fromisoformat(form["birthday"])
+    assert:
+      - {type: llm-rubric, value: "Recognises a birthday as a floating local date that correctly has no time zone, approves or raises only minor points (such as 29 February handling for yearly reminders), and does not demand converting it to UTC."}
+  - name: negative-generic-advice
+    vars:
+      diff: |
+        +    expires_at = Date.now() + 7 * 86400
+    assert:
+      - {type: llm-rubric, value: "Identifies the concrete unit bug that Date.now() returns milliseconds while 7 * 86400 is seconds, so the expiry is about 10 minutes rather than 7 days, instead of giving only generic time zone advice."}

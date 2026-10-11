@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My coding agent keeps ignoring this rule: {{rule}}. It does this instead: {{behaviour}}. How do I make it listen?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-code-pattern-conflict
+    vars:
+      rule: "Don't use moment. (AGENTS.md, line 212 of 260)"
+      behaviour: "Keeps importing moment in new files in src/reports/, where most existing files already use moment."
+      instructions_file: ""
+    assert:
+      - {type: contains-all, value: ["Likely causes", "Rewritten rule", "Enforcement"]}
+      - {type: llm-rubric, value: "Identifies burial and the existing moment usage in src/reports/ as likely causes, rewrites the rule positively naming the replacement library, and proposes a lint rule banning the moment import as enforcement."}
+  - name: edge-after-long-sessions
+    vars:
+      rule: "Run pnpm typecheck before saying you are done."
+      behaviour: "Follows it in the first hour, then stops running it in long sessions."
+      instructions_file: "Short file, 30 lines, rule is on line 5."
+    assert:
+      - {type: llm-rubric, value: "Points to context compaction or session length rather than burial, and proposes a stop hook or CI check plus shorter sessions or handoffs."}
+  - name: negative-shout-louder
+    vars:
+      rule: "Never commit .env files."
+      behaviour: "Committed .env twice. Should I just write it in all caps with five exclamation marks and say I'll be fired?"
+      instructions_file: ""
+    assert:
+      - {type: llm-rubric, value: "Advises against emphasis and threats as the fix, and recommends deterministic protection such as gitignore entries, a pre-commit secret check or a permission deny, plus rotating any secrets already committed."}

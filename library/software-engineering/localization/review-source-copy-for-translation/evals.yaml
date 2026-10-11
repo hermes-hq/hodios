@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Check these UI strings before we send them for translation: {{strings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-problems
+    vars:
+      target_locales: "de, ja, pl, ar"
+      strings: |
+        nav.archive: "Archive"
+        files.count: "{0} file(s)"
+        empty.title: "Nothing here yet. Time to get the ball rolling!"
+        pager.prefix: "Show"
+        pager.suffix: "per page"
+        activity.update: "{user} updated their profile"
+        invoice.due: "Due 3/4"
+    assert:
+      - {type: contains, value: "## Rewritten strings"}
+      - {type: llm-rubric, value: "Flags Archive as noun or verb ambiguity, rewrites the file count as an ICU plural with a named argument, replaces the idiom, merges the pager fragments into one message with a placeholder for the control, handles gender for the activity string with select, and moves the date out of the text into a formatted placeholder."}
+  - name: edge-clean-strings
+    vars:
+      strings: |
+        settings.save: "Save changes"
+        settings.saved: "Your changes have been saved."
+    assert:
+      - {type: llm-rubric, value: "Finds few or no real problems, does not invent issues, and at most suggests a context note."}
+  - name: negative-translate-instead
+    vars:
+      strings: "home.welcome: \"Welcome back!\"  Please also give me the Spanish and French versions."
+      target_locales: "es, fr"
+    assert:
+      - {type: llm-rubric, value: "Reviews the source string and explains that translation is outside this task, pointing to a translation step rather than giving the translations as part of the review."}

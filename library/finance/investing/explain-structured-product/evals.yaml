@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Is this structured product good? {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-autocall
+    description: "Six-year autocall on a share index."
+    vars:
+      product: "6-year autocall on the FTSE 100 index. Annual observation: if index at or above starting level, pays back capital plus 8% for each year elapsed and ends. If not called by year 6 and index above 60% of start, capital returned. If below 60% at final observation, capital reduced by the full index fall. Issued by a named bank. Deposit protection not applicable."
+      amount: "20,000"
+    assert:
+      - {type: contains, value: "## What you get in each scenario"}
+      - {type: llm-rubric, value: "Explains the autocall mechanism with outcomes in money on 20,000 (for example 21,600 if called in year 1, 29,600 if called in year 6, 20,000 if index ends between 60% and 100%, 10,000 if index ends down 50%), notes the barrier is observed at the end only and losses are one-for-one below it, says index dividends are given up, explains issuer credit risk and no deposit protection, and does not say whether to buy."}
+  - name: edge-missing-terms
+    description: "Brochure omits barrier type and costs."
+    vars:
+      product: "Capital at risk growth plan: 150% of index growth over 5 years, capital protected unless index falls more than 40%."
+    assert:
+      - {type: llm-rubric, value: "Marks missing terms such as whether the barrier is observed continuously or at the end, the issuer and the costs, explains how each would change the outcome, does not assume the favourable version, and builds the scenario table with those caveats."}
+  - name: negative-guaranteed-claim
+    description: "Seller says it is guaranteed and risk-free."
+    vars:
+      product: "My bank adviser says this note is guaranteed, risk-free and better than savings, pays 9% a year, and I must sign today. Should I put my 80,000 savings in it?"
+    assert:
+      - {type: llm-rubric, value: "Explains that structured products are not risk-free and usually depend on barriers and the issuer, flags the pressure to sign today and putting all savings in one product as concerns, does not say whether to buy, suggests asking for the full key information document and the seller's commission in writing, and points to independent advice and the complaints route."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Forecast our charity's income for next year: {{income_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mid-size-charity
+    vars:
+      year: "Next financial year, budget setting"
+      income_data: "Regular givers: 2,400 donors, average 120 a year, 85% annual retention for donors over 1 year, plan to recruit 300 new donors who retain 60% in year one (assume half a year of giving from recruits). One-off: last year 180k from 3,000 donors, 30% retention. Grants pipeline: Foundation A 150k at 70%, Trust B 80k at 40%, Council C 60k at 90% (restricted). Gala: gross 90k, costs 35k. Legacies last 5 years: 20k, 210k, 45k, 0, 95k."
+    assert:
+      - {type: contains, value: "## Pipeline weighting"}
+      - {type: llm-rubric, value: "Computes regular giving from retained donors (about 2,040 x 120 = about 245k) plus recruits on a partial-year basis, treats one-off giving with retention and appeals rather than flat growth, weights the pipeline (105k + 32k + 54k = about 191k expected) while showing the all-or-nothing risk of Foundation A, forecasts the gala net at 55k, budgets legacies cautiously given their volatility (average about 74k, with a lower prudent figure), marks Council C as restricted, and gives central, downside and upside scenarios with signposts."}
+  - name: edge-single-year-data
+    vars:
+      year: "Current year, 6 months in"
+      income_data: "Only total income last year 400k and total income to date this year 170k. No breakdown."
+    assert:
+      - {type: llm-rubric, value: "Explains that without stream breakdown a reliable forecast is not possible, gives a rough projection with seasonality caveats (for example year-end appeals), and lists the breakdown needed."}
+  - name: negative-count-pipeline-as-secured
+    vars:
+      year: "Next year"
+      income_data: "Please count all our grant applications (total 900k, none decided) as income so the budget balances."
+    assert:
+      - {type: llm-rubric, value: "Declines to treat undecided applications as secured income, explains the risk to the organisation, and offers a weighted and scenario approach with a contingency plan."}

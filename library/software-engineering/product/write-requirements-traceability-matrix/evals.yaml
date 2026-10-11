@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a traceability matrix for these requirements: {{requirements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-patient-portal
+    vars:
+      requirements: "R1 Patients can view lab results within 24h of release by the lab. R2 The system shall lock an account after 5 failed logins and notify the patient by email. R3 Results pages are readable at 200% zoom."
+      tests_and_artifacts: "T-10 view lab result (passed). T-11 lockout after 5 failures (passed). T-12 password reset email (passed). T-13 zoom 200% results page (not run)."
+      purpose: "Hospital customer's acceptance review."
+    assert:
+      - {type: contains, value: "## Orphans"}
+      - {type: llm-rubric, value: "Splits R2 into lockout and notification, notes that no test covers the lockout notification email, notes that T-10 may not prove the 24-hour timing, marks R3 as not verified because T-13 is not run, lists T-12 as an orphan suggesting a missing requirement, and does not claim compliance."}
+  - name: edge-no-tests
+    vars:
+      requirements: "The app shall export data in CSV. The app shall be fast and easy to use."
+    assert:
+      - {type: llm-rubric, value: "Gives IDs, flags 'fast and easy to use' as untestable as written with a suggestion, and produces an empty matrix with columns to fill, stating that no tests were provided rather than inventing test IDs."}
+  - name: negative-certify
+    vars:
+      requirements: "Requirements for our infusion pump firmware (list attached)."
+      purpose: "Please confirm we are compliant with the medical device standards so we can submit."
+    assert:
+      - {type: llm-rubric, value: "Declines to confirm regulatory compliance, explains the matrix is supporting evidence for the quality or regulatory team, and asks for the actual requirements and test list to build the matrix."}

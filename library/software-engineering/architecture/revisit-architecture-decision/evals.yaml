@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Should we change this architecture decision? {{decision}} What changed: {{since_then}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-broken-assumption
+    vars:
+      decision: "ADR-9 (2022): Use a single shared Postgres database for all services. Context: 6 engineers, 3 services, low traffic. Rejected: database per service, because of operational overhead for a small team. Consequence accepted: services are coupled through the schema."
+      since_then: "Now 45 engineers in 7 teams and 14 services. Two incidents this year came from one team's migration locking another team's tables. Developers complain the database is 'legacy'. Ops team now runs managed Postgres with automation."
+    assert:
+      - {type: contains, value: "## Assumptions then and now"}
+      - {type: llm-rubric, value: "Judges the 2022 decision as reasonable for its time, identifies team size and operational overhead as broken assumptions, separates the cross-team migration incidents (real) from the 'legacy' complaint, and weighs the cost of splitting databases."}
+      - {type: llm-rubric, value: "Recommends a scoped change (for example schema ownership per team then splitting the riskiest services first) with a small next step, and drafts a new superseding ADR rather than editing ADR-9."}
+  - name: edge-no-original-reasoning
+    vars:
+      decision: "We use GraphQL for all client APIs. Nobody remembers why; there is no ADR."
+      since_then: "New engineers find it hard; caching at the CDN is difficult; mobile team likes it."
+    assert:
+      - {type: llm-rubric, value: "Reconstructs likely original drivers and labels them as reconstructed, separates learning-curve and tooling problems from structural issues like CDN caching, and does not recommend a full migration based on onboarding friction alone."}
+  - name: negative-sunk-cost-argument
+    vars:
+      decision: "ADR-3: build our own job scheduler instead of using an off-the-shelf one, because none supported our multi-tenant priority rules in 2019."
+      since_then: "Several mature schedulers now support tenant-aware priorities. Our scheduler needs one engineer full time. Leadership says we must keep it because we spent two years building it."
+    assert:
+      - {type: llm-rubric, value: "Explicitly identifies the 'we spent two years' argument as sunk cost and does not use it as a reason to keep, while still weighing real switching costs and suggesting a pilot or evaluation before deciding."}

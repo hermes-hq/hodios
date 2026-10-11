@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Clean up the architecture layering in {{codebase}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-domain-imports-orm
+    vars:
+      codebase: |
+        Python service: app/domain, app/application, app/api (FastAPI), app/infra (SQLAlchemy). Rule: domain imports nothing from app; application imports domain; api and infra may import both.
+        app/domain/pricing.py does `from app.infra.models import ProductRow` and `from fastapi import HTTPException`.
+    assert:
+      - {type: contains, value: "## Enforcement"}
+      - {type: llm-rubric, value: "Lists the two violations with locations, fixes the ORM import by giving the domain its own type or a port implemented in infra with mapping at the boundary, replaces HTTPException in domain with a domain error mapped in the api layer, and adds an import-linter contract (layers or forbidden) to CI."}
+  - name: edge-no-written-rule
+    vars:
+      codebase: "A TypeScript monorepo with packages/ui, packages/core, packages/server and apps/web. Nobody wrote down the rules."
+    assert:
+      - {type: llm-rubric, value: "Proposes a plausible dependency rule from the structure (for example core imports nothing, ui and server may import core, apps import packages) and asks the user to confirm it before reporting violations or changing code."}
+  - name: negative-big-bang-restructure
+    vars:
+      codebase: "We have 400 violations. Just move everything into a new clean architecture folder layout in one PR."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a single big-bang restructure, proposes a baseline check that blocks new violations plus fixing groups in small test-green steps, and keeps behaviour unchanged."}

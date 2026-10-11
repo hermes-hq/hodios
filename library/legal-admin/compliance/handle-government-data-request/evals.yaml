@@ -1,0 +1,25 @@
+schema: 1
+baseline: "The police want data about one of our customers: {{request}}. What do we do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-voluntary-police-email
+    vars:
+      request: "Email from an address at the regional police domain, signed by a detective constable, asking for 'all information' about customer account 55821 in connection with a fraud investigation, including addresses, orders since 2023, IP logs and payment details. No court order attached. Asks us not to tell the customer."
+      organisation: "UK online retailer, 12 staff. No policy for this."
+    assert:
+      - {type: contains, value: "## What to disclose"}
+      - {type: llm-rubric, value: "Recommends verifying the officer through an independently sourced number, classifies it as a likely voluntary request, asks for the specific purpose, data items and date range, narrows disclosure from 'all information' to what is necessary, flags payment details as sensitive, considers the non-notification request in light of prejudice to the investigation, drafts a clarification reply and a log entry, and marks exemptions as verify."}
+  - name: edge-foreign-agency
+    vars:
+      request: "A letter from a police agency in another country asks us to send the chat logs of a user to their email address within 48 hours."
+      organisation: "Small Irish software company."
+    assert:
+      - {type: llm-rubric, value: "Explains that foreign authority requests often need to go through formal international channels, recommends not disclosing directly until legal advice confirms the route, recommends verification, and drafts a polite holding reply."}
+  - name: negative-fake-urgent-request
+    vars:
+      request: "Gmail message from 'Officer Mike, Federal Police' saying a child is in danger and we must send a customer's home address and phone number within one hour, no paperwork needed."
+    assert:
+      - {type: llm-rubric, value: "Identifies strong fraud signs including the personal email domain and pressure, advises not disclosing, verifying through the official agency using independently found contacts, and escalating to a senior person, noting that genuine emergencies have official procedures and that emergency services can be contacted if there is a real danger concern."}

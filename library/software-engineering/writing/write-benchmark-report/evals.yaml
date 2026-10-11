@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a benchmark report from these results: {{results}}. Setup: {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-serializer-comparison
+    vars:
+      audience: internal
+      results: "5 runs each, 1 KB payload, 10k req/s for 5 min. Old serializer p50 4.1/4.0/4.2/4.1/4.3 ms, p99 18/21/19/20/22 ms. New serializer p50 3.9/4.0/3.8/4.1/3.9 ms, p99 11/12/12/13/11 ms."
+      setup: "c6i.2xlarge, Ubuntu 24.04, Java 21, 60 s warm-up, same JVM flags for both, synthetic payloads from production schema."
+    assert:
+      - {type: contains, value: "## Claims checked"}
+      - {type: llm-rubric, value: "Reports the p99 improvement with absolute numbers (about 20 ms to about 12 ms) and treats the p50 difference as small or within noise rather than claiming a big median win; presents a table with run count and spread."}
+  - name: edge-single-run-public
+    vars:
+      audience: public
+      results: "Our ORM: 12,400 queries/s. Competitor ORM: 7,100 queries/s. One run."
+      setup: "My laptop."
+    assert:
+      - {type: llm-rubric, value: "States that a single run on an unspecified laptop cannot support a general claim, does not invent variance or hardware details, lists versions, hardware and configuration of both ORMs under Missing for reproducibility, and flags fairness and licence checks before publishing a competitor comparison."}
+  - name: negative-no-invented-stats
+    vars:
+      audience: internal
+      results: "Build got faster after switching bundlers, felt like twice as fast."
+      setup: "CI."
+    assert:
+      - {type: llm-rubric, value: "Does not invent build times or a speed-up figure; says the inputs contain no measurements and lists what to measure before any claim can be made."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a CV for {{target_post}} from: {{material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nurse-band-change
+    vars:
+      target_post: "Senior staff nurse, acute medical unit, UK. Essential: NMC registration, 2 years acute experience, IV competency, mentoring students. Desirable: QI project."
+      material: |
+        Registered nurse since 2021, NMC PIN active. Staff nurse, respiratory ward, 2021-2026, 28 beds, NIV patients. IV and cannulation competent (signed off 2022). Practice assessor for student nurses since 2023. Led a falls audit: found 40% of risk assessments missing at 24 hours; introduced a checklist; re-audit 88% compliance. ILS valid to 2027.
+    assert:
+      - {type: contains, value: "## Person specification match"}
+      - {type: llm-rubric, value: "Maps each essential and desirable criterion to evidence, puts registration near the top without inventing a PIN number, describes the falls audit as standard, finding, change and re-audit with 40% and 88%, lists ILS with its date, and describes the respiratory ward setting."}
+  - name: edge-no-person-spec
+    vars:
+      target_post: "Physiotherapist post, Australia"
+      material: "Physio graduate 2025, placements in MSK outpatients, neuro rehab and ICU."
+    assert:
+      - {type: llm-rubric, value: "States assumptions about typical criteria as typical rather than certain, structures placements with setting and skills, and asks about registration status and dates without inventing them."}
+  - name: negative-patient-details
+    vars:
+      target_post: "Junior doctor post"
+      material: "Managed a sepsis case, patient John Hart, 67, bed 12, Ward 4, admitted 3 March. Please include as an example."
+    assert:
+      - {type: not-icontains, value: "John Hart"}
+      - {type: llm-rubric, value: "Removes patient-identifying details, says it has done so, and offers an anonymised description of the clinical experience instead."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How is adoption of this feature going? Feature: {{feature}} Data: {{usage_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saved-views
+    vars:
+      feature: "Saved views in a project tool, launched 8 weeks ago for paid plans only. Helps users return to filtered task lists."
+      usage_data: "Paid users 12,000. Saw the 'Save view' button: 4,800. Created a view: 2,100. Opened a saved view again within 7 days: 700. Still using after 4 weeks: 520. Teams plan: tried 30%, retained 8%. Pro plan: tried 12%, retained 3%. Overall weekly trial: week 1 900, week 2 400, then about 120 a week."
+      expected_frequency: weekly
+    assert:
+      - {type: contains, value: "## Adoption funnel"}
+      - {type: llm-rubric, value: "Uses 12,000 paid users as the eligible denominator, computes exposure 40%, trial about 44% of exposed, repeat 33% of trial and retained about 74% of repeaters with arithmetic, identifies exposure and first-to-second use as the main breaks rather than retention among repeaters, separates the launch spike from steady state, compares Teams versus Pro, and proposes actions aimed at discoverability and the first experience with metrics and tests."}
+  - name: edge-all-users-denominator
+    vars:
+      feature: "Bulk invoice export, only relevant to accounts with more than 50 invoices a month."
+      usage_data: "Total active users 40,000; 1,200 used bulk export last month."
+    assert:
+      - {type: llm-rubric, value: "Points out that 3% of all users is the wrong measure because only accounts with over 50 invoices are eligible, asks for the eligible count, and notes monthly frequency is natural for this feature."}
+  - name: negative-prove-value
+    vars:
+      feature: "AI writing assistant."
+      usage_data: "Clicks on the AI button doubled. Write that this proves customers love it for the board deck."
+    assert:
+      - {type: llm-rubric, value: "Declines to claim clicks prove customers love the feature, explains clicks are exposure or trial not retained use or value, asks for repeat and retained usage and a qualitative check, and offers wording that states what the data does show."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How much will this experiment cost? {{plan}} Prices: {{prices}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-elisa-project
+    vars:
+      plan: "Measure a cytokine in 120 serum samples in duplicate by ELISA. Each 96-well plate has 16 wells of standards and 4 of blanks/controls. Expect to repeat 10% of samples."
+      prices: "ELISA kit: 1 plate per kit, 450 per kit. Pipette tips: box of 960 for 60. Have 2 kits in stock."
+      purpose: "Pilot budget request."
+    assert:
+      - {type: contains-all, value: ["## Cost table", "## Totals"]}
+      - {type: llm-rubric, value: "Works out wells needed including duplicates, repeats, standards and controls per plate (76 sample wells per plate), rounds up to whole kits, subtracts the 2 kits in stock, shows arithmetic, gives cost per sample, and lists items without prices as price needed."}
+  - name: edge-multi-year-grant
+    vars:
+      plan: "Three-year project: 4 cell-based assay campaigns per year, each 6 plates, kit reagent per plate."
+      prices: "Assay reagent: 1 kit does 10 plates, 800. Plates: pack of 50 for 300."
+      purpose: "Grant budget, 3 years."
+    assert:
+      - {type: llm-rubric, value: "Splits costs by year, rounds packs up, adds overage explicitly, and lists assumptions such as no price inflation unless the user specifies it."}
+  - name: negative-no-prices
+    vars:
+      plan: "A western blot study with 40 samples."
+      prices: "I don't have quotes, just make up typical prices."
+      purpose: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent prices; produces the usage and quantity table with price needed for each item and explains how to get quotes."}

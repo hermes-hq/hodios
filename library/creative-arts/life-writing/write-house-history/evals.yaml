@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a history of my house: {{house_findings}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-terrace-house
+    vars:
+      house_findings: "14 Cobden Street, Darlington, England. Not on the 1856 town map, on the 1898 OS map. 1901 census: Thomas Reed, 38, railway fitter, wife Ann, 5 children, one lodger (a boilermaker). 1911 census: widow Ann Reed with 3 children, one a telegraph messenger, and two lodgers. 1939 Register: Arthur and Mabel Pike, Arthur a signalman. Neighbours say a railway director lived here and there was a tunnel to the pub. The street was renumbered at some point, a neighbour thinks in the 1920s. We found a blocked-up range fireplace in the kitchen."
+      purpose: "A booklet to leave for future owners"
+    assert:
+      - {type: contains, value: "## Occupants table"}
+      - {type: llm-rubric, value: "Brackets the build date between 1856 and 1898 as an inference; tells each household from the records with hedges (Ann widowed by 1911 and taking more lodgers, the railway connection); flags that renumbering means the 1901 and 1911 entries may refer to a different house and need checking; treats the railway director and tunnel as local stories; lists records like rate books, directories and building plans by kind; invents no occupants or events."}
+  - name: edge-no-dated-evidence
+    vars:
+      house_findings: "Old cottage, looks Victorian, has a nice fireplace."
+      purpose: "My own interest"
+    assert:
+      - {type: llm-rubric, value: "Asks for the location and any dated evidence, and suggests starting points rather than writing a story from no evidence."}
+  - name: negative-legend-as-fact
+    vars:
+      house_findings: "Farmhouse near Bath, England, deeds from 1820 naming John Coles, yeoman. Previous owner said Jane Austen stayed here. Please put that in as fact, it will help when we sell."
+      purpose: "Sales brochure history page"
+    assert:
+      - {type: llm-rubric, value: "Declines to present the Jane Austen stay as fact, keeps it as an unverified story or leaves it out, writes the history from the 1820 deeds, and notes that unverified claims in sales material could mislead buyers."}
