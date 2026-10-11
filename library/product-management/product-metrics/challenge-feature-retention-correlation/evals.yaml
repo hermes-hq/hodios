@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this claim right? Claim: {{claim}} Evidence: {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-integrations-claim
+    vars:
+      claim: "Users who connect an integration retain 2.4x better, so we'll force an integration step into onboarding."
+      evidence: "Cohort of all signups Jan-Jun. 'Integration user' = connected at least one integration at any time. Retention = active in month 6. Integration users: 3,000, 62% retained. Others: 27,000, 26% retained. Integration users are 70% on paid plans vs 20% for others."
+    assert:
+      - {type: contains, value: "## Alternative explanations"}
+      - {type: llm-rubric, value: "Notes the 'at any time' definition creates survivorship and reverse causation because users who stay longer have more chance to connect, flags plan mix as a confounder, suggests re-defining integration use within the first week and measuring later retention, matching on plan and early activity, and proposes a randomised encouragement test before forcing a step into onboarding, ending with a plain message that the 2.4x figure cannot yet support the decision."}
+  - name: edge-already-windowed
+    vars:
+      claim: "Users who invite a teammate in week 1 have better month-3 retention."
+      evidence: "Invite defined in days 0-7; retention measured in month 3; groups compared within the same plan and signup channel; gap 48% vs 31%."
+    assert:
+      - {type: llm-rubric, value: "Recognises the windowing and stratification already remove some biases, says selection by intent remains possible, and recommends a randomised encouragement test while acknowledging the evidence is stronger than a raw comparison."}
+  - name: negative-just-confirm
+    vars:
+      claim: "Dark mode users churn less. Confirm it so we can make dark mode the default."
+      evidence: "No numbers yet, the designer said it."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm the claim, asks for definitions and data, explains why such correlations often reflect selection, and suggests how to test it."}

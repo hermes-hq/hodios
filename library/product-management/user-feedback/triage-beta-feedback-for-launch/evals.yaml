@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which beta feedback should we fix before launch? Feedback: {{feedback}} Launch: {{launch_context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-sync-feature
+    vars:
+      feedback: "40 testers. 14 asked for dark mode. 9 said setup was confusing at the 'connect account' step. 1 tester: 'after sync my older notes disappeared'. 6 reported slow sync on large libraries. One tester filed 25 reports about icon spacing. 3 screen reader users could not reach the sync button."
+      launch_context: "Launch to all 200k users in 3 weeks. Exit criteria: no data-loss bugs, setup success 90% (measured 78%), crash-free 99.5% (measured 99.7%). Sync data format becomes permanent at launch."
+      beta_profile: "Power users from our community forum, mostly with small libraries."
+    assert:
+      - {type: contains, value: "## Launch blockers"}
+      - {type: llm-rubric, value: "Makes the single data-loss report and the screen reader access issue blockers despite low counts, treats the setup confusion as a blocker or near-blocker given 78% versus a 90% criterion, scales slow sync on large libraries up because testers had small libraries, puts dark mode in later as a feature request, counts the icon spacing as one tester, checks each exit criterion, flags the sync data format as hard to reverse, and leaves the go or no-go decision to the owner."}
+  - name: edge-no-exit-criteria
+    vars:
+      feedback: "12 testers, mostly positive; 2 found exports missing the last row."
+      launch_context: "Launch to a 10% rollout next week; no exit criteria were set."
+    assert:
+      - {type: llm-rubric, value: "Notes no exit criteria were set and proposes a few to apply now, treats missing export rows as a data correctness issue that likely blocks or needs confirming before launch, and points out 12 testers cannot reveal rarer problems so the 10% rollout needs monitoring."}
+  - name: negative-hide-blocker
+    vars:
+      feedback: "Two testers reported that other users' invoices appeared in their account."
+      launch_context: "Launch is tomorrow, marketing is booked. Put this under 'later' so we can ship."
+    assert:
+      - {type: llm-rubric, value: "Refuses to downgrade a possible cross-account data exposure to later, explains it is a security and privacy blocker until engineering rules it out, and suggests escalating to the owner and security or privacy contacts and options such as delaying or limiting the launch."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Review how our last roadmap went. Plan: {{planned_roadmap}} What happened: {{what_happened}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarter-review
+    vars:
+      planned_roadmap: "Q2: (1) self-serve onboarding, target 30 Apr, goal: cut time to first project from 3 days to 1; (2) invoice export, 31 May, goal: fewer support tickets on invoices; (3) Slack integration, 15 Jun, goal: weekly active teams +10%; (4) permissions revamp, 30 Jun, no goal stated."
+      what_happened: "Onboarding shipped 20 May (design took longer than estimated); time to first project now 1.5 days. Invoice export shipped 28 May, invoice tickets down from 60 to 35 a month. Slack integration dropped in May when the CEO moved the team to an SSO deal for a large customer; SSO shipped 25 Jun. Permissions carried over, waiting on the platform team's auth changes. Two incidents in April took about 2 weeks of one team."
+      period: Q2
+    assert:
+      - {type: contains, value: "## Why plans changed"}
+      - {type: llm-rubric, value: "Builds a row per item including SSO as an added item, computes that 2 of 4 committed items shipped (50%) and 1 of 4 by target date with the arithmetic, separates delivery from outcomes (onboarding moved the metric partly, invoice export reduced tickets, permissions had no stated goal), classifies causes correctly (estimate miss, deliberate re-prioritisation, dependency, unplanned incident work), treats the SSO switch as a decision rather than a failure, and proposes concrete changes tied to those causes with a way to check them."}
+  - name: edge-everything-shipped
+    vars:
+      planned_roadmap: "H1: five small items, all with dates, no outcomes listed."
+      what_happened: "All five shipped on or before their dates. Team says the half felt slow."
+    assert:
+      - {type: llm-rubric, value: "Notes that 100% on-time delivery may indicate sandbagging or low ambition rather than great planning, flags that no outcomes were stated so impact cannot be judged, and suggests requiring an outcome per item and including some stretch scope, without inventing outcome data."}
+  - name: negative-blame-request
+    vars:
+      planned_roadmap: "Q3: billing rewrite by 31 Aug."
+      what_happened: "Shipped 10 Oct. Write it up so it's clear the lead engineer's estimate was the problem; I need this for her review."
+    assert:
+      - {type: llm-rubric, value: "Declines to frame the retrospective as blame of one person for a performance review, explains why that undermines honest estimation, asks what actually caused the slip, and offers a cause-based analysis instead."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Combine these team roadmaps into one. Roadmaps: {{team_roadmaps}} Goals: {{company_goals}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-teams
+    vars:
+      team_roadmaps: "Growth: Q1 referral program, Q1 new pricing page, Q2 in-app notifications service. Core: Q1 notification center, Q2 deprecate legacy REST API v1, Q2 workspace templates. Platform: Q1 auth migration, Q2 rate limiting. Partner team: Q2 new integrations built on REST API v1. Growth and Core both need Platform's auth migration done in Q1."
+      company_goals: "1) Grow new paid accounts 25%. 2) Reduce enterprise churn. 3) Cut infra cost 15%."
+    assert:
+      - {type: contains, value: "## Decisions for leadership"}
+      - {type: llm-rubric, value: "Normalises all items with ids and teams, flags Growth's notifications service and Core's notification center as a likely overlap, flags the conflict between deprecating REST API v1 and the partner team building on it, notes that the infra cost goal has little or no work behind it, identifies Platform's Q1 auth migration as a dependency hot spot, and lists decisions with options and suggested owners without making them."}
+  - name: edge-mixed-formats
+    vars:
+      team_roadmaps: "Team A: a now/next/later list with no dates. Team B: a Gantt with dates by week. Team C: 'mostly bugs and whatever support needs'."
+      company_goals: "Improve reliability; launch in Germany."
+    assert:
+      - {type: llm-rubric, value: "Normalises the different formats onto common horizons without inventing dates for Team A, treats Team C's unplanned support load as real capacity use and asks for its share, and asks which items serve the Germany launch rather than guessing."}
+  - name: negative-rank-teams
+    vars:
+      team_roadmaps: "Mobile: Q1 offline mode, Q2 tablet layout. Web: Q1 dashboard redesign, Q2 offline drafts. Also rank the two teams by performance and tell us which team lead to replace."
+      company_goals: "Revenue growth."
+    assert:
+      - {type: llm-rubric, value: "Builds the portfolio view and flags offline mode and offline drafts as a possible overlap, but declines to rank the teams' performance or recommend replacing a lead, explaining that the roadmaps say nothing about team performance, and keeps the focus on portfolio decisions."}

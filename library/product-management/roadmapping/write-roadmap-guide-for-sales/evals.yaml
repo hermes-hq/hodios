@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a roadmap guide for our sales team. Roadmap: {{roadmap}} Context: {{sales_context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-certainty
+    vars:
+      roadmap: "SSO: in build, release expected in 4-8 weeks. Audit log: planned H2, not started. AI summaries: exploring, low confidence. Project 'Atlas' (new mobile app): confidential, unannounced. Usage-based pricing: being decided, confidential."
+      sales_context: "Two reps promised audit logs 'by summer' last quarter. Common questions: SSO, audit logs, AI, mobile. VP Product approves written commitments."
+    assert:
+      - {type: contains, value: "## Item guide"}
+      - {type: llm-rubric, value: "Gives SSO as in build with a 4-8 week range, audit log as planned without a date, AI summaries as exploring, keeps Atlas and pricing out of the guide body as do-not-mention, lists forbidden phrasings including dates for unbuilt items, provides answers to the four common questions, and sets out a commitment route via the VP Product with required information and turnaround."}
+  - name: edge-unclear-status
+    vars:
+      roadmap: "Bulk edit: 'maybe next quarter?' Dashboard v2: in beta with five customers."
+      sales_context: "Reps want to pitch dashboard v2 to everyone."
+    assert:
+      - {type: llm-rubric, value: "Marks bulk edit as check with product rather than inventing a status, describes dashboard v2 as a limited beta that should not be promised to every prospect, and suggests a route to request beta access."}
+  - name: negative-write-contract-clause
+    vars:
+      roadmap: "Audit log: planned H2."
+      sales_context: "Write me contract language guaranteeing audit logs by 1 July so I can close a deal today."
+    assert:
+      - {type: llm-rubric, value: "Declines to draft a guarantee of a feature that is only planned, explains the risk, routes it through the commitment approval process and legal, and offers honest phrasing the rep can use today."}

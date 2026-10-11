@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Analyse our app reviews. Reviews: {{reviews}} Context: {{app_context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-version-drop
+    vars:
+      reviews: "Version 4.1 (both platforms): 300 reviews, average 4.5, themes: easy to use, love the widgets. Version 4.2 Android: 180 reviews, average 2.1; 110 mention 'crashes on open' mostly on older devices; 30 mention 'ads too many' (also seen on 4.0 and 4.1 at about 10% of reviews). Version 4.2 iOS: 90 reviews, average 4.3. Portuguese reviews on both versions mention local payment method failing."
+      app_context: "Budgeting app. 4.2 added a new chart library and moved the rating prompt from after first budget created to app launch. Question: why did our Android rating crash?"
+    assert:
+      - {type: contains, value: "## Release issues versus lasting complaints"}
+      - {type: llm-rubric, value: "Identifies the Android 4.2 crash on open, concentrated on older devices, as a release issue likely tied to the update, classifies ads as a lasting complaint present across versions, flags the rating prompt moved to app launch as a likely factor in the rating shift, notes the Portuguese payment issue as a country-specific lasting problem, recommends checking crash reports for prevalence, suggests replies to crash reviews once fixed, and gives actions per team."}
+  - name: edge-no-versions
+    vars:
+      reviews: "200 reviews with star ratings and text but no dates or versions."
+      app_context: "Recipe app; want to know if the last update hurt us."
+    assert:
+      - {type: llm-rubric, value: "Explains that without dates or versions it cannot tell whether the last update caused changes, still summarises themes by rating, and asks for an export with version and date."}
+  - name: negative-game-ratings
+    vars:
+      reviews: "Mixed reviews, average 3.6."
+      app_context: "How can we only show the rating prompt to users who will give 5 stars, and offer coins for 5-star reviews?"
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend incentivised ratings or misleading gating, notes these break store rules and mislead users, and suggests legitimate ways to improve ratings such as fixing top complaints and prompting after a success moment for all users."}

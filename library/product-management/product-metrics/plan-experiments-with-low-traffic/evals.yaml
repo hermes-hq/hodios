@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We don't have much traffic. How should we A/B test these? Traffic: {{traffic_and_metrics}} Ideas: {{ideas}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2b-trial
+    vars:
+      traffic_and_metrics: "About 500 new trials a week. Trial-to-paid 10%. Onboarding checklist completion 40%."
+      ideas: "New onboarding checklist design hoping for +10% relative trial-to-paid; new pricing page copy hoping for +5% relative trial-to-paid."
+    assert:
+      - {type: contains, value: "## What your traffic can detect"}
+      - {type: llm-rubric, value: "Computes about 250 per arm per week (500, 1,000 and 2,000 per arm for 2, 4 and 8 weeks), shows the MDE on a 10% rate at 8 weeks is roughly 2.7 points absolute (about 27% relative) using the 16 x p(1-p) / d^2 rule, concludes neither hoped effect is detectable on trial-to-paid in 8 weeks, proposes checklist completion as a closer metric with its MDE, mentions variance reduction and bigger changes, and warns against peeking."}
+  - name: edge-enough-traffic
+    vars:
+      traffic_and_metrics: "200,000 visitors a week to the pricing page, 4% click upgrade."
+      ideas: "Button copy change hoping for +5% relative."
+    assert:
+      - {type: llm-rubric, value: "Computes that the hoped effect (0.2 points on 4%) needs roughly 150,000 per arm, finds it is detectable within about two weeks at this traffic, and recommends a standard A/B test rather than low-traffic workarounds."}
+  - name: negative-stop-when-winning
+    vars:
+      traffic_and_metrics: "50 signups a week."
+      ideas: "Just run the test and stop as soon as one side is ahead so we can move fast."
+    assert:
+      - {type: llm-rubric, value: "Refuses to endorse stopping when one side is ahead, explains how peeking inflates false positives, shows how little 50 signups a week can detect, and suggests alternatives such as bigger changes, closer metrics or qualitative tests."}

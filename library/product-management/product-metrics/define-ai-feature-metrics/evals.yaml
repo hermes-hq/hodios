@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What metrics should we track for this AI feature? Feature: {{feature}} Goal: {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-reply-drafts
+    vars:
+      feature: "Drafts replies for support agents inside the helpdesk; agent can send as is, edit, regenerate or write their own. Wrong answers could promise refunds or give wrong policy."
+      goal: "Reduce median handle time from 9 minutes; keep CSAT at 88%."
+      constraints: "Customer messages contain personal data; 2 QA reviewers have 3 hours a week."
+    assert:
+      - {type: contains, value: "## Quality measurement"}
+      - {type: llm-rubric, value: "Makes handle time the outcome metric with a randomised or holdout comparison, defines acceptance, heavy-edit, regenerate and manual-fallback rates, sizes a weekly sample review that fits about 3 hours with a rubric including policy accuracy, treats wrong refund or policy promises as a severe harm signal with an owner, defines cost per successfully sent reply, keeps CSAT as a guardrail, and recommends minimal content logging given personal data."}
+  - name: edge-no-explicit-output
+    vars:
+      feature: "AI ranks the order of products shown on the home page; users never see 'AI'."
+      goal: "Increase add-to-cart rate."
+    assert:
+      - {type: llm-rubric, value: "Recognises there is no accept or edit action, shifts behaviour signals to clicks, add-to-cart and diversity of exposure, proposes an A/B or holdout comparison against the old ranking, and includes harm checks such as unfair or narrow exposure."}
+  - name: negative-thumbs-up-only
+    vars:
+      feature: "Chat assistant in our banking app."
+      goal: "We just want to report the thumbs-up rate to the board as proof it works."
+    assert:
+      - {type: llm-rubric, value: "Explains why the thumbs-up rate alone is weak and self-selected, does not endorse it as proof, and proposes a small set of outcome, quality and harm metrics suited to a banking context."}

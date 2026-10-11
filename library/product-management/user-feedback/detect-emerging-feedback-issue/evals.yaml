@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is anything new going wrong in our feedback? Recent: {{recent_feedback}} Baseline: {{baseline}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-release-regression
+    vars:
+      recent_feedback: "Last 5 days: 1,500 contacts. Login problems 120 (90 on Android app version 6.2). Shipping delays 300. 'Charged twice' 8 (new phrase). Billing questions 150."
+      baseline: "Previous 4 weeks, per 5 days on average: 1,000 contacts. Login problems 30. Shipping delays 200. 'Charged twice' 0. Billing 100. Android 6.2 released 6 days ago. A holiday promotion started 5 days ago."
+    assert:
+      - {type: contains, value: "## Alert draft"}
+      - {type: llm-rubric, value: "Computes shares: login problems rose from 3% to 8% and cluster on Android 6.2, shipping delays and billing stay at a stable share (20% and 10%) so they are explained by higher volume from the promotion, and 'charged twice' is new and severe despite 8 reports; alerts on login and charged twice with drafts naming evidence and owners, dismisses or watches shipping, and does not claim a technical root cause."}
+  - name: edge-tag-change
+    vars:
+      recent_feedback: "This week: 'Accessibility' tag 45 of 900 contacts."
+      baseline: "Previous weeks: 'Accessibility' 0. The support team added the Accessibility tag to the form this week; previously those went under 'Other', which dropped from 120 to 80."
+    assert:
+      - {type: llm-rubric, value: "Recognises the jump is mostly caused by the new tag and the drop in 'Other', says it is not evidence of a new issue on its own, and suggests reading the tagged items to see whether any specific new problem is inside."}
+  - name: negative-no-totals
+    vars:
+      recent_feedback: "We got loads of complaints about the app this week."
+      baseline: "Not sure."
+    assert:
+      - {type: llm-rubric, value: "Asks for counts by theme, totals and a comparison period plus any releases or campaigns, explains why shares versus a baseline are needed, and does not declare an issue or invent numbers."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help us decide what to work on next cycle. Pitches: {{pitches}} Teams: {{cycle_and_teams}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-pitches
+    vars:
+      pitches: "1) Calendar sync: problem clear, appetite 6 weeks, rabbit holes on recurring events addressed, no-gos listed. 2) Faster search: 2 weeks, clear problem, solution sketch, no rabbit holes listed. 3) 'Improve onboarding': no appetite, no sketch, just a goal. 4) Bulk invoice export: 2 weeks, fully shaped. 5) Unfinished from last cycle: client portal, ran out of time at 6 weeks."
+      cycle_and_teams: "6-week cycles, 2-week cool-down. One big-batch team (6 weeks) and one small-batch team (two 2-week slots plus slack)."
+      context: "Goal this quarter: reduce churn among agencies. Agencies complain most about calendar and invoicing."
+    assert:
+      - {type: contains, value: "## Proposed bets"}
+      - {type: llm-rubric, value: "Marks 'Improve onboarding' as not a pitch and sends it to shaping, notes faster search lacks rabbit holes, treats the client portal as needing a new pitch rather than carrying over, offers slates such as calendar sync on the big team and invoice export plus search on the small team tied to the agency churn goal, lists pitches not bet on with reasons, keeps the cool-down, and leaves the final decision to the table."}
+  - name: edge-pitch-bigger-than-appetite
+    vars:
+      pitches: "Offline mode for mobile: appetite 2 weeks, solution covers sync conflicts, local DB, all screens."
+      cycle_and_teams: "2-week small-batch slot only this cycle."
+    assert:
+      - {type: llm-rubric, value: "Flags that the solution as written is far larger than a 2-week appetite, does not stretch the appetite, and suggests narrowing to a smaller version or sending it back to shaping."}
+  - name: negative-no-pitches
+    vars:
+      pitches: "Our backlog has 140 tickets, pick the best ones for the cycle."
+      cycle_and_teams: "6-week cycles, two teams."
+    assert:
+      - {type: llm-rubric, value: "Explains that a betting table works on shaped pitches rather than a ticket backlog, does not pick tickets as bets, and suggests shaping a few problems first or using a different prioritisation approach."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What engagement metric should we use? Product: {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoicing-tool
+    vars:
+      product: "Invoicing tool for freelancers. Satisfied users send invoices a few times a month and check payments weekly."
+      data: "MAU (logged in) 20,000; DAU 1,500; users who sent at least one invoice in the month 9,000."
+    assert:
+      - {type: contains, value: "## Metric definition"}
+      - {type: llm-rubric, value: "Rejects DAU and logins as the core metric because the rhythm is monthly or weekly, chooses sending an invoice (or getting paid) as the qualifying action with a monthly window, notes only 45% of logged-in MAU sent an invoice, suggests a distribution of active weeks per month rather than DAU/MAU, and proposes validating against renewal or retention with a counter-metric for gaming."}
+  - name: edge-two-sided-roles
+    vars:
+      product: "Team wiki: a few editors write pages daily, most members read pages a couple of times a week."
+    assert:
+      - {type: llm-rubric, value: "Separates editor and reader segments with different qualifying actions and windows, or defines an account-level metric that combines them, and explains why one blended DAU figure would mislead."}
+  - name: negative-inflate-it
+    vars:
+      product: "Meditation app. Investors want higher DAU; let's count notification opens as active so it goes up."
+    assert:
+      - {type: llm-rubric, value: "Declines to count notification opens as engagement, explains how this inflates the metric without value, and proposes a qualifying action such as completing a session, with honest reporting."}
