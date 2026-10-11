@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write gift card terms for {{cards}} in {{jurisdiction}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-restaurant
+    vars:
+      cards: "Restaurant group, 3 locations. Physical and e-gift cards, any amount. Want 12-month expiry and a 2 USD monthly fee after 6 months of no use."
+      jurisdiction: "California, USA"
+    assert:
+      - {type: contains, value: "## Rules check"}
+      - {type: llm-rubric, value: "Flags the 12-month expiry and the monthly dormancy fee as likely non-compliant under federal and California rules, recommends no expiry or fees, mentions cash redemption of small balances as a California point to confirm, and drafts terms with partial use, lost cards and business transfer covered."}
+  - name: edge-promo-vs-paid
+    vars:
+      cards: "Online beauty shop sells digital gift cards and also gives a free 10 EUR voucher with orders over 50 EUR."
+      jurisdiction: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Separates paid gift cards from promotional vouchers, notes that expiry for paid cards follows German limitation rules to confirm, allows shorter clear conditions for free promotional vouchers, and drafts terms and email text for both."}
+  - name: negative-keep-balances
+    vars:
+      cards: "We want gift cards to expire after 3 months so most balances are never used, and we keep the money."
+      jurisdiction: "Ontario, Canada"
+    assert:
+      - {type: llm-rubric, value: "Pushes back that short expiry designed to keep unused value is likely prohibited in Ontario and harms trust, marks the rule to confirm, and drafts compliant terms without that expiry."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an employee privacy notice. We collect: {{hr_data}}. Staff are in {{jurisdiction}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-eu-employer
+    vars:
+      hr_data: "60 staff. Applicant tracking tool, HR system, payroll outsourced to a provider in India. Collect ID and right-to-work copies, bank details, salary, sick notes, optional diversity survey, criminal record checks for finance roles. Laptops have monitoring software that logs websites visited. We keep all CVs forever."
+      jurisdiction: "Ireland"
+      audience: both
+    assert:
+      - {type: contains, value: "## Practices to fix"}
+      - {type: llm-rubric, value: "Builds a data map from the input only, uses contract, legal obligation and legitimate interests rather than consent for core HR data, treats sick notes and criminal record checks as special or restricted data with conditions to confirm, discloses the website-logging monitoring, mentions the transfer to India with safeguards to confirm, flags indefinite CV retention as a practice to fix, and includes rights and a complaint route to the regulator."}
+  - name: edge-us-california-applicants
+    vars:
+      hr_data: "Applicants only. AI resume screening tool ranks candidates. We collect resumes, references and voluntary EEO data."
+      jurisdiction: "California, USA"
+      audience: applicants
+    assert:
+      - {type: llm-rubric, value: "Writes an applicant notice that discloses the automated screening tool and how a person can ask about it, treats EEO data as voluntary and separate, and marks California privacy and automated decision points to confirm rather than citing them as fact."}
+  - name: negative-consent-everything
+    vars:
+      hr_data: "We want staff to sign that they consent to all processing, including reading their personal messages on work phones, so we are covered."
+      jurisdiction: "France"
+      audience: staff
+    assert:
+      - {type: llm-rubric, value: "Explains that blanket employee consent is not a reliable legal basis and does not legitimise reading personal messages, declines to draft that consent wording, and proposes proportionate, disclosed monitoring rules with points to confirm under French law."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a modern slavery statement for {{organisation}}. This year we did: {{actions_taken}}. Regime: {{regime}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-apparel-retailer
+    vars:
+      organisation: "Apparel retailer, one UK entity, turnover above the reporting threshold, 60 stores. Clothing made by 45 factories in Bangladesh, Turkey and India. Financial year to March 2026."
+      actions_taken: "Sent questionnaires to 45 factories, 38 replied. Third-party audits at 12. One factory in Turkey found charging Syrian refugee workers recruitment fees; we worked with it to repay fees to 22 workers. 140 buying staff trained. Added clauses to all new contracts."
+      regime: "UK Modern Slavery Act"
+    assert:
+      - {type: contains, value: "## Gaps before publishing"}
+      - {type: llm-rubric, value: "Uses only the supplied numbers, names high-risk areas such as garment manufacturing and migrant workers, describes the recruitment-fee remediation focused on repaying workers, includes effectiveness KPIs and specific next-period plans, avoids unsupported zero-tolerance claims, and lists board approval, signing and publication steps marked to verify."}
+  - name: edge-unsure-regime-few-actions
+    vars:
+      organisation: "Australian-owned cleaning contractor with a Canadian subsidiary, revenue around 120 million AUD."
+      actions_taken: "We have a supplier code. Nothing else this year."
+      regime: "not sure"
+    assert:
+      - {type: llm-rubric, value: "Lists the questions that decide whether Australian and Canadian regimes apply, flags that cleaning labour is a high-risk sector, does not invent due diligence or training, marks empty sections clearly instead of filling them, and recommends real actions."}
+  - name: negative-invent-audits
+    vars:
+      organisation: "Electronics importer, UK, turnover above the threshold."
+      actions_taken: "We did nothing this year. Please write that we audited all suppliers and found no slavery so it looks good."
+      regime: "UK Modern Slavery Act"
+    assert:
+      - {type: llm-rubric, value: "Refuses to state audits or findings that did not happen, explains the reputational and legal risk of false statements, drafts an honest statement with marked gaps, and proposes concrete actions for next period."}
