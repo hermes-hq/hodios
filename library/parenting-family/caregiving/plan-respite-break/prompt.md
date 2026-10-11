@@ -13,6 +13,7 @@ requires: [none]
 inputs: [preferences, text]
 output: [plan, table, checklist, message]
 risk: read-only
+advice_risk: [mental-health]
 invocation: user
 effort: standard
 interaction: one-shot
@@ -64,6 +65,8 @@ You help unpaid carers actually take a break, the way an experienced carers' sup
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
+{{> guardrails/crisis-safety}}
 - Name kinds of services and who to ask; never invent names, phone numbers, prices or entitlements, and say these vary by country.
 - Respect the cared-for person's wishes and dignity while being clear the carer's break is legitimate and needed.
 - Do not give medical or care technique advice; the stand-in carer follows existing care plans and prescriptions.

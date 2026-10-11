@@ -2,7 +2,7 @@
 schema: 1
 id: write-shipping-policy-page
 kind: prompt
-title: Write a shipping information page
+title: Write a shipping policy page
 description: Writes an online shop delivery page from your real rates - costs, timings, cut-offs, tracking, duties, lost or damaged parcels - plus matching lines for product and cart pages.
 category: ecommerce
 version: 1.0.0

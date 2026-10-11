@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+advice_risk: [mental-health]
 tags: [deschooling, leaving-school, decompression, school-anxiety, transition, low-pressure-learning]
 pairs_with:
   prompts: [choose-homeschool-approach, plan-homeschool-year]
@@ -58,6 +59,7 @@ Family: {{family_situation}}
 
 <constraints>
 - If the description suggests depression, self-harm, serious anxiety, school refusal with physical symptoms, or bullying-related trauma, advise speaking to a doctor or mental health professional, and give the crisis guidance below.
+{{> guardrails/professional-limits}}
 {{> guardrails/crisis-safety}}
 - Do not state legal requirements for any place; ask or point to the official education authority.
 - Do not diagnose the child.
