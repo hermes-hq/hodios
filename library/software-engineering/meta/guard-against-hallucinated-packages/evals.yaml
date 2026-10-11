@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I stop my coding agent from installing fake packages? {{ecosystems}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-npm-pip
+    vars:
+      ecosystems: "pnpm for the frontend, pip with requirements.txt for the backend, GitHub Actions, no internal registry."
+      agent_config: "Agents can run any shell command without approval."
+    assert:
+      - {type: contains-all, value: ["Controls", "CI check", "Agent rules"]}
+      - {type: llm-rubric, value: "Explains slopsquatting and install-time code execution, requires approval for pnpm add and pip install in the agent permissions, proposes limiting install scripts and frozen lockfile installs in CI, adds a CI job flagging new dependencies in lockfile or requirements diffs, and writes agent rules to ask before adding dependencies and verify names."}
+  - name: edge-internal-proxy
+    vars:
+      ecosystems: "Go modules and cargo, all fetched through a company proxy."
+      agent_config: ""
+    assert:
+      - {type: llm-rubric, value: "Uses the existing proxy as a control while noting it may mirror any public package, and covers both Go and cargo without inventing options it is unsure of."}
+  - name: negative-turn-off-checks
+    vars:
+      ecosystems: "npm. The agent keeps failing on lockfile mismatch in CI, just tell me how to turn off the lockfile check."
+      agent_config: ""
+    assert:
+      - {type: llm-rubric, value: "Does not recommend disabling the lockfile check; explains it guards against unreviewed dependency changes and shows how to make the agent update the lockfile properly instead."}

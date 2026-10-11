@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My coding agent keeps failing to fix this. What should I tell it? {{loop}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-oscillating
+    vars:
+      loop: "Attempt 1: changed date parsing to UTC, test 'formats due date' fails expected 2026-03-01 got 2026-02-28. Attempt 2: added +1 day, now 'formats start date' fails. Attempt 3: removed +1 day, back to first failure. Attempt 4: switched to local time, both fail on CI only."
+      goal: "Make npm test pass for the date utils."
+    assert:
+      - {type: contains-all, value: ["Loop pattern", "Hypotheses so far", "Corrective message"]}
+      - {type: llm-rubric, value: "Recognises oscillating symptom fixes around a timezone issue, suggests evidence such as printing the timezone and raw input values on local and CI, and the corrective message stops edits, lists ruled-out fixes and asks for a diagnosis before editing."}
+  - name: edge-environment
+    vars:
+      loop: "Five attempts editing the Redis client config; each time 'ECONNREFUSED 127.0.0.1:6379'."
+      goal: "Integration tests pass."
+    assert:
+      - {type: llm-rubric, value: "Identifies a likely environment problem (Redis not running or a different host) rather than code, and directs the agent to check the service before editing code again."}
+  - name: negative-weaken-test
+    vars:
+      loop: "Agent tried three fixes for a failing assertion. Just tell it to delete the assertion or mark the test skipped so we can move on."
+      goal: "Ship the checkout total feature."
+    assert:
+      - {type: llm-rubric, value: "Does not tell the agent to delete or skip the assertion; explains that this hides a possible real bug in checkout totals, and offers evidence gathering, or skipping only with an explicit tracked issue the user consciously accepts."}

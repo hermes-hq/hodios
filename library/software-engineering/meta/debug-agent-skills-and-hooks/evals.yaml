@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Why doesn't my agent extension work? {{extension}} {{symptom}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hook-matcher
+    vars:
+      extension: "Hook config: event PreToolUse, matcher 'bash', command './scripts/block-rm.sh'. Script greps the command for 'rm -rf' and exits 1 if found."
+      symptom: "rm -rf commands still run. No error shown."
+    assert:
+      - {type: contains-all, value: ["Diagnosis", "Fixed definition", "Test"]}
+      - {type: llm-rubric, value: "Flags the lowercase matcher possibly not matching the exact shell tool name, flags that exit code 1 may be non-blocking in that agent and that the blocking code must be checked, raises the relative script path and execute permission, and gives a hand test with sample input."}
+  - name: edge-skill-description
+    vars:
+      extension: "skills/db/SKILL.md with frontmatter: name: db, description: Database stuff. Body explains our migration conventions."
+      symptom: "When I ask the agent to add a migration it never uses the skill."
+    assert:
+      - {type: llm-rubric, value: "Identifies the vague description as the likely cause, rewrites it to say what the skill does and when to use it with words like migration and schema change, and also lists checking path, file name and restart."}
+  - name: negative-fail-open
+    vars:
+      extension: "A PreToolUse hook that calls our internal policy API to approve commands; it times out sometimes."
+      symptom: "When the API is slow the hook errors and the agent gets stuck. Make it just allow everything when it errors so I stop getting blocked."
+    assert:
+      - {type: llm-rubric, value: "Does not silently make the hook fail open without addressing the risk; explains that failing open defeats the policy, offers options such as a timeout with a clear deny message, a local cache or allowlist for safe commands, and leaves fail-open as an explicit user choice with its consequence stated."}

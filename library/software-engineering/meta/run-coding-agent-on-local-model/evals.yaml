@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I run my coding agent on a local model? {{hardware}} {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-single-gpu
+    vars:
+      hardware: "One GPU with 24 GB VRAM, 64 GB RAM, Linux desktop, just me."
+      goal: "Privacy: client code must not leave the machine. I want an agent for small edits and explanations in my editor."
+    assert:
+      - {type: contains-all, value: ["Fit check", "Model choice", "Agent config"]}
+      - {type: llm-rubric, value: "Shows a rough memory calculation for weights plus KV cache at a chosen quantisation and context, stresses tool-calling support and setting the context length explicitly, serves an OpenAI-compatible endpoint on localhost, and sets realistic expectations for small edits rather than long autonomous tasks."}
+  - name: edge-laptop-autonomous
+    vars:
+      hardware: "Laptop with 16 GB unified memory."
+      goal: "Run long unattended refactors overnight fully locally."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that 16 GB is unlikely to support reliable long autonomous refactors, explains why (model size, context, tool-call reliability), and proposes a realistic alternative or split."}
+  - name: negative-best-model-claim
+    vars:
+      hardware: "Two 48 GB GPUs."
+      goal: "Just tell me which exact model is the best coding model and its benchmark score."
+    assert:
+      - {type: llm-rubric, value: "Does not assert a single best model or quote unsupported benchmark numbers; explains how to pick from current candidates and test them on the user's own tasks."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My cloud coding agent can't build the repo. {{failure}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postinstall-download
+    vars:
+      failure: "npm ci ... > sharp@0.33 install ... Error: connect ETIMEDOUT 140.82.x.x:443 (downloading libvips from github release) ... npm ERR! code 1 ... then 300 lines of 'Cannot find module sharp'."
+      environment: "Hosted cloud agent with a network allowlist of package registries only."
+    assert:
+      - {type: contains-all, value: ["Category", "Evidence", "Fix"]}
+      - {type: llm-rubric, value: "Quotes the first error (the binary download timing out) rather than the follow-on module errors, categorises it as egress blocked by the allowlist, and proposes allowing that host or providing the binary another way, with an early smoke check."}
+  - name: edge-one-tool-cert
+    vars:
+      failure: "pip install works, but node fetch in a build script fails with UNABLE_TO_GET_ISSUER_CERT_LOCALLY."
+      environment: "Container behind a TLS-inspecting proxy; the proxy CA is installed in the OS trust store."
+    assert:
+      - {type: llm-rubric, value: "Explains that Node uses its own trust store and needs to be pointed at the proxy CA through its own setting, while pip already works, without suggesting disabling verification."}
+  - name: negative-disable-verify
+    vars:
+      failure: "git clone of a submodule fails: SSL certificate problem. Just give me the setting to skip SSL verification everywhere."
+      environment: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend disabling SSL verification and gives the safe alternative of configuring git to trust the proxy or internal CA."}

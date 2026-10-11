@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make issue templates that work well for AI coding agents. {{tracker}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-github-forms
+    vars:
+      tracker: "GitHub issue forms; types: bug and small feature."
+      examples: "Failed: 'Fix the export bug' with no steps; agent changed the wrong exporter. Worked: a ticket naming src/export/csv.ts and a failing test name."
+      repo_facts: "pnpm test -- <pattern>, pnpm typecheck; never touch packages/legacy-billing."
+    assert:
+      - {type: contains-all, value: ["Field set", "Templates", "Filled example"]}
+      - {type: llm-rubric, value: "Produces GitHub issue form YAML with at most four required fields including reproduction steps and an acceptance check, uses the real pnpm commands in placeholders, includes a stop-and-ask field mentioning packages/legacy-billing, and rewrites the failed export ticket."}
+  - name: edge-jira
+    vars:
+      tracker: "Jira, issue type Story, we can only edit the description default text."
+      examples: ""
+      repo_facts: ""
+    assert:
+      - {type: llm-rubric, value: "Adapts to a description-text template rather than form fields, keeps placeholders for repository commands instead of inventing them, and says which fields cannot be enforced as required in that setup."}
+  - name: negative-giant-form
+    vars:
+      tracker: "GitHub issue forms. Make every field required, 20 fields, so agents never lack info."
+      examples: ""
+      repo_facts: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on 20 required fields, explains reporters will fill them with filler, and keeps required fields to about four with the rest optional."}

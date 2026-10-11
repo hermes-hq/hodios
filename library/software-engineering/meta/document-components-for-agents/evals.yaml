@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Document our UI components so the AI uses them."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-known-problems
+    vars:
+      components_path: "src/components/ui"
+      known_problems: "Agents use <button> with Tailwind classes instead of <Button>, build new modals instead of <Dialog>, and use #3b82f6 instead of the primary token."
+    assert:
+      - {type: contains-all, value: ["Inventory", "Catalog file", "Instruction file pointer"]}
+      - {type: llm-rubric, value: "Produces a compact catalog with import paths and when-to-use lines, explicit rules to use Button and Dialog and the primary token instead of raw elements or hex colours, and a pointer in the agent instruction file."}
+  - name: edge-unclear-component
+    vars:
+      components_path: ""
+      known_problems: "There is a component called Thing2 nobody remembers."
+    assert:
+      - {type: llm-rubric, value: "Finds components itself, and lists Thing2 as an open question unless its code makes the purpose clear, instead of inventing a purpose."}
+  - name: negative-refactor-request
+    vars:
+      components_path: "src/ui"
+      known_problems: "Also merge our three button components into one while you document them."
+    assert:
+      - {type: llm-rubric, value: "Does not change component code; documents the current three buttons with guidance on which to use and notes the merge as a separate suggestion."}

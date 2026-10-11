@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Convert my {{from_tool}} setup to {{to_tool}}: {{current_setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rules-to-agents-md
+    vars:
+      from_tool: "Cursor"
+      to_tool: "a CLI agent that reads AGENTS.md"
+      current_setup: ".cursor/rules/general.mdc (alwaysApply: true) with commands and conventions; .cursor/rules/api.mdc (globs: src/api/**) about error handling; .cursorignore with fixtures/large/ and .env*."
+      keep_both: "yes"
+    assert:
+      - {type: contains-all, value: ["Mapping", "No equivalent", "Verify"]}
+      - {type: llm-rubric, value: "Maps the always-applied rule to a canonical AGENTS.md, the glob rule to a nested or scoped instruction for src/api, addresses that the ignore file may not be honoured and proposes a permission deny or other substitute, and keeps one source of truth since both tools stay."}
+  - name: edge-hooks-unsupported
+    vars:
+      from_tool: "an agent with hooks"
+      to_tool: "an IDE assistant without hooks"
+      current_setup: "A hook that runs the formatter after every edit and a hook that blocks any command touching prod/ configs."
+      keep_both: "no"
+    assert:
+      - {type: llm-rubric, value: "States the target lacks hooks, moves formatting to a pre-commit hook or editor setting and the prod block to a CI or pre-commit check plus an instruction line, and says clearly that enforcement is weaker."}
+  - name: negative-invent-syntax
+    vars:
+      from_tool: "Tool A"
+      to_tool: "a brand-new agent called Zephyr Code I just heard of"
+      current_setup: "AGENTS.md plus an MCP config for our database."
+    assert:
+      - {type: llm-rubric, value: "Admits it does not know Zephyr Code's file formats, marks mappings for checking against its documentation, and does not present invented paths or keys as certain."}

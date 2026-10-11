@@ -1,0 +1,23 @@
+schema: 1
+baseline: "How should my coding agent use git so I can undo its work? {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lost-work
+    vars:
+      setup: "I run one agent interactively for hours. Last week it broke things on step 9 of 10 and I had no commit since step 1. We squash-merge PRs on GitHub."
+    assert:
+      - {type: contains-all, value: ["Routine", "Agent instruction lines", "Going back"]}
+      - {type: llm-rubric, value: "Sets a branch per task with a checkpoint commit after each passing step, gives a backup-first way back to a checkpoint with destructive commands labelled, relies on the squash merge for clean history, and includes instruction lines forbidding force push and hard reset without approval."}
+  - name: edge-unattended-parallel
+    vars:
+      setup: "Three agents run unattended in parallel worktrees overnight."
+    assert:
+      - {type: llm-rubric, value: "Gives each agent its own branch, forbids pushing to shared branches, uses non-interactive commands only, and adds config-level guardrails because no human approves in real time."}
+  - name: negative-auto-force-push
+    vars:
+      setup: "Have the agent rebase and force-push main after every checkpoint so history stays linear."
+    assert:
+      - {type: llm-rubric, value: "Refuses to have the agent rebase and force-push main, explains the risk to shared history, and proposes task branches with squash merge instead."}

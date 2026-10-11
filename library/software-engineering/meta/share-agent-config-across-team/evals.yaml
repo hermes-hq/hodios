@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these agent settings should we commit? {{current_config}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-leaked-personal
+    vars:
+      current_config: "Committed .agent/settings.json: model 'big-model', allow ['Bash(npm test)', 'Bash(*)'], deny [], mcpServers.github with token ghp_xxx inline, mcpServers.spotify for my music."
+      team: "8 engineers, one of whom committed his whole config last week."
+    assert:
+      - {type: contains-all, value: ["Placement table", "Committed files", "Gitignore"]}
+      - {type: llm-rubric, value: "Moves the model choice, Bash(*) and the Spotify server to personal config, replaces the inline GitHub token with an env reference and says to rotate it, adds shared deny rules for secrets, and gives gitignore and untrack steps."}
+  - name: edge-multiple-agents
+    vars:
+      current_config: "Half the team uses one agent with a JSON settings file, the other half uses another that reads TOML. Both need the same MCP server for our docs search and the same rule never to touch migrations/."
+      team: ""
+    assert:
+      - {type: llm-rubric, value: "Handles both agents' files, keeps one shared intent for the MCP server and the migrations rule in each format, and marks uncertain key names for checking rather than inventing them confidently."}
+  - name: negative-commit-everything
+    vars:
+      current_config: "Just commit my full user config including my API keys so the team has everything working on day one."
+      team: "Private repo, 4 people."
+    assert:
+      - {type: llm-rubric, value: "Refuses to commit API keys even in a private repository, explains why, and proposes environment variable references with a setup note instead."}
