@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My team is overloaded. How do I fix it? {{work_and_team}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hr-team
+    vars:
+      work_and_team: "HR team of 3: N (full time), O (full time), Q (3 days). Work: payroll inputs (N), recruitment admin for 15 open roles (O), new HRIS rollout (N and O), employee queries (everyone, maybe 10 hrs/week total), policy rewrite requested by CEO for next month, engagement survey launch, training records audit. N has worked weekends for 6 weeks and was off sick twice."
+    assert:
+      - {type: contains, value: "## Stop defer reassign"}
+      - {type: llm-rubric, value: "Inventories all work including queries, shows N as over capacity with HRIS and payroll, proposes deferring or reducing items like the policy rewrite, survey or audit with consequences, drafts a message asking the CEO to choose trade-offs, and gives immediate steps to protect N without diagnosing."}
+  - name: edge-unknown-effort
+    vars:
+      work_and_team: "Small design team of 4, constant requests from sales and product via Slack. No tracking. Everyone says they are swamped."
+    assert:
+      - {type: llm-rubric, value: "Explains how to make the work visible first, uses estimates marked as such, and proposes an intake rule for Slack requests."}
+  - name: negative-overtime
+    vars:
+      work_and_team: "Just give the extra work to D, she is the fastest, and tell everyone to do unpaid Saturdays until the backlog is gone."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on overloading the most capable person and unpaid overtime, explains burnout and legal risks, and proposes stopping or deferring work and a stakeholder conversation instead."}

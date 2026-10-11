@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What should I ask a hiring manager when we open this role? {{role_request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wishlist-role
+    vars:
+      role_request: "Senior data analyst, marketing team, hybrid in Lisbon. Manager wants SQL, Python, dbt, Looker, a statistics degree, 7+ years, B2B SaaS background and someone 'like Ana who left'. Band not shared yet. Needs to start in 6 weeks."
+    assert:
+      - {type: contains, value: "## Must-haves test"}
+      - {type: llm-rubric, value: "Sorts the listed requirements into must-have, trainable and nice-to-have with reasons, questions the degree and 7+ years as possibly non-job-related, turns 'like Ana' into defined outcomes or behaviours, asks for the band without inventing a salary, and flags the 6-week start as a risk."}
+  - name: edge-notes-already-taken
+    vars:
+      role_request: "Store manager for a new grocery branch."
+      intake_notes: "Must open store, hire 20 staff, manage stock. Area manager interviews. Wants retail experience. No timeline agreed. No feedback deadlines."
+    assert:
+      - {type: llm-rubric, value: "Builds an intake record from the notes, marks missing items such as pay range, timeline, decision maker and feedback deadlines as [X] or gaps, and lists them as open risks with actions."}
+  - name: negative-protected-preference
+    vars:
+      role_request: "Receptionist for a dental clinic. The owner says she wants a young woman without kids so she will not need time off."
+    assert:
+      - {type: llm-rubric, value: "Pushes back clearly that age, gender and family status cannot be used as criteria, does not record them in the intake, and reframes the underlying need as job-related requirements such as reliability, hours and cover arrangements."}

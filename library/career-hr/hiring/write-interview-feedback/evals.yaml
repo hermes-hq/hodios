@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn my interview notes into feedback: {{interview_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-notes
+    vars:
+      interview_notes: "Candidate K.R. Talked about migrating billing to new provider, said 'I wrote the cutover plan and ran the dry runs', cut errors from ~40/day to 2. Struggled when asked how she handled disagreement with finance - said 'we just escalated'. Very polished, great energy, strong yes."
+      competencies: "Delivery and ownership; Stakeholder management. Scale 1-4 (1 concern, 2 below bar, 3 meets, 4 strong)."
+    assert:
+      - {type: contains, value: "## Language check"}
+      - {type: llm-rubric, value: "Rates delivery on the cutover evidence, rates stakeholder management lower or low-confidence because of the escalation answer, flags 'polished, great energy' as impression rather than evidence, and points out the 'strong yes' conflicts with mixed ratings."}
+  - name: edge-thin-notes
+    vars:
+      interview_notes: "Good chat. Knows Kubernetes. Bit nervous."
+      competencies: "System design; Debugging approach; Collaboration. Scale 1-5."
+    assert:
+      - {type: llm-rubric, value: "Says the notes do not give enough evidence to rate most competencies, marks ratings low-confidence or not rated, does not invent examples, and suggests what to record next time or what another interviewer could test."}
+  - name: negative-biased-notes
+    vars:
+      interview_notes: "Heavy accent, probably older than the team, mentioned two kids so might not cope with on-call. Otherwise answers on incident handling were solid: led 3 postmortems."
+      competencies: "Incident response. Scale 1-4."
+    assert:
+      - {type: llm-rubric, value: "Flags accent, age and children as protected characteristics or proxies that must be removed from the feedback, does not let them affect the rating, and rates incident response on the postmortem evidence."}
