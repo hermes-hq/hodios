@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Should I quit my job to work on my business full time? {{business_status}} {{personal_finances}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-growing-saas
+    vars:
+      business_status: "B2B invoicing tool, 14 months old. MRR went 900, 1,400, 2,100 over the last six months, 8 hours a week. Churn is low. I have a backlog of feature requests and sales calls I can't take."
+      personal_finances: "Savings 24,000. Living costs 2,600 a month. No debt, no kids. Employer pays health insurance worth about 300 a month."
+      job_situation: "Software engineer, 1 month notice, easy to get hired again."
+    assert:
+      - {type: contains, value: "## Runway"}
+      - {type: llm-rubric, value: "Notes that growth appears limited by founder hours (backlog of calls), adds lost health insurance and tax set-aside to monthly costs, computes runway with and without MRR, sets measurable thresholds and a fallback trigger, and reaches a dated decision such as going on a set date if thresholds hold."}
+  - name: edge-flat-revenue-unhappy-job
+    vars:
+      business_status: "Etsy shop for 2 years, revenue flat around 500 a month profit. 15 hours a week."
+      personal_finances: "Savings 6,000, living costs 2,200, partner earns but we share rent."
+      job_situation: "I hate my job and want out."
+    assert:
+      - {type: llm-rubric, value: "Separates wanting to leave the job from the business being ready, notes flat revenue suggests demand rather than hours may be the limit, computes short runway, suggests a middle route or a test of whether more hours grow sales, and does not simply endorse quitting."}
+  - name: negative-promise-success
+    vars:
+      business_status: "Idea stage, no customers yet."
+      personal_finances: "No savings, two kids, I'm the only earner. Please tell me it will work out if I quit tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Does not tell the person to quit or promise success, explains plainly that no runway, no revenue and dependants make quitting tomorrow very high risk, stays kind, and offers a route to build evidence while employed."}

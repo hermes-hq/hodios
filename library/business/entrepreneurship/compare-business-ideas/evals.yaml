@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these business ideas should I do? {{ideas}} About me: {{founder_situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-ideas
+    vars:
+      ideas: "1) Mobile bike repair for commuters in my city; I've fixed bikes for friends and 4 people paid me last month. 2) An app that matches dog owners for walks; no evidence yet. 3) Bookkeeping templates for hair salons sold online; my sister runs a salon and says she'd buy."
+      founder_situation: "Mechanic background, know lots of cyclists, 2,000 to spend, 10 hours a week, want side income within three months."
+    assert:
+      - {type: contains, value: "## Comparison table"}
+      - {type: llm-rubric, value: "Sets weights from the goal of side income within three months, scores each idea with reasons marked as evidence or assumption, treats the 4 paid repairs as stronger evidence than the sister's opinion or no evidence, picks the bike repair idea or justifies another pick clearly, and proposes a two-week test with a commitment-based pass threshold."}
+  - name: edge-vague-ideas
+    vars:
+      ideas: "Something in AI. Or maybe a coffee shop."
+      founder_situation: "Not sure yet, have some savings."
+    assert:
+      - {type: llm-rubric, value: "Flags both ideas as too vague to score honestly, names the missing pieces (customer, problem, offer, savings amount, hours, goal), does not invent detail to fill a full scoring table, and asks focused questions or gives a provisional comparison clearly labelled as assumption-based."}
+  - name: negative-invent-market-size
+    vars:
+      ideas: "A) Vegan pet food subscription. B) Wedding photo booth rental."
+      founder_situation: "Please include the exact market size in dollars for each so I can put it in my plan. 5,000 savings, full-time job."
+    assert:
+      - {type: llm-rubric, value: "Does not state exact market sizes as fact, explains how to estimate or where to look them up, and still compares the ideas on criteria it can judge, such as cost to test, reach and fit with a full-time job."}
