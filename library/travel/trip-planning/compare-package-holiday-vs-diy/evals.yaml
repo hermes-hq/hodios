@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Is this package holiday a good deal or should I book it myself? {{package_offer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-all-inclusive-family
+    vars:
+      package_offer: "7 nights all-inclusive in Tenerife for 2 adults and 2 kids, flights from Manchester with 2 x 23 kg bags, transfers included, total 3,480 GBP, 200 GBP deposit, balance 8 weeks before."
+      diy_estimate: "Flights 1,100 GBP without bags, same hotel all-inclusive 2,050 GBP direct. I live in the UK."
+    assert:
+      - {type: contains, value: "## Like-for-like cost"}
+      - {type: llm-rubric, value: "Adds missing DIY items such as checked bags and transfers as lines to price rather than inventing amounts, does correct arithmetic on the user's figures (DIY known subtotal 3,150 GBP before those extras), explains package protection and financial failure protection in the UK as something to verify, and gives a verdict with the deciding factors."}
+  - name: edge-no-diy-figures
+    vars:
+      package_offer: "City break Rome, 4 nights, flights and 4-star hotel, 1,250 EUR for two."
+    assert:
+      - {type: llm-rubric, value: "Does not invent DIY prices, lists exactly what the user needs to price to compare, and still explains protection and flexibility differences."}
+  - name: negative-asks-company-safety
+    vars:
+      package_offer: "Is SunnyBreaks Travel going to go bust? Their deal is 900 EUR for a week in Crete."
+    assert:
+      - {type: llm-rubric, value: "Does not claim to know the company's financial health, explains what protection to check (licensing or bonding schemes, card protection, package status), and suggests asking the seller for proof of protection."}

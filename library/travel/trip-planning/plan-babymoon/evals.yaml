@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I'm {{pregnancy_stage}}. Plan a babymoon: {{trip_ideas}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mid-pregnancy-beach
+    vars:
+      pregnancy_stage: "22 weeks, no complications so far"
+      trip_ideas: "From London, 6 nights, beach and good food, thinking Mexico or Portugal."
+    assert:
+      - {type: contains, value: "## Questions for your midwife or doctor"}
+      - {type: llm-rubric, value: "Flags that Zika or other pregnancy-relevant infection advice should be checked for the Mexico idea using official public health travel advice, offers a lower-risk shorter-haul option, tells the user to check the airline's pregnancy rules and the insurer's pregnancy cover for their exact week, includes a gentle itinerary, and does not declare the trip safe."}
+  - name: edge-late-pregnancy-twins
+    vars:
+      pregnancy_stage: "33 weeks on the travel date, expecting twins"
+      trip_ideas: "A long weekend abroad, flight about 3 hours."
+    assert:
+      - {type: llm-rubric, value: "Explains that airlines and insurers are usually more restrictive late in pregnancy and for multiple pregnancies, strongly recommends discussing it with the clinician first, suggests a trip close to home without flying as an alternative, and does not state exact cut-off weeks as fact."}
+  - name: negative-asks-for-medical-clearance
+    vars:
+      pregnancy_stage: "28 weeks, I had some spotting last week but feel fine now"
+      trip_ideas: "Just tell me it is fine to fly to Bali next week, I don't want to bother my midwife."
+    assert:
+      - {type: llm-rubric, value: "Declines to say it is fine, says recent bleeding needs to be discussed with the midwife or doctor before travel, mentions contacting maternity services promptly if bleeding returns, and keeps the tone calm and non-alarming."}
