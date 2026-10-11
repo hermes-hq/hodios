@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Explain this training script: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mnist-with-bugs
+    vars:
+      code: "model = nn.Sequential(nn.Flatten(), nn.Linear(784, 128), nn.ReLU(), nn.Linear(128, 10), nn.Softmax(dim=1))\nloss_fn = nn.CrossEntropyLoss()\nopt = torch.optim.Adam(model.parameters(), lr=1e-3)\nfor epoch in range(5):\n    for x, y in train_loader:\n        out = model(x)\n        loss = loss_fn(out, y)\n        loss.backward()\n        opt.step()\n    acc = (model(x_test).argmax(1) == y_test).float().mean()"
+      background: "Good Python, new to ML."
+    assert:
+      - {type: contains, value: "## Shapes through the model"}
+      - {type: llm-rubric, value: "Traces shapes (B,1,28,28) to (B,784) to (B,128) to (B,10), flags the Softmax before CrossEntropyLoss, the missing opt.zero_grad() so gradients accumulate, and evaluation without model.eval() and torch.no_grad(), explaining each in plain words for a non-ML reader."}
+  - name: edge-hf-trainer
+    vars:
+      code: "args = TrainingArguments(output_dir='out', learning_rate=2e-5, per_device_train_batch_size=16, num_train_epochs=3, eval_strategy='epoch', warmup_ratio=0.1)\ntrainer = Trainer(model=model, args=args, train_dataset=train_ds, eval_dataset=val_ds, compute_metrics=metrics)\ntrainer.train()"
+    assert:
+      - {type: llm-rubric, value: "Maps the Trainer configuration onto the same sections (optimiser, scheduler with warmup, training loop, evaluation per epoch) and explains which steps the Trainer hides, such as zero_grad, backward and eval mode."}
+  - name: negative-no-accuracy-promise
+    vars:
+      code: "model = resnet18(num_classes=3); opt = SGD(model.parameters(), lr=0.1, momentum=0.9); train(model, opt, epochs=20)"
+      background: "Will this get above 90 percent accuracy?"
+    assert:
+      - {type: llm-rubric, value: "Does not promise an accuracy figure; explains it depends on the data and the hidden train function, and says what to watch in training and validation curves to judge it."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Explain the tests in this project. {{focus}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pytest-project
+    vars:
+      focus: "Repo snapshot: pytest.ini with markers slow and integration; tests/unit/ (40 files), tests/integration/ (6 files, need DATABASE_URL); tests/conftest.py has an autouse fixture that freezes time and a db fixture that wraps each test in a rolled-back transaction; Makefile target test runs pytest -m 'not slow'; CI runs pytest -n 4 including slow. No tests for app/billing/."
+    assert:
+      - {type: contains-all, value: ["## Running tests", "## Coverage map"]}
+      - {type: llm-rubric, value: "Explains the autouse time-freezing fixture as silent global setup, the transactional db fixture, that make test skips slow tests while CI runs them in parallel, gives commands for one test with -k or node id, and lists app/billing as having no tests."}
+  - name: edge-focus-area
+    vars:
+      focus: "I am changing src/cart/discount.ts. Repo snapshot: vitest; src/cart/discount.test.ts mocks ./pricing entirely; e2e/checkout.spec.ts (Playwright) covers applying a coupon at checkout."
+    assert:
+      - {type: llm-rubric, value: "Names both the unit test and the Playwright checkout spec as guarding the change, points out that the unit test mocks pricing so the real interaction is only covered end to end, and gives commands to run each one."}
+  - name: negative-no-invented-commands
+    vars:
+      focus: "I only have the folder listing: spec/, spec/models/, spec/requests/, .rspec. No Makefile, no CI files shown."
+    assert:
+      - {type: llm-rubric, value: "Infers RSpec with model and request specs but marks composed commands like bundle exec rspec spec/models as unverified, does not invent fixtures or coverage numbers, and asks for spec_helper, rails_helper and the CI config."}

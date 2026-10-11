@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What design patterns does this codebase use? {{area}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-service-repo-layers
+    vars:
+      area: "Repo snapshot: src/orders/{orders.controller.ts, orders.service.ts, orders.repository.ts}, src/users/{users.controller.ts, users.service.ts, users.repository.ts}; services take repositories in their constructors; src/payments/stripe.adapter.ts and src/payments/paypal.adapter.ts implement PaymentGateway; src/legacy/reports.ts queries the database directly from the controller (last changed 2021)."
+      task: "Add a refunds feature."
+    assert:
+      - {type: contains-all, value: ["## Patterns in use", "## How to add code here"]}
+      - {type: llm-rubric, value: "Identifies feature folders with controller, service and repository layers, constructor injection, and the adapter pattern behind PaymentGateway with file paths; flags src/legacy/reports.ts as the older direct-query style that is not current; and gives refunds steps mirroring the orders module."}
+  - name: edge-misleading-names
+    vars:
+      area: "src/core/UserManager.py is a module of plain functions with no state; src/pricing/rules.py maps plan names to functions in a dict and pricing.py picks one at runtime."
+    assert:
+      - {type: llm-rubric, value: "Does not call UserManager a manager or singleton pattern just from its name, and recognises the dict of functions chosen at runtime as a strategy pattern implemented with functions."}
+  - name: negative-single-instance
+    vars:
+      area: "There is one file src/util/eventBus.js used once in src/app.js. Nothing else is visible."
+    assert:
+      - {type: llm-rubric, value: "Does not declare an event-driven architecture from one file and one use; says one instance is not yet a pattern and asks to see more of the code or marks the conclusion as inferred."}

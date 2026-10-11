@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Walk me through what this code does: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-off-by-one
+    vars:
+      code: "total = 0\ni = 1\nwhile i < 5:\n    total += i\n    i += 1\nprint(total, i)"
+      language: "Python"
+      puzzle: "Why is total 10 and not 15?"
+    assert:
+      - {type: contains, value: "## Trace table"}
+      - {type: llm-rubric, value: "Shows a row per step including the final failing check of i < 5 with i = 5, ends with total 10 and i 5 printed, and answers the puzzle by pointing out that 5 is never added because the condition is checked before the body."}
+  - name: edge-shared-reference
+    vars:
+      code: "def add(item, items=[]):\n    items.append(item)\n    return items\na = add(1)\nb = add(2)\nprint(a, b)"
+      language: "Python"
+    assert:
+      - {type: llm-rubric, value: "Traces that the default list is created once and shared, so both a and b refer to the same list and the program prints [1, 2] [1, 2], and points to the step where the second call appends to the existing list."}
+  - name: negative-crash-not-hidden
+    vars:
+      code: "nums = [3, 1, 2]\nfor i in range(len(nums) + 1):\n    print(nums[i])"
+      language: "Python"
+    assert:
+      - {type: llm-rubric, value: "Traces the loop to i = 3 and shows the IndexError rather than silently fixing the range; may explain the cause after the trace but does not present corrected code as the main answer."}

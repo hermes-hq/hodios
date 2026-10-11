@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Explain what these dependencies do. {{manifest}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-api
+    vars:
+      manifest: "package.json: dependencies {express, prisma, @prisma/client, zod, axios, node-fetch, moment, dayjs, pino}; devDependencies {typescript, vitest, eslint, eslint-plugin-react, @types/express}. Imports found: express in src/server.ts, @prisma/client in src/db.ts, zod in src/routes/*.ts, axios in src/clients/payments.ts, dayjs in src/util/time.ts, pino in src/log.ts. No imports of node-fetch or moment."
+    assert:
+      - {type: contains-all, value: ["## Dependency by dependency", "## Overlaps and oddities"]}
+      - {type: llm-rubric, value: "Identifies express, Prisma and zod as core, flags axios and node-fetch and moment and dayjs as overlapping pairs with node-fetch and moment showing no imports found, notes prisma CLI belongs in devDependencies and eslint-plugin-react looks out of place in a backend, and cites the given file paths."}
+  - name: edge-familiar-background
+    vars:
+      manifest: "requirements.txt: django, djangorestframework, celery, redis, psycopg2-binary, sentry-sdk, pytest, pytest-django, factory-boy"
+      background: "I know Django and DRF well."
+    assert:
+      - {type: llm-rubric, value: "Keeps Django and DRF to one line each and spends the explanation on Celery with Redis as the broker, psycopg2-binary, sentry-sdk and the test tooling, and notes the test packages are mixed into the runtime requirements."}
+  - name: negative-no-unverified-claims
+    vars:
+      manifest: "go.mod: require github.com/gin-gonic/gin v1.6.0, github.com/sirupsen/logrus v1.8.1, gorm.io/gorm v1.20.0"
+    assert:
+      - {type: llm-rubric, value: "Does not claim specific CVEs or that a package is abandoned without evidence, suggests running an audit tool such as govulncheck instead, and since no code was shown, marks usage as not yet confirmed and says which imports to search for."}

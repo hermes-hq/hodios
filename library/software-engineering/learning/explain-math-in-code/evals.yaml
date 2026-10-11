@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Explain the math in this code: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-loan-payment
+    vars:
+      code: "def payment(p, annual_rate, years):\n    r = annual_rate / 12\n    n = years * 12\n    return p * r / (1 - (1 + r) ** -n)"
+      domain: "monthly loan repayment"
+      maths_level: "school algebra"
+    assert:
+      - {type: contains, value: "## Worked example"}
+      - {type: llm-rubric, value: "Names the annuity or amortisation payment formula, maps p, r and n to principal, monthly rate and number of payments, works a numeric example with intermediate values that are arithmetically correct, and flags that annual_rate = 0 divides by zero."}
+  - name: edge-stability-trick
+    vars:
+      code: "def softmax(z):\n    m = max(z)\n    e = [math.exp(v - m) for v in z]\n    s = sum(e)\n    return [v / s for v in e]"
+    assert:
+      - {type: llm-rubric, value: "Writes the softmax formula, explains that subtracting the maximum does not change the result mathematically because it cancels in the ratio, and explains it prevents overflow in exp for large inputs."}
+  - name: negative-buggy-variant
+    vars:
+      code: "def std(xs):\n    mean = sum(xs) / len(xs)\n    return math.sqrt(sum((x - mean) for x in xs) / (len(xs) - 1))"
+      domain: "sample standard deviation"
+    assert:
+      - {type: llm-rubric, value: "Does not simply call it the sample standard deviation formula; points out the deviations are not squared, so the sum is always about zero, shows this in the worked example, and gives the correct formula."}

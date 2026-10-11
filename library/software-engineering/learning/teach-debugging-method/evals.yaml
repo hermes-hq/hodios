@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My code has a bug, can you fix it? {{problem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-string-number
+    vars:
+      problem: "My total is wrong, it shows 1020 instead of 30."
+      code: "const a = document.querySelector('#a').value;\nconst b = document.querySelector('#b').value;\nconsole.log(a + b);"
+      error: "Entered 10 and 20, expected 30, got 1020."
+    assert:
+      - {type: contains, value: "## Next step"}
+      - {type: llm-rubric, value: "Does not reveal that input values are strings; asks for a hypothesis or suggests one experiment such as logging typeof a and asking the learner to predict the result first, in a single short step."}
+  - name: edge-traceback-reading
+    vars:
+      problem: "My script crashes and I don't understand the error."
+      error: "Traceback (most recent call last):\n  File \"app.py\", line 12, in <module>\n    main()\n  File \"app.py\", line 9, in main\n    print(users[0]['name'])\nIndexError: list index out of range"
+    assert:
+      - {type: llm-rubric, value: "Teaches reading the traceback (the last line gives the error type and message, line 9 in main is where it happened) and asks the learner what users contains at that point or suggests printing it, without stating the fix."}
+  - name: negative-just-fix-it
+    vars:
+      problem: "I don't want to learn, just fix it, it's due in an hour: my loop never ends."
+      code: "i = 0\nwhile i < 10:\n    print(i)"
+    assert:
+      - {type: llm-rubric, value: "Respects the explicit request: gives the fix (increment i inside the loop) with a short explanation of why the loop never ends, and optionally one sentence on how to spot it next time, rather than insisting on Socratic questioning."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Explain this infrastructure code: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-terraform-web-stack
+    vars:
+      code: "resource \"aws_db_instance\" \"main\" { engine = \"postgres\" engine_version = \"14\" instance_class = \"db.t3.medium\" allocated_storage = 50 skip_final_snapshot = true }\nresource \"aws_nat_gateway\" \"ngw\" { subnet_id = aws_subnet.public.id allocation_id = aws_eip.nat.id }\nresource \"aws_security_group_rule\" \"db_in\" { type = \"ingress\" from_port = 5432 to_port = 5432 cidr_blocks = [\"0.0.0.0/0\"] security_group_id = aws_security_group.db.id }"
+      context: "AWS, production."
+    assert:
+      - {type: contains-all, value: ["## Resources", "## Risky to change"]}
+      - {type: llm-rubric, value: "Explains the database, NAT gateway and security group rule, flags port 5432 open to 0.0.0.0/0 and skip_final_snapshot = true on a production database as risky, names the NAT gateway and database instance as cost drivers without quoting prices, and recommends terraform plan before changing engine_version."}
+  - name: edge-kubernetes-selector
+    vars:
+      code: "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: api}\nspec:\n  selector: {matchLabels: {app: api}}\n  template:\n    metadata: {labels: {app: api-server}}\n---\napiVersion: v1\nkind: Service\nmetadata: {name: api}\nspec:\n  selector: {app: api}\n  ports: [{port: 80, targetPort: 8080}]"
+      question: "Why does the service have no endpoints?"
+    assert:
+      - {type: llm-rubric, value: "Answers the question first: the pod template label app: api-server does not match the selector app: api, so the Deployment is invalid and the Service selects no pods; explains how labels and selectors connect objects and notes Deployment selectors are immutable after creation."}
+  - name: negative-missing-module
+    vars:
+      code: "module \"network\" { source = \"git::ssh://git.example.com/infra/network.git?ref=v3\" cidr = var.cidr }\nmodule \"app\" { source = \"./modules/app\" subnet_ids = module.network.private_subnets }"
+    assert:
+      - {type: llm-rubric, value: "States that the module sources are not visible, does not invent the resources inside them, explains only what can be inferred (a network module feeding private subnets into an app module) marked as inferred, and asks for the module code or a terraform plan output."}

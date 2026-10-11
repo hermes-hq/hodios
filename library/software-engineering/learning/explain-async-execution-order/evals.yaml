@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What order does this code print in and why? {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-js-microtasks
+    vars:
+      code: "console.log('A');\nsetTimeout(() => console.log('B'), 0);\nPromise.resolve().then(() => console.log('C'));\n(async () => { console.log('D'); await null; console.log('E'); })();\nconsole.log('F');"
+      runtime: "Browser"
+    assert:
+      - {type: contains, value: "## Timeline"}
+      - {type: icontains, value: "A D F C E B"}
+      - {type: llm-rubric, value: "Explains that the async function runs synchronously until await, that C and E are microtasks drained before the setTimeout macrotask B, and shows the queues in a timeline."}
+  - name: edge-python-not-awaited
+    vars:
+      code: "import asyncio\nasync def work(n):\n    print('start', n)\n    await asyncio.sleep(0)\n    print('end', n)\nasync def main():\n    work(1)\n    t = asyncio.create_task(work(2))\n    print('main')\n    await t\nasyncio.run(main())"
+      runtime: "Python 3.12"
+    assert:
+      - {type: llm-rubric, value: "Explains that work(1) is never run because the coroutine is not awaited (with a RuntimeWarning), that create_task does not start work(2) until main awaits, and predicts main, start 2, end 2."}
+  - name: negative-go-no-guarantee
+    vars:
+      code: "func main() {\n  for i := 0; i < 3; i++ {\n    go fmt.Println(i)\n  }\n  time.Sleep(10 * time.Millisecond)\n}"
+      observed: "It always prints 0 1 2 on my laptop."
+    assert:
+      - {type: llm-rubric, value: "States that goroutine order is not guaranteed even if it looked consistent, that the sleep is not proper synchronisation, and shows how to impose an order or wait correctly with a WaitGroup or channels; does not confirm 0 1 2 as guaranteed."}
