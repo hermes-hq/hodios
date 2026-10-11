@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Build a job queue in Postgres for my app: {{requirements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-and-report-jobs
+    vars:
+      requirements: "Send emails and generate PDF reports; about 2,000 jobs per minute at peak; reports take up to 3 minutes; Python with SQLAlchemy; run 4 worker processes."
+    assert:
+      - {type: contains, value: "SKIP LOCKED"}
+      - {type: llm-rubric, value: "Claims jobs in a short transaction with FOR UPDATE SKIP LOCKED and a lease (locked_until) rather than holding the lock during a 3-minute job, reclaims expired leases, retries with backoff and a dead state, adds a partial index and cleanup for bloat, states at-least-once delivery, and tests concurrent workers."}
+  - name: edge-transactional-enqueue
+    vars:
+      requirements: "When an order is placed, a fulfilment job must be created only if the order commits; Node.js with node-postgres; low volume."
+      existing: "Currently publishes to a broker after commit and sometimes loses jobs when the process restarts."
+    assert:
+      - {type: llm-rubric, value: "Enqueues the job in the same transaction as the order insert so it commits or rolls back together, explains why that fixes the lost jobs, mentions unique keys to avoid duplicates, and mentions maintained libraries as an option."}
+  - name: negative-too-much-volume
+    vars:
+      requirements: "Ingest 500,000 clickstream events per second and fan them out to five consumers with replay for 7 days."
+    assert:
+      - {type: llm-rubric, value: "Says a Postgres job queue is the wrong tool at this volume with replay and fan-out needs, recommends a log-based broker or stream instead, and does not build the Postgres queue as if it would cope."}

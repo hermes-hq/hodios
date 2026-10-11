@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should I store this in Redis? {{use_case}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-leaderboard
+    vars:
+      use_case: "Weekly leaderboard per game: add points after each match, show top 100 with names, show a player's rank and neighbours, reset weekly but keep last week's top 100."
+      scale: "40 games, up to 2M players per game per week, 5k score updates per second, Redis Cluster."
+    assert:
+      - {type: contains, value: "ZINCRBY"}
+      - {type: llm-rubric, value: "Uses a sorted set per game per week with ZINCRBY, ZREVRANGE and ZREVRANK, keeps names in hashes or fetches them separately, uses week-numbered keys with TTL instead of deleting, estimates memory for 2M members per set, and notes cluster hash tags if multi-key operations are needed."}
+  - name: edge-rate-limit
+    vars:
+      use_case: "Login attempts: max 5 per account per 15 minutes and 100 per IP per hour; must be accurate under concurrent requests."
+    assert:
+      - {type: llm-rubric, value: "Designs counters or sorted-set sliding windows per account and per IP, sets TTLs atomically with the increment (INCR plus EXPIRE in a script or SET NX EX first), handles races, and picks a key naming scheme."}
+  - name: negative-only-copy-of-orders
+    vars:
+      use_case: "Store all customer orders only in Redis as JSON strings, no other database, and list a customer's orders with KEYS order:customer123:*."
+      scale: "maxmemory-policy allkeys-lru"
+    assert:
+      - {type: llm-rubric, value: "Warns that allkeys-lru will evict orders and Redis should not be the only copy of orders without persistence, rejects KEYS in application code in favour of a per-customer set or sorted set index, and recommends a durable primary store."}

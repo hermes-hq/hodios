@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a PostGIS query: {{question}}. Schema: {{schema}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nearby-stores
+    vars:
+      question: "Find open stores within 5 km of the user's phone location, nearest first, max 20."
+      schema: "stores(id bigint, name text, is_open boolean, location geography(Point, 4326)); 400k rows; index: btree on id only."
+      input_format: "lat and lng floats from the mobile app; PostGIS 3.4"
+    assert:
+      - {type: contains, value: "ST_DWithin"}
+      - {type: llm-rubric, value: "Builds the point with longitude first, uses ST_DWithin in metres on geography for the filter and <-> or distance ordering for nearest first, adds a GiST index on location, returns distance in metres and states units and coordinate order."}
+  - name: edge-geometry-in-degrees
+    vars:
+      question: "Customers within 2 miles of each warehouse."
+      schema: "customers(id, geom geometry(Point, 4326)); warehouses(id, geom geometry(Point, 4326)); GiST indexes on both geom columns."
+    assert:
+      - {type: llm-rubric, value: "Warns that geometry in SRID 4326 measures degrees, converts 2 miles to metres, and either casts to geography with a matching expression index or uses a suitable projected SRID, explaining the index implications of the cast."}
+  - name: negative-missing-spatial-column
+    vars:
+      question: "Which delivery zone contains this address?"
+      schema: "addresses(id, street text, city text, postcode text); zones(id, name text)."
+    assert:
+      - {type: llm-rubric, value: "Points out there are no spatial columns for addresses or zone polygons, explains that addresses need geocoding and zones need polygon geometry before a containment query is possible, and does not invent columns as if they existed."}

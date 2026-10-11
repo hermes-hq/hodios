@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a Postgres function or trigger for this: {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-total-trigger
+    vars:
+      goal: "Keep orders.total_cents equal to the sum of order_items.price_cents * quantity whenever items are inserted, updated or deleted."
+      postgres_version: "PostgreSQL 16 on RDS"
+    assert:
+      - {type: contains, value: "## Migration"}
+      - {type: llm-rubric, value: "Writes an AFTER trigger that adjusts the total atomically (or recomputes under a lock) and handles INSERT, UPDATE including a changed order_id, and DELETE; discusses concurrency of two sessions changing items of the same order; considers statement-level triggers with transition tables for bulk changes; includes a down migration and tests including a bulk update."}
+  - name: edge-security-definer
+    vars:
+      goal: "A function app users can call to read aggregated usage for their own account from a table they have no direct SELECT on."
+      postgres_version: "PostgreSQL 15 on Supabase"
+    assert:
+      - {type: llm-rubric, value: "Uses SECURITY DEFINER with a pinned search_path, revokes EXECUTE from PUBLIC and grants it to the right role, derives the account from the caller's identity rather than a trusted parameter, marks volatility honestly (STABLE, not IMMUTABLE), and tests that one user cannot read another's usage."}
+  - name: negative-belongs-in-app
+    vars:
+      goal: "A trigger that calls the Stripe API to create a customer whenever a row is inserted into users."
+      postgres_version: "PostgreSQL 16"
+    assert:
+      - {type: llm-rubric, value: "Advises against calling an external API from a trigger (blocks the transaction, no retries, side effects on rollback) and recommends an app-side or outbox-plus-worker approach instead of writing the trigger as asked."}

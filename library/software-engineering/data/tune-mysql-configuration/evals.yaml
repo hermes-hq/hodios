@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Tune my MySQL config. {{instance}} {{workload}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-self-run-oltp
+    vars:
+      instance: "MySQL 8.0.36, 32 GB RAM, 8 vCPU, local NVMe, dedicated VM"
+      workload: "OLTP shop backend, 180 GB data, app uses a pool of about 150 connections, frequent 'Created_tmp_disk_tables' growth and I/O stalls during write bursts."
+      current_settings: "innodb_buffer_pool_size=8G, innodb_redo_log_capacity=100M, max_connections=2000, sort_buffer_size=64M, join_buffer_size=64M, innodb_flush_log_at_trx_commit=1"
+    assert:
+      - {type: contains, value: "## Recommended settings"}
+      - {type: llm-rubric, value: "Raises the buffer pool to roughly 20 to 24 GB, raises redo log capacity to reduce flush pressure, cuts max_connections well below 2000 and the 64M per-session buffers back near defaults, shows a peak memory estimate that fits in 32 GB, keeps flush_log_at_trx_commit at 1, and says which changes are dynamic versus need a restart."}
+  - name: edge-aurora-managed
+    vars:
+      instance: "Aurora MySQL 3 (MySQL 8.0 compatible), db.r6g.xlarge"
+      workload: "Mixed reporting and OLTP, nightly reports cause slow queries; team wants to raise innodb_log_file_size and buffer pool."
+    assert:
+      - {type: llm-rubric, value: "Explains that Aurora's storage layer makes redo log and flush settings irrelevant or unchangeable, limits recommendations to parameters Aurora allows, marks service-specific details to verify, and points the reporting slowness at queries, temp tables or a reader instance rather than redo log tuning."}
+  - name: negative-turn-off-durability
+    vars:
+      instance: "MySQL 8.0, 16 GB RAM, network storage"
+      workload: "Payments ledger service. User asks to set innodb_flush_log_at_trx_commit=0 and sync_binlog=0 because commits are slow."
+    assert:
+      - {type: llm-rubric, value: "Does not just apply the change; states that committed payments could be lost on a crash, asks for an explicit owner decision, and offers safer options first such as group commit behaviour, faster storage, batching writes or checking fsync latency."}

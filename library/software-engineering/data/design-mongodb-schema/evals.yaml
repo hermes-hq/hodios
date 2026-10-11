@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Design a MongoDB schema for: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-recipe-app
+    vars:
+      app: "Recipe sharing app: recipe page shows recipe with ingredients, steps, author name and avatar, average rating and the 5 newest reviews; users can see all reviews paginated; author profile lists their recipes; users rarely change their name."
+      scale: "200k recipes, some popular recipes have 50k reviews."
+    assert:
+      - {type: contains, value: "## Indexes"}
+      - {type: llm-rubric, value: "Embeds ingredients and steps, uses an extended reference for author name and avatar with a sync plan, uses the subset pattern for the 5 newest reviews with a separate reviews collection for the unbounded rest, stores computed rating fields, and gives compound indexes such as recipeId plus createdAt for paginated reviews."}
+  - name: edge-iot-readings
+    vars:
+      app: "Devices send a temperature reading every 10 seconds; dashboard shows the last 24 hours per device and daily averages."
+      scale: "50k devices"
+    assert:
+      - {type: llm-rubric, value: "Avoids one document per device with an unbounded readings array, uses the bucket pattern or native time series collections, adds TTL or archival, and indexes by device and time."}
+  - name: negative-relational-copy
+    vars:
+      app: "The user pasted 25 normalised SQL tables and wants each turned into a collection with $lookup joins for every page, unchanged."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a one-to-one table-to-collection mapping with $lookup everywhere, asks for or derives access patterns, and explains when MongoDB fits versus keeping a relational database."}

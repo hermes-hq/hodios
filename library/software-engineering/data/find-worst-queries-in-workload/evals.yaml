@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Which of these queries should I optimise? {{stats}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pg-stat-statements
+    vars:
+      context: "PostgreSQL 15, 8 vCPU, CPU at 85% during business hours; stats reset 24 hours ago."
+      stats: |
+        query | calls | total_ms | mean_ms | rows | shared_blks_read
+        SELECT * FROM products WHERE id = $1 | 9,800,000 | 4,900,000 | 0.5 | 9,800,000 | 120,000
+        SELECT ... FROM orders WHERE customer_id = $1 ORDER BY created_at DESC | 410,000 | 3,690,000 | 9.0 | 52,000,000 | 9,400,000
+        SELECT count(*) FROM events WHERE created_at > $1 | 1,440 | 1,296,000 | 900 | 1,440 | 31,000,000
+        UPDATE sessions SET last_seen = now() WHERE id = $1 | 6,000,000 | 900,000 | 0.15 | 6,000,000 | 2,000
+    assert:
+      - {type: contains, value: "## Ranked queries"}
+      - {type: llm-rubric, value: "Ranks by total time, identifies the products lookup as likely N+1 or cacheable app pattern rather than a slow query, flags the orders query for over-fetching (127 rows per call) and heavy reads, notes the events count as a scan worth an index or summary, and picks top fixes with next steps such as checking plans."}
+  - name: edge-mysql-slow-log
+    vars:
+      context: "MySQL 8.0 on a managed service; slow log with long_query_time = 1s for one day; complaint about checkout being slow."
+      stats: "Digest summary: 1) SELECT ... FROM cart_items JOIN products ... 12,000 calls, avg 1.4 s, rows examined avg 2.1M, rows sent 6. 2) Monthly report query, 3 calls, avg 95 s."
+    assert:
+      - {type: llm-rubric, value: "Notes the slow log with a 1s threshold hides fast but frequent queries, ranks the cart query first by total time and huge rows examined versus sent, deprioritises the monthly report despite its high mean, and suggests checking the plan and indexes for the join."}
+  - name: negative-no-data
+    vars:
+      context: "Postgres, the app feels slow."
+      stats: "We don't have any stats."
+    assert:
+      - {type: llm-rubric, value: "Does not guess which queries are slow; gives read-only steps to enable and query pg_stat_statements and a collection window, and stops."}

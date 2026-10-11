@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do I use SQLite in production for my app? {{app}} {{problem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-database-locked
+    vars:
+      app: "Python FastAPI with SQLAlchemy and the stdlib sqlite3 driver, one VM, about 50 writes per second, 500 reads per second."
+      problem: "Intermittent 'database is locked' errors under load."
+    assert:
+      - {type: contains, value: "busy_timeout"}
+      - {type: llm-rubric, value: "Sets WAL, busy_timeout, synchronous NORMAL and foreign_keys on every connection via a SQLAlchemy connect event, explains BEGIN IMMEDIATE for write transactions, suggests a single writer or serialised writes, adds off-host backups such as Litestream with restore test, and verifies with a concurrency test."}
+  - name: edge-containers
+    vars:
+      app: "Node.js app in containers on a platform that redeploys often; SQLite file inside the container image directory."
+      problem: "Data disappears after each deploy."
+    assert:
+      - {type: llm-rubric, value: "Identifies the ephemeral container filesystem as the cause, requires a persistent local volume (not a network file system) and a single instance, and adds continuous backup with a tested restore."}
+  - name: negative-multi-server-writes
+    vars:
+      app: "Five web servers behind a load balancer all writing to one SQLite file on an NFS share."
+    assert:
+      - {type: llm-rubric, value: "Says this setup is unsafe because SQLite locking over NFS is unreliable and multiple servers cannot share one writer safely, and recommends a client-server database or a single-writer architecture instead of tuning pragmas."}

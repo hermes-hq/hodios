@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an Elasticsearch query for: {{need}}. Mapping: {{mapping}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-search-facets
+    vars:
+      need: "Product search: text box over name and description, filter by category and price range, only in-stock items, brand facet counts, 24 per page by relevance."
+      mapping: "name: text with keyword subfield; description: text; category: keyword; brand: keyword; price: scaled_float; in_stock: boolean."
+      engine: "Elasticsearch 8.13, JavaScript client"
+    assert:
+      - {type: contains, value: "filter"}
+      - {type: llm-rubric, value: "Puts category, price and in_stock in bool.filter, uses multi_match with name boosted over description, uses a terms aggregation on brand with post_filter so brand selection does not hide other brand counts, and explains ranking and from/size limits."}
+  - name: edge-deep-export
+    vars:
+      need: "Let support staff page through all 2 million tickets matching a filter, sorted by created_at, for export."
+      mapping: "ticket_id: keyword; created_at: date; status: keyword; body: text."
+      engine: "OpenSearch 2.11"
+    assert:
+      - {type: llm-rubric, value: "Rejects from/size for this depth, uses search_after with created_at plus a unique tiebreaker such as ticket_id, mentions point-in-time for a consistent view as supported in OpenSearch, and keeps the filter non-scoring."}
+  - name: negative-term-on-text-field
+    vars:
+      need: "Exact filter on customer email and sort by customer name."
+      mapping: "email: text (standard analyzer, no subfields); customer_name: text (no subfields)."
+    assert:
+      - {type: llm-rubric, value: "Explains that exact term filtering and sorting are not reliable on analysed text fields without keyword subfields, states the mapping change and reindex needed, and does not present a query that silently fails as working."}

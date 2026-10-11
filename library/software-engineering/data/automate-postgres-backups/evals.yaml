@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up backups for my Postgres database. {{setup}} Targets: {{targets}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-self-run-vm
+    vars:
+      setup: "PostgreSQL 16 on two Linux VMs (primary and streaming replica), 1.2 TB, about 60 GB WAL per day, S3-compatible object storage available in another region; currently a nightly pg_dump to the same disk."
+      targets: "RPO 5 minutes, RTO 2 hours, keep 30 days"
+    assert:
+      - {type: contains, value: "## Restore test"}
+      - {type: llm-rubric, value: "Replaces nightly pg_dump with pgBackRest or WAL-G base backups plus continuous WAL archiving to off-region object storage, sets full and incremental cadence and WAL retention for 30 days of PITR, encrypts with keys outside the bucket, gives a PITR restore runbook, schedules a restore drill that measures time against the 2-hour RTO, and alerts on archive failures."}
+  - name: edge-managed-service
+    vars:
+      setup: "PostgreSQL 15 on a managed cloud database, 300 GB, automated backups enabled with 7-day retention."
+      targets: "Must keep monthly backups for 1 year for compliance; protect against someone deleting the instance."
+    assert:
+      - {type: llm-rubric, value: "Explains limits of provider automated backups (retention window, same account, deletion risk), adds manual or exported snapshots copied to another account or region with longer retention and immutability, and still includes a restore test."}
+  - name: negative-no-restore-test
+    vars:
+      setup: "PostgreSQL 14, 50 GB, self-run."
+      targets: "Just give me a backup cron line, we don't need restore tests."
+    assert:
+      - {type: llm-rubric, value: "Gives the backup setup but explains that untested backups are unproven and still includes at least a minimal restore check, rather than silently dropping it."}

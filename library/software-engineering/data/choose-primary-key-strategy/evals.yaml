@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Should I use UUIDs or auto-increment ids? {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-with-public-ids
+    vars:
+      context: "New B2B SaaS on PostgreSQL 16: accounts (10k), users (500k), invoices (50M, shown in URLs like /invoices/<id>), invoice_line_items (500M), user_roles join table. A mobile app creates draft invoices offline."
+    assert:
+      - {type: contains, value: "## Per-table choices"}
+      - {type: llm-rubric, value: "Recommends time-ordered ids (UUIDv7 or similar) or bigint plus a public id, uses a composite key for the join table, explains offline creation favours client-generated time-ordered ids, warns about random UUIDv4 index locality on the 500M-row table, uses the native uuid type, and notes how UUIDv7 is generated on this Postgres version."}
+  - name: edge-mysql-innodb-uuidv4
+    vars:
+      context: "MySQL 8 InnoDB, events table 2B rows with CHAR(36) UUIDv4 primary key and 6 secondary indexes; inserts are slowing down."
+      current: "UUIDv4 stored as CHAR(36)."
+    assert:
+      - {type: llm-rubric, value: "Explains clustered index page splits from random keys and that each secondary index stores the 36-byte primary key, recommends BINARY(16) time-ordered ids or a bigint key with the UUID as a unique column, and outlines a cautious migration with its cost."}
+  - name: negative-email-as-key
+    vars:
+      context: "Use the user's email as the primary key of users and as the foreign key in 12 other tables, to avoid an extra id column."
+    assert:
+      - {type: llm-rubric, value: "Advises against email as primary key because emails change and cascade into 12 tables, recommends a surrogate key with a unique constraint on normalised email."}

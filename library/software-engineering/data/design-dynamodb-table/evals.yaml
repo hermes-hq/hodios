@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Design a DynamoDB table for this app: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders
+    vars:
+      app: "E-commerce: get customer profile; list a customer's orders newest first; get order with its line items; list orders by status per warehouse for pickers; look up order by public order number."
+      scale: "5M customers, 60M orders, peak 3k writes per second during sales."
+    assert:
+      - {type: contains, value: "## Query mapping"}
+      - {type: llm-rubric, value: "Lists the five patterns, uses customer partition with time-ordered order sort keys, stores line items under the order partition, adds GSIs for warehouse plus status and for order number, maps every pattern to a Query or GetItem without scans, and discusses hot warehouse partitions during sales."}
+  - name: edge-hot-key
+    vars:
+      app: "Live voting: count votes per contestant in real time during a TV show; 3 contestants; show results every second."
+      scale: "up to 50k votes per second"
+    assert:
+      - {type: llm-rubric, value: "Identifies the per-contestant counter as a hot partition, uses write sharding across suffixed keys with periodic aggregation or a streams-based rollup, and notes per-partition throughput limits."}
+  - name: negative-ad-hoc-queries
+    vars:
+      app: "Analysts need to filter orders by any combination of 20 fields and run group-by reports ad hoc."
+    assert:
+      - {type: llm-rubric, value: "Explains DynamoDB is a poor fit for ad-hoc multi-field filtering and aggregation, suggests exporting to an analytics store or using a relational or search database, rather than designing 20 GSIs."}

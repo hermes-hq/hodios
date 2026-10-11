@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Users can double book. Fix it. {{resource}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-room-date-ranges
+    vars:
+      resource: "Holiday rental rooms booked by check-in and check-out dates. Code checks for overlapping bookings with a SELECT, then INSERTs. PostgreSQL 16, TypeScript with Kysely."
+      symptom: "Two confirmed bookings overlapped for the same room twice last month."
+    assert:
+      - {type: contains, value: "## Concurrency test"}
+      - {type: llm-rubric, value: "Shows the check-then-insert race, adds an exclusion constraint on room id with equality and daterange overlap using btree_gist, excludes cancelled bookings with a WHERE clause, maps the violation to a not-available response, gives a query to find existing overlaps before adding the constraint, and tests parallel claims with exactly one winner."}
+  - name: edge-flash-sale-stock
+    vars:
+      resource: "Limited edition sneakers, 200 units; checkout reads stock count in app, decrements and saves via ORM. MySQL 8."
+      symptom: "Sold 213 units during a flash sale."
+    assert:
+      - {type: llm-rubric, value: "Replaces read-modify-write with an atomic conditional UPDATE where available >= quantity and checks affected rows (or a row lock), handles holds that expire if checkout has a timer, and tests concurrent purchases for the last units."}
+  - name: negative-cache-lock
+    vars:
+      resource: "Concert seats. The user wants to prevent double booking only with an in-memory flag in the app, running on 6 servers, without touching the database."
+    assert:
+      - {type: llm-rubric, value: "Explains that an in-memory flag cannot work across 6 servers or restarts and that the database must enforce uniqueness, recommending a unique constraint on event and seat."}

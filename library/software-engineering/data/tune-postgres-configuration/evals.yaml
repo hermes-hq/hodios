@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Tune my Postgres config. {{instance}} {{workload}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-self-run-oltp
+    vars:
+      instance: "PostgreSQL 16, 64 GB RAM, 16 vCPU, local NVMe, self-run on a VM"
+      workload: "OLTP web app, 400 GB database, 600 max_connections with no pooler, logs show checkpoints occurring too frequently, nightly reports spill temp files."
+      current_settings: "shared_buffers 128MB, work_mem 4MB, max_wal_size 1GB, random_page_cost 4, max_connections 600"
+    assert:
+      - {type: contains, value: "## Recommended settings"}
+      - {type: llm-rubric, value: "Raises shared_buffers to roughly 16 GB with a restart note, sets effective_cache_size as a hint, raises max_wal_size to fix checkpoint frequency, lowers random_page_cost for NVMe, recommends a pooler and fewer connections instead of keeping 600, and raises work_mem for the report role rather than globally, explaining the per-node memory risk."}
+  - name: edge-managed-service
+    vars:
+      instance: "PostgreSQL 15 on a managed cloud service, 16 GB RAM, 4 vCPU, network storage"
+      workload: "Mixed, 200 GB, a 900M-row events table bloating, autovacuum seems to never finish on it."
+    assert:
+      - {type: llm-rubric, value: "Notes the managed service already sizes memory settings and some parameters are fixed, focuses on autovacuum tuning including per-table scale factor and cost limit for the large table, applies changes through the parameter group, and gives views to verify vacuum progress."}
+  - name: negative-turn-off-fsync
+    vars:
+      instance: "PostgreSQL 16, 32 GB RAM"
+      workload: "Payments ledger. Writes are slow, someone suggested fsync = off and synchronous_commit = off to speed it up."
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend fsync = off for a payments database, explains the corruption and data-loss risk of each setting, and offers safer write tuning such as WAL and checkpoint settings, batching or commit grouping."}

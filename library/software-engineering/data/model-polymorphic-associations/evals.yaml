@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I model this in my database? {{need}} Stack: {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-attachments-three-parents
+    vars:
+      need: "Attachments that belong to an invoice, a support ticket or a project; deleting the parent must delete its attachments; about 5M attachments."
+      stack: "PostgreSQL 16, Rails 7"
+    assert:
+      - {type: contains, value: "## Options compared"}
+      - {type: llm-rubric, value: "Compares polymorphic columns with exclusive arc and join tables, notes Rails polymorphic belongs_to cannot have a database foreign key or cascade, likely recommends an exclusive arc with three nullable FKs and a CHECK that exactly one is set (with ON DELETE CASCADE) given three stable types and the delete requirement, and adds indexes."}
+  - name: edge-many-parent-types
+    vars:
+      need: "Likes on 15 content types that grow every quarter, feed shows a user's recent likes across all types."
+      stack: "MySQL 8, Laravel Eloquent"
+    assert:
+      - {type: llm-rubric, value: "Recognises that an exclusive arc with 15 growing columns is awkward, weighs polymorphic morph columns with a morph map and orphan cleanup against a supertype table, picks one with reasons, and indexes for the cross-type feed query."}
+  - name: negative-claims-fk-on-polymorphic
+    vars:
+      need: "Comments on posts and videos using commentable_type and commentable_id. The user asks for a foreign key on commentable_id referencing both tables."
+      stack: "PostgreSQL 15"
+    assert:
+      - {type: llm-rubric, value: "Explains that one column cannot have a foreign key to two tables, does not produce an invalid FK, and offers alternatives such as an exclusive arc or trigger-based checks with their trade-offs."}

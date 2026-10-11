@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an upsert for {{database}}: {{goal}}. Table: {{table_ddl}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-conditional
+    vars:
+      database: "PostgreSQL 16"
+      goal: "Store the latest inventory level per SKU from warehouse events; events can arrive out of order and carry an event_time. Never change created_at."
+      table_ddl: "CREATE TABLE inventory (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, sku text NOT NULL UNIQUE, qty int NOT NULL, event_time timestamptz NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());"
+    assert:
+      - {type: contains, value: "ON CONFLICT"}
+      - {type: llm-rubric, value: "Uses ON CONFLICT (sku) DO UPDATE with EXCLUDED values, adds a WHERE condition so only newer event_time overwrites, leaves created_at untouched, and explains that concurrent upserts on the same SKU serialise on the unique index without duplicates."}
+  - name: edge-mysql-two-unique-keys
+    vars:
+      database: "MySQL 8.0.35"
+      goal: "Insert a user or update their display name if the email exists."
+      table_ddl: "CREATE TABLE users (id bigint AUTO_INCREMENT PRIMARY KEY, email varchar(255) NOT NULL UNIQUE, username varchar(50) NOT NULL UNIQUE, display_name varchar(100));"
+      batch: "batches of about 500 rows from a nightly sync"
+    assert:
+      - {type: llm-rubric, value: "Uses INSERT ... ON DUPLICATE KEY UPDATE with a row alias rather than deprecated VALUES(), warns that the update fires on a username collision as well as email, proposes how to handle that, mentions auto-increment gaps, and gives a batched multi-row form with in-batch deduplication."}
+  - name: negative-no-unique-key
+    vars:
+      database: "PostgreSQL 14"
+      goal: "Upsert a subscription by customer_id and plan."
+      table_ddl: "CREATE TABLE subscriptions (id serial PRIMARY KEY, customer_id int NOT NULL, plan text NOT NULL, status text);"
+    assert:
+      - {type: llm-rubric, value: "Points out there is no unique constraint on (customer_id, plan), so ON CONFLICT cannot target it, gives the DDL to add one with a read-only query to find existing duplicates first, and does not pretend the upsert works without it."}
