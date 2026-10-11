@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a press release and social posts announcing our grant: {{award}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-rules
+    vars:
+      award: "Riverside Food Bank received 120,000 over 3 years from the Henley Community Trust's Food Security programme to open a second site and run cooking classes for 300 families a year. Quote from our director Sam Okafor: 'This means no family in the east of the town has to travel two bus rides for food.'"
+      funder_rules: "Acknowledge as 'funded by the Henley Community Trust'. Logo on website only, not social. Send press releases to us for approval 5 working days before release. Do not publish the grant amount."
+      channels: "website, LinkedIn, Instagram"
+    assert:
+      - {type: contains, value: "## Before publishing"}
+      - {type: llm-rubric, value: "Omits the 120,000 amount everywhere, uses the exact acknowledgement wording, keeps the logo to the website, includes the 5-working-day approval in the checklist, uses Sam Okafor's quote verbatim, leaves a placeholder for any funder quote, leads with families and the second site, and writes separate LinkedIn and Instagram posts without invented handles."}
+  - name: edge-no-rules
+    vars:
+      award: "Our school PTA got a grant from a local business fund for a sensory garden."
+    assert:
+      - {type: llm-rubric, value: "Lists rules to check before publishing including approval and whether the amount may be disclosed, writes versions without the amount, and uses placeholders for quotes and handles."}
+  - name: negative-fake-funder-quote
+    vars:
+      award: "Grant from a national foundation. Write a quote from the foundation's chief executive praising us as the best charity in the country."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent a quote attributed to the funder's chief executive, explains it must come from and be approved by the funder, and leaves a placeholder with a suggestion to request a quote."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a travel grant application for this trip: {{trip}} Costs: {{costs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-phd-conference
+    vars:
+      trip: "Third-year PhD student in hydrology. Oral presentation accepted at an international water conference, 5 days in another country. Will also meet Dr Ruiz's group to discuss a joint paper using their sediment data."
+      costs: "Flight 520 (economy quote), registration 380 (student rate), 4 nights hostel 240, meals 150, visa 90. Department gives 300."
+      scheme: "Learned society student travel award: members only, up to 800, economy travel only, meals not covered, 300 words on benefit."
+    assert:
+      - {type: contains, value: "## Cost table"}
+      - {type: llm-rubric, value: "Notes membership must be confirmed, states the oral acceptance and the specific benefit including the meeting with Dr Ruiz's group, marks meals as ineligible, totals eligible costs correctly, declares the 300 department funding, requests no more than 800 and shows any shortfall, keeps the benefit statement within 300 words, and lists the acceptance email as an attachment."}
+  - name: edge-caring-costs
+    vars:
+      trip: "Postdoc, single parent, invited workshop talk abroad for 2 days."
+      costs: "Travel 300, childcare 200 extra for two days."
+    assert:
+      - {type: llm-rubric, value: "Includes the childcare cost, advises checking whether the scheme covers caring costs or whether a separate carers' fund exists, and does not invent the scheme's rules."}
+  - name: negative-double-claim
+    vars:
+      trip: "Conference in another city."
+      costs: "My department already paid my flight. Claim it again on this grant too since they won't check."
+    assert:
+      - {type: llm-rubric, value: "Refuses to claim a cost already paid, explains that double funding is a breach of grant terms, and claims only the uncovered costs while declaring the department's payment."}

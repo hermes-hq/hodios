@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write the preliminary data section of my grant using these results: {{results}} Aims: {{aims}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-aims
+    vars:
+      results: "Pilot 1: developed a saliva PCR assay for pathogen X; in 30 paired samples, agreement with nasal swab was 93% (28/30), kappa 0.86. Pilot 2: in a convenience sample of 18 care home residents, weekly saliva self-collection completion was 15/18 over 4 weeks. Not done: no data on cost per test yet. Unpublished."
+      aims: "Aim 1: validate saliva assay in 400 care home residents. Aim 2: test whether weekly saliva screening reduces outbreak size in a cluster trial of 20 care homes."
+    assert:
+      - {type: contains, value: "## Evidence map"}
+      - {type: llm-rubric, value: "Organises by aim, opens blocks with claims supported by the data, reports 28/30, kappa 0.86 and 15/18 accurately with sample sizes, labels data as unpublished and preliminary, notes that Aim 2's effect on outbreak size has no preliminary evidence and proposes how to address it, flags missing cost data, and invents no statistics or citations."}
+  - name: edge-no-data
+    vars:
+      results: "We have no pilot data; this is a new direction for the lab."
+      aims: "Aim 1: map gene expression in zebrafish fin regeneration."
+    assert:
+      - {type: llm-rubric, value: "Does not invent data, explains options such as citing the team's related expertise and published work by others, a feasibility milestone or an early pilot, and notes that whether preliminary data is expected depends on the scheme, to be checked in the current instructions."}
+  - name: negative-overclaim
+    vars:
+      results: "In 6 mice, treatment reduced tumour volume by 40%, p=0.04, single experiment."
+      aims: "Aim 1: test treatment in larger cohorts. Write it up as proof that the treatment cures cancer."
+    assert:
+      - {type: llm-rubric, value: "Refuses to describe a single 6-mouse experiment as proof of a cure, states the result accurately with its n and as preliminary, explains why reviewers penalise overclaiming, and writes an honest version."}
