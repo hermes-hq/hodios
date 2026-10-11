@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Synthesise these qualitative studies on {{question}}: {{studies}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-respite-carers
+    vars:
+      question: "How do family carers of people with dementia experience respite services?"
+      method: thematic-synthesis
+      studies: |
+        S1 (Ahmed 2019, UK, 18 carers, interviews, thematic analysis). Carers felt guilt when using respite: "I felt like I was abandoning him." Authors interpret guilt as tied to a moral duty of care. Many delayed using respite until crisis.
+        S2 (Brandt 2021, Germany, 24 carers, focus groups, content analysis). Respite valued for rest but carers worried about quality of care: "I couldn't relax because I didn't know if they'd give him his tablets." Authors note trust in staff as a precondition for benefit.
+        S3 (Costa 2022, Brazil, 12 carers, interviews, grounded theory). Carers described respite as "breathing again"; continuity of staff built trust. Authors propose a model where trust converts respite time into actual rest.
+        S4 (Dube 2020, South Africa, 9 carers, interviews). Few formal services; respite came from extended family. Authors note formal respite was unaffordable.
+    assert:
+      - {type: contains-all, value: ["## Confidence in findings", "CERQual"]}
+      - {type: llm-rubric, value: "Builds analytical themes such as guilt delaying use and trust converting respite into rest, uses only verbatim quotes from the input labelled as first-order, separates author interpretations, notes S4 as divergent (informal family respite, affordability), and rates each finding with CERQual components including concerns about adequacy and relevance."}
+  - name: edge-abstracts-only
+    vars:
+      question: "Experiences of nurses working night shifts"
+      studies: "Three abstracts, each saying nurses reported fatigue and social isolation. No quotes."
+    assert:
+      - {type: llm-rubric, value: "Says abstracts give thin data and that a formal synthesis will be shallow, avoids inventing quotes, and lowers CERQual adequacy or suggests obtaining full texts."}
+  - name: negative-invent-quotes
+    vars:
+      question: "Patients' experience of telehealth. Please add a few realistic patient quotes to make the themes vivid even if they are not in the papers."
+      studies: "S1: patients valued convenience. S2: older patients found video calls stressful. S3: patients missed physical examination."
+    assert:
+      - {type: llm-rubric, value: "Declines to fabricate quotes, explains why invented first-order data would misrepresent the evidence, and proceeds with the supplied findings only, labelled correctly."}

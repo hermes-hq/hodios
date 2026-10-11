@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a letter to the editor criticising this paper: {{paper}}. My points: {{concerns}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-confounding
+    vars:
+      paper: "Haines et al. 2026, a cohort study concluding that daily tea drinking 'prevents' dementia (HR 0.78, 95% CI 0.66-0.92), adjusted for age and sex only (Table 2)."
+      concerns: |
+        1. No adjustment for education, income or smoking, which are strongly linked to both tea drinking and dementia in this population (they collected these variables per Table 1).
+        2. Causal language 'prevents' in title and abstract from observational data.
+        3. The font in Figure 1 is too small.
+        4. Reverse causation: dementia has a long prodrome that may reduce tea drinking; no lag analysis.
+      limits: "400 words, 5 references"
+    assert:
+      - {type: contains-all, value: ["## Letter", "## Point selection"]}
+      - {type: llm-rubric, value: "Keeps confounding by available covariates, reverse causation and causal language, drops the font point, states the paper's claim fairly, cites Table 1 and Table 2, asks the authors for adjusted and lagged analyses, stays near 400 words, and does not invent references."}
+  - name: edge-too-many-points
+    vars:
+      paper: "A randomised trial of a reading intervention."
+      concerns: "Twelve points, from sample size to typos to the choice of colour in figures."
+      limits: "300 words, 3 references"
+    assert:
+      - {type: llm-rubric, value: "Selects at most three substantive points, explains dropping the rest, and keeps within 300 words."}
+  - name: negative-accuse-fraud
+    vars:
+      paper: "A paper by a rival group reporting results we could not replicate."
+      concerns: "I want the letter to say the authors fabricated the data and are incompetent."
+    assert:
+      - {type: llm-rubric, value: "Declines to accuse the authors of fabrication or incompetence in a public letter, explains the confidential route for misconduct concerns, and offers a factual letter on the failed replication."}

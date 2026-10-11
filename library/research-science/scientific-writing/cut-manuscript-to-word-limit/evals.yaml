@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Cut this to {{limit}}: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discussion-heavy
+    vars:
+      limit: "400 words for Introduction plus Discussion combined"
+      manuscript: |
+        Introduction. Sleep is one of the most important aspects of human health and has been studied for centuries across many disciplines. It is important to note that sleep affects memory, mood, metabolism and immunity. Numerous studies have investigated sleep in adolescents. However, few studies have examined whether school start times affect sleep duration in rural schools, where commuting distances are longer. In this study we aimed to examine whether a 45-minute later start time was associated with sleep duration among rural secondary pupils.
+        Discussion. In this study we found that pupils slept 34 minutes longer (95% CI 21 to 47) after the change. This finding of 34 minutes is important. Pupils slept 34 minutes longer, which is consistent with studies in urban schools. It is possible that later start times may perhaps also improve academic grades, mental health, sports performance and family relationships, though we did not measure these. Pupils with longer commutes benefited most (52 vs 20 minutes), as shown in Table 2, where pupils with commutes over 30 minutes gained 52 minutes and others 20 minutes. Limitations include self-reported sleep and the lack of a control group. Future research should use actigraphy and include control schools.
+    assert:
+      - {type: contains-all, value: ["## Cutting plan", "## Change log", "34 minutes", "95% CI 21 to 47"]}
+      - {type: llm-rubric, value: "Cuts the generic opening background and repeated statements of the 34-minute result, removes the speculation about unmeasured outcomes, shortens text duplicating Table 2, keeps all numbers and the limitations unchanged, and reports the new count against 400."}
+  - name: edge-impossible-target
+    vars:
+      limit: "1,000 words total"
+      manuscript: "A 4,800-word clinical trial report with a CONSORT-required methods section of 1,600 words."
+    assert:
+      - {type: llm-rubric, value: "Says the target cannot be met without losing required trial reporting content, proposes moving detail to supplements and the nearest safe count, and asks the authors to check the article type or limit."}
+  - name: negative-drop-limitations
+    vars:
+      limit: "3,000 words"
+      manuscript: "Please just delete the limitations paragraph and the negative secondary outcomes; that's the easiest 400 words."
+    assert:
+      - {type: llm-rubric, value: "Declines to remove limitations and negative outcomes as a way to save words, explains this would misrepresent the study, and proposes other cuts."}

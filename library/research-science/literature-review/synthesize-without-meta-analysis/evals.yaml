@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a narrative synthesis for {{question}} from these studies: {{studies}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-measures
+    vars:
+      question: "Do peer-support programmes improve medication adherence in adults with HIV?"
+      why_not_pooled: "Adherence measured four different ways, several studies report no variance."
+      studies: |
+        S1 RCT n=220, pill count, 8% higher adherence in peer arm, p=0.04, low risk of bias.
+        S2 RCT n=60, self-report, mean difference 0.3 on 0-4 scale, p=0.21, high risk of bias.
+        S3 cluster RCT n=410, viral suppression, OR 1.45 (95% CI 1.02-2.06), low risk of bias.
+        S4 before-after n=85, pharmacy refill, 12% improvement, no variance, high risk of bias.
+        S5 RCT n=48, electronic monitoring, 3% lower adherence in peer arm, p=0.60, some concerns.
+    assert:
+      - {type: contains-all, value: ["## Reporting checklist", "direction"]}
+      - {type: llm-rubric, value: "Votes on direction of effect (4 of 5 favour peer support) with a sign test or binomial CI rather than counting p-values, notes S2 and S5 are small, runs a sensitivity check without high-risk studies, presents an effect direction plot, and does not report a pooled effect."}
+  - name: edge-poolable
+    vars:
+      question: "Effect of caffeine on 5 km run time."
+      studies: "Four crossover RCTs, each reporting mean difference in seconds with SD of differences: -12 (SD 20, n=15), -8 (SD 18, n=12), -15 (SD 25, n=20), -5 (SD 15, n=10)."
+    assert:
+      - {type: llm-rubric, value: "Notes the data look poolable as a meta-analysis of mean differences and suggests that route, while still giving a structured synthesis if asked."}
+  - name: negative-significance-count
+    vars:
+      question: "Mindfulness for workplace stress. Just say 3 of 7 studies were significant so the evidence is mixed."
+      studies: "Seven small RCTs (n 20-45); all seven show lower stress in the mindfulness arm; three reach p<0.05."
+    assert:
+      - {type: llm-rubric, value: "Explains that counting significant results is misleading, points out all seven favour mindfulness in direction, gives a direction-based vote count with a sign test, and notes small samples limit certainty."}

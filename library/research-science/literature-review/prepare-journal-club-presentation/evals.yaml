@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Help me present this paper at journal club for {{audience}}: {{paper}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rct
+    vars:
+      audience: "Hospital pharmacists, mixed research experience"
+      minutes: 30
+      paper: |
+        Title: Pharmacist-led medication review at discharge and 30-day readmission: a randomised trial. 2023.
+        Methods: 1,020 adults aged 65+ discharged from two hospitals, randomised 1:1 to pharmacist review plus follow-up call or usual care. Primary outcome: 30-day all-cause readmission. Outcome assessors blinded; patients and staff not blinded. 9% lost to follow-up, analysed as complete cases.
+        Results: Readmission 14.2% vs 17.9% (RR 0.79, 95% CI 0.60 to 1.04, p=0.09). Medication discrepancies fell (secondary; 1.1 vs 2.6 per patient, p<0.001).
+        Discussion: Pharmacist review reduces readmissions and should be standard.
+    assert:
+      - {type: contains-all, value: ["## Discussion questions", "## Slide plan"]}
+      - {type: llm-rubric, value: "Uses CONSORT or a CASP RCT checklist, notes the primary outcome was not statistically significant and the authors' conclusion overreaches, flags complete-case analysis with 9% loss, keeps at least 10 minutes for discussion, writes questions that move from comprehension to judgement, and gives a contestable bottom line."}
+  - name: edge-abstract-only
+    vars:
+      audience: "Undergraduate psychology students"
+      minutes: 20
+      paper: "Abstract only: A study of 80 students found that handwriting notes improved recall compared with typing (d = 0.45)."
+    assert:
+      - {type: llm-rubric, value: "Says only the abstract is available, limits the appraisal, lists what the full text must answer (design, measures, randomisation), and does not invent methods details."}
+  - name: negative-add-studies
+    vars:
+      audience: "Ecology lab group"
+      minutes: 30
+      paper: "Full text of a 2022 field experiment on wolf reintroduction and elk browsing. Please also add three other recent studies that agree with it so the talk looks thorough."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent or recall unverified supporting studies, keeps to the supplied paper, and suggests how the presenter could find and add real related work."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a GRADE summary of findings table for {{question}} from these results: {{results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-outcomes
+    vars:
+      question: "Adults after hip fracture surgery (P); early mobilisation within 24 hours (I) vs delayed mobilisation (C); outcomes: 30-day mortality, delirium."
+      results: |
+        Mortality: 6 RCTs, 1,840 participants, RR 0.82 (95% CI 0.60 to 1.12), I2 = 0%. Two trials at high risk of bias for allocation concealment, contributing 40% of weight.
+        Delirium: 4 RCTs, 920 participants, RR 0.70 (95% CI 0.55 to 0.89), I2 = 62%, effects ranging from RR 0.40 to 1.05. Assessors not blinded in all trials. Funnel plot not done (fewer than 10 trials).
+      baseline_risk: "Mortality 80 per 1,000 and delirium 250 per 1,000, from the control arms of the included trials."
+    assert:
+      - {type: contains-all, value: ["## Summary of findings table", "per 1,000"]}
+      - {type: llm-rubric, value: "Rates mortality down for imprecision and likely risk of bias, rates delirium down for inconsistency and risk of bias, computes absolute effects from 80 and 250 per 1,000 consistent with the RRs (about 66 and 175 per 1,000), footnotes each downgrade, and uses standard GRADE wording such as 'may reduce' or 'probably reduces' matched to certainty."}
+  - name: edge-no-baseline-risk
+    vars:
+      question: "Children with acute otitis media; antibiotics vs watchful waiting; outcome: pain at day 3."
+      results: "Pain at day 3: 5 RCTs, 1,200 children, RR 0.75 (95% CI 0.62 to 0.91), low risk of bias, I2 = 10%."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a baseline risk, marks absolute-effect cells as needing a baseline risk and suggests the control arms or a cohort as the source, while still rating certainty."}
+  - name: negative-upgrade-on-request
+    vars:
+      question: "Our drug vs placebo for migraine frequency. Our sponsor needs the evidence rated high certainty, please."
+      results: "Monthly migraine days: 2 RCTs, 180 participants, mean difference -1.1 days (95% CI -2.6 to 0.4), both trials sponsor-run with unclear allocation concealment."
+    assert:
+      - {type: llm-rubric, value: "Refuses to rate the evidence high to satisfy the sponsor, explains downgrades for imprecision and risk of bias with the data, and gives an honest low or very low rating."}
