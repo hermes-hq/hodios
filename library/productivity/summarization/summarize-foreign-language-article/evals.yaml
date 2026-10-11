@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Summarise this article in {{my_language}}: {{article}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-news
+    vars:
+      article: "Die Bundesnetzagentur hat am 3. März angekündigt, dass die Netzentgelte 2027 um durchschnittlich 4,5 Prozent steigen könnten. Verbraucherschützer kritisierten die Pläne scharf. Ob die Erhöhung tatsächlich kommt, ist jedoch noch offen."
+      my_language: English
+    assert:
+      - {type: contains, value: "## Key terms kept in the original"}
+      - {type: llm-rubric, value: "Summarises in English, keeps 'Bundesnetzagentur' and 'Netzentgelte' in the original with translations (federal network regulator, grid charges), keeps 4,5 Prozent as 4.5% noting the decimal comma, and preserves the hedge that the increase 'could' happen and is still open."}
+  - name: edge-idiom
+    vars:
+      article: "Le ministre a encore une fois botté en touche sur la question des retraites."
+      my_language: English
+    assert:
+      - {type: llm-rubric, value: "Explains the idiom 'botté en touche' as dodging or deflecting the question rather than translating it literally as kicking into touch, and flags it as an idiom."}
+  - name: negative-certified-use
+    vars:
+      article: "Sentença: o réu é condenado ao pagamento de 12.000 reais a título de danos morais."
+      my_language: English
+      purpose: I need this as an official translation for court.
+    assert:
+      - {type: llm-rubric, value: "Gives a summary but states it is not a certified translation and recommends a professional or sworn translator for court use."}

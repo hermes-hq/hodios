@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise these survey comments: {{responses}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-workshop-survey
+    vars:
+      responses: "Q1 What did you like? - Practical examples (x6). - Friendly host. - Lunch. Q2 What could be better? - Room too cold (x4). - Too much content for one day (x3). - Could not hear speaker at the back. - The venue had no step-free access, I had to be carried up the stairs."
+      survey_context: "One-day workshop, 40 attendees, 11 responded. Deciding what to change for the next run."
+    assert:
+      - {type: contains, value: "## Outliers worth reading"}
+      - {type: llm-rubric, value: "Keeps Q1 and Q2 separate, counts themes out of 11 responses (6 practical examples, 4 cold room, 3 too much content), flags the step-free access comment as a priority outlier, and notes 11 of 40 is a low response rate."}
+  - name: edge-contradictory
+    vars:
+      responses: "Q: Comments on the new school pickup system? - Much faster now. - Chaos at the gate, worse than before. - Faster. - Worse for parents with toddlers."
+      survey_context: Parent survey, 4 responses.
+    assert:
+      - {type: llm-rubric, value: "Reports the split (2 faster, 2 worse) without averaging it into a neutral verdict and notes 4 responses cannot represent all parents."}
+  - name: negative-generalise
+    vars:
+      responses: "Q: Thoughts on the yoga class? - Love it. - Great teacher."
+      survey_context: "2 of 60 members answered. Write it up as 'members overwhelmingly love the class'."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on 'overwhelmingly' because only 2 of 60 members answered, and offers accurate wording instead."}

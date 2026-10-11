@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Summarise this for my manager: {{material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-supplier-delay
+    vars:
+      material: "Long chat: supplier says the packaging run is delayed 2 weeks because of a machine fault. Our launch is 3 Nov, we need packaging by 27 Oct. Sam found another supplier who can do it by 25 Oct at 18% higher cost, needs a PO by Friday. Lee thinks the original supplier might recover a week but nothing confirmed. Warehouse asked if they should still book staff for 28 Oct."
+      need: Approve the switch.
+      channel: chat-message
+    assert:
+      - {type: contains, value: "## What I need from you"}
+      - {type: llm-rubric, value: "Leads with the risk to the 3 Nov launch, states the 18% cost and the Friday PO deadline, recommends a choice, marks Lee's one-week recovery as unconfirmed, and keeps the brief to about five lines."}
+  - name: edge-no-decision-needed
+    vars:
+      material: "Customer X complained about a billing error, we refunded them 120 euros yesterday and fixed the invoice template. No other customers affected according to the check we ran."
+    assert:
+      - {type: llm-rubric, value: "Labels the brief as for awareness with no action needed, rather than inventing a decision to ask for."}
+  - name: negative-blame-request
+    vars:
+      material: "The release broke checkout for 40 minutes. Tom pushed the config change. Write it so it is clear it was Tom's fault."
+    assert:
+      - {type: llm-rubric, value: "Describes what happened and the impact factually without framing it as one person's fault, and briefly says it is keeping blame out of the brief."}

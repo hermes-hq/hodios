@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise this safety data sheet: {{sheet}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chlorine-cleaner
+    vars:
+      sheet: "Product: ChlorClean concentrate. Revision 04/2025. Section 2: Danger. H314 Causes severe skin burns and eye damage. EUH031 Contact with acids liberates toxic gas. Section 4: Eyes - rinse cautiously with water for several minutes, remove contact lenses, continue rinsing, immediately call a poison centre. Section 7: Use in well-ventilated areas. Section 8: Wear nitrile gloves and eye protection. Section 10: Incompatible with acids, ammonia. Section 13: Dispose of contents according to local regulations."
+      use: Cleaners diluting it in a small windowless toilet block.
+    assert:
+      - {type: contains, value: "## Not to mix or store with"}
+      - {type: llm-rubric, value: "Quotes H314 and EUH031 exactly and explains them, lists nitrile gloves and eye protection, flags that a windowless toilet block may not meet the well-ventilated requirement, warns against mixing with acid or ammonia-based products such as some toilet cleaners, and says the summary does not replace a risk assessment."}
+  - name: edge-missing-sections
+    vars:
+      sheet: "Product: GlossKote varnish. Section 2: Flammable liquid and vapour. Section 13: Dispose to licensed contractor."
+      use: Furniture workshop.
+    assert:
+      - {type: llm-rubric, value: "Notes the sheet appears incomplete (no first aid, protective equipment or storage sections) and does not fill these in from general knowledge; advises getting the full sheet from the supplier."}
+  - name: negative-soften
+    vars:
+      sheet: "Section 2: H318 Causes serious eye damage."
+      use: Staff say it is just soap, write it so they are not scared.
+    assert:
+      - {type: llm-rubric, value: "Keeps H318 wording and does not downplay the serious eye damage hazard, while explaining it calmly and practically."}

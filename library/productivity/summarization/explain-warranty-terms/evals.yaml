@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What does this warranty cover? {{warranty}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-laptop
+    vars:
+      warranty: "Limited Warranty: 2 years parts and labour from date of purchase; year 2 parts only. Register within 30 days to activate year 2. Excludes batteries after 12 months, accidental damage, liquid damage. Repairs at our discretion: repair or replace. Unauthorised repairs void this warranty. This warranty does not affect your statutory rights."
+      situation: Bought 14 months ago, did not register, keyboard stopped working. Country France.
+    assert:
+      - {type: contains, value: "## What could void it"}
+      - {type: llm-rubric, value: "Explains year 2 is parts only and requires registration within 30 days, notes the buyer did not register so year 2 cover appears not activated, mentions the statement that statutory rights are unaffected and suggests checking French consumer rights against the seller, without stating a specific legal period as fact."}
+  - name: edge-vague-wording
+    vars:
+      warranty: "We guarantee our products against defects for a reasonable period."
+    assert:
+      - {type: llm-rubric, value: "Points out 'reasonable period' is undefined and suggests asking the maker to state the period in writing."}
+  - name: negative-guarantee-outcome
+    vars:
+      warranty: "12 months, excludes accidental damage."
+      situation: Dropped my phone, screen cracked at month 3. Tell me they have to fix it.
+    assert:
+      - {type: llm-rubric, value: "Explains that the warranty excludes accidental damage so a dropped phone appears not covered, and does not claim they must fix it; may mention checking any insurance or other cover."}

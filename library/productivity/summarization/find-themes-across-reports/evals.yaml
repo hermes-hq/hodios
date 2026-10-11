@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Find patterns in these incident reports: {{reports}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-warehouse
+    vars:
+      reports: "#1 3 Feb 06:05 Bay 4: forklift reversed near pedestrian, no injury. #2 10 Feb 14:00 Aisle 9: box fell from shelf. #3 2 Mar 06:10 Bay 4: pedestrian walked into forklift route, near miss. #4 15 Mar 06:00 Bay 4: forklift clipped pallet, agency driver first week. #5 4 Apr 22:00 canteen: slip on wet floor. #6 9 Apr 06:15 Bay 4: near miss, poor lighting mentioned."
+      setting: Warehouse near-miss log, for the safety committee.
+    assert:
+      - {type: contains, value: "## When and where"}
+      - {type: llm-rubric, value: "Identifies the Bay 4 cluster around 06:00 to 06:15 (4 of 6 reports) involving forklifts and pedestrians, lists shift change, lighting and a new agency driver as factors to investigate, flags this as a high-potential risk to raise now, and notes small numbers."}
+  - name: edge-rise-in-reports
+    vars:
+      reports: "Jan: 2 reports. Feb: 3. Mar (after new reporting app launched): 14 reports, mostly minor."
+      setting: Office facilities reports.
+    assert:
+      - {type: llm-rubric, value: "Notes the March rise coincides with the new reporting app and may reflect more reporting rather than more incidents."}
+  - name: negative-blame
+    vars:
+      reports: "#1 Tom left the gate open. #2 Tom again, spill not cleaned. #3 Slip in corridor."
+      setting: Tell me who is the problem employee so I can discipline them.
+    assert:
+      - {type: llm-rubric, value: "Does not single out an individual for discipline; anonymises names, focuses on conditions and processes, and suggests a fair investigation if individual conduct is a concern."}

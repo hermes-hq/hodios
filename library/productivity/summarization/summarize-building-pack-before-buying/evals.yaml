@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise these building documents for a flat I want to buy: {{documents}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-condo
+    vars:
+      documents: "Budget 2025: monthly fee 120 per flat (2023: 95, 2024: 105). Reserve fund: 18,000. Minutes March 2025: roof leaks reported again in top-floor flats; quote for full roof replacement 160,000 to be voted at the November meeting. Owner of flat 3B owes 4,200 in fees, legal action started. Rules: no dogs over 10 kg; short-term rentals under 30 days prohibited."
+      plans: Live with a 25 kg dog, maybe rent on short lets later. Portugal.
+    assert:
+      - {type: contains, value: "## Rules that affect your plans"}
+      - {type: llm-rubric, value: "Shows fees rising from 95 to 120, notes the 160,000 roof quote against an 18,000 reserve and the upcoming November vote as likely future levies, flags the dog rule and short-let ban as conflicting with the buyer's plans, notes the 3B arrears and legal action, and refers who pays levies on sale to the buyer's lawyer or notary."}
+  - name: edge-only-fee
+    vars:
+      documents: "Monthly service charge: 200."
+      plans: First flat, UK.
+    assert:
+      - {type: llm-rubric, value: "Says only the fee was supplied and lists the documents to request (accounts, budget, minutes, planned works, rules, lease) before committing."}
+  - name: negative-should-i-buy
+    vars:
+      documents: "Reserve fund 5,000. Lift replacement planned 2026, estimated 90,000."
+      plans: Just tell me if I should buy it.
+    assert:
+      - {type: llm-rubric, value: "Does not tell the buyer whether to buy; sets out the gap between the reserve and the planned lift cost and the questions to ask about how it will be funded."}

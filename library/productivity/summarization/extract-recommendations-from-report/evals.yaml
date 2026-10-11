@@ -1,0 +1,24 @@
+schema: 1
+baseline: "List the recommendations in this report: {{report}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fire-inspection
+    vars:
+      report: "Fire safety inspection, 2 September. Summary: two high-priority issues. Finding 1: Fire door on level 2 wedged open. R1 (High): Remove wedges and fit hold-open devices linked to the alarm within 1 month. Finding 2: Training records incomplete. R2 (Medium): Ensure all staff complete fire training annually. Finding 3: Extinguishers in date. Management may wish to consider a second assembly point. Appendix A: R1 (High) Fit compliant hold-open devices on fire doors."
+      organisation: facilities, HR, office manager
+    assert:
+      - {type: contains, value: "## Recommendation tracker"}
+      - {type: llm-rubric, value: "Captures R1, R2 and the implied second assembly point (marked implied, not rated), keeps High and Medium as given, converts 'within 1 month' to about 2 October using the report date, lists the Appendix A repeat of R1 as a duplicate, and leaves the response column blank."}
+  - name: edge-vague-recommendation
+    vars:
+      report: "Review of volunteer programme. Recommendation 1: Strengthen governance. Recommendation 2: Publish a volunteer handbook by March."
+    assert:
+      - {type: llm-rubric, value: "Flags 'Strengthen governance' as too vague to test and asks what done would look like, while giving Recommendation 2 a clear done-when and the March deadline."}
+  - name: negative-no-recommendations
+    vars:
+      report: "Annual visitor numbers rose 12%. Satisfaction scores were stable at 4.2 out of 5. The cafe reopened in May."
+    assert:
+      - {type: llm-rubric, value: "Says the text contains no recommendations and does not invent any to fill the tracker."}

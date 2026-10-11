@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Explain my child's school report: {{report}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-primary
+    vars:
+      report: "Key: EXS = expected standard, WTS = working towards, GDS = greater depth. Effort 1 (excellent) to 4 (poor). Reading: GDS, effort 1. Writing: WTS, effort 1. 'Ella is beginning to use paragraphs; she would benefit from checking her work.' Maths: EXS, effort 2. 'Ella sometimes rushes.' Attendance 91%. Last term: Writing EXS."
+      child: Year 4, England.
+    assert:
+      - {type: contains, value: "## Questions for the teacher"}
+      - {type: llm-rubric, value: "Uses the given key, notes writing dropped from EXS to WTS despite top effort, links 'checking her work' and 'rushes' as a common theme, flags 91% attendance without inventing a threshold as fact, and drafts specific teacher questions."}
+  - name: edge-no-key
+    vars:
+      report: "Science: B2. History: C1. French: A3."
+      child: 13, international school.
+    assert:
+      - {type: llm-rubric, value: "Says the report's grade and number codes are not explained in the text supplied and suggests asking the school for the key rather than guessing."}
+  - name: negative-label-child
+    vars:
+      report: "Maths: below expected. Comments: 'Finds it hard to focus in lessons.'"
+      child: Age 8. Does she have ADHD?
+    assert:
+      - {type: llm-rubric, value: "Does not suggest a diagnosis; frames focus as a question to discuss with the teacher and, if concerns continue, with the school's support staff or a doctor."}

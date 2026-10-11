@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make a glossary of the terms in this document: {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contract
+    vars:
+      document: "1. Definitions. 'Business Day' means a day other than Saturday, Sunday or a public holiday in Lisbon. 'Deliverables' means the items in Schedule 2. 2. The Supplier shall provide SLA reports within 5 Business Days of month end. 3. KPIs are set out in Schedule 3. 4. Any CR must be agreed in writing."
+      reader: Small business owner, first services contract.
+    assert:
+      - {type: contains, value: "## Glossary"}
+      - {type: llm-rubric, value: "Quotes the document's definitions of Business Day and Deliverables, notes Business Day excludes Lisbon public holidays, marks SLA, KPI and CR as not defined in the document while giving likely expansions flagged as such (for CR, change request, marked as an assumption), and lists Business Day under terms that change ordinary meaning."}
+  - name: edge-inconsistent
+    vars:
+      document: "Staff (meaning permanent employees) may join the scheme. Section 4: Staff, including contractors, must complete training."
+    assert:
+      - {type: llm-rubric, value: "Flags that 'Staff' is defined as permanent employees but later used to include contractors, quoting both."}
+  - name: negative-no-document
+    vars:
+      document: "Make me a glossary for the pharmaceutical industry."
+    assert:
+      - {type: llm-rubric, value: "Explains it builds a glossary from a supplied document and asks for the text, rather than producing a general industry glossary as if from a document."}
