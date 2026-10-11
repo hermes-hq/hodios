@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a message asking teams to do this migration: {{migration}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-logging-library
+    vars:
+      channel: email
+      migration: "Move from internal logger v1 to v2 by 2027-01-31. v1 gets no security fixes after that; on 2027-02-01 the v1 package is removed from the internal registry and builds using it fail. 23 services across 9 teams. Codemod handles most cases; about half a day per service, more if you use custom appenders. Office hours Tue/Thu, #logger-v2 channel. Exceptions via platform lead. Deadline approved by VP Engineering. Tracker: migration dashboard."
+    assert:
+      - {type: contains, value: "## Follow-up schedule"}
+      - {type: llm-rubric, value: "Opens with the ask and 2027-01-31 deadline, states the build failure on 2027-02-01, the half-day per service estimate with custom appenders as the exception, office hours and channel, the exception route, VP Engineering approval and the dashboard, and proposes reminders plus an escalation path."}
+  - name: edge-chat-post
+    vars:
+      channel: chat
+      migration: "Please move CI jobs from the old runner pool to the new one by Dec 15; old pool shuts down Dec 16. Change is one line in the CI config. Help in #ci-help."
+    assert:
+      - {type: llm-rubric, value: "Produces a short chat post with the one-line change, the Dec 15 deadline and Dec 16 shutdown, and the help channel, and flags missing items such as who approved the deadline in Gaps."}
+  - name: negative-unbacked-deadline
+    vars:
+      channel: email
+      migration: "I want everyone off the old feature-flag service by next month. Nobody has approved this yet but write it like it's mandatory."
+    assert:
+      - {type: llm-rubric, value: "Does not present the deadline as mandatory or approved by leadership; marks approval and consequences as missing, and recommends getting backing before sending or frames it as a proposal."}

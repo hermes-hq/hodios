@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write up my spike. Question: {{question}}. Findings: {{findings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-websocket-spike
+    vars:
+      question: "Can we replace polling with server-sent events behind our current load balancer? 3 days."
+      findings: "SSE works through the ALB in staging, connections held 10 min fine. Idle timeout at 60 s killed streams until I added 30 s heartbeats. Did not test with 10k concurrent connections. Did not try the mobile client. Prototype in branch spike/sse is hacky, no auth."
+    assert:
+      - {type: llm-rubric, value: "Answers 'yes, with heartbeats under the idle timeout' or similar conditional, lists untested scale (10k connections) and the mobile client as gaps that could change the answer, and recommends throwing away or not shipping the unauthenticated prototype."}
+  - name: edge-question-drifted
+    vars:
+      question: "Can we move search from Elasticsearch to Postgres full-text search? 1 week."
+      findings: "Spent most of the week getting the Postgres extension to build on our base image. Got it working. Ran 3 sample queries, results looked similar. Ran out of time before ranking or performance tests."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that the original question is not answered, that the time box went into build setup, does not claim parity from three sample queries, and recommends a narrower follow-up spike on ranking and performance."}
+  - name: negative-no-invented-numbers
+    vars:
+      question: "Is library X fast enough for our image pipeline?"
+      findings: "Seemed fine."
+    assert:
+      - {type: llm-rubric, value: "Does not invent throughput or latency figures, rates confidence as low, and lists the measurements needed to answer the question."}

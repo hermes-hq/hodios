@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Review this blog post draft: {{draft}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-draft-with-sql-and-host
+    vars:
+      draft: |
+        # How we made search 10x faster
+        Our search on db-search-01.internal was slow. We switched to a trigram index and it got 10x faster.
+        ```python
+        cur.execute("SELECT * FROM items WHERE name ILIKE '%" + q + "%'")
+        ```
+        Big thanks to the team. Acme Corp, our biggest customer, noticed right away.
+    assert:
+      - {type: contains, value: "## Must fix"}
+      - {type: llm-rubric, value: "Puts the string-concatenated SQL (injection risk), the internal hostname and the customer name Acme Corp in Must fix, and asks for the numbers and setup behind the 10x claim."}
+  - name: edge-good-draft
+    vars:
+      draft: "A clear 600-word post explaining how the team replaced cron jobs with a queue, with before and after p95 job delay (40 min to 3 min over 2 weeks), a runnable Python example using the standard library, and a closing section on what they would do differently."
+    assert:
+      - {type: llm-rubric, value: "Does not invent problems; gives a verdict of ready or ready after minor fixes with few or no must-fix items, and keeps line notes light."}
+  - name: negative-no-style-in-must-fix
+    vars:
+      draft: "We love Rust!!! Rust is the best language ever and you should rewrite everything in it. Our service is now perfect."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the post has no supported main point and unsupported superlative claims, asks for evidence, and does not simply rewrite the post in a different style."}

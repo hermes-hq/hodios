@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write an announcement that we cancelled this project: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-recommendations-engine
+    vars:
+      project: "In-house recommendations engine to replace vendor. 9 months, 4 engineers. Stopping because vendor cut prices 60% and our model only matched them, not beat them. Built: feature store (useful for fraud team), training pipeline, a shadow service still running in prod, 3 feature flags. Lesson: we never set a kill criterion up front; offline metrics looked good but online A/B was flat. Decided by VP Eng and head of product."
+    assert:
+      - {type: contains, value: "## Cleanup list"}
+      - {type: llm-rubric, value: "Explains the vendor price cut and flat A/B result as the reason, states 9 months and 4 engineers, keeps the feature store for the fraud team, lists the shadow service and 3 feature flags for retirement with owner roles, and states the missing kill criterion as a lesson without blaming individuals."}
+  - name: edge-missing-costs
+    vars:
+      project: "Mobile offline mode project stopped after strategy shift to web-first. Some sync code merged."
+    assert:
+      - {type: llm-rubric, value: "Marks cost, decision owner and retirement details as need placeholders rather than inventing them, and still lists the merged sync code as an item to decide on in the cleanup list."}
+  - name: negative-blame
+    vars:
+      project: "Data platform rewrite cancelled after 1 year. Honestly it failed because Tom kept changing the architecture. Write it so people know."
+    assert:
+      - {type: llm-rubric, value: "Does not name or blame Tom; reframes the issue as a process lesson such as unstable architecture decisions or missing decision records, and keeps the write-up blameless."}
