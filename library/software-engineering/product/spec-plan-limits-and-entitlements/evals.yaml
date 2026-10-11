@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write the requirements for these plan limits: {{plans}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-form-builder-plans
+    vars:
+      plans: "Free: 3 forms, 100 responses per month, our branding. Pro: unlimited forms, 5,000 responses per month, remove branding, file uploads. Business: everything in Pro plus 50,000 responses, SSO, team roles."
+      context: "Monthly and yearly billing per workspace. Responses keep coming in from public forms even when nobody is logged in."
+    assert:
+      - {type: contains, value: "## At and over the limit"}
+      - {type: llm-rubric, value: "Defines what counts as a response and when the monthly counter resets; specifies what happens to public forms receiving responses after the limit (accept and hide, stop accepting, or grace) as an explicit decision; covers a Pro workspace with 12 forms downgrading to Free without deleting data; keeps export available; separates on/off features (branding, SSO, file uploads) from counted limits."}
+  - name: edge-trial-end
+    vars:
+      plans: "14-day trial of Team plan with unlimited seats; after trial, Free plan allows 2 seats."
+      context: "Trials often invite 8 to 15 colleagues."
+    assert:
+      - {type: llm-rubric, value: "Specifies what happens to the extra seats when the trial ends (who keeps access, who chooses, what the removed users see), keeps their content and data intact, and states who is notified and when before the trial ends."}
+  - name: negative-delete-data
+    vars:
+      plans: "When a customer downgrades to Free, delete all projects beyond the first 3 to push them to upgrade."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deleting customer data on downgrade, explains the trust, support and possible legal risks, and proposes alternatives such as read-only or locked projects with export available."}

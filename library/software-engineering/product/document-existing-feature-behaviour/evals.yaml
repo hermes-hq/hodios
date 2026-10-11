@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Document how this feature works: {{feature_name}} {{sources}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discount-code-legacy
+    vars:
+      feature_name: "Discount codes in our old PHP checkout, before rebuilding checkout."
+      sources: "Code excerpt: if ($code->expires < date('Y-m-d')) { reject(); } $discount = round($subtotal * $code->pct / 100, 2); if ($discount > $code->max) $discount = $code->max; Ticket #812: 'customer used two codes' - closed as won't fix. Support macro: 'codes are not case sensitive'."
+    assert:
+      - {type: contains, value: "## Behaviour rules"}
+      - {type: llm-rubric, value: "Extracts rules such as expiry compared by date string so a code is valid through its expiry day, percentage applied to subtotal with rounding to 2 decimals before the max cap; labels case-insensitivity as inferred from a support macro, not confirmed; treats multiple codes per order as unknown or a quirk to decide; proposes characterization tests for expiry day boundary and the cap."}
+  - name: edge-contradicting-sources
+    vars:
+      feature_name: "User export feature in our admin panel."
+      sources: "Help article: exports include deactivated users. Support reply from 2024: deactivated users are never in exports. No code provided."
+    assert:
+      - {type: llm-rubric, value: "Marks the deactivated-user rule as contradicted, quotes both sources, does not pick one as fact, and lists checking the code or running an export as the way to resolve it."}
+  - name: negative-no-sources
+    vars:
+      feature_name: "Our billing module."
+      sources: "None, just write what it probably does."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent behaviour rules for an unseen system, explains why guessed rules are dangerous before a rewrite, and lists the sources it needs (code, tickets, help docs, observed behaviour)."}

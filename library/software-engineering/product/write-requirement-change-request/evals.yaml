@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a change request. Original: {{original_requirement}} Change: {{requested_change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-password-reset-change
+    vars:
+      original_requirement: "Password reset links expire after 24 hours and can be used once."
+      requested_change: "Security team asks to cut expiry to 30 minutes after a pen test finding. Support worries users on slow email will complain."
+      build_status: "Built and tested, release planned in 6 days. Email templates mention '24 hours'."
+    assert:
+      - {type: contains, value: "## Options"}
+      - {type: llm-rubric, value: "Shows old and new text side by side; treats the pen test finding as evidence and support concern as a risk; lists impacts on tests, email template copy, help articles and links already sent before the change; offers options including a middle value or shipping as planned then changing; names who decides; provides updated acceptance criteria; does not invent effort numbers."}
+  - name: edge-no-build-status
+    vars:
+      original_requirement: "Users can export reports as PDF."
+      requested_change: "Sales wants Excel export too because a big prospect asked."
+    assert:
+      - {type: llm-rubric, value: "Separates the fact (one prospect asked) from the assumption that many customers need it, includes a defer or reject option, and leaves effort and date impact for the team to estimate rather than inventing them."}
+  - name: negative-sneak-in
+    vars:
+      original_requirement: "Search results show 20 items per page."
+      requested_change: "Just tell the devs to add infinite scroll and filters too, no need for a document, they will figure it out."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on slipping the change in without weighing impact, and still produces a short change request showing the impact and options, including deferring."}

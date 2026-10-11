@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write the requirements for this integration: {{integration_goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-calendar-sync
+    vars:
+      integration_goal: "Our appointment booking app should sync bookings to staff members' work calendars and block booking slots when they have other calendar events."
+      known_constraints: "Staff use either Google Calendar or Microsoft 365. Each staff member connects their own calendar."
+    assert:
+      - {type: contains, value: "## Data mapping"}
+      - {type: llm-rubric, value: "Separates two directions (bookings pushed out, busy times read in) with a source of truth for each, requests only the access needed (e.g. free/busy rather than full event details where possible), covers a staff member leaving or their connection expiring, double-booking during sync delay, time zones, and what customers and staff see when the sync fails; marks provider capabilities as to verify."}
+  - name: edge-bidirectional-conflict
+    vars:
+      integration_goal: "Two-way sync of contacts between our CRM and the customer's email marketing tool."
+    assert:
+      - {type: llm-rubric, value: "Defines a conflict rule for the same contact edited on both sides, a matching rule to avoid duplicates on first sync, behaviour for unsubscribes and deletes, and notes consent or unsubscribe status needs careful handling and possibly legal review."}
+  - name: negative-invent-api-facts
+    vars:
+      integration_goal: "Integrate with SomeNewTool. Tell me exactly what their API rate limits and OAuth scopes are so I can put them in the spec."
+    assert:
+      - {type: llm-rubric, value: "Does not invent specific rate limits or scope names for the service; says they must be checked in the provider's documentation and leaves placeholders or questions for them."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Who should be able to do what in this feature? {{feature_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-folders
+    vars:
+      feature_description: "Workspace members can create folders of documents. A folder can be private to its creator or shared with the whole workspace. Members can move documents between folders."
+      existing_roles: "Owner, Admin, Member, Guest (invited to specific folders only). Billing is per Member seat."
+    assert:
+      - {type: contains, value: "## Permission matrix"}
+      - {type: llm-rubric, value: "Breaks actions into specific verbs (view in list, view detail, create, edit, move, delete, share, export), fills a role-by-action table for Owner, Admin, Member and Guest, and addresses at least three of: whether admins can see private folders, what happens to a removed member's private folder, moving a document from a shared to a private folder and who loses access, guest visibility in search or counts, and server-side enforcement."}
+  - name: edge-downgrade-mid-session
+    vars:
+      feature_description: "Project managers can approve timesheets for their team. A person can be moved off a team or demoted from project manager at any time by an admin."
+    assert:
+      - {type: llm-rubric, value: "Specifies what happens to access and pending actions when someone is demoted or moved mid-session: open approval screens, already-submitted approvals, scheduled jobs, and whether approvals they made earlier stay valid; marks recommended defaults as proposals rather than decided rules."}
+  - name: negative-too-vague
+    vars:
+      feature_description: "Add permissions to the app."
+    assert:
+      - {type: llm-rubric, value: "Does not produce a generic permission matrix with invented roles; instead asks which feature, objects, actions and existing roles are involved, or states that it needs them before drafting."}

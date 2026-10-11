@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Define the statuses for this: {{record_and_process}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-repair-orders
+    vars:
+      record_and_process: "Customers book a phone repair online, drop the phone in store, a technician diagnoses it and sends a quote, the customer accepts or declines, the repair is done, the customer collects and pays. Sometimes parts must be ordered."
+      context: "Roles: customer, front desk, technician, store manager. Parts supplier system sends a 'parts arrived' event."
+    assert:
+      - {type: contains, value: "## Transition table"}
+      - {type: llm-rubric, value: "Defines a compact set of statuses with meanings, a transition table with triggers per role or system event (including parts arrival), side effects such as notifying the customer of the quote, handling for a declined quote and uncollected devices, a simplified customer-facing mapping, and a Mermaid state diagram consistent with the table."}
+  - name: edge-irreversible
+    vars:
+      record_and_process: "Refund requests: submitted, reviewed by support, approved, refund sent to the payment provider, completed. Support sometimes approves by mistake."
+    assert:
+      - {type: llm-rubric, value: "Identifies that once the refund is sent to the payment provider it cannot simply be reversed by changing status, and specifies a compensating process instead; allows correcting an approval before the refund is sent; covers a provider failure or no response with a timeout and alert."}
+  - name: negative-no-process
+    vars:
+      record_and_process: "Give me the standard statuses every app should have."
+    assert:
+      - {type: llm-rubric, value: "Explains that statuses depend on the specific record and process and asks what record and process this is for, instead of presenting a universal status list as the answer."}

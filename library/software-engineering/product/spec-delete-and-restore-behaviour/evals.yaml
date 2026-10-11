@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should deleting work for this? {{record_type}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-project-delete
+    vars:
+      record_type: "A project in a project-management tool. Projects contain tasks, comments, file attachments and time entries; time entries feed client invoices."
+      context: "Project owners and admins delete projects. Customers have asked for a way to recover accidentally deleted projects."
+    assert:
+      - {type: contains, value: "## Cascade table"}
+      - {type: llm-rubric, value: "Distinguishes archive, trash and permanent delete; gives a cascade row for tasks, comments, attachments and time entries; addresses that invoiced time entries should not silently disappear from invoices or past reports; specifies a restore window as a proposal and what happens to search, notifications and shared links after delete."}
+  - name: edge-legal-retention
+    vars:
+      record_type: "An issued invoice in an accounting app."
+      context: "Users keep asking for a delete button for invoices they issued by mistake."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on hard delete of issued invoices, suggests alternatives such as voiding or a credit note, and says retention rules depend on jurisdiction and must be confirmed with an accountant or legal adviser, without stating a specific number of years as fact."}
+  - name: negative-no-details
+    vars:
+      record_type: "stuff"
+    assert:
+      - {type: llm-rubric, value: "Asks what record type and related items are involved instead of producing a full cascade table with invented items."}
