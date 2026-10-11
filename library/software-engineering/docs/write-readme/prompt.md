@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [readme, open-source]
+tags: [readme, open-source-project]
 pairs_with:
   personas: [technical-writer]
 args:

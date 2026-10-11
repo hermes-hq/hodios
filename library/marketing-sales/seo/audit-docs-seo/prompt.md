@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [open-source, docs-seo, diataxis, search-console, versioned-docs, error-pages]
+tags: [open-source-project, docs-seo, diataxis, search-console, versioned-docs, error-pages]
 pairs_with:
   prompts: [audit-documentation, write-honest-comparison-page, analyze-search-console-data, write-troubleshooting-guide]
   personas: [technical-writer]

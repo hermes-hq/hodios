@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [forecasts, pundit-tracking, accountability, scorecard]
+tags: [claims-about-future, pundit-tracking, accountability, scorecard]
 pairs_with:
   prompts: [make-calibrated-forecast, label-fact-vs-opinion]
 args:

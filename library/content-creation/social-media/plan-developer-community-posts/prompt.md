@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [open-source, reddit, self-promotion-rules, community-launch, lobsters, discord]
+tags: [open-source-project, reddit, self-promotion-rules, community-launch, lobsters, discord]
 pairs_with:
   prompts: [write-reddit-post, write-show-hn-post, plan-open-source-launch, respond-to-project-criticism]
   personas: [open-source-growth-strategist]

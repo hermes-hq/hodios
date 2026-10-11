@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [open-source, newsletter-pitch, podcast-pitch, earned-media, developer-marketing]
+tags: [open-source-project, newsletter-pitch, podcast-pitch, earned-media, developer-marketing]
 pairs_with:
   prompts: [write-podcast-guest-pitch, pitch-journalist, plan-directory-submissions]
   personas: [open-source-growth-strategist]

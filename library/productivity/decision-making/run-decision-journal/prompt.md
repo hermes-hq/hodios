@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [decision-journal, calibration, hindsight-bias, judgement, forecasting]
+tags: [decision-journal, calibration, hindsight-bias, judgement]
 pairs_with:
   prompts: [run-pre-mortem, compare-options-matrix, make-life-decision]
   personas: [thinking-partner]

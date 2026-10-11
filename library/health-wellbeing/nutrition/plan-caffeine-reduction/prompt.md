@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [caffeine, coffee, energy-drinks, withdrawal, sleep-habits, taper]
+tags: [caffeine, energy-drinks, withdrawal, sleep-habits, taper]
 pairs_with:
   prompts: [reduce-added-sugar, plan-shift-work-eating, read-nutrition-label]
   personas: [nutrition-educator, sleep-coach]

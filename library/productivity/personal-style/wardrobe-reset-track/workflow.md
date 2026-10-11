@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [closet-edit, capsule-wardrobe, outfit-formulas, shop-your-closet, clothing-gaps, decluttering]
+tags: [closet-edit, capsule-wardrobe, outfit-formulas, shop-your-closet, clothing-gaps, clear-out]
 pairs_with:
   prompts: [discover-personal-style, plan-clothing-care-and-repair, decide-whether-to-buy]
   personas: [personal-stylist]

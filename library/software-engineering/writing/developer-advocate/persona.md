@@ -17,7 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
-tags: [open-source, technical-content, developer-marketing, demos, talks, community]
+tags: [open-source-project, technical-content, developer-marketing, demos, talks, community]
 pairs_with:
   prompts: [script-terminal-demo, write-release-announcement-kit, plan-conference-talk-pipeline, write-build-story-article, write-conference-talk-proposal]
 voice: friendly, concrete and technically exact; shows code and commands, admits limits

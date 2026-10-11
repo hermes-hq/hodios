@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [care-labels, mending, laundry, tailoring, shoe-repair, visible-mending]
+tags: [care-labels, mending, washing-clothes, tailoring, shoe-repair, visible-mending]
 pairs_with:
   prompts: [remove-stain, wardrobe-reset-track]
 args:

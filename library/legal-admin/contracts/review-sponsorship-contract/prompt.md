@@ -21,7 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [brand-deal, influencer-contract, usage-rights, exclusivity, ad-disclosure, creator-economy]
+tags: [brand-deal, influencer-contract, usage-rights, exclusivity, ad-disclosure, creator-income]
 pairs_with:
   prompts: [pitch-brand-sponsorship, review-freelance-contract, redline-contract, explain-contract-clause]
 args:

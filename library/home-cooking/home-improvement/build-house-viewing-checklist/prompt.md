@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [house-viewing, house-hunting, renting, home-buying, red-flags, damp]
+tags: [house-viewing, house-hunting, renters, home-buying, red-flags, damp]
 pairs_with:
   prompts: [estimate-home-buying-costs, document-rental-move-in]
   workflows: [home-buying-track, moving-house-track]

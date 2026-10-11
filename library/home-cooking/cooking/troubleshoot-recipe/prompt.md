@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
-tags: [kitchen-fail, bread, sauces, food-science]
+tags: [kitchen-fail, bread-baking, sauces, food-science]
 pairs_with:
   prompts: [adapt-recipe, teach-cooking-technique]
   personas: [chef-mentor]

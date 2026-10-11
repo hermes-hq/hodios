@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
-tags: [open-source, weekly-review, growth-metrics, referrers, no-telemetry]
+tags: [open-source-project, weekly-review, growth-metrics, referrers, no-telemetry]
 pairs_with:
   prompts: [set-up-oss-growth-metrics, monthly-growth-review-track, diagnose-metric-drop]
   personas: [open-source-growth-strategist]

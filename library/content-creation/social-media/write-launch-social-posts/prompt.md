@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [open-source, launch-thread, bluesky, mastodon, alt-text]
+tags: [open-source-project, launch-thread, bluesky, mastodon, alt-text]
 pairs_with:
   prompts: [plan-open-source-launch, script-terminal-demo, write-release-announcement-kit]
 args:

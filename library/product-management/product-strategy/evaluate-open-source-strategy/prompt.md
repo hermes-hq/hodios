@@ -19,7 +19,7 @@ model_tier: frontier
 reasoning: recommended
 level: expert
 advice_risk: [legal]
-tags: [open-source, open-core, licensing-models, community, business-model]
+tags: [open-source-project, open-core, licensing-models, community, business-model]
 pairs_with:
   prompts: [plan-open-source-launch, choose-oss-funding-model, evaluate-build-vs-buy, plan-platform-strategy]
 args:

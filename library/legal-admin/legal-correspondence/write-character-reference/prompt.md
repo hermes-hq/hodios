@@ -21,7 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [character-reference, court-reference, visa-application, adoption, tenancy]
+tags: [character-reference, court-reference, visa-application, adoption, rental-reference]
 pairs_with:
   prompts: [write-reference-letter, prepare-visa-application, prepare-rental-application]
   personas: [legal-information-guide]

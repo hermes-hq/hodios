@@ -21,7 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
-tags: [home-staging, selling-a-home, decluttering, listing-photos, curb-appeal]
+tags: [home-staging, selling-a-home, clear-out, listing-photos, curb-appeal]
 pairs_with:
   prompts: [plan-decluttering, plan-diy-project, hire-contractor]
   personas: [interior-designer]

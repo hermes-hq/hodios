@@ -21,7 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [freelancing, statement-of-work, ip-assignment, late-payment, scope-creep]
+tags: [freelancers, statement-of-work, ip-assignment, late-payment, scope-creep]
 pairs_with:
   prompts: [redline-contract, draft-simple-agreement, explain-contract-clause]
   workflows: [contract-review-track]

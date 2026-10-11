@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [open-source, integrations, partnerships, ecosystem, plugin, works-with]
+tags: [open-source-project, integrations, partnerships, ecosystem, plugin, works-with]
 pairs_with:
   prompts: [write-partnership-proposal, plan-platform-strategy, pitch-developer-media]
   personas: [open-source-growth-strategist]

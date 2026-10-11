@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
-tags: [open-source, demo-gif, terminal-recording, vhs, asciinema, readme]
+tags: [open-source-project, demo-gif, terminal-recording, vhs, asciinema, readme]
 pairs_with:
   prompts: [audit-readme-conversion, write-launch-social-posts, prepare-product-demo]
   personas: [developer-advocate]

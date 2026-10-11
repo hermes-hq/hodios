@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
-tags: [open-source, churn-interview, switch-interview, jobs-to-be-done, retention, no-telemetry]
+tags: [open-source-project, churn-interview, switch-interview, jobs-to-be-done, retention, no-telemetry]
 pairs_with:
   prompts: [synthesize-customer-interviews, analyze-cancellation-feedback, collect-adopter-stories]
 args:
