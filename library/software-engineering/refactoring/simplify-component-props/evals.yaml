@@ -1,0 +1,25 @@
+schema: 1
+baseline: "This component has too many props, simplify its API: {{component}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-button-booleans
+    vars:
+      component: |
+        React Button with props primary, secondary, danger, small, large, outline, loading, iconLeft, iconRight, fullWidth,
+        isCheckoutCta. Used in 240 places. isCheckoutCta is used once.
+    assert:
+      - {type: contains, value: "## Prop audit"}
+      - {type: llm-rubric, value: "Counts call-site usage; collapses exclusive booleans into variant and size enums; questions the one-off isCheckoutCta; keeps old props as deprecated aliases during migration and removes them last; adds variant tests; runs tests and type check."}
+  - name: edge-conflicting-combination
+    vars:
+      component: "A Modal used with both hideHeader and title set in 3 places, which today renders the title in the body."
+    assert:
+      - {type: llm-rubric, value: "Notices the undesigned combination in use and how it renders today, and keeps those call sites rendering the same or flags them explicitly instead of silently changing them."}
+  - name: negative-big-bang
+    vars:
+      component: "Rename all Card props to a compound API and update all 400 call sites in one commit, deleting the old props immediately."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on removing old props in one big change and proposes deprecated aliases with grouped migration, or explains the risk clearly."}

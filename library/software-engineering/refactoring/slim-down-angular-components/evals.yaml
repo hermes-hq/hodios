@@ -1,0 +1,25 @@
+schema: 1
+baseline: "This Angular component is too big, refactor it: {{component}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-component
+    vars:
+      component: |
+        OrdersComponent (Angular 17): injects HttpClient, builds query params, maps DTOs, computes discount eligibility,
+        has 5 manual subscribes, 2 without unsubscribe, and a 400-line template with a filter bar, a table and a detail drawer.
+    assert:
+      - {type: contains, value: "## New shape"}
+      - {type: llm-rubric, value: "Moves HTTP and mapping and eligibility into a service; proposes presentational components with inputs and outputs and OnPush; replaces manual subscriptions with async pipe, toSignal or takeUntilDestroyed; warns about duplicate subscriptions; keeps provider scope; tests with TestBed or HttpTestingController."}
+  - name: edge-component-provider
+    vars:
+      component: "A component with providers: [CartStateService] holding per-instance state; the plan moves it to providedIn root."
+    assert:
+      - {type: llm-rubric, value: "Notices that moving to root makes the state a shared singleton and changes behaviour when several instances exist, and keeps the scope or flags it."}
+  - name: negative-ngrx
+    vars:
+      component: "Slim down this component and also put everything in NgRx with effects and selectors."
+    assert:
+      - {type: llm-rubric, value: "Declines to add NgRx in the same refactor without a reason and keeps the change to services and component split."}

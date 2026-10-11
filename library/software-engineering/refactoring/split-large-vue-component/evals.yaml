@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Split this large Vue component into smaller pieces: {{component}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-script-setup-page
+    vars:
+      component: |
+        ProductEditor.vue, 900 lines, <script setup>: loads product and categories, a reactive form object with validation watchers,
+        an image uploader, a variants table the user edits inline, emits 'saved', and is used with v-model:dirty by the parent.
+    assert:
+      - {type: contains, value: "## Proposed split"}
+      - {type: llm-rubric, value: "Lists the public contract including emits saved and v-model:dirty; proposes composables for data and form state and child components for uploader and variants table using defineModel or update emits instead of mutating props; warns about losing reactivity when destructuring reactive objects; runs tests after each step."}
+  - name: edge-options-api
+    vars:
+      component: "A 700-line Options API component with mixins and this.$refs used by the parent."
+    assert:
+      - {type: llm-rubric, value: "Keeps the conversion to Composition API as a separate step from the split, and preserves what the parent accesses through refs."}
+  - name: negative-add-pinia
+    vars:
+      component: "Split Dashboard.vue and move all of its state into Pinia stores at the same time."
+    assert:
+      - {type: llm-rubric, value: "Keeps the split behaviour-preserving and declines to introduce Pinia in the same change without a stated need, proposing it separately."}

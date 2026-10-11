@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Fix the prop drilling in these React components: {{tree}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-layout-slots
+    vars:
+      tree: |
+        App owns user and onLogout and passes them through PageLayout -> Header -> UserMenu -> Avatar. PageLayout and Header
+        use neither prop. Settings and Billing pages, deep in other branches, also need user.
+    assert:
+      - {type: contains, value: "## Fix per prop"}
+      - {type: llm-rubric, value: "Considers composition (children or slot props) for the layout path and a narrow current-user context with a custom hook only because distant pages also need it; memoises the context value; removes unused props from intermediates; tests and type check run."}
+  - name: edge-two-layers
+    vars:
+      tree: "A Form passes onChange to FieldGroup, which passes it to Input. FieldGroup also uses onChange to clear an error."
+    assert:
+      - {type: llm-rubric, value: "Recognises that FieldGroup uses the prop and the drilling is shallow, and recommends leaving it or a minimal change rather than adding context."}
+  - name: negative-global-store
+    vars:
+      tree: "Props are drilled in three places in our app. Put everything into one AppContext with all state and setters so we never drill again."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a single global context of all state, explaining re-render and coupling costs, and proposes per-case fixes instead."}

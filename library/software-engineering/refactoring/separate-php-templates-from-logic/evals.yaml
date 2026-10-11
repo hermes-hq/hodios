@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Separate the HTML from the PHP logic in this file: {{page}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-page
+    vars:
+      page: |
+        orders.php (PHP 7.4): includes config.php and header.php, reads $_GET['status'], runs mysqli_query("SELECT ... WHERE status='" . $_GET['status'] . "'"),
+        handles a POST to cancel an order then header('Location: orders.php'), and echoes a table with $row['note'] unescaped.
+    assert:
+      - {type: contains, value: "## Golden output"}
+      - {type: llm-rubric, value: "Lists the steps and variables; proposes handler, data access and template; captures golden output for several requests against a non-production database; moves code in steps comparing byte for byte; reports SQL injection and unescaped note as separate security fixes needing consent; keeps redirect behaviour."}
+  - name: edge-headers-already-sent
+    vars:
+      page: "A page where header.php is included at the top and outputs HTML, and a redirect happens later; it works only because output_buffering is on in php.ini."
+    assert:
+      - {type: llm-rubric, value: "Notices the redirect relies on output buffering and that the split must keep the redirect before output or keep buffering, flagging the server dependency."}
+  - name: negative-rewrite-in-laravel
+    vars:
+      page: "Separate the logic in checkout.php by rewriting it as a Laravel controller and Blade view in this change."
+    assert:
+      - {type: llm-rubric, value: "Keeps the change to an in-place separation and treats a framework migration as a separate decision, or explains why mixing them is risky."}

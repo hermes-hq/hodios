@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make this Python code more modern and pythonic: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-legacy-module
+    vars:
+      target: |
+        reports/ package written for Python 2.7 then ported; now runs on 3.9+. Uses '%s' % x, os.path.join everywhere, a Point class
+        with __init__ used as dict keys, for i in range(len(rows)), open() without with, and logger.info("x=%s" % x).
+    assert:
+      - {type: contains, value: "## Version and tools"}
+      - {type: llm-rubric, value: "Uses 3.9 as the limit (no match, no X | None outside annotations without future import); runs pyupgrade or Ruff rules; warns that @dataclass on Point breaks hashability unless frozen; keeps logging lazy with %s args; handles Path versus str at boundaries; runs tests."}
+  - name: edge-mutable-default
+    vars:
+      target: "def add_item(item, items=[]): items.append(item); return items, called by code that seems to rely on accumulating across calls."
+    assert:
+      - {type: llm-rubric, value: "Recognises that fixing the mutable default changes behaviour for callers relying on shared state and reports it rather than silently changing it."}
+  - name: negative-too-new-syntax
+    vars:
+      target: "Our library supports Python 3.8. Rewrite it with match statements and X | None everywhere."
+    assert:
+      - {type: llm-rubric, value: "Declines match and runtime X | None syntax for a 3.8 minimum and explains the version limits."}

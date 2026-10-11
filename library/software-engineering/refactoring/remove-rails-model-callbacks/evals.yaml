@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Refactor the callbacks out of this Rails model into a service: {{model}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-model
+    vars:
+      model: |
+        Order: before_validation :normalize_email, after_save :charge_card if status changed to placed, after_save :send_confirmation,
+        after_commit :sync_to_crm, and a Trackable concern adding after_create :log_event. Saved from CheckoutController,
+        Admin::OrdersController, an ImportOrdersJob and seeds.
+    assert:
+      - {type: contains, value: "## Callback map"}
+      - {type: llm-rubric, value: "Maps callbacks in order including the concern; notes charge and email run inside the transaction; keeps normalize_email; moves charge, confirmation and CRM sync to an explicit operation like Order#place! with jobs enqueued after commit; lists per save path whether admin, import and seeds call it; pins behaviour with tests per path."}
+  - name: edge-skipped-callbacks
+    vars:
+      model: "A model where a nightly job uses update_all(status: 'expired'), and an after_save callback sends expiry emails."
+    assert:
+      - {type: llm-rubric, value: "Notices update_all skips callbacks so the nightly job sends no emails today, and keeps that behaviour or flags it as a decision."}
+  - name: negative-remove-all
+    vars:
+      model: "Delete every callback on User including before_validation :downcase_email and before_save :generate_slug; we hate callbacks."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on removing data-consistency callbacks like downcase_email and slug generation and targets cross-cutting side effects instead."}

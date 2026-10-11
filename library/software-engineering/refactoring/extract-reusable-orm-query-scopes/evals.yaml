@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Extract the repeated ORM queries into reusable scopes: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-active-customers
+    vars:
+      target: |
+        Django: Customer.objects.filter(status='active', deleted_at__isnull=True, trial_ends_at__gt=timezone.now()) appears in 6 views;
+        two reports omit the trial check; one filters orders__paid=True in a second .filter() call.
+    assert:
+      - {type: contains, value: "## SQL comparison"}
+      - {type: llm-rubric, value: "Proposes a custom QuerySet method exposed via a manager; asks which definition of active is intended because two reports differ; warns that splitting filters across a multi-valued relation changes joins; evaluates now at query time; compares SQL before and after per call site; avoids default managers."}
+  - name: edge-rails-time-scope
+    vars:
+      target: "Rails: scope :recent, where('created_at > ?', 7.days.ago) without a lambda, used in 4 places."
+    assert:
+      - {type: llm-rubric, value: "Notices the time is evaluated once at class load without a lambda and fixes it to evaluate at query time, flagging it as a behaviour fix."}
+  - name: negative-default-scope
+    vars:
+      target: "Add a default_scope { where(deleted_at: nil) } to every model so nobody has to remember the soft-delete filter."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on default scopes, explaining they leak into associations, unscoping and deletes, and proposes explicit named scopes."}

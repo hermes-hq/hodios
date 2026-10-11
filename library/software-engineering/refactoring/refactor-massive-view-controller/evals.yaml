@@ -1,0 +1,25 @@
+schema: 1
+baseline: "This UIViewController is too big, refactor it: {{controller}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-feed-controller
+    vars:
+      controller: |
+        FeedViewController.swift, 2,300 lines, storyboard-based, iOS 15+: URLSession calls in viewDidLoad, JSON parsing, a table view
+        data source and delegate, pull-to-refresh, a compose bar with keyboard handling, and performSegue to detail with identifier "showPost".
+    assert:
+      - {type: contains, value: "## Proposed split"}
+      - {type: llm-rubric, value: "Proposes a view model without UIKit for loading and parsing with unit tests, a data source object held strongly by the controller, possibly a child controller for the compose bar with correct addChild and didMove; keeps the showPost segue and outlets wired; uses weak self in closures and main-thread UI updates; runs build and tests after each step."}
+  - name: edge-weak-data-source
+    vars:
+      controller: "A proposed change sets tableView.dataSource = FeedDataSource(items: items) inside viewDidLoad without storing it."
+    assert:
+      - {type: llm-rubric, value: "Notices table views hold the data source weakly so the object is deallocated, and stores it in a strong property."}
+  - name: negative-swiftui-rewrite
+    vars:
+      controller: "Refactor SettingsViewController by rewriting the screen in SwiftUI with a new Combine-based architecture."
+    assert:
+      - {type: llm-rubric, value: "Keeps this refactor in UIKit and treats a SwiftUI or Combine migration as a separate change, or explains the risk of combining them."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Remove the barrel index.ts files from our project: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-app-barrels
+    vars:
+      scope: |
+        A Next.js app with src/components/index.ts, src/hooks/index.ts and src/utils/index.ts, each export * from 20-60 files.
+        Vitest takes 40s to start; we also see "Cannot access 'X' before initialization" in tests.
+    assert:
+      - {type: contains, value: "## Keep or remove"}
+      - {type: llm-rubric, value: "Inventories barrels with importers and side effects; rewrites imports to defining files with a codemod handling default, renamed and type-only re-exports and path aliases; deletes barrels only when unused; runs type check, lint, tests and build per folder; measures startup; proposes a lint rule."}
+  - name: edge-published-package
+    vars:
+      scope: "A monorepo where packages/ui/src/index.ts is the entry point in packages/ui/package.json exports, plus internal barrels in apps/web."
+    assert:
+      - {type: llm-rubric, value: "Keeps the published package entry point and removes only internal barrels."}
+  - name: negative-side-effect-barrel
+    vars:
+      scope: "Delete src/plugins/index.ts right away; it re-exports plugins and also calls registerAll() at the bottom."
+    assert:
+      - {type: llm-rubric, value: "Refuses to delete the barrel until registerAll has an explicit home, explaining the side effect would be lost."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Clean up the repeated Tailwind classes in these files: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-buttons-react
+    vars:
+      target: |
+        A React app where "inline-flex items-center rounded-md px-4 py-2 text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700
+        focus:outline-none focus:ring-2" appears 31 times, with 6 copies using px-3 and 4 using bg-red-600 for delete actions.
+    assert:
+      - {type: contains, value: "## Extraction choice"}
+      - {type: llm-rubric, value: "Extracts a Button component with a variant helper for primary and danger; flags the px-3 drift as drift or a size variant instead of silently unifying; keeps class names written in full; addresses className merging conflicts; verifies rendered classes and runs the production build."}
+  - name: edge-dynamic-color
+    vars:
+      target: "A Badge where the extraction would use className={`bg-${color}-100 text-${color}-800`} to cover five colours."
+    assert:
+      - {type: llm-rubric, value: "Rejects interpolated class names because the content scanner will not generate them, and uses a full-name lookup map instead."}
+  - name: negative-apply-everything
+    vars:
+      target: "Move all our Tailwind classes into a components.css file with @apply and semantic class names like .card and .btn-primary."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on wholesale @apply, explaining it recreates the problems utility CSS avoids and recommending components instead, while allowing @apply for narrow cases."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "We have duplicate TypeScript types, merge them: {{types}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-user-copies
+    vars:
+      types: |
+        User in src/types.ts (id, name, email: string), UserDTO in api/ (id, name, email?: string | null, role),
+        UserFormValues in forms/ (name, email), AdminUser in admin/ (copy of User plus permissions).
+    assert:
+      - {type: contains, value: "## Copies and drift"}
+      - {type: llm-rubric, value: "Compares fields side by side; resolves the email optionality from the code that produces the data; derives form and admin types with Omit, Pick or intersection; considers keeping the API DTO separate with a mapping; no casts; runs type check and tests."}
+  - name: edge-db-row-vs-api
+    vars:
+      types: "OrderRow from the ORM and OrderResponse returned by the public API have identical fields today."
+    assert:
+      - {type: llm-rubric, value: "Warns that merging couples the public API to the database schema and recommends keeping them separate with a mapping, or merging only with an explicit decision."}
+  - name: negative-cast-errors
+    vars:
+      types: "Merge Product types; if the compiler complains afterwards just add as Product where needed."
+    assert:
+      - {type: llm-rubric, value: "Declines to silence errors with casts and treats new errors as real mismatches to fix or report."}
