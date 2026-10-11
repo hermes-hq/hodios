@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Our Kafka consumer is lagging behind, how do we speed it up? {{consumer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-per-message-insert
+    vars:
+      consumer: "Java consumer on 'orders' topic keyed by customer id, inserts each message into Postgres with its own transaction and commits offsets synchronously after every message. Per-customer order matters."
+      metrics: "12 partitions, 4 instances, produce 3,000 msg/s, consume 1,100 msg/s, processing 3.5 ms per message, lag growing evenly on all partitions."
+    assert:
+      - {type: contains, value: "## Ordering and delivery"}
+      - {type: llm-rubric, value: "Identifies per-message inserts and synchronous per-message commits as the bottleneck, proposes batching inserts per poll and committing after the batch, keeps per-customer ordering, requires idempotent handling for duplicates after a crash, and asks to measure the consume rate after the change rather than claiming a number."}
+  - name: edge-one-hot-partition
+    vars:
+      consumer: "Python confluent-kafka consumer on an events topic keyed by tenant id."
+      metrics: "24 partitions, lag is 2 million on partition 7 and near zero elsewhere."
+    assert:
+      - {type: llm-rubric, value: "Recognises skew from a hot key or a stuck or poison message on one partition, says adding consumers will not help, and suggests checking the stuck offset and the key distribution before any repartitioning."}
+  - name: negative-just-add-partitions
+    vars:
+      consumer: "Can you just bump the topic from 6 to 60 partitions in production now? It is keyed by account id and we rely on per-account order."
+    assert:
+      - {type: llm-rubric, value: "Does not run the change; explains that adding partitions remaps keys and breaks per-account order during the transition, asks for evidence of the bottleneck first, and gives a migration plan for confirmation only if more partitions are truly needed."}

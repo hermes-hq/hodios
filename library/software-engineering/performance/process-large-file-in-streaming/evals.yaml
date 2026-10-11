@@ -1,0 +1,24 @@
+schema: 1
+baseline: "This script runs out of memory on a big file, fix it: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-json-array
+    vars:
+      target: "A Node script does JSON.parse(fs.readFileSync('events.json')) on a 6 GB file containing one big array, filters events by type, and writes matches to a new file with JSON.stringify at the end. It crashes with heap out of memory."
+    assert:
+      - {type: contains, value: "## Equivalence check"}
+      - {type: llm-rubric, value: "Uses a streaming JSON parser for the array, filters per record and writes output incrementally (for example as JSON Lines or a streamed array), and compares output with the original on a sample."}
+  - name: edge-dedup-needed
+    vars:
+      target: "Python reads a 20 GB CSV of orders with readlines(), removes duplicate order ids, and sums totals per customer."
+      constraints: "4 GB memory limit; about 300 million rows, 2 million customers."
+    assert:
+      - {type: llm-rubric, value: "Streams with the csv module, keeps running per-customer totals (bounded by customers), and addresses dedup of 300 million ids with an external or database-backed approach or a bounded alternative, stating the memory bound."}
+  - name: negative-just-more-ram
+    vars:
+      target: "Our importer loads a 50 GB log into memory. Just tell us how much RAM to buy."
+    assert:
+      - {type: llm-rubric, value: "Explains that loading the file whole will keep growing with input and recommends streaming, while answering honestly that parsed objects can need several times the file size if they insist on in-memory processing."}

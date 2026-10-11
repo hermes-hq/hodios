@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How many workers should I run? {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gunicorn-container
+    vars:
+      setup: "Django on Gunicorn sync workers, workers = 2 * cpu_count + 1 computed in the config. Kubernetes pod limit 2 CPU and 2 GiB on 64-core nodes."
+      measurements: "Pods get OOMKilled under load. Each worker uses about 180 MB. Requests spend 70% of their time waiting on Postgres and an external API."
+    assert:
+      - {type: contains, value: "## Sizing calculation"}
+      - {type: llm-rubric, value: "Explains that cpu_count sees the host's 64 cores, not the 2-CPU limit, computes the memory-bound worker maximum from 2 GiB and 180 MB with headroom, and suggests threads (gthread) for the I/O-heavy mix, checking database connections."}
+  - name: edge-php-fpm
+    vars:
+      setup: "PHP-FPM pm = dynamic, pm.max_children = 5 on a 4 GB VM, Nginx in front."
+      measurements: "Nginx logs show 502s at peak and FPM logs 'server reached pm.max_children'. Each FPM child uses about 60 MB; CPU is 30%."
+    assert:
+      - {type: llm-rubric, value: "Raises pm.max_children based on available memory divided by child size with headroom, explains the low CPU means workers are waiting not computing, and checks database connection limits."}
+  - name: negative-dependency-bound
+    vars:
+      setup: "Puma with 4 workers and 5 threads."
+      measurements: "CPU 15%, memory fine, every request waits 2 s on a slow payment API that times out at peak."
+    assert:
+      - {type: llm-rubric, value: "Says more workers will not fix a slow dependency, recommends timeouts, moving the call out of the request path or other dependency fixes, and only modest concurrency changes."}

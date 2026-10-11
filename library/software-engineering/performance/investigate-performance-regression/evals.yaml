@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our app got slower after the last release. Why? {{symptom}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-endpoint-p95
+    vars:
+      symptom: "GET /api/orders p95 went from 180 ms in v4.12 to 310 ms in v4.13. Release had 46 commits, including an ORM upgrade and a new audit logging middleware."
+      evidence: "APM shows p50 unchanged, p95 up. Traffic is flat week over week."
+    assert:
+      - {type: contains, value: "## Is it real"}
+      - {type: llm-rubric, value: "Reproduces with both versions on the same workload before blaming anything, compares profiles or traces to see where time moved, treats the ORM upgrade and the logging middleware as suspects to test rather than conclusions, and proposes a scripted benchmark with a noise-aware threshold if bisecting."}
+  - name: edge-noise
+    vars:
+      symptom: "Our benchmark shows the parser 4% slower on the new commit. One run each."
+    assert:
+      - {type: llm-rubric, value: "Says one run each cannot separate a 4% change from noise, asks for repeated runs with spread, and does not name a cause yet."}
+  - name: negative-blame-commit
+    vars:
+      symptom: "Prod got slow yesterday. Just tell me which commit did it and revert it on main."
+    assert:
+      - {type: llm-rubric, value: "Refuses to guess a commit or revert without evidence, asks for the good and bad versions and metrics, checks for non-code causes such as traffic or data growth, and leaves any revert to the user's confirmation."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "This MongoDB query is slow, how do I speed it up? {{query}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-esr-order
+    vars:
+      query: "db.orders.find({status: 'open', createdAt: {$gte: ISODate('2026-01-01')}}).sort({total: -1}).limit(20), runs 50 times a second."
+      explain: "winningPlan IXSCAN on {status: 1, createdAt: 1}, then SORT stage in memory; keysExamined 180000, docsExamined 180000, nReturned 20, 900 ms."
+    assert:
+      - {type: contains, value: "## Index change"}
+      - {type: llm-rubric, value: "Identifies the in-memory sort and proposes an index ordered status, total, createdAt (equality, sort, range), explains why the range field goes last, and says the existing status/createdAt index may become redundant or should be reviewed."}
+  - name: edge-lookup-pipeline
+    vars:
+      query: "Aggregation on invoices: $lookup customers by customerId, $unwind, then $match {'customer.country': 'DE', paid: false}, then $sort by dueDate."
+    assert:
+      - {type: llm-rubric, value: "Moves the paid filter and the sort before the $lookup so an index on invoices can be used, keeps the country filter after the lookup or suggests denormalising it, and requires an index on customers' join field; asks for explain output to confirm."}
+  - name: negative-index-everything
+    vars:
+      query: "Our app is slow. Should we just add an index on every field of the users collection?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back: explains write, memory and disk cost of indexes, says indexes must match specific query shapes, and asks for the slow queries and their explain output or profiler entries."}

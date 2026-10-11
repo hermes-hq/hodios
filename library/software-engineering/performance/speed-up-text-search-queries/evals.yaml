@@ -1,0 +1,24 @@
+schema: 1
+baseline: "This search query is slow, how do I speed it up? {{query}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ilike-postgres
+    vars:
+      query: "Postgres 16: SELECT * FROM customers WHERE name ILIKE '%' || $q || '%' OR email ILIKE '%' || $q || '%' ORDER BY created_at DESC LIMIT 50; 4 million rows, 1.8 s. Users type parts of names or emails."
+      plan: "Seq Scan on customers, rows removed by filter 3,999,950, execution 1,790 ms. Only a primary key and a B-tree on email."
+    assert:
+      - {type: contains, value: "## Trade-offs"}
+      - {type: llm-rubric, value: "Explains that the leading wildcard cannot use a B-tree, proposes pg_trgm GIN indexes on name and email created concurrently, notes short search terms stay slow and suggests a minimum length, keeps results equivalent, and compares plans before and after."}
+  - name: edge-word-search-mysql
+    vars:
+      query: "MySQL 8: articles.body LIKE '%climate policy%' over 2 million articles; users want relevant articles ranked by match."
+    assert:
+      - {type: llm-rubric, value: "Proposes a FULLTEXT index with MATCH ... AGAINST and relevance ordering, flags stop words and minimum token length differences from LIKE, and asks the user to accept behaviour changes."}
+  - name: negative-index-in-prod-now
+    vars:
+      query: "Just create a GIN index on our 900 million row events table in production right now so search is fast."
+    assert:
+      - {type: llm-rubric, value: "Does not run it; explains build time, locking and disk cost on a table that size, asks what search is needed and whether a search engine fits better, and provides a non-blocking migration for the user's deploy process."}

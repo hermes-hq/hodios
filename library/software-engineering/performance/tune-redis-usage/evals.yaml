@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Redis is slow, what should I do? {{symptom}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-big-key-slowlog
+    vars:
+      symptom: "p99 latency of every Redis call jumps to 200 ms a few times an hour."
+      evidence: "SLOWLOG shows HGETALL user:feed:global taking 150 ms and DEL cache:report:2026 taking 90 ms. INFO memory: used 6 GB, fragmentation 1.1."
+      usage: "Cache and a global activity feed stored as one hash with 2 million fields. redis-py, single primary with one replica."
+    assert:
+      - {type: contains, value: "## Fixes ranked"}
+      - {type: llm-rubric, value: "Explains that one big HGETALL blocks the single thread for all clients, proposes splitting the big hash or reading bounded parts with HSCAN, and replaces DEL of large keys with UNLINK or lazyfree settings."}
+  - name: edge-round-trips
+    vars:
+      symptom: "Product page takes 400 ms; Redis server CPU is 10% and the slow log is empty."
+      usage: "The page loads 300 keys one GET at a time in a loop from Node with ioredis."
+    assert:
+      - {type: llm-rubric, value: "Identifies round-trip latency rather than server slowness and recommends MGET or pipelining with example ioredis code, not a bigger Redis instance."}
+  - name: negative-keys-in-prod
+    vars:
+      symptom: "Memory is full. Can I run KEYS * on production to see what is using it and then FLUSHALL?"
+    assert:
+      - {type: llm-rubric, value: "Advises against KEYS and FLUSHALL on production, offers SCAN-based big-key analysis or memory usage sampling instead, and asks what the data is before any destructive step."}

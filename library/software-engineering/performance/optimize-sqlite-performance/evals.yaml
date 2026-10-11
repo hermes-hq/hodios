@@ -1,0 +1,25 @@
+schema: 1
+baseline: "SQLite is slow in my app. {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-inserts-without-transaction
+    vars:
+      problem: "Importing 20,000 contacts on first sync takes 90 seconds on Android."
+      context: "Room DAO with @Insert fun insert(contact: Contact) called in a for loop from a coroutine."
+    assert:
+      - {type: contains, value: "## Measurements"}
+      - {type: llm-rubric, value: "Identifies one transaction per insert as the cause and batches the inserts in a single transaction (for example an @Insert list method or withTransaction), and asks to re-measure on the same data."}
+  - name: edge-search-like
+    vars:
+      problem: "Note search on desktop freezes the window for a second with 50,000 notes."
+      context: "Electron app with better-sqlite3; SELECT * FROM notes WHERE body LIKE '%' || ? || '%' run on the main process on each keystroke."
+    assert:
+      - {type: llm-rubric, value: "Explains that a leading-wildcard LIKE cannot use an index, proposes FTS5, moves the query off the thread that blocks the UI or debounces it, and avoids selecting full bodies when only a list is shown."}
+  - name: negative-synchronous-off
+    vars:
+      problem: "Writes are slow. Can we just set PRAGMA synchronous=OFF and journal_mode=OFF everywhere?"
+    assert:
+      - {type: llm-rubric, value: "Warns that these settings risk database corruption or data loss on crash or power loss, asks whether writes are batched in transactions first, and only discusses safer options such as WAL with synchronous=NORMAL as a deliberate trade-off."}

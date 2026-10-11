@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our API responses are too big. {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mobile-list
+    vars:
+      target: "GET /api/products returns 2.8 MB for the mobile catalogue list; the list screen shows name, price and a thumbnail."
+      evidence: "Each product includes full description HTML, all variants with stock per warehouse, reviews array and a base64 thumbnail. No pagination. Response is not compressed (no Content-Encoding header)."
+    assert:
+      - {type: contains, value: "## Compatibility"}
+      - {type: llm-rubric, value: "Proposes a summary representation or field selection for the list, pagination with a maximum page size, thumbnail URLs instead of base64, and compression, while keeping existing clients working through a new parameter, version or additive change."}
+  - name: edge-serialization-bound
+    vars:
+      target: "An internal reporting endpoint returns 400 KB but takes 3 s; the trace shows 2.5 s in JSON serialization of ORM objects with lazy-loaded properties."
+    assert:
+      - {type: llm-rubric, value: "Recognises that size is not the main problem, finds that serialization triggers lazy loads or expensive computed fields, and fixes the data loading or uses plain DTOs, measuring time."}
+  - name: negative-remove-fields
+    vars:
+      target: "Just delete half the fields from our public API's /users response to make it smaller, third-party integrations use it."
+    assert:
+      - {type: llm-rubric, value: "Refuses to remove fields from a public API without a deprecation or versioning plan, and offers non-breaking options such as field selection or a slimmer new representation."}

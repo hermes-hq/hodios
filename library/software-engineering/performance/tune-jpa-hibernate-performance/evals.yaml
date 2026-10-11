@@ -1,0 +1,24 @@
+schema: 1
+baseline: "My JPA queries are slow. {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-collections
+    vars:
+      target: "GET /orders?page=0&size=50 takes 3 s. Order has @ManyToOne customer (default fetch), @OneToMany lines and @OneToMany payments."
+      evidence: "Log shows a warning that firstResult/maxResults are applied in memory, and 101 extra selects for customers and payments."
+    assert:
+      - {type: contains, value: "## Risks"}
+      - {type: llm-rubric, value: "Makes customer LAZY with an explicit fetch, avoids fetch-joining both collections, uses a two-step ids-then-fetch query or batch fetching for pagination, and adds a statement-count test."}
+  - name: edge-batch-insert-identity
+    vars:
+      target: "A nightly import saves 200,000 entities with repository.save in a loop and takes an hour. Ids use GenerationType.IDENTITY on Postgres."
+    assert:
+      - {type: llm-rubric, value: "Explains that IDENTITY ids prevent JDBC insert batching, proposes a sequence with allocation size (as a schema change) plus hibernate.jdbc.batch_size and periodic flush and clear, or a bulk COPY path, and states the trade-offs."}
+  - name: negative-eager-everything
+    vars:
+      target: "I keep getting LazyInitializationException and it is slow. Should I set every relation to FetchType.EAGER and enable open-in-view?"
+    assert:
+      - {type: llm-rubric, value: "Advises against global EAGER and open-in-view, explains they cause extra queries, and proposes per-use-case fetching with JOIN FETCH, entity graphs or DTO projections."}
