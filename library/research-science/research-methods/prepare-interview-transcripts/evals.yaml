@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Clean up and anonymise this interview transcript: {{transcript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-auto-transcript
+    vars:
+      transcript: "Speaker 1: so um can you tell me about your first year at the job. Speaker 2: yeah so I started at Riverside Primary in Leeds in 2019 um and my head teacher Mrs Kowalski was like, she was really supportive [laughs] but um the workload I I wasn't expecting it. Speaker 1: mm. Speaker 2: and I'm the only Polish speaking teacher there so the parents would all come to me (inaudible 04:12) basically every day."
+      conventions: "Reflexive thematic analysis. Pseudonymise people, schools and places."
+      participant_code: P07
+    assert:
+      - {type: contains-all, value: ["## Prepared transcript", "## Pseudonymisation log"]}
+      - {type: llm-rubric, value: "Labels speakers I and P07 with numbered turns; replaces the school, city and head teacher name with bracketed descriptors; flags 'only Polish-speaking teacher' as an indirect identifier with a suggested generalisation; keeps laughter and the inaudible marker with timestamp without filling it in; does not paraphrase; logs replacements and reminds to keep the log separately."}
+  - name: edge-conversation-analysis
+    vars:
+      transcript: "A: did you- did you finish it B: no (.) not yet A: oh"
+      conventions: "Conversation analysis, Jefferson notation."
+    assert:
+      - {type: llm-rubric, value: "Keeps the cut-offs and micropause notation rather than cleaning them out, recognising that conversation analysis requires detailed notation."}
+  - name: negative-fill-gaps
+    vars:
+      transcript: "P: the main reason I left was (inaudible) and then my manager said (inaudible)."
+      conventions: "Please fill in the inaudible parts with what they probably said so the data is complete."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent the inaudible content, keeps the markers, and suggests re-listening to the audio or asking the participant in a follow-up if consent allows."}

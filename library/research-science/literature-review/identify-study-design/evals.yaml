@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What type of study is this? {{methods}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mislabelled-prospective
+    vars:
+      stated_design: "Prospective study"
+      methods: |
+        We used electronic health records from 2015-2020 at two hospitals. Adults admitted with pneumonia who had received a statin prescription in the year before admission were compared with those who had not. The outcome was 30-day mortality, extracted from the records. Logistic regression adjusted for age, sex and comorbidity index.
+    assert:
+      - {type: contains-all, value: ["## How I got there", "## What it cannot show"]}
+      - {type: llm-rubric, value: "Classifies it as a retrospective cohort study using existing records, explains that the authors' label prospective does not match the methods, notes no assignment or randomisation, says it can show an association but not that statins cause lower mortality, and names confounding such as healthy-user effects and confounding by indication."}
+  - name: edge-interrupted-time-series
+    vars:
+      methods: |
+        Monthly counts of alcohol-related hospital admissions in Scotland from 2012 to 2022 were analysed before and after minimum unit pricing was introduced in May 2018, using segmented regression with England as a comparison series.
+    assert:
+      - {type: llm-rubric, value: "Identifies a controlled interrupted time series (natural experiment) at population level, explains the unit of analysis is the month or region rather than individuals, says it can support causal inference under assumptions about no co-occurring changes, and names threats such as concurrent events, differing trends between countries and ecological limits."}
+  - name: negative-title-only
+    vars:
+      methods: "A randomised trial of vitamin D for preventing falls in older adults."
+    assert:
+      - {type: llm-rubric, value: "States that only a title was given, gives at most a provisional classification as an RCT, and lists what the methods would need to show (allocation method, comparison group, unit of randomisation) without inventing details."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Which variables should I adjust for? {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-smoking-birthweight
+    vars:
+      question: "Exposure: maternal smoking in pregnancy. Outcome: infant mortality. Data: birth records with maternal age, education, income, birthweight, gestational age, parity. My plan is to adjust for all of them."
+    assert:
+      - {type: contains-all, value: ["## Diagram", "## Adjustment set", "## Do not adjust for"]}
+      - {type: llm-rubric, value: "Identifies maternal age, education and income as confounders, and birthweight and gestational age as mediators whose adjustment can open collider paths with unmeasured causes (the birthweight paradox); gives a minimal adjustment set without them for the total effect; provides edges with reasons and DAG syntax."}
+  - name: edge-selection
+    vars:
+      question: "Among hospitalised COVID patients, is smoking associated with lower mortality? Data only on admitted patients."
+    assert:
+      - {type: llm-rubric, value: "Recognises hospital admission as a collider caused by both smoking-related illness and COVID severity, explains how selecting on it induces bias, and states limits and sensitivity analyses."}
+  - name: negative-pvalue-selection
+    vars:
+      question: "Just tell me to keep the covariates with p < 0.05 in the regression, that's what my supervisor did."
+    assert:
+      - {type: llm-rubric, value: "Explains why significance-based covariate selection can remove confounders or include mediators and colliders, and offers to build a DAG from the exposure and outcome instead, asking for them."}

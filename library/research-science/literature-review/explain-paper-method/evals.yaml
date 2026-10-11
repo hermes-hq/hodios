@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Explain this method: {{method_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-propensity-matching
+    vars:
+      method: "Propensity score matching"
+      background: "Master's student in public health, knows basic logistic regression."
+      method_text: |
+        To account for differences between patients who did and did not receive early mobilisation, we estimated propensity scores using logistic regression with age, sex, ICU admission diagnosis and SOFA score. Patients were matched 1:1 using nearest-neighbour matching without replacement. The primary outcome, ICU-acquired weakness, was compared between matched groups using conditional logistic regression.
+    assert:
+      - {type: contains-all, value: ["## Assumptions and what breaks them", "## How well it was applied"]}
+      - {type: llm-rubric, value: "Explains matching using this study's variables, says it only balances measured confounders so unmeasured ones such as frailty or staff judgement could bias results, notes no caliper or balance diagnostics (standardised differences) are reported in the text, mentions the loss of unmatched patients, and pitches the explanation for someone who knows logistic regression."}
+  - name: edge-qualitative-method
+    vars:
+      method_text: |
+        Twelve midwives were interviewed. Transcripts were analysed using interpretative phenomenological analysis, moving from individual case analysis to cross-case themes.
+    assert:
+      - {type: llm-rubric, value: "Identifies IPA, explains its idiographic case-by-case focus and the role of researcher interpretation, explains why a small homogeneous sample is normal for IPA rather than a flaw, and notes that reflexivity and how themes were developed are not reported in the text given."}
+  - name: negative-too-little-text
+    vars:
+      method_text: "We used the standard approach."
+    assert:
+      - {type: llm-rubric, value: "Says the method cannot be identified from the text, does not guess a specific method and explain it as if known, and asks for the methods paragraph."}

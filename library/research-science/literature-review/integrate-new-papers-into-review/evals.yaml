@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Add these new papers to my literature review. Draft: {{draft}} New papers: {{new_papers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gap-invalidated
+    vars:
+      question: "Does peer support reduce loneliness among international students?"
+      draft: |
+        P1. Loneliness is common among international students (Sawir et al., 2008; Wawera and McCamley, 2020).
+        P2. Peer mentoring has been linked to better adjustment in domestic first-year students (Collings et al., 2014).
+        P3. However, no study has evaluated peer support interventions for loneliness in international students, which this thesis addresses.
+      new_papers: |
+        N1. Okoro 2025: RCT of a peer-mentoring scheme for 240 international students in Australia; loneliness lower at 6 months (mean difference -3.2 on UCLA scale, 95% CI -5.0 to -1.4).
+        N2. Lim 2024: survey of 1,500 international students in the UK; loneliness prevalence 45%.
+    assert:
+      - {type: contains-all, value: ["## Claims to revise", "## Gap statement check"]}
+      - {type: llm-rubric, value: "Flags at the top that N1 makes the P3 'no study has evaluated' claim false, proposes narrowing the gap (for example other countries, mechanisms, longer follow-up or other intervention types), places N2 in P1 as supporting evidence of prevalence, shows original and revised text, and does not invent details about the papers."}
+  - name: edge-contradicting-paper
+    vars:
+      draft: "P1. Standing desks reduce lower back pain in office workers (Lee, 2018; Tran, 2019)."
+      new_papers: "N1. Garcia 2025: cluster RCT in 40 offices, 900 workers; no difference in back pain at 12 months (difference 0.1, 95% CI -0.4 to 0.6)."
+    assert:
+      - {type: llm-rubric, value: "Classifies N1 as contradicting and likely stronger evidence, rewrites P1 to present the disagreement rather than appending the new study as support, and does not delete the earlier citations."}
+  - name: negative-titles-only
+    vars:
+      draft: "P1. Gamification increases learner engagement (Hamari, 2014)."
+      new_papers: "Gamification in higher education: a 2025 meta-analysis; Points and badges for adults learning languages."
+    assert:
+      - {type: llm-rubric, value: "Says only titles were given, gives provisional placement only, does not invent findings or effect sizes, and asks for abstracts."}

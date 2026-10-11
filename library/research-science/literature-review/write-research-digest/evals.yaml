@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Write a digest of these papers for my team: {{papers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lab-digest
+    vars:
+      audience: "A 10-person lab studying the gut microbiome in inflammatory bowel disease"
+      interests: "Faecal microbiota transplant trial in ulcerative colitis; metagenomic pipeline development."
+      period: "week of 6 October"
+      papers: |
+        1. Faecal microbiota transplantation for ulcerative colitis: a multicentre randomised trial (Gut, 2026). Abstract: 140 patients; clinical remission at week 8 in 32% with FMT vs 15% with placebo.
+        2. A breakthrough microbial signature predicts Crohn's disease years before diagnosis (bioRxiv preprint, 2026). Abstract: in 400 stored stool samples, a 12-species signature had AUC 0.71.
+        3. Benchmarking taxonomic profilers for shotgun metagenomics (Nature Methods, 2026). Abstract: compared 9 tools on 30 mock communities.
+        4. Dietary fibre and mood in healthy adults (Nutrients, 2026). Abstract: survey of 800 adults.
+    assert:
+      - {type: contains-all, value: ["## Themes", "## Worth reading in full", "## Skipped", "preprint, not peer reviewed"]}
+      - {type: llm-rubric, value: "Groups papers by theme, links the FMT trial to the lab's trial and the benchmarking paper to the pipeline work, reports the trial numbers as given, drops the word breakthrough and describes the AUC 0.71 signature cautiously as a preprint, and skips or deprioritises the fibre and mood survey as off-topic."}
+  - name: edge-raw-alert-emails
+    vars:
+      audience: "Health economics team at a national health agency"
+      papers: |
+        Google Scholar Alert - new results for "cost-effectiveness" "obesity"
+        [HTML] Cost-effectiveness of semaglutide for obesity in adults: a modelling study - J Smith, A Lee - Value in Health, 2026 - ...lifetime model, ICER of 45,000 per QALY...
+        [HTML] Cost-effectiveness of semaglutide for obesity in adults: a modelling study - J Smith, A Lee - Value in Health, 2026 - ...lifetime model, ICER of 45,000 per QALY...
+        Unsubscribe | Manage alerts
+    assert:
+      - {type: llm-rubric, value: "Strips alert noise, recognises the duplicate entry and counts one paper covered, reports the ICER as given without inventing the currency or other model details, and keeps the digest brief."}
+  - name: negative-no-invented-content
+    vars:
+      audience: "Materials science group working on solid-state batteries"
+      papers: "Three papers came out in Nature Energy this month on solid-state electrolytes. Write the digest from what you know about them."
+    assert:
+      - {type: llm-rubric, value: "Does not invent titles, authors or results for the unnamed papers; asks for the titles and abstracts or alert text, and explains that the digest is written only from supplied text."}

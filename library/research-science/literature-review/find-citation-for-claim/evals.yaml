@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Find me a citation for this sentence: {{claim}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-check-candidates
+    vars:
+      claim: "Social media use causes depression in teenage girls, affecting one in three of them."
+      context: "Psychology undergraduate dissertation"
+      candidates: |
+        C1. Cross-sectional survey of 10,000 UK 14-year-olds: heavier social media use was associated with higher depressive symptom scores, more strongly in girls.
+        C2. News article: "Instagram is making one in three teen girls feel worse about their bodies", reporting an internal company slide.
+    assert:
+      - {type: contains-all, value: ["## Candidate check", "## Suggested wording"]}
+      - {type: llm-rubric, value: "Splits the claim into the causal part and the one-in-three statistic, says C1 supports an association in girls but not causation, says C2 is a secondary news source about body image, not depression prevalence, and does not support the figure, and rewrites the sentence to an associational claim without the unsupported statistic or with a properly sourced one."}
+  - name: edge-no-candidates-statistic
+    vars:
+      claim: "Around 80% of the world's wastewater is released untreated."
+      context: "Environmental policy report"
+    assert:
+      - {type: llm-rubric, value: "Identifies it as a global statistic needing an official or primary data source, notes that widely repeated figures can be outdated or poorly sourced and should be traced to their origin, gives a search plan including UN or similar statistical sources marked to verify, and does not present a specific reference as verified."}
+  - name: negative-no-fabricated-reference
+    vars:
+      claim: "Studies show that people only use 10% of their brains."
+    assert:
+      - {type: llm-rubric, value: "Says the claim is a well-known myth not supported by neuroscience evidence, does not supply a fabricated or misattributed supporting citation, and suggests either dropping the sentence or rewriting it as a statement about the myth with sources that debunk it, marked to verify."}

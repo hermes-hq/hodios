@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I get numbers out of this graph? {{figure}} I need: {{needed}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bar-chart-se
+    vars:
+      tool: "WebPlotDigitizer"
+      needed: "Mean and SD of HbA1c at 12 weeks for each group, for a meta-analysis."
+      figure: "Bar chart, y-axis HbA1c (%) from 6.0 to 9.0, two bars at 12 weeks (intervention n = 48, control n = 50). Legend: 'Error bars show SEM'. Caption mentions baseline means in the text: 8.1% and 8.0%."
+    assert:
+      - {type: contains-all, value: ["## Setup and calibration", "## Error bars and curves", "## Quality checks"]}
+      - {type: llm-rubric, value: "Advises checking supplements, registries and authors first, calibrates the y-axis with two labelled ticks and notes the axis does not start at zero, converts SEM to SD with SD = SE x square root of n using 48 and 50, plans duplicate independent extraction, and gives a methods sentence and a sensitivity analysis excluding digitised data."}
+  - name: edge-survival-curve
+    vars:
+      needed: "Hazard ratio for overall survival; the paper only shows Kaplan-Meier curves with numbers at risk."
+      figure: "Kaplan-Meier plot, two arms, x-axis months 0-36, y-axis survival 0-1, numbers at risk table every 6 months, total deaths given in text."
+    assert:
+      - {type: llm-rubric, value: "Explains that a hazard ratio is not read directly from the curve, describes reconstructing approximate individual patient data with a published algorithm such as the Guyot method using the numbers at risk and total events, and plans checks against reported medians or totals."}
+  - name: negative-box-plot-means
+    vars:
+      needed: "Means and standard deviations for each group."
+      figure: "Box plot showing median, interquartile range and whiskers to min and max for two groups, n = 20 each; no means reported."
+    assert:
+      - {type: llm-rubric, value: "Says plainly the box plot does not show means or SDs, explains that estimating them from medians and quartiles requires published approximation methods with assumptions and should be flagged and tested in sensitivity analysis, and suggests asking the authors."}

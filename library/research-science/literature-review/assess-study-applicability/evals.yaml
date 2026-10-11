@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Does this study apply to my setting? Study: {{study}} My setting: {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trial-to-rural-service
+    vars:
+      decision: "Whether to adopt the programme in our service next year."
+      context: "Rural community mental health team; clients mostly over 60 with several physical conditions; nurses deliver therapy after short training; long travel distances."
+      study: |
+        RCT in two London university hospitals. 220 adults aged 18-55 with moderate depression; excluded: substance misuse, physical comorbidity, suicidal ideation. Intervention: 16 weekly sessions of behavioural activation by clinical psychologists with weekly expert supervision. Comparator: waitlist. Outcome: PHQ-9 at 16 weeks; mean difference -4.1 (95% CI -5.6 to -2.6). Of 1,100 people screened, 220 enrolled.
+    assert:
+      - {type: contains-all, value: ["## Differences that matter", "## What to check locally", "## Verdict"]}
+      - {type: llm-rubric, value: "Identifies the age and comorbidity exclusions, delivery by psychologists with expert supervision versus nurses with short training, a waitlist comparator that inflates the effect relative to usual care, weekly sessions despite travel distances, and that only 20% of screened people were enrolled; gives a verdict of applicable with adaptations or unclear rather than a simple yes, and lists local checks such as a pilot."}
+  - name: edge-difference-that-does-not-matter
+    vars:
+      context: "Primary schools in Scotland, classes of 25, teachers trained in phonics."
+      study: "Cluster RCT of a systematic phonics programme in 80 primary schools in Northern England; classes of 25-30; delivered by class teachers after two days of training; reading accuracy improved (effect size 0.22) at one year."
+    assert:
+      - {type: llm-rubric, value: "Judges the study broadly applicable, explains that the country difference within the UK and similar class sizes and delivery probably do not change the effect, avoids generic caveats, and still notes specific checks such as curriculum differences or existing phonics practice."}
+  - name: negative-vague-context
+    vars:
+      context: "My clinic."
+      study: "RCT of a smoking cessation app in 600 adults in Canada; quit rate at 6 months 12% vs 8%."
+    assert:
+      - {type: llm-rubric, value: "Does not deliver a confident verdict; asks for the few facts that matter most about the clinic (population, country or health system, delivery capacity, current usual care) and explains why each matters."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What do these results mean? {{results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-relative-to-absolute
+    vars:
+      question: "Is this worth it for my patients?"
+      results: |
+        Primary outcome: stroke at 3 years occurred in 2.0% of the placebo group (n = 5,000) and 1.5% of the treatment group (n = 5,000); hazard ratio 0.75 (95% CI 0.57 to 0.98), p = 0.04. Secondary outcome: major bleeding 0.8% vs 1.6%, HR 2.01 (95% CI 1.38 to 2.94).
+    assert:
+      - {type: contains-all, value: ["## Results in plain words", "## How big is it", "0.75", "0.57 to 0.98"]}
+      - {type: llm-rubric, value: "Explains the 25% relative reduction corresponds to about a 0.5 percentage point absolute reduction and a number needed to treat of about 200 over 3 years with the calculation shown, notes that bleeding roughly doubled in absolute terms by about 0.8 points (number needed to harm about 125), notes the upper confidence limit is close to no effect, and does not tell the user what to prescribe."}
+  - name: edge-nonsignificant-wide-interval
+    vars:
+      important_difference: "10 points on the 0-100 quality of life scale"
+      results: "Quality of life at 6 months: mean difference 4.2 points (95% CI -3.1 to 11.5), p = 0.26, n = 64."
+    assert:
+      - {type: llm-rubric, value: "Does not say the intervention has no effect; explains the interval is compatible with a small harm, no effect, and a benefit slightly above the 10-point important difference, and that the small sample leaves the question open."}
+  - name: negative-missing-information
+    vars:
+      results: "Treatment reduced risk of relapse by 40% (p < 0.001)."
+    assert:
+      - {type: llm-rubric, value: "Explains this is a relative reduction, says the absolute benefit cannot be judged without the baseline relapse rate, notes the missing interval and sample size, and does not invent a baseline or compute a number needed to treat."}

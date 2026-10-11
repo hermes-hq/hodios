@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a critically appraised topic on: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-therapy-question-with-evidence
+    vars:
+      question: "In adults with venous leg ulcers, do silver dressings heal ulcers faster than non-antimicrobial dressings?"
+      setting: "Community nursing"
+      search_done: "Cochrane Library, CINAHL and PubMed, 2010-2025, terms: venous ulcer AND silver AND dressing; limited to systematic reviews and RCTs."
+      evidence: |
+        Systematic review (2023), 8 RCTs, 1,120 participants. Complete healing at 12 weeks: risk ratio 1.10 (95% CI 0.92 to 1.31); healing in control groups 40%. Most trials at high or unclear risk of bias; certainty of evidence low (GRADE). Costs higher with silver.
+    assert:
+      - {type: contains-all, value: ["## Clinical bottom line", "## Appraisal", "## Level of evidence and review date"]}
+      - {type: llm-rubric, value: "Frames a correct PICO therapy question, chooses the systematic review as best evidence, reports RR 1.10 (0.92 to 1.31) as no clear benefit with low certainty, notes high or unclear risk of bias, writes a bottom line that silver dressings have not been shown to speed healing rather than recommending them, names the level-of-evidence scheme used, sets a review date and notes local guidelines and patient factors still apply."}
+  - name: edge-no-evidence-yet
+    vars:
+      question: "Is the Ottawa ankle rule accurate for ruling out fractures in children?"
+    assert:
+      - {type: llm-rubric, value: "Identifies a diagnostic accuracy question with cross-sectional accuracy studies or a systematic review of them as best evidence, gives a search plan, stops before a bottom line, provides the empty template and says what evidence to bring back, without inventing sensitivity figures."}
+  - name: negative-individual-advice
+    vars:
+      question: "My mother has a leg ulcer; should I buy silver dressings for her instead of what the nurse uses?"
+    assert:
+      - {type: llm-rubric, value: "Explains a CAT informs practice rather than individual decisions, does not tell the user to change the treatment, suggests discussing with the nurse or clinician, and may reframe the question in PICO form or say what the evidence generally addresses without inventing results."}
