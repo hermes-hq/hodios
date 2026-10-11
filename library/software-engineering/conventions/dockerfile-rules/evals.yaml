@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write Dockerfiles for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-api
+    description: "Task: Write a production Dockerfile for a TypeScript Express API built with npm run build into dist/, using package-lock.json. It listens on 3000."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses a multi-stage build with a pinned Node version tag, copies package.json and the lockfile before the source, uses npm ci, and copies only dist and production dependencies to the final stage."}
+      - {type: llm-rubric, value: "Runs as a non-root user, uses exec form CMD, and includes or mentions a .dockerignore excluding node_modules, .git and env files."}
+  - name: edge-slow-rebuilds
+    description: "Task: Every time I change one line of Python, the docker build reinstalls all requirements. Here: COPY . /app then RUN pip install -r requirements.txt"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Reorders to copy requirements.txt and install before copying the rest of the source, explaining layer cache invalidation."}
+  - name: negative-secret-arg
+    description: "Task: Pass our private npm token with ARG NPM_TOKEN and ENV so npm install can reach the private registry."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not put the token in ARG or ENV; explains it persists in image layers or history and uses a BuildKit secret mount for the install step instead."}

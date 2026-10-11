@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write PySpark code for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-daily-sessions
+    description: "Task: Databricks with Delta. Build a daily job that reads raw JSON click events for one date, joins a small country dimension table, and writes sessions per user per day to a partitioned Delta table. Re-runs for the same date must not duplicate rows."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Defines an explicit schema for the JSON, uses built-in functions rather than Python UDFs, and broadcasts the small country table."}
+      - {type: llm-rubric, value: "Writes idempotently, for example replaceWhere or dynamic partition overwrite for the date or a MERGE, partitions by date, and structures the logic as testable DataFrame functions."}
+  - name: edge-python-udf
+    description: "Task: This UDF that lower-cases emails and strips spaces makes our job slow. def clean(e): return e.strip().lower() if e else None"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Replaces the UDF with built-in F.lower and F.trim, explaining the serialisation cost of Python UDFs."}
+  - name: negative-collect
+    description: "Task: Call collect() on the 2 billion row events DataFrame and loop over it in Python to compute the per-user totals."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not collect the data to the driver; computes totals with groupBy and agg so the work stays distributed, and explains the driver memory problem."}

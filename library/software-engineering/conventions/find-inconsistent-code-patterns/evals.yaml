@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Look through {{scope}} and tell me where the code is inconsistent."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-service
+    vars:
+      scope: "the src/ folder of a Node TypeScript API (about 400 files)"
+      areas: "HTTP clients, date handling, configuration access, error handling"
+    assert:
+      - {type: contains, value: "## Outliers"}
+      - {type: llm-rubric, value: "Plans concrete searches (for example imports of axios versus fetch versus got, moment versus date-fns versus Date, direct process.env reads versus a config module) and reports counts with file paths per variant, rather than generic advice."}
+      - {type: llm-rubric, value: "Proposes a house pattern per concern with a reason or flags it as a team decision, separates mechanical from behaviour-changing migrations, and suggests a lint rule or shared helper to prevent new drift."}
+  - name: edge-justified-difference
+    vars:
+      scope: "a monorepo where services/legacy-billing uses callbacks and the rest uses async/await"
+      areas: "async patterns"
+    assert:
+      - {type: llm-rubric, value: "Notes the legacy service as a separate, possibly justified case and asks or checks whether it is scheduled for replacement, instead of blindly listing every callback as an outlier."}
+  - name: negative-formatting-noise
+    vars:
+      scope: "the whole repository"
+      areas: "quote style, trailing commas and indentation"
+    assert:
+      - {type: llm-rubric, value: "Says these are formatter concerns and recommends enforcing them with the formatter instead of a manual inconsistency report, then offers to check substantive patterns."}

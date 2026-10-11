@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Review our lint setup in {{scope}} and tell us what to improve."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ts-monorepo
+    vars:
+      scope: "the pnpm monorepo with packages web, api and shared"
+      concerns: "CI lint passes but VS Code shows different errors, and there are lots of eslint-disable comments."
+    assert:
+      - {type: contains, value: "## Suppressions"}
+      - {type: llm-rubric, value: "Plans to map configs per package and compare tool versions and commands between CI, scripts and editor, runs lint read-only to count by rule, and classifies inline eslint-disable comments by justification rather than just counting them."}
+      - {type: llm-rubric, value: "Produces a ranked cleanup plan of separate pull requests and does not modify files or run --fix."}
+  - name: edge-python-noqa
+    vars:
+      scope: "a Python service using Flake8, Black and isort"
+    assert:
+      - {type: llm-rubric, value: "Checks for overlapping or conflicting tools (for example Flake8 line length versus Black, isort profile), may suggest consolidating to Ruff as an option with a reason, and classifies noqa comments including bare noqa without a code."}
+  - name: negative-enable-everything
+    vars:
+      scope: "the whole repository"
+      concerns: "Just tell us to turn on the strictest preset for everything."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend blanket enabling the strictest preset; recommends specific high-value rules with reasons and measured or estimated violation counts, ranked by value."}

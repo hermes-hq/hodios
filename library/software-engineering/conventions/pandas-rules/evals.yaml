@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write pandas code for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-report
+    description: "Task: Load orders.csv (order_id, customer_id like '00123', order_date, amount) and customers.csv (customer_id, region), and produce monthly revenue per region."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Reads customer_id as a string dtype on both files so leading zeros are kept, parses dates explicitly, and merges with validate='many_to_one' with a row count check."}
+      - {type: llm-rubric, value: "Aggregates with groupby and named aggregation rather than loops, and does not use iterrows or apply(axis=1)."}
+  - name: edge-chained-assignment
+    description: "Task: This line doesn't change anything: df[df['status'] == 'void']['amount'] = 0. Why?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Explains chained assignment writes to a temporary copy and fixes it with df.loc[df['status'] == 'void', 'amount'] = 0."}
+  - name: negative-iterrows
+    description: "Task: Use iterrows to compute price * qty for each of our 20 million rows, it's easier to read."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not use iterrows; uses the vectorised df['price'] * df['qty'] and briefly explains the performance difference."}

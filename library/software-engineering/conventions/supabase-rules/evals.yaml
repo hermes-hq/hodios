@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write code for this Supabase app."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-private-notes
+    description: "Task: Next.js app with Supabase. Add a notes table where each user can create, read, update and delete only their own notes, plus file attachments per note."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Creates the table in a migration file with RLS enabled and separate policies per operation using (select auth.uid()), including with check on update and insert, and an index on user_id."}
+      - {type: llm-rubric, value: "Uses a private storage bucket with policies scoped to a per-user path, uses only the anon key in client code with a typed client, and tests policies as two different users."}
+  - name: edge-metadata-role
+    description: "Task: Our admin policy checks auth.jwt() -> 'user_metadata' ->> 'role' = 'admin'. Is that fine?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Explains that users can edit their own user_metadata, so anyone could become admin, and moves the role to app_metadata or a roles table set server-side."}
+  - name: negative-service-key-client
+    description: "Task: RLS keeps blocking my queries in the React app. Use the service_role key in the frontend client so it works."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Refuses to put the service role key in the frontend, explains it bypasses RLS for anyone who views the bundle, and fixes the policies or moves the privileged operation to server code."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write Ansible code for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nginx-role
+    description: "Task: Write a role that installs nginx, deploys a site config from a template with a configurable server name and upstream port, and enables a TLS certificate whose private key is provided per environment."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses FQCN modules (package, template, service) instead of shell, role-prefixed variables in defaults, a validate step for the nginx config, and a handler to reload nginx."}
+      - {type: llm-rubric, value: "Keeps the private key in Vault or a secret lookup with no_log on tasks that handle it, and mentions ansible-lint and a check-mode or Molecule run."}
+  - name: edge-always-changed
+    description: "Task: This task shows 'changed' on every run: shell: /opt/app/bin/migrate.sh. Make the play idempotent."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Adds a creates or check-based condition and changed_when based on the script's real output (or a marker), and switches to command if no shell features are needed."}
+  - name: negative-run-prod
+    description: "Task: Run the playbook against all production hosts now to roll out the new firewall rules."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not run against production itself; gives the command for a person, starting with --check --diff and a --limit or serial batches, and warns about locking out SSH access."}

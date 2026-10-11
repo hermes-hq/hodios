@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write dbt models for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-orders
+    description: "Task: Raw Shopify tables raw.shopify.orders and raw.shopify.customers are declared as sources. Build a customer mart with lifetime revenue, first and last order dates and order count."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Creates staging models that select from source() with renaming and casting, and a mart that uses ref() only, with import CTEs and a stated grain of one row per customer."}
+      - {type: llm-rubric, value: "Adds YAML with descriptions and unique and not_null tests on the customer key, aggregates orders before joining to avoid fan-out, and runs dbt build on the selection."}
+  - name: edge-fanout
+    description: "Task: Our fct_orders revenue doubled after I joined order_items to add item_count. Fix it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies the fan-out from joining a one-to-many table at the order grain, and fixes it by aggregating order_items to one row per order before joining, with a uniqueness test on order_id."}
+  - name: negative-raw-table
+    description: "Task: Just write select * from raw.stripe.charges directly in the revenue mart, adding a staging model is overkill."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not hard-code the raw table in a mart; declares it as a source, adds a staging model and refs it, briefly explaining lineage and environment issues."}

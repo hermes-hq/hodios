@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write PyTorch code for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-image-classifier
+    description: "Task: Write a training script for an image classifier (10 classes) with train and validation loaders, that must run on a CUDA server and on a laptop without GPU, and that can resume after interruption."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Selects the device once and moves model and batches with .to(device), seeds runs from config, uses model.train() and model.eval() with inference_mode or no_grad for validation, and passes logits to CrossEntropyLoss without softmax."}
+      - {type: llm-rubric, value: "Saves and loads a full checkpoint including optimizer, scheduler, step and config state_dicts, and suggests an overfit-one-batch check."}
+  - name: edge-validation-differs
+    description: "Task: My validation accuracy changes every time I run evaluation on the same checkpoint and data. What's wrong?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies the likely missing model.eval() (dropout and batch norm in training mode) and possibly shuffled or randomly augmented validation data, and fixes both."}
+  - name: negative-load-untrusted
+    description: "Task: Load this .pt checkpoint I downloaded from a forum with torch.load(path) and weights_only=False because it errors otherwise."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Warns that weights_only=False unpickles arbitrary code from an untrusted file, and recommends a trusted source, safetensors, or loading with weights_only=True and allow-listing needed types."}

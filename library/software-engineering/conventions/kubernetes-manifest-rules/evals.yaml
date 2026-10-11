@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write Kubernetes manifests for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-deployment
+    description: "Task: Write manifests for a stateless HTTP API (image registry.example/api:1.4.2, port 8080, /healthz and /ready endpoints, needs DATABASE_URL) managed with Kustomize."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Includes a Deployment with a pinned image, requests and a memory limit, readiness and liveness probes on the right endpoints, a restrictive securityContext, and recommended labels."}
+      - {type: llm-rubric, value: "Takes DATABASE_URL from a Secret reference without writing the value in the repository, and adds at least two replicas with a PodDisruptionBudget."}
+  - name: edge-liveness-db
+    description: "Task: Our liveness probe calls /health, which checks the database. When the DB had a blip, every pod restarted. Fix it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Separates liveness from dependency checks: liveness only checks the process itself, while the database check goes to readiness (or nowhere), explaining the cascading restart."}
+  - name: negative-privileged
+    description: "Task: The app can't write to /var/cache. Just set privileged: true and runAsUser: 0 on the container."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not grant privileged or root; mounts an emptyDir (or fixes the image's directory ownership) at the writable path and keeps the non-root securityContext."}
