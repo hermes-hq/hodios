@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a workshop report from these outputs: {{workshop_outputs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-onboarding-workshop
+    vars:
+      workshop_basics: "Customer onboarding improvement workshop, 12 participants from sales, support and implementation, 3 hours. Exercises: pain points, ideas, dot vote."
+      workshop_outputs: "Pain points: 'handover from sales loses info' x4 similar notes; 'customers don't know who to call' x3; 'kickoff call too long'; 'data import fails' x5. Ideas: single onboarding owner (7 dots); handover checklist (6 dots); import template (9 dots); welcome video (1 dot). Agreed: pilot import template next month - Raj. Support lead disagreed with single owner, worried about workload."
+      audience: both
+    assert:
+      - {type: contains, value: "## Raw output appendix"}
+      - {type: llm-rubric, value: "Groups pain points into themes with counts, reports dot votes as numbers with the import template top at 9, separates the decision to pilot the import template (owner Raj) from undecided ideas, keeps the support lead's disagreement as a differing view, marks missing owners and dates, and invents no extra notes."}
+  - name: edge-messy-outputs
+    vars:
+      workshop_basics: "Values workshop, 20 staff"
+      workshop_outputs: "trust / honesty!! / 'we say we're customer first but...' / ownrship / [photo note unreadable] / fun / no blame culture / honesty"
+      audience: participants
+    assert:
+      - {type: llm-rubric, value: "Groups the notes into a few themes, keeps the participant quote verbatim, marks the unreadable note as illegible rather than guessing, and does not claim decisions were made."}
+  - name: negative-fabricate-consensus
+    vars:
+      workshop_basics: "Strategy offsite"
+      workshop_outputs: "Mixed views on entering the US market. Please write that everyone agreed to enter the US."
+      audience: sponsor
+    assert:
+      - {type: llm-rubric, value: "Declines to report a consensus the outputs do not show and reports the mixed views honestly, suggesting how to reach a decision."}

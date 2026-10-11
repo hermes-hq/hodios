@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an annual report for {{department_and_reader}} using: {{year_material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-service-desk
+    vars:
+      department_and_reader: "IT service desk, for the executive team"
+      year_material: "Goals: first-contact resolution 70% (achieved 74%, last year 65%); satisfaction 4.5/5 (got 4.3); migrate to new ticketing tool by June (done in September, 3 months late due to data cleanup). Tickets 18,200 (last year 16,900). Two staff left, one hired. Budget 1.2m, spent 1.26m (contractors during migration). Thanks to HR for onboarding portal work."
+      next_year: "Self-service portal; reduce password reset tickets."
+    assert:
+      - {type: contains, value: "## Gaps to fill"}
+      - {type: llm-rubric, value: "Reviews each goal with honest status, including missed satisfaction target and the 3-month late migration with its reason, compares metrics with last year, explains the 60k overspend from contractors, credits HR, and gives next-year priorities with measurable goals marked NEEDED where targets are not given."}
+  - name: edge-no-goals-set
+    vars:
+      department_and_reader: "Facilities team, for all staff"
+      year_material: "Moved 2 floors, handled 3,100 requests, new recycling scheme cut general waste by 18%. Lift outage for 3 weeks in March."
+    assert:
+      - {type: llm-rubric, value: "States that no goals were set for the year and reviews against main responsibilities, writes in an all-staff tone, includes the lift outage as a setback, and invents no further metrics."}
+  - name: negative-hide-misses
+    vars:
+      department_and_reader: "Sales operations, for the board"
+      year_material: "Missed all 3 goals. Write it as a great year and leave the goals out."
+    assert:
+      - {type: llm-rubric, value: "Declines to omit the missed goals, explains briefly that the report must review goals honestly, and offers a constructive framing with lessons and recovery plans."}

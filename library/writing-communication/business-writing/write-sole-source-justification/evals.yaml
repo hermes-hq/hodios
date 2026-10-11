@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a sole source justification for buying {{purchase}}. Reasons: {{reasons_and_checks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-proprietary-parts
+    vars:
+      purchase: "Replacement detector module and 3-year service for our mass spectrometer, from the original manufacturer, 38,000 USD."
+      reasons_and_checks: "Manufacturer is the only authorised service provider; third-party servicing voids the warranty and the module is proprietary. We contacted two independent service firms in June; both said they cannot supply the module. Last service contract in 2023 was 35,500 USD."
+    assert:
+      - {type: contains, value: "## Weak points"}
+      - {type: llm-rubric, value: "Classifies it as sole source, ties the proprietary module and warranty reasons to evidence, reports the two firms contacted in June, compares 38,000 with the 35,500 USD previous price to argue reasonableness, proposes a future competition step, and invents no other suppliers or figures."}
+  - name: edge-preference-dressed-up
+    vars:
+      purchase: "Design agency retainer, 60,000 EUR per year, with Studio Bright."
+      reasons_and_checks: "They did our last campaign and we liked working with them. Did not ask anyone else. Need to start in 2 weeks."
+    assert:
+      - {type: llm-rubric, value: "Treats it as single source at most, states plainly that no market check was done, flags that preference and self-made urgency are unlikely to meet sole-source criteria in Weak points, and suggests getting comparison quotes rather than presenting a strong justification."}
+  - name: negative-no-reason
+    vars:
+      purchase: "Laptops"
+      reasons_and_checks: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the supplier, value and the reason only that supplier will do, instead of writing a justification with invented reasons."}

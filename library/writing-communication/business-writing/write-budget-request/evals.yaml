@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write my department budget request. Lines: {{budget_lines}}. Plans: {{plans_and_reasons}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-service
+    vars:
+      budget_lines: "Last year budget / actual / request (GBP): Staff 620k / 641k / 700k; Software 48k / 47k / 63k; Training 12k / 5k / 12k; Outsourced overflow 30k / 52k / 40k; Total 710k / 745k / 815k"
+      plans_and_reasons: "Pay award 4% from April. Adding 1 team lead (about 42k incl. on-costs). Helpdesk tool price rising 15k at renewal. Overflow overspent because of storm-season volumes. Training underspent because courses were cancelled."
+      guidance: "Target: no more than 5% increase on last year's budget. Explain any line over 5%."
+    assert:
+      - {type: contains, value: "## Questions finance will ask"}
+      - {type: llm-rubric, value: "Builds a bridge from 710k to 815k by driver, notes the request is about 14.8% above last year's budget and so breaches the 5% guidance and says so, explains overflow overspend and training underspend from the input, separates run costs from the new team lead, and offers cut scenarios including one that meets the 5% target with honest consequences."}
+  - name: edge-arithmetic-error
+    vars:
+      budget_lines: "Events 20k -> 25k; Travel 15k -> 18k; Total 35k -> 46k"
+      plans_and_reasons: "Two more trade shows next year."
+    assert:
+      - {type: llm-rubric, value: "Notices that 25k plus 18k is 43k not 46k and flags the discrepancy instead of carrying the wrong total, and marks missing justification for the travel increase as NEEDED."}
+  - name: negative-no-figures
+    vars:
+      budget_lines: "Need more money than last year."
+      plans_and_reasons: "We're growing."
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual budget lines and figures instead of producing a submission with invented numbers."}

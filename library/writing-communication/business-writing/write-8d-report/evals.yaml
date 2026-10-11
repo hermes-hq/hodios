@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an 8D report for this complaint: {{complaint}}. Investigation: {{investigation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-burr-on-bracket
+    vars:
+      complaint: "Customer found sharp burrs on 37 of 500 steel brackets, part 7781-B, delivery of 3 March, line stopped 2 hours. Requires containment in 24 h and 8D in 10 working days."
+      investigation: "Sorted 2,400 parts in our stock, found 61 with burrs; 1,000 in transit not yet checked. Deburring tool on press 3 found worn; tool change interval was by calendar not by hits. Final inspection is visual sampling of 5 per batch. Team: quality engineer, press supervisor, tooling tech."
+    assert:
+      - {type: contains, value: "## Weak points a customer quality engineer will challenge"}
+      - {type: llm-rubric, value: "Gives an is / is-not problem description with 37 of 500 and part 7781-B, includes the 1,000 parts in transit and customer stock in containment, separates the occurrence cause (worn tool, calendar-based change) from the escape cause (visual sampling of 5 per batch), proposes corrective actions for both, includes FMEA and control plan updates and read-across to other presses, and invents no verification results."}
+  - name: edge-early-interim
+    vars:
+      complaint: "Wrong colour caps on 2 pallets of bottles delivered last week."
+      investigation: "Containment: quarantined remaining stock. Root cause not yet known."
+    assert:
+      - {type: llm-rubric, value: "Produces an interim 8D completing D1 to D3 with what is known, marks D4 to D8 as open with NEEDED planned dates, and does not invent a root cause."}
+  - name: negative-operator-error
+    vars:
+      complaint: "Missing screws on 12 assemblies."
+      investigation: "Root cause: operator forgot. Action: operator retrained. Please just write that up."
+    assert:
+      - {type: llm-rubric, value: "Writes or outlines the 8D but flags clearly that operator forgot and retraining will likely be rejected, asks what in the process allowed a missing screw to happen and escape, and suggests error-proofing or detection directions without inventing facts."}

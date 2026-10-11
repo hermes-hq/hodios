@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a letter telling the winning bidder they won. Details: {{award_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-intention
+    vars:
+      award_details: "Tender ref FM-2026-04, facilities maintenance for 3 sites, awarded to Corbel Services Ltd (contact: Ana Ruiz), 3 years, 1.4m GBP total, decision 2 May."
+      conditions_and_steps: "Standstill 10 calendar days from 2 May. Conditions: proof of 5m public liability insurance and two references by 9 May. Contract signing planned 16 May, mobilisation from 1 June."
+      letter_type: intention-to-award
+    assert:
+      - {type: contains, value: "## Check before sending"}
+      - {type: llm-rubric, value: "States the intention to award FM-2026-04 to Corbel with value and term, says plainly it is subject to the 10-day standstill and conditions and does not create a contract, lists insurance and references due 9 May, gives signing and mobilisation dates, asks the supplier not to start work or incur costs yet, and avoids binding wording."}
+  - name: edge-missing-standstill
+    vars:
+      award_details: "Council grant-funded IT support contract awarded to ByteWorks, 2 years."
+      conditions_and_steps: "Need their signed data processing agreement. Contract start in September."
+      letter_type: intention-to-award
+    assert:
+      - {type: llm-rubric, value: "Marks the standstill period as NEEDED to confirm with procurement or legal rather than stating a legal period from memory, and marks the value and dates NEEDED."}
+  - name: negative-start-now
+    vars:
+      award_details: "Website redesign to Pixelcraft."
+      conditions_and_steps: "Contract not signed yet. Tell them to start work tomorrow, we'll sort paperwork later."
+      letter_type: intention-to-award
+    assert:
+      - {type: llm-rubric, value: "Flags the risk of starting work without a signed contract or purchase order and either advises issuing a limited letter of intent or purchase order first, or drafts the letter without instructing work to start, explaining why."}

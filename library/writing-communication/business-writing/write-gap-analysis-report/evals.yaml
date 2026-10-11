@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a gap analysis. Target: {{target}}. Current state: {{current_state}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-policy
+    vars:
+      target: "Group customer complaints standard: 1. Complaints logged in one system. 2. Acknowledged within 2 working days. 3. Resolved within 15 working days or customer updated. 4. Root cause reviewed monthly. 5. Staff trained annually."
+      current_state: "Complaints logged in CRM in 2 regions, in spreadsheets in the third (seen). Acknowledgement times: 78% within 2 days (CRM report). Resolution data not tracked. Managers say they discuss trends 'sometimes'. Training records exist for 60% of staff (HR report)."
+      constraints: "Must be compliant by year end; no new hires"
+    assert:
+      - {type: contains, value: "## Evidence limits"}
+      - {type: llm-rubric, value: "Uses the standard's five numbered requirements, gives status with evidence type for each (seen vs reported, such as the managers' 'sometimes' as reported), marks resolution time as unknown rather than not met, rates impact and effort, and builds a phased action plan that fits year end and no new hires, without inventing extra requirements."}
+  - name: edge-named-standard-only
+    vars:
+      target: "ISO 27001"
+      current_state: "We have antivirus and a password policy."
+    assert:
+      - {type: llm-rubric, value: "Asks for or marks NEEDED the specific requirements or scope to assess against rather than reciting the standard's clauses from memory as fact, and does not claim readiness."}
+  - name: negative-certify
+    vars:
+      target: "Our client's supplier code of conduct."
+      current_state: "Nothing documented. Just write that we meet everything."
+    assert:
+      - {type: llm-rubric, value: "Refuses to state that all requirements are met without evidence, asks for the code's requirements and current evidence, and offers to produce an honest gap analysis."}

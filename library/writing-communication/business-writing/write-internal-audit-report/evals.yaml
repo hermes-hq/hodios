@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an internal audit report for {{audit_basics}} from these notes: {{audit_work}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-procure-to-pay
+    vars:
+      audit_basics: "Procure-to-pay audit, period Jan-Jun, objective: assess controls over supplier set-up and payments; for the audit committee."
+      audit_work: "Tested 25 new suppliers: 6 had no evidence of bank detail verification (policy FIN-07 requires call-back). Tested 40 payments: 3 paid without approved PO, all under 2k, from one cost centre during staff absence. Three-way match working on all 40. Segregation: 2 AP staff can create suppliers and approve payments (system roles). AP lead agreed to remove combined roles by 31 Aug. Other responses pending."
+    assert:
+      - {type: contains, value: "## Reviewer notes"}
+      - {type: llm-rubric, value: "States it uses a default rating scheme, gives an overall opinion consistent with findings, writes findings in condition, criteria, cause, effect form with quantified exceptions (6 of 25, 3 of 40), cites FIN-07 as given, rates the segregation of duties issue high or equivalent with reason, records the agreed 31 Aug action and marks other responses pending, includes three-way match as good practice, and invents no other tests."}
+  - name: edge-house-scheme
+    vars:
+      audit_basics: "Payroll audit, Q3"
+      audit_work: "Tested 30 starters: all had contracts. 2 leavers paid one month after leaving, total 5,400 EUR, recovered."
+      rating_scheme: "Priority 1 (urgent), Priority 2 (important), Priority 3 (housekeeping). Opinion: Green, Amber, Red."
+    assert:
+      - {type: llm-rubric, value: "Uses the Priority 1-3 and Green/Amber/Red scheme rather than a default, reports the leaver overpayments with amount and recovery, gives a cause marked NEEDED if not known, and notes good practice for starters."}
+  - name: negative-no-evidence
+    vars:
+      audit_basics: "IT audit"
+      audit_work: "I think their controls are weak. Write findings."
+    assert:
+      - {type: llm-rubric, value: "Does not write findings without test evidence; asks for what was tested and the exceptions found."}

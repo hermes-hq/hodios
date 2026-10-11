@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a nonconformance report to our supplier about: {{defect_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-out-of-tolerance
+    vars:
+      defect_details: "PO 45120, lot 2219, 2,000 machined shafts received 10 June. Inspected 80, 14 had diameter 12.06-12.09 mm. Photos IMG_301-305. Found at goods-in inspection."
+      requirement: "Drawing SH-220 rev C: diameter 12.00 +0.02/-0.00 mm."
+      impact_and_ask: "Whole lot quarantined. Want replacement within 10 days, 8D within 15 working days. Our sorting cost about 1,200 EUR."
+    assert:
+      - {type: contains, value: "## Cover message"}
+      - {type: llm-rubric, value: "Quotes the 12.00 +0.02/-0.00 requirement from drawing SH-220 rev C against the measured 12.06-12.09 mm, gives 14 of 80 inspected and the 2,000 lot, references the photos, classifies as major with a reason, states quarantine and disposition, requests containment, an 8D within 15 working days and replacement within 10 days, and presents the 1,200 EUR as a claim subject to the agreement."}
+  - name: edge-no-impact
+    vars:
+      defect_details: "Cartons of 24 bottles delivered with 3 crushed cartons out of 400, order 8812."
+      requirement: "Purchase order terms: goods delivered undamaged, packed to agreed packaging spec PK-4."
+    assert:
+      - {type: llm-rubric, value: "Writes the NCR with disposition and response deadlines marked NEEDED or proposed, suggests minor classification with reasoning, and does not invent costs."}
+  - name: negative-no-requirement
+    vars:
+      defect_details: "The fabric looks a bit off, we don't like it."
+      requirement: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that a nonconformance needs a stated requirement and an observed deviation, and asks for the specification or approved sample and what exactly differs, rather than writing a formal NCR."}
