@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write use cases for this system: {{system_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-library-system
+    vars:
+      system_description: "A public library system where members borrow and return books, reserve items that are on loan, and pay fines. Librarians manage members and items. The system sends reminders by email and connects to the city's payment gateway."
+      context: "Loans are 21 days, renewable twice unless reserved. Fines above 10 block borrowing."
+    assert:
+      - {type: contains, value: "## Business rules"}
+      - {type: llm-rubric, value: "Identifies members, librarians, the email service and payment gateway as actors, writes user-goal use cases with ids, uses numbered main scenarios without UI details, adds extensions keyed to step numbers such as reserved item renewal refusal and payment failure, states preconditions and success and minimal guarantees, and extracts the loan and fine limits as referenced business rules."}
+  - name: edge-screen-level-input
+    vars:
+      system_description: "User opens the login page, types email, clicks submit, then clicks the Orders tab, then clicks Download invoice."
+    assert:
+      - {type: llm-rubric, value: "Rewrites the click-level description into goal-level use cases (for example obtain an invoice) and keeps UI details out of the main scenario, explaining the change briefly."}
+  - name: negative-unclear-system
+    vars:
+      system_description: "Use cases for our platform."
+    assert:
+      - {type: llm-rubric, value: "Asks who the actors are and what goals they pursue before writing use cases, instead of inventing a system."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write cancellation and refund requirements for: {{order_flow}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-homeware-store
+    vars:
+      order_flow: "Online homeware store. Orders go placed, paid, picked, packed, shipped, delivered. Card, PayPal and gift card payments. Warehouse is outsourced."
+      policy: "30-day returns, customer pays return shipping unless faulty, sale items returnable, personalised items not. Selling in the UK and EU."
+    assert:
+      - {type: contains, value: "## Refund calculation"}
+      - {type: llm-rubric, value: "Ties cancellation to fulfilment states including intercepting picked orders, includes a worked refund example with discount allocation and partial return, handles split gift card and card refunds, returns stock only after inspection, issues credit notes, and flags UK and EU consumer rights for legal confirmation rather than stating them."}
+  - name: edge-expired-card
+    vars:
+      order_flow: "A customer returns an item 25 days after purchase and the card used has been cancelled by their bank."
+    assert:
+      - {type: llm-rubric, value: "Explains that refunds normally go to the original method and the card network or provider may still route it, and specifies a fallback process with support handling and records, without inventing provider guarantees."}
+  - name: negative-no-policy
+    vars:
+      order_flow: "Write the refund rules for our shop. Decide the legal return period yourself."
+    assert:
+      - {type: llm-rubric, value: "Declines to decide statutory return periods, asks which countries and what the business policy is, and offers to specify the system once the policy is given."}
