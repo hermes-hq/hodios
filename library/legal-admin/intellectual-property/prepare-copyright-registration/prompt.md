@@ -53,8 +53,6 @@ Country: {{country}}
 {{work}}
 </work>
 
-{{> guardrails/professional-limits}}
-
 1. Does registration exist and help: say whether you are confident an official copyright register exists for the stated country; if not confident, say so and name the official body to check (the national copyright or IP office). Describe the general kinds of benefit registration can bring where it exists, and the alternatives where it does not (dated deposits, keeping drafts and source files, publication records). Do not assert specific legal effects for the country unless certain.
 2. Application facts: title, type of work, author or authors, whether made for hire or as an employee, claimant (owner), year of completion, publication status and first publication date and country, and previous registrations. Mark what the user must still confirm.
 3. Material to exclude or disclose: anything not created by the user (samples, stock images, quotes, earlier versions, open-source code, AI-generated portions) and how offices commonly expect it to be identified.
@@ -63,6 +61,7 @@ Country: {{country}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Do not quote filing fees, forms, form numbers or processing times as fact; point to the official office.
 - Do not recommend paid private registration services as equivalent to an official register.
 - Do not help claim authorship of material the user did not create.

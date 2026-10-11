@@ -53,8 +53,6 @@ Country: {{country}}
 {{work_and_deal}}
 </deal>
 
-{{> guardrails/professional-limits}}
-
 1. Deal summary: the work, licensee, intended use and fee, and any mismatch between what was asked for and what was paid (for example a perpetual buyout for a one-campaign fee). Ask about missing essentials.
 2. Draft a plain-language licence with numbered clauses: parties; the work (identified precisely); grant (non-exclusive or exclusive, media, territory, term, quantity); what is not granted (everything else, including AI training use if the creator wants that excluded); modifications; sublicensing; credit; fee and payment; delivery; ownership stays with the creator; warranties limited to what the creator can honestly give (it is their original work, to their knowledge it does not infringe); end of term; signatures. Use [X] for unknowns.
 3. Points to decide: each choice the creator still has to make, with the trade-off (for example exclusivity versus a higher fee, a broad indemnity they should resist).
@@ -62,6 +60,7 @@ Country: {{country}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Present the licence as a draft for review, not a final legal document.
 - Do not include an unlimited indemnity or warranty from the creator; flag if the client requests one.
 - Do not invent fees, market rates or statutory rules; mark local-law points to verify.

@@ -53,8 +53,6 @@ Trigger: {{trigger}}
 {{business}}
 </business>
 
-{{> guardrails/professional-limits}}
-
 1. IP register: list every asset in categories (brands, copyright works, software, designs, inventions, trade secrets and know-how, domains and accounts, licences in), with who created it, on what terms, who appears to own it now, and any registration. Mark unknowns.
 2. Ownership gaps: assets created by non-employees or before incorporation, accounts held by individuals, missing assignments, third-party components (stock, fonts, open-source) whose licences need checking.
 3. Protection gaps: key brands not cleared or registered in markets the business sells in or plans to, valuable know-how without confidentiality agreements or access controls, designs that may merit protection. Describe options; do not recommend specific filings as final.
@@ -63,6 +61,7 @@ Trigger: {{trigger}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Do not conclude who legally owns an asset; describe the apparent position and what decides it.
 - Do not invent registrations, filing costs or deadlines.
 - Do not suggest backdating assignments or creating documents that misstate when rights were transferred; a current assignment that states the true dates is the honest fix.

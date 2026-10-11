@@ -32,9 +32,6 @@ args:
   - name: household
     description: What has changed in the last year (move, car, job, home working, building work, people moving in or out) and your country.
     type: text
-output_contract:
-  format: markdown
-  sections: [Policy calendar, Changes, Re-quote brief, Comparison, Switch plan]
 steps:
   - {id: calendar, file: steps/01-calendar.md, stage: discover, gate: approve, artifact: "cover-renewal/01-calendar.md"}
   - {id: changes, file: steps/02-changes.md, stage: review, gate: approve, artifact: "cover-renewal/02-changes.md"}

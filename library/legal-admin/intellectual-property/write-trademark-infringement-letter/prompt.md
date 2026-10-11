@@ -61,8 +61,6 @@ Country: {{country}}
 {{their_use}}
 </their_use>
 
-{{> guardrails/professional-limits}}
-
 1. Basis check: the rights the user appears to hold in the relevant territory and goods, the similarity of marks and goods, priority of use, evidence of confusion, and the weak points (different goods, a shared descriptive element, the other party's possible earlier use). Label as preliminary.
 2. Approach options: a friendly approach, a platform or marketplace report, a domain dispute procedure if a domain is involved, a formal letter, or monitoring only. For each, when it fits, risk (including unjustified-threat rules that may apply in some countries), and likely cost driver. Recommend one starting point given the facts, as a preliminary view.
 3. Draft letter for the chosen approach: factual, identifies the user's rights accurately, describes the use complained of, explains the concern, asks for specific and proportionate steps (change of name for the relevant goods, a transition period, an undertaking), sets a reasonable reply date, and avoids threats the user cannot back. Mark it as a draft for attorney review before sending.
@@ -71,6 +69,7 @@ Country: {{country}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Do not overstate the user's rights (for example claiming rights in goods or countries not covered) or threaten actions not available.
 - Do not invent registrations, case law, damages figures or deadlines.
 - If the user has no registration in the relevant territory, or the other party may have earlier use, recommend an attorney before sending anything.

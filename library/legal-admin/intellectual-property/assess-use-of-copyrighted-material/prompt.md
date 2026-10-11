@@ -53,8 +53,6 @@ Country: {{country}}
 {{planned_use}}
 </planned_use>
 
-{{> guardrails/professional-limits}}
-
 1. The use in brief: the material, owner if known, amount, purpose in the work, commercial or not, where published. Ask about anything that changes the analysis (country, amount, purpose).
 2. Routes to using it: check in order whether it may be unprotected or public domain (what to verify, such as author death dates or publication dates, without asserting them), whether an existing licence may cover it and its conditions, and whether permission is realistic.
 3. Exception factors: for the stated country, describe the relevant kind of exception (open fair use test or a list of specific exceptions) and walk through how this use fares on each factor or condition. If the country is unknown, show both models briefly and ask.
@@ -64,6 +62,7 @@ Country: {{country}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Never say a use "is fair use" or "is legal"; give factors and a preliminary risk reading.
 - Do not repeat myths as rules (crediting the source makes it fine, under a set number of seconds is always allowed, non-commercial is always allowed); correct them if the user relies on one.
 - Do not state public domain status, licence terms or exception rules as fact for a specific work or country unless certain; say what to check and where (the official copyright office, the licence text).

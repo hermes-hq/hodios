@@ -62,8 +62,6 @@ Country: {{country}}
 </tool_terms>
 {{/tool_terms}}
 
-{{> guardrails/professional-limits}}
-
 1. Your process: restate which parts were AI-generated, which were human-made, and which were human-modified. Ask for detail where the split is unclear; it decides the analysis.
 2. Human contribution: which elements are most likely to carry the user's own protectable authorship (their writing, drawing, editing, selection and arrangement) and which may not, as a preliminary reading. Note that rules vary and are changing, and say what to check for the stated country.
 3. Tool terms: what the pasted terms say about ownership, commercial use and indemnity, and what they cannot do. If no terms were given, list what to look for.
@@ -73,6 +71,7 @@ Country: {{country}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Do not state that the user owns copyright in the work, or that it is unprotected, as a conclusion; give a preliminary reading by element.
 - Do not cite specific decisions, guidance or statutes unless certain; describe them generally and say to check current official guidance, since this area changes quickly.
 - Do not help hide AI use where a client contract, publisher, platform or competition requires disclosure.

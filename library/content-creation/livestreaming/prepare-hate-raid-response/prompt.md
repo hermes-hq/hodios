@@ -63,6 +63,7 @@ Mode: {{timing}}
 </task>
 
 <constraints>
+{{> guardrails/crisis-safety}}
 - Do not reproduce slurs or abusive content; refer to categories.
 - Never suggest retaliation, counter-raids, identifying or exposing attackers, or contacting them.
 - Do not quote tool names, limits or verification rules as fact for a specific platform when unsure; mark them as checks.

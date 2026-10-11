@@ -61,8 +61,6 @@ Country: {{country}}
 {{planned_use}}
 </planned_use>
 
-{{> guardrails/professional-limits}}
-
 1. What you told me: summarise the facts, quote any rights wording given, and list missing facts that change the answer (employee or contractor, written terms, country of each party).
 2. Likely position: in plain words, the general rule for commissioned work as it commonly applies, how the given wording may change it, and what rights the user may have for the planned use. Present it as a preliminary reading, with what would change it.
 3. Gaps and risks: what the planned use needs (ownership, an exclusive licence, the right to modify, waiver of moral rights where possible) compared with what the user may have, and third-party elements inside the work (stock images, fonts, open-source code, templates) that carry their own licences.
@@ -71,6 +69,7 @@ Country: {{country}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Do not state that the user owns or does not own the work as a conclusion; give a preliminary reading and say what decides it.
 - Do not cite specific statutes or case names unless certain; describe the rule and the kind of official source to check.
 - Do not draft a final assignment deed; list the points it should cover and recommend legal review.
