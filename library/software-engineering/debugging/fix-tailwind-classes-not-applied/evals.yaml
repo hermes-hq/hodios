@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My Tailwind classes aren't working: {{problem}} {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dynamic-classes
+    vars:
+      problem: "Badge component uses className={`bg-${color}-100 text-${color}-800`}; colors work for 'green' (used elsewhere) but not 'amber' or 'violet'."
+      setup: "Tailwind 3.4, Vite, React; content: ['./src/**/*.{ts,tsx}']."
+    assert:
+      - {type: contains, value: "## Is the CSS generated"}
+      - {type: llm-rubric, value: "Explains Tailwind only generates classes it sees as complete strings so the interpolated classes are missing unless used literally elsewhere, and fixes it with a map from color to full class strings (or a narrow safelist), then verifies in a production build."}
+  - name: edge-v4-old-config
+    vars:
+      problem: "After upgrading, none of our custom colors (bg-brand, text-ink) work but standard utilities do."
+      setup: "tailwindcss 4.x with @tailwindcss/vite; tailwind.config.js still defines theme.extend.colors; app.css has @import 'tailwindcss';"
+    assert:
+      - {type: llm-rubric, value: "Recognises v4 does not read tailwind.config.js automatically, and moves the colors to an @theme block in CSS (or loads the legacy config with @config), checking the classes are generated afterwards."}
+  - name: negative-important-everywhere
+    vars:
+      problem: "p-4 doesn't apply on my Card; can I just add ! to every class so they always win?"
+    assert:
+      - {type: llm-rubric, value: "Advises against blanket important modifiers, first finds which rule overrides p-4 (for example a conflicting padding utility or unlayered CSS) and fixes that."}

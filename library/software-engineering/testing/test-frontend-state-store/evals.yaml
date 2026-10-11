@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write tests for this store: {{store}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rtk-thunk
+    vars:
+      store: "cartSlice (Redux Toolkit): addItem, removeItem, applyCoupon thunk calling POST /api/coupons/validate; selectors selectCartTotal and selectItemCount. Store built by setupStore() in store.ts with a listener middleware that saves the cart."
+    assert:
+      - {type: contains, value: "## Behaviours"}
+      - {type: llm-rubric, value: "Creates a real store per test via setupStore with preloaded state, tests actions through selectors rather than action type lists, mocks the coupon endpoint at the network layer, and asserts pending, fulfilled and rejected outcomes of applyCoupon."}
+  - name: edge-zustand-leak
+    vars:
+      store: "useAuthStore (Zustand) with login/logout. Our tests pass alone but fail when run together: the second test sees the user from the first."
+    assert:
+      - {type: llm-rubric, value: "Explains the Zustand store is a module singleton that keeps state between tests and resets it in beforeEach (setState with the captured initial state and replace) or with a shared reset setup, then tests actions via getState()."}
+  - name: negative-snapshot-state
+    vars:
+      store: "Pinia useOrdersStore. Just snapshot the whole state object after each action, that's enough."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on whole-state snapshots as brittle and low-signal, and writes targeted assertions on getters and specific state after each action, using a fresh Pinia per test."}

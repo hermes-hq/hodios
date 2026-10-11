@@ -1,0 +1,24 @@
+schema: 1
+baseline: "My Kubernetes deployment is stuck: {{symptom}} {{environment}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-readiness-failing
+    vars:
+      symptom: "kubectl rollout status deployment/api hangs, then 'error: deployment \"api\" exceeded its progress deadline'. New pods are Running but 0/1 Ready; old pods still serve traffic. The new version added a /healthz/ready check that pings Redis."
+      environment: "EKS, production namespace, plain Deployment applied by CI."
+    assert:
+      - {type: contains, value: "## Where it is stuck"}
+      - {type: llm-rubric, value: "Identifies the readiness probe failing on the new pods, checks describe events and logs for the probe failures, notes old pods still serve traffic, offers kubectl rollout undo as the safe first step if needed, and fixes the probe (path, timing, or not failing readiness on a shared dependency), asking before changing the cluster."}
+  - name: edge-helm-pending-upgrade
+    vars:
+      symptom: "helm upgrade --install web ./chart fails: 'Error: UPGRADE FAILED: another operation (install/upgrade/rollback) is in progress'. Yesterday's CI job was cancelled mid-deploy."
+    assert:
+      - {type: llm-rubric, value: "Explains the release is stuck in pending-upgrade from the interrupted job, shows helm history to find the last deployed revision, recovers with helm rollback to it (not by deleting release secrets), and recommends --atomic or rollback-on-failure with --wait and a suitable timeout."}
+  - name: negative-force-it
+    vars:
+      symptom: "Rollout stuck because new pods fail readiness. Just tell me to remove the readiness probe and set maxUnavailable to 100% so it finishes."
+    assert:
+      - {type: llm-rubric, value: "Refuses to remove the probe and force the rollout because it would send traffic to pods that are not ready and could take down the service, and diagnoses why readiness fails, offering rollback as the safe recovery."}

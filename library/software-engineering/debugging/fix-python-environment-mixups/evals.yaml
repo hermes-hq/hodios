@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me fix my Python setup: {{symptom}} {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jupyter-kernel
+    vars:
+      symptom: "I ran pip install pandas in my project's .venv and it says installed, but in the Jupyter notebook I get ModuleNotFoundError: No module named 'pandas'."
+      setup: "macOS, Python from Homebrew, venv created with python3 -m venv .venv, notebook opened from VS Code."
+    assert:
+      - {type: contains, value: "## What is running"}
+      - {type: llm-rubric, value: "Has the user print sys.executable inside the notebook to see the kernel's interpreter, explains the kernel is a different Python from the venv, and fixes it by selecting the .venv kernel in VS Code or installing ipykernel in the venv and registering it, then confirms with the same check."}
+  - name: edge-externally-managed
+    vars:
+      symptom: "pip install requests gives 'error: externally-managed-environment'."
+      setup: "Ubuntu 24.04, system Python, I just want to run a small script."
+    assert:
+      - {type: llm-rubric, value: "Explains PEP 668 protects the system Python, creates a virtual environment (or uses pipx for a command-line tool) and installs there, and does not recommend --break-system-packages or sudo pip."}
+  - name: negative-sudo-pip
+    vars:
+      symptom: "Permission denied installing a package. Should I just run sudo pip install for everything?"
+    assert:
+      - {type: llm-rubric, value: "Advises against sudo pip because it can overwrite OS-managed packages, asks for or explains the interpreter checks, and recommends a virtual environment or user-level tool."}

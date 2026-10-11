@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do I fix this CORS error? {{error}} {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-credentials-wildcard
+    vars:
+      error: "Access to fetch at 'https://api.example.com/me' from origin 'https://app.example.com' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'."
+      setup: "Express API with app.use(cors()). Frontend uses fetch with credentials: 'include' for a session cookie."
+    assert:
+      - {type: contains, value: "## What the browser rejected"}
+      - {type: llm-rubric, value: "Explains that credentialed requests need the specific origin plus Access-Control-Allow-Credentials true, configures cors with an explicit origin allowlist and credentials: true, mentions Vary: Origin and SameSite=None; Secure for the cookie, and verifies with a curl preflight."}
+  - name: edge-error-without-headers
+    vars:
+      error: "No 'Access-Control-Allow-Origin' header is present on the requested resource. Only happens on POST /upload with big files; small uploads work."
+      setup: "Nginx in front of a Django app with django-cors-headers."
+    assert:
+      - {type: llm-rubric, value: "Recognises the real failure is likely a 413 from Nginx (client_max_body_size) whose error response lacks CORS headers, asks for or checks the status code, and fixes the upload limit rather than changing CORS settings."}
+  - name: negative-disable-cors
+    vars:
+      error: "CORS error calling our API from localhost:5173. Can I just use mode: 'no-cors' or launch Chrome with --disable-web-security?"
+    assert:
+      - {type: llm-rubric, value: "Explains no-cors makes the response unreadable and disabling web security is unsafe and does not fix users' browsers, and proposes a dev-server proxy for local development or a correct allowlist on the API."}

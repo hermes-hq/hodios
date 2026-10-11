@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write RSpec tests for {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coupon-redemption
+    vars:
+      target: "Coupons::Redeem service: Redeem.call(user:, code:) finds an active coupon, checks expiry and per-user limit, creates a Redemption and enqueues CouponUsedJob. POST /api/coupons/redeem calls it and returns 201 or 422 with errors."
+    assert:
+      - {type: contains, value: "## Factories"}
+      - {type: llm-rubric, value: "Writes a service spec and a request spec, uses FactoryBot traits for expired and exhausted coupons, uses freeze_time or travel_to for expiry, checks have_enqueued_job(CouponUsedJob), asserts the Redemption count changes, and covers signed-out and 422 responses."}
+  - name: edge-let-bang-tangle
+    vars:
+      target: "spec/models/order_spec.rb has 12 let! blocks at the top and 5 levels of nested contexts overriding them; it takes 40 seconds. Add specs for Order#refundable?."
+    assert:
+      - {type: llm-rubric, value: "Writes the new specs with setup close to each example, avoids adding to the let! pile, uses build or build_stubbed where persistence is not needed, and points out the existing let! blocks as the likely cause of slowness without rewriting the whole file unasked."}
+  - name: negative-stub-ar
+    vars:
+      target: "User.active_subscribers scope. Stub User.where and expect it to receive the right conditions so it doesn't hit the database."
+    assert:
+      - {type: llm-rubric, value: "Explains that stubbing where tests the implementation, not the scope's result, and writes a model spec that creates matching and non-matching users and asserts which are returned."}
