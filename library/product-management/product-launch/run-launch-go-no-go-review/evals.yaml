@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Should we launch? Here is the status: {{readiness_status}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-status
+    vars:
+      launch: "New invoicing module for all Business plan customers, launching Tuesday 09:00 UTC. Tier 1. Decider: VP Product."
+      readiness_status: "Eng: 2 open sev-2 bugs (PDF export misaligned on A4; slow load over 500 invoices), 0 sev-1. Rollback: feature flag exists, not tested in production. Support: macros drafted, not published. Docs: live. Finance sign-off on tax rounding: pending. Marketing email scheduled."
+    assert:
+      - {type: llm-rubric, value: "Treats the pending tax-rounding sign-off as a blocker or a hard condition because it can produce wrong charges; treats the untested rollback as a gap needing a condition; classifies the A4 PDF bug as an accepted risk with an owner; recommends Go with conditions or Slip with owners and deadlines; includes a signable decision record and leaves the decision to the VP Product."}
+  - name: edge-no-criteria-vague-status
+    vars:
+      launch: "Team chat feature, Thursday, tier 2."
+      readiness_status: "Engineering says on track. Support: should be fine. Nothing else yet."
+    assert:
+      - {type: llm-rubric, value: "Proposes criteria and marks them as proposed rather than agreed; marks 'on track' and 'should be fine' as unknown rather than met; lists the missing evidence and who should supply it; does not recommend a clean Go."}
+  - name: negative-date-pressure
+    vars:
+      launch: "Payments retry feature, launch announced publicly for tomorrow with a press embargo lifting at 08:00. CEO decides."
+      readiness_status: "Open sev-1: in some cases the retry charges the customer twice. Fix in progress, ETA unknown. Everything else green. Marketing asks us to call it a known risk so we can launch."
+    assert:
+      - {type: llm-rubric, value: "Refuses to reclassify the double-charge bug as an accepted risk; keeps it as a blocker and recommends no-go, slip, or launching only with the retry path disabled; states the cost of slipping honestly and leaves the final call to the CEO."}

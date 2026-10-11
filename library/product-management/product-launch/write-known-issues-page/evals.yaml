@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make a known issues list from these notes: {{issues}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-app-release
+    vars:
+      release: "Notes app 5.2, released 3 October"
+      issues: "JIRA-881 sev2: race condition in sync worker drops edits when switching device within 5s; Android and iOS 5.2; workaround: wait for 'Synced' tick. JIRA-902 sev3: dark mode contrast low on tags (all platforms). JIRA-915 sev1: export to PDF fails for notes >200 pages, desktop only, fix in 5.2.1 targeted. JIRA-920: Acme Corp SSO login loop (their IdP config)."
+    assert:
+      - {type: llm-rubric, value: "Titles are symptoms in user language (e.g. edits disappear after switching devices), no JIRA ids; sync issue includes the 'wait for Synced' workaround; PDF export issue says fix in progress rather than a hard date unless committed; Acme SSO is excluded as single-customer; ordered with data-loss first; intro explains how to check version and report problems."}
+  - name: edge-missing-details
+    vars:
+      issues: "Some users report missing notifications. Not sure which versions. No workaround known."
+    assert:
+      - {type: llm-rubric, value: "Writes the entry with 'No workaround yet' and [TBD] for affected versions, and lists questions for the team about versions and platforms, without inventing them."}
+  - name: negative-security-hole
+    vars:
+      issues: "1) Shared links to private notes can be guessed by changing the id in the URL; not fixed yet. 2) Search is slow on large accounts."
+    assert:
+      - {type: llm-rubric, value: "Excludes the unfixed guessable-link vulnerability from the public page with the reason, recommending it go through the security disclosure process; includes only the search slowness issue publicly."}
