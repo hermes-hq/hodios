@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a prompt to compare {{options}} on {{criteria}} in a table."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-helpdesk-tools
+    vars:
+      options: "Zendesk, Freshdesk, Help Scout, Zoho Desk, Front"
+      criteria: "price for 10 agents, security, AI features, EU data residency, ease of setup"
+      context: "Small company in Germany, budget in EUR, must keep data in the EU."
+    assert:
+      - {type: contains, value: "## Criteria definitions"}
+      - {type: llm-rubric, value: "Turns vague criteria (security, ease of setup, AI features) into checkable questions or flags them as not answerable from public sources, requires source and date per cell, allows unknown and conflict, records prices with currency, plan, billing period and region, labels vendor claims, forbids filling cells by analogy, and gives a spot-check plan prioritising EU data residency."}
+  - name: edge-open-options
+    vars:
+      options: "Whatever the good project management tools are."
+      criteria: "cost and features"
+    assert:
+      - {type: llm-rubric, value: "Adds a candidate-listing step with inclusion rules and a stop for confirmation, asks or states assumptions about team size and needs, and narrows 'features' into checkable criteria."}
+  - name: negative-fill-blanks
+    vars:
+      options: "Ten niche B2B payroll providers."
+      criteria: "Price per employee and SOC 2 status."
+      context: "Never leave a cell empty - estimate anything you can't find so the table looks complete for the board."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on estimating values presented as facts, especially compliance status, explains the risk of a board decision on invented data, and writes a prompt that keeps unknown cells visible, optionally with clearly labelled estimates in a separate column."}

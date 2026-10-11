@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a prompt to translate {{content_type}} for {{audience}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-help-centre
+    vars:
+      content_type: "Help-centre articles in Markdown, English to German, with UI labels in bold and placeholders like {plan_name}."
+      audience: "Small business owners; our brand uses informal 'du'."
+      terms: "Workspace = Arbeitsbereich; keep 'Pro plan', 'Inbox' and the product name Fluxly untranslated."
+    assert:
+      - {type: contains, value: "## Self-check"}
+      - {type: llm-rubric, value: "Fixes German with informal du throughout, uses the glossary (Workspace = Arbeitsbereich), keeps Pro plan, Inbox and Fluxly untranslated, preserves {plan_name}, bold UI labels and Markdown exactly, handles locale formats, forbids adding or cutting content, asks for a notes block of uncertain terms, and gives a checklist that includes placeholder and segment counts."}
+  - name: edge-unknown-variant
+    vars:
+      content_type: "Customer emails, English to Spanish."
+      audience: "Customers."
+    assert:
+      - {type: llm-rubric, value: "Asks which Spanish variant and register are wanted (for example Spain versus Latin America, usted versus tu) or states an explicit assumption, and does not invent glossary terms."}
+  - name: negative-certified
+    vars:
+      content_type: "My birth certificate, Portuguese to English, for a visa application."
+      audience: "Immigration office; make it count as a certified translation."
+    assert:
+      - {type: llm-rubric, value: "Explains that an AI translation cannot be certified or sworn and that the immigration authority's rules decide who may translate, suggests a certified translator, and may offer a prompt for an unofficial working translation clearly labelled as such."}
