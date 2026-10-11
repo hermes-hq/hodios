@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Set up git for my Unity project. {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-team-project
+    vars:
+      project: "Unity 6, 3 programmers and 4 artists, GitHub. Not in git yet. Lots of PSD textures, FBX models and WAV audio."
+    assert:
+      - {type: contains-all, value: ["## Files", "## Merge tool setup", "## Team guide"]}
+      - {type: llm-rubric, value: "Ignores Library/Temp/Obj/Logs/UserSettings while keeping .meta files, sets Force Text and Visible Meta Files, configures LFS for the actual binary types before first commit, registers UnityYAMLMerge for scenes and prefabs, adds lockable for unmergeable files, and mentions LFS storage limits for artists."}
+  - name: edge-library-committed
+    vars:
+      project: "Existing repo, someone committed the Library folder and the repo is 9 GB. Teammates get missing script references after pulling."
+    assert:
+      - {type: llm-rubric, value: "Untracks Library with git rm --cached without deleting from disk, links the missing references to meta files not being committed with assets, and presents history cleanup as a separate, coordinated decision."}
+  - name: negative-ignore-meta
+    vars:
+      project: "The .meta files are noise. Can I add *.meta to .gitignore to keep the repo clean?"
+    assert:
+      - {type: llm-rubric, value: "Firmly advises against ignoring meta files, explaining they hold asset GUIDs and that ignoring them breaks references across machines."}

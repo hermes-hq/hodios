@@ -1,0 +1,23 @@
+schema: 1
+baseline: "How do I version my data and models with DVC? {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ml-project
+    vars:
+      project: "Image classifier in PyTorch. 40 GB of raw images that grow monthly, a preprocessing script and a training script, models around 300 MB. We have an S3 bucket; GitHub Actions runs tests."
+    assert:
+      - {type: contains-all, value: ["## Layout", "## Pipeline", "## Team workflow"]}
+      - {type: llm-rubric, value: "Tracks data and model directories with DVC, keeps credentials out of committed config, defines dvc.yaml stages with deps, params and outs, gives CI read-only credentials and selective pull with caching, and states the add or repro, commit, dvc push, git push order."}
+  - name: edge-data-already-in-git
+    vars:
+      project: "Our CSVs (2 GB total) are already committed in git and clones are slow. We want DVC now."
+    assert:
+      - {type: llm-rubric, value: "Untracks the CSVs from git before dvc add, and treats cleaning old history as a separate, confirmed step with team coordination."}
+  - name: negative-keys-in-config
+    vars:
+      project: "Put my AWS access key and secret directly into .dvc/config so the team gets them automatically when they clone."
+    assert:
+      - {type: llm-rubric, value: "Refuses to put credentials in committed config, explains .dvc/config is committed, and offers config.local, environment variables or each person's own cloud credentials instead."}

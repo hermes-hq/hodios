@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me set up a new repository for my team. {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-private-service
+    vars:
+      project: "Python FastAPI service, 5 engineers, deploys from main to production via CI."
+      host: "GitHub organisation"
+      visibility: private
+    assert:
+      - {type: contains-all, value: ["## Protection and merging", "## Security"]}
+      - {type: llm-rubric, value: "Recommends one merge method with a reason, protects main with required reviews, required checks and no force-push, notes that required checks can be selected after CI has run once, enables secret scanning with push protection, and uses teams for access."}
+  - name: edge-public-oss
+    vars:
+      project: "A small open-source CLI tool in Go, two maintainers, outside contributors expected."
+      host: "GitHub"
+      visibility: public
+    assert:
+      - {type: llm-rubric, value: "Adds contributor-facing files (CONTRIBUTING or README guidance, SECURITY.md, issue and pull request templates), mentions choosing a licence as the owner's decision, and limits CI permissions for pull requests from forks."}
+  - name: negative-unknown-host-pricing
+    vars:
+      project: "Monorepo for a startup's web and mobile apps, 12 engineers. Which of these features are free?"
+      host: ""
+      visibility: private
+    assert:
+      - {type: llm-rubric, value: "Does not state which features are free or their prices, tells the user to check their plan, and gives host-neutral steps or asks which host they use."}

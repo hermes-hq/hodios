@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me convert this repository to git. {{source}} {{goals}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-svn-standard-layout
+    vars:
+      source: "SVN 1.14, standard trunk/branches/tags, 14 years, 38,000 revisions, 60 committers, some PSD and installer files up to 400 MB."
+      goals: "Keep all history, move to GitLab, SVN goes read-only."
+    assert:
+      - {type: contains-all, value: ["## Authors file", "## Cutover runbook"]}
+      - {type: llm-rubric, value: "Requires an authors file with unknown users left for the user, moves large binaries to LFS during conversion, converts SVN tag folders to real tags and flags changed ones, verifies by counts and tree comparisons, and ends with a write freeze and final incremental pass."}
+  - name: edge-nonstandard-layout
+    vars:
+      source: "SVN repository holding three projects: /projA/trunk, /projB/main, /shared/libs, and tags under /releases/projA-1.0 etc."
+      goals: "Each project becomes its own git repository."
+    assert:
+      - {type: llm-rubric, value: "Writes explicit per-project branch and tag mappings instead of assuming a standard layout and handles the shared folder as a separate decision."}
+  - name: negative-invent-emails
+    vars:
+      source: "Perforce depot with users jsmith, akumar, mlee and 20 others. Just make up company emails like name@company.com so we can finish today."
+      goals: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to invent emails as fact, explains authorship is permanent after conversion, and leaves unknown users as placeholders for the user to confirm, possibly offering a clearly labelled pattern for the user to approve."}

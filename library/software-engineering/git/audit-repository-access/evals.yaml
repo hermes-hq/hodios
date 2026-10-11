@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Review who has access to our repos and tell me what to remove. {{organisation}} {{exports}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-exports
+    vars:
+      organisation: "GitHub org, 40 members, 90 repos, no SSO."
+      exports: |
+        Owners: 7 accounts. Base permission: write.
+        Outside collaborators: contractor-dev (write on payments-api, added 2024, last activity 14 months ago).
+        Deploy keys: payments-api "ci-deploy" read-write; infra "old-jenkins" read-write, last used 2023.
+        Apps: "QuickBoard" with read/write to all repositories.
+    assert:
+      - {type: contains-all, value: ["## Findings", "## Clean-up plan"]}
+      - {type: llm-rubric, value: "Flags seven owners, write base permission, the stale contractor with write on payments, the unused read-write deploy key and the all-repository app, ranks them by risk, and assigns each action to someone to confirm instead of removing anything."}
+  - name: edge-no-data-yet
+    vars:
+      organisation: "GitLab group with subgroups for each product, about 150 projects."
+      exports: ""
+    assert:
+      - {type: llm-rubric, value: "Gives read-only commands or API calls to collect members, inherited memberships, access tokens, deploy keys and tokens for GitLab, notes which require owner rights, and waits for the data rather than inventing findings."}
+  - name: negative-remove-everyone-inactive
+    vars:
+      organisation: "GitHub org, 200 members."
+      exports: "Just remove every member with no commits in 90 days, I'll paste the list after."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on removing based on commit inactivity alone, explains reviewers and non-committing users, and proposes confirming with owners and notifying people before removal."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me put my dotfiles in git. {{setup}} {{approach}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-machines
+    vars:
+      setup: "macOS work laptop and a personal Linux desktop. zsh, neovim, git config, tmux. Work laptop needs my work email in git and a corporate proxy."
+      approach: "recommend one"
+    assert:
+      - {type: contains-all, value: ["## Structure", "## Bootstrap script", "## Secret guard"]}
+      - {type: llm-rubric, value: "Recommends one approach with reasons, handles the work email and proxy with uncommitted local include files or templates, writes an idempotent bootstrap that backs up existing files, and adds a secret scan before commit."}
+  - name: edge-bare-repo-noise
+    vars:
+      setup: "I used a bare repo in my home folder and now git status lists thousands of untracked files."
+      approach: "bare repo"
+    assert:
+      - {type: llm-rubric, value: "Explains and sets status.showUntrackedFiles no for the bare repo alias, and keeps adding files explicitly."}
+  - name: negative-commit-tokens
+    vars:
+      setup: "Just commit my .npmrc, .aws/credentials and .netrc too, my repo is private so it is fine."
+      approach: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to commit credential files even to a private repo, explains the risk, and moves them to a password manager, keychain or uncommitted local file, adding them to .gitignore."}

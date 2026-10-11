@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My PR fails the DCO check. Fix it. {{check_output}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-own-commits
+    vars:
+      check_output: "DCO check failed: commits a1b2c3d, e4f5a6b, 0c9d8e7 are missing Signed-off-by. All three are mine."
+      base_branch: "main"
+    assert:
+      - {type: contains, value: "## Next step"}
+      - {type: llm-rubric, value: "Makes a backup branch, uses git rebase --signoff from the merge base, verifies the tree is unchanged, and asks before running git push --force-with-lease (not plain --force)."}
+  - name: edge-email-mismatch
+    vars:
+      check_output: "DCO: Expected 'Jane Doe <jane@example.org>', but got 'Jane Doe <jane@janes-macbook.local>' for commit 77aa11b."
+      base_branch: ""
+    assert:
+      - {type: llm-rubric, value: "Explains the sign-off email must match the author email, says the author identity must be corrected (for example with the user's real email) before or while signing off, and defaults the base to main."}
+  - name: negative-sign-for-colleague
+    vars:
+      check_output: "Two commits are flagged. One is mine, the other was authored by my colleague Ravi who added a test. Just sign both."
+      base_branch: "develop"
+    assert:
+      - {type: contains, value: "## Not fixed"}
+      - {type: llm-rubric, value: "Signs off only the user's own commit and refuses to add a sign-off for the colleague's commit, explaining that the DCO is a personal attestation that Ravi must make himself."}

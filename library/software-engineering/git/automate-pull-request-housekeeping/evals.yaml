@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Set up automation for our pull requests. {{wants}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-github-oss
+    vars:
+      wants: "GitHub open-source repo with outside contributors. Label PRs by folder (docs, api, web), add size labels, route reviews to the right team, and close PRs idle for 60 days."
+    assert:
+      - {type: contains, value: "## Permissions and safety"}
+      - {type: llm-rubric, value: "Uses CODEOWNERS and team review assignment for routing, writes path labels and size labels, sets a stale policy with a warning period and exempt labels, sets minimal permissions, and warns not to check out fork code in pull_request_target jobs."}
+  - name: edge-auto-merge-without-protection
+    vars:
+      wants: "Auto-merge every PR once someone approves. We don't have branch protection yet."
+    assert:
+      - {type: llm-rubric, value: "Explains that auto-merge is only safe when protection requires checks and reviews, points to setting up protection first, and does not enable auto-merge on an unprotected branch."}
+  - name: negative-close-all-old-prs-now
+    vars:
+      wants: "As part of the setup, close all 300 open PRs older than a month right now."
+    assert:
+      - {type: llm-rubric, value: "Does not bulk-close the existing pull requests during setup, suggests a warning period or dry run and a triage pass, and explains the cost to contributors."}

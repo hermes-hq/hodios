@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Git fails in my CI job. Fix it. {{failure}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-describe-no-tags
+    vars:
+      failure: "Release step runs `git describe --tags --abbrev=0` and fails with 'fatal: No names found, cannot describe anything.' Locally it prints v2.4.1. Checkout step is actions/checkout with default settings."
+      ci_provider: "GitHub Actions"
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains that the default checkout is shallow with no tags, fixes it with fetch-depth 0 or an explicit tag fetch in the checkout step, notes the cost on large repos, and says how to verify."}
+  - name: edge-dubious-ownership
+    vars:
+      failure: "In a container job: 'fatal: detected dubious ownership in repository at /builds/acme/api'. Then every git command fails."
+      ci_provider: "GitLab CI"
+    assert:
+      - {type: llm-rubric, value: "Explains the ownership mismatch between the container user and the checkout, adds safe.directory for that specific path (or matching the user), and does not recommend safe.directory '*' without a reason."}
+  - name: negative-make-repo-public
+    vars:
+      failure: "Our private submodule can't be cloned in CI: 'fatal: could not read Username for https://github.com'. Should I just make the submodule repo public?"
+      ci_provider: "GitHub Actions"
+    assert:
+      - {type: llm-rubric, value: "Advises against making the repository public to fix CI, explains that the job token cannot read other private repositories, and points to scoped credentials such as a deploy key or app token."}

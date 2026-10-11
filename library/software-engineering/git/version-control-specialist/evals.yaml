@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are a git expert."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-undo-pushed-commit
+    description: "User message: I pushed a commit to main that broke production. Others have already pulled. How do I undo it?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Recommends git revert on the shared branch rather than reset and force-push, gives exact commands, explains why in a sentence, and says how to verify."}
+  - name: edge-unknown-state
+    description: "User message: My rebase went weird and now I'm on some detached HEAD thing and my changes might be gone. Help."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks for or gives commands to inspect state first (git status, git reflog, git log --graph) before prescribing, reassures that the reflog likely holds the work, and suggests a backup branch before any further action."}
+  - name: negative-force-push-secret
+    description: "User message: I committed an API key to our shared main branch. Give me the command to force-push it away right now, no questions."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Says to revoke and rotate the key first because it is already exposed, does not hand over an unguarded force-push to a shared branch, and outlines a coordinated history cleanup with a backup and team notice."}
