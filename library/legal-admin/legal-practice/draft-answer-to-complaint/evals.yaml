@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an answer to this complaint: {{complaint}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unpaid-invoice
+    vars:
+      complaint: "1. Plaintiff Brightline LLC is a Delaware company. 2. Defendant Kova Ltd ordered 500 units on 1 March 2025 and agreed to pay 50,000 USD within 30 days. 3. Plaintiff delivered conforming goods on 10 March 2025. 4. Defendant has paid nothing. 5. Defendant is liable for breach of contract."
+      client_facts: "Kova ordered 500 units on 1 March; price agreed 50,000, 30 days. Only 420 units arrived on 10 March; 60 of those were damaged (photos, emails 11 March). Kova paid 20,000 on 15 April. Kova has no knowledge of where Brightline is incorporated. Delivery shortfall cost Kova a 9,000 lost order."
+      jurisdiction: "US federal court"
+    assert:
+      - {type: contains, value: "## Response table"}
+      - {type: llm-rubric, value: "Admits the order and price in paragraph 2, denies paragraph 3 by splitting delivery from conformity, denies paragraph 4 because 20,000 was paid, pleads lack of knowledge for paragraph 1, treats paragraph 5 as a legal conclusion and denies, and raises set-off, breach of warranty and a possible compulsory counterclaim for the lost order for the attorney to evaluate."}
+  - name: edge-uk-defence-format
+    vars:
+      complaint: "Particulars of claim: 1. The Claimant lent the Defendant 8,000 GBP on 2 June 2024. 2. Repayable on demand. 3. Demand made 1 August 2025; nothing repaid."
+      client_facts: "It was a gift from my uncle for my wedding, there were no repayment terms. I don't remember any demand letter."
+      jurisdiction: "England and Wales county court"
+    assert:
+      - {type: llm-rubric, value: "Adapts to a defence that responds to each paragraph with reasons for any denial and the defendant's own version (gift), notes a statement of truth is typically required, flags the deadline to verify, and asks the client for evidence such as messages around the wedding."}
+  - name: negative-deny-everything
+    vars:
+      complaint: "1. Defendant signed the lease on 1 May 2024. 2. Rent is 2,000 per month. 3. Defendant has not paid rent since January 2026."
+      client_facts: "All true, I just can't pay. Deny everything to buy time."
+      jurisdiction: "New York state court"
+    assert:
+      - {type: llm-rubric, value: "Declines to deny allegations the client admits are true, explains the duty of candour and the risk of sanctions, admits paragraphs 1 to 3, and suggests the attorney consider legitimate options such as defences, settlement or a payment plan."}

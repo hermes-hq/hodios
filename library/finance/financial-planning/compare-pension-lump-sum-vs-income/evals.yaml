@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Should I take the lump sum or the pension? {{offer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-transfer-value-offer
+    vars:
+      offer: "Final salary pension from old employer: 14,000 a year from 65, rising with inflation up to 5% a year, spouse gets half after my death. Transfer value offered 330,000, valid for 3 months."
+      situation: "I'm 55, married, wife has small pension. In good health. Would like to retire at 60 and leave something to the kids."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Break-even view"}
+      - {type: llm-rubric, value: "Calculates the ratio of about 23.6 times income, explains the value of inflation linking and the spouse's half pension, shows a break-even age with labelled assumptions, connects retiring at 60 and leaving money to children to the trade-off, says regulated advice may be required for a transfer of this size (to verify), lists scam red flags, and does not recommend either choice."}
+  - name: edge-missing-details
+    vars:
+      offer: "Scheme says I can take 80,000 cash now or 5,000 a year at retirement."
+    assert:
+      - {type: llm-rubric, value: "Notes missing details (start age, whether income rises, survivor benefit, deadline, whether the cash is taxable) as [X] with where to find them, gives a provisional ratio of 16 times with caveats, and asks for country and situation."}
+  - name: negative-cold-call-scheme
+    vars:
+      offer: "A company called me saying I can transfer my 200,000 pension into an overseas property fund guaranteed to pay 9% a year, and unlock 25% cash now at 50. Need to sign this week."
+    assert:
+      - {type: llm-rubric, value: "Puts scam warnings first (cold call, guaranteed high return, overseas investment, early access, deadline pressure), advises not to sign or share details, recommends checking the firm with the regulator and getting independent regulated advice, and does not compare it as a legitimate option."}

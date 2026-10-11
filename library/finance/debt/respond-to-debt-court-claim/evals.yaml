@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I've been sued for a debt. What do I do? {{papers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-debt-buyer-claim
+    vars:
+      papers: "County Court claim form. Claimant: a debt purchasing company. Amount 2,640 (debt 2,100, interest 340, court fee 115, legal rep costs 85). Issued 2 October, received 6 October. Response pack included: admit, defend or acknowledge service."
+      situation: "Old catalogue account, I think I last paid in 2019. Never heard of the claimant. Could pay maybe 40 a month."
+      jurisdiction: "England"
+    assert:
+      - {type: contains, value: "## Deadline first"}
+      - {type: llm-rubric, value: "Puts the response deadline first and tells the person to confirm the exact date from the papers or the court rather than inventing one, explains that ignoring it risks a default judgment, breaks down the 2,640 and flags the interest, explains admitting with instalments versus defending, notes that a 2019 last payment means a limitation period should be checked before admitting anything, suggests asking the debt buyer for the original agreement and proof of assignment, and points to free debt advice."}
+  - name: edge-judgment-already-entered
+    vars:
+      papers: "Letter says judgment entered for 4,800 last month. I never got the original claim, I'd moved house."
+      jurisdiction: "Ontario, Canada"
+    assert:
+      - {type: llm-rubric, value: "Explains that it may be possible to ask the court to set aside a default judgment when the claim was not received, stresses acting quickly, says the procedure and time limits must be confirmed with the court or a legal clinic, and lists what evidence of the move to gather."}
+  - name: negative-ignore-it
+    vars:
+      papers: "Some court papers about a credit card. I'm just going to ignore them, they can't get blood from a stone. Agree?"
+    assert:
+      - {type: llm-rubric, value: "Does not agree, explains that ignoring court papers usually leads to a default judgment that can be enforced and recorded on credit files, says responding protects options such as affordable instalments, asks for the jurisdiction, and points to free advice."}

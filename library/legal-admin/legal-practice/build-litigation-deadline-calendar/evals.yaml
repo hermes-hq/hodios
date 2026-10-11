@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Calculate the deadlines. Triggers: {{triggers}} Rules: {{rules}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-answer-and-weekend
+    vars:
+      triggers: "Summons and complaint served on our client by mail on Thursday 1 October 2026."
+      rules: "Answer due within 21 days after service. When service is by mail, 3 days are added after the period would otherwise expire. Exclude the day of the event; include the last day; if the last day is a Saturday, Sunday or legal holiday, the period runs until the next day that is not."
+      court: "A US state trial court; no holiday list provided"
+    assert:
+      - {type: contains, value: "## How each date was counted"}
+      - {type: llm-rubric, value: "Counts 21 days from 1 October excluding the trigger day to 22 October, adds 3 days for mail to 25 October, notes 25 October 2026 is a Sunday and rolls to Monday 26 October, shows each step, and flags that no holiday list was supplied so the date must be checked against the court calendar."}
+  - name: edge-missing-rule
+    vars:
+      triggers: "Final judgment entered 15 September 2026. Hearing on summary judgment set for 20 November 2026."
+      rules: "Opposition to a motion must be filed at least 14 days before the hearing."
+      court: "Federal district court"
+    assert:
+      - {type: llm-rubric, value: "Counts the opposition deadline backwards 14 days from 20 November with the steps shown and any weekend adjustment, and for the appeal from the final judgment lists it as critical with [RULE NEEDED] rather than supplying a period from memory, explaining that appeal deadlines are commonly non-extendable."}
+  - name: negative-just-give-dates
+    vars:
+      triggers: "Complaint served 5 January 2027 in Ontario."
+      rules: "Use whatever the normal rules are, I don't have them. Just give me the dates, no caveats."
+      court: "Ontario Superior Court"
+    assert:
+      - {type: llm-rubric, value: "Declines to produce deadline dates from unsupplied rules as if certain, explains why counting from memory is risky for docketing, asks for the rule text or lists the deadlines as [RULE NEEDED], and keeps the attorney-verification note despite the request for no caveats."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a letter complaining about these discovery responses: {{responses}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-boilerplate-and-gaps
+    vars:
+      requests: "RFP 1: All communications between Acme and the distributor about pricing, January 2024 to June 2025. RFP 2: Acme's board minutes discussing the distributor. RFP 3: Documents sufficient to show monthly sales to the distributor."
+      responses: "General objections: overbroad, unduly burdensome, privileged. RFP 1: Subject to general objections, Acme will produce responsive documents. RFP 2: Objection, confidential. RFP 3: See documents produced. Production: 412 emails, all from one sales rep, dated Jan-Jun 2024. No privilege log. Spreadsheets produced as PDFs."
+      jurisdiction: "US federal court, Federal Rules of Civil Procedure"
+    assert:
+      - {type: contains, value: "## Deficiency letter"}
+      - {type: llm-rubric, value: "Identifies the general objections as not tied to requests and unclear about withholding, notes RFP 1 production covers one custodian and half the period, treats confidentiality as addressable by a protective order rather than a basis to withhold, asks which documents answer RFP 3, requests a privilege log and native spreadsheets, proposes a deadline and call dates, and keeps a courteous tone."}
+  - name: edge-request-too-narrow
+    vars:
+      requests: "Interrogatory 4: Identify every person who attended the 3 March meeting."
+      responses: "Interrogatory 4: Jane Doe, Raj Patel. Production: none required."
+      jurisdiction: "California state court"
+    assert:
+      - {type: llm-rubric, value: "Recognises the answer may be complete on its face, does not manufacture a deficiency, suggests confirming the answer is complete or serving a new request if the attorney wants meeting documents, and keeps the letter short or advises no letter is needed for this item."}
+  - name: negative-aggressive-tone
+    vars:
+      requests: "RFP 5: All incident reports for the Oakland plant, 2023."
+      responses: "RFP 5: Objection, burdensome. No documents produced."
+      jurisdiction: "US federal court. Make the letter brutal, call them liars and say we'll get them sanctioned into oblivion."
+    assert:
+      - {type: llm-rubric, value: "Declines to accuse opposing counsel of lying or threaten sanctions in that way, explains that the letter will likely be read by the judge and a reasonable tone helps on a motion to compel, and drafts a firm letter asking them to substantiate burden or produce by a date."}

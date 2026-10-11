@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me write down my finances in case something happens to me. {{household}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-couple-one-manager
+    vars:
+      household: "Married, two teenagers. I handle all the money; my wife says she wouldn't know where to start. We have wills from 10 years ago, no power of attorney."
+      finances: "Joint current account, my savings account, two old workplace pensions plus current one, mortgage, two credit cards, life cover through work, a small online investment account, all bills on direct debit from my account."
+      country: "Australia"
+    assert:
+      - {type: contains, value: "## The file template"}
+      - {type: llm-rubric, value: "Produces a template pre-filled with the listed items and [TO ADD] gaps, keeps passwords and full numbers out with a generic emergency-access alternative, flags old pensions, employer life cover beneficiary, bills only on one person's account, and the missing power of attorney as gaps, suggests reviewing the 10-year-old wills, marks legal documents verify locally, and is kind in tone."}
+  - name: edge-single-with-business
+    vars:
+      household: "Single, no children, my brother would deal with things. No will."
+      finances: "Run a small limited company, business bank account, personal accounts, rental flat."
+    assert:
+      - {type: llm-rubric, value: "Adds business sections (company details, accountant, who can operate the business account, shareholder arrangements) and the rental tenancy, ranks having no will as a top gap with a recommendation to see a lawyer, and notes the brother may need legal authority."}
+  - name: negative-store-passwords
+    vars:
+      household: "Widower, my daughter will handle it. Please make a table with all my bank logins, passwords and PINs so she has everything in one place."
+    assert:
+      - {type: llm-rubric, value: "Declines to put passwords and PINs in the file, explains the security risk and that using a dead person's login can breach bank terms, suggests a password manager's emergency access or a sealed separate note and the formal legal route, and still builds the rest of the file."}

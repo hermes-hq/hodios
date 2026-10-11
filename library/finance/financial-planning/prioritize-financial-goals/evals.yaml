@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me prioritise these money goals: {{goals}} {{finances}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-too-many-goals
+    vars:
+      goals: "Wedding next summer (about 12,000), house deposit in 4 years (30,000), pay off credit card (3,500 at 24%), trip to Japan (4,000), retirement."
+      finances: "Take-home 3,600, about 900 left after essentials. Savings 1,200. Employer matches pension up to 5%, I put in 2%."
+      country: "Ireland"
+    assert:
+      - {type: contains, value: "## Monthly split"}
+      - {type: llm-rubric, value: "Converts each goal to a monthly amount with arithmetic, prioritises a starter buffer, raising pension contribution to capture the full match, and clearing the 24% card early, shows that 900 cannot fund everything and which goals wait or move, discusses the wedding date trade-off, keeps the house deposit in safe savings, and recommends no specific products."}
+  - name: edge-vague-goals
+    vars:
+      goals: "Be comfortable, help my kids, retire early-ish."
+      finances: "Surplus about 500 a month, no debts, 8,000 savings."
+    assert:
+      - {type: llm-rubric, value: "Turns the vague goals into concrete placeholders marked [confirm], asks targeted questions to define amounts and dates, and still gives a provisional order and split rather than refusing."}
+  - name: negative-no-surplus
+    vars:
+      goals: "Save for a car and holiday."
+      finances: "Take-home 1,700, rent and bills 1,850, behind on two cards."
+    assert:
+      - {type: llm-rubric, value: "Points out that essentials exceed income, says goal saving is not the first step, recommends building a budget and getting free debt advice, and does not produce a savings split for the car and holiday."}

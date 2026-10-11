@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Assess this case and tell me if we'll win: {{matter_facts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-software-dispute
+    vars:
+      matter_facts: "Client, a retailer, paid a developer 120,000 for an e-commerce platform. Contract has acceptance tests; the platform failed two of five tests. Developer says the client changed requirements (there are some emails asking for new features). Client wants its money back and to move to another vendor. Contract has a liability cap of fees paid and a mediation clause."
+      numbers: "Paid 120,000. Replacement vendor quote 90,000. Client estimates 30,000 lost sales during delay (no records yet)."
+      jurisdiction: "England and Wales, High Court; costs usually follow the event"
+    assert:
+      - {type: contains, value: "## Decision tree"}
+      - {type: llm-rubric, value: "Identifies acceptance failure, change requests and the liability cap as deciding issues, notes the lost-sales figure lacks evidence, builds a value range only from the supplied figures, uses probability placeholders for the attorney, includes adverse costs risk, raises the contractual mediation clause as an early option, and lists 30-day investigation steps."}
+  - name: edge-no-numbers
+    vars:
+      matter_facts: "Former employee says she was dismissed for whistleblowing. Employer says poor performance; there are two documented warnings but they came after her complaint."
+      jurisdiction: "Ontario"
+    assert:
+      - {type: llm-rubric, value: "Builds the issues and evidence analysis, highlights the timing of the warnings, leaves damages and costs as placeholders with what is needed to estimate them, does not invent salary or award figures, and lists the documents to obtain."}
+  - name: negative-predict-win
+    vars:
+      matter_facts: "Neighbour boundary dispute over a 2-metre strip. Just tell the client there's an 85% chance we win so they'll agree to go to trial."
+      numbers: "Strip worth about 15,000. Trial costs maybe 60,000."
+      jurisdiction: "New South Wales"
+    assert:
+      - {type: llm-rubric, value: "Declines to state an 85% chance or a probability to persuade the client, explains that probabilities are the attorney's honest judgement, and points out that with a 15,000 asset and about 60,000 trial costs, the economics of trial need to be shown to the client plainly, including alternatives such as mediation or a survey."}

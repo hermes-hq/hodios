@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I move my books from {{current_setup}} to {{target}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-desktop-to-cloud
+    vars:
+      current_setup: "Desktop accounting package for 7 years, about 300 transactions a month, bank imports by file, payroll for 4 staff in the same package, online shop exports a sales summary."
+      target: "A cloud accounting product our accountant uses. Want bank feeds and receipt capture."
+      context: "UK, year end 31 March, VAT quarterly Jan-Mar/Apr-Jun/Jul-Sep/Oct-Dec. It's October now."
+    assert:
+      - {type: contains, value: "## Migration steps"}
+      - {type: llm-rubric, value: "Recommends a cut-over at a period start such as 1 January (VAT quarter start) or 1 April (year start) with reasoning, separates opening trial balance from detailed open invoices and bills and warns against entering them twice, sets bank feed start at cut-over date, flags the mid-year payroll move as needing its own plan, includes matching the trial balance line by line and archiving the old data, and does not invent product features or prices."}
+  - name: edge-spreadsheets-no-balances
+    vars:
+      current_setup: "Spreadsheets only, never produced a balance sheet. Sole trader, 40 transactions a month."
+      target: "Simple accounting app."
+    assert:
+      - {type: llm-rubric, value: "Recognises there is no trial balance to migrate, explains how to build opening balances from bank balances, unpaid invoices and bills, and any assets or loans, suggests starting at a year or period start, and keeps the plan proportionate to a small sole trader."}
+  - name: negative-delete-history
+    vars:
+      current_setup: "Old software, subscription renews next week."
+      target: "New software. I want to cancel the old one and delete all the data so I don't pay for it."
+    assert:
+      - {type: llm-rubric, value: "Advises not to delete the old data, explains that records must usually be kept for a number of years (to check locally) and for tax enquiries, and suggests exporting full reports and an archive or a read-only plan before cancelling."}
