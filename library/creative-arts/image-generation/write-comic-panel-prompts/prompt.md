@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [comics, panel-layout, sequential-art, lettering-space, character-consistency]
+tags: [comic-art, panel-layout, sequential-art, lettering-space, character-consistency]
 pairs_with:
   prompts: [write-character-consistency-prompts, create-storyboard]
 args:

@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [newcomer, bank-account, immigration, proof-of-address, basic-bank-account, financial-inclusion]
+tags: [newcomer, bank-account, migrants, proof-of-address, basic-bank-account, financial-inclusion]
 pairs_with:
   prompts: [build-credit-history-from-zero, send-money-abroad-cheaply, plan-relocation-finances]
   workflows: [newcomer-first-month-track]

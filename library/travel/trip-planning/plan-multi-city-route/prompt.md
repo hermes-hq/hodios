@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [backpacking, rail-travel, open-jaw, route-planning, interrailing]
+tags: [shoestring-travel, rail-travel, open-jaw, route-planning, interrailing]
 pairs_with:
   prompts: [plan-itinerary, plan-flight-search, plan-trip-budget]
   personas: [travel-planner]

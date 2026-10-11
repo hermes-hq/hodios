@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [open-source, cfp, conference-talks, meetups, talk-reuse, speaking-pipeline]
+tags: [open-source-project, cfp, conference-talks, meetups, talk-reuse, speaking-pipeline]
 pairs_with:
   prompts: [write-conference-talk-proposal, write-lightning-talk, write-build-story-article]
   personas: [developer-advocate]

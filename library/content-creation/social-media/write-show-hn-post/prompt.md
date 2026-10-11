@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [open-source, hacker-news, show-hn, launch-post, maker-comment]
+tags: [open-source-project, hacker-news, show-hn, launch-post, maker-comment]
 pairs_with:
   prompts: [plan-open-source-launch, respond-to-project-criticism, audit-readme-conversion]
   personas: [open-source-growth-strategist]

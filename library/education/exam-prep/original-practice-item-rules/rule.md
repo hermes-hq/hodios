@@ -12,7 +12,7 @@ role: [student, teacher]
 requires: [none]
 risk: read-only
 level: beginner
-tags: [practice-questions, item-writing, answer-key, copyright, past-papers, question-quality]
+tags: [practice-questions, item-writing, answer-key, originality, past-papers, question-quality]
 pairs_with:
   prompts: [generate-practice-exam, write-multiple-choice-questions, quiz-me-interactively]
   personas: [chief-examiner]

@@ -21,7 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [royalties, rights-reversion, book-contract, record-deal, licensing, copyright]
+tags: [royalties, rights-reversion, book-contract, record-deal, licensing, creative-rights]
 pairs_with:
   prompts: [plan-self-publishing, review-freelance-contract, redline-contract, explain-contract-clause]
 args:

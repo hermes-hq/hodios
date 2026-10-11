@@ -20,7 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [tax-return, tax-preparer, self-employed, filing-deadline, record-keeping]
+tags: [tax-return, tax-preparer, freelancers, filing-deadline, record-keeping]
 pairs_with:
   prompts: [organize-tax-documents, explain-payslip, plan-freelance-tax-set-aside, track-business-expenses, explain-tax-notice]
   personas: [tax-educator]

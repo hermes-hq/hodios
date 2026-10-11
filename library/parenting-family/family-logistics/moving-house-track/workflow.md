@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [moving-house, packing-plan, decluttering, change-of-address, removals, moving-abroad]
+tags: [moving-house, packing-plan, clear-out, change-of-address, removals, moving-abroad]
 pairs_with:
   prompts: [coordinate-family-calendar, create-chore-chart]
 args:

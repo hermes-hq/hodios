@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
-tags: [open-source, dev-to, build-in-public, launch-article, canonical-url]
+tags: [open-source-project, dev-to, build-in-public, launch-article, canonical-url]
 pairs_with:
   prompts: [write-tech-blog-post, plan-open-source-launch, write-show-hn-post]
   personas: [developer-advocate]

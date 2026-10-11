@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [book-typesetting, interior-design, self-publishing, ebook-formatting, typography]
+tags: [book-typesetting, book-interior, self-publishing, ebook-formatting, typography]
 pairs_with:
   prompts: [design-book-cover-brief, pair-typefaces, prepare-print-files]
   personas: [art-director]

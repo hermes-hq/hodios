@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [anime, manga, beginner-guide, starter-titles]
+tags: [anime, japanese-comics, beginner-guide, starter-titles]
 pairs_with:
   prompts: [recommend-films-from-favorites, recommend-next-book]
 args:

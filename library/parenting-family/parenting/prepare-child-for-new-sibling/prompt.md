@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [new-sibling, big-brother, big-sister, regression, jealousy, newborn]
+tags: [new-sibling, big-brother, big-sister, regression, jealousy, newborn-care]
 pairs_with:
   prompts: [prepare-for-new-baby, handle-sibling-conflict, plan-behavior-approach]
   personas: [parenting-coach]

@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [open-source, readme, conversion, time-to-first-success, github-repo]
+tags: [open-source-project, readme, conversion, time-to-first-success, github-repo]
 pairs_with:
   prompts: [write-readme, sharpen-project-pitch, script-terminal-demo]
   personas: [developer-advocate, technical-writer]

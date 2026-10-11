@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [open-source, criticism, hacker-news, reddit, maintainer-replies, community]
+tags: [open-source-project, criticism, hacker-news, reddit, maintainer-replies, community]
 pairs_with:
   prompts: [write-show-hn-post, handle-social-media-backlash, choose-community-channels]
   personas: [open-source-maintainer]

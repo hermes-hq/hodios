@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
-tags: [open-source, case-study, adopters, social-proof, adopter-stories, testimonials]
+tags: [open-source-project, case-study, adopters, social-proof, adopter-stories, testimonials]
 pairs_with:
   prompts: [write-case-study, request-customer-testimonials, interview-lapsed-users]
   personas: [developer-advocate]

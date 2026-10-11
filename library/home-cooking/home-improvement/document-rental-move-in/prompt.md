@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [renting, condition-report, security-deposit, tenancy, move-in]
+tags: [renters, condition-report, security-deposit, move-in]
 pairs_with:
   prompts: [request-landlord-repair, build-home-inventory]
   workflows: [moving-house-track]

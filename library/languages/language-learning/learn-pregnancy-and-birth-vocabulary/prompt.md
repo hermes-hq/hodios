@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [pregnancy, childbirth, antenatal-care, newborn, interpreter-rights, newcomers]
+tags: [prenatal, childbirth, antenatal-care, newborn-care, interpreter-rights, newcomers]
 pairs_with:
   prompts: [learn-health-vocabulary-for-appointments, learn-words-for-feelings-and-mood, practise-spelling-out-personal-details]
   personas: [esol-volunteer-tutor]

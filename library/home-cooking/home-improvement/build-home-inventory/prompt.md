@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [home-inventory, home-insurance, contents-insurance, insurance-claims, record-keeping]
+tags: [home-inventory, home-insurance, contents-insurance, record-keeping]
 pairs_with:
   prompts: [explain-insurance-policy, review-insurance-coverage, prepare-home-for-storm]
 args:

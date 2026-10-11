@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [high-altitude, recipe-conversion, food-science, cakes, bread]
+tags: [high-altitude, recipe-conversion, food-science, cake-baking, bread-baking]
 pairs_with:
   prompts: [adapt-recipe, troubleshoot-recipe, preserve-food-safely]
   personas: [baking-instructor]

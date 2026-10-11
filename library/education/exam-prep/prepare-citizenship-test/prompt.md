@@ -20,7 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
-tags: [citizenship-test, civics, naturalisation, memory-aids, official-study-guide]
+tags: [citizenship-test, civics, memory-aids, official-study-guide]
 pairs_with:
   prompts: [quiz-me-interactively, create-memory-aids, make-flashcards]
 args:

@@ -21,7 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [newcomers, immigration, residence-registration, bureaucracy, first-month, settling-in]
+tags: [newcomers, migrants, residence-registration, bureaucracy, first-month, settling-in]
 pairs_with:
   prompts: [prepare-for-immigration-appointment, understand-residence-permit-conditions, exchange-driving-licence-abroad, get-qualifications-recognised, find-free-legal-help, learn-unwritten-rules-of-new-country]
   personas: [legal-information-guide]

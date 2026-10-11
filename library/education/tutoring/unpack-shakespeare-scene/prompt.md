@@ -20,7 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
-tags: [shakespeare, close-reading, drama, paraphrase, staging, iambic-pentameter]
+tags: [shakespeare, close-reading, play-texts, paraphrase, staging, iambic-pentameter]
 pairs_with:
   prompts: [analyze-literary-work]
   personas: [literature-tutor]

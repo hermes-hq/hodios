@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [self-employed, freelancers, estimated-tax, tax-reserve]
+tags: [freelancers, estimated-tax, tax-reserve]
 pairs_with:
   prompts: [organize-tax-documents, build-monthly-budget, forecast-cash-flow]
 args:

@@ -1,4 +1,4 @@
-# Hodios taxonomy (vocab 1.3.0)
+# Hodios taxonomy (vocab 1.4.0)
 
 How Hodios organises entries so the library can grow from dozens to millions without breaking a link, an install or a contributor's mental model. This file explains the rules. The data lives in [`vocab/`](vocab/), and the validator enforces it (rules PS050–PS060, §5.4).
 
@@ -56,7 +56,7 @@ A new kind is a schema MAJOR change (§5.3), because every adapter and UI branch
 
 ### 2.1 What it is
 
-**Domain** is the field of human activity: `software-engineering`, `education`, `content-creation`, `finance`, … There are 23 in v1 (§7.1). **Category** is the job to be done inside that field: `debugging`, `exam-prep`, `video`, `budgeting`, … There are 152 live categories in vocab 1.3 (§7.1).
+**Domain** is the field of human activity: `software-engineering`, `education`, `content-creation`, `finance`, … There are 23 in v1 (§7.1). **Category** is the job to be done inside that field: `debugging`, `exam-prep`, `video`, `budgeting`, … There are 183 live categories in vocab 1.4 (§7.1).
 
 - Every entry has exactly one category. The domain follows from the category. An entry never declares a domain.
 - Category ids are **globally unique across domains**, so `cat:testing` never needs a domain prefix.
@@ -94,7 +94,7 @@ GitHub documents a cap of 3,000 entries per directory and truncates its web view
 | Domains | 30 | 50 | GOVERNANCE vote only |
 | `other/unsorted` (holding area) | 40 | 50 | Graduate entries (§2.5) |
 
-The core repo is capped at 20k entries overall (design §12.2). At 152 categories that is about 132 entries per category on average, so the 1,000 cap bites only on genuinely hot categories. The community registry has no folders, so these limits do not apply there. Category is only a facet there, and splits are still reflected through `subcategory`.
+The core repo is capped at 20k entries overall (design §12.2). At 183 categories that is about 109 entries per category on average, so the 1,000 cap bites only on genuinely hot categories. The community registry has no folders, so these limits do not apply there. Category is only a facet there, and splits are still reflected through `subcategory`.
 
 ### 2.4 When a category outgrows its folder: split, sub-categorise, redirect
 
@@ -382,27 +382,27 @@ The YAML files in `vocab/` are authoritative; this section is the readable index
 
 | Domain | Categories |
 |---|---|
-| `software-engineering` | planning, product, architecture, implementation, code-review, debugging, testing, refactoring, migration, performance, security, accessibility, data, ai-ml, devops, incident, git, docs, writing, learning, conventions, localization, meta, security-operations |
-| `education` | studying, tutoring, exam-prep, teaching, course-design |
+| `software-engineering` | planning, product, architecture, implementation, code-review, debugging, testing, refactoring, migration, performance, security, accessibility, data, ai-ml, devops, incident, git, docs, writing, learning, conventions, localization, meta, security-operations, open-source |
+| `education` | studying, tutoring, exam-prep, teaching, course-design, special-education, homeschooling |
 | `languages` | language-learning, conversation-practice, translation |
-| `content-creation` | video, podcasting, social-media, newsletters, blogging, content-strategy |
-| `marketing-sales` | copywriting, seo, advertising, email-marketing, sales, marketing-strategy |
+| `content-creation` | video, podcasting, social-media, newsletters, blogging, content-strategy, livestreaming, creator-business |
+| `marketing-sales` | copywriting, seo, advertising, email-marketing, sales, marketing-strategy, public-relations, ecommerce |
 | `product-management` | product-discovery, product-strategy, roadmapping, product-metrics, user-feedback, product-launch |
-| `business` | business-strategy, entrepreneurship, operations, customer-support, fundraising, farming |
-| `data-analysis` | spreadsheets, data-exploration, statistics, data-visualization, reporting |
-| `research-science` | literature-review, research-methods, scientific-writing, fact-checking, peer-review |
-| `design` | ux-research, ui-design, design-systems, graphic-design, branding |
-| `creative-arts` | fiction, poetry, screenwriting, music, image-generation, worldbuilding, visual-art, photography, life-writing, video-generation, nonfiction |
-| `writing-communication` | business-writing, editing, email, presentations, public-speaking, interpersonal-communication |
-| `career-hr` | job-search, resumes, interview-prep, career-growth, hiring, people-management |
-| `finance` ⚠ | budgeting, investing, taxes, accounting, financial-planning |
-| `legal-admin` ⚠ | contracts, legal-correspondence, compliance, policies, paperwork, legal-practice |
-| `health-wellbeing` ⚠ | fitness, nutrition, mental-health, medical-prep, clinical-practice |
-| `home-cooking` | cooking, meal-planning, home-improvement, gardening, pet-care, vehicles |
-| `travel` | trip-planning, travel-logistics, local-culture, relocation |
-| `parenting-family` | parenting, kids-activities, relationships, family-logistics, caregiving |
+| `business` | business-strategy, entrepreneurship, operations, customer-support, fundraising, farming, nonprofit, real-estate, hospitality |
+| `data-analysis` | spreadsheets, data-exploration, statistics, data-visualization, reporting, forecasting |
+| `research-science` | literature-review, research-methods, scientific-writing, fact-checking, peer-review, lab-work |
+| `design` | ux-research, ui-design, design-systems, graphic-design, branding, interior-design |
+| `creative-arts` | fiction, poetry, screenwriting, music, image-generation, worldbuilding, visual-art, photography, life-writing, video-generation, nonfiction, comics, performing-arts |
+| `writing-communication` | business-writing, editing, email, presentations, public-speaking, interpersonal-communication, grant-writing |
+| `career-hr` | job-search, resumes, interview-prep, career-growth, hiring, people-management, freelancing, hr-operations |
+| `finance` ⚠ | budgeting, investing, taxes, accounting, financial-planning, debt, insurance |
+| `legal-admin` ⚠ | contracts, legal-correspondence, compliance, policies, paperwork, legal-practice, immigration, intellectual-property, tenancy |
+| `health-wellbeing` ⚠ | fitness, nutrition, mental-health, medical-prep, clinical-practice, sleep, chronic-conditions |
+| `home-cooking` | cooking, meal-planning, home-improvement, gardening, pet-care, vehicles, baking, housekeeping, drinks |
+| `travel` | trip-planning, travel-logistics, local-culture, relocation, outdoors |
+| `parenting-family` | parenting, kids-activities, relationships, family-logistics, caregiving, pregnancy |
 | `productivity` | task-management, note-taking, meetings, summarization, decision-making, brainstorming, habits, tech-help, digital-safety, personal-style, shopping, spirituality, event-planning |
-| `gaming-fun` | tabletop-rpg, video-games, trivia, puzzles, humor, simulations, media-and-fandom, pastimes, crafts, sports |
+| `gaming-fun` | tabletop-rpg, video-games, trivia, puzzles, humor, simulations, media-and-fandom, pastimes, crafts, sports, game-design |
 | `prompting` | prompt-engineering, assistant-setup, output-styles |
 | `other` | unsorted (holding area, §2.5) |
 

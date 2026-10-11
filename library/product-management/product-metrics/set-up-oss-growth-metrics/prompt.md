@@ -19,7 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [open-source, no-telemetry, github-traffic, download-stats, chaoss, growth-metrics]
+tags: [open-source-project, no-telemetry, github-traffic, download-stats, chaoss, growth-metrics]
 pairs_with:
   prompts: [review-weekly-growth-numbers, audit-contributor-funnel, define-north-star-metric]
   personas: [open-source-growth-strategist]

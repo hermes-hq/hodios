@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [multi-grade, small-schools, rural-schools, independent-work, rolling-programme]
+tags: [multi-grade, small-schools, rural-schools, independent-study, rolling-programme]
 pairs_with:
   prompts: [differentiate-lesson, design-station-rotation, write-teaching-assistant-briefing]
 args:
