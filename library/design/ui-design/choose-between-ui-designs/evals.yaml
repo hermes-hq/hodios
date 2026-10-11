@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Which design is better? {{options}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-onboarding-options
+    vars:
+      options: "A: one long scrolling form for workspace setup (name, team size, invite teammates, pick template) with a single Continue button. B: four-step wizard, one question per screen, progress dots, skip on invites. C: create workspace with defaults instantly, then a checklist on the home screen for the rest."
+      goal: "Get new B2B trial users to create a workspace and reach their first project within 10 minutes. Many trial users are evaluating alone before inviting anyone."
+      constraints: "Two-week deadline; wizard component already exists."
+    assert:
+      - {type: contains, value: "## Comparison"}
+      - {type: llm-rubric, value: "Derives weighted criteria from the goal (time to first project, solo evaluators), compares each option with element-specific reasons, likely favours C or a C with B elements with clear reasoning about invites being skippable, names what to borrow, notes risks, and proposes a test if the call is close, without claiming test results."}
+  - name: edge-too-close
+    vars:
+      options: "A: primary button on the right of the dialog. B: primary button on the left of the dialog. Everything else identical."
+      goal: "Users confirm a routine export on a web app."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Recognises the options are close, ties the decision to platform and product consistency rather than taste, and says consistency with existing dialogs should decide."}
+  - name: negative-single-option
+    vars:
+      options: "Here is our new dashboard design, is it good?"
+      goal: "Help users see sales."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Notes there is only one option to compare, asks for the alternatives or suggests a critique of the single design instead, and does not fabricate competing options."}
