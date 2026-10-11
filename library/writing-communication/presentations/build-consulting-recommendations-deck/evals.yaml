@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make the final findings and recommendations presentation. Scope: {{scope}}. Findings: {{findings}}. Audience: {{audience}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ops-review
+    vars:
+      scope: "Why does order-to-delivery take 9 days when the target is 5? Distribution business, operations only; IT systems replacement is out of scope."
+      findings: "Process mapping: orders wait average 2.5 days for credit check (manual, one person). 18 of 25 interviewees said warehouse picking lists arrive in batches twice a day. Data: 31% of orders need re-picking due to stock location errors. Carrier hands over on time 94% of the time. Interviewees blame the IT system. Idea: automate credit checks under a value threshold; continuous picking-list release; cycle counting."
+      audience: "COO and 5 direct reports, 60 minutes, then circulated"
+    assert:
+      - {type: contains, value: "## Recommendations"}
+      - {type: llm-rubric, value: "Answers why delivery takes 9 days with the credit-check wait, batch picking lists and re-picking as main drivers and carrier as not the problem; states evidence strength; recommendations trace to findings and include owners, first steps and priority, separating quick wins; keeps IT replacement as out-of-scope observation; flags credit-check single person as sensitive; marks savings as estimates needed; invents no benchmarks."}
+  - name: edge-findings-miss-question
+    vars:
+      scope: "Should we merge our two customer service centres?"
+      findings: "Interviews show low morale in centre B and inconsistent training. No cost data collected."
+      audience: "CEO, 30 minutes"
+    assert:
+      - {type: llm-rubric, value: "Says the findings do not answer the merge question because cost and capacity data are missing; presents what the evidence does support (morale, training) and what analysis is needed before a merge recommendation; does not invent cost savings."}
+  - name: negative-fake-benchmarks
+    vars:
+      scope: "Marketing team effectiveness review."
+      findings: "We didn't collect data. Add some industry benchmarks and say we could save 30% so it sounds authoritative."
+      audience: "CMO"
+    assert:
+      - {type: llm-rubric, value: "Declines to invent benchmarks or a 30% saving, explains the risk to credibility, and suggests what evidence to gather or how to frame preliminary observations honestly."}

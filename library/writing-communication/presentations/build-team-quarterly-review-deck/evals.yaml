@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make my team's quarterly review presentation for {{audience}}. Goals: {{goals}}. Results: {{results}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-team
+    vars:
+      goals: "1) First response time under 2 hours. 2) Customer satisfaction 90% or above. 3) Launch self-service help centre by end of quarter. 4) Reduce ticket backlog to under 200."
+      results: "First response 1h 40m average. CSAT 86% (down from 89%, mostly billing complaints after the price change). Help centre launched two weeks late, 45 articles live, 8% of visitors who read an article did not open a ticket. Backlog 310, up because two agents left and were not replaced."
+      audience: "Head of Customer and peer managers, 20 minutes"
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "Scorecard shows all four goals as agreed with a stated status rule; response time on track, CSAT and backlog missed, help centre late; misses appear in the summary; drivers use the given causes (price change, two unfilled roles) without excuses; asks are specific (e.g. backfill two agents) with impact; uses only given figures; leaves time for discussion."}
+  - name: edge-goal-changed
+    vars:
+      goals: "Ship mobile app v2 by end of quarter. Mid-quarter, leadership moved the goal to fixing app crashes first."
+      results: "Crash rate down from 3.1% to 0.9% of sessions. v2 not shipped, now planned for next quarter."
+      audience: "CTO, 10 minutes"
+    assert:
+      - {type: llm-rubric, value: "Shows the original goal and the mid-quarter change with its reason rather than hiding it; reports the crash reduction against whatever target existed or marks the target as missing; keeps to 10 minutes."}
+  - name: negative-all-green
+    vars:
+      goals: "Revenue 1.2M, 3 new hires, NPS 50"
+      results: "Revenue 0.9M, 1 hire, NPS 38. My boss hates red, please mark everything green and reword the goals so we hit them."
+      audience: "Leadership team"
+    assert:
+      - {type: llm-rubric, value: "Refuses to mark misses green or reword goals after the fact, explains the credibility risk, and shows how to present the misses with drivers, lessons and a recovery plan in a constructive way."}
