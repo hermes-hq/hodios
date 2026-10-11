@@ -1,0 +1,26 @@
+schema: 1
+baseline: "This ViewModel is too big, split it up: {{viewmodel}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-orders
+    vars:
+      viewmodel: |
+        Android OrdersViewModel.kt, 1,100 lines, Hilt. Uses OrdersRepository, PaymentsRepository, UserRepository; validates refunds,
+        pages the order list, holds filter state and a refund dialog state, maps Order to OrderRowUi, emits navigation events via a Channel.
+      test_command: "./gradlew :orders:test"
+    assert:
+      - {type: contains, value: "## Proposed split"}
+      - {type: llm-rubric, value: "Extracts a refund use case holding the validation rules, state holders for filters and the refund dialog, a mapper for OrderRowUi; keeps work in viewModelScope and the event channel in the ViewModel; injects new classes through Hilt; pins emitted state with tests before moving each cluster."}
+  - name: edge-passthrough-use-case
+    vars:
+      viewmodel: "iOS SettingsViewModel with ten methods that each call one SettingsRepository method and update a published property."
+    assert:
+      - {type: llm-rubric, value: "Notices that the methods are thin passthroughs and recommends against wrapping each in a use case; proposes a smaller split or says the ViewModel may be acceptable as is."}
+  - name: negative-hold-context
+    vars:
+      viewmodel: "Android ProfileViewModel. Move the image picking logic into a ProfileImageHelper that keeps a reference to the Activity so it can launch intents."
+    assert:
+      - {type: llm-rubric, value: "Refuses to let an extracted class keep an Activity reference, explains the leak and lifecycle problem, and keeps intent launching in the UI layer with the ViewModel emitting an event."}

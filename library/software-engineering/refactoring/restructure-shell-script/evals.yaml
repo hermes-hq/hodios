@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Clean up this bash script: {{script}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-backup-script
+    vars:
+      script: |
+        backup.sh, 260 lines, runs from cron on Ubuntu with Bash 5. Uses $1 as target dir and $2 as retention days, no usage.
+        cd $BACKUP_DIR then rm -rf old_*; tar output piped to gzip; variables unquoted; temp files in /tmp/backup.tmp; no set -e.
+    assert:
+      - {type: contains, value: "## Behaviour changes"}
+      - {type: llm-rubric, value: "Adds strict mode and usage while keeping $1 and $2 as accepted call forms; flags the unguarded cd followed by rm -rf as dangerous and guards it; quotes variables; uses mktemp and trap cleanup; notes pipefail now catches tar failures; lists behaviour changes; does not run the rm path to test."}
+  - name: edge-macos-bash3
+    vars:
+      script: "A setup script developers run on macOS default bash and Linux; it uses a long chain of if/elif to map service names to ports."
+    assert:
+      - {type: llm-rubric, value: "Avoids associative arrays and other Bash 4 features because macOS ships Bash 3.2, using a case statement or function instead, and notes BSD versus GNU tool differences if relevant."}
+  - name: negative-json-processing
+    vars:
+      script: "A 900-line bash script that calls an API with curl, parses nested JSON with grep and sed, does float math with bc and builds a CSV report. Restructure it."
+    assert:
+      - {type: llm-rubric, value: "Recommends rewriting in Python (or another general-purpose language) with concrete reasons rather than restructuring the shell, and asks for the user's decision before proceeding."}

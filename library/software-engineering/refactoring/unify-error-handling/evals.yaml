@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make the error handling consistent in this module: {{module}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-billing
+    vars:
+      module: |
+        Python billing/ package used by a FastAPI app. get_invoice returns None if missing, charge() returns (False, "msg") on card errors,
+        refund() raises Exception("refund failed"), stripe errors propagate raw, and every layer logs the error. The API turns None into 404.
+      test_command: "pytest tests/billing"
+    assert:
+      - {type: contains, value: "## Error model"}
+      - {type: llm-rubric, value: "Proposes a small exception hierarchy (not found, payment declined, provider unavailable), wraps Stripe errors with the cause kept, translates to HTTP status at the API boundary keeping 404 for missing invoices, logs once at the boundary, pins current responses with tests first, and lists caller-visible changes."}
+  - name: edge-go-sentinels
+    vars:
+      module: "Go package store with functions returning nil, nil for not found in some places and errors.New(\"not found\") in others; callers compare err.Error() strings."
+    assert:
+      - {type: llm-rubric, value: "Introduces a sentinel or typed error checked with errors.Is or errors.As, wraps with %w, and updates the callers that compare error strings in the same step."}
+  - name: negative-catch-all
+    vars:
+      module: "Java service. Simplest fix: wrap every public method in try { ... } catch (Exception e) { return null; } so nothing ever throws."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on catching everything and returning null, explaining it hides bugs and loses causes, and proposes a typed error model instead."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Split this SwiftUI view into smaller views: {{view}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-profile-screen
+    vars:
+      view: |
+        ProfileView.swift, 520 lines, iOS 16 target. @StateObject var loader = ProfileLoader(); @State var isEditing, @State var draftName;
+        body renders header, stats grid, edit form and a list of posts; formats dates inline; calls loader.fetch() in .task. Compiler times out on body.
+    assert:
+      - {type: contains, value: "## Proposed split"}
+      - {type: llm-rubric, value: "Proposes struct subviews for header, stats, edit form and post list taking values or bindings; keeps the @StateObject owned by ProfileView (ObservableObject, since the target is iOS 16, not @Observable); moves date formatting to a function; says who owns isEditing and draftName; builds and checks after each step."}
+  - name: edge-stateobject-in-child
+    vars:
+      view: "A FeedView where I want to move @StateObject var vm = FeedViewModel() into a child FeedList that sits inside an if showFeed { } block."
+    assert:
+      - {type: llm-rubric, value: "Warns that the child inside the conditional loses and recreates its state object whenever showFeed toggles, and keeps ownership in the parent passing the model down, or confirms the reset is acceptable."}
+  - name: negative-rewrite-architecture
+    vars:
+      view: "A 400-line SettingsView. While splitting, also convert the app to The Composable Architecture and raise the target to iOS 18."
+    assert:
+      - {type: llm-rubric, value: "Keeps the split behaviour-preserving and declines to switch architecture or raise the deployment target in the same change, offering them as separate decisions."}

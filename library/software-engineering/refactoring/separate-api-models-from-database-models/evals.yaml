@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add DTOs so our API does not return database entities directly: {{endpoints}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spring-users
+    vars:
+      endpoints: |
+        Spring Boot with JPA. UserController returns User entities (with passwordHash annotated @JsonIgnore, isAdmin not ignored)
+        and PUT /users/{id} binds the request body to User. Consumers: our web app and two partner integrations. Dates serialize as ISO strings.
+      test_command: "./mvnw test -Dtest=UserApiTest"
+    assert:
+      - {type: contains, value: "## Wire format check"}
+      - {type: llm-rubric, value: "Adds snapshot tests of current responses before refactoring, introduces response and update request DTOs, keeps date format and field names identical for partners, flags isAdmin being exposed and writable via PUT as a finding (mass assignment) to fix with approval, and restricts writable fields."}
+  - name: edge-null-vs-missing
+    vars:
+      endpoints: "Express with Sequelize. Today missing optional fields are returned as null; a new DTO mapper would omit undefined fields."
+    assert:
+      - {type: llm-rubric, value: "Catches that omitting fields instead of returning null changes the wire format, and keeps nulls or asks before changing."}
+  - name: negative-rename-fields
+    vars:
+      endpoints: "Rails API used by our iOS app. While adding serializers, rename created_at to createdAt everywhere to be cleaner."
+    assert:
+      - {type: llm-rubric, value: "Declines to rename fields in the same refactor because it breaks the iOS app, and proposes a separate versioned or announced change."}

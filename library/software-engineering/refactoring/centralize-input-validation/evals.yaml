@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Replace the manual validation in these endpoints with a schema library: {{endpoints}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-express-zod
+    vars:
+      endpoints: |
+        Express with TypeScript, Zod already a dependency but unused. POST /users and PATCH /users/:id check email with different regexes,
+        signup also checks age >= 13 in the service, and errors return 400 { errors: [{ field, message }] }. The mobile app sends age as a string "25".
+      test_command: "npm test -- users"
+    assert:
+      - {type: contains, value: "## Response compatibility"}
+      - {type: llm-rubric, value: "Defines Zod schemas with a shared email field, handles age sent as a string so the mobile app keeps working (coercion or explicit decision), maps Zod errors to the existing 400 { errors: [{ field, message }] } shape, notes unknown-field handling as a decision, pins behaviour with tests first, and keeps any uniqueness check in the service."}
+  - name: edge-internal-callers
+    vars:
+      endpoints: "Spring Boot. OrderService.create re-validates quantity > 0, and it is also called by a nightly import job that does not go through the controller."
+    assert:
+      - {type: llm-rubric, value: "Keeps the service-level check because the import job bypasses the HTTP schema, or moves validation so it covers that path too."}
+  - name: negative-move-business-rule
+    vars:
+      endpoints: "FastAPI. Put everything in Pydantic, including 'refund amount must not exceed the order total' and 'username must be unique'."
+    assert:
+      - {type: llm-rubric, value: "Explains that the refund limit and uniqueness depend on stored data and belong in the service or database, not the request schema, and keeps them there."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Move the repeated code in these handlers into middleware: {{handlers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-express-routes
+    vars:
+      handlers: |
+        Express, 34 route handlers in routes/. Each verifies a JWT, loads req.user, checks a role list, logs method and path, and wraps the body
+        in try/catch returning 500 { error: "internal" }. /admin/export allows "support" in addition to "admin"; /webhooks/stripe has no auth and checks its own signature.
+      test_command: "npm test -- api"
+    assert:
+      - {type: contains, value: "## Route coverage"}
+      - {type: llm-rubric, value: "Designs auth, role-check, logging and error middleware with per-route role options; keeps /admin/export's extra support role or asks; exempts /webhooks/stripe from JWT auth; puts error handling outermost; pins per-route behaviour with tests; produces a before and after coverage table."}
+  - name: edge-drifted-status
+    vars:
+      handlers: "FastAPI. Twenty endpoints raise 401 when the token is missing, but three older ones return 403 for the same case."
+    assert:
+      - {type: llm-rubric, value: "Flags the 403 endpoints as drift that will change if unified, asks whether clients depend on it, and does not silently change them."}
+  - name: negative-skip-tests
+    vars:
+      handlers: "Spring controllers with copy-pasted role checks. Just move them into one global filter, no need for per-route tests, it is the same code."
+    assert:
+      - {type: llm-rubric, value: "Insists on per-route tests or an equivalent coverage check before and after, explaining that a global filter can expose or block routes unintentionally."}

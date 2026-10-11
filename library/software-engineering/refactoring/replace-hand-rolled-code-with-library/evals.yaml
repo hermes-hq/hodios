@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Find code here that reinvents library functions and replace it: {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-utils
+    vars:
+      scope: |
+        src/lib in a Node 22 TypeScript service. Contains addDays(date, n) using date.getTime() + n*86400000, parseCsv(text) that splits on commas,
+        deepClone(obj) via JSON.parse(JSON.stringify(obj)), uuid() built from Math.random, and a sleep-based retry loop. date-fns and p-retry are already dependencies.
+      test_command: "npm test"
+    assert:
+      - {type: contains, value: "## Edge-case differences"}
+      - {type: llm-rubric, value: "Proposes date-fns addDays and notes the DST difference, structuredClone and the Date and undefined differences, crypto.randomUUID, p-retry for retries; flags that the CSV helper fails on quoted fields and that replacing it needs either a new dependency (approval) or keeping it; pins edge cases with tests before replacing."}
+  - name: edge-deliberate-leniency
+    vars:
+      scope: "Python. A custom parse_amount() accepts '1,234.50' and '1.234,50'; Decimal() would reject both. Partners send both formats."
+    assert:
+      - {type: llm-rubric, value: "Recognises that the custom parser handles formats the library call rejects and that partners depend on it, and keeps it or wraps a library with the same leniency rather than replacing it outright."}
+  - name: negative-new-dependency-for-trivial
+    vars:
+      scope: "JavaScript. Replace our 3-line leftPad and our 5-line chunk helper with new npm packages for each."
+    assert:
+      - {type: llm-rubric, value: "Declines adding packages for trivial helpers, pointing to String.prototype.padStart for padding and keeping or simplifying chunk, and explains the dependency cost."}

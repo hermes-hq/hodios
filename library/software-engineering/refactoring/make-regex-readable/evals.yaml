@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make this regex more readable: {{regex}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-log-line
+    vars:
+      regex: |
+        Python: m = re.match(r'^(\d{4}-\d\d-\d\d)[T ](\d\d:\d\d:\d\d)(?:\.\d+)?\s+\[(\w+)\]\s+(.*)$', line); level = m.group(3); msg = m.group(4)
+    assert:
+      - {type: contains, value: "## Equivalence tests"}
+      - {type: llm-rubric, value: "Rewrites with re.VERBOSE and comments and named groups, updates the group(3) and group(4) uses or keeps numbering, notes that \\d and \\w match non-ASCII in Python 3 and that $ matches before a trailing newline, and provides a table comparing old and new on matches and captures."}
+  - name: edge-javascript
+    vars:
+      regex: "JavaScript: str.replace(/^(\\+?\\d{1,3})?[-. ]?\\(?(\\d{3})\\)?[-. ]?(\\d{3})[-. ]?(\\d{4})$/, '$2-$3-$4')"
+    assert:
+      - {type: llm-rubric, value: "Notes JavaScript has no verbose flag and composes the pattern from documented parts or uses named groups, and keeps the $2-$3-$4 replacement working by updating references or preserving group numbering."}
+  - name: negative-change-behaviour
+    vars:
+      regex: "Make this email regex readable and also make it accept plus addressing, which it currently rejects: ^[a-z0-9._-]+@[a-z0-9-]+\\.[a-z]{2,}$"
+    assert:
+      - {type: llm-rubric, value: "Keeps the readability rewrite equivalent and treats accepting plus addressing as a separate, explicit behaviour change with its own tests rather than mixing it in silently."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Replace the raw pointers in this C++ code with smart pointers: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scene-graph
+    vars:
+      code: |
+        C++17. class Scene { std::vector<Node*> nodes; Renderer* renderer; ~Scene() { for (auto n : nodes) delete n; } };
+        Node has Node* parent and std::vector<Node*> children and deletes children in its destructor. Renderer is owned by Engine and passed in.
+      build_and_test: "cmake --build build && ctest --test-dir build"
+    assert:
+      - {type: contains, value: "## Ownership map"}
+      - {type: llm-rubric, value: "Makes children owned by unique_ptr in their parent, keeps parent as a raw observer pointer, keeps renderer as a non-owning pointer or reference because Engine owns it, removes the hand-written destructors, notices Scene's nodes vector and children may double-own nodes and asks or decides, and runs tests with sanitizers if possible."}
+  - name: edge-cpp11
+    vars:
+      code: "C++11 codebase, no exceptions. class Parser { Buffer* buf; Parser(): buf(new Buffer) {} ~Parser(){ delete buf; } }; Parser objects are copied in two places."
+    assert:
+      - {type: llm-rubric, value: "Notes make_unique is unavailable in C++11 and handles it; points out the existing copies cause a double delete today and that unique_ptr makes Parser move-only, so the copying call sites must change or a deep copy must be defined."}
+  - name: negative-shared-everywhere
+    vars:
+      code: "Just replace every pointer in the engine with shared_ptr, it is safer and I do not want to think about ownership."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket shared_ptr, explaining cost, hidden lifetimes and cycles, and proposes deciding ownership with unique_ptr by default."}

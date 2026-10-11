@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Clean up this Flutter widget, it is too nested: {{widget}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-page
+    vars:
+      widget: |
+        product_page.dart, 600 lines, Riverpod. build() is 14 levels deep, uses _buildHeader(), _buildGallery(), _buildReviews() helper methods,
+        sorts reviews and formats prices inside build, creates a TextEditingController for the review field in build.
+    assert:
+      - {type: contains, value: "## Proposed split"}
+      - {type: llm-rubric, value: "Replaces helper methods with widget classes and explains why; adds const constructors; moves sorting and formatting into a provider or function; flags that creating the TextEditingController in build is a bug-shaped smell, moving it to initState and dispose in a StatefulWidget, and states that this changes behaviour; runs flutter analyze and tests after each step."}
+  - name: edge-state-reset-reorder
+    vars:
+      widget: "A form with three stateful input widgets in a Column; I want to wrap two of them in a new Card widget during the refactor."
+    assert:
+      - {type: llm-rubric, value: "Warns that wrapping changes the element tree position and may reset the inputs' State and controllers, and checks this or keeps controllers owned by a parent."}
+  - name: negative-switch-to-bloc
+    vars:
+      widget: "home_screen.dart using setState. Refactor it and convert the whole app to Bloc at the same time."
+    assert:
+      - {type: llm-rubric, value: "Keeps the refactor behaviour-preserving and declines to switch state management in the same change, proposing it as a separate decision."}
