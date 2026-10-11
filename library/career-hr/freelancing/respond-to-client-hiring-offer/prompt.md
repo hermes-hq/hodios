@@ -3,12 +3,12 @@ schema: 1
 id: respond-to-client-hiring-offer
 kind: prompt
 title: Respond to a client who wants to hire you in-house
-description: Helps a freelancer decide what to do when a client offers them a permanent job, compares the offer with staying independent on like-for-like numbers, and drafts the reply - accept, counter with a contract arrangement, or decline while keeping the client.
+description: For a freelancer offered a permanent job by a client. Compares the offer with staying independent on like-for-like numbers and drafts the reply - accept, counter or decline.
 category: freelancing
 version: 1.0.0
 status: incubating
 stage: [plan]
-role: [consultant, software-engineer, designer, writer, marketer]
+role: [consultant, software-engineer, designer, writer]
 advice_risk: [legal, financial]
 requires: [none]
 inputs: [message, preferences]
