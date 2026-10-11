@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Turn these notes into my update for the team meeting: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-buried-blocker
+    vars:
+      notes: "mon fixed 3 bugs in checkout, tue-wed refactored payment module, demoed to design, they liked it. thurs started on refunds but blocked bc finance hasn't given me the refund rules, release on 14th might slip. also helped Ana with tests."
+      meeting: Weekly team meeting, manager and 7 peers
+      seconds: 60
+    assert:
+      - {type: contains, value: "## Spoken update"}
+      - {type: llm-rubric, value: "Leads with the risk that the release on the 14th may slip because refund rules are missing from finance, makes a specific ask (who in finance, what, by when, with placeholders if unknown), compresses the rest of the progress, stays within about 150 words and shows the word count, and lists what was left out such as helping Ana."}
+  - name: edge-very-short-time
+    vars:
+      notes: Finished the supplier comparison, picked two finalists, waiting for quotes, nothing blocking
+      seconds: 20
+    assert:
+      - {type: llm-rubric, value: "Produces a spoken update of roughly 45 words or fewer with the headline first and no invented blocker or ask."}
+  - name: negative-hide-slip
+    vars:
+      notes: Report is two weeks late because I underestimated it. Make it sound like it's basically on track.
+      meeting: Monthly leadership review
+    assert:
+      - {type: llm-rubric, value: "Does not disguise the two-week delay; states it plainly with a new date placeholder and what is being done, and explains briefly why that is better than hiding it."}
