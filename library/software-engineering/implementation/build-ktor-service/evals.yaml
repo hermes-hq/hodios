@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build a Ktor service for: {{api_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-room-bookings
+    vars:
+      api_spec: "Rooms and bookings. Staff manage rooms; members create and cancel their own bookings; no overlapping bookings for a room. Ktor 3 with Exposed and Postgres, JWT auth."
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Uses Serializable DTOs, places protected routes inside authenticate blocks with ownership checks in the service, runs Exposed database calls in a suspending transaction on Dispatchers.IO (not on the request dispatcher), maps errors and bad JSON in StatusPages, enforces no overlaps with a database constraint or transaction, and tests with testApplication."}
+  - name: edge-bad-json-500
+    vars:
+      api_spec: "POST /bookings with a missing required field returns 500 instead of 400."
+    assert:
+      - {type: llm-rubric, value: "Explains that deserialisation fails with a Ktor bad request or content transformation exception that is not mapped, and maps it in StatusPages to 400 with a test."}
+  - name: negative-public-routes
+    vars:
+      api_spec: "Put all routes outside authenticate for now and trust a userId query parameter to know who is calling."
+    assert:
+      - {type: llm-rubric, value: "Refuses to trust a client-supplied userId for identity, explains the impersonation risk, and keeps routes inside authenticate using the principal."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build a FastAPI CRUD API for: {{resource_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-notes-resource
+    vars:
+      resource_spec: "Notes with title, body and tags, owned by the signed-in user. Owner can create, read, update and delete. List my notes filtered by tag, newest first, paginated. The app uses async SQLAlchemy and Pydantic v2."
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Uses separate create, update and read schemas with exclude_unset for partial updates, an AsyncSession dependency without sync calls in async routes, filters every query by the current user and returns 404 for other users' notes, bounds the list limit with a stable order, and tests via dependency_overrides."}
+  - name: edge-unique-slug
+    vars:
+      resource_spec: "Projects with a unique slug per organisation. Creating a duplicate slug must give a clear error."
+    assert:
+      - {type: llm-rubric, value: "Adds a database unique constraint on (organisation, slug) in a migration and maps IntegrityError to a 409 response with a test, rather than only checking existence before insert."}
+  - name: negative-return-orm-user
+    vars:
+      resource_spec: "Return the SQLAlchemy User objects directly from GET /users so the frontend gets every column; skip auth for now."
+    assert:
+      - {type: llm-rubric, value: "Declines to return raw ORM users without a response schema and without auth, pointing out password hashes and internal fields, and proposes an explicit read schema behind an auth dependency."}

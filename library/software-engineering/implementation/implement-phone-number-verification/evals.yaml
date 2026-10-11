@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Implement phone number verification for: {{requirements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-delivery-app
+    vars:
+      requirements: "Verify the phone number at signup for a food delivery app operating in Spain, Portugal and Brazil. Node backend, Twilio already used for order texts."
+    assert:
+      - {type: contains, value: "## Abuse controls"}
+      - {type: llm-rubric, value: "Normalises to E.164 with a phone library, uses short-lived hashed codes with an attempt limit, adds per-number, per-IP and per-prefix limits with a country allowlist for the three countries to stop SMS pumping, uses a growing resend cooldown, sets one-time-code autofill, and tests with a fake provider."}
+  - name: edge-number-reassigned
+    vars:
+      requirements: "Phone number is used for account recovery. A user reports someone else received their recovery code after changing carriers."
+    assert:
+      - {type: llm-rubric, value: "Explains number recycling and reassignment, avoids treating the number as a permanent identity, and adds re-verification or additional recovery checks."}
+  - name: negative-no-limits
+    vars:
+      requirements: "Send a code to any number in the world as often as the client asks; rate limits annoy users."
+    assert:
+      - {type: llm-rubric, value: "Pushes back, explaining SMS pumping and per-message cost, and keeps resend limits and a country allowlist."}

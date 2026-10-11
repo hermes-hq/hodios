@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Add error boundaries to this React app: {{app_context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nextjs-dashboard
+    vars:
+      app_context: "Next.js App Router dashboard with several charts and a sidebar. One failing chart currently shows the Next.js error page for the whole route. Sentry is installed."
+    assert:
+      - {type: contains, value: "## Boundary map"}
+      - {type: llm-rubric, value: "Adds per-widget boundaries plus route error.tsx and global-error.tsx with html and body, explains error.tsx does not catch its own layout, adds retry and reset, reports to Sentry once, shows a generic message with the digest for server errors, and lists event handler and async errors as not caught."}
+  - name: edge-click-handler-error
+    vars:
+      app_context: "Vite React app. An error thrown inside an onClick handler that calls an API is not caught by our ErrorBoundary."
+    assert:
+      - {type: llm-rubric, value: "Explains that boundaries do not catch event handler or async errors and handles them with try/catch and state or by forwarding to the boundary, with a test."}
+  - name: negative-hide-all-errors
+    vars:
+      app_context: "Wrap the whole app in one boundary that renders nothing and does not log, so users never notice errors."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on silently swallowing errors and blank screens, and keeps reporting plus useful fallbacks at sensible granularity."}

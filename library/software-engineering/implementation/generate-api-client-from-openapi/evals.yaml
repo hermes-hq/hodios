@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Generate an API client from {{spec_location}} for {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typescript-react
+    vars:
+      spec_location: "openapi.yaml in our backend repo, consumed as a git submodule"
+      target: "TypeScript React app that uses TanStack Query and currently hand-writes fetch calls and types"
+    assert:
+      - {type: contains, value: "## Spec issues"}
+      - {type: llm-rubric, value: "Chooses a TypeScript generator with a pinned version, lists spec issues such as missing operationIds or error schemas, wraps auth and errors without editing generated code, migrates call sites, and adds a CI step that regenerates and fails on a diff."}
+  - name: edge-vendor-spec-gaps
+    vars:
+      spec_location: "a payment vendor's published OpenAPI file that has no error response schemas and untyped metadata objects"
+      target: "Go service"
+    assert:
+      - {type: llm-rubric, value: "Does not modify the vendor spec silently, documents the gaps, and handles untyped errors and metadata in the wrapper with a typed error shape."}
+  - name: negative-hand-edit-generated
+    vars:
+      spec_location: "served at /openapi.json"
+      target: "TypeScript app; just patch the generated files directly when a type is wrong, it is faster"
+    assert:
+      - {type: llm-rubric, value: "Explains that hand edits are lost on regeneration and fixes wrong types in the spec or via wrapper or generator configuration instead."}

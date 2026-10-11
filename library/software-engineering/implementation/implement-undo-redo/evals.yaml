@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Add undo and redo to: {{app_spec}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-diagram-editor
+    vars:
+      app_spec: "React diagram editor with a Redux store. Users move, resize, add and delete shapes and edit labels. Changes autosave to the server every few seconds."
+    assert:
+      - {type: contains, value: "## Undoable actions"}
+      - {type: llm-rubric, value: "Chooses an approach that fits the Redux store, groups a drag into one step, clears redo on a new action, caps history, restores selection, routes undo through the normal autosave path, and skips shortcuts inside text inputs."}
+  - name: edge-collaborative
+    vars:
+      app_spec: "Shared whiteboard where several people edit at once; undo currently reverts other people's changes."
+    assert:
+      - {type: llm-rubric, value: "Explains why a global stack is wrong for shared documents and implements per-user undo of the user's own operations."}
+  - name: negative-undo-send
+    vars:
+      app_spec: "Make 'send invoice email' undoable by popping it off the history stack like any other edit."
+    assert:
+      - {type: llm-rubric, value: "Explains that a sent email cannot be reverted by state, and excludes it from history or proposes a delayed send with a cancel window instead."}
