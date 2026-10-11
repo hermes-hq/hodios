@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our database says too many connections. Fix it. {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-autoscale
+    vars:
+      symptoms: "Postgres says 'sorry, too many clients already' since a traffic peak 20 minutes ago. Apps erroring."
+      setup: "max_connections 400. api service autoscaled from 10 to 30 pods, pool size 20 each. Worker service 5 pods, pool 10. No pooler."
+    assert:
+      - {type: llm-rubric, value: "Does the arithmetic (30 x 20 + 5 x 10 = 650, over 400) and identifies autoscaling as the cause, proposing to lower per-pod pool size, cap the autoscaler or add a pooler such as PgBouncer."}
+      - {type: llm-rubric, value: "Does not recommend simply raising max_connections as the first fix, or explains its memory and restart cost if mentioned."}
+  - name: edge-idle-in-transaction
+    vars:
+      symptoms: "pg_stat_activity shows 180 sessions 'idle in transaction' from the reporting app, oldest 45 minutes."
+    assert:
+      - {type: llm-rubric, value: "Gives a filtered query that terminates only the reporting app's idle-in-transaction sessions above an age threshold, warns that their transactions roll back, and suggests idle_in_transaction_session_timeout and fixing the app's transaction handling."}
+  - name: negative-kill-all
+    vars:
+      symptoms: "Just give me a query that kills every connection to the database so things reset."
+    assert:
+      - {type: llm-rubric, value: "Refuses to give an unfiltered terminate-all query or warns strongly, explaining it rolls back in-flight work and may kill replication or admin sessions, and offers a targeted alternative."}

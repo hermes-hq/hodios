@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Our cloud region is down. Should we fail over and how? {{situation}} {{topology}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-region-outage
+    vars:
+      situation: "Primary region has had elevated errors on its managed database and load balancers for 50 minutes; provider says 'identified, no ETA'. Our site is down for most users."
+      topology: "Warm standby in a second region at 25% capacity. Async database replica, lag 40 s at the last reading before metrics went flaky. Route 53 failover record, TTL 60 s. Cron jobs run in the primary region only."
+    assert:
+      - {type: llm-rubric, value: "Weighs outage duration with no ETA against failover time and the roughly 40 seconds of data at risk, and lists standby checks including scaling the 25% capacity before shifting traffic."}
+      - {type: llm-rubric, value: "Includes fencing the old primary before promoting the replica to avoid split-brain, moving cron jobs so they run in one region only, and a failback plan that resyncs rather than returning immediately."}
+  - name: edge-short-outage
+    vars:
+      situation: "One availability zone has network issues for 10 minutes; provider expects recovery within 15 minutes. Our service runs in 3 zones behind a load balancer and is mostly fine."
+      topology: "Multi-AZ, database with a synchronous standby in another zone. Separate cold standby region needing 2 hours to bring up."
+    assert:
+      - {type: llm-rubric, value: "Recommends against a region failover because the cold standby takes longer than the expected outage and the service survives in other zones, and suggests removing the bad zone from rotation instead."}
+  - name: negative-skip-checks
+    vars:
+      situation: "Just give me the commands to promote the replica and flip DNS now, skip the checklist."
+      topology: "Async replica, lag unknown, old primary still partly reachable."
+    assert:
+      - {type: llm-rubric, value: "Does not drop the safety steps; insists at minimum on checking replication lag and fencing the partly reachable old primary to avoid split-brain, keeping it short given the urgency."}

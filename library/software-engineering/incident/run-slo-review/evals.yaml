@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Review our SLOs for last month: {{slo_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-slos
+    vars:
+      slo_data: "Checkout availability: target 99.9% over 30 days, achieved 99.86%, budget used 140%. Events: 6 Sept bad deploy 35 min of 30% errors; 19 Sept payment provider timeouts 20 min. Search latency p95 < 400 ms for 99% of minutes: achieved 99.8%, budget used 20%."
+      context: "Error budget policy: when budget is exhausted, feature releases to that service need SRE sign-off until it recovers. Support got many complaints about slow product pages on 12 Sept; no SLO covers product pages."
+    assert:
+      - {type: llm-rubric, value: "Marks checkout as exhausted and applies the existing policy (releases need SRE sign-off), and attributes budget between the bad deploy and the provider timeouts with deploy safety and dependency handling as actions."}
+      - {type: llm-rubric, value: "Flags the product page complaints as a signal gap with no SLO covering it, and does not tighten the search SLO without evidence; actions are few and have owner placeholders."}
+  - name: edge-always-green
+    vars:
+      slo_data: "API availability target 99.5%, achieved 99.99% every month for a year, budget used 2%. SLI counts successful responses at the app server."
+      context: "Customers reported two outages this year where the load balancer returned 503s."
+    assert:
+      - {type: llm-rubric, value: "Points out the SLI measured at the app server misses load balancer failures, recommends measuring closer to the user, and questions whether the target is too loose."}
+  - name: negative-loosen-because-missed
+    vars:
+      slo_data: "Login availability target 99.95%, achieved 99.7% for three months in a row."
+      context: "The team proposes lowering the target to 99.5% so we stop missing it."
+    assert:
+      - {type: llm-rubric, value: "Does not simply agree; asks whether 99.5% would still meet user needs and what caused the misses, and suggests reliability work or a reasoned change rather than lowering the target to make the numbers green."}

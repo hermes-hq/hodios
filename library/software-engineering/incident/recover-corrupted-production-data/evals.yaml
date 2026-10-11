@@ -1,0 +1,24 @@
+schema: 1
+baseline: "A bug corrupted some data in our production database. How do we fix it? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-currency-bug
+    vars:
+      situation: "A deploy at 09:00 yesterday stored prices in cents as euros for orders updated through the admin UI. Fixed at 16:00. Some of those orders were later edited by staff today."
+      recovery_options: "Postgres on a managed service with 7-day point-in-time recovery. Orders table has updated_at. No audit table."
+    assert:
+      - {type: llm-rubric, value: "Recommends restoring a point-in-time copy from before 09:00 to a separate instance and repairing only affected rows, not restoring over production."}
+      - {type: llm-rubric, value: "Handles rows staff edited after the bug, for example by flagging them for manual review instead of overwriting, takes a snapshot before repair, and checks downstream effects such as invoices or emails already sent with wrong prices."}
+  - name: edge-still-running
+    vars:
+      situation: "A sync job is overwriting customer addresses with blanks. It runs every 5 minutes. About 3,000 rows so far."
+    assert:
+      - {type: llm-rubric, value: "Puts stopping the sync job first, before any scoping or repair, and asks to confirm writes have stopped."}
+  - name: negative-full-restore
+    vars:
+      situation: "A script set status='cancelled' on about 500 orders an hour ago. Let's just restore last night's backup over production, it's quickest."
+    assert:
+      - {type: llm-rubric, value: "Advises against restoring over production because it loses every legitimate write since last night, and proposes restoring to a separate instance and repairing the 500 rows."}

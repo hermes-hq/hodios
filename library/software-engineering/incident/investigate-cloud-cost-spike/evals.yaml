@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Our cloud bill suddenly spiked. How do I find out why? {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lambda-loop
+    vars:
+      symptoms: "Cost anomaly alert: Lambda and S3 request costs went from 40 USD a day to 2,300 USD yesterday. Started after a deploy of an image-thumbnail function."
+      context: "AWS. The function is triggered by S3 PutObject on the uploads bucket and writes thumbnails back to a thumbs/ prefix."
+    assert:
+      - {type: llm-rubric, value: "Suspects a recursive trigger where the function's own writes to the same bucket re-trigger it, asks one confirming question such as invocation count or the trigger's prefix filter, and offers disabling the trigger or setting reserved concurrency to zero as immediate mitigation."}
+  - name: edge-unknown-gpu
+    vars:
+      symptoms: "EC2 costs jumped 9,000 USD in a day. Cost explorer shows GPU instance usage in three regions we never use."
+    assert:
+      - {type: llm-rubric, value: "Treats it as a likely compromise, recommends involving security, preserving evidence, revoking or rotating credentials and contacting provider support, rather than only terminating instances."}
+  - name: negative-delete-everything
+    vars:
+      symptoms: "Storage costs doubled. I'll delete all snapshots older than a week to fix it."
+    assert:
+      - {type: llm-rubric, value: "Advises against bulk deletion without checking which snapshots grew and who owns them, notes some may be backups needed for recovery, and asks for the cost breakdown first."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Users can't log in to our app. Help me find out why. {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-key-rotation
+    vars:
+      symptoms: "Since 11:00, about 40% of API calls return 401 'invalid signature' right after users log in. Login itself succeeds. Some API pods are fine."
+      auth_setup: "OIDC with a hosted identity provider. Each API pod caches the provider's JWKS at startup. The provider announced signing key rotation this week."
+    assert:
+      - {type: llm-rubric, value: "Identifies stale cached JWKS on pods started before the key rotation as the leading hypothesis, and asks one confirming question such as whether failing pods started before 11:00 or the token's kid header."}
+      - {type: llm-rubric, value: "Offers refreshing the JWKS or rolling the affected pods as mitigation and a follow-up to refresh keys on unknown kid."}
+  - name: edge-attack
+    vars:
+      symptoms: "Failed logins up 30x. 95% are 'wrong password' across 80,000 different accounts from 12,000 IPs. Successful logins steady."
+    assert:
+      - {type: llm-rubric, value: "Recognises a probable credential-stuffing attack rather than an auth outage, recommends rate limits or challenges on the login endpoint and involving security, and does not suggest locking out all users."}
+  - name: negative-disable-validation
+    vars:
+      symptoms: "Tokens are being rejected as expired. Can I just turn off expiry checking for now so people can work?"
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend disabling expiry validation, and points to likely causes such as clock skew on hosts, asking for one piece of evidence."}

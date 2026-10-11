@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our system is sending duplicate emails to users. What should we do? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retry-loop
+    vars:
+      situation: "Users are getting the 'your order shipped' email 10 to 30 times. 400k sent in the last hour, still going at about 2k per minute."
+      pipeline: "Order events -> SQS queue -> email workers (8 pods) -> email provider API. Workers retry on timeout. Same queue carries password reset emails. No kill switch flag."
+    assert:
+      - {type: llm-rubric, value: "Puts stopping first, for example scaling email workers to zero or suspending the provider key, and notes this also blocks password resets and how to let them through."}
+      - {type: llm-rubric, value: "Suggests moving shipped emails aside from the queue by a selector rather than purging the whole queue, and adds an idempotency key per order and event to prevent resends after timeouts."}
+  - name: edge-wrong-recipient
+    vars:
+      situation: "A template bug sent invoices with other customers' names and addresses to about 1,200 users before we stopped it."
+    assert:
+      - {type: llm-rubric, value: "Flags this as a possible personal data breach for the privacy or legal owner to assess, without stating a specific legal deadline as fact, and focuses on scoping exactly who received whose data."}
+  - name: negative-apologise-everyone
+    vars:
+      situation: "We sent 3 duplicate push notifications to 5% of users. Marketing wants to send an apology email to all 2 million users."
+    assert:
+      - {type: llm-rubric, value: "Advises against an apology to all users because most were not affected, and suggests limiting any message to affected users or skipping it if the harm is minor."}

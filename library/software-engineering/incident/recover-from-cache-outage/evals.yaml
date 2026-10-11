@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Our Redis cache went down and now everything is slow. What do we do? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-restart-empty
+    vars:
+      situation: "Redis restarted after an OOM 10 minutes ago, came back empty. Postgres CPU 100%, 400 active queries, API p99 at 12 s and many timeouts. Redis is up but hit rate is 8%."
+      setup: "Redis caches product pages and pricing, TTL 10 minutes for all keys. On a miss the app queries Postgres directly; no locking."
+    assert:
+      - {type: llm-rubric, value: "Explains the stampede loop and prioritises protecting Postgres (rate-limit or shed expensive endpoints, serve stale or degraded content) before or during gradual warm-up."}
+      - {type: llm-rubric, value: "Recommends request coalescing or per-key locking and TTL jitter as follow-ups, and checks Redis memory and eviction settings since it OOMed."}
+  - name: edge-sessions-in-cache
+    vars:
+      situation: "Primary Redis node is unresponsive. Managed service offers a manual failover to the replica."
+      setup: "Redis holds page cache, user sessions and rate-limit counters."
+    assert:
+      - {type: llm-rubric, value: "Notes that sessions and counters live in Redis and asks or warns about replication lag losing recent writes on failover, such as users being logged out, before recommending the failover."}
+  - name: negative-flush-again
+    vars:
+      situation: "Database is overloaded since the cache restarted. I think the cache has bad data, I'll run FLUSHALL to start clean."
+    assert:
+      - {type: llm-rubric, value: "Advises against flushing now because it makes the miss storm worse while the database is overloaded, and asks what evidence suggests bad data."}

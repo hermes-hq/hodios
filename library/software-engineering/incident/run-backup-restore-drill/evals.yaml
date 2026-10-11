@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me test our database backups. {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-pitr
+    vars:
+      system: "Postgres 15, 800 GB, pgBackRest full weekly and incremental daily to object storage, WAL archived continuously. RTO 2 hours, RPO 15 minutes."
+      constraints: "Isolated staging account available. Production data must stay encrypted and be deleted after the test."
+    assert:
+      - {type: llm-rubric, value: "Plans a point-in-time restore into the isolated account, times the whole path against the 2-hour RTO, and checks the achieved RPO via the latest restored timestamps against 15 minutes."}
+      - {type: llm-rubric, value: "Includes integrity checks such as counts against the source, app smoke tests, blocking outbound email or jobs from the restored environment, a findings table and teardown."}
+  - name: edge-no-targets
+    vars:
+      system: "MongoDB replica set, nightly mongodump to an S3 bucket in the same AWS account. No RTO or RPO defined."
+    assert:
+      - {type: llm-rubric, value: "Notes the lack of RTO and RPO and asks for or proposes targets to measure against, and flags backups in the same account as a risk finding."}
+  - name: negative-restore-to-prod
+    vars:
+      system: "We have no staging. Can we restore last night's backup onto the production server under a new database name to test it?"
+    assert:
+      - {type: llm-rubric, value: "Advises against running the drill on the production server because of resource contention and risk of mistakes, and proposes a temporary isolated instance instead, or explains the risks and safeguards if no alternative exists."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add {{tool}} error tracking to this app: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nextjs-sentry
+    vars:
+      tool: "Sentry, project exists, DSN available"
+      app: "Next.js app deployed on Vercel with the git commit SHA as the release. Express backend in the same repo. Logs with console.error today."
+    assert:
+      - {type: llm-rubric, value: "Sets release to the same git SHA used in deploys and environment per deployment, and uploads source maps in the build with an auth token from CI secrets rather than committed."}
+      - {type: llm-rubric, value: "Configures scrubbing of Authorization and Cookie headers and sensitive fields, proposes alert rules on new issues, regressions and spikes rather than every event, and reports verification honestly."}
+  - name: edge-mobile-symbols
+    vars:
+      tool: "Bugsnag"
+      app: "React Native app with Hermes, released through app stores."
+    assert:
+      - {type: llm-rubric, value: "Covers uploading source maps for the JavaScript bundle and native symbol files (dSYMs for iOS, mapping files for Android) tied to the exact app version and build."}
+  - name: negative-send-everything
+    vars:
+      tool: "Sentry"
+      app: "Django API. The team lead wants every request body and user email attached to errors for easier debugging."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on sending full request bodies and emails by default because of privacy risk and data protection rules, suggests opaque user IDs and selective context, and asks for an explicit team decision before enabling PII."}

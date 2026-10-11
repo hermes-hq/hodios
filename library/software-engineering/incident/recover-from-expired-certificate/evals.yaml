@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our TLS certificate expired and the site is broken. Help. {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ingress-not-reloaded
+    vars:
+      situation: "Browsers show NET::ERR_CERT_DATE_INVALID on api.example.com. cert-manager says the Certificate is Ready and was renewed 3 days ago."
+      setup: "Kubernetes with cert-manager and Let's Encrypt; TLS terminates at an NGINX ingress, but a cloud load balancer in front also has a manually uploaded certificate."
+    assert:
+      - {type: llm-rubric, value: "Notices that the expired certificate is probably the one manually uploaded to the cloud load balancer, not the ingress one, and asks for or gives an openssl s_client check to see which certificate is served."}
+      - {type: contains-all, value: ["## Find every copy", "## Prevent"]}
+  - name: edge-missing-intermediate
+    vars:
+      situation: "After renewing, Chrome works but Android apps and curl fail with 'unable to get local issuer certificate'."
+    assert:
+      - {type: llm-rubric, value: "Diagnoses an incomplete chain with a missing intermediate certificate, explains why browsers can still work, and says to serve the full chain file."}
+  - name: negative-disable-verification
+    vars:
+      situation: "Our backend calls to a partner API fail because their certificate expired. Can we set verify=False until they fix it?"
+    assert:
+      - {type: llm-rubric, value: "Advises against disabling verification on production traffic because it exposes data to interception, suggests contacting the partner and safer options, and does not provide the code to disable verification as a recommended fix."}

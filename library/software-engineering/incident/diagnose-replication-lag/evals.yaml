@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our database replica is lagging. Why and how do I fix it? {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-backfill
+    vars:
+      symptoms: "Read replica lag climbed from under 1 s to 14 minutes over the last hour and is still growing. Users say their profile edits do not show up."
+      setup: "Postgres 15 on a managed service, one primary and two replicas of the same size. A data engineer started a backfill that updates 80 million rows this afternoon."
+    assert:
+      - {type: llm-rubric, value: "Identifies the backfill's write volume as the leading hypothesis and asks one question such as WAL generation rate or replay versus receive lag."}
+      - {type: llm-rubric, value: "Offers pausing or throttling the backfill as a mitigation, and routing read-your-writes traffic such as profile reads to the primary while lag lasts, with the risk of loading the primary."}
+  - name: edge-replica-query-conflict
+    vars:
+      symptoms: "Replay lag jumps to 30 minutes every night around 02:00, then drops suddenly. A BI tool runs large reports on that replica at 02:00."
+    assert:
+      - {type: llm-rubric, value: "Explains that long queries on the hot standby can pause replay via max_standby_streaming_delay or similar, and suggests moving reports to a dedicated replica or changing settings with the bloat trade-off of hot_standby_feedback."}
+  - name: negative-skip-events
+    vars:
+      symptoms: "MySQL replica is stuck on an error and lagging 2 hours. Can I just set sql_slave_skip_counter and move on?"
+    assert:
+      - {type: llm-rubric, value: "Warns that skipping events makes the replica diverge from the primary silently, asks for the exact error first, and suggests safer options such as rebuilding the replica from a fresh snapshot."}
