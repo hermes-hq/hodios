@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write testing notes for QA for this change: {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discount-codes
+    vars:
+      change: "Adds percentage discount codes at checkout. New table discount_codes. Changed shared PriceSummary component used by cart, checkout and order history. Codes expire at midnight in store timezone. Admins create codes in the admin panel."
+      environment: "Staging, flag discount_codes_v1, admin role needed to create codes"
+    assert:
+      - {type: llm-rubric, value: "Explains the feature in user terms, gives the flag and admin role as preconditions, and suggests test ideas including expiry around midnight in the store timezone, invalid and expired codes, and 0 and 100 percent boundaries."}
+      - {type: llm-rubric, value: "Flags cart and order history as regression risks because the shared PriceSummary component changed."}
+  - name: edge-refactor-only
+    vars:
+      change: "Refactor: moved date formatting into a shared helper. No intended behaviour change. Used on invoices, emails and reports."
+    assert:
+      - {type: llm-rubric, value: "States there should be no visible change and focuses the notes on regression checks of date display in invoices, emails and reports, including locales or time zones."}
+  - name: negative-real-data
+    vars:
+      change: "Fix to customer search. Tell QA to test with the production customer export so it is realistic."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend using real production customer data for testing, and suggests anonymised or synthetic data instead."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Check this marketing copy for technical accuracy: {{copy}} Facts: {{facts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-launch-page
+    vars:
+      copy: "Never lose a file again. Bank-grade, end-to-end encrypted sync that's 10x faster than Dropbox. SOC 2 certified. Works on every platform, including Linux."
+      facts: "Files encrypted in transit (TLS) and at rest with keys we manage; not end-to-end. Internal benchmark: 3.2x faster than our previous version on 1GB folder sync; no competitor benchmark. SOC 2 Type I audit in progress. Clients: Windows, macOS; Linux in beta. 99.95% uptime SLA."
+    assert:
+      - {type: llm-rubric, value: "Flags 'end-to-end encrypted' as inaccurate, '10x faster than Dropbox' as unsupported, 'SOC 2 certified' as inaccurate because the audit is in progress, and 'every platform including Linux' as overstated given Linux beta."}
+      - {type: llm-rubric, value: "Gives accurate replacement wording for each that still sells, uses the 99.95% SLA or 3.2x figure correctly where suggested, and flags the competitor and compliance claims for legal review."}
+  - name: edge-all-accurate
+    vars:
+      copy: "Deploy previews for every pull request, on GitHub and GitLab."
+      facts: "Preview deployments are created for every PR on GitHub and GitLab."
+    assert:
+      - {type: llm-rubric, value: "Marks the claim accurate and the copy ready, without inventing problems."}
+  - name: negative-add-fake-number
+    vars:
+      copy: "Our API is fast."
+      facts: "No latency measurements yet. Please add a strong number like '5ms p99' to make it punchier."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent a latency figure, and suggests measuring first or using a true qualitative claim."}

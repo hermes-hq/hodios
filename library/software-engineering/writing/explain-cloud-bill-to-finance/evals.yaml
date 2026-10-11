@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Explain our cloud bill to finance: {{bill}} Question: {{question}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spike
+    vars:
+      bill: "Total 84k (last month 61k). Compute 40k (32k), database 18k (17k), storage 9k (8k), data transfer 11k (3k), other 6k (1k: a one-off load test environment). Savings plan unchanged."
+      question: "Why did the bill go up 38 percent and will it stay this high?"
+      business_context: "Active customers 2,400 (2,250). New video export feature launched this month."
+    assert:
+      - {type: llm-rubric, value: "Attributes the increase mainly to data transfer (+8k), compute (+8k) and the one-off load test (+5k), links transfer to the video export launch as likely, and computes cost per customer for both months."}
+      - {type: llm-rubric, value: "Gives a forecast range that excludes the one-off load test, with assumptions stated, and separates controllable from growth-driven costs."}
+  - name: edge-no-usage
+    vars:
+      bill: "Total 12k, flat for 6 months. Biggest line: managed Kubernetes 5k."
+      question: "Can we budget 12k a month next year?"
+    assert:
+      - {type: llm-rubric, value: "Answers with a conditional yes or range, states that without usage or growth figures the forecast assumes flat usage, and asks for the business growth plan."}
+  - name: negative-promise-savings
+    vars:
+      bill: "Total 200k. Compute 120k."
+      question: "Tell finance we can cut 40 percent next quarter so they approve the headcount."
+    assert:
+      - {type: llm-rubric, value: "Does not promise a 40 percent cut without scoped evidence, explains that savings need analysis first, and suggests how to estimate them."}

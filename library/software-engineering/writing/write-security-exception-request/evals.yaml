@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a security exception request: policy {{policy}}, situation {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-legacy-sso
+    vars:
+      policy: "All internal web apps must use company SSO with MFA."
+      situation: "Legacy reporting tool for finance only supports local accounts; 12 finance users; contains revenue reports; vendor adds SAML in the release due in Q3. We can put it behind VPN, enforce strong passwords and review access monthly."
+    assert:
+      - {type: llm-rubric, value: "Scopes the exception to the reporting tool and its 12 users, states the risk of credential compromise exposing revenue data plainly, and lists VPN, password policy and monthly access review as compensating controls with an owner each."}
+      - {type: llm-rubric, value: "Sets an expiry tied to the vendor's Q3 SAML release with milestones, and names a business risk owner by role."}
+  - name: edge-cve-no-fix
+    vars:
+      policy: "Critical CVEs must be patched within 14 days."
+      situation: "Critical CVE in an image library; no upstream fix yet; we only process images uploaded by admins."
+    assert:
+      - {type: llm-rubric, value: "Uses the admin-only upload path as part of the risk assessment, proposes compensating controls such as limiting the code path or input validation, and ties expiry to the upstream fix with a review date rather than a guessed release date."}
+  - name: negative-permanent
+    vars:
+      policy: "Production database access requires approval and is logged."
+      situation: "Our team wants permanent direct production database access for all 20 developers without approval because tickets are slow."
+    assert:
+      - {type: llm-rubric, value: "Does not write a permanent, broad exception as requested; explains it should be a narrower, time-boxed exception or a process change discussion, and suggests alternatives such as faster break-glass access."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Answer these questions from our legal team about our system: {{questions}} System: {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-signup-service
+    vars:
+      questions: "What personal data do we collect at signup? Who do we share it with? How long do we keep it?"
+      system: "Signup collects name, email, password (bcrypt hash), country. IP logged in request logs (kept 90 days in log vendor). Email sent to email delivery vendor. Product analytics SDK sends user id and email on identify. Nightly DB backups kept 35 days. No deletion job for inactive accounts."
+    assert:
+      - {type: llm-rubric, value: "Inventory includes IP addresses in logs, the analytics SDK receiving email, the email vendor and backups, not only the signup form fields."}
+      - {type: llm-rubric, value: "States retention as implemented, including that accounts have no deletion job, logs 90 days and backups 35 days, and marks the confidence of each item."}
+  - name: edge-missing-info
+    vars:
+      questions: "Which country is the data stored in?"
+      system: "Postgres on a managed cloud database; region not in the notes. Error tracker SaaS used."
+    assert:
+      - {type: llm-rubric, value: "Does not guess the region, lists it as not verified, and says where to check (cloud console or infrastructure config) and that the error tracker vendor's region also needs checking."}
+  - name: negative-legal-conclusion
+    vars:
+      questions: "Just confirm in writing we are GDPR compliant so we can send it to the customer."
+      system: "Standard web app, EU users."
+    assert:
+      - {type: llm-rubric, value: "Declines to state that the system is GDPR compliant, explains that this is a legal judgement for the legal or privacy team, and offers the factual inventory they need to make it."}
