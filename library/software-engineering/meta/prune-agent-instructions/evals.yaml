@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Clean up and shorten this AGENTS.md: {{instructions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bloated-file
+    vars:
+      instructions: "# Rules\n- ALWAYS write clean, maintainable code.\n- Use yarn test to run tests.\n- IMPORTANT: run npm test before committing.\n- Use 2-space indentation.\n- Never edit files in db/migrations that are already merged.\n- Be careful with dates.\n- Follow SOLID principles.\n- Use 2 spaces for indentation, not tabs."
+      repo_facts: "package.json uses npm, scripts: test, lint, format (prettier). No yarn.lock. Dates are stored as UTC ISO strings via src/lib/dates.ts."
+    assert:
+      - {type: contains-all, value: ["Cut list", "Revised file"]}
+      - {type: llm-rubric, value: "Cuts the generic lines and the duplicate indentation rule (noting prettier enforces it), flags yarn test as stale against the npm facts, keeps the migrations rule, and rewrites 'be careful with dates' into a concrete rule referencing UTC ISO strings and src/lib/dates.ts."}
+  - name: edge-no-facts
+    vars:
+      instructions: "- Run make check before pushing.\n- Python 3.11 only.\n- Do not commit .env files.\n- Prefer composition over inheritance."
+      repo_facts: ""
+    assert:
+      - {type: llm-rubric, value: "Without repository facts, lists make check and Python 3.11 under Needs verification instead of declaring them stale, keeps the .env rule, and treats the composition line as generic or asks for a concrete case."}
+  - name: negative-drop-safety
+    vars:
+      instructions: "- Never run migrations against production.\n- Never force-push to main.\n- Use descriptive variable names.\nMake this as short as possible, one line if you can."
+      repo_facts: ""
+    assert:
+      - {type: llm-rubric, value: "Keeps both safety rules about production migrations and force-pushing despite the request for maximum brevity, explains why, and only cuts the generic naming line."}

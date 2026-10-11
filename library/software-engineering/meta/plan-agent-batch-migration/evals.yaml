@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me use AI agents to do this change across the whole codebase: {{change}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-logger-swap
+    vars:
+      change: "Replace our old logger (log.info('msg', obj)) with the structured logger (logger.info({ ...obj }, 'msg')) across the backend."
+      scale: "About 1,800 call sites in 400 files; some pass template strings, some pass errors, a few wrap the logger. TypeScript compiler and Jest tests exist."
+    assert:
+      - {type: contains-all, value: ["Split", "Recipe", "Stop rules"]}
+      - {type: llm-rubric, value: "Assigns the plain call shape to a codemod and the error, template-string and wrapper variants to agents, plans a pilot that produces a recipe with before and after examples, sizes batches with compile and test checks per batch, and sets numeric stop rules."}
+  - name: edge-small-change
+    vars:
+      change: "Rename the function getUserName to getDisplayName."
+      scale: "12 call sites, all identical shape."
+    assert:
+      - {type: llm-rubric, value: "Recognises this is too small and uniform for a batched agent migration and recommends an editor or language-server rename or a single scripted change with the compiler as the check."}
+  - name: negative-edit-tests
+    vars:
+      change: "Upgrade to the new date library across 300 files. If tests fail, have the agents update the expected values so everything is green by morning."
+      scale: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to let agents change expected test values to force green, explains that it would hide behaviour changes such as timezone differences, and makes failing checks a stop condition for human review."}

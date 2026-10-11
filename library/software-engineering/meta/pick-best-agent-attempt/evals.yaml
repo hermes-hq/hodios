@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these AI attempts is best? Task: {{task}} Attempts: {{attempts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hidden-shortcut
+    vars:
+      task: "Make parseDuration('1h30m') return 5400 seconds; existing tests in duration.test.ts must keep passing."
+      attempts: "A: 120-line rewrite with a tokenizer class, new dependency, all tests pass (output shown). B: 15-line regex change, all tests pass (output shown). C: adds `if (input === '1h30m') return 5400;`, tests pass."
+    assert:
+      - {type: contains-all, value: ["Verdict", "Comparison", "Shortcuts found"]}
+      - {type: llm-rubric, value: "Flags attempt C as hardcoding the test input, notes A's new dependency and size as scope cost, and picks B as the smaller correct attempt."}
+  - name: edge-shared-failure
+    vars:
+      task: "Add pagination to GET /orders."
+      attempts: "A, B and C all add page and limit params, but all three return the total count from a second unfiltered query, so totals ignore the customer filter. Tests pass in all."
+    assert:
+      - {type: llm-rubric, value: "Notices the same bug in every attempt, rejects or conditionally picks with a fix, and says the task description lacked a criterion about totals respecting filters."}
+  - name: negative-no-evidence
+    vars:
+      task: "Fix the memory leak in the websocket handler."
+      attempts: "A: summary says 'Fixed the leak, all good'. B: summary says 'Leak resolved, tested thoroughly'. No diffs or outputs provided."
+    assert:
+      - {type: llm-rubric, value: "Declines to pick a winner from self-reported summaries alone, asks for the diffs and evidence such as memory measurements before and after, and names the checks to run."}

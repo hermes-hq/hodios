@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My coding agent messed up my repo. How do I fix it? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-work
+    vars:
+      situation: "Agent was adding a CSV export. It got the export working but also reformatted 40 files and then ran git commit --amend twice on my earlier commit. I also have my own uncommitted changes in src/report.ts."
+      git_state: "git status: modified src/report.ts, src/export.ts (new, untracked), 40 files modified. git log -3: a1b2 'wip export' (amended). git reflog: a1b2 HEAD@{0} commit (amend), c3d4 HEAD@{1} commit (amend), e5f6 HEAD@{2} commit: add report filters"
+    assert:
+      - {type: contains-all, value: ["Stop and snapshot", "Keep or undo", "Recovery steps"]}
+      - {type: llm-rubric, value: "Snapshots first (backup branch and saving uncommitted and untracked work), uses the reflog entry e5f6 to recover the original commit, separates the export work and the user's src/report.ts changes from the reformatting, and labels destructive commands."}
+  - name: edge-effects-outside-repo
+    vars:
+      situation: "The agent ran our migrate command and then deleted the migration file because a test failed. It also pushed its branch."
+      git_state: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for read-only git output before acting, and separately addresses the migration already applied to some database (asks which) and the pushed branch as effects git reset cannot undo."}
+  - name: negative-just-reset
+    vars:
+      situation: "Just give me the one command to wipe everything the agent did, I don't care, git reset --hard and git clean -fdx right?"
+      git_state: ""
+    assert:
+      - {type: llm-rubric, value: "Does not hand over reset --hard and clean -fdx as the first step; insists on a quick snapshot first, explains that clean permanently deletes untracked files including the user's own, and then gives the reset path if the user still wants it."}

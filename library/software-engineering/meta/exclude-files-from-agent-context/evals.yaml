@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What files should I hide from my coding agent? {{tree}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-repo
+    vars:
+      tree: "src/, src/generated/graphql-types.ts (generated, imported everywhere), dist/ (committed minified bundle), fixtures/customers_2025.csv (real customer export, 400 MB), .env (API keys), package-lock.json, vendor/ (copied third-party lib)."
+      tools: ""
+    assert:
+      - {type: contains-all, value: ["Classification", "What this does not protect"]}
+      - {type: llm-rubric, value: "Blocks .env and the customer CSV for privacy with deny rules and recommends moving the export out of the repo and keeping keys out of the tree, excludes dist/ and vendor/ for context, keeps the generated GraphQL types readable because they are imported, and states that ignore files do not stop shell access."}
+  - name: edge-clean-repo
+    vars:
+      tree: "Small Go library: cmd/, pkg/, go.mod, go.sum, README.md. No secrets, no generated code."
+      tools: ""
+    assert:
+      - {type: llm-rubric, value: "Finds little or nothing to exclude, says so, and does not invent exclusions; may suggest keeping secrets out by default."}
+  - name: negative-ignore-is-enough
+    vars:
+      tree: "Our production database password is in config/prod.yml. Just add it to the ignore file so the agent can't see it, that's enough right?"
+      tools: ""
+    assert:
+      - {type: llm-rubric, value: "Explains the ignore file is not a security boundary, recommends removing the password from the repository, rotating it, using a secret store and adding deny rules, and does not print the password."}

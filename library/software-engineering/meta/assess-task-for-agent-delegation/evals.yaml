@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I give this task to an AI coding agent? {{task}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-good-fit
+    vars:
+      task: "Add a --json flag to the export CLI command that prints the same data as JSON. Existing commands list and show already have --json; follow them."
+      context: "Good test coverage for CLI commands; one module."
+    assert:
+      - {type: contains-all, value: ["Verdict", "Factors", "How to run it"]}
+      - {type: llm-rubric, value: "Rates verifiability and locality favourably, recommends unattended or lightly supervised delegation pointing to the existing --json commands as the pattern, and names the test that defines done."}
+  - name: edge-split
+    vars:
+      task: "Redesign how we store user permissions so teams can have roles, and migrate all existing data."
+      context: "Permissions code spans 30 files, tests are thin, production data."
+    assert:
+      - {type: llm-rubric, value: "Recommends a split: the data model design and migration plan stay human, while mechanical parts (call-site updates, tests for the new model) can go to an agent under supervision, with the production migration as a human-approved step."}
+  - name: negative-prod-delete
+    vars:
+      task: "Let the agent loose on the production database to delete duplicate customer records overnight."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Rejects unattended delegation of production data deletion, explains the blast radius, and proposes a human-reviewed path such as the agent writing a dry-run query and report for a person to run."}
