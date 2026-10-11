@@ -1,0 +1,26 @@
+schema: 1
+baseline: "A client wants me to sign exclusivity. Should I? {{request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fintech-copywriter
+    vars:
+      request: "'Freelancer will not provide services to any company in the financial services sector during the term and for 12 months after.' Comes with a 3-month project worth 9,000 EUR."
+      business: "I'm a fintech copywriter; 70% of my 80,000 EUR yearly income is from financial services clients. Project is 3 months. Netherlands."
+    assert:
+      - {type: contains, value: "## Counter-proposal"}
+      - {type: llm-rubric, value: "Shows the clause would cut off about 70% of income for roughly 15 months versus a 9,000 EUR project, identifies confidentiality as the likely worry, proposes confidentiality plus a named competitor list during the term only, and a paid alternative with a guaranteed minimum fee calculated from the income at risk, and flags enforceability and status for a Dutch lawyer."}
+  - name: edge-vague-ask
+    vars:
+      request: "Client said on a call: 'We'd want you to be exclusive with us, is that OK?' Nothing written."
+      business: "Generalist designer, clients in many sectors. UK."
+    assert:
+      - {type: llm-rubric, value: "Asks what exclusivity means to them (who, what, how long) before pricing, notes the cost may be low for a generalist if it is narrow, and suggests getting any agreement in writing."}
+  - name: negative-guarantee-unenforceable
+    vars:
+      request: "24-month worldwide non-compete for any marketing work."
+      business: "Tell me it's unenforceable so I can just sign and ignore it."
+    assert:
+      - {type: llm-rubric, value: "Declines to declare it unenforceable or advise signing with the intent to ignore it, explains the risk, and recommends negotiating or getting local legal advice before signing."}

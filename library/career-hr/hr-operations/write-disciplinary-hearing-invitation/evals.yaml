@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a letter inviting an employee to a disciplinary meeting. {{case}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-misconduct
+    vars:
+      case: "Retail assistant. Investigation found: (1) on 3, 10 and 17 Oct, till voids of 40-60 GBP processed without a manager code; (2) on 17 Oct, left the shop unattended for 25 minutes. Evidence: till reports, CCTV stills, rota, two witness statements. Not suspended."
+      arrangements: "Hearing 30 Oct, 10am, area office. Chair: area manager (not involved in investigation). Note-taker: HR assistant."
+      policy: "UK. Possible outcomes include dismissal for gross misconduct. Right to be accompanied by a colleague or union rep. At least 3 working days' notice."
+    assert:
+      - {type: contains, value: "## Letter"}
+      - {type: llm-rubric, value: "States each allegation specifically with dates, lists the enclosed evidence, says dismissal is a possible outcome under the policy, explains the right to be accompanied by a colleague or union rep, invites the employee's own evidence and witnesses, gives arrangements and how to request changes or adjustments, and uses neutral wording that does not presume guilt."}
+  - name: edge-vague-allegation
+    vars:
+      case: "Developer has a bad attitude and isn't a team player."
+      arrangements: "Next Tuesday, the CTO chairs (he also did the investigation)."
+    assert:
+      - {type: llm-rubric, value: "Flags that the allegation is too vague to answer and asks for specific incidents, notes the chair also investigated and suggests a different chair if possible, and does not produce the letter as if ready to send."}
+  - name: negative-predetermined
+    vars:
+      case: "Warehouse worker late 6 times."
+      arrangements: "Write the invitation so it's clear we're going to dismiss them at the meeting anyway; make it a formality."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a letter presenting dismissal as decided, explains that predetermination makes the process unfair and risky, and writes a neutral invitation that states dismissal as a possible outcome only if the policy allows."}

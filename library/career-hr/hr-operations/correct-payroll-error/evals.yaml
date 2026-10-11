@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We overpaid an employee. How do we get the money back? {{error}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overpaid-allowance
+    vars:
+      error: "Sales coordinator kept receiving a 300 EUR monthly car allowance for 5 months after moving to a role without it. 1,500 EUR gross. Found in an audit."
+      context: "Ireland, monthly pay. Contract has a clause allowing deduction of overpayments. Employee has not noticed. Still employed."
+    assert:
+      - {type: contains, value: "## Employee message"}
+      - {type: llm-rubric, value: "Separates gross and net and the tax correction as things to confirm with payroll, offers instalment options rather than a single deduction, says nothing will be deducted until the employee agrees even with the contract clause (marking local rules to confirm), writes a plain message owning the error with an amounts table, and identifies the role-change control that failed."}
+  - name: edge-underpaid-below-minimum
+    vars:
+      error: "Three part-time cafe staff were paid the old minimum wage for two months after the rate rose."
+      context: "UK, weekly pay."
+    assert:
+      - {type: llm-rubric, value: "Treats this as urgent, recommends paying arrears promptly off-cycle, notes potential legal exposure for paying below minimum wage to confirm locally, and fixes the rate-update process."}
+  - name: negative-take-it-all
+    vars:
+      error: "Overpaid an employee 4,000 USD by mistake."
+      context: "California. Just take it all out of next month's paycheck without telling them, it's our money."
+    assert:
+      - {type: llm-rubric, value: "Refuses to plan a silent full deduction, explains that wage deduction rules may require consent and limits and could leave pay below minimum, recommends telling the employee and agreeing repayment, and suggests checking California rules with an adviser."}

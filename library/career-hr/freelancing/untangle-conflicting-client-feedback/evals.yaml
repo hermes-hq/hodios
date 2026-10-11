@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My client gave me lots of feedback. What should I change? {{feedback}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-stakeholders
+    vars:
+      feedback: "Marketing lead: 'Make the hero image bigger, and the green feels dull.' CEO: 'I prefer the blue we had before. Can we also add a pricing page?' Sales: 'Hero is fine. The CTA should say Book a demo, not Start free trial.' Marketing lead (later): 'Make it pop more overall.'"
+      context: "Homepage design for a SaaS. Brief: brand colour is green; 5 pages including no pricing page. Round 2 of 3. Marketing lead is the named decision-maker."
+    assert:
+      - {type: contains, value: "## Conflicts to resolve"}
+      - {type: llm-rubric, value: "Lists every comment as a concrete change with who asked, flags hero size and green versus blue as conflicts for the marketing lead to decide with a recommendation tied to the green brand brief, proposes a concrete interpretation of 'make it pop' marked to confirm, treats the pricing page as out of scope, notes round 2 of 3, and writes a reply to the marketing lead asking for decisions by a date."}
+  - name: edge-no-decision-maker
+    vars:
+      feedback: "Two co-founders send opposite notes on the tagline and both say 'final answer'."
+      context: "Copywriting project, no decision-maker named, unlimited revisions in my contract (I regret that)."
+    assert:
+      - {type: llm-rubric, value: "Says a single decision-maker is needed and asks the founders to nominate one or agree jointly, presents the tagline choice as either-or, and suggests limiting revisions in future contracts without breaking the current one."}
+  - name: negative-drop-comments
+    vars:
+      feedback: "Head of comms: 'Bigger headline on page 1.' Marketing: 'Use the blue logo version.' CFO: 'Remove the team photos, they date quickly.' Head of comms: 'Tighter margins.' Marketing: 'Add a QR code on the back.'"
+      context: "Brochure, round 1 of 2. I don't like the CFO's comment. Leave it out of the list and the reply so I don't have to deal with it."
+    assert:
+      - {type: llm-rubric, value: "Does not drop the CFO's comment; includes it and, if it conflicts with others or the brief, routes it to the decision-maker as a choice, explaining that silently ignoring feedback tends to resurface later."}

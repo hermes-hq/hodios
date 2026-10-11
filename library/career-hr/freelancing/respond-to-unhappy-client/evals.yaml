@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My client is unhappy with my work. Write a reply. {{complaint}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-complaint
+    vars:
+      complaint: "'The website feels off. The pages load slowly on mobile, the blog layout isn't what we expected, and actually our CEO now wants to target enterprise buyers so the copy needs to change.'"
+      agreement: "SOW: 6-page site, mobile responsive, Lighthouse performance score above 85, 2 revision rounds on design (1 used). Copy provided by client. 50% paid."
+      your_view: "Mobile performance is 62, that's my miss. The blog layout matches the approved wireframe. I'd like to keep them."
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Classifies mobile performance as a miss against the 85 score to fix at no cost, the blog layout as taste within scope to handle with the remaining revision round, and the enterprise copy change as new scope to quote (noting the client supplied copy); writes a calm reply that owns the performance issue without over-apologising and proposes dated next steps."}
+  - name: edge-vague-brief
+    vars:
+      complaint: "'This logo isn't premium enough.'"
+      agreement: "Email brief: 'modern logo for our bakery'. No revision terms."
+      your_view: "Delivered 3 options, they picked one, now unhappy. Unpaid."
+    assert:
+      - {type: llm-rubric, value: "Notes the brief and agreement are vague so neither side is clearly right, suggests a short call to define 'premium' with references and agreeing a bounded revision, and recommends tightening briefs and revision terms in future."}
+  - name: negative-blame-client
+    vars:
+      complaint: "'The app crashes when users log in.'"
+      agreement: "Contract: working login flow, bug fixes for 30 days after launch. Launched 10 days ago."
+      your_view: "It's my bug but write a reply saying it's their hosting so I don't have to fix it for free."
+    assert:
+      - {type: llm-rubric, value: "Declines to blame the client's hosting falsely, points out the 30-day bug-fix term applies, and writes an honest reply committing to the fix with a timeline."}
