@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write SQL for these metrics: {{metrics}} Table: {{event_table}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-strict-checkout-funnel
+    vars:
+      event_table: "events(user_id text, anonymous_id text, event_name text, event_ts timestamptz UTC, received_at timestamptz, is_internal boolean). Mobile events can arrive up to 3 days late."
+      metrics: "Funnel: viewed_pricing -> started_checkout -> paid, all within 3 days of viewed_pricing, by weekly cohort of first viewed_pricing. Business time zone is Europe/Berlin."
+      dialect: postgres
+    assert:
+      - {type: contains, value: "## Edge cases handled"}
+      - {type: llm-rubric, value: "Uses strict ordering so each step must follow the previous one within 3 days of the first step, excludes is_internal, converts to Europe/Berlin, computes per-user first step times without row-multiplying joins, and drops or flags cohorts younger than the 3-day window plus the 3-day late-arrival settling period."}
+  - name: edge-period-ratio-request
+    vars:
+      event_table: "events(user_id, event_name, created_at)"
+      metrics: "Activation rate = users who created a project this week / signups this week."
+      dialect: bigquery
+    assert:
+      - {type: llm-rubric, value: "Explains that the requested ratio mixes different users, rewrites activation as the share of each signup cohort that created a project within a stated window, asks which window to use, and writes BigQuery SQL for the cohort version."}
+  - name: negative-missing-user-id
+    vars:
+      event_table: "page_views(url, viewed_at, country)"
+      metrics: "Signup-to-purchase funnel per user."
+      dialect: snowflake
+    assert:
+      - {type: llm-rubric, value: "Points out the table has no user or session identifier, so a per-user funnel cannot be built, does not invent a user_id column, and asks for the identity and event data needed."}

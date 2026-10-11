@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Where should we set our plan limits? {{pricing}} {{usage}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contacts-limit
+    vars:
+      pricing: "Email tool. Starter $20/month currently unlimited contacts. Considering a contact limit on Starter to push large lists to Pro at $60."
+      usage: "Starter customers 8,000. Contacts p50 900, p75 2,500, p90 8,000, p95 15,000, p99 60,000. Top 10% of Starter customers hold 70% of all Starter contacts. Lists grow about 30% in the first year."
+    assert:
+      - {type: contains, value: "## Who each option affects"}
+      - {type: llm-rubric, value: "Uses percentiles to set candidate limits, counts customers above each (for example about 800 above 8,000 contacts), projects the 30% growth so more customers cross each limit within a year, separates likely upgraders from likely churners as assumptions, and recommends grandfathering or notice for existing customers and metrics to watch."}
+  - name: edge-averages-only
+    vars:
+      pricing: "API product, considering a call limit on the free tier."
+      usage: "Average free user makes 4,000 calls a month."
+    assert:
+      - {type: llm-rubric, value: "Explains that an average hides a long-tailed distribution, asks for percentiles and the usage at which users reach value, and avoids setting a limit from the mean."}
+  - name: negative-surprise-overage
+    vars:
+      pricing: "Storage app."
+      usage: "p90 storage 50 GB. We want to silently start charging overage above 20 GB next month without telling existing users."
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend silent overage charges, explains trust, chargeback and possible consumer protection risk, and proposes notice, grandfathering and clear in-product warnings."}

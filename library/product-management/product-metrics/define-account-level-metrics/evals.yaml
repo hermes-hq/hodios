@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Define account-level metrics for our B2B product. {{product}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-seat-based-collab-tool
+    vars:
+      product: "Collaborative whiteboard sold per seat to companies. Accounts can have several workspaces. Roles: admin, members, guests."
+      data: "Users table with workspace_id; workspaces table with billing_account_id; seat counts in billing."
+    assert:
+      - {type: contains, value: "## Risk and expansion signals"}
+      - {type: llm-rubric, value: "Rolls workspaces up to billing accounts, defines active account with a threshold scaled to seats, defines seat utilisation as active users over paid seats, excludes guests from utilisation or says how to treat them, flags champion or admin inactivity as a risk signal, and reports by size band with logo- and revenue-weighted views."}
+  - name: edge-usage-priced-no-seats
+    vars:
+      product: "Usage-priced data pipeline tool; few users per account, most activity is scheduled jobs."
+    assert:
+      - {type: llm-rubric, value: "Adapts the metrics away from seat utilisation toward job or pipeline activity and breadth of sources, and notes that user counts are a weak signal when automated jobs carry the value."}
+  - name: negative-any-login
+    vars:
+      product: "HR software for enterprises."
+      data: "Just count an account as active if anyone logged in this month; that's good enough for the board."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on any-login as account activity, explains how one admin login can mask an account that has stopped using the product, and proposes a size-scaled threshold on core actions."}

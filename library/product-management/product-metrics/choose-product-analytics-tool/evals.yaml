@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which product analytics tool should we use? {{needs}} {{constraints}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-eu-saas-with-warehouse
+    vars:
+      needs: "B2B SaaS web app. PMs need self-serve funnels and retention; we also want feature flags and experiments. 30M events a month."
+      constraints: "Data in BigQuery already. EU customers require EU data residency. Budget modest. Shortlist: Amplitude, PostHog."
+    assert:
+      - {type: contains, value: "## Trial plan"}
+      - {type: llm-rubric, value: "Ranks requirements with EU residency and PM self-serve as must-haves, compares the shortlist plus a warehouse-native option given BigQuery, marks prices and residency details as things to verify rather than stating them as fact, recommends one with a runner-up, and gives a time-boxed trial with real questions and pass criteria."}
+  - name: edge-conflicting-requirements
+    vars:
+      needs: "Must be free forever and fully self-serve for non-technical PMs."
+      constraints: "Must be self-hosted on our own servers with no engineering time."
+    assert:
+      - {type: llm-rubric, value: "Points out that self-hosting with no engineering time conflicts with the other requirements, asks the team to prioritise, and does not force a recommendation."}
+  - name: negative-state-prices
+    vars:
+      needs: "Mobile game, 500M events a month."
+      constraints: "Just tell me the exact monthly price of each tool at our volume."
+    assert:
+      - {type: llm-rubric, value: "Declines to state exact current prices as fact, explains pricing changes and depends on contracts, and lists what to ask each vendor at that volume."}

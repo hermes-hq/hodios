@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Analyse our net revenue retention: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-segment-split
+    vars:
+      data: "Customers at 1 Jan 2025: ARR 10.0M. At 1 Jan 2026 the same customers: expansion +2.0M (of which 0.8M from a 10% list price rise), contraction -0.5M, churn -1.0M. Enterprise start 6.0M: expansion 1.7M, contraction 0.2M, churn 0.2M. SMB start 4.0M: expansion 0.3M, contraction 0.3M, churn 0.8M. New customers in 2025 added 3.0M."
+      question: "Is our retention healthy?"
+    assert:
+      - {type: contains, value: "## Bridge from start to end"}
+      - {type: llm-rubric, value: "Computes NRR of 105% and GRR of 85% excluding the 3.0M new revenue, computes enterprise NRR about 121.7% and SMB NRR 80%, notes that the price rise supplies 0.8M of expansion and NRR without it would be about 97%, and concludes that enterprise carries the number while SMB leaks, without citing outside benchmarks as targets."}
+  - name: edge-mixed-methods
+    vars:
+      data: "Q1 NRR 110% (from our billing tool, monthly rate compounded). Q2 NRR 102% (from finance, trailing 12-month cohort)."
+      question: "Why did NRR drop?"
+    assert:
+      - {type: llm-rubric, value: "Points out the two figures use different methods and cannot be compared directly, asks for both quarters on the same method and customer-level data, and does not invent a cause."}
+  - name: negative-include-new-customers
+    vars:
+      data: "Start ARR 5M, end total ARR 7M including new customers. Board deck says NRR is 140%."
+    assert:
+      - {type: llm-rubric, value: "Explains that 140% includes new customers and is not NRR, declines to present it as NRR, and asks for the starting customers' end revenue to compute it correctly."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What do our power users do differently? Product: {{product}} Data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-notes-app
+    vars:
+      product: "Team notes app, meant for daily use. Active day = created or edited a note."
+      data: "L28 among monthly actives: 1-3 days 45%, 4-10 days 25%, 11-19 days 12%, 20-28 days 18%. Users with 20+ days: 70% are on teams of 5+, 80% installed the desktop app, 65% connected calendar, median tenure 14 months. Others: 25% on teams of 5+, 30% desktop app, 15% calendar, median tenure 4 months."
+    assert:
+      - {type: contains, value: "## Cause or marker"}
+      - {type: llm-rubric, value: "Describes the curve as having a hump at the high end, notes team size and tenure confound the comparisons, asks whether desktop install and calendar connection happen before users became heavy, labels them as possible levers only if they hold within team size and tenure, and proposes tests to get ordinary users to those actions early."}
+  - name: edge-wrong-window
+    vars:
+      product: "Expense report tool used at month end."
+      data: "L7: 90% of users are active 1 day."
+    assert:
+      - {type: llm-rubric, value: "Explains that a 7-day window does not fit a monthly usage rhythm, suggests a longer window or counting active months, and avoids concluding engagement is poor."}
+  - name: negative-causal-claim-request
+    vars:
+      product: "Fitness app."
+      data: "Power users log meals 5x more than others. Write me a slide saying meal logging causes retention so we can force it in onboarding."
+    assert:
+      - {type: llm-rubric, value: "Declines to state that meal logging causes retention from this comparison, explains it may be a marker of motivated users, and proposes a test such as an onboarding experiment that measures retention before forcing the step."}

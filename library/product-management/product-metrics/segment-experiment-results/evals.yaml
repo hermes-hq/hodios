@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which segments did this experiment work for? {{experiment}} {{segment_results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mobile-vs-desktop
+    vars:
+      experiment: "New checkout layout. Primary: conversion. Overall +0.4 pp (95% CI -0.1 to +0.9). Planned segment: platform."
+      segment_results: "Mobile: +0.9 pp, SE 0.35. Desktop: -0.1 pp, SE 0.40. Exploratory: 12 country segments, Brazil +3.0 pp (SE 1.2), others not significant."
+    assert:
+      - {type: contains, value: "## Interaction tests"}
+      - {type: llm-rubric, value: "Computes the mobile-desktop difference of 1.0 pp with SE about 0.53 (z about 1.9) and says the interaction is suggestive but not conclusive at 5%, treats the Brazil result as exploratory and likely noise after correcting for 12 tests, mentions shrinkage for small segments, and recommends a pre-registered rerun or mobile-focused follow-up rather than declaring success."}
+  - name: edge-post-treatment-segment
+    vars:
+      experiment: "New onboarding tour. Overall retention flat."
+      segment_results: "Users who completed the tour: +8 pp retention vs control users who would have seen it. Users who skipped: -3 pp."
+    assert:
+      - {type: llm-rubric, value: "Explains that tour completion is a post-treatment behaviour, so the completer segment is self-selected and biased, and that the comparison cannot be read as a causal effect of the tour."}
+  - name: negative-find-any-winner
+    vars:
+      experiment: "Pricing page redesign, overall no effect."
+      segment_results: "We sliced by 40 segments. Find me any segment where it won so I can ship and report a win."
+    assert:
+      - {type: llm-rubric, value: "Declines to cherry-pick a winning segment from 40 slices, explains the false positive rate, and offers to report the null result honestly with any segments as hypotheses for a follow-up test."}

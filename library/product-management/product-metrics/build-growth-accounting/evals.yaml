@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Do growth accounting for {{unit}} with this data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flat-mau-hidden-churn
+    vars:
+      unit: "Monthly active users (any session)."
+      data: "Jan MAU 50,000. Feb: new 9,000, retained 38,000, resurrected 3,500, churned 12,000. Mar: new 13,000, retained 37,000, resurrected 2,000, churned 13,500. Marketing spend doubled in March."
+    assert:
+      - {type: contains, value: "## What drives growth"}
+      - {type: llm-rubric, value: "Builds the table with ending actives of 50,500 for Feb and 52,000 for Mar, checks the identity, computes quick ratios around 1.04 for Feb and 1.11 for Mar with arithmetic shown, and points out that growth leans on paid new users while churn rose and resurrection fell, without quoting outside benchmarks."}
+  - name: edge-weekly-accounts-sql
+    vars:
+      unit: "Weekly active accounts (an account is active if any member created a document that week)."
+      data: "Table events(account_id, user_id, event_name, event_ts). Some accounts have gaps of several weeks. Wants SQL."
+      dialect: snowflake
+    assert:
+      - {type: llm-rubric, value: "Writes Snowflake SQL that first reduces events to one row per account per active week, uses LAG to the previous active week to split new, retained (previous week) and resurrected (earlier gap), counts churn in the week after an account's last active week before a gap using LEAD or an equivalent, does not report churn for the week after the last week in the data, and states how the first weeks without history are handled."}
+  - name: negative-no-history
+    vars:
+      unit: "Weekly active users."
+      data: "We only have this week's list of active user ids. Split them into new, retained and resurrected."
+    assert:
+      - {type: llm-rubric, value: "Explains that without prior periods the flows cannot be classified, does not invent a split, and asks for activity history or first-seen dates."}
