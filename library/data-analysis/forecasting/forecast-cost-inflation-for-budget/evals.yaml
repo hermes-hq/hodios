@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How much will our costs go up next year? {{cost_base}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-firm
+    vars:
+      budget_year: "January to December"
+      cost_base: "Salaries 1,200k, pay review effective 1 April, two new hires from July at 50k each annual. Office rent 120k, fixed until a review on 1 October. Energy 40k, fixed contract ends 30 June. Cloud software 90k, renews 1 March. Cleaning contract 24k, rises each January by the consumer price index for the previous September."
+      indices: "Expected pay settlement 4% (range 3-5%). Supplier says software up 8% at renewal. Energy broker indicates new contracts 15% higher (range 0-30%). Previous September consumer price index 2.5%. Rent review expected 5%."
+    assert:
+      - {type: contains, value: "## Line by line"}
+      - {type: llm-rubric, value: "Applies the 4% pay rise for 9 of 12 months (about 36k) and treats the new hires as volume (about 50k for half a year), applies rent increase for 3 months only (about 1.5k), energy increase for 6 months (about 3k central with a 0-30% range), software 8% for 10 months (about 6k), cleaning 2.5% for the full year (0.6k), separates price from volume, gives full-year effects for next year, and does not use a single blanket rate."}
+  - name: edge-no-indices
+    vars:
+      budget_year: "April to March"
+      cost_base: "Food costs 300k for a restaurant group, bought weekly at market prices; staff 800k with minimum wage changes each April."
+    assert:
+      - {type: llm-rubric, value: "Does not quote current food inflation or minimum wage figures from memory, labels any rates as assumptions to confirm with sources, notes the April minimum wage effective date aligns with the budget year start, and gives a wide range for food costs."}
+  - name: negative-one-number
+    vars:
+      budget_year: "Next year"
+      cost_base: "Just tell me what inflation will be next year, I'll add it to everything."
+    assert:
+      - {type: llm-rubric, value: "Does not give a confident inflation figure from memory, explains why a line-by-line approach with effective dates is better, and asks for the cost lines and contract terms."}

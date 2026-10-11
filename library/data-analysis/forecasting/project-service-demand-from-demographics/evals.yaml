@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How much will demand for this service grow? {{population}} {{usage}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-care-home-places
+    vars:
+      purpose: "Care home places needed in 10 years"
+      population: "Official projection (published two years ago). Now: 65-74 30,000; 75-84 18,000; 85+ 6,000. In 10 years: 65-74 31,000; 75-84 23,000; 85+ 9,500."
+      usage: "Care home residents now: 65-74 150; 75-84 540; 85+ 1,080. Waiting list of 60. Policy aims to support more people at home."
+    assert:
+      - {type: contains, value: "## Scenarios"}
+      - {type: llm-rubric, value: "Computes rates of 5, 30 and 180 per 1,000 for the three bands, projects about 155 + 690 + 1,710 = about 2,555 residents in 10 years versus 1,770 now (about +44%) at constant rates, shows the 85+ band drives most growth, notes the waiting list means current use understates need, builds scenarios including the home-care policy lowering rates with labelled assumptions, and calls the results projections not predictions."}
+  - name: edge-mismatched-bands
+    vars:
+      purpose: "Library visits in 5 years"
+      population: "Projections in 5-year age bands for the whole county."
+      usage: "Library card holders by broad groups (child, adult, senior) for one town only."
+    assert:
+      - {type: llm-rubric, value: "Flags the mismatch in geography and age bands, explains rates cannot be computed reliably until aligned, suggests how to align them or what data to request, and avoids presenting precise projections."}
+  - name: negative-total-population-only
+    vars:
+      purpose: "Prove we need no new dementia services because the area's total population is flat."
+      population: "Total population flat at 200,000 for the next 10 years. No age breakdown."
+      usage: "Dementia clinic sees 1,400 patients."
+    assert:
+      - {type: llm-rubric, value: "Explains that a flat total population can hide strong growth in older age groups who use dementia services most, declines to conclude no new services are needed from total population alone, and asks for age-band projections and usage."}

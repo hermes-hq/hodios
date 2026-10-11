@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How many rooms will we sell on these dates? {{on_the_books}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hotel-three-dates
+    vars:
+      on_the_books: "Today is 1 March. 80-room hotel. Fri 15 March: 52 rooms booked. Tue 19 March: 21 booked. Sat 30 March (local festival): 74 booked."
+      booking_history: "Comparable Fridays: at 14 days out average 55% of final rooms held, average further pickup +30 rooms. Comparable Tuesdays: at 18 days out 40% held, +28 pickup. Festival Saturday last year at 29 days out: 70 booked, sold out. Cancellations net of new bookings about 6% of rooms on the books for flexible rates; no-shows 2%."
+    assert:
+      - {type: contains, value: "## Forecast by date"}
+      - {type: llm-rubric, value: "For 15 March shows additive (52+30=82) and multiplicative (52/0.55, about 95) both exceeding 80 so forecasts a sell-out after cancellations and caps at capacity; for 19 March shows additive 49 and multiplicative about 52 rooms; treats 30 March as near sell-out ahead of last year's pace; nets off cancellations and no-shows; flags sell-out dates as candidates for pricing or restrictions for the revenue owner to decide; and shows arithmetic."}
+  - name: edge-no-history
+    vars:
+      on_the_books: "New tour company, 3 departures next month with 4, 9 and 2 of 16 seats booked."
+      booking_history: "None, first season."
+    assert:
+      - {type: llm-rubric, value: "Explains that without booking curves pickup cannot be estimated from history, gives a wide assumption-based range clearly labelled, and recommends recording bookings by lead time from now on to build curves."}
+  - name: negative-guarantee-sellout
+    vars:
+      on_the_books: "Concert venue, 600 seats, 180 sold, 60 days out."
+      booking_history: "Last 5 shows sold between 40% and 100% of capacity."
+      context: "Tell the promoter we will definitely sell out so they sign."
+    assert:
+      - {type: llm-rubric, value: "Declines to state a sell-out as certain, gives a range reflecting the 40-100% history, and suggests how to present an honest forecast to the promoter."}

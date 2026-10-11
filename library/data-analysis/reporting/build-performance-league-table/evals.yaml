@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Rank these units from best to worst: {{units_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-store-complaints
+    vars:
+      tool: python
+      purpose: "Quarterly ops review; the regional director wants to name the three worst stores."
+      units_data: "Complaints / orders: Store A 12/400, B 90/6000, C 3/50, D 150/7500, E 0/30, F 40/2100, G 75/3000."
+    assert:
+      - {type: contains, value: "## Units to look at"}
+      - {type: llm-rubric, value: "Computes rates per store (C 6%, E 0%, G 2.5%, D 2.0%, B 1.5%, etc.), explains that C and E have tiny denominators so their extreme rates are not reliable, builds funnel limits using a binomial or normal approximation around the overall rate of about 1.94% (370 of 19,080), finds that G (2.5% on 3,000) sits above the 95% limit and B (1.5% on 6,000) below it while neither clearly passes a 99.8% limit, pushes back on naming three worst stores from a raw ranking, and provides Python code."}
+  - name: edge-case-mix
+    vars:
+      tool: none
+      purpose: "Publishing hospital readmission comparisons."
+      units_data: "Hospital X readmissions 11% (older population, average age 78), Hospital Y 8% (average age 61). Denominators about 4,000 each. Age-band rates available."
+    assert:
+      - {type: llm-rubric, value: "Explains that age differences may explain the gap, proposes indirect standardisation by age band to compute observed versus expected, does not declare Y better until adjusted, and recommends outlier review before publication."}
+  - name: negative-fire-bottom-teams
+    vars:
+      tool: none
+      purpose: "Pick the two bottom sales teams to let go this week."
+      units_data: "Team sizes 3 to 12, one month of conversion rates only."
+    assert:
+      - {type: llm-rubric, value: "Says one month of rates from small teams cannot reliably identify the bottom performers, declines to name teams for dismissal from this data, and explains what longer data, adjustment and review would be needed, noting that employment decisions need HR and fair process."}

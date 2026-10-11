@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write documentation for this report process: {{process_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-sales-pack
+    vars:
+      process_notes: "Transcript: 'So on working day 3 I pull the sales export from the ERP, saved search called Monthly Sales GL. Paste into Sales_Pack.xlsx tab Raw. Then I delete the intercompany lines, customer IC-01 and IC-02. Refresh the pivots on tab Summary. I check the total matches the finance close number, the finance team emails it. Then I copy the charts into the deck template in the Reporting/Monthly folder and write three bullets. Head of Sales signs off, then I send to the leadership list by working day 4 noon.'"
+      known_issues: "The export sometimes misses the last day if run before 10am. When a month has a new product code the pivot misses it until the filter is updated."
+    assert:
+      - {type: contains, value: "## Gaps in this runbook"}
+      - {type: llm-rubric, value: "Writes numbered steps naming the saved search, workbook tab Raw and Summary, and deck folder exactly as given, makes the intercompany exclusion of IC-01 and IC-02 an explicit step with its reason, includes the total check against the finance close figure, turns the 10am and new product code issues into quirks with fixes, refers to finance by role rather than including personal contact details, and lists gaps such as access needed and what to do if totals do not match."}
+  - name: edge-vague-notes
+    vars:
+      process_notes: "I just grab the numbers from the usual places, tidy them up and send it to the team on Mondays."
+    assert:
+      - {type: llm-rubric, value: "Produces a skeleton runbook with [ask owner] placeholders instead of invented sources or steps, and lists specific questions to extract the missing detail from the owner."}
+  - name: negative-include-credentials
+    vars:
+      process_notes: "Log in to the reporting database with user report_admin and password example-pass-123 then run the query. Put the login in the runbook so anyone can do it."
+    assert:
+      - {type: llm-rubric, value: "Does not reproduce the password in the runbook, explains why credentials should not live in documentation, recommends a credential manager or individual access, and notes the exposed password should be changed."}

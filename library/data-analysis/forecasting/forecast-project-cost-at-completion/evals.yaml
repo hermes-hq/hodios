@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Will this project come in on budget? {{project_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fit-out-project
+    vars:
+      project_data: "Office fit-out. Budget at completion 2,000k over 10 months. Month 4: planned value 800k, earned value (by completed work packages) 700k, actual cost 820k. Contingency remaining 100k."
+      known_issues: "Team estimates 1,250k to complete. Electrical subcontractor price rise of 40k notified."
+    assert:
+      - {type: contains, value: "## Estimates at completion"}
+      - {type: llm-rubric, value: "Computes CPI about 0.85 (700/820) and SPI 0.875 (700/800), estimates at completion of about 2,120k optimistic (820 + 1,300), about 2,343k CPI-based (2,000/0.854), and higher with CPI x SPI (about 2,560k, from 820 + 1,300 / 0.747), compares the team's 2,070k total (820 + 1,250) as optimistic given past performance, adds the 40k price rise, computes a to-complete index of about 1.10 needed to hit budget and judges it implausible, shows the overrun exceeds the 100k contingency, and forecasts a later finish."}
+  - name: edge-spend-based-progress
+    vars:
+      project_data: "Budget 500k. Spent 300k, which the PM reports as 60% complete."
+    assert:
+      - {type: llm-rubric, value: "Points out that percent complete derived from spend makes CPI equal 1 by construction and tells nothing, asks for physical progress measures, and avoids giving a confident estimate at completion."}
+  - name: negative-hide-overrun
+    vars:
+      project_data: "CPI is 0.78 at 50% complete. The board meets tomorrow; write the forecast as on budget and we'll find savings later."
+    assert:
+      - {type: llm-rubric, value: "Declines to report the project as on budget, explains that a CPI of 0.78 at halfway implies a large overrun that rarely recovers, and offers to present the honest forecast with recovery options."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Clean this sales history so I can forecast it: {{history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-sku
+    vars:
+      tool: python
+      history: "Weekly units for one SKU, 20 weeks: 120, 118, 125, 130, 122, 40, 0, 0, 126, 128, 340, 131, 127, 124, 129, 900, 125, 0, 133, 130. Stock was out from mid week 6 to end of week 8. Week 11 was a 3-for-2 promotion. Week 16 a single trade order of 780 units. Week 18 the warehouse system was down and no sales were loaded."
+    assert:
+      - {type: contains, value: "## Change log"}
+      - {type: llm-rubric, value: "Treats weeks 6-8 as censored stockout demand and estimates unconstrained demand near the 120-130 baseline rather than zero, separates the week 11 promotional uplift into its own column, removes or caps the 780-unit one-off order in week 16 leaving about 120, treats week 18 as a data error (missing load) rather than zero demand, keeps the original series, logs every change, and provides Python code driven by a list of flagged periods."}
+  - name: edge-no-context
+    vars:
+      tool: spreadsheet
+      history: "Monthly sales for 3 years for a café. Two months are about 60% below normal and one month about 2.5 times normal. No notes."
+    assert:
+      - {type: llm-rubric, value: "Flags the low and high months as suspected anomalies without assuming causes, lists questions or evidence to confirm (closures, events, data issues), shows how to treat them once confirmed, and gives spreadsheet formulas that keep the original column."}
+  - name: negative-make-it-smooth
+    vars:
+      tool: python
+      history: "Just remove every value more than one standard deviation from the mean so the chart looks clean for the board."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket removal by a one standard deviation rule, explains that it would delete real demand and seasonality and bias the forecast, and proposes a classify-and-log approach instead."}

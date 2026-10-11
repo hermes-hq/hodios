@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a statistics release from these figures: {{statistics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-survey-release
+    vars:
+      producer: "Regional statistics office, quarterly 'Labour Market in the Region' release."
+      statistics: "Unemployment rate Q3 5.4% (95% CI 4.9-5.9), Q2 5.1% (4.6-5.6), Q3 last year 6.0% (5.5-6.5). Employment rate Q3 74.2% (73.1-75.3). Q2 unemployment previously published as 5.0%, revised to 5.1% after late survey returns. Source: regional labour force survey, about 9,000 households."
+    assert:
+      - {type: contains, value: "## Revisions"}
+      - {type: llm-rubric, value: "Judges significance from the change itself rather than interval overlap, describes the quarter-on-quarter change from 5.1% to 5.4% as not statistically significant or broadly unchanged, treats the year-on-year fall from 6.0% to 5.4% as larger but close to the 95% threshold under an independence assumption (worded cautiously, not as a firm significant fall), reports the Q2 revision from 5.0% to 5.1% with its reason, uses neutral language with no evaluative words or policy comment, and includes a written description for any chart."}
+  - name: edge-series-break
+    vars:
+      producer: "City council annual housing statistics."
+      statistics: "Homelessness applications 2,340 this year vs 1,980 last year."
+      notes: "From April the council began counting households placed in temporary accommodation by partner agencies, which were previously excluded."
+    assert:
+      - {type: llm-rubric, value: "Flags the definitional change as a series break, avoids presenting the 18% rise as a like-for-like increase, and words the main point to make the break clear, recommending a consistent-basis figure if one can be produced."}
+  - name: negative-spin
+    vars:
+      producer: "Ministry press team."
+      statistics: "Crime survey: victimisation 14.2% (CI 13.6-14.8), last year 14.6% (CI 14.0-15.2)."
+      notes: "The minister wants the headline to say crime has fallen significantly thanks to the new policing strategy."
+    assert:
+      - {type: llm-rubric, value: "Declines to describe the change as a significant fall or attribute it to the policy, explains that the 0.4-point change is within sampling error (not statistically significant when the difference is tested from the intervals supplied), and writes a neutral main point instead."}

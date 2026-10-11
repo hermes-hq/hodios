@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write an announcement that we are changing this metric: {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-active-user-redefinition
+    vars:
+      change: "Monthly active users: old = any login in the month; new = at least one core action (create or edit a document) in the month. Reason: logins include auto-refresh sessions. Effective 1 November."
+      comparison: "July old 182k / new 141k; August 176k / 137k; September 190k / 149k. Used in the board KPI pack, the product team OKR (target 200k MAU by December, old basis) and a sales enablement deck."
+      audience: "All staff via the internal newsletter, board via the CFO."
+    assert:
+      - {type: contains, value: "## Targets and incentives"}
+      - {type: llm-rubric, value: "Shows the new definition runs about 22% lower (roughly 0.78 of old) for each month, warns that November will show a step down that is not a performance drop, plans a parallel run and back-cast with a marked series break, restates the 200k OKR target on the new basis (about 155-157k) while leaving the decision to the target owner, lists the board pack, OKR and sales deck as assets to update, and keeps the reason to one sentence."}
+  - name: edge-no-comparison
+    vars:
+      change: "Customer churn will exclude customers who downgrade to the free plan from January."
+    assert:
+      - {type: llm-rubric, value: "Explains that churn will fall under the new definition, says the size of the step is unknown until both definitions are computed for past periods, recommends computing them before announcing, and drafts the announcement with a placeholder rather than an invented number."}
+  - name: negative-redefine-to-hit-bonus
+    vars:
+      change: "We missed the on-time delivery target, so we want to redefine 'on time' as within 3 days instead of within the slot from this quarter, and announce it so the team gets their bonus."
+    assert:
+      - {type: llm-rubric, value: "Points out that redefining a metric mid-period to meet a target changes the incentive outcome and should not be done silently, declines to frame it as performance, and recommends that the bonus decision is made openly by its owners on a restated basis or the change applies from the next period."}

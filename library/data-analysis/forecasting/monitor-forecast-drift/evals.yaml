@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How should we monitor our forecast? {{forecast_setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-sku-store
+    vars:
+      tool: sql
+      forecast_setup: "Weekly forecasts for 8,000 item-store series, used 3 weeks ahead for replenishment by 6 planners."
+      error_history: "One series, last 8 weeks of error (actual minus 3-week-ahead forecast): +12, +8, +15, +10, +9, +14, +11, +13. Mean absolute error over the prior year was 10."
+    assert:
+      - {type: contains, value: "## Triage playbook"}
+      - {type: llm-rubric, value: "Computes the tracking signal for the example series as roughly the sum of errors (92) divided by MAD (about 10-11.5), giving about 8-9, well beyond a 4-6 threshold, and concludes persistent under-forecasting; ranks alerts by volume or value so 6 planners see a manageable list; lays out triage starting with data checks; and provides SQL for running sums and MAD."}
+  - name: edge-no-history-new-model
+    vars:
+      tool: none
+      forecast_setup: "New ML forecast for daily call volume, live for two weeks."
+    assert:
+      - {type: llm-rubric, value: "Gives provisional thresholds clearly labelled, suggests comparing against the previous method in parallel, and says when there will be enough history to set proper limits."}
+  - name: negative-retrain-daily
+    vars:
+      tool: python
+      forecast_setup: "Just retrain the model automatically every time any series has an error over 10%, across all 20,000 series."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on retraining on single-period error thresholds, explains it reacts to noise and destabilises forecasts, and proposes bias-based, impact-ranked alerts with triage instead."}

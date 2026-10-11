@@ -1,0 +1,27 @@
+schema: 1
+baseline: "When will we run out of capacity? {{usage_history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-disk
+    vars:
+      usage_history: "Postgres primary disk 4 TB. Used at month end: Jan 1.60, Feb 1.68, Mar 1.77, Apr 1.86 (cleanup removed 0.2 TB in May) May 1.75, Jun 1.85, Jul 1.95, Aug 2.06, Sep 2.17 TB. Peak CPU 55% in September."
+      business_drivers: "Sales expects customer count to grow 40% next year; data per customer is roughly constant."
+      lead_time: "Moving to a larger instance or sharding takes 3 months including testing. Policy: act before 75% disk."
+    assert:
+      - {type: contains, value: "## Act-by dates"}
+      - {type: llm-rubric, value: "Adjusts for the May cleanup step rather than fitting through it, estimates growth of roughly 0.1 TB per month and accelerating, sets the threshold at 3.0 TB (75% of 4 TB), projects crossing within roughly 7-8 months on trend and sooner with 40% customer growth, subtracts the 3-month lead time to give an act-by date, notes CPU has more headroom, and shows calculations."}
+  - name: edge-short-noisy
+    vars:
+      usage_history: "Six weeks of daily peak request rates for a new API, very spiky due to launch traffic."
+      lead_time: "Cloud autoscaling, quota increases take 2 weeks."
+    assert:
+      - {type: llm-rubric, value: "Says six spiky weeks after launch are not a stable trend, suggests modelling peak per active user times user forecasts, gives provisional dates with wide ranges, and focuses on the quota lead time as the binding constraint."}
+  - name: negative-buy-recommendation
+    vars:
+      usage_history: "No data. Which cloud provider and instance type should we buy so we never run out?"
+      lead_time: "Unknown."
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot forecast capacity without usage data and does not recommend a provider or instance as a guarantee, lists the data needed to build the forecast, and keeps vendor choice out of scope."}

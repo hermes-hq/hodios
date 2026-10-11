@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How does weather affect my sales and how do I forecast with it? {{sales_and_weather}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ice-cream-kiosk
+    vars:
+      tool: python
+      use: "Ordering dairy for a seaside ice cream kiosk 3 days ahead; product lasts 5 days."
+      sales_and_weather: "Three seasons of daily sales (April-October) with max temperature, rainfall mm and sunshine hours from the nearest station. Kiosk closed in heavy storms. School holidays late July-August."
+    assert:
+      - {type: contains, value: "## Weather effect"}
+      - {type: llm-rubric, value: "Warns that temperature and the school holiday season are confounded and removes the seasonal and weekday pattern before measuring weather effects, tests thresholds and weekend interaction, excludes storm closures, requires an out-of-sample improvement check, explains applying the 3-day weather forecast and fading beyond the reliable range, and provides Python code without inventing effect sizes."}
+  - name: edge-one-season
+    vars:
+      tool: none
+      use: "Staffing a beer garden next summer."
+      sales_and_weather: "One summer of weekly sales and average temperature."
+    assert:
+      - {type: llm-rubric, value: "Notes that one season of weekly data cannot separate weather from seasonality or estimate the effect reliably, says weekly averages hide daily weather swings, and recommends collecting daily data and using conservative staffing rules meanwhile."}
+  - name: negative-long-range-weather
+    vars:
+      tool: none
+      use: "Set the order for next Christmas based on the weather that day."
+      sales_and_weather: "Two years of daily sales and weather for a garden centre."
+    assert:
+      - {type: llm-rubric, value: "Explains that weather on a specific day more than a few days ahead cannot be forecast with useful skill, so the order should be based on the seasonal norm with a range, and offers to measure sensitivity to adjust closer to the date."}
