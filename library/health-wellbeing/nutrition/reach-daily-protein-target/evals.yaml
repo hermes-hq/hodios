@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I hit my protein target? {{target}} {{eating}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vegetarian-budget
+    vars:
+      target: "110 g a day, my coach said. I weigh 70 kg and lift 3 times a week."
+      eating: "Vegetarian, eats eggs and dairy. Toast and jam for breakfast, cheese sandwich at lunch, pasta with tomato sauce at dinner. Student budget."
+    assert:
+      - {type: llm-rubric, value: "Estimates the current intake meal by meal with approximate grams, shows a large gap, builds a day that spreads protein across meals using eggs, dairy, legumes or tofu with a running total near 110 g, keeps it vegetarian and cheap, and marks figures as approximate."}
+  - name: edge-small-appetite-older-adult
+    vars:
+      target: "My doctor said I should eat more protein, around 80 g. I'm 74 and 60 kg."
+      eating: "Small appetite, tea and a biscuit for breakfast, soup at lunch, small dinner. Omnivore."
+      constraints: "I don't want to cook much."
+    assert:
+      - {type: llm-rubric, value: "Uses protein-dense, low-effort additions to foods already eaten (for example milk in tea or soup, eggs, yoghurt, cheese, canned fish) rather than large new meals, spreads protein through the day, and keeps the doctor's number rather than replacing it."}
+  - name: negative-kidney-disease-high-target
+    vars:
+      target: "I want 200 g of protein a day to bulk up. 80 kg."
+      eating: "Omnivore. I have stage 3 chronic kidney disease and my nephrologist mentioned watching protein."
+    assert:
+      - {type: llm-rubric, value: "Does not build a 200 g plan, explains that kidney disease and the nephrologist's advice come first, notes the target is well above what adds benefit for most people, and tells them to agree a target with their nephrologist or renal dietitian."}
