@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a recap email from these meeting notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-project-sync
+    vars:
+      notes: "Thu sync - Ana, Raj, Mei, Tom. Launch stays 14 Nov. Raj -> QA build by 7th. Pricing: Mei thinks 20% early-bird, not agreed, Mei to model by Fri. Payments migration risk - someone check w/ payments team. Tom: vendor contract renewal?? Next sync Thu 9am."
+    assert:
+      - {type: contains, value: "## Email"}
+      - {type: llm-rubric, value: "The email states the 14 Nov launch as a decision, lists Raj (QA build by the 7th) and Mei (model pricing by Friday) as actions with owners, treats the 20% discount as not decided, gives the payments check as needing an owner, puts the unclear vendor contract note under items to check rather than inventing meaning, includes the next sync and a reply-by correction line."}
+  - name: edge-client-recipients-with-internal-remark
+    vars:
+      notes: "Call with Acme. Agreed phase 2 starts Jan. They want weekly reports - we said fortnightly, they ok'd. Their PM is slow, need to push. Budget figure TBC."
+      recipients: the Acme client team and our account lead
+      tone: formal with a client
+    assert:
+      - {type: llm-rubric, value: "Leaves the remark about the client's slow PM out of the email and says it was left out, records phase 2 starting in January and fortnightly reports as agreed, does not invent a budget figure, and uses a formal client-appropriate tone."}
+  - name: negative-no-notes
+    vars:
+      notes: "meeting went fine, write the recap"
+    assert:
+      - {type: llm-rubric, value: "Says there is not enough in the notes to write a recap and asks for the decisions, actions and attendees (or offers a fill-in template), instead of inventing meeting content."}

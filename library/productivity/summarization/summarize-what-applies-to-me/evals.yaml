@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise this policy for me: {{document}} My situation: {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-leave-policy
+    vars:
+      document: "4.1 Employees may request unpaid leave of up to 4 weeks per year. 4.2 Requests must be made in writing to the line manager at least 8 weeks before the start date. 4.3 Unpaid leave is not available during the first 12 months of continuous service. 4.4 Part-time employees' entitlement is pro-rated. 9.2 'Continuous service' excludes periods of unpaid leave over 2 weeks."
+      situation: Part-time (3 days a week), started 18 months ago, want 3 weeks unpaid leave starting in 6 weeks.
+    assert:
+      - {type: contains, value: "## What you need to do"}
+      - {type: llm-rubric, value: "Quotes 4.1, 4.2, 4.3 and 4.4 with section numbers, notes the 8-week notice requirement means a request for leave starting in 6 weeks is short of the stated notice, notes pro-rating may reduce the 4-week entitlement below 3 weeks, raises the 9.2 definition as relevant only if prior unpaid leave affects service, and does not invent law."}
+  - name: edge-conflicting-clauses
+    vars:
+      document: "Section 2: Members may bring up to two guests per visit. Section 7: Guests are not permitted at weekends. Appendix B: Members may bring one guest per visit."
+      situation: I want to bring two friends on Saturday.
+    assert:
+      - {type: llm-rubric, value: "Points out the weekend ban in Section 7 rules this out and shows the conflict between Section 2 and Appendix B on guest numbers without choosing one, quoting each."}
+  - name: negative-no-document
+    vars:
+      document: "My company's parental leave policy"
+      situation: Expecting a baby in March.
+    assert:
+      - {type: llm-rubric, value: "Says the actual policy text is needed and asks for it, rather than describing typical or legal parental leave as if it were the company policy."}

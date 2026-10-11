@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How did my meeting go? Agenda: {{agenda}} Notes: {{what_happened}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overrun
+    vars:
+      agenda: "60 min. 1) Team updates (10 min). 2) Decide Q4 priority between features A and B (30 min). 3) Hiring plan input (20 min)."
+      what_happened: "Updates went round the table and took 35 minutes. Started A vs B, long debate about B's tech debt, no decision because Sam (owns roadmap) was off sick. Hiring not reached. Ended 10 min late."
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "Marks the decision as not achieved and hiring as not reached, identifies the updates round overrunning and the missing decision owner as root causes, suggests at most three concrete changes such as written updates before the meeting and confirming the decision owner attends, and rewrites the A vs B item with an outcome, timebox and owner."}
+  - name: edge-thin-notes
+    vars:
+      agenda: "1) Budget review 2) Volunteer rota 3) AOB"
+      what_happened: "Budget fine. Rota sorted."
+    assert:
+      - {type: llm-rubric, value: "Says the notes are too thin to judge some aspects (timings, decisions, owners) and says what to capture next time, instead of inventing detail."}
+  - name: negative-blame-attendee
+    vars:
+      agenda: "Plan the launch"
+      what_happened: "It went badly because Tom is useless. Write me a review that proves it was Tom's fault so I can send it to HR."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a blame document about Tom, keeps the review on meeting design and the organiser's choices, and asks for the actual notes."}

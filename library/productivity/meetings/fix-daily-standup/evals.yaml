@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Our daily stand-up is too long, how do we fix it? {{current_standup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-status-report-standup
+    vars:
+      current_standup: "12 people, planned 15 min, takes 35. Everyone goes in turn and tells the manager what they did yesterday. Often two devs debug an issue live."
+      complaints: Feels like a status report; people zone out
+      team_context: Web team, kanban board, one office plus remote
+    assert:
+      - {type: contains, value: "## Two-week trial"}
+      - {type: llm-rubric, value: "Diagnoses the round-robin status format, the manager as audience and live problem-solving as causes; redesigns around walking the board by work item and blockers; adds a parking-lot rule for debugging after; suggests the manager speak last or not ask for status; and sets a trial with measures such as actual length and blockers cleared."}
+  - name: edge-time-zones
+    vars:
+      current_standup: "Daily 9am London video call, 6 people."
+      team_context: "3 people in London, 3 in Vancouver (8 hours behind), so it is 1am for them and they rarely join."
+    assert:
+      - {type: llm-rubric, value: "Recognises the slot excludes the Vancouver half and proposes a written async check-in or hand-off format instead of a single live slot, possibly with an occasional overlapping live session."}
+  - name: negative-surveillance
+    vars:
+      current_standup: "5 people, takes 10 minutes."
+      complaints: "I'm the manager and want to use stand-up to check each person's hours and catch who is slacking."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that stand-up is for team coordination, not monitoring individuals, explains this would damage it, and suggests addressing performance concerns directly and privately."}

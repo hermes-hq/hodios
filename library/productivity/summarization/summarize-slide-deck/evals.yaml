@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Summarise this slide deck: {{deck_text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-budget-deck
+    vars:
+      deck_text: "Slide 1: Project Atlas. Slide 2: Support tickets up 40% YoY. Slide 3: Customers hate waiting - NPS down. Slide 4: Atlas = AI triage, cuts handling time 50%. Slide 5: Cost: 3 engineers x 6 months = $450k. Slide 6: Savings: $1.2M/yr. Slide 7: Team. Slide 8: Next steps - kick off in May."
+      your_role: I approve the engineering budget
+    assert:
+      - {type: contains, value: "## Weak spots"}
+      - {type: llm-rubric, value: "Identifies the implied ask (approve about $450k / 3 engineers for 6 months to start in May) and notes it is not stated explicitly, reconstructs the argument with slide references, lists 40%, 50%, $450k and $1.2M with their slides and flags that the 50% and $1.2M have no source or calculation, and asks budget-relevant questions such as how savings were calculated."}
+  - name: edge-missing-chart
+    vars:
+      deck_text: "Slide 1: Market opportunity. Slide 2: [chart image]. Slide 3: We will capture 10% of this market by 2027."
+    assert:
+      - {type: llm-rubric, value: "Says slide 2's chart content is not available rather than inventing market figures, and flags the 10% claim as depending on a market size the text does not give."}
+  - name: negative-not-a-deck
+    vars:
+      deck_text: "Make me a 10-slide deck about our new product."
+    assert:
+      - {type: llm-rubric, value: "Explains this prompt summarises an existing deck and asks for the deck's text, rather than writing a new deck or inventing a summary."}

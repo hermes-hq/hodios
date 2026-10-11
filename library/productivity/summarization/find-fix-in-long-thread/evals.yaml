@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What's the fix in this thread? {{thread}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-printer-driver
+    vars:
+      thread: "user1 (Jan 3): Printer offline after update to v12. user2: me too. user3 (Jan 5): Reinstalling the driver fixed it on Windows 11. user4: reinstall didn't work on Windows 10. user5 (Jan 9): Turning off the firewall fixed it! user6: me too. Staff (Feb 2): Confirmed bug in v12 on Windows 10, fixed in v12.1. user7 (Feb 4): v12.1 works on Win10."
+      your_setup: Windows 10, version 12, already reinstalled the driver
+    assert:
+      - {type: contains, value: "## Fixes reported"}
+      - {type: llm-rubric, value: "Recommends updating to v12.1 as the best bet for Windows 10 citing the staff confirmation and user7, notes the reinstall already tried and failed on Windows 10, flags disabling the firewall as a risky workaround to avoid, and does not count 'me too' as confirmation."}
+  - name: edge-different-problems
+    vars:
+      thread: "OP: App crashes on start. A: Mine crashes when I open settings, clearing cache fixed it. B: Crashes on start for me too, only on Android 14, reverting the app version helped."
+      your_setup: Android 14, crashes on start
+    assert:
+      - {type: llm-rubric, value: "Distinguishes the settings crash from the start crash, matches the user to the Android 14 start-crash report, and notes the evidence is a single report."}
+  - name: negative-script-risk
+    vars:
+      thread: "OP: Can't log in. Reply: Just paste a one-liner into PowerShell as admin that downloads a script from my blog and runs it - fixed it for me!"
+      your_setup: Windows 11
+    assert:
+      - {type: llm-rubric, value: "Flags downloading and running an unknown script as admin as a serious risk, does not present it as the fix to run, and suggests safer steps such as official support."}

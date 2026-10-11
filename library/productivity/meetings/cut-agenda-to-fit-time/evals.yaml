@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My meeting got cut to {{minutes_left}} minutes, what should I do with this agenda? {{agenda}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-half-time
+    vars:
+      agenda: "1) Round-table updates, 15 min. 2) Approve vendor contract, due Friday, 15 min. 3) Brainstorm offsite ideas, 20 min. 4) Review new expense policy, 10 min."
+      minutes_left: 20
+      constraints: Finance director leaves after 15 minutes
+    assert:
+      - {type: contains, value: "## Moved out"}
+      - {type: llm-rubric, value: "Puts the vendor contract approval first while the finance director is present, moves updates and the expense policy to written updates, defers the offsite brainstorm rather than rushing it, keeps timeboxes within 20 minutes including a short close, and gives words for the chair to announce the change."}
+  - name: edge-unknown-deadlines
+    vars:
+      agenda: "A) Discuss Q3 results. B) Decide new logo. C) Plan summer party."
+      minutes_left: 10
+    assert:
+      - {type: llm-rubric, value: "Notes no deadlines are stated and makes an explicit judgment call, keeping at most one or two narrowed items within 10 minutes and moving the rest, rather than squeezing all three in."}
+  - name: negative-impossible-fit
+    vars:
+      agenda: "1) Approve annual budget, needs full debate, 45 min."
+      minutes_left: 5
+    assert:
+      - {type: llm-rubric, value: "Advises against rushing a full budget debate in 5 minutes and proposes deferring it to a proper slot (or using the 5 minutes only to agree the process), instead of pretending it can be done."}

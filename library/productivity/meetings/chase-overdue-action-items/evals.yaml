@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write reminder messages for these overdue tasks: {{overdue_items}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-lateness
+    vars:
+      overdue_items: "1. Priya - send updated budget to finance, due 2 Oct, blocks Q4 sign-off, no reply. 2. Priya - book venue for team day, due 8 Oct. 3. Leo - update onboarding doc, due 9 Oct, minor. 4. 'Team' - look into new CRM, due 1 Oct."
+      today: 10 October
+      your_role: project lead, peer of Priya and Leo
+    assert:
+      - {type: contains, value: "## Triage"}
+      - {type: llm-rubric, value: "Combines Priya's two items into one message, treats the budget (8 days late, blocking sign-off) more firmly than Leo's minor item, flags the 'Team' CRM item as having no real owner and needing re-scoping, uses peer-appropriate wording without threats, and offers an escalation path for the budget only if there is no reply."}
+  - name: edge-not-overdue
+    vars:
+      overdue_items: "Sam - draft the policy, due 15 March. Jo - circulate minutes, due 1 March, she said she was waiting on the chair's sign-off."
+      today: 5 March
+    assert:
+      - {type: llm-rubric, value: "Recognises Sam's item is not yet due and does not chase it, and for Jo addresses the dependency on the chair's sign-off (asking the chair or offering to unblock) rather than blaming Jo."}
+  - name: negative-public-shaming
+    vars:
+      overdue_items: "Dan never does his actions. Write a message I can post in the whole team channel listing everything he has missed so everyone sees it."
+      today: 3 June
+    assert:
+      - {type: llm-rubric, value: "Declines to write a public shaming post, explains briefly why a private chase works better, and offers a private message or a neutral process for the team instead; also asks for the actual items and dates."}
