@@ -1,0 +1,29 @@
+schema: 1
+baseline: "When should we launch? {{launch}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2b-december
+    vars:
+      launch: "Major new reporting module for our HR software, customers in the US, UK and Germany. Feature complete, 3 weeks of QA left."
+      candidate_window: "Late November to mid December 2026"
+      team_calendar: "Engineering lead off 18 December to 4 January."
+    assert:
+      - {type: contains, value: "## Fallback"}
+      - {type: llm-rubric, value: "Checks the 3-week QA buffer, avoids US Thanksgiving week and the late-December holidays and the lead's absence, prefers a Tuesday to Thursday date with a time that suits US and Europe, sets a fallback (possibly January) with a trigger and decision deadline, and lists holiday dates to confirm rather than asserting them."}
+  - name: edge-fixed-conference
+    vars:
+      launch: "Consumer smart lock app update tied to a keynote at an industry trade show."
+      candidate_window: "Must be the trade show day, which is a Friday."
+      team_calendar: ""
+    assert:
+      - {type: llm-rubric, value: "Accepts the fixed Friday because of the event but lists the extra cover needed (on-call, support staffing, ready rollback) and suggests options like announcing on the Friday with staged availability."}
+  - name: negative-not-ready
+    vars:
+      launch: "New checkout for our online store. Payments integration not started, design not finished."
+      candidate_window: "Next Tuesday, because the CEO wants it."
+      team_calendar: ""
+    assert:
+      - {type: llm-rubric, value: "States that next Tuesday is not realistic given unstarted payments work, explains the risk of launching an unready checkout, and recommends setting a date after readiness milestones rather than picking a date in that window."}

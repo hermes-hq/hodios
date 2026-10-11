@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a budget for our product launch: {{launch}} Budget: {{budget}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-with-total
+    vars:
+      launch: "Major launch of a new analytics product for mid-size e-commerce brands in the US. Goal: 300 qualified demo requests in 60 days. Channels: LinkedIn ads, webinar, PR, partner co-marketing."
+      budget: "80,000 USD"
+      known_costs: "Last webinar platform cost 1,200 USD; PR freelancer quoted 9,000 USD; LinkedIn cost per lead last year was about 140 USD."
+    assert:
+      - {type: contains, value: "## Cut order"}
+      - {type: llm-rubric, value: "Starts from the 300-demo goal, uses the given webinar, PR and cost-per-lead figures as sourced and labels other figures as estimates, holds a reserve of variable spend until week two, includes contingency, sets cut orders for 25 and 50 percent reductions, and defines cost per demo by channel with tracking requirements."}
+  - name: edge-no-total
+    vars:
+      launch: "Minor feature launch for a consumer note-taking app, goal: re-engage lapsed users."
+      budget: ""
+      known_costs: ""
+    assert:
+      - {type: llm-rubric, value: "Offers lean, standard and full options scaled to a minor launch, leans on owned channels for lapsed users, and labels all amounts as estimates to price."}
+  - name: negative-mismatch
+    vars:
+      launch: "New national bank account product launch in the UK. Goal: 50,000 new accounts in 3 months with TV, outdoor and influencer campaigns."
+      budget: "5,000 GBP"
+      known_costs: ""
+    assert:
+      - {type: llm-rubric, value: "States clearly that 5,000 GBP is badly mismatched with a 50,000-account goal using TV and outdoor, does not produce a budget pretending it fits, and offers either a reduced goal with suitable channels or the scale of budget needed as labelled estimates."}

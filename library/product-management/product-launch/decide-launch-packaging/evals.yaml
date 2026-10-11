@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Which pricing plan should this new feature go in? {{feature}} Our plans: {{current_plans}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ai-summaries
+    vars:
+      feature: "AI meeting summaries for our video-call tool. Each summary costs us about 4 cents in model fees. Built because two competitors launched it."
+      current_plans: "Free (40% of users, 40-minute limit), Pro 12 USD/user/month (50%), Business 20 USD/user/month (10%, SSO and admin)."
+      goal: "Pull upgrades from Free to Pro without hurting margins"
+    assert:
+      - {type: contains, value: "## Options compared"}
+      - {type: llm-rubric, value: "Recognises the variable per-use cost, compares all four packaging options, recommends a specific placement with a usage allowance or limits (for example a small free preview and an allowance on Pro), describes price logic without inventing competitor prices, and proposes metrics such as upgrade rate from the gate with a review date."}
+  - name: edge-segment-feature
+    vars:
+      feature: "Audit log export to SIEM tools. Almost no cost to run. Requested by security teams at large customers."
+      current_plans: "Starter, Team, Enterprise (custom pricing). Enterprise is 15% of customers and 60% of revenue."
+      goal: ""
+    assert:
+      - {type: llm-rubric, value: "Classifies it as segment value for security and admin buyers, recommends the Enterprise tier (or an add-on for Team) rather than all plans, and notes low cost to serve means usage pricing does not fit."}
+  - name: negative-take-away-from-existing
+    vars:
+      feature: "Custom domains. Already available on every plan for two years; we want to move it to the top tier to drive upgrades."
+      current_plans: "Basic 5 USD, Plus 15 USD, Premium 40 USD. Many Basic customers use custom domains."
+      goal: "More upgrades to Premium"
+    assert:
+      - {type: llm-rubric, value: "Flags that this removes something existing customers rely on, warns about churn and contract or notice obligations, proposes grandfathering or a notice period, and questions whether gating a core feature fits the goal rather than simply endorsing the move."}
