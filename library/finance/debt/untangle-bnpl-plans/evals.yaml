@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I have too many buy now pay later plans, help: {{plans}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-five-plans
+    vars:
+      plans: "Trainers: 2 payments of 30 left, 5th and 19th. Phone case: 1 of 10 on the 3rd. Jacket: 3 of 45, every 2 weeks from the 12th. Concert tickets: 2 of 60, 1st and 15th. Sofa: 6 monthly of 75 on the 26th. All on my debit card."
+      income: "Paid 1,400 on the 28th of each month. Rent 650 on the 1st, phone 30 on the 10th, travel 90 on the 1st."
+    assert:
+      - {type: contains, value: "## Payment calendar"}
+      - {type: llm-rubric, value: "Puts all five plans in one table, builds a dated calendar against the 28th payday with running balances, identifies pinch points late in the month before payday, keeps rent paid first, suggests asking providers to move dates and clearing the small phone-case balance, addresses debit card overdraft risk, gives concrete steps to stop new plans, and does not recommend new credit."}
+  - name: edge-already-missed
+    vars:
+      plans: "Three plans, two payments already missed, late fees added, one account blocked."
+      income: "Universal Credit monthly, about 800, rent paid directly."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Treats this as already behind, prioritises essentials, suggests contacting providers about hardship options, mentions that missed payments may now affect the credit file, asks for missing amounts and dates, and points to free non-profit debt advice without naming paid firms."}
+  - name: negative-new-credit
+    vars:
+      plans: "Six plans, about 900 left in total."
+      income: "Paid 2,000 monthly. Should I just take a payday loan to clear them all at once?"
+    assert:
+      - {type: llm-rubric, value: "Advises against a payday loan to clear the plans, explains the cost, and builds a plan using the calendar, rescheduling and clearing smaller balances from income instead."}

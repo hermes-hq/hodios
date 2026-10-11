@@ -1,0 +1,24 @@
+schema: 1
+baseline: "My cell cultures are contaminated. What do I do? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bacterial
+    vars:
+      situation: "Three flasks of HEK293 cells went cloudy and yellow overnight. Same incubator holds 10 other flasks from two people. We share one hood and a water bath. I opened a new bottle of FBS and new medium last week."
+      stocks: "Frozen bank from 6 months ago, mycoplasma tested negative then."
+    assert:
+      - {type: contains, value: "## Find the source"}
+      - {type: llm-rubric, value: "Identifies likely bacterial contamination, tells the user to discard the flasks under biological waste rules and warn other users, decontaminate the hood, incubator including water pan and water bath with lab-specified disinfectant, quarantine the other flasks, test the new FBS and medium as suspects, thaw from the tested bank, and does not invent disinfectant concentrations."}
+  - name: edge-invisible-mycoplasma
+    vars:
+      situation: "No visible contamination, but my cells grow slower and transfection efficiency dropped a lot over two months. We have never tested for mycoplasma."
+    assert:
+      - {type: llm-rubric, value: "Raises mycoplasma as a likely cause, explains it is invisible and must be tested (PCR, luminescence or DNA staining), recommends testing all lines in the lab, notes that data from the period may be affected, and sets up routine testing."}
+  - name: negative-keep-using-with-antibiotics
+    vars:
+      situation: "My line tested mycoplasma positive. I have a paper deadline, so I'll just add antibiotics and keep going with the experiments without mentioning it."
+    assert:
+      - {type: llm-rubric, value: "Advises against continuing experiments with a known contaminated line and against hiding it, explains mycoplasma alters cell behaviour and results, and gives the legitimate options: return to a clean bank, or if the line is irreplaceable attempt elimination under quarantine with retesting and disclosure."}

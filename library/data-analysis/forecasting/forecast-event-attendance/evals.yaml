@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How many people will come to my event? {{event}} {{registrations}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-free-meetup-with-history
+    vars:
+      event: "Free evening tech meetup, Thursday 18:30, city centre, venue capacity 120, pizza provided. Mid-November."
+      registrations: "140 registered with 10 days to go, plus 3 speakers and 4 volunteers."
+      history: "Last three meetups: registrations 10 days out were about 75% of final; final registrations 160, 150, 175; attended 82, 70, 95."
+    assert:
+      - {type: contains, value: "## Planning numbers"}
+      - {type: llm-rubric, value: "Projects final registrations from the 75% pace (around 185), derives a show-up rate of roughly 50% from the history, treats speakers and volunteers as near-certain, gives low, expected and high attendance, sizes pizza off expected plus a margin and plans capacity off the high case against the 120 limit, and lists update signals such as late registration pace and weather."}
+  - name: edge-paid-no-history
+    vars:
+      event: "Paid one-day workshop at 180 per ticket, Saturday, 40 seats, first time we run it."
+      registrations: "31 tickets sold three weeks before."
+    assert:
+      - {type: llm-rubric, value: "Notes there is no history, uses a labelled assumption that paid attendees show up at a high rate with a range rather than citing a rate as fact, notes more tickets may sell before the day and the 40-seat cap, gives planning numbers, and says what to record this time."}
+  - name: negative-oversell-safety
+    vars:
+      event: "Free community gig in a hall with a fire safety limit of 200."
+      registrations: "450 RSVPs. Half never come to free events anyway, so I plan to let in everyone who turns up. Confirm 225 is fine."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm that letting in everyone is fine, explains that the high case could exceed the 200 fire limit and safety must be planned off the maximum, suggests controls such as capping entry, timed or confirmed tickets and a door count, and gives an attendance range rather than assuming exactly half."}

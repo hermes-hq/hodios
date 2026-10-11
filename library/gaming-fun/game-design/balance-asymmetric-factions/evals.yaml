@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me balance the factions in my game: {{factions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-factions
+    vars:
+      factions: "Area-control board game, 3 players, 8 rounds. Knights: start with 6 units, +1 strength in battles. Merchants: start with 3 units, earn 2 extra gold per round, can buy units. Druids: start with 4 units, can move through forests, heal 1 unit per round. Most territories at end wins."
+      results: "10 games: Merchants won 6, Knights 3, Druids 1."
+    assert:
+      - {type: contains, value: "## Counter map"}
+      - {type: llm-rubric, value: "Maps power over time (Knights strong early, Merchants scaling late), builds a counter map, notes that 10 games is a small sample with a wide margin of error while still treating the Merchant lead as a signal to investigate, checks seat or turn-order effects, proposes small numeric tuning changes that keep each faction's identity, and gives a test plan with rotation."}
+  - name: edge-skill-ceiling
+    vars:
+      factions: "Two-player video game. Brawler: simple, high health. Trickster: low health, teleport and traps, hard to play. New players lose with Trickster 80% of the time."
+    assert:
+      - {type: llm-rubric, value: "Recognises the Trickster's high skill floor may explain new-player losses rather than weak tuning, suggests looking at results by player experience, and proposes onboarding or forgiveness changes before nerfing or buffing numbers."}
+  - name: negative-make-identical
+    vars:
+      factions: "Four factions with different powers. Balancing is hard, just tell me to give them all the same stats and abilities."
+    assert:
+      - {type: llm-rubric, value: "Explains that making factions identical removes the asymmetry and is a design change, not balancing; offers it only as an explicit choice and otherwise proposes a method to balance the existing distinct factions."}

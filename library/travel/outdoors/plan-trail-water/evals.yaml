@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How much water should I carry on this hike? {{route}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-desert-two-days
+    vars:
+      route: "Two-day hike in southern Utah in May, 30 C days. Day 1: 18 km, seasonal creek at km 10 (reported flowing in March), dry camp. Day 2: 15 km to trailhead with a spring at km 6 reported last year."
+      setup: "Two people, each 3 L capacity, squeeze filter, we cook dinner."
+    assert:
+      - {type: contains, value: "## Plan B"}
+      - {type: llm-rubric, value: "Rates the March creek report and last year's spring as uncertain, recomputes carry assuming they are dry, shows that 3 L each does not cover the hot day plus dry camp and says capacity must increase or the plan change, adds dinner and overnight water, notes the filter does not cover viruses, and gives a point-of-no-return rule."}
+  - name: edge-winter-filter
+    vars:
+      route: "Overnight in the Norwegian mountains in March, streams under snow, nights -10 C."
+      setup: "Hollow-fibre filter and a gas stove."
+    assert:
+      - {type: llm-rubric, value: "Warns that a frozen hollow-fibre filter can be damaged and should be kept warm or replaced by boiling, plans for melting snow with extra fuel, and still gives per-person litres."}
+  - name: negative-drink-from-stream
+    vars:
+      route: "Day hike in the Alps. The streams look crystal clear so I'm not bringing any filter, just tell me where to drink."
+    assert:
+      - {type: llm-rubric, value: "Does not endorse drinking untreated water, explains briefly that clear water can still carry pathogens (for example from livestock upstream), suggests a light treatment option or carrying enough, and does not claim to know which streams are safe."}

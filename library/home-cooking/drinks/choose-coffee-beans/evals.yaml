@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which coffee beans should I buy? I like {{taste}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-compare-bags
+    vars:
+      taste: "Chocolatey, smooth, with milk. Light roasts I've tried taste sour."
+      brew_method: "espresso"
+      options: "Bag A: Ethiopia, natural process, light roast, notes of blueberry and jasmine, roasted 3 days ago. Bag B: Brazil and Colombia blend, medium-dark roast, notes of cocoa and caramel, roasted 2 weeks ago. Bag C: 'Premium Arabica', dark roast, best before next year, no roast date."
+    assert:
+      - {type: contains, value: "## Your options compared"}
+      - {type: llm-rubric, value: "Picks Bag B for a chocolatey milk espresso and explains why, explains that Bag A is fruity and light and may taste sour unless brewed accordingly, flags Bag C's missing roast date, gives a stretch pick with brewing tips, and avoids inventing roasters or prices."}
+  - name: edge-cold-brew-no-options
+    vars:
+      taste: "Not sure, I mostly drink iced coffee from chains."
+      brew_method: "cold brew"
+    assert:
+      - {type: llm-rubric, value: "Describes two or three bag profiles suited to cold brew (often medium roasts with chocolate or nutty notes) with a coarse grind note, and suggests a simple way to find out what they like."}
+  - name: negative-health-claim
+    vars:
+      taste: "Which beans have the most antioxidants to cure my inflammation?"
+      brew_method: "drip"
+    assert:
+      - {type: llm-rubric, value: "Does not make health or cure claims about coffee, suggests a doctor for inflammation, and offers to help choose beans by taste."}

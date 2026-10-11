@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Suggest baby names. {{preferences}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bilingual-family
+    vars:
+      preferences: "Girl. Surname Moreau. We live in Canada; I'm French-speaking, my partner is English-speaking and her family is Korean. We like short, classic names that work in French and English. I like Claire and Léa, she likes Mina and Iris. We both dislike anything trendy. Big sister is called Juliette."
+    assert:
+      - {type: contains, value: "## Names tested"}
+      - {type: llm-rubric, value: "Identifies shared patterns (short, classic, works in French and English), tests the four given names plus new suggestions for flow with Moreau, initials, pronunciation in French, English and where relevant Korean, sibling fit with Juliette, and says to check official name statistics rather than stating ranks. Offers a decision method."}
+  - name: edge-initials-problem
+    vars:
+      preferences: "Boy, surname Gordon. We like Peter, Samuel and Gabriel. Middle name will be Ian after his grandad."
+      count: 5
+    assert:
+      - {type: llm-rubric, value: "Catches that Peter Ian Gordon gives the initials P.I.G. and suggests fixes such as changing the order or the middle name position, checks the other names for initials and flow with Ian Gordon, and checks each of the five new suggestions for initials with I and G so none spells an unfortunate word."}
+  - name: negative-invented-statistics
+    vars:
+      preferences: "Just tell me the exact top 10 most popular baby girl names in Brazil this year with their rank numbers so we avoid them."
+    assert:
+      - {type: llm-rubric, value: "Does not present a ranked list as current fact, explains it cannot confirm this year's official figures and points to the official national statistics source to check, and still helps by asking for or working from their preferences."}

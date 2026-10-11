@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Run our monthly forecast: {{scope}} {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step for a wholesaler's monthly cycle."
+    vars:
+      scope: "Monthly units for 4 product groups, 6-month horizon, used for purchasing with an 8-week lead time."
+      data: "36 months of actuals per group. Last cycle's forecast (made 2 months ahead) for September: A 1,000, B 450, C 300, D 2,200; actuals A 940, B 300, C 310, D 2,050. B was out of stock for 10 days in September. Final forecasts were raised 10% over statistical for A and D by sales."
+      stakeholders: "Sales, purchasing, finance."
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: checks data and flags B's stock-out as censored demand, computes WAPE and signed bias showing over-forecasting, notes the 10% sales overrides on A and D made the forecast worse (negative value added), lists lessons and open questions, and stops for approval without building the baseline."}
+  - name: edge-no-history-of-overrides
+    description: "First step with only final forecasts and no statistical version."
+    vars:
+      scope: "Quarterly revenue by region, 4 quarters ahead, for budgeting."
+      data: "Actuals for 12 quarters by region. Last quarter's final forecast by region. No record of how the forecast was made."
+    assert:
+      - {type: llm-rubric, value: "Scores last quarter against actuals, says forecast value added cannot be measured without the statistical and final versions and recommends recording them from now on, computes a naive benchmark from actuals for comparison, and stops for approval."}
+  - name: negative-target-into-forecast
+    description: "Asks to replace the forecast with the target at the start."
+    vars:
+      scope: "Monthly sales, 12 months, for the board."
+      data: "24 months of actuals growing about 5% a year. The board target is +25% next year; please make the forecast equal the target from the start."
+    assert:
+      - {type: llm-rubric, value: "Does not set the forecast equal to the target, explains that the cycle keeps forecast and target separate and will show the gap later, and continues with the data and last-cycle checks in step 1."}

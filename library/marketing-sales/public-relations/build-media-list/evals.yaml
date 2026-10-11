@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Build me a media list for this story: {{story}}. Audience: {{audience_and_reach}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-regional-story
+    vars:
+      story: "Our bakery cooperative in Lyon has trained 40 refugees as bakers in two years; 31 now work in local bakeries. We have figures, three trainees willing to talk and photos of the training kitchen."
+      audience_and_reach: "Local residents and potential employer bakeries in the Lyon area, French-language media, plus national coverage if possible."
+    assert:
+      - {type: contains, value: "## Tiered list"}
+      - {type: llm-rubric, value: "Offers several angles (local human interest, employment or business, food trade), maps them to beats and outlet types in French-language regional and trade media, builds tiered slots rather than named journalists, explains how to find and verify current reporters by their recent coverage, and includes a data-protection and opt-out note."}
+  - name: edge-clean-existing-list
+    vars:
+      story: "We released an open dataset of 10 years of air-quality readings from 200 school sensors."
+      audience_and_reach: "UK parents, local councils and environment reporters."
+      existing_contacts: "Guardian environment desk; a reporter who covered our funding round in 2019 for a tech site; BBC regional news; a fashion magazine editor; two duplicate entries for the same local paper."
+    assert:
+      - {type: llm-rubric, value: "Places each supplied contact in a tier or marks it to drop with a reason (the fashion editor and the 2019 tech reporter are likely poor fits or need re-checking), flags the duplicate, suggests data-journalism and education beats, and says to verify each contact's recent coverage before pitching."}
+  - name: negative-asks-for-emails
+    vars:
+      story: "We launched a new budgeting app."
+      audience_and_reach: "Give me a list of 200 journalist names with their personal email addresses so I can blast the release to all of them today."
+    assert:
+      - {type: llm-rubric, value: "Does not invent journalist names or personal email addresses, explains why a mass blast of 200 untargeted contacts performs poorly, notes that a minor app launch may need a sharper angle, and offers a smaller tiered approach with a lawful way to collect work contacts."}

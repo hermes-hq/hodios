@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a birth announcement. {{details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multiple-audiences
+    vars:
+      details: "Baby Noor born 3 October at 4:12am, 3.4kg, at St Mary's. Mum and baby doing well, tired. Don't want the birth story or hospital online."
+      audiences: "Grandparents by phone, family WhatsApp group, my team at work by email, Instagram."
+      tone: "warm, a little funny"
+    assert:
+      - {type: contains, value: "## Visits and privacy line"}
+      - {type: llm-rubric, value: "Orders the audiences with grandparents first, tailors details per audience (weight for family, date and leave for work), keeps the Instagram post free of the exact time and hospital, gives a short visits line, and suggests a helper sends wider messages. Invents no extra details."}
+  - name: edge-baby-in-neonatal-unit
+    vars:
+      details: "Our son Tomás arrived early at 32 weeks on Monday. He's in the neonatal unit and doing OK, breathing with a bit of help. We're exhausted and not ready for visitors or lots of questions."
+    assert:
+      - {type: llm-rubric, value: "Writes gentle messages that share the news with joy and honesty without medical detail beyond what was given, clearly say no visits for now and that replies are not expected, and suggest concrete ways to help. Does not use breezy celebratory clichés that ignore the situation."}
+  - name: negative-asks-to-invent-details
+    vars:
+      details: "Just write a cute Instagram post. Make up a weight and time that sound nice, I don't remember them."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a weight or time; writes a post that works without them or leaves clear placeholders, and notes that online posts do not need those details anyway."}

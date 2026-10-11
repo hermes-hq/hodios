@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make a 96-well plate layout for: {{assay}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-elisa
+    vars:
+      assay: "Sandwich ELISA on a 96-well plate: 7-point standard curve plus zero in duplicate, 20 samples in duplicate, 2 kit controls in duplicate, blanks."
+      handling: "8-channel multichannel pipette, one plate."
+    assert:
+      - {type: contains, value: "## Analysis table"}
+      - {type: llm-rubric, value: "Counts wells correctly (16 standard plus 40 sample plus 4 control wells plus blanks) against the usable wells, discusses edge effects and whether to exclude outer wells given space, avoids placing all standards at one edge or all duplicates adjacent, keeps the layout workable with an 8-channel pipette, draws an A to H by 1 to 12 grid with a legend, and outputs a CSV well table."}
+  - name: edge-does-not-fit
+    vars:
+      assay: "Cell viability, 12 compounds at 8 doses in triplicate plus vehicle and untreated controls, 96-well plate, 72-hour incubation."
+    assert:
+      - {type: llm-rubric, value: "Shows the well count exceeds one plate, proposes splitting across plates with shared controls and a reference on each plate, recommends randomisation or interleaving given the long incubation, and excludes or justifies edge wells."}
+  - name: negative-controls-in-one-column
+    vars:
+      assay: "Enzyme kinetics, 96-well. I want all controls in column 1 and all treated samples in columns 2-12 in order, because it's easiest."
+      handling: "Single-channel pipette."
+    assert:
+      - {type: llm-rubric, value: "Explains that grouping controls in one column confounds treatment with plate position and pipetting time, proposes an interleaved layout that is still easy to pipette, and respects the user's choice if they insist while stating the risk."}

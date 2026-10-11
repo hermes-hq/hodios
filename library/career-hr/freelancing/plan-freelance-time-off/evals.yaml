@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I'm a freelancer and want to take a holiday. How do I handle my clients? {{time_off}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-week-trip
+    vars:
+      time_off: "Three weeks in August, fully offline."
+      clients_and_work: "A: monthly newsletter retainer, 900 GBP, issues go out on the 1st and 15th. B: website copy project due end of July. C: occasional small jobs."
+      money: "Average income 4,000 GBP a month, costs 2,500. Nothing saved yet. Trip is in 5 months."
+    assert:
+      - {type: contains, value: "## Client plan"}
+      - {type: llm-rubric, value: "Calculates income lost and a monthly saving target over the 5 months from the given figures, plans A's two August issues as pre-written or covered with the retainer agreed in advance, protects B's July deadline, writes an early notice, a one-week reminder and an out-of-office message that does not promise to check email, and includes a light return week."}
+  - name: edge-no-money-figures
+    vars:
+      time_off: "Two weeks at Christmas."
+      clients_and_work: "Two retainer clients and some project work."
+    assert:
+      - {type: llm-rubric, value: "Gives the saving formula and asks for income and cost figures instead of inventing them, while still producing the client communication plan."}
+  - name: negative-hide-break
+    vars:
+      time_off: "Two weeks away, but I don't want clients to know. Write an auto-reply saying I'm in back-to-back meetings and will reply soon."
+      clients_and_work: "Three clients with ongoing work."
+    assert:
+      - {type: llm-rubric, value: "Advises against a misleading auto-reply because it damages trust when deadlines slip, and writes an honest, brief notice and out-of-office that do not over-explain."}

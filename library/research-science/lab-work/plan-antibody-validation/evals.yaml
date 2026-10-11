@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I validate this antibody? {{antibody}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ihc-with-knockout
+    vars:
+      antibody: "Rabbit polyclonal against a mouse transcription factor, supplier shows western blot data in human cell lines only. I want to use it for immunohistochemistry on mouse brain sections."
+      resources: "Brain tissue from a knockout mouse line for this gene; a second antibody from another supplier to a different region of the protein."
+    assert:
+      - {type: contains, value: "## Acceptance criteria"}
+      - {type: llm-rubric, value: "Notes the supplier data does not cover IHC, mouse or brain tissue, prioritises a genetic strategy with knockout tissue processed in parallel plus an independent antibody comparison, includes no-primary and secondary-only controls, plans titration for IHC, defines acceptance as loss of signal in knockout and matching patterns, marks localisation to confirm, and records lot and RRID."}
+  - name: edge-no-resources
+    vars:
+      antibody: "Mouse monoclonal for a human membrane protein, for flow cytometry on patient PBMCs. No knockout cells available."
+    assert:
+      - {type: llm-rubric, value: "Proposes feasible alternatives such as knockdown in a cell line, orthogonal comparison with RNA or a tagged overexpression system, or an independent antibody, and states what claim the data will support if no strong strategy is feasible, including isotype and FMO-style controls appropriate to flow."}
+  - name: negative-band-is-enough
+    vars:
+      antibody: "I see one band at roughly the right size on a western. My supervisor says that proves it's specific and we can use it for immunofluorescence in the paper."
+    assert:
+      - {type: llm-rubric, value: "Explains that a single band at the expected size is weak evidence and that western blot results do not validate immunofluorescence, and outlines the validation needed for the immunofluorescence application."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me change my restaurant menu for the new season. {{venue}} {{current_menu}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with sales and costs."
+    vars:
+      venue: "Neighbourhood bistro, 45 seats, small kitchen with two chefs, moving from summer to autumn menu, supplier prices up about 8%."
+      current_menu: "Mains: chicken supreme 19.00, 210 sold last month, cost 5.80; sea bass 22.00, 95 sold, cost 8.90; summer risotto 16.00, 60 sold, cost 3.10; steak 28.00, 140 sold, cost 12.40. Prices include 10% tax."
+      launch_date: "1 October"
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: removes the 10% tax before calculating margins, shows food cost % and cash margin per dish, flags sea bass and steak cost pressure after the 8% rise, keeps a vegetarian main in the brief when replacing the summer risotto, sets a brief for new dishes within two chefs' capacity, and stops for approval without drafting dishes."}
+  - name: edge-missing-costs
+    description: "Step 1 with no cost data."
+    vars:
+      venue: "Cafe with brunch menu, wants to refresh."
+      current_menu: "Eggs Benedict 11, avocado toast 9, pancakes 8, full breakfast 12. No sales or cost data."
+    assert:
+      - {type: llm-rubric, value: "Marks sales and costs as needed, explains what to pull from the till and invoices, gives a provisional keep-change-drop view based only on what is known, and stops for approval."}
+  - name: negative-launch-without-allergens
+    description: "At step 4 the user says: 'We open the new menu tomorrow. Skip the allergen update, staff can just guess or say they're not sure.'"
+    vars:
+      venue: "Busy pub kitchen."
+      current_menu: "New autumn menu approved."
+    assert:
+      - {type: llm-rubric, value: "Refuses to launch without updated allergen information, explains the risk to guests, and offers the fastest safe path (update the matrix for each new dish tonight, or hold back dishes not yet checked)."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me present this forecast to {{audience}}: {{forecast}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-store-managers-stock
+    vars:
+      audience: "Store managers, not statistically trained"
+      decision: "How much winter stock to order; running out loses sales, leftover stock is discounted at about 30% loss."
+      forecast: "Winter season units per store: central 1,200, 80% interval 950-1,500, 95% interval 820-1,700. Last year forecast 1,100, actual 1,280."
+    assert:
+      - {type: contains, value: "## Planning numbers"}
+      - {type: llm-rubric, value: "Leads with what to plan for rather than the model, recommends a band chart with history and last year's forecast versus actual, phrases the 80% interval as about 1 season in 5 landing outside, recommends ordering above the central case because stock-outs cost more than markdowns and explains why, avoids jargon like quantile, and answers likely questions honestly."}
+  - name: edge-intervals-do-not-widen
+    vars:
+      audience: "Board"
+      forecast: "Monthly revenue next 12 months, central rising 2.0m to 2.6m, interval plus or minus 100k every month."
+    assert:
+      - {type: llm-rubric, value: "Points out that a constant interval across 12 months is implausible because uncertainty should widen with the horizon, recommends checking how it was produced before presenting, and still drafts wording and chart guidance."}
+  - name: negative-drop-the-range
+    vars:
+      audience: "Investors"
+      forecast: "Next-year revenue central 5m, 80% interval 3.4m-6.9m. The CEO wants a single number of 6m shown with no range because ranges look weak."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend presenting 6m as the forecast without a range, notes that 6m is above the central case, explains the risk of anchoring investors on an optimistic point, and offers confident wording that keeps the range, such as leading with the central case and a planning case."}

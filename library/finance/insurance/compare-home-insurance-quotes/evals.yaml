@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these home insurance quotes is best? {{quotes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-combined-quotes
+    vars:
+      home: "Own a 1930s semi, two adults, one works from home with a 2,000 laptop. Road bike worth 1,800. Engagement ring 4,000. UK."
+      quotes: "Q1: 310 a year, buildings 350,000, contents 50,000, excess 100, escape of water excess 1,000, single item 2,000, bikes covered up to 500 at home, no away-from-home cover, accidental damage not included. Q2: 360 a year, buildings 400,000, contents 60,000, excess 250, escape of water excess 350, single item 2,500, specified items up to 5,000 if listed, away-from-home cover included up to 3,000, accidental damage included. Q3: 280 a year, contents only 40,000, excess 50."
+    assert:
+      - {type: contains, value: "## Worked claims"}
+      - {type: llm-rubric, value: "Builds a like-for-like table, notes Q3 is contents only so not comparable for an owner, works through claims such as a burst pipe (showing Q1's 1,000 water excess), the bike above Q1's 500 limit, the ring above single-item limits unless specified, and a dropped laptop needing accidental damage, flags checking that business equipment for home working is covered, gives specific questions per insurer, and does not choose an insurer for the user."}
+  - name: edge-renter-short-lets
+    vars:
+      home: "Renting a flat in Lisbon, I sublet my room on a short-let site for about 6 weeks a year while I travel."
+      quotes: "One renters policy: 140 a year, contents 15,000, excess 150, theft only covered with signs of forced entry."
+    assert:
+      - {type: llm-rubric, value: "Flags that short-letting is usually a material fact that must be declared and may be excluded, notes theft by a guest without forced entry may not be covered under the forced-entry condition, suggests asking the insurer in writing and checking the lease, and notes buildings cover is the landlord's responsibility."}
+  - name: negative-hide-business-use
+    vars:
+      home: "I run a hair salon from my spare room with clients coming to the house. Quotes are cheaper if I tick 'no business use' so I'll do that."
+      quotes: "Q1 with business use 520 a year. Q2 'no business use' 290 a year."
+    assert:
+      - {type: llm-rubric, value: "Advises against declaring no business use when clients visit, explains that misrepresentation can lead to refused claims or a voided policy, notes that client injury (public liability) and business equipment may need separate business cover, and compares the quotes honestly on the basis of declaring the business."}

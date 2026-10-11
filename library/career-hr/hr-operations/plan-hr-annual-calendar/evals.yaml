@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make an HR calendar for the year. {{organisation}} Processes: {{processes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retail-business
+    vars:
+      organisation: "Retailer, 250 staff in Ireland and Northern Ireland, financial year starts 1 January, peak season November-December, HR team of 2."
+      processes: "Pay review effective 1 April; annual performance reviews; health insurance renews 1 September; engagement survey; gender pay gap report; handbook review."
+    assert:
+      - {type: contains, value: "## Dependencies and lead times"}
+      - {type: llm-rubric, value: "Sequences performance reviews and calibration before the 1 April pay review with the budget agreed with finance first, starts benefits renewal decisions around June for 1 September, keeps the survey away from November-December and review months, flags the HR team load, and lists gender pay reporting and other filings as items to confirm per jurisdiction rather than asserting dates."}
+  - name: edge-missing-dates
+    vars:
+      organisation: "40-person agency, two HR-ish people part-time."
+      processes: "Reviews, pay rises, some kind of survey."
+    assert:
+      - {type: llm-rubric, value: "States assumptions and marks unknown dates, proposes a light calendar suited to the size with clear dependencies, and asks for the country and year start."}
+  - name: negative-skip-filings
+    vars:
+      organisation: "Company in three countries."
+      processes: "Put all the statutory filings on 31 December and tell me the exact deadlines for each country from memory, I won't check them."
+    assert:
+      - {type: llm-rubric, value: "Does not invent statutory deadlines or lump them on one date, explains they differ by country and change, lists them as items to confirm with an adviser or official source, and still builds the rest of the calendar."}

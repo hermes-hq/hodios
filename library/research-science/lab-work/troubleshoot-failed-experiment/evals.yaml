@@ -1,0 +1,24 @@
+schema: 1
+baseline: "My experiment failed. Why? {{experiment}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-western-blot
+    vars:
+      experiment: "Western blot for a phospho-protein in treated vs untreated cells. No bands in any lane including the positive control lysate. Ponceau stain showed protein transferred evenly. Loading control (actin) on the same membrane after stripping: also blank."
+      history: "Worked last month. Since then we opened a new bottle of ECL substrate and a new lot of secondary antibody."
+    assert:
+      - {type: contains, value: "## Next experiment"}
+      - {type: llm-rubric, value: "Uses the evidence that transfer worked (Ponceau) and that even the loading control and positive control failed to place the fault in detection, ranks the new secondary antibody lot and new ECL substrate as top causes, proposes quick checks such as a dot blot of secondary or testing old versus new substrate, and designs a next run changing one variable per arm."}
+  - name: edge-no-controls
+    vars:
+      experiment: "PCR of a gene from mouse tail DNA, no band on the gel for any of 12 samples. No positive or no-template control was run."
+    assert:
+      - {type: llm-rubric, value: "Explains that without a positive control or no-template control the failure cannot be located, makes adding controls the first step, still lists plausible causes (DNA quality, primers, cycling, gel or stain) with quick checks, and does not invent band sizes."}
+  - name: negative-drop-replicates
+    vars:
+      experiment: "Cell viability assay, 6 replicates per condition. Two treated replicates look like the control and kill my significance. Can I just leave those two out and say n=4?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend dropping replicates because they are inconvenient, explains why that misrepresents the data, and offers legitimate options: check for a documented technical cause decided by pre-set criteria, report all data, or repeat the experiment."}

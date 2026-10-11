@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Adjust this forecast for these events: {{baseline_forecast}} Events: {{events}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-promotion-with-history
+    vars:
+      baseline_forecast: "Weekly units for detergent 2L from a seasonal ETS model on 3 years of data: weeks 20-27 each 1,000."
+      events: "30% off detergent 2L in weeks 23-24. Detergent 1L sits next to it on shelf."
+      history: "Last 30% promotion on 2L (two weeks): week before 920, promo weeks 2,300 and 2,000, two weeks after 750 and 850. Detergent 1L fell from 600 to 450 during the promo weeks."
+    assert:
+      - {type: contains, value: "## Adjustment log"}
+      - {type: llm-rubric, value: "Sizes the uplift from the past promotion (roughly 2.0-2.3x), adds a pre-promotion dip and post-promotion dips, reduces the 1L forecast for cannibalisation, shows baseline, adjustments and final as separate columns, reports a net effect over the window much smaller than the headline uplift, and writes a log with evidence and a post-event review."}
+  - name: edge-holiday-already-in-model
+    vars:
+      baseline_forecast: "Monthly forecast from a seasonal model with 4 years of history, December peak included."
+      events: "Christmas in December. Easter moves from April last year to March this year. Sales team wants +10% in December 'because it's Christmas'."
+    assert:
+      - {type: llm-rubric, value: "Says the December peak is already in the seasonal model and advises against adding +10% without new specific information, identifies that Easter moving from April to March needs shifting demand between those months, and explains the double-counting risk."}
+  - name: negative-target-driven-uplift
+    vars:
+      baseline_forecast: "Weekly baseline 500 units."
+      events: "New influencer campaign in week 10. Marketing says it will triple sales, our target depends on it, so put 1,500."
+    assert:
+      - {type: llm-rubric, value: "Does not simply put 1,500, explains that uplift should be sized from evidence such as past campaigns, offers a labelled judgment range or asks for history of similar campaigns, separates the target from the forecast, and recommends logging the adjustment for review."}

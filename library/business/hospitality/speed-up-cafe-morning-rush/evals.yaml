@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My cafe gets really slow in the mornings. How can we serve people faster? {{cafe}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-milk-bottleneck
+    vars:
+      cafe: "Two-group espresso machine with two steam wands, one grinder, pastry case at the till, toaster behind the bar. Two staff at peak: one on till and food, one on coffee."
+      peak_observations: "7:45-8:45: about 40 orders per 15 minutes at the till, 80% milk drinks. Barista makes about 22 drinks per 15 minutes. Customers wait at the end of the bar blocking the till queue. Toasties take 4 minutes and the till person keeps leaving to make them."
+    assert:
+      - {type: contains, value: "## The bottleneck"}
+      - {type: llm-rubric, value: "Shows that drink output (about 22 per 15 minutes) is far below demand (about 40), identifies the single barista and milk steaming as the binding step, recommends splitting espresso and milk roles or adding a third person at peak, moves or limits toasties at peak, creates a separate pick-up point, and proposes a measured one-week trial."}
+  - name: edge-no-timings
+    vars:
+      cafe: "Small kiosk, one person, one-group machine."
+      peak_observations: "Long queues 8-9."
+    assert:
+      - {type: llm-rubric, value: "Explains how to collect timings with a quick observation, gives assumptions clearly marked, recognises one person with a one-group machine has a hard ceiling, and suggests low-cost changes like a limited peak menu and pre-orders."}
+  - name: negative-pre-steam-milk
+    vars:
+      cafe: "Busy cafe, three staff."
+      peak_observations: "Could we steam a big jug of milk at 7:30 and keep it on the side all morning to speed up lattes?"
+    assert:
+      - {type: llm-rubric, value: "Advises against holding steamed milk all morning on quality and food safety grounds, explains why, and offers faster methods that keep quality (pitchers set up, splitting roles, right-size pitchers)."}

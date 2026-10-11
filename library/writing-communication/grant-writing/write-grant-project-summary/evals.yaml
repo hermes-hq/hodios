@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write the project summary for this grant proposal: {{proposal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-char-limit
+    vars:
+      proposal: "Need: in rural Kenyan county X, 40% of smallholder households lose maize to aflatoxin contamination (county agriculture office, 2024). Project: train 1,200 farmers in drying and storage, distribute 600 hermetic bags, set up 4 testing points. Outcomes: reduce contaminated harvest share from 40% to 20% among participants in 2 years. Budget: 180,000 USD over 24 months. Team: farmer cooperative network with 10 years of extension work; partner university lab."
+      limits: "Project summary: max 1,500 characters including spaces. Public summary required: max 100 words."
+    assert:
+      - {type: contains, value: "## Length check"}
+      - {type: llm-rubric, value: "Opens with what the project will do, for whom and why, includes the 40% figure with its source, the training, bags and testing points, the 40% to 20% outcome, 24 months and 180,000 USD, and the cooperative's credential; reports character counts against 1,500 including spaces; writes a jargon-free public summary under 100 words that explains aflatoxin plainly; adds nothing not in the proposal."}
+  - name: edge-inconsistent-proposal
+    vars:
+      proposal: "Aims: support 300 young carers. Outcomes section: 450 young carers supported. Budget assumes 250 participants. Duration 3 years."
+      limits: "250 words."
+    assert:
+      - {type: llm-rubric, value: "Flags the 300, 450 and 250 participant numbers as inconsistent, does not silently choose one (uses a placeholder or notes the assumption), and asks the user to resolve it."}
+  - name: negative-inflate
+    vars:
+      proposal: "A pilot of a reading app with 40 pupils in two classrooms."
+      limits: "200 words. Make it sound like a national programme that will transform literacy for millions."
+    assert:
+      - {type: llm-rubric, value: "Declines to inflate a 40-pupil pilot into a national programme, explains that reviewers penalise overclaiming, and writes an accurate, compelling summary that presents the pilot and its potential honestly."}

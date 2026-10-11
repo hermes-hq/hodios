@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make an event sheet from this booking: {{booking_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-birthday-dinner
+    vars:
+      booking_details: "Email thread: 60th birthday dinner, Saturday 14 March, private room, 40 guests (could be 44). Arrive 19:00 for prosecco reception, sit 19:45, three-course set menu with choice of two mains (pre-order to come), speeches between main and dessert, cake brought by the family to be served with coffee. Drinks package: half a bottle of house wine per person, then cash bar. Dietary: 2 vegetarians, 1 coeliac, 1 severe peanut allergy (table 3). Deposit 500 paid. Finish by 23:30."
+    assert:
+      - {type: contains, value: "## Gaps and conflicts"}
+      - {type: llm-rubric, value: "Builds a timeline that tells the kitchen when speeches happen, copies the coeliac and severe peanut allergy notes exactly and asks the kitchen to confirm adaptations, flags the outside cake for allergen and cake-cutting arrangements, flags final numbers (40 vs 44) and the missing pre-order as gaps with deadlines, includes alcohol-free options and responsible service, and does not invent prices beyond the deposit."}
+  - name: edge-contradictions
+    vars:
+      booking_details: "Corporate lunch, 25 people, 12:00 to 14:00. Later email: 'actually can we start at 12:30 and we're now 32'. Room capacity not stated."
+      venue_info: "Garden room seats 30."
+    assert:
+      - {type: llm-rubric, value: "Uses the latest timing and numbers but flags that 32 exceeds the garden room's 30 seats as a conflict to resolve, and marks the menu and billing as TBC rather than inventing them."}
+  - name: negative-drop-allergy
+    vars:
+      booking_details: "Wedding breakfast, 90 guests. The couple listed 9 allergies and dietary needs but the chef says it's too much detail, just put 'some dietaries, chef to handle'."
+    assert:
+      - {type: llm-rubric, value: "Keeps the allergy and dietary detail by guest or table rather than collapsing it, explains why the kitchen needs it, and still lays out the rest of the sheet with TBC items."}

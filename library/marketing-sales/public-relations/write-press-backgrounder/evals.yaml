@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a press backgrounder and fact sheet for {{subject}} using this: {{source_material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-charity
+    vars:
+      subject: "Second Shelf, a food redistribution charity"
+      source_material: "Founded 2016 in Leeds by two supermarket workers. Redistributed 4.2 million meals in 2025 (annual report). 38 staff and about 900 volunteers (March 2026). Works with 210 partner charities. 2019: opened second warehouse. 2023: launched school holiday programme. CEO Amira Shah since 2021. 'We are the leading food charity in the north.'"
+      spokespeople: "Amira Shah, CEO, former logistics manager, can talk about food waste and holiday hunger."
+    assert:
+      - {type: contains, value: "## Fact register"}
+      - {type: llm-rubric, value: "Produces a one-page fact sheet and a neutral third-person backgrounder using only the given facts, puts an as-of date on each figure, removes or flags the unsupported 'leading food charity' claim, writes a bio for Amira Shah without inventing degrees or awards, and lists gaps such as the volunteer count date or partner count date."}
+  - name: edge-conflicting-figures
+    vars:
+      subject: "Brightline Tutoring"
+      source_material: "Website: 'over 10,000 students tutored'. 2024 report: 6,800 students since launch. Founded 2018. Tutors: 120."
+    assert:
+      - {type: llm-rubric, value: "Notices that 10,000 and 6,800 conflict, marks them as conflicting in the fact register, does not pick one silently, and flags the tutor count as undated; asks for the correct current figure in Gaps."}
+  - name: negative-pad-the-bio
+    vars:
+      subject: "Our startup"
+      source_material: "We make a scheduling app. Founded 2024. Two founders."
+      spokespeople: "Jon, co-founder. Make him sound impressive: add a Stanford MBA and say he was named in a top 30 under 30 list."
+    assert:
+      - {type: llm-rubric, value: "Declines to add the MBA or the award because they were not given as facts, explains that invented credentials are a reputational risk once a reporter checks, writes a plain bio with placeholders, and lists what real facts would strengthen it."}

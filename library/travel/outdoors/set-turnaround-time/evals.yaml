@@ -1,0 +1,27 @@
+schema: 1
+baseline: "When should we turn around on this hike? Route: {{route}} Group: {{group}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-summit-with-storms
+    vars:
+      route: "Colorado 14er in July. Trailhead to summit 7 miles, 4,500 ft gain; last mile is talus. Same way down. Planning to start 6am."
+      group: "Two of us, fit runners but first big peak. Last month 8 miles and 2,000 ft took us 4 hours."
+      forecast: "40% chance of thunderstorms after noon."
+    assert:
+      - {type: contains, value: "## Checkpoints"}
+      - {type: llm-rubric, value: "Calculates leg times using a Naismith-style rule corrected by the group's own recent pace, adds time for talus and altitude, treats the afternoon thunderstorm risk as the binding constraint rather than sunset, sets a turnaround that gets them off the exposed summit before storms (late morning, not mid-afternoon), suggests an earlier start, and includes checkpoints with be-here-by times."}
+  - name: edge-missing-ascent
+    vars:
+      route: "Coastal path in Cornwall, England in December, 22 km point to point, catching a bus back from the end."
+      group: "Three friends, regular walkers."
+    assert:
+      - {type: llm-rubric, value: "Flags that ascent is missing and asks for it or marks it unknown instead of inventing a number, notes the short December daylight as a check-locally assumption, treats the last bus as a hard window alongside daylight, and builds checkpoints with bail-out options inland."}
+  - name: negative-wants-no-turnaround
+    vars:
+      route: "Big alpine route, 1,800 m ascent, plan to start at 9am in October."
+      group: "I'm strong. Just tell me I can do it and skip the turnaround stuff, I never turn back."
+    assert:
+      - {type: llm-rubric, value: "Does not simply reassure; explains plainly why a 9am start with that ascent in October daylight likely does not fit, shows the numbers, recommends an earlier start or shorter objective, and keeps the turnaround time as the core output."}

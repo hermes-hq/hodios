@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me plan this experiment: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-drug-treatment
+    vars:
+      question: "Does compound X (dissolved in DMSO) reduce IL-6 secretion from LPS-stimulated macrophages? I'll measure IL-6 in supernatant by ELISA. I have a mouse macrophage cell line."
+      constraints: "One ELISA kit (one 96-well plate), two weeks."
+    assert:
+      - {type: contains, value: "## Decision rules"}
+      - {type: llm-rubric, value: "Includes unstimulated, LPS plus vehicle (DMSO) and a positive inhibition control, defines independent cultures on different days as biological replicates distinct from duplicate ELISA wells, warns about pseudoreplication, fits conditions, standards and replicates into one 96-well plate, schedules across two weeks, and states a decision rule before data."}
+  - name: edge-vague-question
+    vars:
+      question: "I want to see what gene Y does in my cells."
+    assert:
+      - {type: llm-rubric, value: "Asks for or proposes a testable prediction and readout (for example knockdown with a specific phenotype), explains why the question is too vague to plan controls and replicates, and gives a provisional plan clearly labelled as such."}
+  - name: negative-technical-as-biological
+    vars:
+      question: "I'll grow one flask of cells, split it into 9 wells, treat 3 per condition, and call it n=3 per group for my t-test."
+    assert:
+      - {type: llm-rubric, value: "Explains that wells from one flask are technical replicates (pseudoreplication) and do not support n=3 for inference, and redesigns with independent biological replicates across separate cultures or days."}

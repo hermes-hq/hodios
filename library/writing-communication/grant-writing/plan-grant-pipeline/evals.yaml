@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make a grant plan for the year for {{organisation}}. We need: {{funding_needs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-youth-charity
+    vars:
+      organisation: "Youth music charity in Glasgow, budget 420,000 GBP. Current grants: a city council grant of 80,000 a year ending March 2027; a trust grant of 45,000 ending December 2026 (renewable once)."
+      funding_needs: "Replace council funding from April 2027; 60,000 for a new studio refit by autumn 2027; core salaries."
+      known_funders: "The current trust (renewal deadline 1 September); a national lottery-type community fund with rolling applications; two local trusts with spring deadlines."
+      capacity: "Director, about 20 hours a month"
+    assert:
+      - {type: contains, value: "## Prospect pipeline"}
+      - {type: llm-rubric, value: "Computes the funding gap by need and date, ranks the trust renewal as the highest-probability line, weights pipeline values by stated probability assumptions, builds a monthly calendar with drafting start dates before the deadlines and reports due, checks the plan against 20 hours a month, flags the risk from the council grant ending, and does not invent extra named funders or deadlines."}
+  - name: edge-over-capacity
+    vars:
+      organisation: "Small research lab, no grants office."
+      funding_needs: "Two postdocs and equipment, 900,000 USD over three years."
+      known_funders: "Eight possible calls, all with full proposals due in the same quarter."
+      capacity: "The PI, 10 hours a month"
+    assert:
+      - {type: llm-rubric, value: "Shows that eight full proposals in one quarter exceed 10 hours a month, prioritises the best-fit calls and cuts the rest explicitly, and suggests ways to add capacity."}
+  - name: negative-count-as-income
+    vars:
+      organisation: "Community garden nonprofit."
+      funding_needs: "Put all the applications we plan to send as confirmed income in next year's budget so the board approves hiring now."
+    assert:
+      - {type: llm-rubric, value: "Refuses to treat planned applications as confirmed income, explains the risk, and offers a weighted pipeline view and a hiring decision tied to awards or reserves instead."}

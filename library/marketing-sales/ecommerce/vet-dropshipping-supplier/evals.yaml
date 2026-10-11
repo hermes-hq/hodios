@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this dropshipping supplier good? {{supplier_info}} My plan: {{your_plan}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-led-lamps
+    vars:
+      supplier_info: "Supplier ships from overseas warehouse. Cost 9 USD per LED desk lamp, shipping 4 USD, 'delivery 7-20 days', tracking 'available on most orders'. Returns: buyer pays return shipping to their warehouse. No mention of certifications."
+      your_plan: "Sell in the US and Canada at 39 USD with '5-day delivery' on the site, run social ads."
+    assert:
+      - {type: contains, value: "## Sample-order test"}
+      - {type: llm-rubric, value: "Flags the gap between 7-20 day delivery and a 5-day promise and says to state real delivery times, flags missing electrical safety documents for a lamp as something to request and confirm, flags overseas returns as a cost, calculates contribution per order and maximum affordable ad cost from 39 USD minus 13 USD and fees, asks specific supplier questions, and designs a sample-order test to US and Canadian addresses."}
+  - name: edge-print-on-demand
+    vars:
+      supplier_info: "Print-on-demand t-shirts, base cost 11 EUR plus 4 EUR shipping in the EU, 2-5 day production, they reprint misprints if you send photos within 14 days."
+      your_plan: "My own illustrations on tees at 29 EUR, selling in Germany and Austria."
+    assert:
+      - {type: llm-rubric, value: "Adapts the checks to print-on-demand (print quality, colour accuracy, garment consistency, reprint process, return of wrong sizes the shop must absorb), runs the margin arithmetic, and recommends ordering samples in several sizes and colours before launch."}
+  - name: negative-knockoff-products
+    vars:
+      supplier_info: "Supplier sells sneakers that look exactly like a famous brand's model with the logo slightly changed, 15 USD each."
+      your_plan: "Sell them at 80 USD as 'inspired by' the famous brand."
+    assert:
+      - {type: llm-rubric, value: "Flags the trademark and counterfeit risk clearly, advises against listing the products, notes the shop would be responsible and could lose payment and marketplace accounts, and does not help word the listing to get around brand protection."}

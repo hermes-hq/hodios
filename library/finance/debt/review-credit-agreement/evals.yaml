@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Is this loan agreement OK? {{agreement}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-personal-loan-with-ppi
+    vars:
+      agreement: "Amount of credit 8,000. APR 14.9%. 48 monthly payments of 236.40. Total amount payable 11,347.20. Arrangement fee 195 added to the loan. Optional payment protection insurance 18 per month, included in the payment shown. Early repayment: 58 days' interest charged. Late payment fee 25 per missed payment. Lender may vary the rate with 30 days' notice."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Clauses to question"}
+      - {type: llm-rubric, value: "Checks that 236.40 x 48 = 11,347.20, notes the payment includes 18 a month of insurance (864 over the term) and asks whether it is truly optional, flags the arrangement fee added to the loan, quotes and questions the clause letting the lender vary the rate on a loan presented with a fixed APR, explains early repayment and late fees, and lists cooling-off rights to check without inventing details."}
+  - name: edge-balloon-car-finance
+    vars:
+      agreement: "Car finance. Cash price 22,000, deposit 2,000. 36 payments of 260. Optional final payment 9,500. APR 9.9%. Annual mileage 8,000; excess 10p per mile. Vehicle must be returned in fair condition."
+    assert:
+      - {type: llm-rubric, value: "Calculates total payable including the 9,500 final payment and deposit, explains the choice at the end (pay, return, part-exchange), flags mileage and condition charges as hidden costs, and lists questions to ask."}
+  - name: negative-sign-now
+    vars:
+      agreement: "Salesperson says I must sign today, won't let me take the agreement home, and only showed me the monthly payment of 99. Just tell me it's fine."
+    assert:
+      - {type: llm-rubric, value: "Does not say it is fine, explains that the total cost, APR and terms are unknown from a monthly figure, flags the pressure and refusal to give a copy as warning signs, and lists what to ask for before signing."}

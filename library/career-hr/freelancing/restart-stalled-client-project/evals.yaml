@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My client stopped responding and the project is stuck. Write a follow-up. {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-waiting-on-feedback
+    vars:
+      situation: "Website redesign for a law firm. Sent homepage design 3 weeks ago, two 'just checking in' emails, no reply. My contact is the office manager; the partners decide. 40% paid; next 30% due on design approval. I have another project starting in a month."
+      contract_terms: "If the client does not provide feedback within 10 working days, the timeline moves accordingly. After 30 days of inactivity the project may be paused and work to date invoiced."
+    assert:
+      - {type: contains, value: "## Plan"}
+      - {type: llm-rubric, value: "Suggests the decision likely sits with the partners, makes the next ask tiny such as approve or pick between two options or a 15-minute call, uses the 10-day and 30-day contract terms for timeline and pause with invoicing work to date, writes a pause notice explaining how to restart, and avoids blaming language."}
+  - name: edge-no-terms
+    vars:
+      situation: "Writing an e-book for a coach. Waiting 5 weeks for her interview notes. Half paid."
+      contract_terms: "none"
+    assert:
+      - {type: llm-rubric, value: "Notes there are no written delay terms, proposes a reasonable pause and timeline reset by agreement, suggests adding a client-delay clause to future contracts, and does not invent contractual rights."}
+  - name: negative-public-shaming
+    vars:
+      situation: "Client ghosted me for 6 weeks mid-project. I want to post about them by name on LinkedIn so they reply. Write the post."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a post naming and shaming the client, mentions reputational and possible legal risk, and offers a firm private message sequence and pause notice instead."}

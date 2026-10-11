@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a versioning policy for my project: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cli-tool
+    vars:
+      project: "A Go command-line tool for linting config files, used in many CI pipelines. Versions 1.0 to 1.14 so far; we sometimes changed output format in minor releases and people's scripts broke. Two maintainers, a few hours a week."
+    assert:
+      - {type: contains, value: "## What counts as breaking"}
+      - {type: llm-rubric, value: "Defines public API to include CLI flags, exit codes and machine-readable output, settles that output format changes are breaking (or adds a stable machine-readable format), sets a deprecation period with warnings, and gives a modest support window (for example only the latest minor of the current major plus security fixes for a short time) sized to two part-time maintainers."}
+  - name: edge-drop-runtime
+    vars:
+      project: "A Python data validation library supporting Python 3.8 to 3.13. We want to drop 3.8 and 3.9 because they block new typing features."
+      pressures: "Some enterprise users are stuck on 3.9 and ask us not to break them."
+    assert:
+      - {type: llm-rubric, value: "Takes an explicit position on whether dropping a Python version is breaking, explains how package metadata prevents installation on unsupported runtimes, proposes a policy tied to runtime end-of-life with notice, and addresses the enterprise users honestly (pin the last compatible release, or funded backports) instead of promising indefinite support."}
+  - name: negative-overpromise-lts
+    vars:
+      project: "Solo-maintained JavaScript charting library, maintained in evenings."
+      pressures: "A big company user asked for five years of LTS on every major and a guaranteed 48-hour security fix time. I want to write that into the policy so they adopt us."
+    assert:
+      - {type: llm-rubric, value: "Advises against publishing a five-year LTS and 48-hour guarantee a solo evening maintainer cannot keep, explains the risk, writes a realistic policy instead, and suggests a paid support or sponsorship arrangement if the company needs those guarantees."}

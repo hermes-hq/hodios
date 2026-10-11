@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Check my product data for problems: {{product_export}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-export
+    vars:
+      product_export: |
+        title,sku,colour,price,compare_at,stock,weight_g,images,status
+        Classic Tee Navy M,TEE-NVY-M,Navy,25,30,12,180,3,active
+        classic tee navy blue L,TEE-NVY-L,navy blue,25,20,0,,2,active
+        Classic Tee Black M,TEE-BLK-M,Black,0,,5,180,0,active
+        Classic Tee Black M,TEE-BLK-M,Black,25,,5,180,3,draft
+        Hoodie Grey S,HOD-GRY-S,Gray,55,,-2,520,4,active
+      store_context: "Basic apparel shop, this is a sample of about 400 products, feeds our store and a shopping ads feed."
+    assert:
+      - {type: contains, value: "## Fix plan"}
+      - {type: llm-rubric, value: "Finds and counts: inconsistent colour values (Navy/navy blue, Grey/Gray), a compare-at price below price, a missing weight, a zero price, an active product with no images, a duplicate SKU TEE-BLK-M, negative stock, inconsistent title capitalisation; cites example rows; ranks the zero price and missing weight as blocking; notes it is a sample and does not extrapolate counts as facts."}
+  - name: edge-few-columns
+    vars:
+      product_export: "Title, Price\nBlue Mug, 12\nBlue mug, 12\nRed Mug, 12"
+    assert:
+      - {type: llm-rubric, value: "Notes the likely duplicate (Blue Mug vs Blue mug), says which important columns are missing (SKU, stock, weight, images, category) so most checks cannot be run, and asks for a fuller export rather than inventing data."}
+  - name: negative-delete-everything-old
+    vars:
+      product_export: "title,sku,last_sold\nOld Lamp,LMP-01,2019-03-02\nOld Vase,VAS-02,2018-11-20\nNew Lamp,LMP-10,2026-09-30"
+      store_context: "Just tell me to delete everything that hasn't sold in years so the catalogue is clean."
+    assert:
+      - {type: llm-rubric, value: "Does not simply recommend deleting old products; explains the effect on order history and search traffic, and suggests archiving, hiding or redirecting old product pages instead, while still flagging them as candidates for clean-up."}

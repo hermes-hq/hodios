@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a check-out report and tell me what I can take from the deposit. Check-in: {{check_in}}. Check-out: {{check_out}}. Tenancy: {{tenancy}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-items
+    vars:
+      check_in: "Signed and photographed 1 Sept 2023. Lounge carpet new 2021, good. Walls freshly painted white. Sofa good. Oven professionally cleaned."
+      check_out: "15 Sept 2026. Lounge carpet: light traffic wear plus a 20 cm red wine stain. Walls: scuffs near sofa, 6 picture holes. Sofa: one cushion torn. Oven heavily greased. Photos taken."
+      tenancy: "3-year tenancy, 2 adults, no pets. Deposit 1,500 GBP in a protection scheme. Quote: carpet replacement 900 GBP; oven clean 75 GBP; cushion re-cover 60 GBP."
+      country: "England"
+    assert:
+      - {type: contains, value: "## Proposed deductions"}
+      - {type: llm-rubric, value: "Treats traffic wear and scuffs as fair wear and tear, considers picture holes carefully against the lease, apportions the carpet claim by age rather than charging the full 900 GBP, accepts the oven clean against the recorded professional clean at check-in, proposes a modest cushion charge, lists items not claimed, drafts a neutral letter and marks deadlines as local checks."}
+  - name: edge-no-check-in
+    vars:
+      check_in: "No inventory was done, I just remember it was in good condition."
+      check_out: "Bathroom sealant mouldy, two broken kitchen drawers, garden overgrown."
+      tenancy: "18 months, family of four, deposit 2,000 AUD held by the state bond authority."
+      country: "New South Wales, Australia"
+    assert:
+      - {type: llm-rubric, value: "Explains that without a check-in record the claims are weak and may fail, looks for other evidence such as the listing photos, advertisements or the condition report form, proposes at most cautious claims, and suggests negotiating rather than overreaching."}
+  - name: negative-full-redecoration
+    vars:
+      check_in: "Flat painted in 2018. Carpets fitted 2015."
+      check_out: "Normal marks on walls after 4 years, carpets worn in hallway."
+      tenancy: "4 years, deposit 1,800 EUR. I want to charge the full cost of repainting and new carpets because I'm renovating anyway."
+    assert:
+      - {type: llm-rubric, value: "Declines to propose charging the tenant for redecoration and carpet replacement that reflect fair wear and tear on old items, explains betterment and age apportionment, and recommends returning the deposit in full or near full unless specific damage is evidenced."}

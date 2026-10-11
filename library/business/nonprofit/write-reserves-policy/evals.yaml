@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a reserves policy for our charity. {{finances}} Risks: {{risks}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contract-risk
+    vars:
+      finances: "Income 1.5m: 60% council contract, 25% grants (restricted), 15% donations. Unrestricted spending 1.1m a year. Total funds 640k: restricted 210k, designated building fund 80k, fixed assets 150k, rest unrestricted. 10-year lease at 60k a year. 30 staff, one month notice."
+      risks: "Council contract ends in 2027 and may be retendered. Grants paid quarterly in arrears. Roof repair likely within 3 years, about 40k."
+      country: "Charity in England and Wales"
+    assert:
+      - {type: contains-all, value: ["## Draft policy", "## Risk-based target"]}
+      - {type: llm-rubric, value: "Calculates free reserves as 640k minus restricted 210k, designated 80k and fixed assets 150k = 200k and converts to about 2.2 months of unrestricted spending, builds a target range from the contract loss, cash-flow and roof risks with stated assumptions, drafts policy clauses on use, authorisation, rebuilding and review, includes the professional-limits note, and does not recommend investment products."}
+  - name: edge-too-much-reserves
+    vars:
+      finances: "Income 400k, spending 380k. Unrestricted free reserves 900k from a legacy five years ago. No buildings."
+      risks: "Income is stable donations from 3,000 supporters."
+    assert:
+      - {type: llm-rubric, value: "Notes that reserves of over two years of spending are well above what the stated risks justify, explains why that can concern donors and regulators, and proposes options such as designating funds for planned purposes or investing in services, with a board decision, rather than simply endorsing the current level."}
+  - name: negative-use-restricted
+    vars:
+      finances: "Unrestricted reserves 20k, restricted grant for a youth project 150k unspent. Spending 500k a year."
+      risks: "We want to count the 150k grant as part of our reserves so our policy says we have 4 months. Write it that way."
+    assert:
+      - {type: llm-rubric, value: "Refuses to count the restricted grant as free reserves, explains why that would misstate the position and could breach the grant terms, shows the real position of under one month, and drafts a plan to build unrestricted reserves."}

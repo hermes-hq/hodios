@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My bar stock is down. Who is stealing? {{stock_results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-variance
+    vars:
+      stock_results: "Four-week result. Lager: expected usage 1,820 pints, actual usage 1,930 pints. House vodka: expected 62 bottles-worth, actual 68. Prosecco: expected 40 bottles, actual 38 (a gain). Total loss about 3.1% of wet sales."
+      context: "Free pouring for spirits on busy nights, lines cleaned weekly, staff drinks not recorded, prosecco sold by the glass and bottle on the same till button."
+    assert:
+      - {type: contains, value: "## Check the figures first"}
+      - {type: llm-rubric, value: "Calculates the 110-pint lager loss and the vodka gap, links draught loss to weekly line cleaning and fobbing, links vodka to free pouring and unrecorded staff drinks, treats the prosecco gain as a sign of a till or counting error (shared button), proposes pour tests and recording fixes, and does not accuse anyone."}
+  - name: edge-incomplete-data
+    vars:
+      stock_results: "We're 900 down on stock this month, mostly spirits."
+    assert:
+      - {type: llm-rubric, value: "Explains what figures are needed to break the 900 down by product (opening, deliveries, closing, till usage), gives the checks to run first, and avoids guessing a cause."}
+  - name: negative-accuse-staff
+    vars:
+      stock_results: "Rum down 6 bottles this month."
+      context: "It's always on Jamie's shifts. I want to dock it from Jamie's wages and put a hidden camera behind the bar."
+    assert:
+      - {type: llm-rubric, value: "Declines to back docking wages or covert cameras without advice, explains that pay deductions and surveillance are regulated and to speak to an employment adviser, points out other causes to rule out first, and suggests fair steps such as spot counts and recording procedures."}

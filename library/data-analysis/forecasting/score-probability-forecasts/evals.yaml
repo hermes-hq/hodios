@@ -1,0 +1,23 @@
+schema: 1
+baseline: "How good are my forecasts? {{forecast_log}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overconfident-log
+    vars:
+      forecast_log: "1. Release ships by June: 90%, no. 2. Hire signed by May: 85%, yes. 3. Client renews: 95%, yes. 4. Competitor launches feature X this year: 10%, yes. 5. Project under budget: 80%, no. 6. Conference talk accepted: 70%, yes. 7. Migration done in Q2: 90%, no. 8. Churn below 3%: 60%, yes. 9. Vendor delivers on time: 95%, yes. 10. Office move by Sept: 85%, no. 11. Price rise accepted by top client: 75%, yes. 12. App store approval first try: 90%, yes."
+    assert:
+      - {type: contains, value: "## Calibration table"}
+      - {type: llm-rubric, value: "Computes a Brier score with worked rows and compares it with the 0.25 always-50% benchmark and a base-rate benchmark, builds a calibration table showing high-probability forecasts (80-95%) came true noticeably less often than stated, identifies overconfidence on schedule-type questions, warns that 12 questions is a small sample, and suggests concrete habits such as using base rates for delivery dates."}
+  - name: edge-certainties-and-unresolved
+    vars:
+      forecast_log: "A: 100%, yes. B: 0%, yes. C: 40%, no. D: 65%, not resolved yet. E: 'probably', yes."
+    assert:
+      - {type: llm-rubric, value: "Excludes the unresolved question, flags that 'probably' is not a number and asks for or states a handling rule, explains that the 0% forecast that happened makes the log score infinite and how it handles that, computes the Brier score for what is scorable, and says the sample is far too small to judge skill."}
+  - name: negative-judge-one-forecast
+    vars:
+      forecast_log: "My analyst said 80% our biggest client would renew. They didn't renew. Score her and tell me if I should stop trusting her forecasts."
+    assert:
+      - {type: llm-rubric, value: "Explains that one forecast cannot show skill and that an 80% call misses about one time in five when well calibrated, gives the Brier score for this single forecast only as an illustration, declines to judge the analyst on it, and suggests keeping a log of many resolved forecasts to assess her."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What did you think of my set? {{set_transcript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-open-mic-transcript
+    vars:
+      set_transcript: "[0:00] Hi, I'm Sam, I work in IT, which means I'm the reason your printer doesn't work. [chuckle] [0:15] So my mum just joined Facebook... she comments 'Love Mum' on every post, including a news story about a flood. [big laugh] [0:40] She also thinks LOL means lots of love... [0:50] so when my uncle died she wrote 'So sorry for your loss, LOL'. [big laugh] [1:10] Anyway, I've been dating... long story about my ex's dog, his name was Biscuit, he was a rescue, from Spain, we got him in 2019, and... [silence] [2:05] he ate my passport. [small laugh] [2:20] Thanks, I'm Sam!"
+      gig_context: "Open mic, 30 people, 3-minute slot, third act."
+    assert:
+      - {type: contains, value: "## Fixes to test"}
+      - {type: llm-rubric, value: "Counts laughs by size and calculates laughs per minute for a set of about two and a half minutes, identifies the long dead stretch in the dog story caused by setup details before the passport punch, suggests concrete trims quoted from the transcript (cutting 'from Spain, we got him in 2019'), keeps the mum bits, and notes that one room is a small sample."}
+  - name: edge-no-laugh-marks
+    vars:
+      set_transcript: "Five minutes of my set typed out with no notes on the audience."
+    assert:
+      - {type: llm-rubric, value: "Says the review is limited without laugh marks, asks for them or a recording-based transcript, and limits itself to structural observations."}
+  - name: negative-write-new-jokes
+    vars:
+      set_transcript: "[0:00] Airports, right? [silence] [0:10] Why do they make you take your shoes off? [silence]"
+      gig_context: "Just write me a better five minutes I can use instead."
+    assert:
+      - {type: llm-rubric, value: "Does not write a replacement set of new jokes; reviews what is there (two generic premises with no laughs), explains the problem with stock premises, and suggests how the comedian can find a personal angle or tag their own material."}

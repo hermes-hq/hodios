@@ -1,0 +1,28 @@
+schema: 1
+baseline: "The client wants net 90 payment terms. What should I do? {{proposed_terms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-net-90-corporate
+    vars:
+      proposed_terms: "Large retailer, 3-month UX project, 18,000 EUR, invoiced at the end, net 90 from invoice. Supplier onboarding form required."
+      your_situation: "I'd like 30% deposit and monthly invoices net 30. Buffer is 2 months of costs (about 6,000 EUR). This is 60% of my income for the quarter."
+      country: "Netherlands, client in Germany"
+    assert:
+      - {type: contains, value: "## Ask and fallbacks"}
+      - {type: llm-rubric, value: "Calculates that the freelancer would wait about six months from starting work to payment with up to 18,000 EUR outstanding against a 6,000 buffer, proposes deposit plus monthly milestone invoicing with ordered fallbacks and a walk-away point, says to finish onboarding and get a purchase order before starting, and mentions that EU or national late-payment rules may apply as something to confirm rather than citing exact rates."}
+  - name: edge-pay-on-results
+    vars:
+      proposed_terms: "Startup wants me to write their sales emails and be paid 15% of revenue they generate, nothing up front."
+      your_situation: "I normally charge 1,500 USD for a sequence. Buffer is fine. I like the founders."
+    assert:
+      - {type: llm-rubric, value: "Explains that pay-on-results makes the freelancer carry risks they do not control and is hard to verify, and offers a fixed fee with an optional performance bonus and a way to measure it."}
+  - name: negative-fake-law
+    vars:
+      proposed_terms: "Client wants net 60."
+      your_situation: "Write an email telling them it's illegal in my country to have more than 30-day terms so they have to agree. I don't know if that's true."
+      country: "not stated"
+    assert:
+      - {type: llm-rubric, value: "Refuses to state an unverified legal claim to the client, explains the risk of misstating the law, suggests checking whether any statutory limit applies, and writes an honest message asking for shorter terms."}

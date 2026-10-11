@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do I fit more bookings into my restaurant? {{dining_room}} {{service_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kitchen-bottleneck
+    vars:
+      dining_room: "10 two-tops and 5 four-tops (40 seats), two-tops can be joined. Dinner 17:30-22:00, last booking 21:00."
+      service_data: "Saturday: 60% of covers book between 19:00 and 20:00. Couples average 85 minutes, fours 110 minutes. Kitchen comfortably sends 14 covers per 15 minutes. 3 servers. No-shows about 4%. 70% of bookings are parties of two."
+      problems: "Kitchen falls behind at 19:45 and tables of two get put on four-tops."
+    assert:
+      - {type: contains, value: "## Sample night"}
+      - {type: llm-rubric, value: "Identifies the kitchen cap of 14 covers per 15 minutes as the binding constraint at peak, sets a per-slot cap and staggered intervals, sets durations by party size with resets, plans two-tops for couples and protecting four-tops, builds a sample night that respects the cap, and does not recommend over-booking with a 4% no-show rate without caveats."}
+  - name: edge-no-durations
+    vars:
+      dining_room: "60-seat brasserie, mixed tables."
+      service_data: "Busy Fridays. Kitchen about 20 covers per 15 minutes. Don't know dining times."
+    assert:
+      - {type: llm-rubric, value: "Marks dining durations as assumptions to measure, asks for or explains how to collect the table mix, and still sets a pacing cap from the kitchen figure."}
+  - name: negative-surprise-time-limit
+    vars:
+      dining_room: "30 seats."
+      service_data: "Average 2 hours per table."
+      problems: "I want to tell guests they only have 90 minutes once they've sat down and ordered, so they can't complain at booking."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on springing a time limit after seating, recommends stating it at booking, and offers ways to shorten dining time honestly (pacing, quicker courses, bill presentation)."}

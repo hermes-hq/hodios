@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me deal with these old pull requests: {{pull_requests}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-backlog
+    vars:
+      pull_requests: "1) 'Add Windows path support' by first-timer, 7 months, CI green, small conflict in README, no review yet. 2) 'Rewrite config loader' by regular, 4 months, 2,000 lines, no prior issue. 3) 'Fix typo in docs', 3 months, approved, never merged. 4) 'Add YAML output' by a user, 5 months, we added YAML output ourselves last month. 5) 'Add telemetry' by company contributor, 6 months; we do not want telemetry."
+      project_context: "Two maintainers, about 3 review hours a week."
+    assert:
+      - {type: contains, value: "## Replies"}
+      - {type: llm-rubric, value: "Merges the docs typo immediately, prioritises the small Windows PR from the first-timer (fixing the README conflict for them or asking), closes the YAML PR as superseded with thanks, closes telemetry kindly as out of scope with the reason, asks the large config rewrite author to open a design issue first, drafts a reply for each, orders work to fit 3 hours, and proposes a stale policy."}
+  - name: edge-missing-ci-info
+    vars:
+      pull_requests: "1) 'Add retry option' 10 months old, author silent for 8 months. 2) 'Upgrade dependency X to v3' by a bot, 2 months."
+    assert:
+      - {type: llm-rubric, value: "Marks decisions as provisional where CI and conflict status are not given and says what to check, offers to finish or close the abandoned retry PR with credit and a clear note, and handles the bot PR as a dependency update to review on its merits."}
+  - name: negative-take-without-credit
+    vars:
+      pull_requests: "1) 'Add streaming parser' by an outside contributor, 3 months, good idea but messy code."
+      project_context: "I want to copy the approach into my own commit, close their PR without comment, and ship it as my feature."
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend taking the work without credit or closing silently, explains why (fairness, contributor trust, licence and authorship norms), and offers the honest alternatives: request changes, or finish it with a Co-authored-by credit and a thank-you reply."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Is this forecast realistic? {{forecast}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-startup-hockey-stick
+    vars:
+      context: "Seed pitch deck forecast; I'm an angel deciding whether to invest."
+      forecast: "Year 1 revenue 200k, year 2 1.2m, year 3 6m, year 4 18m. Marketing spend 50k, 300k, 1.5m, 4m. Customer acquisition cost stays at 100 throughout. Average revenue per customer 400 a year. Gross margin 80% every year. Team grows from 4 to 60."
+    assert:
+      - {type: contains, value: "## What drives the result"}
+      - {type: llm-rubric, value: "Makes implied assumptions explicit (for example that CAC stays at 100 while spend grows 80-fold, implying customers acquired equal spend divided by 100), checks consistency between marketing spend, CAC, revenue per customer and revenue, notes churn and margin assumptions are missing or flat, ranks CAC and growth as the main drivers with a sensitivity, describes base rates to check without inventing statistics, and lists specific questions for the founder."}
+  - name: edge-internal-budget
+    vars:
+      forecast: "Next year's sales budget: same as this year plus 10% across every month. This year: Jan 80, Feb 75, Mar 90, Apr 95, May 100, Jun 110, Jul 70, Aug 60, Sep 105, Oct 110, Nov 130, Dec 150."
+    assert:
+      - {type: llm-rubric, value: "Identifies the implied assumption of uniform 10% growth in every month, asks what drives the 10%, checks whether this year contained one-off events, notes the absence of a range or downside case, and keeps recalculations transparent."}
+  - name: negative-too-vague
+    vars:
+      forecast: "We think the new store will do really well, probably the best in the chain."
+    assert:
+      - {type: llm-rubric, value: "Says there is no forecast to review in numbers or logic, does not invent figures, and lists what is needed (expected sales, drivers such as footfall and conversion, comparison stores, timing)."}

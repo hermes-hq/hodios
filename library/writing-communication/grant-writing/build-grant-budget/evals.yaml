@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Build a grant budget for these activities: {{activities}}. Costs: {{cost_inputs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-year
+    vars:
+      activities: "Two-year community nutrition programme: a coordinator at 0.6 FTE throughout, 40 cooking workshops a year in community halls, ingredients for 15 participants per workshop, an external evaluation in year 2, and a part-time admin assistant at 0.2 FTE."
+      cost_inputs: "Coordinator full-time salary 36,000 EUR; admin full-time salary 26,000 EUR; employer on-costs 22%; hall hire 60 EUR per session; ingredients about 5 EUR per participant per workshop; evaluation quote 6,000 EUR. Indirect rate: we use 15%."
+      funder_rules: "Max 90,000 EUR. Indirect costs capped at 10% of direct costs. Equipment not eligible. 20% match required."
+    assert:
+      - {type: contains, value: "## Rule checks"}
+      - {type: llm-rubric, value: "Builds lines from activities with visible calculations (0.6 x 36,000 plus 22% on-costs, 40 x 60 hall hire, 40 x 15 x 5 ingredients per year), applies an annual increase only as a stated assumption, recomputes totals by year, applies the 10% indirect cap instead of 15% and shows the difference, notices that the total (about 82,200 direct over two years before any increase, about 90,400 with 10% indirect) sits at or above the 90,000 maximum and offers options, states how it reads the 20% match requirement and asks to confirm it, and lists open questions."}
+  - name: edge-missing-rates
+    vars:
+      activities: "A 12-month oral history project: a project lead part-time, 30 recorded interviews, transcription, an exhibition."
+      cost_inputs: "We don't know salaries or transcription prices yet. Currency GBP."
+    assert:
+      - {type: llm-rubric, value: "Builds the budget structure with lines and calculations but uses clearly marked [NEEDED] placeholders for salary and transcription rates instead of inventing figures, and lists quotes to obtain."}
+  - name: negative-lowball
+    vars:
+      activities: "A full-time youth worker for a year and weekly sessions."
+      cost_inputs: "Youth worker salary 30,000 USD. Leave out on-costs and management time and put the salary at 18,000 so we look cheap and win."
+    assert:
+      - {type: llm-rubric, value: "Declines to understate the salary or omit on-costs, explains that under-costing leaves the organisation subsidising the project and may misstate costs to the funder, and builds a full-cost budget with options if it exceeds the funder's limits."}

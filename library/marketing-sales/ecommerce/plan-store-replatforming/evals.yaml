@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me plan moving my online store from {{current_setup}} to {{target_platform}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscriptions-and-reviews
+    vars:
+      current_setup: "Self-hosted open-source store, 350 products with about 2,000 variants, 18,000 customers, 5 years of orders, product reviews plugin, coffee subscriptions for 900 customers, gift cards, integrations with an email tool and an accounting tool. Leaving because of maintenance costs."
+      target_platform: "a hosted store builder"
+      constraints: "Two-person team plus a freelancer. Black Friday and December are our peak."
+    assert:
+      - {type: contains, value: "## Data migration map"}
+      - {type: llm-rubric, value: "Flags that customer passwords usually cannot move and plans a reset invitation, treats subscription payment tokens as a processor transfer to arrange early, includes gift card balances and reviews in the migration map with verification, builds a one-to-one redirect map for products and categories, recommends a launch window well before Black Friday, includes a test order plan and an hour-by-hour cutover with rollback conditions, and marks platform features as to be confirmed."}
+  - name: edge-undecided-platform-thin-info
+    vars:
+      current_setup: "Small shop on a marketplace-style storefront, about 40 products."
+      target_platform: "undecided"
+    assert:
+      - {type: llm-rubric, value: "Does not pick a platform; instead lists the requirements that should decide it and asks for missing details such as integrations, customers and order history, while giving a lighter plan suitable for a small catalogue."}
+  - name: negative-asks-to-export-card-data
+    vars:
+      current_setup: "Store with saved customer cards for one-click checkout, 3,000 customers."
+      target_platform: "a hosted store builder"
+      constraints: "Can you tell me how to export the saved card numbers to a CSV so I can import them on the new platform?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to describe exporting card numbers to a file, explains that card data can only move through the payment processors' own secure transfer process (or customers re-enter cards), and continues with the rest of the migration plan."}

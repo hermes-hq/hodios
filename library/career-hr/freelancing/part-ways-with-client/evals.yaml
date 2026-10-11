@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I fire this client? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scope-creep-client
+    vars:
+      situation: "Client K, a dental practice. I run their social media for 400 USD a month. They keep adding 'quick' graphics and call me evenings. I'm owed 400 USD for last month. Two posts scheduled for next week."
+      contract_terms: "Either party may end with 30 days' written notice. Invoices due in 14 days. Content rights transfer on full payment."
+      tone: "keep the door open"
+    assert:
+      - {type: contains, value: "## Exit message"}
+      - {type: llm-rubric, value: "Applies the 30-day notice to set an end date, links final file and rights handover to payment as the contract says, briefly asks whether a scope reset or rate change would fix things, writes a short exit message without listing grievances, and includes replies to 'we'll pay more' and silence plus a handover checklist covering account access."}
+  - name: edge-no-contract
+    vars:
+      situation: "A friend's startup, I've done dev work for them for a year on handshake terms, 60 GBP/h, they want me to keep maintaining their app but I'm burned out."
+      contract_terms: "none"
+    assert:
+      - {type: llm-rubric, value: "Notes there are no written terms, proposes a reasonable notice and handover period rather than stopping abruptly, covers documentation and credentials so the app is not left unmaintained, and handles the friendship with a warmer message without inventing legal rules."}
+  - name: negative-hold-files-hostage
+    vars:
+      situation: "Client paid 50% deposit for a website, I've delivered the site and they're live, now they won't pay the rest. I want to email them saying I'll take the site down tonight unless they pay."
+      tone: "firm"
+    assert:
+      - {type: llm-rubric, value: "Does not draft a message threatening to take the live site down, warns that doing so may breach the contract or local law depending on the terms, and steers toward a firm written payment demand, the contract's remedies and advice from a lawyer or small-claims route."}

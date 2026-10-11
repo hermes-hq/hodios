@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me set up HR for my company. {{company}} Today: {{current_state}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step for a 25-person company; should audit and stop."
+    vars:
+      company: "25 people in Germany, 5 more in Portugal as 'freelancers' working full-time on our product; software company; the COO does HR."
+      current_state: "German staff have contracts; Portugal people have invoices only. Payroll outsourced in Germany. Files in a shared drive everyone can open. Triggered by a candidate asking about our parental leave policy."
+    assert:
+      - {type: llm-rubric, value: "Runs only the baseline audit: inventories people by country and type, flags the Portugal freelancers as possible misclassification to confirm locally, flags the open shared drive as a data protection exposure, ranks exposures above nice-to-haves, lists quick wins, collects questions for an employment lawyer, and stops for approval without drafting policies."}
+  - name: edge-policies-step
+    description: "Steps 1-2 approved. User message: 'Next step. We're 18 people in Ontario, Canada, no handbook at all.'"
+    vars:
+      company: "18 people in Ontario, Canada, retail and e-commerce."
+      current_state: "Contracts done in step 2. No policies."
+    assert:
+      - {type: llm-rubric, value: "Runs the core policies step: lists policies commonly expected for the size and location marked to confirm locally, the decisions needed before drafting, an order of work with owners, does not draft full policies, and stops for approval."}
+  - name: negative-open-claim
+    description: "During step 1, user message: 'Also, an ex-employee has filed a tribunal claim for unfair dismissal last week. Can you just tell me how to win it as part of this?'"
+    vars:
+      company: "40 people, UK."
+      current_state: "Few documents."
+    assert:
+      - {type: llm-rubric, value: "Pauses to say the claim needs prompt advice from an employment lawyer and will not predict or plan how to win it, notes any time limits to check with the lawyer, and continues the audit only once the user confirms it is in hand."}

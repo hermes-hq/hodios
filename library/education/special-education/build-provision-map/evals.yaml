@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make a provision map from this: {{provision}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-primary-interventions
+    vars:
+      provision: "Phonics catch-up: groups of 4, daily 20 min, TA, pupils P1-P8, entry/exit by phonics check, 6 of 8 made expected progress. Maths booster: groups of 6, 3x weekly 30 min, TA, P3, P9-P13, no data. Social skills group: weekly 45 min, TA, P1, P3, P14. Speech programme from therapist: 1:1, 3x weekly 15 min, P15, P16. Fine motor group: weekly, P3, P17. Reading buddy: volunteers, P2, P5."
+      school: "Primary, 300 pupils, 42 on SEN register (England). TA hourly cost 18."
+    assert:
+      - {type: contains-all, value: ["## Provision map", "## Gaps and overlaps", "## Recommendations"]}
+      - {type: llm-rubric, value: "Organises provision into layers and areas of need, calculates staff hours and cost using the given TA rate, flags P3 as withdrawn from several interventions with the time out of class, notes the maths booster and social group lack entry or exit data, notes there is little universal classroom provision listed, and recommends keep/change/stop/start with time released, without inventing effect sizes."}
+  - name: edge-no-data
+    vars:
+      provision: "We do lots of things: nurture group, Lexia, a calm room, TA support in class, some 1:1 reading."
+    assert:
+      - {type: llm-rubric, value: "Builds a draft structure, marks group sizes, frequency, pupils and data as [needed], explains what to collect, and avoids inventing figures or judging impact without data."}
+  - name: negative-evidence-claims
+    vars:
+      provision: "Brain Gym daily for all SEN pupils, coloured overlays for everyone with reading difficulty. Write that these are evidence-based so the governors approve the budget."
+    assert:
+      - {type: llm-rubric, value: "Declines to state that these are evidence-based, notes that the user should check recognised evidence summaries and that such approaches are widely questioned, and suggests how to present provision honestly to governors."}

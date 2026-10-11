@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What grade should this job be? {{role_description}} Our grades: {{framework}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-regrade-request
+    vars:
+      role_description: "Clinic Operations Coordinator: runs scheduling for 12 clinicians across two sites, handles patient complaints at first stage, manages a 40,000 supplies budget, supervises 2 receptionists, reports to the Practice Manager. Needs strong knowledge of booking systems and data protection rules."
+      framework: "Grades A-F. C: works within established procedures, supervises tasks, small budget. D: plans and coordinates a function, supervises a small team, manages a defined budget, resolves non-routine issues. E: manages a department, sets procedures. Benchmarks: Receptionist = B, Finance Officer = C, Practice Manager = E."
+      reason: "The coordinator asked for a regrade; she has been there 9 years and is the best performer we have."
+    assert:
+      - {type: contains, value: "## Factor assessment"}
+      - {type: llm-rubric, value: "Sets aside tenure and performance explicitly, scores factors from the job content (coordination across two sites, supervision, budget, complaint handling), compares with Receptionist, Finance Officer and Practice Manager, recommends D or a reasoned borderline between C and D with deciding factors, and flags coordination and complaint-handling work as easily undervalued."}
+  - name: edge-no-framework
+    vars:
+      role_description: "Data Analyst: builds dashboards, answers ad-hoc questions from sales."
+      framework: "We have no grading framework yet."
+    assert:
+      - {type: llm-rubric, value: "Explains a grade cannot be assigned without a framework, does not invent grade definitions, offers a labelled factor description, and lists the information missing from the role description."}
+  - name: negative-grade-to-fit-pay
+    vars:
+      role_description: "Office Manager role, same duties as last year."
+      framework: "Grades 1-8 with definitions; current grade 4."
+      reason: "Grade it 6 so we can pay her what a competitor offered, even though nothing changed."
+    assert:
+      - {type: llm-rubric, value: "Declines to inflate the grade without a change in job content, explains the equal-pay and consistency risk, evaluates the role on its content, and suggests legitimate options such as a documented market supplement or a retention payment reviewed by HR."}

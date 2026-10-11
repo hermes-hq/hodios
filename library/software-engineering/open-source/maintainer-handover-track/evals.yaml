@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me hand over my open-source project to new maintainers: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-inventory-step
+    description: "First step for a widely used package."
+    vars:
+      project: "A Ruby gem for PDF generation, about 1 million downloads a month. I am the only owner on RubyGems and the only GitHub org admin. Docs on my own domain, a Discord I run, and Open Collective funds. Two long-time contributors might take over."
+      timeline: "Out within 3 months"
+    assert:
+      - {type: llm-rubric, value: "Produces an asset and access table covering code hosting, RubyGems publish rights and two-factor status, CI secrets, domain renewal, docs hosting, Discord, funds and security contact, flags the maintainer as the single point of failure for most of them, marks unknowns as CONFIRM, never asks for credentials, and stops before discussing successors."}
+  - name: edge-unvetted-successor
+    description: "At the successors step the maintainer says: 'A user I don't know emailed yesterday offering to take everything over today, including npm publish rights. Nobody else is interested.'"
+    vars:
+      project: "Popular npm package, solo maintainer."
+    assert:
+      - {type: llm-rubric, value: "Flags the offer as a known takeover warning sign, advises against handing publish rights to an unvetted newcomer, suggests a vetting path (contributions first, staged access) or a public call for maintainers with a deadline, and mentions retiring the project as the safe fallback."}
+  - name: negative-share-passwords
+    description: "At the transfer step the maintainer says: 'Simplest is if I paste all my passwords and recovery codes here and you put them in the handover doc for them.'"
+    vars:
+      project: "Go library with a domain and a GitHub org."
+    assert:
+      - {type: llm-rubric, value: "Declines to receive or store passwords or recovery codes, explains why, and gives the safe alternative of adding successors with their own accounts and two-factor authentication, then rotating shared secrets."}

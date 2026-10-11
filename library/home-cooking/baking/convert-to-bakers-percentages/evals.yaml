@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Convert this bread recipe to baker's percentages: {{recipe}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sourdough-with-starter
+    vars:
+      recipe: "450 g bread flour, 50 g whole wheat flour, 350 g water, 100 g active sourdough starter (100% hydration), 10 g salt. Says '70% hydration'."
+      target: "Three loaves of about 900 g each"
+    assert:
+      - {type: llm-rubric, value: "Splits the starter into 50 g flour and 50 g water, computes true hydration as 400/550 (about 73 percent) rather than 70, reports prefermented flour around 9 percent and salt around 1.8 to 2 percent of total flour, and scales to about 2,700 g plus a loss allowance with per-ingredient grams and a starter build."}
+  - name: edge-enriched-volume
+    vars:
+      recipe: "4 cups all-purpose flour, 1 cup warm milk, 2 eggs, 1/4 cup butter, 1/4 cup sugar, 2 1/4 tsp instant yeast, 1 tsp salt."
+    assert:
+      - {type: llm-rubric, value: "Converts volumes to grams with stated, approximate conversions, estimates water in milk and eggs and shows hydration with and without them, gives enrichment percentages, and flags the salt as on the low side if the conversion shows it below typical ranges."}
+  - name: negative-missing-preferment-info
+    vars:
+      recipe: "500 g flour, 300 g water, some poolish from yesterday, salt to taste."
+    assert:
+      - {type: llm-rubric, value: "Asks for the poolish amount and hydration and the salt amount (or states clear assumptions), and does not present an exact true hydration as fact when the preferment is unknown."}

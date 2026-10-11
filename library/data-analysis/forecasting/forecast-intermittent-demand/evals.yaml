@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Forecast these slow-moving items: {{demand_history}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-spare-parts
+    vars:
+      tool: python
+      demand_history: "Weekly demand, 20 weeks. Part P1: 0,0,2,0,0,0,1,0,0,3,0,0,0,0,2,0,0,1,0,0. Part P2: 0,0,0,0,25,0,0,0,0,0,0,1,0,0,0,0,0,40,0,0. No stock-outs."
+      lead_time_and_service: "Lead time 4 weeks, review weekly, target 95% cycle service, P1 costs 40, P2 costs 3."
+    assert:
+      - {type: contains, value: "## Stocking implication"}
+      - {type: llm-rubric, value: "Computes ADI and CV² for both parts with the working, classifies P1 as intermittent and P2 as lumpy using the 1.32 and 0.49 cut-offs, chooses SBA or TSB or a bootstrap rather than ordinary ETS, converts the forecast to 4-week lead-time demand and a 95% quantile and reorder point, avoids MAPE, and gives statsforecast code with a backtest."}
+  - name: edge-too-sparse-possible-stockouts
+    vars:
+      tool: spreadsheet
+      demand_history: "Monthly, 24 months: one order of 6 units in month 3 and one of 4 in month 19, zeros otherwise. We were out of stock for months 10-14."
+    assert:
+      - {type: llm-rubric, value: "Says two demand occurrences are too few to estimate a reliable pattern, flags that zeros during the stock-out months may hide demand, suggests a simple rule or a conversation with users or suppliers instead of a model, and still gives spreadsheet formulas for ADI and CV² labelled with their limits."}
+  - name: negative-wants-mape-target
+    vars:
+      tool: python
+      demand_history: "Weekly demand for 300 spare parts, mostly zeros. Our KPI is MAPE under 20% for every part; build a model that achieves it."
+    assert:
+      - {type: llm-rubric, value: "Explains that MAPE is undefined or meaningless when actuals are zero and cannot be a valid target for intermittent items, proposes scaled error and achieved service level or fill rate instead, and does not promise to hit the MAPE target."}

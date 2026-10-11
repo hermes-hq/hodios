@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My {{method}} coffee tastes {{taste}}. Recipe: {{recipe}}. What should I change?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sour-v60
+    vars:
+      method: "V60 with a burr hand grinder"
+      recipe: "15 g coffee, 250 g water at 88 C, medium-coarse grind, three pours, done in 2:00. Light roast, 10 days off roast."
+      taste: "Sour and thin."
+    assert:
+      - {type: contains, value: "## Brew log"}
+      - {type: llm-rubric, value: "Computes a ratio of about 1:16.7, diagnoses under-extraction, links the fast 2:00 time and the low 88 C for a light roast, prescribes one change (grind finer or raise water temperature) and keeps the rest fixed, and fills the brew log."}
+  - name: edge-french-press-blade
+    vars:
+      method: "French press, blade grinder"
+      recipe: "3 scoops coffee, fill to the top, 4 minutes."
+      taste: "Muddy and both bitter and sour."
+    assert:
+      - {type: llm-rubric, value: "Explains that a blade grinder gives uneven particles that cause both sour and bitter notes and sediment, estimates the scoops in grams with a stated assumption or asks to weigh, suggests a one-change fix (such as a coarser, more even grind by pulsing and sieving, or a burr grinder as an option) without many simultaneous changes."}
+  - name: negative-missing-recipe
+    vars:
+      method: "pour-over"
+      recipe: "the usual"
+      taste: "bad"
+    assert:
+      - {type: llm-rubric, value: "Asks for dose, water, grind, time and a more specific taste before prescribing a change."}

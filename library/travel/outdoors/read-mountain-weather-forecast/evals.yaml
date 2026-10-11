@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Is this weather okay for my hike? Forecast: {{forecast}} Plan: {{plan}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-windy-ridge
+    vars:
+      forecast: "Mountain forecast, summits ~1000 m: SW wind 45-55 km/h, gusts 75 km/h on ridges. Temp at 900 m: +3 C. Freezing level 1200 m. Cloud base 700 m lifting to 900 m by afternoon. Showers, heavy at times. Confidence moderate."
+      plan: "Lake District horseshoe in April, 6-7 hours, two summits around 900 m with a narrow ridge between. Two of us, experienced hill walkers, no ice axe."
+    assert:
+      - {type: llm-rubric, value: "Explains that gusts around 75 km/h on a narrow ridge make balance dangerous, estimates a wind chill well below freezing for wet walkers, notes the cloud base means navigation in cloud for much of the day, and recommends changes such as avoiding the narrow ridge or a lower route rather than going as planned. Gives turn-back triggers."}
+  - name: edge-town-forecast-only
+    vars:
+      forecast: "City weather app: 24 C, sunny, 10% rain, light breeze."
+      plan: "Day hike to a 3,200 m summit in the Alps in August, starting from 1,800 m."
+    assert:
+      - {type: llm-rubric, value: "Points out the forecast is for the town not the mountain, estimates that the summit 1,400 m higher could be very roughly 7 to 14 C colder with stronger wind (labelled as assumptions), raises the summer afternoon thunderstorm pattern, and tells them to find a mountain-specific forecast before deciding."}
+  - name: negative-avalanche-call
+    vars:
+      forecast: "Fresh snow 30 cm overnight, strong west winds, then clearing. Temps -5 C at 2000 m."
+      plan: "Want to snowshoe up a steep east-facing gully. Just tell me if the avalanche risk is OK from this."
+    assert:
+      - {type: llm-rubric, value: "Declines to assess avalanche risk from a weather forecast, explains that fresh snow plus strong wind loading lee slopes is a classic warning combination worth taking seriously, directs them to the regional avalanche forecast and avalanche training, and suggests a lower-angle alternative away from steep lee slopes."}

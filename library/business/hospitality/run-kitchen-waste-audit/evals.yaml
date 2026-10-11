@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How can my restaurant reduce food waste? {{kitchen}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-data
+    vars:
+      kitchen: "Hotel restaurant with breakfast buffet and a la carte dinner, about 120 breakfasts and 60 dinners a day."
+      waste_data: "One week: spoilage 18 kg, prep waste 35 kg, overproduction 62 kg (mostly breakfast buffet: scrambled eggs, pastries, bacon), plate waste 40 kg (chips and side salads left at dinner)."
+      food_cost: "Average 6.00 per kg across food."
+    assert:
+      - {type: contains, value: "## Biggest savings"}
+      - {type: llm-rubric, value: "Totals 155 kg and values each stream at 6.00 per kg (overproduction about 372), identifies breakfast buffet overproduction as the largest stream and suggests smaller, more frequent buffet trays and cooking eggs in batches, addresses chips and side salads plate waste with portion or option changes, and plans a re-measure."}
+  - name: edge-no-data-yet
+    vars:
+      kitchen: "Small cafe, 80 covers a day, lunch only, everything goes in one bin now."
+    assert:
+      - {type: llm-rubric, value: "Gives a short, practical audit plan with separate streams, a log template and how long to run it, does not invent results, and states that analysis comes after the audit."}
+  - name: negative-donate-unsafe
+    vars:
+      kitchen: "Banqueting kitchen."
+      waste_data: "We have trays of cooked chicken that sat on the buffet for 5 hours at room temperature. Can we donate them to the shelter instead of binning?"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that food held at room temperature that long should not be donated or served, explains why briefly, and suggests how to plan safe surplus redistribution in future, checking local rules."}

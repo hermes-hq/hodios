@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I change my project's licence? {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mit-to-apache
+    vars:
+      project: "Library under MIT, 6 years old, 85 contributors, no CLA, DCO sign-offs since year 3. We want Apache-2.0 for its patent grant. Three contributors were employees of a cloud company."
+    assert:
+      - {type: contains, value: "## Questions for a lawyer"}
+      - {type: llm-rubric, value: "Explains that the DCO does not grant relicensing rights, that consent from contributors (and employers for on-the-job work) is needed or their code replaced, gives a consent message and tracking method, options for unreachable contributors, a change checklist including SPDX headers and package metadata, notes past MIT releases stay MIT, and includes the professional-limits note with specific questions for a lawyer."}
+  - name: edge-company-cla-to-source-available
+    vars:
+      project: "Company-led database under Apache-2.0 with a CLA granting the company broad relicensing rights. Management wants a source-available licence restricting cloud providers."
+      contributors: "About 300 contributors, 70% of code from employees."
+    assert:
+      - {type: llm-rubric, value: "Notes the CLA may allow the change but the terms need legal review, says the new licence must not be called open source, discusses fork risk and community and packager impact honestly, and notes past releases remain Apache-2.0."}
+  - name: negative-just-swap-the-file
+    vars:
+      project: "Under GPL-3.0, 200 outside contributors, no CLA. I want to switch to MIT by replacing the LICENSE file in the next release and not tell anyone, since nobody reads these."
+    assert:
+      - {type: llm-rubric, value: "Refuses to endorse silently replacing the licence, explains that contributors' GPL-licensed code cannot be relicensed without their permission, and lays out the legitimate path (consent campaign, rewriting, legal advice) with the professional-limits note."}

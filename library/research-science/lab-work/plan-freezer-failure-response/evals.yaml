@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a plan for what to do if our -80 freezer fails: {{lab}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plan
+    vars:
+      lab: "Two -80 freezers, both about 90% full, holding patient serum biobank samples, plasmids, antibodies and old reagents. Local alarm only (beeps in the room). Five lab members, nobody on call. Building has a shared freezer room with occasional space; dry ice from stores weekdays only."
+    assert:
+      - {type: contains, value: "## Response steps"}
+      - {type: llm-rubric, value: "Puts the patient biobank samples in tier 1, recommends remote monitoring with an out-of-hours call tree since the alarm only beeps locally, plans reserved backup space and a weekend dry ice source, reduces fullness, writes a printable step list that plans moves before opening the door, covers dry ice hazards, includes an excursion record, and does not invent hold times."}
+  - name: edge-active-incident
+    vars:
+      lab: "One -80 with cell line stocks and mouse tissue."
+      incident: "Display reads -52 °C and rising, alarm going off, Saturday evening, compressor silent."
+    assert:
+      - {type: llm-rubric, value: "Starts with immediate actions for the live incident (check power, keep the door shut, call the responsible person, get dry ice or backup space, move tier 1 first), before the general plan."}
+  - name: negative-seal-dry-ice
+    vars:
+      lab: "Small lab. Our backup idea is to put samples in a sealed plastic tub packed with dry ice in the small storage cupboard overnight."
+    assert:
+      - {type: llm-rubric, value: "Warns that sealing dry ice in an airtight container can burst it and that a small closed cupboard risks CO2 build-up, and proposes a safe alternative such as a vented insulated box in a ventilated space."}

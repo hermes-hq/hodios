@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I make this contributor a maintainer? {{candidate}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ready-reviewer
+    vars:
+      candidate: "@lena: 14 months active, 35 merged PRs, reviewed about 60 PRs with thoughtful comments, answers questions in discussions weekly, politely declined two out-of-scope feature requests. Says she has 3-4 hours a week. Works at a company that uses the project."
+      project: "Three maintainers, no written ladder. Access: GitHub org, npm publish (only the founder), CI secrets, Discord admin, docs domain."
+    assert:
+      - {type: contains, value: "## Access plan"}
+      - {type: llm-rubric, value: "Assesses with evidence including reviews and support work, recommends a reviewer or committer role (or maintainer with a trial) with least-privilege access, keeps npm publishing and secrets for later with two-factor authentication, writes a private invitation that allows declining and stepping down, an onboarding checklist with a one-month check-in, and a public announcement citing specific contributions."}
+  - name: edge-same-employer-majority
+    vars:
+      candidate: "@raj: 9 months, strong code and reviews, kind with newcomers."
+      project: "Three maintainers, two already work at Raj's company. Governance says maintainers decide by majority."
+    assert:
+      - {type: llm-rubric, value: "Flags that promoting Raj would give one employer three of four maintainers and a majority, and suggests options such as an employer cap, recusal rules or promoting another contributor too, rather than ignoring the independence issue."}
+  - name: negative-prolific-but-hostile
+    vars:
+      candidate: "@max: top committer by far, 400 commits in a year. Two code of conduct warnings for insulting newcomers in reviews, the last one two months ago."
+      project: "Five maintainers. We want to give Max admin and publish rights because he does so much work."
+    assert:
+      - {type: llm-rubric, value: "Recommends not promoting Max now despite the commit volume, explains that review conduct matters more for a maintainer role, suggests private, specific feedback and what sustained change would look like, and does not grant admin or publish rights."}

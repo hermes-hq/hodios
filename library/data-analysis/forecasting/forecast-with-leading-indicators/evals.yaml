@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Which of these indicators can help me forecast this? Target: {{target_series}} Indicators: {{candidate_indicators}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quotes-and-bookings
+    vars:
+      tool: python
+      target_series: "Monthly confirmed bookings for a kitchen fitter, 6 years, strong spring peak."
+      candidate_indicators: "1) Online quote requests, daily, available immediately; we think quotes convert to bookings about 2 months later. 2) National housing transactions, monthly, published 6 weeks after month end and revised. 3) Local search interest index, weekly."
+    assert:
+      - {type: contains, value: "## Out-of-sample comparison"}
+      - {type: llm-rubric, value: "Aggregates indicators to monthly and removes trend and seasonality before cross-correlation, notes the 6-week publication delay and revisions for housing transactions and the need for vintage data, tests lag stability across halves, compares a baseline ETS or ARIMA against a model with indicators using a rolling-origin backtest, keeps indicators only if they improve out of sample, and gives statsmodels code with no look-ahead leakage."}
+  - name: edge-horizon-longer-than-lead
+    vars:
+      tool: r
+      target_series: "Quarterly revenue, 10 years. We need forecasts 4 quarters ahead."
+      candidate_indicators: "Purchasing managers index, monthly, leads revenue by about one quarter."
+    assert:
+      - {type: llm-rubric, value: "Explains that a one-quarter lead only helps the first quarter of a four-quarter horizon unless the indicator is itself forecast, which adds error, and sets up the backtest at each horizon separately, with fable code using xreg."}
+  - name: negative-raw-correlation
+    vars:
+      tool: python
+      target_series: "Annual company revenue 2010-2025, growing every year."
+      candidate_indicators: "Number of electric cars registered nationally, also growing every year. Correlation is 0.97, so let's use it as our main forecasting driver."
+    assert:
+      - {type: llm-rubric, value: "Explains that two upward-trending series correlate regardless of any relationship, that a 0.97 correlation of levels is not evidence of a lead, asks for a mechanism, recommends testing on differenced data and an out-of-sample comparison against a model without it, and notes 16 annual points is very little data."}

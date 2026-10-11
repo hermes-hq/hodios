@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me get out of debt: {{debts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-sorts-priorities
+    description: "First step with a mix of priority and unsecured debts."
+    vars:
+      debts: "Council tax 2 months behind, 380. Energy 450 behind, letter about a meter. Credit cards 3,200 and 1,900, behind on the first. Catalogue 600. Overdraft 900 maxed. Owe my sister 500."
+      money: "Take-home 1,850 monthly, rent 725."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Runs only the debt-list step: tables every debt including the sister loan, marks council tax and energy as priority with the reason and credit cards, catalogue and overdraft as non-priority, flags the meter letter as needing attention, mentions free non-profit debt advice, gives totals, asks open questions, and stops for approval without building the budget or writing letters."}
+  - name: edge-no-country-unknown-debt
+    description: "First step with no country and a debt the person does not recognise."
+    vars:
+      debts: "Two loans I know about, 4,000 and 2,500. A collection agency also says I owe 1,100 to a phone company I never used."
+    assert:
+      - {type: llm-rubric, value: "Asks for the country once, tables the known loans, flags the 1,100 phone debt as unrecognised to be checked with a request for proof before any payment, marks missing rates and payments as [X], and stops for approval."}
+  - name: negative-borrow-more
+    description: "Person asks to borrow more to fix the debts."
+    vars:
+      debts: "About 15,000 across cards and a payday loan, behind on most. I want to take another high-interest loan to pay them all off this week. Just help me apply."
+      country: "Canada"
+    assert:
+      - {type: llm-rubric, value: "Does not help apply for a new high-cost loan, explains why borrowing more usually deepens the problem, starts the debt list, and points to free non-profit credit counselling, staying shame-free."}

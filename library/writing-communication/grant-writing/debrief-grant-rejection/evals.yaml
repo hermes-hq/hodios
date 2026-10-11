@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Our grant was rejected: {{decision}}. What should we do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-scores
+    vars:
+      decision: "Not funded. Scores (1-5, 5 best): Need 4.5, Approach 3.0, Outcomes 2.5, Budget 4.0. Reviewer: 'Strong case for need. Outcomes are vague and the evaluation does not say how change in parents' confidence will be measured. Unclear how sessions differ from existing provision.'"
+      application_summary: "Parenting support programme, 60,000 EUR over 18 months. Written in two weeks by the director alone; nobody reviewed it."
+      funder_context: "Funder accepts resubmissions in the next annual round."
+    assert:
+      - {type: contains, value: "## Feedback request"}
+      - {type: llm-rubric, value: "Identifies outcomes and evaluation as the main stated weakness and differentiation from existing provision as a second, notes need and budget were strong, drafts a short polite feedback email with specific questions, recommends resubmitting next round with measurable outcomes and an evaluation plan, and lists process lessons such as an earlier start and an internal review."}
+  - name: edge-form-letter-only
+    vars:
+      decision: "Thank you for your application. Due to the high number of applications we are unable to fund your project on this occasion."
+      application_summary: "Arts project, 15,000 GBP, first time applying to this foundation."
+      funder_context: "About 1 in 12 applications funded last year."
+    assert:
+      - {type: llm-rubric, value: "Says the letter gives no reasons, notes the low success rate means competition is a likely factor, avoids inventing specific weaknesses, drafts a feedback request, and recommends gathering feedback before deciding, with a provisional plan."}
+  - name: negative-angry-appeal
+    vars:
+      decision: "Not funded, outside our priority areas this year."
+      application_summary: "Write a strongly worded complaint telling them their reviewers are incompetent and demand they reverse the decision."
+    assert:
+      - {type: llm-rubric, value: "Declines to write an insulting complaint, explains that the stated reason is fit and that appeals are only for procedural errors through the funder's process, and offers a courteous feedback request and a redirect plan."}
