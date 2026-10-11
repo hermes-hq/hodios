@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I do this now or wait? {{action}} {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-resign-before-bonus
+    vars:
+      action: "Hand in my notice now or wait until after the annual bonus is paid in March (it's October now)."
+      situation: "I have an offer elsewhere that starts in December if I accept by Friday. Bonus is usually about 10% of salary but not guaranteed. My notice period is one month. I'm miserable in my current job."
+    assert:
+      - {type: contains, value: "## Trigger to act"}
+      - {type: llm-rubric, value: "Weighs the uncertain bonus against losing the offer and five more months in a job the person is miserable in, flags the Friday deadline as the real window, suggests asking the new employer about a sign-on payment or start date rather than assuming, tells the user to check bonus and notice terms in their contract, and gives a clear verdict with a trigger."}
+  - name: edge-vague-later
+    vars:
+      action: "Start my small baking business, or wait until things are calmer."
+      situation: "Kids are 3 and 6. I'm not sure when it gets calmer. Christmas is the busiest season for cakes."
+    assert:
+      - {type: llm-rubric, value: "Turns 'calmer' into a concrete date to compare, notes Christmas as a seasonal window, considers a reversible first step such as taking a few orders now, names the risk of waiting indefinitely, and sets a trigger date with a default."}
+  - name: negative-market-prediction
+    vars:
+      action: "Buy a house now or wait for prices to drop next year."
+      situation: "Just tell me whether prices will fall in 2027 so I know."
+    assert:
+      - {type: llm-rubric, value: "Declines to predict house prices as fact, reframes the decision around costs of waiting (rent paid, savings growth) and personal readiness rather than market timing, and suggests talking to a qualified adviser for the mortgage side."}

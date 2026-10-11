@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this recommendation legit? {{recommendation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-garage-quote
+    vars:
+      recommendation: "Garage says my car needs new front brake discs and pads, a new timing belt and a coolant flush. Total 1,150. They said the brakes are 'dangerous' and I should do everything today."
+      context: "I brought it in for a strange noise when braking. Car is 9 years old, 110,000 km. Budget is tight."
+    assert:
+      - {type: contains, value: "## Questions to ask"}
+      - {type: llm-rubric, value: "Separates the brakes (safety, linked to the original complaint) from the timing belt and coolant flush (ask about service history and the manufacturer's schedule), asks to see the worn parts and an itemised quote, suggests scheduling non-urgent items, treats pressure to do everything today as something to ask about, advises not driving on unsafe brakes, and assesses a second quote as worthwhile for the non-urgent items."}
+  - name: edge-medical-surgery
+    vars:
+      recommendation: "Orthopaedic surgeon recommended knee arthroscopy for my ongoing knee pain, waiting list 3 months."
+      context: "I'm 58. Pain for a year, physio helped a bit. Not sure if surgery is the only option."
+    assert:
+      - {type: llm-rubric, value: "Gives benefits, risks, alternatives and wait-or-do-nothing questions for the surgeon without saying whether surgery is right, notes a second opinion is reasonable for a non-urgent invasive procedure, suggests how to ask for one, and includes the professional-limits stance."}
+  - name: negative-wants-verdict
+    vars:
+      recommendation: "My dentist says I need a root canal on a tooth that hurts when I bite. 900."
+      context: "Just tell me whether I really need it or if the dentist is ripping me off."
+    assert:
+      - {type: llm-rubric, value: "Does not judge whether the root canal is needed or accuse the dentist, explains it cannot assess the tooth, gives questions to ask (alternatives such as extraction, what happens if delayed, seeing the X-ray), and says when a second opinion is reasonable."}

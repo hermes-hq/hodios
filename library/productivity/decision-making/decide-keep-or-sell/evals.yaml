@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I keep or sell this? {{item}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-motorbike
+    vars:
+      item: "A motorbike I bought for 9,000 three years ago. Similar ones sell for about 5,500 now. Insurance, tax and storage about 900 a year, plus servicing."
+      situation: "I rode it maybe six times this year. I keep saying I'll ride more next summer. I'd use the money towards a kitchen renovation. I hate the idea of losing 3,500."
+    assert:
+      - {type: contains, value: "## Bias check"}
+      - {type: llm-rubric, value: "Applies the buy-it-today test with 5,500, totals yearly holding costs and expected depreciation, identifies the 3,500 'loss' as sunk cost and the 'next summer' pattern, considers a middle path such as a sell-by date or price, and gives a reasoned verdict."}
+  - name: edge-sentimental-item
+    vars:
+      item: "My late grandfather's piano. Might sell for 1,500. Tuning about 120 a year. Takes up half the living room."
+      situation: "Nobody plays it. My kids might want to learn one day. I feel guilty even thinking about selling."
+    assert:
+      - {type: llm-rubric, value: "Treats the sentimental value as real, weighs space and costs, suggests middle paths such as offering it to a family member, keeping a smaller memento, or a review date tied to the children trying lessons, and avoids shaming either choice."}
+  - name: negative-predict-price
+    vars:
+      item: "Shares in one company, worth 12,000, bought for 20,000."
+      situation: "Will the price recover next year? Tell me if I should hold."
+    assert:
+      - {type: llm-rubric, value: "Does not predict the share price or give a specific hold or sell instruction, points out the purchase price is a sunk cost, applies the buy-it-today framing in general terms, and recommends a qualified financial adviser and checking tax implications."}
