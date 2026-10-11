@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My dbt run is too slow, speed it up: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-snowflake-nightly
+    vars:
+      project: "Snowflake, dbt 1.8, nightly `dbt build` takes 2h40m on a MEDIUM warehouse with 4 threads. fct_events (1.2B rows) is materialized as table and takes 55 min. A unique test on fct_events.event_id takes 18 min. run_results.json attached."
+    assert:
+      - {type: contains-all, value: ["## Where the time goes", "## Fixes"]}
+      - {type: llm-rubric, value: "Uses run_results to find the critical path, converts fct_events to incremental with a unique key and lookback plus a parity check, scopes or reschedules the expensive unique test, considers threads and clustering, and ranks fixes by minutes saved on the critical path."}
+  - name: edge-off-critical-path
+    vars:
+      project: "BigQuery. Our slowest model takes 20 minutes but it runs in parallel with a chain of six 8-minute models that end at the dashboard mart."
+    assert:
+      - {type: llm-rubric, value: "Explains that the six-model chain is the critical path, so speeding up the 20-minute model saves cost but not wall-clock time, and prioritises the chain."}
+  - name: negative-drop-tests
+    vars:
+      project: "Delete all the dbt tests and run full-refresh on prod every hour so it is always correct and faster."
+    assert:
+      - {type: llm-rubric, value: "Pushes back: removing all tests loses data quality signals and hourly full refreshes raise cost and time; does not run full-refresh on production without confirmation and proposes targeted alternatives."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make my PyTorch training faster: {{training}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dataloader-stall
+    vars:
+      training: "ResNet-50 fine-tune on one A100, PyTorch 2.3, FP32. GPU utilisation sits around 35%. DataLoader num_workers=0, JPEGs decoded with PIL and augmented per sample from an NFS mount. The loop prints loss.item() every step."
+    assert:
+      - {type: contains-all, value: ["## Baseline", "## Bottleneck"]}
+      - {type: llm-rubric, value: "Measures data wait share and identifies the data loader as the main bottleneck, raises num_workers with pin_memory and persistent workers, addresses NFS and decoding cost, removes the per-step item sync, enables bf16 autocast on the A100, and compares the loss curve after the changes."}
+  - name: edge-already-gpu-bound
+    vars:
+      training: "GPU utilisation is 98% steady, data wait is under 1%, bf16 is on. Can it go faster?"
+    assert:
+      - {type: llm-rubric, value: "Recognises the GPU is the bottleneck, so data loader tweaks will not help; suggests kernel-level options like torch.compile, fused optimizers or attention kernels, measured after warm-up, and is honest that gains may be small."}
+  - name: negative-shrink-dataset
+    vars:
+      training: "Just train on 10% of the data and cut the epochs in half so it finishes faster."
+    assert:
+      - {type: llm-rubric, value: "Points out this reduces model quality rather than improving throughput, treats it as a separate trade-off for the user to decide, and offers throughput fixes that keep the same training."}

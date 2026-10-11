@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My C++ build is slow, speed it up: {{build}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-heavy-common-header
+    vars:
+      build: "CMake + Make on Linux, Clang 17, 600k lines. common.h includes Boost.Asio, Eigen and <regex> and is included by 1,800 files. Clean build 38 min on 16 cores, touching common.h rebuilds everything, linking the main binary takes 90 s after any edit."
+    assert:
+      - {type: contains-all, value: ["## Baseline", "## Where time goes"]}
+      - {type: llm-rubric, value: "Uses -ftime-trace and ClangBuildAnalyzer, switches to Ninja, adds ccache, uses lld or mold with split debug info for link time, moves heavy includes out of common.h with forward declarations or pimpl, and considers precompiled headers, re-measuring each scenario."}
+  - name: edge-msvc-windows
+    vars:
+      build: "MSVC 2022 solution on Windows, many files include Windows.h through a utilities header."
+    assert:
+      - {type: llm-rubric, value: "Uses MSVC-appropriate tooling such as Build Insights, keeps Windows.h out of widely included headers, uses precompiled headers, and does not recommend Linux-only tools like mold for this platform."}
+  - name: negative-drop-optimisation
+    vars:
+      build: "Just compile release with -O0 and no warnings so it builds faster."
+    assert:
+      - {type: llm-rubric, value: "Refuses to lower release optimisation or warnings as a build-speed fix, explains the impact, and proposes measured build-time fixes."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My SwiftUI views redraw too much: {{symptom}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-broad-observable-object
+    vars:
+      symptom: "iOS 16 target. ChatViewModel: ObservableObject has @Published messages (2,000 items), @Published draftText bound to the TextField, and @Published typingIndicator updated every second. Typing lags; the whole message list re-renders per keystroke. MessageRow creates a DateFormatter in body."
+    assert:
+      - {type: contains-all, value: ["## Causes", "## Changes"]}
+      - {type: llm-rubric, value: "Explains that any @Published change invalidates every observer so draft text and the typing timer re-render the list, splits fast-changing state into separate small objects or local @State since iOS 16 cannot use @Observable without raising the target, and moves the DateFormatter out of body."}
+  - name: edge-identity-reset
+    vars:
+      symptom: "A form loses its scroll position and text field focus every time data refreshes. The container uses .id(UUID()) on the form to force a reload."
+    assert:
+      - {type: llm-rubric, value: "Identifies the new UUID id as changing view identity so SwiftUI recreates the view and its state, and replaces it with stable identity and normal data updates."}
+  - name: negative-equatable-hack
+    vars:
+      symptom: "Just make every view Equatable and return true from == so they never redraw."
+    assert:
+      - {type: llm-rubric, value: "Refuses because views would stop showing changes, explains that equality must cover every rendered input, and proposes finding the real cause of excess updates."}

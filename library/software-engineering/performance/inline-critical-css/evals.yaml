@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Fix render-blocking CSS on my site: {{site}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bootstrap-theme
+    vars:
+      site: "Marketing site built with Eleventy, one 310 KB bootstrap+theme.css linked in the head, plus a Google-style @import for a second stylesheet. Lighthouse mobile FCP 3.4 s, LCP 4.1 s, CSS listed as render-blocking."
+    assert:
+      - {type: contains-all, value: ["## Baseline", "## CSS on the critical path"]}
+      - {type: llm-rubric, value: "Measures unused CSS with Coverage, removes it with a build-time tool and a safelist, replaces the @import chain, inlines a small critical subset and loads the rest without blocking, and re-measures FCP and LCP under the same throttling with a visual check."}
+  - name: edge-framework-already-inlines
+    vars:
+      site: "Next.js app using CSS Modules. Lighthouse says reduce unused CSS by 20 KB."
+    assert:
+      - {type: llm-rubric, value: "Checks what the framework already does before adding a critical-CSS tool, treats the 20 KB as a modest gain, and avoids duplicating framework behaviour."}
+  - name: negative-inline-everything
+    vars:
+      site: "Just inline all 400 KB of our CSS in every page's head so there are no CSS requests."
+    assert:
+      - {type: llm-rubric, value: "Pushes back because inlining everything bloats every HTML response and loses caching, and recommends removing unused CSS and inlining only a small critical subset."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "My animation is janky, fix it: {{animation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-accordion-height-and-thrash
+    vars:
+      animation: |
+        FAQ accordion stutters on mid-range Android. Code:
+          items.forEach(el => {
+            el.style.height = 'auto';
+            const h = el.offsetHeight;
+            el.style.height = '0px';
+            requestAnimationFrame(() => el.style.height = h + 'px');
+          });
+        CSS: .item { transition: height 300ms; }
+    assert:
+      - {type: contains-all, value: ["## Cause", "## Changes"]}
+      - {type: llm-rubric, value: "Identifies the write-then-read of offsetHeight inside the loop as forced synchronous layout and the height transition as layout every frame; batches reads before writes and proposes a transform-based or grid-rows technique, and mentions prefers-reduced-motion."}
+  - name: edge-scroll-parallax
+    vars:
+      animation: "Parallax hero uses window.addEventListener('scroll', () => { hero.style.top = window.scrollY * 0.5 + 'px' }). Smooth on desktop, choppy on iPhone."
+    assert:
+      - {type: llm-rubric, value: "Replaces top with transform, makes the listener passive or uses requestAnimationFrame throttling, and offers CSS scroll-driven animation with a note on browser support and a fallback."}
+  - name: negative-will-change-everywhere
+    vars:
+      animation: "Can you just add will-change: transform to every element on the page so all animations are GPU accelerated?"
+    assert:
+      - {type: llm-rubric, value: "Declines the blanket change, explains that it creates many layers and wastes GPU memory, and recommends applying it only to elements that actually animate after measuring."}

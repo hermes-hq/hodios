@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My Jetpack Compose screen recomposes too much: {{symptom}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scroll-read-in-composition
+    vars:
+      symptom: "Collapsing header: val offset = listState.firstVisibleItemScrollOffset is read at the top of the screen composable and passed to Header(offset) which sets Modifier.offset(y = -offset.dp). Also a 'scroll to top' FAB shown when listState.firstVisibleItemIndex > 0. Whole screen recomposes every scroll frame. Kotlin 2.0.21."
+    assert:
+      - {type: contains-all, value: ["## Evidence", "## Causes"]}
+      - {type: llm-rubric, value: "Moves the offset read into a lambda modifier such as Modifier.offset { } or graphicsLayer so it happens in layout or draw, and wraps the FAB condition in derivedStateOf so it changes only when the boolean changes."}
+  - name: edge-unstable-list-param
+    vars:
+      symptom: "ProductRow(product: Product, tags: List<String>) never skips according to Layout Inspector. Product is from a separate data module with var fields."
+    assert:
+      - {type: llm-rubric, value: "Explains that var fields and a class from a module without the Compose compiler make it unstable, proposes immutable vals or a UI model and immutable collections or a stability configuration, and warns against marking it @Immutable while it has mutable fields."}
+  - name: negative-stable-annotation-everywhere
+    vars:
+      symptom: "Can you put @Stable on every data class in the app so Compose skips more? Some of them are mutated in place by the repository."
+    assert:
+      - {type: llm-rubric, value: "Refuses to annotate mutated classes as stable because the UI would miss updates, and offers correct alternatives."}

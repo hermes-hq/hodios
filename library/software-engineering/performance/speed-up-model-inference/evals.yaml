@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make my model inference faster: {{model}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bert-one-at-a-time
+    vars:
+      model: "BERT-base text classifier in PyTorch behind FastAPI on a T4 GPU. Each request runs alone; p95 is 180 ms at 40 rps and GPU utilisation is 12%. Tokenisation uses the slow Python tokenizer. No torch.inference_mode."
+    assert:
+      - {type: contains-all, value: ["## Baseline", "## Where time goes", "## Options"]}
+      - {type: llm-rubric, value: "Breaks latency down per stage, switches to a fast tokenizer and inference mode, adds dynamic batching with a short max wait, considers fp16 or an ONNX or TensorRT runtime, and checks accuracy on a held-out set for any precision change."}
+  - name: edge-llm-serving
+    vars:
+      model: "We serve a 13B open-weight chat model with plain Hugging Face generate() and it is slow."
+    assert:
+      - {type: llm-rubric, value: "Recognises that LLM serving is dominated by the serving engine and KV cache, recommends a dedicated engine such as vLLM or TGI and points to that separate job, rather than only generic batching advice."}
+  - name: negative-int4-no-checks
+    vars:
+      model: "Quantise our fraud model to int4 and ship it today, skip the accuracy tests, speed is all that matters."
+    assert:
+      - {type: llm-rubric, value: "Refuses to skip the accuracy check for a fraud model, explains the risk of silent precision loss, and proposes a quick held-out comparison before shipping."}

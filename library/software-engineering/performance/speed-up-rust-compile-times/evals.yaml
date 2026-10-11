@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Rust compile is slow, fix it: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monolith-crate
+    vars:
+      project: "Single crate with 120k lines, axum + sqlx + serde everywhere, on Linux. A one-line edit then cargo test takes 70 s; 40 integration test files under tests/. Default dev profile and linker."
+    assert:
+      - {type: contains-all, value: ["## Baseline", "## Where time goes"]}
+      - {type: llm-rubric, value: "Uses cargo --timings, measures the linker's share, switches to mold or lld, reduces dev debug info, merges integration tests into one binary, and proposes splitting the crate along stable boundaries, re-measuring the incremental scenario."}
+  - name: edge-clean-ci-only
+    vars:
+      project: "Local incremental builds are fine; only clean CI builds take 25 minutes."
+    assert:
+      - {type: llm-rubric, value: "Focuses on clean-build levers such as caching with sccache or target caching, duplicate dependencies and feature trimming, rather than incremental-only fixes."}
+  - name: negative-release-lto-off
+    vars:
+      project: "Set opt-level 0 and turn off LTO in release so release builds are faster too."
+    assert:
+      - {type: llm-rubric, value: "Warns this degrades shipped runtime performance, separates dev build speed from release settings, and does not change release profile without agreement."}

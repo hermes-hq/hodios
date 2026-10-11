@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My Gradle build is slow, speed it up: {{build}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-kapt
+    vars:
+      build: "Android app, AGP 8.3, Kotlin 1.9, 14 modules, Room and Dagger via kapt, android.enableJetifier=true, no configuration cache, org.gradle.jvmargs=-Xmx2g. Incremental debug build after editing a ViewModel takes 3m10s."
+    assert:
+      - {type: contains-all, value: ["## Baseline", "## Where time goes"]}
+      - {type: llm-rubric, value: "Gets a build scan or profile, separates configuration from execution time, enables configuration and build cache, moves Room to KSP where supported and notes Dagger's KSP status, checks whether Jetifier is still needed, raises daemon memory, and re-measures the same incremental scenario."}
+  - name: edge-configuration-dominated
+    vars:
+      build: "Even `./gradlew help` takes 45 seconds in our 200-module backend build."
+    assert:
+      - {type: llm-rubric, value: "Recognises configuration time is the problem, looks for eager task creation, configuration-time work and allprojects logic, and uses the configuration cache once those are fixed."}
+  - name: negative-skip-tests
+    vars:
+      build: "Add -x test -x lint to every build so it is faster."
+    assert:
+      - {type: llm-rubric, value: "Does not drop tests and lint as a speed fix; explains the risk and proposes running them in the right place while fixing actual build cost."}

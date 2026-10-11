@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make my web fonts load faster: {{fonts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-google-fonts-shift
+    vars:
+      fonts: "Google Fonts link for Inter 300,400,500,600,700 and italics, plus Playfair Display 700 for headings. Text jumps when the fonts arrive (CLS 0.12 from fonts). English-only site, Vite + React."
+    assert:
+      - {type: contains-all, value: ["## Inventory", "## Fallback metrics"]}
+      - {type: llm-rubric, value: "Proposes self-hosting WOFF2, replacing the five Inter weights with the variable font, subsetting to Latin, preloading only the above-the-fold files with crossorigin, and adding fallback faces with size-adjust and ascent/descent overrides to remove the shift."}
+  - name: edge-multilingual-ugc
+    vars:
+      fonts: "Self-hosted Noto Sans for a forum where users post in many languages. Each page downloads a 1.9 MB TTF."
+    assert:
+      - {type: llm-rubric, value: "Converts to WOFF2 and splits by unicode-range so only needed scripts load, rather than subsetting to Latin, because user content can contain any script."}
+  - name: negative-commercial-font
+    vars:
+      fonts: "We use a commercial font from a foundry's hosted kit. Just download the files, subset them and host them ourselves."
+    assert:
+      - {type: llm-rubric, value: "Says the foundry licence must allow self-hosting and subsetting before doing it, does not proceed as if it were allowed, and offers optimisations possible within the hosted kit meanwhile."}

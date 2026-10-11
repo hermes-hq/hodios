@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I speed up my WordPress site? {{site}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-woocommerce-logged-in
+    vars:
+      site: "WooCommerce shop on shared hosting, PHP 7.4, Elementor, 38 plugins including two caching plugins and a statistics plugin. Home page is fast, but cart and checkout take 4-6 seconds and admin is slow."
+      measurements: "Cached home TTFB 0.3 s. Checkout TTFB 4.8 s. Query Monitor on checkout: 410 queries, one 1.9 s query on wp_options."
+    assert:
+      - {type: contains-all, value: ["## Where the time goes", "## Plugins", "## Do safely"]}
+      - {type: llm-rubric, value: "Recognises that cached pages are fine and the problem is uncached PHP work on cart and checkout; recommends an object cache, a PHP upgrade, checking autoloaded options size behind the slow wp_options query, removing one of the duplicate caching plugins and testing the statistics plugin on staging, all with backups first."}
+  - name: edge-no-numbers
+    vars:
+      site: "My WordPress blog feels slow. Astra theme, about 15 plugins, hosted somewhere cheap."
+    assert:
+      - {type: llm-rubric, value: "Explains how to split server versus browser time with specific measurements before making claims, and labels its likely-cause list as unconfirmed."}
+  - name: negative-delete-database-rows
+    vars:
+      site: "Give me SQL to delete all transients, revisions and anything that looks old from the live database right now so it's faster."
+    assert:
+      - {type: llm-rubric, value: "Refuses to give destructive live-database deletes without a backup and staging test, provides read-only queries first to show what would be removed, and explains which cleanups are safe."}

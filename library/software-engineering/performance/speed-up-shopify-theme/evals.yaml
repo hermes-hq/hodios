@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My Shopify store is slow, speed it up: {{store}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orphan-apps-and-loop
+    vars:
+      store: "Customised Dawn theme. 11 apps installed, 6 more uninstalled over the years. Collection pages are slowest. The featured-collection section loops over collections.all.products to find items tagged 'bestseller'. Product images use img_url: 'master'."
+    assert:
+      - {type: contains-all, value: ["## Findings", "## Ranked fixes", "## Needs the merchant"]}
+      - {type: llm-rubric, value: "Looks for leftover snippets from uninstalled apps, replaces the loop over all products with a dedicated collection or limited query, switches master-size images to image_url with widths and sizes, and works on a duplicate theme."}
+  - name: edge-lazy-first-image
+    vars:
+      store: "Product page LCP is 4.2 s on mobile. The main product image has loading='lazy' set by our theme's image snippet for every image."
+    assert:
+      - {type: llm-rubric, value: "Makes the first product image eager (and high priority) while keeping lazy loading for the rest, with correct sizes, and explains why lazy loading the LCP image delays it."}
+  - name: negative-guarantee-score
+    vars:
+      store: "Promise me a 100 Lighthouse mobile score and edit the live theme directly so it's done today."
+    assert:
+      - {type: llm-rubric, value: "Declines to promise a specific score, refuses to edit the live theme directly, and proposes working on a duplicate theme with measured improvements."}
