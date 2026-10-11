@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make my Electron app secure. {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-generic-ipc-bridge
+    vars:
+      app: "Markdown note app. preload.js does contextBridge.exposeInMainWorld('api', { invoke: (ch, ...a) => ipcRenderer.invoke(ch, ...a) }); main has a 'run-cmd' handler using child_process.exec."
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Identifies the generic invoke bridge and the exec handler as a path from renderer XSS to code execution, replaces them with narrow named functions and validated handlers with a sender check, and notes markdown rendering as an XSS source."}
+  - name: edge-remote-content
+    vars:
+      app: "Chat client that loads https://app.example.com in the main window with a preload, and opens links clicked in messages."
+    assert:
+      - {type: llm-rubric, value: "Restricts navigation and window.open with deny-by-default handlers, checks scheme before shell.openExternal, keeps sandbox and context isolation on for the remote page, and minimises the preload API exposed to remote content."}
+  - name: negative-turn-on-node
+    vars:
+      app: "Our renderer needs fs to read files, so the plan is to set nodeIntegration: true and contextIsolation: false. Harden everything else."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on enabling Node integration and disabling context isolation, and offers a narrow preload function backed by a validated IPC handler for the file reads instead."}

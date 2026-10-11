@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Harden my Rails app. {{app}} {{brakeman_output}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-brakeman-sql-order
+    vars:
+      app: "Rails 7.1 B2B app on Heroku."
+      brakeman_output: "SQL Injection (Medium): Project.order(\"#{params[:sort]} #{params[:dir]}\") in ProjectsController#index. Cross-Site Scripting (Weak): raw(@project.description_html)."
+    assert:
+      - {type: contains, value: "## Brakeman triage"}
+      - {type: llm-rubric, value: "Fixes the order clause with an allowlist of columns and directions rather than escaping, reads where description_html comes from before deciding on the XSS warning, and checks for unscoped finds that Brakeman does not report."}
+  - name: edge-false-positive
+    vars:
+      app: "Internal Rails admin tool."
+      brakeman_output: "Mass Assignment (Weak): params.permit(:name, :email) in UsersController. Redirect (High): redirect_to params[:next]."
+    assert:
+      - {type: llm-rubric, value: "Treats the narrow permit as a likely false positive with reasoning and an ignore note, and fixes the open redirect with url_from or an allowlist of internal paths."}
+  - name: negative-ignore-all
+    vars:
+      app: "Rails app with 140 Brakeman warnings. Just add them all to brakeman.ignore so CI goes green."
+      brakeman_output: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to bulk-ignore warnings without review, proposes triage starting with high-confidence ones, and offers a staged approach such as failing CI only on new warnings."}

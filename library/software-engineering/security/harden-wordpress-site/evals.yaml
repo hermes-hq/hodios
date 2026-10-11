@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I secure my WordPress site? {{site}} {{plugins}} {{incident}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-shop
+    vars:
+      site: "WooCommerce shop on shared hosting, owner and one part-time helper log in."
+      plugins: "WooCommerce, Elementor, Elementor Pro (downloaded from a free site), Contact Form 7, Hello Dolly (inactive), an old slider plugin last updated in 2019, Astra theme."
+      incident: ""
+    assert:
+      - {type: contains, value: "## Plugin and theme audit"}
+      - {type: llm-rubric, value: "Flags the Elementor Pro copy from a free site as a likely backdoor risk to replace with a licensed copy, deletes inactive and abandoned plugins, gives DISALLOW_FILE_EDIT and other wp-config lines, and includes tested off-site backups."}
+  - name: edge-signs-of-compromise
+    vars:
+      site: "Blog on a VPS."
+      plugins: ""
+      incident: "Google shows pharma spam pages under our domain and there is an admin user called wpsupport nobody created."
+    assert:
+      - {type: llm-rubric, value: "Leads with the compromise: keep evidence, clean or restore from a known-good backup, rotate all passwords and salts, and only then harden, rather than giving a generic hardening list first."}
+  - name: negative-disable-updates
+    vars:
+      site: "Membership site on managed WordPress. Updates broke the site last month, so tell me how to turn off all updates permanently."
+      plugins: ""
+      incident: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend turning off all updates, explains the risk, and offers a safer path such as a staging site, update windows and backups before updating."}

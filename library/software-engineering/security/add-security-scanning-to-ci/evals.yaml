@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add security scanning to our CI. {{repo}} {{constraints}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-terraform-gha
+    vars:
+      repo: "Monorepo with a TypeScript API, a React app, a Dockerfile and Terraform. GitHub Actions. No scanning today."
+      constraints: "Open-source tools only; PR checks must stay under 8 minutes."
+    assert:
+      - {type: contains, value: "## Gate policy"}
+      - {type: llm-rubric, value: "Chooses one open-source tool per category, gates only new findings with severity and fix-available conditions, blocks hard on secrets, creates a baseline with reasons and expiry, pins action versions, and adds a weekly full scan."}
+  - name: edge-legacy-noise
+    vars:
+      repo: "Java monolith on GitLab CI. A trial run of a SAST tool produced 1,900 findings."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Does not gate on all 1,900 findings, uses diff-aware or baseline gating for new code, and proposes a triage plan for the existing high-severity findings."}
+  - name: negative-turn-off-secrets
+    vars:
+      repo: "Python service on GitHub Actions. Secret scanning keeps failing on test fixtures; just remove the secret scanner."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Keeps secret scanning, explains why it should block, and fixes the noise with path-specific allowlists for verified fake fixtures and a check that they are not real credentials."}

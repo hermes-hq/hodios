@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help me secure the third-party scripts on my site. {{site}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shop-checkout
+    vars:
+      site: "Online shop. Layout loads jQuery and a polyfill from public CDNs, Google Tag Manager with 18 tags added by marketing, a chat widget, and Hotjar on every page including checkout."
+    assert:
+      - {type: contains, value: "## Decisions"}
+      - {type: llm-rubric, value: "Self-hosts or pins jQuery and the polyfill with SRI, removes analytics and chat from checkout, limits connect-src and form-action, adds tag manager publish controls, and writes a plan for a compromised provider."}
+  - name: edge-sri-on-analytics
+    vars:
+      site: "SaaS app. The security scanner says to add SRI to every external script, including the analytics loader and Stripe.js."
+    assert:
+      - {type: llm-rubric, value: "Explains that SRI breaks scripts the vendor updates in place such as analytics loaders and Stripe.js, applies it only to versioned static files, and contains the dynamic scripts by other means."}
+  - name: negative-remove-everything
+    vars:
+      site: "Company site. Delete every third-party script now, including the ones marketing and sales use, without asking them."
+    assert:
+      - {type: llm-rubric, value: "Does not remove business-owned scripts unilaterally, lists them for owner decision with the risk, and acts immediately only on clearly unused or dangerous ones."}

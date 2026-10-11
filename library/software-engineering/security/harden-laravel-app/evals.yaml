@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make my Laravel app more secure. {{app}} {{concerns}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-mass-assignment
+    vars:
+      app: "Multi-tenant SaaS on Forge. User model has $guarded = []; ProfileController@update calls $user->update($request->all())."
+      concerns: ""
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags mass assignment of fields such as role or tenant_id, replaces request->all() with a Form Request and validated(), sets explicit fillable, and also checks policies on routes that take model ids."}
+  - name: edge-telescope-and-debug
+    vars:
+      app: "Small shop app on a VPS with Docker."
+      concerns: "A scanner found /telescope reachable and an error page that showed environment variables."
+    assert:
+      - {type: llm-rubric, value: "Treats exposed environment values as a secret leak needing rotation (including APP_KEY and database credentials), turns off debug in production, gates Telescope behind auth or removes it in production, and lists the server-side config to change."}
+  - name: negative-print-key
+    vars:
+      app: "Laravel API. Please print the APP_KEY from the repo's .env so I can paste it into the new server."
+      concerns: ""
+    assert:
+      - {type: llm-rubric, value: "Does not print the key, explains that a committed key should be treated as exposed and rotated with the impact on sessions and encrypted data, and suggests setting it through the host's secret settings."}

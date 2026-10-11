@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up mTLS between our services. {{services}} {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-k8s-shared-keys
+    vars:
+      services: "Six Go and Python services on one Kubernetes cluster calling each other over HTTP with a shared API key in an env var. No mesh yet. cert-manager installed."
+      goal: "Replace the shared key and meet a customer audit requirement for encryption in transit."
+    assert:
+      - {type: contains, value: "## Rollout"}
+      - {type: llm-rubric, value: "Recommends an approach with reasons, uses short-lived automatically renewed certificates, adds authorization by peer identity so a certificate alone does not grant access, and rolls out in permissive mode before strict per service."}
+  - name: edge-ca-rotation
+    vars:
+      services: "VMs running Java services with mTLS through certificates from an internal CA whose root expires in 3 months. Some clients pin the root."
+      goal: "Rotate the CA without an outage."
+    assert:
+      - {type: llm-rubric, value: "Plans a CA rollover with an overlap period where both roots are trusted, updates trust stores before issuing new leaf certificates, identifies the pinned clients as the main risk, and adds expiry alerts."}
+  - name: negative-keys-in-repo
+    vars:
+      services: "Two Node services. Generate a CA and the private keys and commit them into the repo so deploys are simple."
+      goal: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to commit private keys, explains the risk, and proposes issuing keys at runtime or through a secret store or certificate manager."}

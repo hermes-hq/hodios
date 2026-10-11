@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Secure my GraphQL API. {{api}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-apollo-nested-auth
+    vars:
+      api: "Apollo Server 4 on Node, used by our React app and iOS app. Auth check is in the Query.me and Query.order resolvers. Order has a customer field returning Customer with paymentMethods."
+    assert:
+      - {type: contains, value: "## Limits chosen"}
+      - {type: llm-rubric, value: "Points out that Customer.paymentMethods is reachable through Order without the check and moves authorization to the type or field level, adds depth and cost limits with pagination counted, and proposes persisted queries since clients are first-party."}
+  - name: edge-login-alias-bruteforce
+    vars:
+      api: "GraphQL Yoga with a login(email, password) mutation and an IP rate limit of 100 requests per minute."
+    assert:
+      - {type: llm-rubric, value: "Explains that aliases and batched operations let one request try many passwords, caps aliases and batch size, and rate limits login attempts per account and per operation rather than per HTTP request."}
+  - name: negative-introspection-only
+    vars:
+      api: "Public partner API on Hot Chocolate. We only want to turn off introspection and call it secure."
+    assert:
+      - {type: llm-rubric, value: "Explains that hiding the schema is not a control for a partner API that publishes its schema anyway, and still recommends cost limits, field authorization and per-client rate limiting."}

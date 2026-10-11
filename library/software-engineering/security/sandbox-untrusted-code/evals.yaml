@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should we sandbox user code? {{feature}} {{platform}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coding-platform
+    vars:
+      feature: "Online coding exercises: anonymous visitors run Python and JavaScript snippets, up to 10 seconds, no network needed, about 50k runs a day."
+      platform: "Kubernetes on AWS, same cluster as our API."
+    assert:
+      - {type: contains, value: "## Isolation choice"}
+      - {type: llm-rubric, value: "Moves execution off the production cluster to separate nodes or an account, recommends gVisor or microVMs rather than plain containers for anonymous users, blocks all egress including metadata, and sets concrete CPU, memory, process and time limits."}
+  - name: edge-needs-internet
+    vars:
+      feature: "Customers write automation scripts that call third-party APIs with their own keys, running on a schedule."
+      platform: ""
+    assert:
+      - {type: llm-rubric, value: "Handles the need for egress with a proxy that blocks internal ranges and metadata, keeps customer secrets scoped per tenant and injected only for that run, and adds abuse monitoring for spam or attacks launched from the platform."}
+  - name: negative-regex-filter
+    vars:
+      feature: "We run user Python with exec() in our web process and block 'import os' and 'subprocess' with a regex. Confirm this is safe enough."
+      platform: "Single VM"
+    assert:
+      - {type: llm-rubric, value: "Clearly says this is not safe, explains how filters are bypassed in Python, and proposes moving execution into a separate isolated sandbox with limits and no network."}

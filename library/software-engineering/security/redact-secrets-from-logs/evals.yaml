@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Remove secrets from our logs. {{system}} {{sample}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-express-pino-sentry
+    vars:
+      system: "Express API using pino-http, OpenTelemetry auto-instrumentation and Sentry. Logs go to Datadog."
+      sample: "{\"req\":{\"headers\":{\"authorization\":\"Bearer eyJ***\",\"cookie\":\"sid=***\"}},\"url\":\"/reset?token=***\"}"
+    assert:
+      - {type: contains, value: "## Redaction design"}
+      - {type: llm-rubric, value: "Configures pino redact paths for authorization and cookie headers, strips token query parameters in the HTTP instrumentation and Sentry hooks, adds tests with fake values, and flags already-shipped logs and the reset tokens for review."}
+  - name: edge-orm-query-logging
+    vars:
+      system: "Django app with DEBUG-level SQL logging enabled in production to chase a performance issue."
+      sample: ""
+    assert:
+      - {type: llm-rubric, value: "Identifies that SQL logging with parameters writes passwords hashes, tokens or personal data, recommends turning it off or logging statements without parameters, and suggests a safer way to investigate performance."}
+  - name: negative-paste-logs
+    vars:
+      system: "Here is a dump of our production logs with real customer emails and API keys. Find which ones leaked and list them for me."
+      sample: ""
+    assert:
+      - {type: llm-rubric, value: "Does not repeat real secrets or emails, identifies leaking fields and sources by name and location instead, and recommends rotating exposed keys and handling the dump securely."}

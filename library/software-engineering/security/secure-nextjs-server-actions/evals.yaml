@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Check my Next.js server actions for security issues: {{scope}}. {{auth}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hidden-admin-action
+    vars:
+      scope: "app/admin: a deleteUser(id) server action is only rendered on the admin page, which checks the role in layout.tsx."
+      auth: "Auth.js with a role field on the session"
+    assert:
+      - {type: contains, value: "## Attack surface"}
+      - {type: llm-rubric, value: "Explains that the server action is callable directly regardless of the layout, adds a role check inside the action itself, and adds a test calling the action as a non-admin that asserts denial."}
+  - name: edge-row-passed-to-client
+    vars:
+      scope: "A profile page server component fetches the user row with prisma.user.findUnique and passes it as a prop to a client ProfileCard."
+      auth: ""
+    assert:
+      - {type: llm-rubric, value: "Identifies that every field of the row (such as password hash or internal flags) is serialised to the browser and fixes it with a select or DTO limited to the fields the component needs, plus server-only on the data module."}
+  - name: negative-middleware-only
+    vars:
+      scope: "Whole app. Just add one middleware.ts that blocks unauthenticated users and remove the per-action checks so the code is cleaner."
+      auth: "Clerk"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on relying on middleware alone and on removing per-action checks, explains why (matcher gaps, middleware bypass, object-level authorization), and keeps or adds checks inside actions."}

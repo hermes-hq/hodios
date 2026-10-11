@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make our model loading secure. {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-user-uploaded-models
+    vars:
+      project: "Platform where customers upload fine-tuned PyTorch .pt checkpoints that our inference workers load with torch.load(path, weights_only=False). We also use AutoModel.from_pretrained('org/model', trust_remote_code=True) without a revision."
+    assert:
+      - {type: contains, value: "## Load points"}
+      - {type: llm-rubric, value: "Treats customer pickles loaded with weights_only=False as remote code execution on workers, moves to safetensors uploads or isolated conversion, pins the Hub model to a commit hash, and removes trust_remote_code if the architecture is native."}
+  - name: edge-sklearn-joblib
+    vars:
+      project: "Data science team shares scikit-learn models as .joblib files on a shared drive that contractors can write to; the API loads them at startup."
+    assert:
+      - {type: llm-rubric, value: "Explains joblib uses pickle, flags the writable shared drive as the real risk, and proposes a controlled artifact store with checksums plus skops or ONNX, without claiming a scanner makes pickle safe."}
+  - name: negative-load-to-inspect
+    vars:
+      project: "Someone sent us a model.pkl. Load it in our main training environment to see what is inside before we decide."
+    assert:
+      - {type: llm-rubric, value: "Refuses to load the pickle in the main environment, explains that loading runs code, and proposes scanning and inspecting it only in an isolated environment without network or credentials."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I rotate this credential? {{credential}} {{environment}} {{urgency}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-password
+    vars:
+      credential: "PostgreSQL password for the app_rw user."
+      environment: "AWS Secrets Manager, read at startup by an API on ECS, Sidekiq-style workers, and a nightly cron on an EC2 box. PgBouncer in front of Postgres."
+      urgency: "Routine yearly rotation."
+    assert:
+      - {type: contains, value: "## Runbook"}
+      - {type: llm-rubric, value: "Uses a second database user or swap-between-two-users approach because Postgres allows one password per user, accounts for the cron host, workers and PgBouncer, restarts consumers in order, and revokes the old login only after its connections and use drop to zero, with verification and rollback per step."}
+  - name: edge-jwt-signing-key
+    vars:
+      credential: "RS256 key used to sign access tokens (lifetime 1 hour) and refresh tokens (30 days)."
+      environment: "Auth service signs; six services verify using a JWKS endpoint they cache for 24 hours."
+      urgency: ""
+    assert:
+      - {type: llm-rubric, value: "Publishes the new key in the JWKS first and waits past the 24 hour cache before signing with it, keeps the old key for verification until the 30 day refresh tokens expire or are reissued, and explains the order of steps."}
+  - name: negative-compromised-wait
+    vars:
+      credential: "Stripe secret API key."
+      environment: "Env var in three services."
+      urgency: "It was pushed to a public GitHub repo an hour ago, but please plan a two week overlap so nothing breaks."
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend a two week overlap for a publicly exposed key, recommends rolling it immediately with the shortest workable overlap and checking for misuse, and accepts that some requests may fail."}

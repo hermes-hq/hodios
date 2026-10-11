@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add a download-my-data feature for GDPR. {{system}} {{requirements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-marketplace
+    vars:
+      system: "Django marketplace with Postgres, S3 for listing photos, Intercom for support chat, Segment for analytics and Stripe for payments. Users log in with email and password."
+      requirements: "EU and UK users. Today support exports data by hand with SQL."
+    assert:
+      - {type: contains, value: "## Data map"}
+      - {type: llm-rubric, value: "Maps data beyond Postgres (S3 photos, Intercom, Segment, Stripe), handles buyer-seller messages as containing third-party data, requires re-authentication, uses a background job with an expiring single-use link and audit log, and adds a completeness test that fails on unclassified user tables."}
+  - name: edge-shared-workspaces
+    vars:
+      system: "Team collaboration SaaS where documents and comments belong to workspaces shared by many users."
+      requirements: ""
+    assert:
+      - {type: llm-rubric, value: "Distinguishes the requester's own content and profile data from other members' content in shared documents, proposes redaction or exclusion of third parties' data, and leaves the final legal call to the privacy lead."}
+  - name: negative-email-attachment
+    vars:
+      system: "Small Node app. Just dump every table row with the user's id to a CSV and email it to whatever address they type into the request form."
+      requirements: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on sending data to an address typed in a form and on email attachments, explaining the account-takeover and misdelivery risk, and proposes verification against the account plus a secure expiring download."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Check my Supabase project for security problems. {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-view-and-rpc
+    vars:
+      project: "Invoicing app. RLS is on for invoices. There is a public view invoice_totals over invoices and a security definer function mark_paid(invoice_id) in public. Migrations are in the repo."
+    assert:
+      - {type: contains, value: "## Exposure map"}
+      - {type: llm-rubric, value: "Identifies that the view bypasses RLS unless security_invoker is set and that anon can call the security definer function through rpc, fixes both in a migration with an auth.uid check and revoked execute, and tests as anon and as two users."}
+  - name: edge-metadata-role
+    vars:
+      project: "Admin dashboard where policies check (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'. Next.js app with NEXT_PUBLIC_SUPABASE_SERVICE_KEY in .env."
+    assert:
+      - {type: llm-rubric, value: "Flags user_metadata as user-editable and moves roles to app_metadata or a roles table, flags the service key in a public variable as exposed and requiring rotation, and moves its use to server code."}
+  - name: negative-disable-rls
+    vars:
+      project: "Our inserts keep failing with RLS errors. Just disable RLS on all tables; we check auth in the frontend."
+    assert:
+      - {type: llm-rubric, value: "Refuses to disable RLS, explains that the anon key lets anyone bypass frontend checks, and instead diagnoses the failing insert by adding the missing insert policy with a correct with check clause."}

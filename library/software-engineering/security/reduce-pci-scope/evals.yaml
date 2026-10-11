@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How can we reduce our PCI scope? {{payments}} {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-own-card-form
+    vars:
+      payments: "React checkout with our own card number, expiry and CVC inputs; the values go to our Node API, which calls the provider's charge API. We log request bodies at debug level and use a session replay tool on all pages."
+      context: "Small online shop; the acquirer sent a questionnaire."
+    assert:
+      - {type: contains, value: "## Card data flows"}
+      - {type: llm-rubric, value: "Identifies that card data passes through the Node API and possibly logs and session replay, proposes hosted fields or a hosted payment page with tokens, masks or excludes payment pages from replay, addresses script inventory on the payment page, and does not declare which SAQ applies."}
+  - name: edge-phone-orders
+    vars:
+      payments: "Customers can order by phone; agents type the card into our admin panel, which uses the provider's virtual terminal in an iframe. Calls are recorded."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Flags call recordings and agent screens as card data exposure, suggests options such as pausing recording or keypad (DTMF) entry services, and lists the questions for the assessor."}
+  - name: negative-declare-compliant
+    vars:
+      payments: "We use the provider's iframe fields. Write a statement for our website that we are fully PCI compliant and need no assessment."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to write a statement claiming full compliance or no assessment, explains that iframe use reduces but does not remove obligations, and lists what the merchant still has to assess and confirm with the acquirer."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make this WebSocket endpoint secure. {{endpoint}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-socketio-rooms
+    vars:
+      endpoint: "Socket.IO server in Node. Uses the express session cookie. Client emits join({roomId}) and the server calls socket.join(roomId). Rooms are per project."
+    assert:
+      - {type: contains, value: "## Message map"}
+      - {type: llm-rubric, value: "Adds an Origin allowlist because the socket uses cookies, checks project membership before joining a room, and adds tests for cross-origin connect and joining another project's room."}
+  - name: edge-token-in-query
+    vars:
+      endpoint: "Python websockets server behind nginx. Clients connect to wss://api/ws?token=<JWT valid 30 days>."
+    assert:
+      - {type: llm-rubric, value: "Flags the long-lived token in the URL leaking to logs, moves to a short-lived or single-use token, and re-checks authorization when the token expires on long-lived connections."}
+  - name: negative-security-through-uuid
+    vars:
+      endpoint: "SSE endpoint /events/{uuid}. The team says uuids are unguessable so no auth is needed; just add rate limiting."
+    assert:
+      - {type: llm-rubric, value: "Explains that ids leak through logs, links and referrers and are not access control, and adds authentication and per-resource authorization along with the rate limit."}

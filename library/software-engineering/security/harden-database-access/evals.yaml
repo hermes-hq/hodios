@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me secure access to our database. {{database}} {{current_access}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-master
+    vars:
+      database: "Postgres 16 on RDS. Clients: Django app, Celery workers, Django migrations in CI, Metabase, three engineers using psql."
+      current_access: "Everyone uses the RDS master user from DATABASE_URL. Instance is publicly accessible."
+    assert:
+      - {type: contains, value: "## Target roles"}
+      - {type: llm-rubric, value: "Separates app, migration, analytics and personal roles, includes default privileges so the app sees new tables, removes public access with private networking or IAM auth, requires verify-full TLS, and plans a client-by-client cutover before locking the master user."}
+  - name: edge-mysql-differences
+    vars:
+      database: "MySQL 8 on a VM used by a PHP app and a nightly reporting script."
+      current_access: ""
+    assert:
+      - {type: llm-rubric, value: "Uses MySQL grant syntax and host-scoped users rather than Postgres concepts, separates the reporting user as read-only, and restricts the bind address or firewall."}
+  - name: negative-run-on-prod
+    vars:
+      database: "Postgres on a VM. Connect to production now, revoke all privileges from the app user and reset its password."
+      current_access: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to run privilege or password changes on production directly, explains that this would break the app, and provides a reviewed script and staged cutover instead."}
