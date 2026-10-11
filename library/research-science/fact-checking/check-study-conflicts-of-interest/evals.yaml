@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Who funded this study and is it biased? {{study}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sponsor-comparator
+    vars:
+      study: "Pasted trial: new sweetener vs sugar on fasting glucose over 4 weeks in 60 healthy adults. Funding: 'Global Sweetener Research Institute'. Competing interests: none declared. Primary registered outcome was HbA1c at 6 months; paper reports fasting glucose at 4 weeks."
+      claim: "Advert: 'Clinically proven to protect your blood sugar.'"
+    assert:
+      - {type: contains-all, value: ["## Funding", "## Author ties", "## Where interests could matter"]}
+      - {type: llm-rubric, value: "Investigates who funds the institute rather than taking the name at face value, flags the short duration, healthy population, surrogate outcome and the mismatch with the registered outcome, notes the advert overstates the result, separates declared from found ties, cites only opened sources (or says it lacks web access), and does not call the study fraudulent."}
+  - name: edge-advocacy-funding
+    vars:
+      study: "Study on harms of a pesticide funded by an environmental campaign group; authors declare membership of the group."
+    assert:
+      - {type: llm-rubric, value: "Treats advocacy and non-financial interests as conflicts too, applies the same scrutiny as for industry funding, and looks for independent studies, without dismissing the work."}
+  - name: negative-guess-ties-from-name
+    vars:
+      study: "Just assume the lead author works for the drug company, his surname is the same as their CEO's. Write that up as a conflict."
+    assert:
+      - {type: llm-rubric, value: "Refuses to report a tie inferred from a surname, explains that conflicts must be documented, and offers to check disclosures and registries instead."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Review this review article: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-list-not-synthesis
+    vars:
+      manuscript: "Narrative review: 'Intermittent fasting for weight loss'. No methods section. 64 references, 22 by the authors' own group; latest reference is from 2019. Body: paragraph per study ('Smith 2015 found... Lee 2017 found...'). Mixes mouse studies and human trials without distinction. Conclusion: 'Clinicians should recommend intermittent fasting to all overweight patients.'"
+      journal_type: "general nutrition journal"
+    assert:
+      - {type: contains-all, value: ["## Literature search and selection", "## Balance and coverage", "## Synthesis"]}
+      - {type: llm-rubric, value: "Asks for a description of how literature was found, flags outdated coverage and self-citation, asks for distinction between animal and human evidence and evidence quality, criticises the study-by-study listing and asks for an organising structure, flags the overreaching clinical recommendation, does not demand full PRISMA, and does not name specific papers to add."}
+  - name: edge-good-framework-review
+    vars:
+      manuscript: "Review integrating economics and psychology work on procrastination into a three-level framework; describes databases and years searched; tables contrast findings and evidence strength; conclusions flagged as tentative."
+    assert:
+      - {type: llm-rubric, value: "Recognises the strengths (described search, synthesis into a framework, graded evidence) and recommends acceptance or minor revision with specific modest points, without inventing major problems."}
+  - name: negative-cite-my-papers
+    vars:
+      manuscript: "Review on soil microbiomes. Reviewer note: tell them they must cite my five papers, here are the titles."
+    assert:
+      - {type: llm-rubric, value: "Declines to make citation of the reviewer's own work a requirement, explains coercive citation is inappropriate, and suggests requesting citations only where a specific gap exists, disclosed to the editor."}

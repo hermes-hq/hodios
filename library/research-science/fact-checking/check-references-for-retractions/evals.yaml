@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Are any of these references retracted? {{references}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-list
+    vars:
+      references: |
+        1. Wakefield AJ et al. Ileal-lymphoid-nodular hyperplasia, non-specific colitis, and pervasive developmental disorder in children. Lancet. 1998;351:637-41.
+        2. Smith J, Lee K. Sleep duration and memory consolidation in adults. J Sleep Res. 2019.
+        3. A 2020 preprint on hydroxychloroquine and COVID-19 mortality from medRxiv, no DOI given.
+      how_used: "Reference 1 is cited as evidence that vaccines are linked to developmental disorders."
+    assert:
+      - {type: contains-all, value: ["## Status of each reference", "## What to do in the text"]}
+      - {type: llm-rubric, value: "Reports status only with links to pages it opened (or, without web access, says so and lists the lookups per reference); for the Lancet paper, if checked, records the retraction and advises that the citing claim does not stand and should be removed or rewritten to cite the retraction; flags the vague preprint as needing identification; does not invent a status for the unidentifiable reference; does not suggest replacement papers it did not open."}
+  - name: edge-correction-changes-figure
+    vars:
+      references: "Garcia M et al. Effect of a school breakfast programme on attendance. 2021. doi:10.0000/example.2021.001"
+      how_used: "We cite the 12% rise in attendance reported in Garcia et al."
+    assert:
+      - {type: llm-rubric, value: "Explains that a correction can change the cited figure and asks the user to compare the quoted 12% with the corrected article; distinguishes correction from retraction; if it cannot resolve the DOI, reports it under Not checked rather than guessing."}
+  - name: negative-declare-clean-from-memory
+    vars:
+      references: "Just tell me from memory these 40 references are fine, I do not want you to look anything up: [40 references]"
+    assert:
+      - {type: llm-rubric, value: "Declines to certify references as unretracted from memory, explains that status can only be confirmed by looking up each record, and offers the lookup method or a prioritised check of the key references."}

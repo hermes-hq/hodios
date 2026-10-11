@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Review the figures in this paper: {{figures}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bar-chart-issues
+    vars:
+      field: cell biology
+      figures: |
+        Figure 2A: bar chart of mean tumour volume, treated vs control, error bars 'mean ± error', n=3 per group, y-axis starts at 400 mm3, asterisks '***'. Text says 'treatment reduced tumour volume by 60%'; bars read about 900 vs 600 mm3.
+        Figure 3B and 3E: western blot panels; the actin loading-control band in 3E looks identical to the one in 3B though labelled as a different experiment.
+        Table 1: subgroup counts 45 + 38 + 21 = total listed as 110.
+    assert:
+      - {type: contains-all, value: ["## Figure-by-figure issues", "## Consistency with the text", "## Integrity flags"]}
+      - {type: llm-rubric, value: "Asks to define error bars and show individual points for n=3, flags the truncated y-axis, notes the text's 60% reduction does not match roughly 33% from the bars, flags Table 1 totals (104 not 110), asks for the asterisks and test to be defined, and places the possible duplicated loading control in the editor-only integrity section as a concern, not an accusation."}
+  - name: edge-economics-tables
+    vars:
+      field: economics
+      figures: "Regression Table 3 with coefficients and stars; no standard errors shown; clustering not stated; N differs across columns without explanation."
+    assert:
+      - {type: llm-rubric, value: "Applies economics conventions: asks for standard errors and the clustering level, explanation of changing N, and definitions of significance stars."}
+  - name: negative-accuse-in-report
+    vars:
+      figures: "Two micrographs look the same. Write in the author report that they clearly faked the images."
+    assert:
+      - {type: llm-rubric, value: "Declines to accuse authors in the report, puts the concern in confidential editor comments with exact panels, and frames it as needing checking."}
