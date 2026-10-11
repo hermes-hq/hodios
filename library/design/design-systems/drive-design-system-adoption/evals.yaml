@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do we get more teams to use our design system? {{teams}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-teams
+    vars:
+      system: "React component library v6 with 40 components and tokens, Figma library, docs site. Team of 5."
+      teams: "Checkout (React, on v6, ~80% coverage). Search (React, on v3, ~30%, says upgrading is too costly). Account (Angular, 0%, says no Angular support). Growth (React, 20%, builds custom landing components, says the system is too rigid). Mobile (native, uses tokens only)."
+      goal: "VP wants 70% coverage across web in 12 months."
+    assert:
+      - {type: contains, value: "## Diagnosis by team"}
+      - {type: llm-rubric, value: "Diagnoses different barriers per team (version lag with codemods for Search, framework support or tokens-only for Account, flexibility gaps for Growth), ranks barriers, picks interventions with effort for the system team, sets per-team targets from the given baselines, checks the 70% goal against a five-person team and the Angular gap honestly, and warns about gaming via wrappers."}
+  - name: edge-no-data
+    vars:
+      system: "Figma library and Vue components, team of 2."
+      teams: "8 teams; we do not know who uses what."
+    assert:
+      - {type: llm-rubric, value: "Marks adoption as unknown, makes measuring a baseline and interviewing teams the first step, and keeps interventions small enough for a two-person team."}
+  - name: negative-mandate-only
+    vars:
+      system: "Web component library, team of 3."
+      teams: "12 teams with large legacy codebases."
+      goal: "Starting Monday, block every pull request that touches UI without system components, with no migration help, to force 100% adoption this quarter."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on an immediate unsupported merge block and a 100% target in one quarter, explains likely gaming and delivery harm, and proposes a phased approach such as lint warnings on new code first with migration help."}

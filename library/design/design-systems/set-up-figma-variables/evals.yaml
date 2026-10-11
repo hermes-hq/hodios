@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should I set up Figma variables for these tokens: {{tokens}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-light-dark
+    vars:
+      tokens: "Primitives: blue-50..900, gray-0..900, red-500/700, green-500/700. Semantic: color.bg.default, color.bg.subtle, color.text.default, color.text.secondary, color.border.default, color.action.primary, color.action.primary-hover, color.text.on-action. Spacing space-1..space-10 (4px base). Radius sm 4, md 8, lg 16."
+      themes: "Light and dark."
+      setup: "Professional plan. Today we have colour styles only; tokens live in a JSON file in the code repo."
+    assert:
+      - {type: contains, value: "## Scoping and publishing"}
+      - {type: llm-rubric, value: "Puts primitives in a hidden collection without modes and light/dark modes on the semantic collection, lists semantic variables aliasing primitives per mode with matching code names, sets scopes per group, picks the code JSON as source of truth with a sync route and drift check, and gives a migration from colour styles that avoids breaking consumer files."}
+  - name: edge-multi-brand
+    vars:
+      tokens: "Semantic colour tokens for 3 brands, each with light and dark, plus compact and comfortable density for spacing."
+    assert:
+      - {type: llm-rubric, value: "Computes the mode count implied by brands times themes, separates density into its own collection or modes, tells the user to check the mode limit on their Figma plan rather than stating a number as fact, and offers an alternative structure if the limit is too low."}
+  - name: negative-no-tokens
+    vars:
+      tokens: "We do not have tokens yet. Just make up a full variable set for a fintech app and tell me it matches our code."
+    assert:
+      - {type: llm-rubric, value: "Does not claim invented variables match the user's code, explains that tokens should be defined first or extracted from code, and offers a clearly proposed starter structure labelled as such."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write release notes for design system {{version}}: {{changes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-release
+    vars:
+      version: "4.2.0 (code), library publish 2026-10"
+      changes: |
+        - feat(Button): add `loading` prop
+        - fix(TextField): increase vertical padding from 8px to 10px to match spec
+        - refactor(Modal): move to new portal util
+        - feat(tokens): add color.bg.warning-subtle
+        - chore: rename Tag variant prop `type` -> `tone` (old prop still works, logs warning)
+        - Figma: Tag property "Type" renamed to "Tone"
+    assert:
+      - {type: contains, value: "## Action needed"}
+      - {type: llm-rubric, value: "Groups changes by component, labels the TextField padding fix as a visual change that may shift layouts and screenshot tests, treats the Tag prop rename as a deprecation with old and new names for developers and warns designers that overrides on the renamed Figma property may be reset, lists the new token, leaves the Modal refactor out as internal, and adds a short chat announcement."}
+  - name: edge-breaking-in-minor
+    vars:
+      version: "3.5.0"
+      changes: "Removed the `size='xs'` option from Avatar. Added Badge component."
+    assert:
+      - {type: llm-rubric, value: "Flags that removing an option is breaking and inconsistent with a minor version, lists it under Unclear items or asks whether the version should be major, and still gives a migration step for Avatar."}
+  - name: negative-vague-input
+    vars:
+      version: "2.0.0"
+      changes: "Various improvements and bug fixes."
+    assert:
+      - {type: llm-rubric, value: "Does not invent specific component changes, says the input is too vague for useful notes especially for a major version, and asks for the pull requests or changelog."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a type scale for {{product}} using {{fonts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-with-legacy-sizes
+    vars:
+      product: "B2B analytics web app with dense tables, dashboards and a help centre with long articles."
+      fonts: "Inter, weights 400, 500 and 600 loaded."
+      current: "Sizes in use: 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 28, 32, 40px. Headings named h1-h6. Spacing base 4px."
+    assert:
+      - {type: contains, value: "## Type roles"}
+      - {type: llm-rubric, value: "Uses role names instead of h1-h6 and says heading level is set in markup, keeps 8 to 12 sizes in rem with unitless line heights that resolve to multiples of 4px, uses only weights 400/500/600 and never 700, gives composite typography tokens and CSS, and maps each of the 13 legacy sizes to a new role while flagging visible changes."}
+  - name: edge-fluid-marketing
+    vars:
+      product: "Marketing site plus a web app sharing one design system; designers want headings to scale smoothly with the viewport."
+      fonts: "Söhne for headings (400, 600) and Source Serif for long-form body (400, 400 italic)."
+    assert:
+      - {type: llm-rubric, value: "Gives clamp() formulas for display or headline roles that include a rem term and explains this is needed for zoom and WCAG 1.4.4, keeps body and label sizes fixed, and keeps tighter line height and slight negative tracking on large sizes."}
+  - name: negative-px-viewport-only
+    vars:
+      product: "Mobile-first web shop. We want all text sized with vw units only so it scales perfectly with the screen, and body text at 12px to fit more products."
+      fonts: "Roboto 400 and 700."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on vw-only sizing because text then ignores user zoom and font settings, and on 12px body text for readability, proposes rem-based sizes with clamp() including a rem term instead, and does not simply produce the requested vw-only scale."}
