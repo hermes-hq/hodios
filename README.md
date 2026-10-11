@@ -182,6 +182,18 @@ The status and authorship of every entry are in its frontmatter. Every AI-assist
 
 ## What's inside
 
+Five kinds of entry, each with one job. Use one on its own or combine them:
+
+```mermaid
+flowchart LR
+    kPersona["🧑 <b>Persona</b><br/>who the AI is"] --> ai(("Your AI tool"))
+    kRule["📏 <b>Rule</b><br/>what it always follows"] --> ai
+    kPrompt["✅ <b>Prompt</b><br/>one task to do"] --> ai
+    kWorkflow["🗺️ <b>Workflow</b><br/>several steps, in order"] --> ai
+    kStyle["🎨 <b>Style</b><br/>how the answer reads"] --> ai
+    ai --> result["Better result"]
+```
+
 | Kind | What it is | Becomes |
 |---|---|---|
 | **Prompt** | A task with typed inputs: review a PR, find a root cause, write a migration | Skill, slash command, Copilot prompt file, Gemini command |
