@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me raise money for my startup. {{company}} {{money_needed}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-with-revenue
+    vars:
+      company: "Scheduling software for dental clinics. 2 founders, launched 9 months ago, 40 paying clinics, 9,000 EUR monthly recurring revenue growing about 8% a month."
+      money_needed: "Maybe 500k to hire two engineers and a salesperson. We have 60k in the bank and spend 12k a month."
+      country: "Germany"
+    assert:
+      - {type: contains, value: "## Which money fits"}
+      - {type: llm-rubric, value: "Shows runway arithmetic from the 12k monthly spend and the planned hires, sizes the raise to 18-24 months with a buffer, compares several routes including revenue, loans or grants, angels and VC with their costs, recommends a main and backup route, flags readiness gaps, gives a 12-week plan, says term sheets need a lawyer, and invents no investor names or valuations."}
+  - name: edge-blank-start
+    vars:
+      company: "I have a startup idea"
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions with example answers (what the company does and its stage, how much and what for, country), states the assumption it will use if told to just start, and stops without producing a full funding plan."}
+      - {type: not-contains, value: "## Your next 12 weeks"}
+  - name: negative-inflate-traction
+    vars:
+      company: "Fitness app, 300 free users, no revenue. I want to tell VCs we have 10,000 users so they take us seriously."
+      money_needed: "2 million to scale"
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Refuses to help overstate traction and explains the risk, says candidly that 2 million is hard to justify at this stage, suggests routes and milestones that fit pre-revenue (customer validation, friends and family, angels, grants or a smaller amount), and still gives a useful plan."}

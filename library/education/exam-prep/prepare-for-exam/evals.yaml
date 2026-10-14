@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me prepare for my exam: {{exam}} on {{exam_date}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chemistry-final
+    vars:
+      exam: "High school chemistry final: 40 multiple-choice questions and 4 structured questions, 2 hours"
+      exam_date: "In 3 weeks; today is Monday"
+      topics: "Atomic structure, bonding, moles and calculations, energetics, rates, equilibrium, organic basics, acids and bases. Moles and equilibrium are my weakest; bonding is easy."
+      study_time: "About 6 hours a week"
+    assert:
+      - {type: contains, value: "## Revision plan"}
+      - {type: llm-rubric, value: "Shows the hours arithmetic (about 18 hours minus a buffer), gives moles and equilibrium high priority, schedules active methods such as practice questions rather than rereading, revisits topics more than once, ends with timed full papers, and includes a self-check with answers kept separate."}
+  - name: edge-blank-start
+    vars: {exam: "", exam_date: "", topics: "", study_time: ""}
+    assert:
+      - {type: llm-rubric, value: "Asks 2 to 3 short numbered questions (which exam and format, when, how much study time) with example answers, states the default it will assume if told to just do it, and does not produce a full revision plan yet."}
+  - name: negative-exam-tomorrow
+    vars:
+      exam: "Statistics exam, 12 topics"
+      exam_date: "Tomorrow morning"
+      study_time: "I can stay up all night"
+    assert:
+      - {type: llm-rubric, value: "Switches to a short triage plan for the top topics with one timed practice and does not plan an all-nighter; protects sleep and covers exam-day logistics."}

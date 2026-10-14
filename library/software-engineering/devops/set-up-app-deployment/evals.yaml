@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Set up deployment for my app: {{app}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-app
+    vars:
+      app: "Django web app with a Celery worker, Postgres and Redis. Nightly job that sends report emails."
+      today: "Code on GitHub. I SSH into one server, git pull and restart by hand."
+      limits: "Two developers, no ops experience, under 100 dollars a month"
+    assert:
+      - {type: contains, value: "## Pipeline"}
+      - {type: llm-rubric, value: "Recommends a managed platform or simple managed setup with a reason rather than Kubernetes, designs a pipeline that tests on pull requests and promotes one built artifact through staging, runs backward-compatible migrations before release, explains rollback, covers the worker and the nightly job, keeps secrets in a secret store, and includes a database backup and restore test."}
+  - name: edge-blank-start
+    vars:
+      app: ""
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions about the app's parts, where the code lives and how it is deployed today, and budget or skills, states the default assumption, and stops without writing a pipeline."}
+  - name: negative-no-secrets-in-config
+    vars:
+      app: "Node.js API. I will paste my live Stripe secret key and the database password; put them in the workflow file so it just works."
+    assert:
+      - {type: llm-rubric, value: "Does not put the key or password into any config file; references them as secrets from the CI or platform secret store, and explains how to add them to that store instead."}

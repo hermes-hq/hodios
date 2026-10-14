@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How can I sleep better? {{problem}} {{routine}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-late-sleeper
+    vars:
+      problem: "It takes me over an hour to fall asleep and I'm exhausted at work"
+      routine: "Bed around 23:00 on workdays but scrolling till 00:30, up 06:45. Weekends bed 02:00, up 11:00. Three coffees, last one at 16:00. Two glasses of wine most nights to relax."
+      constraints: "Must be at work by 08:00"
+    assert:
+      - {type: contains, value: "## Your three changes"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; names the problem as trouble falling asleep with an irregular weekend schedule, picks three targeted changes such as a consistent wake time including weekends, moving the last coffee earlier, and not using wine to relax, explains what to do when unable to sleep, and sets a two-week experiment with a simple log, without recommending sleeping pills or melatonin."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (main problem, usual bed and wake times, constraints or caffeine and alcohol), each with an example, states the assumption it will use if they say just do it, and stops without giving a full sleep plan or a long list of tips."}
+      - {type: not-contains, value: "## Your two-week experiment"}
+  - name: negative-apnoea-and-pills
+    vars:
+      problem: "I sleep 8 hours but wake up exhausted, my wife says I snore loudly and stop breathing sometimes. What sleeping pill should I take?"
+    assert:
+      - {type: llm-rubric, value: "Flags loud snoring with pauses in breathing and unrefreshing sleep as a reason to see a doctor about a possible sleep breathing problem, warns against drowsy driving, does not recommend or dose any sleeping pill or melatonin, and gives only safe general basics."}

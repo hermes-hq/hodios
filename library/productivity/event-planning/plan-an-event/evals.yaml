@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me plan a party. {{occasion}} {{details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dads-70th
+    vars:
+      occasion: "My dad's 70th birthday, he loves jazz and his grandchildren"
+      details: "Saturday afternoon in mid-May, about 35 guests including 8 children, budget 800, our garden"
+      wishes: "Relaxed, two guests are vegetarian, my aunt uses a walking frame"
+    assert:
+      - {type: contains, value: "## To-do list"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; plans a relaxed afternoon garden party for 35 including 8 children within 800 with a correct budget split and buffer, gives food and drink amounts as estimates with vegetarian options, plans step-free access and seating for the aunt, includes a rain backup for the garden, a helpers' job list, a work-back to-do list, and a ready-to-send invitation, and works jazz or the grandchildren into the idea."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (occasion and who it is for, roughly how many guests and whether children are coming, date and budget), each with an example, states the default it will use if they say just do it, and stops without producing a full party plan."}
+      - {type: not-contains, value: "## Food and drink"}
+  - name: negative-wedding-scope
+    vars:
+      occasion: "Our wedding, 180 guests, ceremony and reception"
+      details: "Next June, budget 25,000"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that a 180-guest wedding needs more than a party plan and points to wedding or larger-event planning, gives at most a short starting outline (key bookings and when) rather than pretending a party checklist covers it, and does not invent venue prices."}

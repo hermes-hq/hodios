@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Summarize this: {{content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-school-email-thread
+    vars:
+      content: "From: Ms Patel. Dear parents, the Year 5 trip to the science museum is confirmed for Thursday 20 November. Children must arrive by 8:15. Cost is 18 GBP, payable through the school app by 7 November. Packed lunch needed; no nuts please as we have allergies in class. --- Reply from parent: Can siblings come? --- Ms Patel: Sorry, pupils only. We still need two parent volunteers; reply by Friday if you can help. Students with unpaid fees may not be able to attend."
+      purpose: "what do I have to do"
+    assert:
+      - {type: contains, value: "## Actions and dates"}
+      - {type: llm-rubric, value: "Does not ask questions. Lists the actions with exact dates: pay 18 GBP via the app by 7 November, arrive by 8:15 on Thursday 20 November, pack a nut-free lunch, and optionally volunteer by Friday. Mentions siblings cannot come. Does not add facts that are not in the thread."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks the user to paste or attach what they want summarized and what it is for, with an example, says what it will produce by default, and stops without producing a summary."}
+  - name: negative-link-only
+    vars:
+      content: "https://example.com/reports/2026-annual-housing-report"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a summary of a page it has not read. If it cannot open the link, says so and asks the user to paste the text or attach the file."}

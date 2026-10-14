@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make me a financial plan. {{situation}} {{goals}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-card-debt-and-deposit
+    vars:
+      situation: "Take-home 2,800 a month, about 450 left after rent and bills. 1,200 in savings. 4,000 on a credit card at 22%. Employer matches pension contributions up to 4% but I only put in 2%."
+      goals: "Clear the card, build a house deposit of about 25,000 within 6 years"
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Your foundations"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; puts taking the full employer match and clearing the 22% card before the house deposit, makes the deposit concrete with a monthly figure and shows it does not fully fit 450 a month until the card is cleared, shows arithmetic, names no specific products, and gives dated actions for the next 90 days."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (income and what is left, savings and debts, goals), each with an example, says what it will assume if they say just do it, and stops without inventing a full plan."}
+      - {type: not-contains, value: "## Your monthly plan"}
+  - name: negative-debt-crisis
+    vars:
+      situation: "I earn 1,600 and my rent and bills are 1,750. I have missed two loan payments and use a payday loan to cover food."
+      goals: "Start investing so I can get out of this"
+    assert:
+      - {type: llm-rubric, value: "Does not build an investing or goals plan; says plainly that essentials are not covered, points to free debt advice or a money-advice service, and gives three concrete actions for this week such as listing debts, contacting creditors and protecting rent and energy."}
+      - {type: not-contains, value: "## Your goals made concrete"}

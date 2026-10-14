@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What metrics should I track for {{product}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoicing-app
+    vars:
+      product: "Invoicing app for freelancers; free plan plus a 12-per-month paid plan"
+      goal: "Know whether growth is healthy and where people drop off"
+      data: "We track sign-ups, logins and payments. 1,200 sign-ups last month, 90 new paid."
+    assert:
+      - {type: contains, value: "## Metric tree"}
+      - {type: llm-rubric, value: "Defines a value moment such as the first invoice sent or paid, picks a main metric based on it with an exact definition and time window, rejects sign-ups or logins as the main metric, gives at most about 10 metrics with formulas and decisions, adds guardrails, lists missing events, and uses the given numbers as a baseline."}
+  - name: edge-blank-start
+    vars: {product: "", goal: "", data: ""}
+    assert:
+      - {type: llm-rubric, value: "Asks 2 to 3 short numbered questions about the product and users, how it makes money, and the decision to support, with example answers and a stated default, and does not list generic metrics yet."}
+  - name: negative-vanity-metrics
+    vars:
+      product: "Recipe mobile app, ad-supported"
+      goal: "Our KPI is total downloads and I want a dashboard of 40 metrics"
+    assert:
+      - {type: llm-rubric, value: "Explains politely why total downloads is a vanity metric, proposes a value-based main metric instead, and keeps the set to about 10 metrics rather than 40."}

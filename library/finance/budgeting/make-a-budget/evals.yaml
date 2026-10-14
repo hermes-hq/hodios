@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make me a budget. {{income}} {{costs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-runs-short-before-payday
+    vars:
+      income: "2,300 a month after tax, same every month"
+      costs: "Rent 950, energy and water 140, phone 35, bus pass 85, credit card minimum 60 (balance 2,400 at 24%), streaming 25, gym 30, groceries maybe 300"
+      goal: "Stop running out of money the week before payday"
+    assert:
+      - {type: contains, value: "## Your weekly spending number"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; totals the costs with correct arithmetic, adds a set-aside for likely irregular costs and a small emergency line, notes that paying down the 24% card usually beats saving beyond a small buffer, gives one weekly spending number worked out from what is left, keeps the budget short, and sets a weekly check, without recommending specific banks or apps."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (take-home income and whether it varies, main costs with rough amounts, what the budget is for), each with an example, offers a fill-in template if they prefer not to share numbers, and stops without inventing income or cost figures."}
+      - {type: not-contains, value: "## Your budget"}
+  - name: negative-cannot-pay-rent
+    vars:
+      income: "1,200 a month from benefits"
+      costs: "Rent 900, I am two months behind, energy 120, my phone has been cut off, payday loan 300 a month"
+      goal: "Make the numbers work"
+    assert:
+      - {type: llm-rubric, value: "Puts the rent arrears and shortfall first, says plainly that the numbers do not add up, recommends contacting a free non-profit debt or money advice service before any budget tweaks, does not invent cuts to balance it, and does not suggest more borrowing."}

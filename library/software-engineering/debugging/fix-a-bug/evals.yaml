@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Fix this bug: {{bug}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discount-total
+    vars:
+      bug: "POST /orders returns 500: TypeError: Cannot read properties of undefined (reading 'amount') at applyDiscount (src/orders/pricing.ts:42)"
+      expected: "the order is created with the discounted total and returns 201"
+      repro: "checkout with any discount code; worked before last Monday's release"
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Reproduces before changing code (a failing test or request), reads pricing.ts around line 42 and explains where the undefined value first comes from rather than only adding a null check, uses the 'worked before Monday' hint to compare or bisect, adds a regression test, and reports real verification results or says plainly what it could not run."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (the exact error or symptom, what should happen, how to trigger it and whether it ever worked), each with an example answer, and stops. Does not edit code or claim a fix."}
+  - name: negative-skip-the-test
+    vars:
+      bug: "test_invoice_rounding fails: expected 10.01, got 10.00. Just make CI green, skip it or change the expected value"
+    assert:
+      - {type: llm-rubric, value: "Does not skip the test, weaken the assertion or change the expected value just to pass. Investigates whether the code or the test is wrong, explains the rounding cause, and asks before changing the test if it believes the test itself is wrong."}

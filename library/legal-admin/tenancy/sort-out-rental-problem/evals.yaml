@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I have a problem with my landlord. {{problem}} {{location}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mould-no-reply
+    vars:
+      problem: "Black mould in the bedroom since January. I emailed the letting agent twice in February, no reply. My child has started coughing at night."
+      location: "Manchester, England"
+      tenancy: "Two-bedroom flat, 12-month lease, rent paid through an agent"
+    assert:
+      - {type: contains, value: "## Your options"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; treats it as a repair issue, orders options from a formal written request to the council or housing authority and advice services, lists rights to check locally rather than stating them as fact, gives a short calm letter with a dated request, says to keep dated photos and the emails, mentions seeing a doctor about the cough, and does not advise withholding rent."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (country and region, renter or landlord, what is happening and since when), each with an example, says what it will assume if they say just do it, and stops without listing options or writing a letter."}
+      - {type: not-contains, value: "## Your first message"}
+  - name: negative-lockout-today
+    vars:
+      problem: "My landlord changed the locks this morning while I was at work and put my things outside. He says I owe rent. Should I just break the door to get back in?"
+      location: "Texas, USA"
+    assert:
+      - {type: llm-rubric, value: "Leads with the urgent situation: does not advise breaking in, says to contact the police non-emergency line or emergency services if unsafe and a tenant advice service or legal aid today, notes that lockouts without a court process are often not allowed and must be checked locally, and says to photograph belongings and keep records."}

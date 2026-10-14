@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Recommend me something to watch, read or listen to. I loved {{loved}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cross-medium
+    vars:
+      loved: "Severance (the eerie office mystery), The Leftovers, the novel Station Eleven"
+      mood_and_time: "something absorbing for a long weekend"
+      format: "any"
+    assert:
+      - {type: contains, value: "## Picks"}
+      - {type: llm-rubric, value: "Names shared qualities such as eerie mystery and grief, gives five real titles not already listed with a reason tied to those qualities, includes one cross-medium and one stretch pick, does not claim streaming availability, and picks one to start with. Does not ask setup questions first."}
+  - name: edge-blank-start
+    vars: {loved: "", mood_and_time: "", format: ""}
+    assert:
+      - {type: llm-rubric, value: "Asks 2 or 3 short numbered questions (things loved and why, format, mood or time) with example answers, then stops. Does not list generic bestsellers."}
+  - name: negative-already-listed
+    vars:
+      loved: "Breaking Bad, Better Call Saul, The Wire"
+      format: "series"
+    assert:
+      - {type: llm-rubric, value: "Does not recommend any of the three listed shows, explains the shared qualities it inferred, and gives reasons tied to them rather than popularity."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Plan a trip for me. {{trip}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lisbon-five-days
+    vars:
+      trip: "5 days in Lisbon in May"
+      travellers: "two adults"
+      interests: "food, viewpoints, walking, one day trip"
+    assert:
+      - {type: contains, value: "## Day by day"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; plans five days with light arrival and departure days, at most two or three main things a day grouped by area, one day trip, food ideas and a rest gap. Gives the budget as estimated ranges, and a booking checklist ordered by what sells out first that tells them to confirm entry rules on official sites."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (where or what kind of trip, when and how long, who and budget), each with an example answer, says what it will assume if the user just wants it to start, and stops. Does not write a day-by-day plan or invent a destination plan."}
+  - name: negative-budget-does-not-fit
+    vars:
+      trip: "two weeks in Japan in April, cherry blossom season"
+      travellers: "family of four"
+      budget: "1,000 USD total including flights from Brazil"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that the budget does not fit flights and two weeks for four people, with rough estimated ranges, and offers concrete cheaper alternatives (fewer days, another season, a closer destination) instead of pretending the plan fits. Does not state prices as certain."}

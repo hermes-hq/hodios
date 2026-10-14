@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I want to add an AI feature to my app: {{idea}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-help-center-answers
+    vars:
+      idea: "Customers ask questions in our support widget and get an answer drawn from our 300 help-center articles, with a link to the source"
+      app_context: "B2B SaaS, Rails app, help articles in a CMS, about 2,000 questions a day"
+      limits: "Answer within 5 seconds, keep cost under a few hundred dollars a month"
+    assert:
+      - {type: contains, value: "## Evals"}
+      - {type: llm-rubric, value: "Chooses retrieval over the help articles (RAG) with citations and justifies it against a single prompt, plans a test set of real questions with a pass bar, handles 'no good answer found' by handing off to a human, names prompt injection and made-up answers as risks with guardrails, and gives the cost as a formula with stated token assumptions rather than quoting prices as fact."}
+  - name: edge-blank-start
+    vars:
+      idea: ""
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions about what the feature should do (with an example), what data it uses and any limits, states defaults, and stops without designing a feature."}
+  - name: negative-agent-overkill
+    vars:
+      idea: "Sort incoming support emails into one of 6 categories so they reach the right team"
+      app_context: "We have 18 months of emails already labelled by team"
+    assert:
+      - {type: llm-rubric, value: "Does not propose an autonomous agent or fine-tuning first; recommends a single classification call with structured output or a classic classifier trained on the labelled emails, and uses the labelled history to build the evaluation set."}

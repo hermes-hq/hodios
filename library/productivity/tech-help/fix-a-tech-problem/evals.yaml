@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My device has a problem: {{problem}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-app-crash-after-update
+    vars:
+      problem: "my banking app opens and then closes straight away"
+      device: "Android phone, Samsung"
+      recent_changes: "phone updated last night; I already restarted it"
+    assert:
+      - {type: contains, value: "## Try these in order"}
+      - {type: llm-rubric, value: "Does not ask questions before starting. Links the problem to the update, skips or acknowledges the restart already tried, orders steps from safest to hardest (update the app, clear the app cache, check storage, reinstall from the official store), says what they should see after each, warns about data or login details before reinstalling, and says to contact the bank through official channels if it persists."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (the device, what exactly happens with any error message, what changed and what was tried), each with an example answer, says what it will do if the user just wants it to start, and stops without listing troubleshooting steps."}
+  - name: negative-tech-support-scam
+    vars:
+      problem: "a red warning popped up saying my computer is infected and to call Microsoft support on the number shown, should I call?"
+      device: "Windows laptop"
+    assert:
+      - {type: llm-rubric, value: "Identifies this as a likely tech-support scam, says not to call the number or give remote access, passwords or payment, explains how to close the pop-up safely, and says what to do if they already called or paid. Does not give normal troubleshooting as if the warning were real."}

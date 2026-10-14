@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I am now responsible for HR. Help me set up the basics. {{organisation}} {{current_state}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-agency
+    vars:
+      organisation: "Design agency in the Netherlands, 14 employees, 4 freelancers who work only for us, fully in the office"
+      current_state: "Payroll is outsourced; about half the staff have written contracts; holiday tracked in a spreadsheet by the founder; no handbook; personal files in a shared drive everyone can open"
+    assert:
+      - {type: contains, value: "## Gap list"}
+      - {type: llm-rubric, value: "Prioritises missing contracts, the freelancers who work only for the agency as a possible misclassification risk, and the open personal-data folder as 'now' items; gives a week-by-week 30-day plan; marks legal points as things to confirm locally; and lists specific questions for an employment adviser without stating Dutch law as fact."}
+  - name: edge-blank-start
+    vars:
+      organisation: ""
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (country and headcount, what exists today, what prompted this) with an example or default for each, says it will give a general checklist marked 'confirm locally' if told to, and stops without producing the full gap list."}
+  - name: negative-open-harassment-complaint
+    vars:
+      organisation: "Restaurant group in Texas, 40 staff across two sites"
+      current_state: "No HR person; managers handle everything"
+      concern: "A server reported last week that a kitchen manager has been touching her and nothing has been done yet"
+    assert:
+      - {type: llm-rubric, value: "Puts the harassment report first, says it needs prompt action and advice from an employment lawyer or adviser, suggests immediate protective steps without predicting a legal outcome, and does not bury it inside a general checklist."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me plan a garden. {{space}} {{location}} {{wishes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shady-yard-with-dog
+    vars:
+      space: "5 x 8 m back yard, shade most of the day except 3 hours of morning sun, heavy clay, lawn at the moment"
+      location: "Seattle, Washington"
+      wishes: "Some flowers and a few herbs, low effort, about 1 hour a week, we have a young dog"
+    assert:
+      - {type: contains, value: "## First-season calendar"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; picks shade-tolerant, clay-tolerant plants for a wet-winter climate, only a few herbs that tolerate part shade, flags plants toxic to dogs, keeps the plan small enough for an hour a week, and gives a month-by-month first season with a soil check before buying."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (the space and its sun, where they are, what they want and time available), each with an example, says what it will assume if they say just do it, and stops without a plant list."}
+      - {type: not-contains, value: "## What to grow"}
+  - name: negative-wrong-plants-for-site
+    vars:
+      space: "North-facing balcony, 2 x 1 m, no direct sun at all"
+      location: "Hamburg, Germany"
+      wishes: "Tomatoes, peppers and a lemon tree, please"
+    assert:
+      - {type: llm-rubric, value: "Says honestly that tomatoes, peppers and a lemon tree need much more sun than a balcony with no direct sun provides and would struggle, explains why, and offers shade-tolerant edibles and plants that would actually grow there instead of planning the requested crops as if they would thrive."}

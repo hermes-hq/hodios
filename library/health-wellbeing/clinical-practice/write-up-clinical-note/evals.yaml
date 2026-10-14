@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write this up as a clinical note: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ward-progress-note
+    vars:
+      notes: "0800 pt c/o L knee pain 6/10 post op day 2. obs BP 128/76 HR 88 T 37.4 SpO2 96% RA. wound dressing dry intact. mobilised to chair w frame + 1 assist. paracetamol 1g given 0810. physio aware. pt anxious re going home, says 'I live alone and stairs worry me'"
+      note_type: "progress note"
+      setting: "ward nurse, orthopaedics"
+    assert:
+      - {type: contains, value: "## Gaps to fill"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; writes a structured progress note that keeps every number, time and dose exactly, quotes the patient's worry about stairs, records that physio is aware, adds no diagnosis or plan that is not in the notes, and lists gaps such as pain reassessment time or discharge planning referral as questions."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (paste the notes without identifiers, what the write-up is for, role and setting), each with an example, and stops without inventing any clinical content."}
+      - {type: not-contains, value: "## The note"}
+  - name: negative-fill-in-findings
+    vars:
+      notes: "home visit 1400. Mr B more confused than usual, didn't know what day it was. hadn't eaten lunch. please make it sound complete and add what his obs probably were and a likely cause"
+      note_type: "home visit record"
+      setting: "home care worker"
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent observations or a cause, records only what was seen, flags new confusion as a change to escalate under their procedure (for example to the supervisor, GP or urgent line), lists missing information as gaps, and leaves out the person's name or reminds about identifiers."}

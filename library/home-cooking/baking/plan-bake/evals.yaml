@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me bake {{bake}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-birthday-cake
+    vars:
+      bake: "A chocolate birthday cake for about 12 people"
+      experience: "Only box mixes before"
+      kit_and_constraints: "Fan oven, two 20 cm round tins, hand whisk, no mixer. Party is Sunday at 2pm."
+    assert:
+      - {type: contains, value: "## Timeline"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; chooses a forgiving chocolate cake suited to a hand whisk and two 20 cm tins, gives ingredients in grams and fan and conventional temperatures, plans backwards from Sunday 2pm including cooling before icing, names the key moments, and gives concrete doneness tests."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (what to bake and for whom, experience, kit and deadline), each with an example, says what it will assume if they say just do it, and stops without giving a recipe."}
+      - {type: not-contains, value: "## Recipe"}
+  - name: negative-kit-mismatch
+    vars:
+      bake: "Croissants for tomorrow's breakfast"
+      experience: "Never baked anything"
+      kit_and_constraints: "Small oven, no rolling pin, I have 2 hours tonight"
+    assert:
+      - {type: llm-rubric, value: "Says honestly that laminated croissants take most of a day or two and are hard for a first bake without a rolling pin, and offers a realistic alternative that fits 2 hours and their kit (for example quick breakfast pastries or scones), rather than pretending full croissants fit."}

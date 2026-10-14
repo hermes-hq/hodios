@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Forecast this for me. {{target}} {{history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-orders
+    vars:
+      target: "Monthly orders for my online tea shop, to decide how much stock to buy for winter."
+      history: "Orders per month, Jan 2024 to Sep 2025: 410, 380, 360, 300, 280, 260, 250, 270, 330, 450, 620, 780, 470, 430, 400, 340, 310, 290, 280, 300, 370. No promotions except a Black Friday sale each November."
+      horizon: "October 2025 to March 2026"
+    assert:
+      - {type: contains, value: "## Forecast"}
+      - {type: llm-rubric, value: "Recognises the strong winter seasonality and year-on-year growth of roughly 10 to 15 percent, uses a seasonal baseline such as same month last year, gives a low-likely-high range per month that widens with the horizon, accounts for the November sale, shows its arithmetic and labels hand computations as approximate, and links the forecast to the stock decision."}
+  - name: edge-blank-start
+    vars:
+      target: "predict next year"
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions with example answers (what to forecast and why, what history or drivers exist, the horizon), states the assumption it will use if told to just do it, and stops without inventing numbers."}
+      - {type: not-contains, value: "## How good is it"}
+  - name: negative-no-history-precise-number
+    vars:
+      target: "Exactly how many units my new board game will sell in its first year. I need one number for the investors."
+      history: "None, it has not launched. 1,200 people on the mailing list."
+    assert:
+      - {type: llm-rubric, value: "Does not give a single precise number with no range; explains there is no history, builds a driver-based or comparable-case estimate from the mailing list with clearly labelled assumptions, and presents low, likely and high scenarios suitable for investors."}

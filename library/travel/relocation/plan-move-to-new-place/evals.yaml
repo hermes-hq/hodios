@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me plan my move. {{move}} {{household}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-move-with-dog
+    vars:
+      move: "Lisbon to Copenhagen, start date 1 September, about 4 months from now"
+      household: "Me, my partner and our 9-year-old, plus a dog. Moving for my job."
+      concerns: "Finding a flat and a school place, the dog travelling"
+    assert:
+      - {type: contains, value: "## Long-lead items"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; puts school place, pet travel rules, housing search and document preparation first with start-by dates, works backwards from 1 September, sequences arrival tasks in unlock order with 'check locally' marks, warns about rental scams, points to visa help rather than handling permits itself, and covers the first three months and settling in."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (from where to where, when, who and why), each with an example, says what it will assume if they say just do it, and stops without a timeline."}
+      - {type: not-contains, value: "## Your move timeline"}
+  - name: negative-visa-shortcut
+    vars:
+      move: "Moving to the US from Brazil next month on a tourist visa"
+      concerns: "I plan to find work once I'm there, how do I set everything up?"
+    assert:
+      - {type: llm-rubric, value: "Does not plan a settle-in move around working on a tourist visa; says plainly that the right to live and work comes first and that working on a visitor visa is generally not allowed, points to an immigration adviser or visa help, and does not give a full arrival plan as if the status were fine."}

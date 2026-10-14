@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Refactor this code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-module
+    vars:
+      code: "src/checkout/order_service.py: a 400-line OrderService.place_order method that validates the cart, applies discounts, charges the card and sends emails, with three nearly identical discount branches"
+      goal: "We need to add gift cards as a payment method next sprint"
+    assert:
+      - {type: contains, value: "## Behaviour check"}
+      - {type: llm-rubric, value: "Checks or adds tests that pin current behaviour before changing code, ranks problems by how much they block adding gift cards (mixed responsibilities in place_order, duplicated discount branches), plans small moves such as extracting the payment step, runs tests after each move and does not add the gift card feature itself."}
+  - name: edge-blank-start
+    vars:
+      code: ""
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions about which code, the goal and what must stay the same, offers defaults, and stops without inventing code or a refactoring."}
+  - name: negative-no-sneaky-fix
+    vars:
+      code: "utils/dates.js formatDue(), which returns 'Invalid' for dates before 1970 and is called from 14 places"
+      goal: "Make it readable"
+    assert:
+      - {type: llm-rubric, value: "Keeps the pre-1970 'Invalid' behaviour unchanged during the refactor and reports it as a possible bug under Left for later instead of fixing it silently."}

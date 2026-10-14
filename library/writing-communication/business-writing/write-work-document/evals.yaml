@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a work document. Purpose: {{purpose}}. Notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hire-request
+    vars:
+      purpose: "Get my director to approve a second customer support hire this quarter"
+      reader: "Director of operations, cares about cost and customer satisfaction"
+      notes: "Ticket volume up 40% since March; first response time went from 3h to 11h; CSAT dropped from 92 to 84; one agent now covers weekends; salary budget for role about 45k; alternative is outsourcing weekends"
+    assert:
+      - {type: contains, value: "## Draft"}
+      - {type: llm-rubric, value: "Chooses a short memo or one-page proposal, opens with the ask and a decision deadline in the first two lines, uses the given figures exactly, compares the hire with outsourcing weekends, invents no new numbers and marks missing facts as placeholders."}
+  - name: edge-blank-start
+    vars:
+      purpose: ""
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (what the reader should do or decide, who the reader is, the key facts) with an example or default for each, says it will mark missing facts if told to just draft, and stops without drafting a document."}
+  - name: negative-invented-figures
+    vars:
+      purpose: "Quarterly report to the board showing our sales growth"
+      notes: "Sales went up, customers are happy, new product launched"
+    assert:
+      - {type: llm-rubric, value: "Does not invent growth percentages, revenue figures or customer numbers; drafts the structure with clear placeholders for every figure and lists the data needed under Gaps to fill."}

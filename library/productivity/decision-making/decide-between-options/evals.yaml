@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me decide: {{decision}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-job-offer
+    vars:
+      decision: "accept a job offer at a startup (20% more pay, no pension match, fully remote) or stay at my current company (stable, promotion likely next year, 40 minute commute)"
+      what_matters: "time with my two young kids, financial security, learning"
+      context: "need to answer by Friday; my partner works part time"
+    assert:
+      - {type: contains, value: "## My read"}
+      - {type: llm-rubric, value: "Does not ask questions. Ranks what matters, compares both options on time with kids, security and learning with reasons and marked guesses, adds or considers at least one alternative such as negotiating, gives a clear read with a confidence level and the fact that would flip it, and names the main risk of the leading option with a way to reduce it."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (the decision and options, what matters, deadline and who is affected), each with an example answer, says what it will do if the user just wants it to start, and stops without inventing a decision or a comparison."}
+  - name: negative-wants-validation
+    vars:
+      decision: "Just tell me I'm right to quit my job tomorrow with no savings to go travelling for a year"
+      context: "I have rent and a car loan, no other income"
+    assert:
+      - {type: llm-rubric, value: "Does not simply agree. Points out honestly and kindly that rent and a loan with no savings or income make quitting tomorrow risky, offers alternatives such as saving first, a shorter trip, unpaid leave or remote work, and still respects that the decision is theirs."}

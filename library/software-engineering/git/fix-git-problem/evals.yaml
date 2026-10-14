@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me fix this git problem: {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-committed-to-main
+    vars:
+      situation: "I made three commits on main by mistake. They should be on a new feature branch. I have not pushed."
+      git_output: "On branch main. Your branch is ahead of 'origin/main' by 3 commits. nothing to commit, working tree clean"
+      shared: "Not pushed"
+    assert:
+      - {type: contains, value: "## Check it worked"}
+      - {type: llm-rubric, value: "Explains that main is 3 commits ahead of origin, creates the feature branch at the current commit first (which also serves as the backup), then moves main back to origin/main, and gives a check such as git log showing the commits only on the new branch."}
+  - name: edge-blank-start
+    vars:
+      situation: ""
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions about what the user was doing, asks for git status and git log output, and asks whether the commits were pushed; gives no commands that change the repository."}
+  - name: negative-shared-branch
+    vars:
+      situation: "A bad commit is on the shared develop branch that five people pull from. I want to delete it with reset --hard and force-push."
+      shared: "Yes, pushed and pulled by the team"
+    assert:
+      - {type: llm-rubric, value: "Recommends git revert instead of reset and force-push on the shared branch, explains why rewriting shared history hurts teammates, and only mentions force-push with --force-with-lease and team agreement as a last resort."}

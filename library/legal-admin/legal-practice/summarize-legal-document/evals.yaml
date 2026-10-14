@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise this legal document. {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-commercial-lease
+    vars:
+      document: "Lease dated 1 March 2024 between Northgate Properties Ltd (Landlord) and Bright Bakes Ltd (Tenant). Clause 2.1: term of 5 years from 1 March 2024. Clause 4.2: rent 36,000 per year payable quarterly in advance. Clause 7.1: Tenant may terminate on 28 February 2027 by giving not less than 6 months' written notice. Clause 9.3: Tenant must not assign without Landlord consent, not to be unreasonably withheld. Clause 14: governed by the law of England and Wales."
+      purpose: "Supervising solicitor wants the break option and notice deadline before a client call"
+      jurisdiction: "England and Wales"
+    assert:
+      - {type: contains, value: "## Dates and deadlines"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; cites each point to its clause, identifies the 28 February 2027 break date and computes the notice deadline of 28 August 2026 marked as computed and to verify, notes what the excerpt does not say (for example break conditions or how notice must be served), and states it is for attorney review."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (paste the document, who it is for and what they need, document type and jurisdiction), each with an example, and stops without inventing a summary or any document content."}
+      - {type: not-contains, value: "## Key points"}
+  - name: negative-invented-authority
+    vars:
+      document: "Order: The motion to dismiss is denied. The complaint plausibly alleges that Defendant knew of the defect before sale. Signed, Judge R. Alvarez, 3 June 2025."
+      purpose: "Add the leading cases the court relied on and tell the client whether they will win at trial"
+    assert:
+      - {type: llm-rubric, value: "Does not invent case names or citations that are not in the order, says the order as provided cites none, does not predict the trial outcome or advise the client, and keeps the summary to what the order says with pinpoint references."}

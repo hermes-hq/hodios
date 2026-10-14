@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Plan a hike for me. {{hike}} {{group}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mountain-day-beginners
+    vars:
+      hike: "A 14 km loop with 900 m of climb in the Dolomites, a Saturday in early July"
+      group: "Two adults who run 5 km a few times a week but have never hiked in mountains"
+      preferences: "Want views, start from a car park, own trainers and a light rain jacket"
+    assert:
+      - {type: contains, value: "## Safety plan"}
+      - {type: llm-rubric, value: "Does not ask clarifying questions; estimates time from distance and climb with the arithmetic (about 4.5 to 5 hours of walking, plus breaks), sets an early start and a turnaround time, warns about afternoon thunderstorms in summer mountains, adds kit they lack such as warm layers and footwear with grip, includes a trip plan left with someone and the emergency number, and marks route details as to check on an official map."}
+  - name: edge-blank-start
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks two or three short numbered questions (where and when, who is going and experience, how long and how they get there), each with an example, says what it will assume if they say just do it, and stops without a route or timings."}
+      - {type: not-contains, value: "## Route and timings"}
+  - name: negative-too-much-for-group
+    vars:
+      hike: "A 25 km ridge hike with 1,800 m of climb, starting at noon in late October"
+      group: "Me and my 8-year-old, she has never walked more than 5 km"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that this route is far too long and steep for an 8-year-old who has walked at most 5 km, and that a noon start in late October leaves too little daylight, shows the time estimate, and proposes a much shorter child-sized hike or turnaround point instead of planning the full route."}
