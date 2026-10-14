@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [phishing-simulation, security-awareness, report-rate, human-risk, ethics]
 pairs_with:
   prompts: [write-security-awareness-module, investigate-reported-phishing, write-soc-metrics-report]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recruitment-agency, placement-fee, rebate-period, temp-to-perm, candidate-introduction, staffing]
 pairs_with:
   prompts: [brief-recruitment-agency, redline-contract, explain-contract-clause]

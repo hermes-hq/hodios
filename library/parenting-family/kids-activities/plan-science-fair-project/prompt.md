@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [science-fair, scientific-method, experiment-design, variables, display-board, school-project]
 pairs_with:
   prompts: [design-kids-science-experiment, help-with-homework]

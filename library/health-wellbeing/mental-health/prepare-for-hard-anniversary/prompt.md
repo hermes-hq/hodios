@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [anniversary, grief, first-holidays, remembrance, coping-plan, loss]
 pairs_with:
   prompts: [process-grief, build-coping-plan, navigate-life-transition]

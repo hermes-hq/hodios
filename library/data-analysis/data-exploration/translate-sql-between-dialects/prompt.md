@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sql-dialects, query-translation, analytics-sql, warehouse-migration]
 pairs_with:
   prompts: [review-analysis-sql, answer-question-with-sql]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [word-count, minimum-length, elaboration, no-padding, essay-length]
 pairs_with:
   prompts: [expand-notes-into-prose, critique-draft, tighten-prose]

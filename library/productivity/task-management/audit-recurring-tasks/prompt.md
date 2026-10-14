@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recurring-work, time-audit, automation-candidates, batching, simplify, routine-tasks]
 pairs_with:
   prompts: [automate-personal-routine, audit-time-use, build-reusable-checklist]

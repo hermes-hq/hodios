@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [public-consultation, local-council, regulation, civic-participation, have-your-say]
 pairs_with:
   prompts: [summarize-what-applies-to-me, extract-deadlines, write-public-consultation-response]

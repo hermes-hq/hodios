@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [playlist-pitching, music-promotion, press-outreach, independent-artist]
 pairs_with:
   prompts: [plan-music-release, write-artist-bio]

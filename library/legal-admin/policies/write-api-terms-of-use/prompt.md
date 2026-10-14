@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-terms, developer-terms, rate-limits, api-deprecation, platform-policy, data-access]
 pairs_with:
   prompts: [write-terms-of-service, write-acceptable-use-policy, draft-data-processing-agreement, write-trademark-usage-guidelines]

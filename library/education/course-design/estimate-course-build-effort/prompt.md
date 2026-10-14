@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [effort-estimation, development-ratios, learning-and-development, scoping, review-cycles, freelance-quoting]
 pairs_with:
   prompts: [design-elearning-module, design-course-outline, plan-course-pilot]

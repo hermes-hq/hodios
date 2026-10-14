@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cryptography, ciphers, codebreaking, frequency-analysis, history-of-cryptography]
 pairs_with:
   prompts: [create-escape-room-puzzles, design-puzzle-hunt]

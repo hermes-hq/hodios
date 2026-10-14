@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [romance-scams, online-dating, fraud-prevention, catfishing, dating-safety]
 pairs_with:
   prompts: [check-suspicious-message, protect-relative-from-scams, plan-online-dating-approach]

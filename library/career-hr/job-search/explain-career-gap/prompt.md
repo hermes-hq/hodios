@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [career-gap, career-break, resume-gap, honesty]
 pairs_with:
   prompts: [plan-return-to-work, explain-job-loss-in-interview, write-cover-letter]

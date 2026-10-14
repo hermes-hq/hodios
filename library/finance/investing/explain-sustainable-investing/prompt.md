@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [esg, sustainable-investing, greenwashing, ethical-investing, impact-investing]
 pairs_with:
   prompts: [explain-fund-document, check-portfolio-diversification, explain-investment-concept]

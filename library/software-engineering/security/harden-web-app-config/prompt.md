@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [csp, cors, security-headers, cookies, hsts]
 pairs_with:
   personas: [security-auditor]

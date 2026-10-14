@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [meal-routines, grocery-list, leftovers, budget-meals, family-meals, habit-building]
 pairs_with:
   prompts: [plan-weekly-meals, build-grocery-list-from-recipes, plan-meal-prep-session, plan-family-meals-for-picky-eaters]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [access-needs, inclusion, reasonable-adjustments, neurodiversity, remote-work]
 pairs_with:
   prompts: [run-hybrid-meeting, design-meeting-cadence, write-meeting-agenda]

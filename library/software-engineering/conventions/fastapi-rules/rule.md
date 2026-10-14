@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [pydantic, async, dependency-injection, request-validation]
 applies_to: ["**/*.py"]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sound-design, sfx, ambience, foley]
 pairs_with:
   prompts: [write-background-music-cues, write-logo-sting-prompt]

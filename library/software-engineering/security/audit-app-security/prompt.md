@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [owasp, appsec-audit, authorization, injection, cwe]
 pairs_with:
   personas: [security-auditor]

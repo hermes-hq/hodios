@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [storyboard, shot-list, visual-storytelling, comic-art]
 pairs_with:
   prompts: [write-image-prompt, build-image-style-guide]

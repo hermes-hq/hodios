@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [xcode, pbxproj, merge-conflict, project-file]
 pairs_with:
   prompts: [resolve-merge-conflict, reduce-recurring-merge-conflicts]

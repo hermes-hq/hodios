@@ -14,6 +14,7 @@ output: [copy, rewrite]
 risk: read-only
 advice_risk: [legal]
 level: beginner
+depth: specific
 tags: [fair-housing, property-listings, lettings, inclusive-language, anti-discrimination]
 pairs_with:
   prompts: [write-real-estate-listing, write-rental-listing, write-open-house-promotion, write-property-listing-ads]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cost-of-delay, cd3, wsjf, sequencing, urgency-profiles, economic-prioritisation]
 pairs_with:
   prompts: [prioritize-features, forecast-roadmap-dates-with-ranges, run-quarterly-planning]

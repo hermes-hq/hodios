@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rep-onboarding, ramp-plan, certification, sales-enablement, first-sales-hire, leading-indicators]
 pairs_with:
   prompts: [build-sales-playbook, practise-cold-call, score-discovery-call, quiz-objection-handling]

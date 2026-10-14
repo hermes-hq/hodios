@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [query-review, join-fan-out, null-handling, timezones]
 pairs_with:
   prompts: [answer-question-with-sql, check-analysis-for-pitfalls, define-metric]

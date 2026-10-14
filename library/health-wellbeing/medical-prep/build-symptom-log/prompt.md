@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [symptom-diary, health-tracking, patient-advocacy, long-term-illness]
 pairs_with:
   prompts: [prepare-doctor-questions, explain-diagnosis]

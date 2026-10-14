@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [stakeholder-management, trade-offs, saying-no, prioritization-conversation]
 pairs_with:
   prompts: [prioritize-features, write-roadmap-update, estimate-feature-impact, decline-request-gracefully]

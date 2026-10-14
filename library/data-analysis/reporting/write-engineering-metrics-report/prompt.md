@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dora-metrics, cycle-time, deployment-frequency, change-failure-rate, delivery-metrics]
 pairs_with:
   prompts: [measure-dora-metrics, report-incident-trends, analyze-process-cycle-times, write-monthly-business-review]

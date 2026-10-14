@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [job-application, tailoring, ats, star-method]
 pairs_with:
   prompts: [analyze-job-posting, tailor-resume-to-job, write-cover-letter, prepare-star-stories]

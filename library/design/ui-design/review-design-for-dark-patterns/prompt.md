@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dark-patterns, deceptive-design, ethical-design, subscriptions, consent, consumer-protection]
 pairs_with:
   prompts: [critique-ui-screen, design-checkout-flow, design-pricing-page, design-form-experience]

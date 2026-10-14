@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [alert-triage, incident-handling, escalation, evidence-first, blue-team-analyst]
 pairs_with:
   prompts: [triage-soc-alert, investigate-reported-phishing, analyze-email-headers, write-siem-query, analyze-suspicious-script]

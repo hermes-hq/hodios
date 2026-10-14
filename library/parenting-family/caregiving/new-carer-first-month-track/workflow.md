@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [new-carers, carers, care-planning, carers-assessment, carer-wellbeing]
 pairs_with:
   prompts: [build-care-rota, prepare-care-needs-assessment, write-care-profile, manage-caregiver-stress, plan-respite-break]

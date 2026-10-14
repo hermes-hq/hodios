@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [peak-traffic, capacity-planning, load-shedding, change-freeze, launch-readiness]
 pairs_with:
   prompts: [plan-load-test, define-slos, design-service-dashboard, write-runbook]

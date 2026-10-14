@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tax-arrears, time-to-pay, instalment-agreement, priority-debts]
 pairs_with:
   prompts: [explain-tax-notice, plan-freelance-tax-set-aside, plan-estimated-tax-payments, build-tight-budget]

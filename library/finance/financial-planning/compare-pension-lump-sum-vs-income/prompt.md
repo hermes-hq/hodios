@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [defined-benefit, pension-options, annuity, retirement-income]
 pairs_with:
   prompts: [understand-pension-statement, plan-retirement-drawdown, plan-retirement-scenarios]

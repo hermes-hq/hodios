@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [symfony-translation, intl-icu, translation-domains, twig, locale-listener]
 pairs_with:
   prompts: [extract-ui-strings, write-icu-plural-messages, localize-server-sent-messages]

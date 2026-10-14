@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [beginner-feedback, code-feedback, learn-to-code, coding-students]
 pairs_with:
   prompts: [explain-concept-with-code, create-coding-exercises, plan-learning-path]

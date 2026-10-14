@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [game-mods, load-order, mod-conflicts, bisecting, save-backup]
 pairs_with:
   prompts: [fix-game-crashes-and-stutter]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [music-round, name-that-tune, playlist, pub-quiz, clip-timing, answer-sheet]
 pairs_with:
   prompts: [host-trivia-night, plan-picture-round]

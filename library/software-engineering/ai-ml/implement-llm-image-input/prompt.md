@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vision, multimodal, image-preprocessing, pdf-input, token-cost]
 pairs_with:
   prompts: [build-structured-extraction, build-document-ocr-pipeline, detect-prompt-injection, write-image-analysis-prompt]

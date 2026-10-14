@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [floating-point, tolerances, numerical-methods, scientific-computing, reference-values]
 pairs_with:
   prompts: [write-property-based-tests, write-unit-tests, unit-test-data-transformations]

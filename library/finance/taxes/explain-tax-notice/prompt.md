@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tax-authority, tax-letter, deadlines, assessment]
 pairs_with:
   prompts: [organize-tax-documents]

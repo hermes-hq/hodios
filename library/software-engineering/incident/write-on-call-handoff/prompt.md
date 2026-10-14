@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shift-handover, alert-silences, toil, follow-ups]
 pairs_with:
   prompts: [design-on-call-rotation, write-runbook, prune-noisy-alerts, write-incident-update]

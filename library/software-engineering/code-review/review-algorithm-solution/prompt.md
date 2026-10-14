@@ -20,6 +20,7 @@ model_tier: frontier
 reasoning: recommended
 subject: [computer-science]
 level: intermediate
+depth: specific
 tags: [correctness, loop-invariants, complexity, interview-practice]
 pairs_with:
   personas: [code-reviewer]

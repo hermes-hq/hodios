@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [local-news, tip-assessment, interview-plan, document-checks, right-of-reply, corrections-policy]
 pairs_with:
   prompts: [write-news-story, write-council-meeting-story, write-article-headlines-and-standfirsts, fact-check-claims]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pwa, service-worker, web-app-manifest, offline, caching-strategy]
 pairs_with:
   prompts: [implement-offline-sync, implement-push-notifications]

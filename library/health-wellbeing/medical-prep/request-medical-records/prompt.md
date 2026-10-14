@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [medical-records, subject-access-request, patient-rights, health-records, record-keeping]
 pairs_with:
   prompts: [prepare-second-opinion, organize-family-medical-history, prepare-emergency-medical-summary]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [problem-statement, thesis-proposal, research-gap, dissertation, research-rationale]
 pairs_with:
   prompts: [refine-research-question, write-research-proposal, write-introduction-section]

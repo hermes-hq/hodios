@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [crutch-words, repetition, word-frequency, sentence-openings, self-editing]
 pairs_with:
   prompts: [line-edit-prose, tighten-prose, build-self-editing-checklist]

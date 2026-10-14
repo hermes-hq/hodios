@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [outliers, influential-points, robust-statistics, winsorizing, sensitivity-analysis, data-quality]
 pairs_with:
   prompts: [check-normality-assumption, run-regression-analysis, check-analysis-for-pitfalls]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [live-blog, breaking-news, corrections, attribution, unconfirmed-reports]
 pairs_with:
   prompts: [write-news-story, write-event-recap]

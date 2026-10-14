@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [q-and-a, hostile-questions, bridging, rehearsal, presentation-skills]
 pairs_with:
   prompts: [prepare-for-tough-questions, outline-presentation, prepare-media-interview, rehearse-speech-with-feedback]

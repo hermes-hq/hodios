@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [requirements-elicitation, stakeholders, meeting-notes, requirements]
 pairs_with:
   prompts: [write-prd, write-user-stories, write-project-glossary]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chatbot, conversation-design, ai-agent, human-handover, deflection, grounding]
 pairs_with:
   prompts: [write-help-center-article, design-escalation-process, analyze-support-tickets]

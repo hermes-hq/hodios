@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-migration, model-switch, vendor-portability, parity-testing]
 pairs_with:
   prompts: [adapt-prompt-for-reasoning-model, adapt-prompt-for-small-model, build-prompt-test-set]

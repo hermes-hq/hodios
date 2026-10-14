@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [keigo, business-japanese, sonkeigo, kenjougo, business-email]
 pairs_with:
   prompts: [write-japanese-business-email, practise-keigo, proofread-other-language]

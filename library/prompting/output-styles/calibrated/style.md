@@ -11,6 +11,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: intermediate
+depth: specific
 role: [researcher, data-analyst, executive, individual]
 tags: [confidence-levels, uncertainty, epistemic-honesty, evidence-quality]
 pairs_with:

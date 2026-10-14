@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [readiness-assessment, gap-analysis, audit-evidence, regulatory-scope]
 pairs_with:
   prompts: [map-personal-data-processing, write-privacy-policy, write-workplace-policy]

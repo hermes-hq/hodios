@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shift-work, night-shift, meal-timing, caffeine, energy, nurses]
 pairs_with:
   prompts: [improve-sleep-habits, plan-nutrition-targets, analyze-diet-log]

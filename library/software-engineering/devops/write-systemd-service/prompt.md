@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [systemd, linux-services, systemd-timer, process-supervision]
 pairs_with:
   prompts: [deploy-to-vps, harden-linux-server, write-cloud-init-script]

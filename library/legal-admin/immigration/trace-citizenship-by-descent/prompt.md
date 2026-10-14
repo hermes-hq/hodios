@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [citizenship-by-descent, ancestry-citizenship, jus-sanguinis, family-records, archive-research]
 pairs_with:
   prompts: [check-dual-citizenship-impact, prepare-citizenship-application, resolve-name-mismatch-in-documents]

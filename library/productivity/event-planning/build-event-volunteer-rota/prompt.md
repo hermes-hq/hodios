@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [volunteer-rota, shift-planning, event-staffing, stewards, coverage]
 pairs_with:
   prompts: [write-run-of-show, recruit-volunteers, plan-event-check-in]

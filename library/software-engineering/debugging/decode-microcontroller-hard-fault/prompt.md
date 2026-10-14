@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [hardfault, cortex-m, fault-registers, stack-overflow, firmware, map-file]
 pairs_with:
   personas: [embedded-engineer, debugger]

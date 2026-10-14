@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quizzing, spaced-repetition, high-yield-lists, weak-subjects, quiz-league, study-plan]
 pairs_with:
   prompts: [play-trivia-ladder, plan-quiz-league-season]

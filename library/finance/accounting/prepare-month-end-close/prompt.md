@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [month-end, reconciliation, accruals, bookkeeping-routine]
 pairs_with:
   prompts: [set-up-chart-of-accounts, forecast-cash-flow]

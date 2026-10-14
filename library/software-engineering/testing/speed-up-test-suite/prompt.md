@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-runtime, fixtures, parallel-tests, test-isolation, feedback-loop]
 pairs_with:
   prompts: [speed-up-ci-pipeline, fix-flaky-test, refactor-test-suite]

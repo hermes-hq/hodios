@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [apps-script, rest-api, api-key, pagination, scheduled-refresh]
 pairs_with:
   prompts: [write-spreadsheet-automation, write-power-query, import-web-data-into-sheets]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-and-operations-planning, consensus-forecast, forecast-process, reforecast]
 pairs_with:
   prompts: [measure-forecast-accuracy, forecast-time-series, add-event-adjustments-to-forecast, reconcile-top-down-and-bottom-up-forecasts, write-forecast-commentary, present-forecast-uncertainty]

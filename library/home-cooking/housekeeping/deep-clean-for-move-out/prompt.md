@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [end-of-tenancy, move-out-cleaning, deposit-return, cleaning-checklist, renters, inventory]
 pairs_with:
   prompts: [demand-deposit-return, document-rental-move-in, plan-cleaning-schedule, remove-stain]

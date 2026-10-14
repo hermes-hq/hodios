@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [low-power, sleep-modes, battery-life, power-budget, rtc, wake-sources]
 pairs_with:
   personas: [embedded-engineer]

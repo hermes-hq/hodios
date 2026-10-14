@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [authorship, credit-taxonomy, icmje, contributorship, research-integrity, collaboration]
 pairs_with:
   prompts: [write-data-management-plan, plan-research-dissemination, write-journal-cover-letter]

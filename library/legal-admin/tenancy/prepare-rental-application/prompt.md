@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rental-application, tenant-references, cover-letter, rental-scams]
 pairs_with:
   prompts: [review-lease, write-character-reference, demand-deposit-return]

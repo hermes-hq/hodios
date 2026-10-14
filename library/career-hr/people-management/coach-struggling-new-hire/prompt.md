@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [new-hire, ramp-up, onboarding-gaps, diagnosis, support-plan]
 pairs_with:
   prompts: [decide-probation-outcome, write-team-onboarding-guide, plan-one-on-one]

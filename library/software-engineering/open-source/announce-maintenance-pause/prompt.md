@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [maintainer-burnout, hiatus, maintenance-status, boundaries, user-communication]
 pairs_with:
   prompts: [reduce-maintainer-workload, retire-open-source-project, maintainer-handover-track]

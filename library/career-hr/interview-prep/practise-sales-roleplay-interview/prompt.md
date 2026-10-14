@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sales-roleplay, mock-discovery-call, objection-handling, sell-me-this-pen]
 pairs_with:
   prompts: [write-sales-resume, run-mock-interview, prepare-questions-for-interviewer]

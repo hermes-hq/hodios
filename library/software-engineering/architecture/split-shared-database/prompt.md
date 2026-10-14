@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-ownership, database-per-service, shared-database, strangler-fig, microservices]
 pairs_with:
   personas: [software-architect]

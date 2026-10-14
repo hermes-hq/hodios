@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [gpu-utilization, dataloader, mixed-precision, torch-compile, training-throughput]
 pairs_with:
   prompts: [write-pytorch-training-loop, scale-training-to-multiple-gpus, debug-neural-network-training, profile-hot-path]

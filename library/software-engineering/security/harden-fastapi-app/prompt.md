@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardening, python-security, authorization, cors, owasp]
 pairs_with:
   prompts: [harden-web-app-config, review-api-security, fix-idor-vulnerabilities, speed-up-fastapi-endpoint]

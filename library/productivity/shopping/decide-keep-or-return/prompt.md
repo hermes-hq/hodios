@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [returns, buyers-remorse, return-window, purchase-review, refund-process]
 pairs_with:
   prompts: [decide-whether-to-buy, curb-impulse-spending, plan-big-sale-shopping, write-complaint-letter]

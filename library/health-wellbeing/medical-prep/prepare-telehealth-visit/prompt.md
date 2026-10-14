@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [telehealth, video-appointment, phone-consultation, symptom-summary, home-readings]
 pairs_with:
   prompts: [prepare-doctor-questions, build-symptom-log, build-medication-list]

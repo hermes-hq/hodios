@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [strengths-question, classic-questions, self-presentation, proof-story]
 pairs_with:
   prompts: [answer-greatest-weakness, write-tell-me-about-yourself, prepare-star-stories]

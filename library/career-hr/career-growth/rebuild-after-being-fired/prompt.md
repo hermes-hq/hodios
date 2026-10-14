@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dismissal, job-loss, references, interview-answers, fresh-start]
 pairs_with:
   prompts: [recover-from-layoff, explain-job-loss-in-interview, explain-career-gap]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-travel, children, cultural-preparation, trip-prep]
 pairs_with:
   prompts: [plan-family-trip, quiz-me-on-destination, learn-local-etiquette]

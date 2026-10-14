@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [poisson-regression, negative-binomial, count-data, rate-ratio, overdispersion, zero-inflation]
 pairs_with:
   prompts: [run-regression-analysis, interpret-regression-output, check-normality-assumption]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [consolidation-loan, balance-transfer, total-cost, apr]
 pairs_with:
   prompts: [plan-debt-payoff, compare-loan-offers, improve-credit-score]

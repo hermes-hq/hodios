@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [forwarding, hand-off, delegation, context, bottom-line-first]
 pairs_with:
   prompts: [summarize-email-thread, write-escalation-email, rewrite-email-bottom-line-first]

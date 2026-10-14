@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [two-languages, newcomers, plain-language, translation-review, community-update]
 pairs_with:
   prompts: [write-community-digest, write-classroom-newsletter, make-parallel-bilingual-text]

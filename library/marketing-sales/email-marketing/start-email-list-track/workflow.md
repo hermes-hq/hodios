@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [first-email-list, welcome-email, list-building, email-platform-setup, thirty-day-review]
 pairs_with:
   prompts: [grow-email-list-in-store, write-re-permission-campaign, map-email-automation-flows, analyze-email-campaign-report]

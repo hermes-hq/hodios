@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-features, evals, llm-products, failure-modes, user-trust]
 pairs_with:
   prompts: [evaluate-ai-feature-opportunity, write-ai-feature-requirements, define-guardrail-metrics, define-feature-success-metrics]

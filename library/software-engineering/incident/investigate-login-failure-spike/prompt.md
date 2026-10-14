@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [authentication, sso, jwt, session-cookies, key-rotation]
 pairs_with:
   prompts: [fix-oauth-login-error, defend-against-credential-stuffing, write-incident-update]

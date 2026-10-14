@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trademark, infringement, brand-enforcement, demand-letter, marketplace-reports]
 pairs_with:
   prompts: [respond-to-cease-and-desist, evaluate-trademark-opposition, request-content-takedown]

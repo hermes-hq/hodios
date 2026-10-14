@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ppco, creative-problem-solving, idea-evaluation, constructive-feedback]
 pairs_with:
   prompts: [cluster-ideas, run-disney-creative-strategy, sort-ideas-how-now-wow]

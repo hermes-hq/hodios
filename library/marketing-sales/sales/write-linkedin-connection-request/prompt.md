@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [connection-note, social-selling, first-message, outbound]
 pairs_with:
   prompts: [plan-social-selling, write-cold-outreach, write-outbound-sequence]

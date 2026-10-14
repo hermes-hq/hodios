@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [agency-reporting, vanity-metrics, cost-per-job, brand-search, client-side, renewal]
 pairs_with:
   prompts: [vet-paid-ads-agency, calculate-break-even-roas, analyze-ad-performance]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [type-safety, incremental-migration, tsconfig, strictness-ratchet]
 args:
   - name: repo_area

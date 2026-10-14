@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [staging, pre-production, environment-parity, test-data, data-masking]
 pairs_with:
   prompts: [set-up-preview-environments, build-test-data-from-production, design-build-artifact-promotion]

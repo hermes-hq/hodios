@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [toy-storage, toy-rotation, kids-rooms, playroom]
 pairs_with:
   prompts: [plan-decluttering, maximize-small-space-storage]

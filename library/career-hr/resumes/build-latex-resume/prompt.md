@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [latex]
 tags: [typeset-resume, ats-safe-pdf, resume-template, pdf-resume]
 pairs_with:

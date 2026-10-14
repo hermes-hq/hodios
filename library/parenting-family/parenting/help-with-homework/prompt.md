@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [homework, guiding-questions, school-methods, frustration, school-maths]
 pairs_with:
   personas: [socratic-tutor, parenting-coach]

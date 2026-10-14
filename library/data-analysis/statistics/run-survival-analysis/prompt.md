@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [survival-analysis, kaplan-meier, cox-regression, censoring, churn, time-to-event]
 pairs_with:
   prompts: [find-churn-drivers, build-cohort-analysis, choose-statistical-test]

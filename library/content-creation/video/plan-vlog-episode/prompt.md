@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [vlog, story-arc, shot-list, b-roll, day-in-the-life]
 pairs_with:
   prompts: [plan-video-shoot, create-paper-edit, package-video-title-thumbnail]

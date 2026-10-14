@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pytest, fixtures, conftest, fixture-scope, parametrize]
 pairs_with:
   prompts: [write-test-data-factories, refactor-test-suite, speed-up-test-suite]

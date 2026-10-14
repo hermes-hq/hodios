@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [led-bulbs, lumens, colour-temperature, dimmers, energy-saving]
 pairs_with:
   prompts: [plan-lighting-scheme, find-replacement-part, plan-energy-efficiency-upgrades, decode-product-claims]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [quickstart, api-docs, developer-experience, getting-started]
 pairs_with:
   personas: [technical-writer]

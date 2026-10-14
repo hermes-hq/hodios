@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [science-practical, lab-safety, fair-test, inquiry, variables]
 pairs_with:
   prompts: [write-lesson-plan, create-rubric, design-formative-assessment]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [salary-range, pay-transparency, compensation, recruiter-questions, anchoring]
 pairs_with:
   prompts: [answer-salary-expectations, reply-to-recruiter, prepare-phone-screen]

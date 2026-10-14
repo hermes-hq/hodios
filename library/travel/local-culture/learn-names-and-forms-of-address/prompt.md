@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [names, honorifics, greetings, cross-cultural]
 pairs_with:
   prompts: [learn-local-etiquette, learn-business-etiquette-abroad, check-gestures-and-body-language]

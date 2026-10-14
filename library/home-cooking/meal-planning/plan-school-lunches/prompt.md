@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [packed-lunch, lunchbox, picky-eaters, allergens, kids-food, grocery-list]
 pairs_with:
   prompts: [plan-weekly-meals, plan-meal-prep-session]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [word-count, manuscript-revision, structural-cuts, length, revision-plan]
 pairs_with:
   prompts: [respond-to-editorial-letter, outline-nonfiction-book]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [international-cv, lebenslauf, europass, cv-localisation, moving-abroad]
 pairs_with:
   prompts: [plan-international-job-search, tailor-resume-to-job, review-resume]

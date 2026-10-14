@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependency-injection, seams, test-doubles, legacy-code, unit-testing]
 pairs_with:
   prompts: [add-characterization-tests, write-unit-tests]

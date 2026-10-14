@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-envy, anemic-domain-model, encapsulation, cohesion, tell-dont-ask]
 pairs_with:
   prompts: [move-logic-out-of-controllers, introduce-value-objects]

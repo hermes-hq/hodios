@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [digital-inclusion, digital-skills, adult-learners, public-libraries, scam-awareness, volunteer-helpers]
 pairs_with:
   prompts: [teach-older-relative-smartphone, design-adult-evening-class, write-reading-volunteer-guide]

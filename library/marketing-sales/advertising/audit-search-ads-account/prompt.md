@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ppc-audit, search-terms, negative-keywords, wasted-spend, quality-score]
 pairs_with:
   prompts: [write-google-ads, analyze-ad-performance, plan-media-budget, research-keywords]

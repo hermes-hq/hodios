@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mascot, brand-character, distinctive-assets, character-design, visual-identity]
 pairs_with:
   prompts: [design-logo-concepts, build-brand-platform, write-character-consistency-prompts, build-brand-guidelines]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [crucial-conversations, conflict-resolution, pushback, i-statements]
 pairs_with:
   prompts: [give-feedback-sbi, apologize-effectively, mediate-disagreement]

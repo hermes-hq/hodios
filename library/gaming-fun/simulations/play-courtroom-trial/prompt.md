@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mock-trial, cross-examination, objections, trial-procedure]
 args:
   - name: side

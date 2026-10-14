@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fitted-storage, walk-in-closet, clothes-storage, joinery, elevation]
 pairs_with:
   prompts: [design-bedroom, maximize-small-space-storage]

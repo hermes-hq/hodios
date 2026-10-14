@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [facebook, local-business, community-marketing, foot-traffic, neighbourhood]
 pairs_with:
   prompts: [reply-to-comments, plan-social-media-giveaway, write-instagram-caption]

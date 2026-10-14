@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [assumption-mapping, leap-of-faith, product-risk, assumption-testing]
 pairs_with:
   prompts: [design-validation-experiment, write-problem-statement, map-opportunity-solution-tree, define-mvp-scope]

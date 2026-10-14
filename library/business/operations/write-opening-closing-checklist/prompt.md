@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [opening-checklist, closing-checklist, cash-up, shift-handover, end-of-day]
 pairs_with:
   prompts: [write-sop, write-emergency-procedures-for-staff, plan-loss-prevention]

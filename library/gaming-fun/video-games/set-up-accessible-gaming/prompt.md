@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [game-accessibility, adaptive-controller, button-remapping, colour-blind-mode, subtitles]
 pairs_with:
   prompts: [recommend-games, plan-game-strategy]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ransomware, backup-recovery, immutable-backups, mfa, readiness-assessment]
 pairs_with:
   prompts: [ransomware-response-track, plan-security-tabletop, harden-windows-domain, write-ir-playbook]

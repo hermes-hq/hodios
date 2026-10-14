@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [energy-management, burnout-prevention, self-reflection, recovery, sustainable-pace]
 pairs_with:
   prompts: [design-daily-routine, audit-time-use, design-habit-plan]

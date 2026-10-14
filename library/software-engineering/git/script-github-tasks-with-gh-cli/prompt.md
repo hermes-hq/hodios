@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gh-cli, github-api, bulk-operations, automation, dry-run]
 pairs_with:
   prompts: [triage-stale-pull-requests, audit-repository-access, open-same-change-across-repos, automate-pull-request-housekeeping]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dco, sign-off, rebase, force-with-lease, open-source-contribution]
 pairs_with:
   prompts: [choose-cla-or-dco, fix-commit-author-identity, set-up-commit-signing, open-first-pull-request-to-project]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [desktop-security, context-isolation, ipc, preload, auto-update]
 pairs_with:
   prompts: [harden-web-app-config, fix-xss-vulnerabilities, sign-release-artifacts]

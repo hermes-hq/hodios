@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [threat-hunting, hypothesis-driven, mitre-attack, baselining, data-gaps]
 pairs_with:
   prompts: [write-siem-query, write-sigma-rule, map-detection-coverage, write-threat-intel-brief]

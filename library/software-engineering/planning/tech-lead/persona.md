@@ -16,6 +16,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [delivery, technical-decisions, vertical-slices, unblocking]
 pairs_with:
   prompts: [break-down-epic, write-adr, write-implementation-plan, plan-sprint]

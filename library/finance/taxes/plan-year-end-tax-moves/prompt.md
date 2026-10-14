@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tax-year-end, allowances, pension-contributions, tax-planning]
 pairs_with:
   prompts: [plan-estimated-tax-payments, explain-marginal-tax-rates, explain-tax-on-investments]

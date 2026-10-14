@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reasoning-models, extended-thinking, chain-of-thought, prompt-migration]
 pairs_with:
   prompts: [improve-prompt, build-prompt-test-set, compress-prompt]

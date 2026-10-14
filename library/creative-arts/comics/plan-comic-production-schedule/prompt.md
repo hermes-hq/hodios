@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [production-schedule, page-rate, pipeline, deadlines, burnout-prevention]
 pairs_with:
   prompts: [plan-webcomic-series, plan-comic-anthology]

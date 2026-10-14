@@ -17,6 +17,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [procrastination, task-avoidance, two-minute-start, time-boxing]
 pairs_with:
   personas: [productivity-coach]

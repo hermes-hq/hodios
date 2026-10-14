@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [emotions, mood, emotional-vocabulary, intensity-scales, idioms, help-seeking]
 pairs_with:
   prompts: [learn-health-vocabulary-for-appointments, learn-idioms-in-context, explain-politeness-register]

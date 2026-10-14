@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sole-trader, business-closure, return-to-employment, entrepreneur-to-employee]
 pairs_with:
   prompts: [present-contract-work-on-resume, reframe-for-career-change, tailor-resume-to-job]

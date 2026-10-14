@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [market-launch, translation-effort, feature-flags, linguistic-qa, store-listing, launch-checklist]
 pairs_with:
   prompts: [automate-translation-file-sync, review-translated-strings, design-locale-detection-and-routing, plan-rtl-support]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [long-form-writing, output-limits, outline-first, continuity, consistency-check]
 pairs_with:
   prompts: [design-prompt-chain, write-long-document-prompt, write-task-prompt]

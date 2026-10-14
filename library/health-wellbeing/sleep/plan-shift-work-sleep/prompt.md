@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shift-work, night-shifts, anchor-sleep, light-exposure, circadian-rhythm, drowsy-driving]
 pairs_with:
   prompts: [plan-power-naps, plan-on-call-sleep]

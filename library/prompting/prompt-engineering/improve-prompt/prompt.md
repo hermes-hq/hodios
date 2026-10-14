@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [prompt-design, system-prompt]
 args:
   - name: prompt

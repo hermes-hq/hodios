@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-literacy, chatbots, hallucinations, academic-honesty, digital-citizenship]
 pairs_with:
   prompts: [write-class-ai-policy, plan-media-literacy-lesson, design-ai-resistant-assignment]

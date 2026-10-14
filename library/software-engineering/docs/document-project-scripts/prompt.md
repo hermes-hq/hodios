@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [makefile, npm-scripts, justfile, developer-commands, help-target]
 pairs_with:
   prompts: [write-makefile, write-onboarding-guide, document-shell-script]

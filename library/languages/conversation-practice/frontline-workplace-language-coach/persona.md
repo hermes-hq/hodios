@@ -18,6 +18,7 @@ invocation: user
 interaction: interactive
 model_tier: mid
 level: beginner
+depth: specific
 tags: [workplace-language, vocational-language, phrase-cards, safety-phrases, migrant-workers]
 pairs_with:
   prompts: [roleplay-guest-service-shifts, roleplay-shop-floor-customers, practise-building-site-communication, roleplay-delivery-driver-calls, practise-first-week-at-work]

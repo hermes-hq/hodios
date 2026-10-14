@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [small-claims, court-claim, defence, counterclaim, default-judgment]
 pairs_with:
   prompts: [explain-legal-letter, reply-to-letter-before-claim, write-settlement-offer-letter, practise-small-claims-hearing, prepare-to-self-represent, respond-to-debt-court-claim]

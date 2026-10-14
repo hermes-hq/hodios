@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [firmware, interrupts, rtos, microcontroller, watchdog, timing]
 pairs_with:
   personas: [embedded-engineer]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bereavement-admin, tenancy-succession, estate-admin, deposit, notice]
 pairs_with:
   prompts: [write-tenant-notice-to-leave, demand-deposit-return, apply-for-housing-assistance]

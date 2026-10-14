@@ -16,6 +16,7 @@ risk: read-only
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [icu-messageformat, cldr, pseudo-localization, bidi, translation-management, unicode]
 pairs_with:
   prompts: [review-i18n-readiness, extract-ui-strings, write-icu-plural-messages, implement-locale-formatting, automate-translation-file-sync, plan-new-language-launch]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [field-service, failure-modes, repeat-visits, no-fault-found, product-safety, warranty-claims]
 pairs_with:
   prompts: [define-physical-product-kpis, analyze-user-feedback]

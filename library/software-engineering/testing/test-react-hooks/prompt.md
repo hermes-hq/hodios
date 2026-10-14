@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [custom-hooks, render-hook, testing-library, async-state, act-warnings]
 pairs_with:
   prompts: [write-component-tests, test-time-dependent-code]

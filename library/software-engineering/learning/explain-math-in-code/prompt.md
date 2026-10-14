@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maths-notation, numerical-code, worked-example, code-reading]
 pairs_with:
   prompts: [explain-code, tutor-game-math, explain-algorithm]

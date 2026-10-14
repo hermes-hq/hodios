@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pdf-ua, tagged-pdf, document-generation, reading-order, verapdf]
 pairs_with:
   personas: [accessibility-specialist]

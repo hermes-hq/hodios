@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [platform-risk, vendor-dependency, api-dependency, distribution-risk, concentration-risk, resilience]
 pairs_with:
   prompts: [evaluate-build-vs-buy, plan-platform-strategy, write-product-strategy, plan-competitive-response]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recruiting-funnel, time-to-fill, offer-acceptance, source-of-hire, hiring-plan]
 pairs_with:
   prompts: [analyze-hiring-funnel, forecast-headcount, write-people-metrics-report, apply-small-number-suppression]

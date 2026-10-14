@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [photo-printing, print-resolution, soft-proofing, monitor-calibration, fine-art-print]
 pairs_with:
   prompts: [edit-photo-step-by-step, plan-family-photo-book, prepare-photo-competition-entry]

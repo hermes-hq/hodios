@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [voice-notes, dictation, email-drafting, clarity]
 pairs_with:
   prompts: [structure-messy-notes]

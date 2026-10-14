@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [semantic-versioning, conventional-commits, release-please, semantic-release, changesets, release-automation]
 pairs_with:
   prompts: [publish-package-from-ci, write-changelog, write-github-actions-workflow]

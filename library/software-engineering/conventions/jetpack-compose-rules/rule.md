@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [jetpack-compose, state-hoisting, recomposition, side-effects, compose-previews]
 applies_to: ["**/*.kt"]
 pairs_with:

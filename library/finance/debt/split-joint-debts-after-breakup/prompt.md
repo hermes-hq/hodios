@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [separation, joint-liability, financial-association, credit-file]
 pairs_with:
   prompts: [plan-separation-finances, improve-credit-score, negotiate-with-creditor, dispute-credit-report-error]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [loss-adjuster, property-damage, escape-of-water, fire-damage, site-visit]
 pairs_with:
   prompts: [price-contents-claim-list, review-claim-settlement-offer, check-home-sum-insured]

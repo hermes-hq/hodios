@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flaky-tests, quarantine, ci-reliability, test-ownership]
 pairs_with:
   prompts: [fix-flaky-test, find-test-pollution, speed-up-test-suite]

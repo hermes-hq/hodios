@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [press-trip, fam-trip, media-hosting, hosted-travel, journalism-ethics]
 pairs_with:
   prompts: [build-media-list, pitch-journalist]

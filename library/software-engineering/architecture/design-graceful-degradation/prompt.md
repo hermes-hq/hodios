@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [resilience, fallbacks, load-shedding, bulkheads, circuit-breakers]
 pairs_with:
   personas: [software-architect]

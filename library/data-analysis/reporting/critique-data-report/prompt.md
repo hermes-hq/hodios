@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [report-review, data-storytelling, editorial-feedback, pre-send]
 pairs_with:
   prompts: [check-report-figures, write-insight-report, anticipate-report-questions]

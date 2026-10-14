@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [energy-bill, meter-readings, bill-check, household-bills, overcharging]
 pairs_with:
   prompts: [explain-letter-i-received, extract-key-numbers, compare-documents]

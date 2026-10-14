@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [public-consultation, community-engagement, local-government, facilitation, stakeholders]
 pairs_with:
   prompts: [facilitate-tense-meeting, prepare-to-speak-at-public-meeting, build-consultation-coding-frame]

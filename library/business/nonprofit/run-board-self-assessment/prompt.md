@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [nonprofit]
 tags: [board-effectiveness, governance, trustees, survey-design]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pet-humour, character-voice, captions, pet-diary]
 pairs_with:
   prompts: [narrate-life-as-nature-documentary, write-caption-contest-entries]

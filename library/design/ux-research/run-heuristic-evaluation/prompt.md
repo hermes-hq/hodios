@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [heuristic-evaluation, nielsen-heuristics, expert-review, severity-rating]
 pairs_with:
   prompts: [write-usability-test-plan, critique-ui-screen]

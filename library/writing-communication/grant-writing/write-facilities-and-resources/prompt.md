@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [facilities, equipment, institutional-support, research-environment, feasibility]
 pairs_with:
   prompts: [write-grant-key-personnel-section, build-grant-budget, write-capital-grant-application]

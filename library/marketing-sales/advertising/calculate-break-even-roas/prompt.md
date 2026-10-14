@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [roas, break-even-cpa, contribution-margin, unit-economics, repeat-purchase, target-setting]
 pairs_with:
   prompts: [calculate-product-margin, analyze-ad-performance, plan-media-budget, pace-ad-budget]

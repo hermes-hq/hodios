@@ -19,6 +19,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [list-comparison, matching, find-missing, lookup, data-quality]
 pairs_with:
   prompts: [reconcile-datasets, clean-messy-spreadsheet, deduplicate-records]

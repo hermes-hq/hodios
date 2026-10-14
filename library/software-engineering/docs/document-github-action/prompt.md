@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [action-yml, reusable-action, token-permissions, marketplace-listing, ci-docs]
 pairs_with:
   prompts: [build-github-action, write-readme, write-release-notes]

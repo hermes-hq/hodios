@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dayparting, quiet-hours, local-radius, offer-costing, covers, footfall]
 pairs_with:
   prompts: [plan-local-advertising, decide-post-boost, schedule-ads-around-phone-hours]

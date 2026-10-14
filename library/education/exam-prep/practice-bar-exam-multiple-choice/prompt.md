@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [bar-exam, mbe, multistate-rules, issue-spotting, distractor-analysis, bar-prep]
 pairs_with:
   prompts: [practice-bar-exam-essay, plan-exam-day-strategy, analyze-exam-mistakes]

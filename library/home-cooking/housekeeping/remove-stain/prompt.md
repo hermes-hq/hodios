@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stain-removal, upholstery, carpet, chemical-safety]
 args:
   - name: stain

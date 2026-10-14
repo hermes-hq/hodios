@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [evidence-mapping, critical-reading, claim-support, reasoning-gaps]
 pairs_with:
   prompts: [fact-check-claims, find-logical-fallacies, debate-the-author]

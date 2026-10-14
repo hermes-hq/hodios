@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [er-diagram, mermaid, dbml, foreign-keys, cardinality]
 pairs_with:
   prompts: [write-data-dictionary, design-database-schema, write-c4-diagram]

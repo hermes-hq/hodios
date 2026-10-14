@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [transposition, capo, vocal-range, chord-sheets]
 pairs_with:
   prompts: [suggest-chord-progressions, plan-singing-practice]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ebook, lead-magnet, repurposing, newsletter-archive, book-structure]
 pairs_with:
   prompts: [grow-newsletter, plan-content-repurposing-system, write-newsletter-welcome-email]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-dynamics, holidays, boundaries, redirecting, politics-at-dinner, exit-plan]
 pairs_with:
   prompts: [set-boundary, reply-to-tricky-message, practice-assertive-responses]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [visa-refusal, refusal-reasons, appeal-deadline, administrative-review, reapplication]
 pairs_with:
   prompts: [prepare-visa-application, find-free-legal-help, vet-immigration-adviser, explain-legal-letter]

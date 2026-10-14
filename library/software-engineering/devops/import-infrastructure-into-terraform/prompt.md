@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [iac, terraform-import, drift-detection, state-management, click-ops, moved-blocks]
 pairs_with:
   personas: [devops-engineer]

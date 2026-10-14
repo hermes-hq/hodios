@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [jargon, science-communication, plain-explanations, analogies, non-expert-audience]
 pairs_with:
   prompts: [practise-elevator-pitch, practice-impromptu-speaking]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [microwave-meals, budget-meals, university, small-kitchen, grocery-list, food-safety]
 pairs_with:
   prompts: [plan-meals-for-one, plan-budget-meals, stock-starter-pantry]

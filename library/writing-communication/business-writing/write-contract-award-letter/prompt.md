@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [award-letter, intention-to-award, procurement, preferred-supplier, standstill]
 pairs_with:
   prompts: [write-tender-evaluation-report, reject-vendor-proposal, write-rfp]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [irl-stream, mobile-streaming, filming-in-public, location-privacy, travel]
 pairs_with:
   prompts: [audit-stream-for-privacy-leaks, plan-livestream-run-of-show]

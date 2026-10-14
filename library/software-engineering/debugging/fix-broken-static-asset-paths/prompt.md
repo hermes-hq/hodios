@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [static-assets, base-path, cdn, spa-routing, deploy-errors]
 pairs_with:
   prompts: [fix-failed-platform-deployment, fix-stale-cache-bug]

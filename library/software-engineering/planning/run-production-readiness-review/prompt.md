@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [production-readiness, launch-review, operational-readiness, reliability, go-no-go, launch-checklist]
 pairs_with:
   prompts: [plan-prototype-to-production, plan-cross-service-change]

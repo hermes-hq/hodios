@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-fluency, repeated-reading, struggling-readers, wcpm, prosody, intervention]
 pairs_with:
   prompts: [tutor-reading-comprehension]

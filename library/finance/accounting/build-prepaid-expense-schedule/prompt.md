@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prepayments, accruals, matching-principle, month-end]
 pairs_with:
   prompts: [prepare-month-end-close, write-journal-entries, review-balance-sheet]

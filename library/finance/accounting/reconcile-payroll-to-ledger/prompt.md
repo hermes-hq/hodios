@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [payroll-journal, payroll-liabilities, wage-control, month-end]
 pairs_with:
   prompts: [set-up-first-payroll, prepare-month-end-close, write-journal-entries]

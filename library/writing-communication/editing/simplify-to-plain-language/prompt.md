@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [plain-language, readability, reading-level, iso-24495]
 pairs_with:
   prompts: [tighten-prose, rewrite-for-tone]

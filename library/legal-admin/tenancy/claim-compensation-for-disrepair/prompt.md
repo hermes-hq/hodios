@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [disrepair-claim, schedule-of-loss, compensation-letter, tenant-rights, damaged-belongings]
 pairs_with:
   prompts: [keep-repair-evidence-log, request-landlord-repair, prepare-small-claims-case]

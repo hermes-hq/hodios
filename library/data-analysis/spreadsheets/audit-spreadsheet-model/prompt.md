@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [model-review, financial-modelling, model-checks, auditability]
 pairs_with:
   prompts: [debug-spreadsheet-formula, design-spreadsheet-model, run-what-if-analysis]

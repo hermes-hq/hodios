@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [nonprofit]
 tags: [volunteer-treasurer, cash-book, receipts-and-payments, agm-accounts, community-groups]
 pairs_with:

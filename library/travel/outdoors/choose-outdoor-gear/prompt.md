@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [outdoor-gear, layering, sleeping-bag-ratings, waterproofing]
 pairs_with:
   prompts: [build-packing-list, buy-secondhand-safely, time-a-purchase]

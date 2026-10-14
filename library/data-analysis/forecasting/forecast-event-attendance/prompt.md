@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [no-shows, registrations, turnout, catering-numbers, event-capacity]
 pairs_with:
   prompts: [plan-event-marketing, combine-expert-forecasts]

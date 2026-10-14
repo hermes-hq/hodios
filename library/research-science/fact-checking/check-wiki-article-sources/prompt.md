@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wiki-sourcing, circular-sourcing, citation-checks, primary-sources]
 pairs_with:
   prompts: [verify-citations, evaluate-source-credibility, check-paraphrase-faithfulness]

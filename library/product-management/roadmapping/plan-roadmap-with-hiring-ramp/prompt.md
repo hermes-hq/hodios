@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [team-growth, onboarding-ramp, capacity-planning, hiring-plan, brooks-law, headcount]
 pairs_with:
   prompts: [forecast-roadmap-dates-with-ranges, run-quarterly-planning, allocate-capacity-across-departments]

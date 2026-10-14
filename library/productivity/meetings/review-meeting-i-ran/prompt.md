@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [self-review, facilitation, continuous-improvement, meeting-notes]
 pairs_with:
   prompts: [write-meeting-agenda, analyze-meeting-participation, practise-chairing-meeting]

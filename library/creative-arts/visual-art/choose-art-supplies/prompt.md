@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [art-materials, limited-palette, starter-kit, buying-guide]
 pairs_with:
   prompts: [plan-painting-step-by-step, teach-drawing-fundamental]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dingbats, wordies, rebus, quiz-round, printable]
 pairs_with:
   prompts: [write-riddles, make-word-puzzles, host-trivia-night]

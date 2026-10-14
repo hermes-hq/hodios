@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [raci, decision-rights, accountability, stakeholders, roles-and-responsibilities]
 pairs_with:
   prompts: [write-project-kickoff-brief, build-project-risk-register]

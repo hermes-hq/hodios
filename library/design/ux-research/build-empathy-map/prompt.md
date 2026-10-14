@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [empathy-map, research-synthesis, user-needs, design-thinking]
 pairs_with:
   prompts: [build-user-personas, build-user-journey-map, synthesize-customer-interviews]

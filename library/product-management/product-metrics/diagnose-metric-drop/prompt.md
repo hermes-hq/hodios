@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [root-cause-analysis, metric-investigation, segmentation, anomaly]
 pairs_with:
   prompts: [define-north-star-metric, review-launch-results]

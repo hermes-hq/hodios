@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weather-station, amateur-meteorology, citizen-science, sensors, weather-data, siting]
 args:
   - name: property

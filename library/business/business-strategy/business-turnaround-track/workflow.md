@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [turnaround, cash-crisis, restructuring, thirteen-week-cash-flow, recovery-plan]
 pairs_with:
   prompts: [forecast-cash-flow, decide-whether-to-close-site, prioritize-strategic-initiatives, find-pricing-leakage]

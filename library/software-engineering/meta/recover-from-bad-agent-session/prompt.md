@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, git-recovery, damage-control]
 pairs_with:
   prompts: [review-agent-transcript, write-agent-handoff, audit-agent-permissions]

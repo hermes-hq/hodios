@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [morning-basket, family-learning, recitation, picture-study, memory-work, read-aloud]
 pairs_with:
   prompts: [plan-multi-age-homeschool-week, write-narration-prompts]

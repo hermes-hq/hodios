@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [briefing, meeting-prep, get-up-to-speed, glossary]
 pairs_with:
   prompts: [explain-state-of-evidence, synthesize-sources-into-brief]

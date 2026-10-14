@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [children, big-questions, religious-literacy, family-values, age-appropriate]
 pairs_with:
   prompts: [navigate-family-faith-differences, plan-religious-education-lesson, explain-hard-topic-to-child]

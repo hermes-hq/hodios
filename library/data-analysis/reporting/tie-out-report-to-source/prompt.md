@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tie-out, source-reconciliation, audit-trail, report-assurance]
 pairs_with:
   prompts: [check-report-figures, reconcile-datasets, explain-metric-discrepancy, write-data-correction-notice]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sudoku, number-placement, solving-techniques, x-wing, hint-ladder]
 pairs_with:
   prompts: [make-logic-puzzle, coach-cryptic-crossword]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [infographics, icons, text-free-artwork, visual-explainers]
 pairs_with:
   prompts: [design-infographic, write-icon-set-prompt, write-educational-diagram-prompt]

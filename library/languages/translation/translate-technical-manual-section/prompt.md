@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [technical-translation, safety-messages, controlled-language, terminology]
 pairs_with:
   prompts: [build-translation-glossary, review-translation, back-translate-to-verify]

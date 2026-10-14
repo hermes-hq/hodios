@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sql-practice, detective-game, joins, game, simulator]
 pairs_with:
   prompts: [emulate-sql-database, explain-sql-query]

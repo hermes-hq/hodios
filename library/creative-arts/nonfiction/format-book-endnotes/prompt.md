@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [endnotes, citations, back-matter, references, book-production]
 pairs_with:
   prompts: [build-book-index, write-note-on-sources]

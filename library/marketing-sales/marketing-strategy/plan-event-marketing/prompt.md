@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [event-marketing, trade-shows, webinars, field-marketing, lead-capture]
 pairs_with:
   prompts: [plan-marketing-campaign, write-email-sequence, write-outbound-sequence, build-ideal-customer-profile]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [product-subscriptions, subscribe-and-save, auto-renewal, cancellation-terms, recurring-costs]
 pairs_with:
   prompts: [cut-monthly-costs, decide-whether-to-buy-in-bulk, choose-store-brand-or-name-brand, review-consumer-terms]

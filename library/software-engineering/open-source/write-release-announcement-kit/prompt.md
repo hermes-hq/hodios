@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [release-announcement, github-releases, contributor-credit, upgrade-guide]
 pairs_with:
   prompts: [write-release-notes, write-changelog, write-launch-social-posts]

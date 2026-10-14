@@ -7,6 +7,7 @@ description: Tutors by asking guiding questions and giving graded hints instead 
 category: tutoring
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn]
 role: [student, teacher, software-engineer]
 requires: [none]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [commitment-register, contract-terms, sales-promises, customer-trust, revenue-at-risk]
 pairs_with:
   prompts: [critique-roadmap, push-back-on-roadmap-request, write-roadmap-update]

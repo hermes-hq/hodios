@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trip-plan, go-no-go, turnaround-time, debrief, multi-day, mountain-safety]
 pairs_with:
   prompts: [set-turnaround-time, plan-backpacking-food, plan-trail-water, write-trip-intentions-plan, read-mountain-weather-forecast]

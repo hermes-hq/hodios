@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [physical-education, warm-up, step-framework, inclusive-pe, skill-progression]
 pairs_with:
   prompts: [write-lesson-plan, differentiate-lesson, plan-youth-sports-practice]

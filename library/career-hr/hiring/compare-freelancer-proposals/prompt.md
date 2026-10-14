@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [freelance-marketplace, proposal-comparison, hiring-a-freelancer, quote-comparison, vendor-selection]
 pairs_with:
   prompts: [write-freelance-job-posting]

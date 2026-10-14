@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shap, explainability, feature-importance, interpretability]
 pairs_with:
   prompts: [write-model-card, find-leakage-in-training-code]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ted-talk, throughline, idea-worth-spreading, storytelling, keynote]
 pairs_with:
   prompts: [write-talk-openings-and-closings, craft-personal-story, mark-up-script-for-delivery, write-speech]

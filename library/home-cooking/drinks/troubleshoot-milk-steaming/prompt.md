@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [milk-texturing, latte-art, steam-wand, microfoam, plant-milk, home-barista]
 pairs_with:
   prompts: [dial-in-espresso, choose-home-coffee-setup]

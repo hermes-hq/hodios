@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [alcohol-free, zero-proof, drink-balance, sober-curious, recipe-development, syrups]
 pairs_with:
   prompts: [make-cordial-or-shrub, fix-unbalanced-cocktail, design-cocktail-menu]

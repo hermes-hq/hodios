@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workplace-behaviour, high-performer, team-culture, difficult-conversation, expectations-setting]
 pairs_with:
   prompts: [address-underperformance-early, write-written-warning, plan-one-on-one]

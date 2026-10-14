@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rejection, romance, honesty, saying-no, unrequited]
 pairs_with:
   prompts: [end-relationship-kindly, set-boundary, decline-request-gracefully]

@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: basic
 tags: [lookup, dynamic-arrays, conditional-sums]
 pairs_with:
   prompts: [debug-spreadsheet-formula, build-pivot-analysis]

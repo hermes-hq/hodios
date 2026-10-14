@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [build-vs-buy, total-cost-of-ownership, vendor-lock-in, open-source-project]
 pairs_with:
   prompts: [write-product-strategy, write-adr]

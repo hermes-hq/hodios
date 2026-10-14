@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [composables, composition-api, reactivity, ssr, vitest]
 args:
   - name: behaviour

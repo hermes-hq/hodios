@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [adult-education, community-learning, evening-class, mixed-ability, andragogy, final-project]
 pairs_with:
   prompts: [write-course-syllabus, write-learning-objectives, design-workshop]

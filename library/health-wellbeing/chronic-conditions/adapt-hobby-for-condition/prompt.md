@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hobbies, adaptive-tools, energy-conservation, joint-protection, meaningful-activity, occupational-therapy]
 pairs_with:
   prompts: [plan-activity-pacing, adapt-household-tasks-for-fatigue, build-pain-coping-toolkit]

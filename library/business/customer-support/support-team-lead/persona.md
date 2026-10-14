@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [queue-management, backlog, agent-coaching, contact-drivers, burnout, service-levels]
 pairs_with:
   prompts: [analyze-support-tickets, build-support-qa-scorecard, plan-support-staffing, critique-draft-support-reply, design-escalation-process]

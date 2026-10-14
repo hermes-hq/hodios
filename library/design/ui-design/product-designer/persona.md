@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interaction-design, design-critique, ui-states, design-rationale]
 pairs_with:
   prompts: [critique-ui-screen, create-wireframe-spec, design-onboarding-flow, write-ux-microcopy, write-component-spec]

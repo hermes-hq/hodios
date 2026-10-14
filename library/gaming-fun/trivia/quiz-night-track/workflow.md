@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pub-quiz, quiz-night, fundraiser-quiz, answer-sheets, run-sheet, verify-list]
 pairs_with:
   prompts: [host-trivia-night, review-quiz-questions, design-quiz-scoring-rules, plan-picture-round]

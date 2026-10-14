@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [legacy-product, installed-base, harvest-strategy, customer-migration, maintenance-mode]
 pairs_with:
   prompts: [plan-feature-sunset, rationalize-product-line, balance-product-bet-portfolio, plan-product-integration-after-acquisition]

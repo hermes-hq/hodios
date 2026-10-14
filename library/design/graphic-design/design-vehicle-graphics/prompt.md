@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vehicle-wrap, van-livery, large-format-print, small-business-marketing, signwriting]
 pairs_with:
   prompts: [build-diy-brand-kit, design-business-card, plan-local-seo]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [known-issues, workarounds, release-communication, customer-transparency]
 pairs_with:
   prompts: [write-release-notes, plan-launch-support-readiness, write-launch-faq]

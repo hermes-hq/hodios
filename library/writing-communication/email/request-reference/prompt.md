@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [references, referee-request, job-application, recommendation-request, networking]
 pairs_with:
   prompts: [brief-your-references, write-email-to-professor, reconnect-with-old-contact]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [site-closure, branch-profitability, four-wall-contribution, lease-exit, turnaround, multi-site]
 pairs_with:
   prompts: [plan-second-location, review-commercial-lease, forecast-cash-flow]

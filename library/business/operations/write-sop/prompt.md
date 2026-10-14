@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [standard-operating-procedure, work-instructions, quality-checks, handover]
 pairs_with:
   prompts: [map-business-process, automate-business-workflow]

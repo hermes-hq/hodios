@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [factor-analysis, psychometrics, scale-validation, cfa]
 pairs_with:
   prompts: [write-survey-questionnaire, calculate-inter-rater-reliability, analyze-likert-data]

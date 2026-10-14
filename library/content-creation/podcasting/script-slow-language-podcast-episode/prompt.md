@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [language-teaching, cefr, comprehensible-input, graded-listening, learner-podcast]
 pairs_with:
   prompts: [plan-classroom-podcast-project, write-solo-episode-script]

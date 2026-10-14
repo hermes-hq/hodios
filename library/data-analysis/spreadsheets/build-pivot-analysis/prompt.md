@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [pivot-tables, summaries]
 pairs_with:
   prompts: [clean-messy-spreadsheet, write-spreadsheet-formula]

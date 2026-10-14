@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [language-diary, daily-practice, writing-practice, error-correction, cefr]
 pairs_with:
   prompts: [correct-my-sentences, diagnose-recurring-errors, grade-language-writing-task]

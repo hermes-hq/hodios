@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [physiotherapy, rehabilitation, home-exercise, treatment-goals, pain-tracking, recovery]
 pairs_with:
   prompts: [build-symptom-log, plan-return-to-training, prepare-doctor-questions]

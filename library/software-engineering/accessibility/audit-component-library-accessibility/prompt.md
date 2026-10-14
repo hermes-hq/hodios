@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ui-component-kit, component-audit, aria-apg, keyboard, storybook]
 pairs_with:
   personas: [accessibility-specialist]

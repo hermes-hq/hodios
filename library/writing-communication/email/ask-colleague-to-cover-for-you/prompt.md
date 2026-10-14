@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cover, favour, shift-swap, peer-request, time-off]
 pairs_with:
   prompts: [request-time-off-by-email, write-handover-document, write-out-of-office-message]

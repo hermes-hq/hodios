@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [deserialization, remote-code-execution, owasp]
 pairs_with:
   prompts: [audit-input-handling, triage-sast-findings, write-fuzz-harness, write-exploit-regression-test]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [newlyweds, beneficiaries, life-events, joint-accounts]
 pairs_with:
   prompts: [plan-couple-money-conversation, build-financial-emergency-file, build-net-worth-statement, prioritize-financial-goals]

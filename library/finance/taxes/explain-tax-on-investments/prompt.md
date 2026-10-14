@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [capital-gains, dividends, cost-basis, tax-wrappers]
 pairs_with:
   prompts: [compare-retirement-accounts, organize-tax-documents, check-portfolio-diversification]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fair-use, fair-dealing, quotation, public-domain, pre-publication-check]
 pairs_with:
   prompts: [request-copyright-permission, respond-to-copyright-claim]

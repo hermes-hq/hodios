@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-rental, road-rules, international-driving, tolls, driving-licence]
 pairs_with:
   prompts: [plan-road-trip, inspect-rental-car, check-car-hire-excess-cover, handle-emergency-abroad]

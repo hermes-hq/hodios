@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [riddle-writing, brain-teasers, word-play, party-game, treasure-hunt]
 pairs_with:
   prompts: [create-escape-room-puzzles, make-logic-puzzle, write-crossword-clues]

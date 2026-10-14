@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [screen-reader, manual-testing, assistive-technology]
 pairs_with:
   personas: [accessibility-specialist]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [character-design, ability-kit, hero-design, counterplay, combat-design, class-design]
 pairs_with:
   prompts: [balance-asymmetric-factions, design-enemy-roster, improve-game-feel]

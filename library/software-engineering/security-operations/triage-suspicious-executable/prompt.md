@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [malware-triage, static-analysis, pe-file, elf, capa, code-signing]
 pairs_with:
   prompts: [triage-sandbox-report, write-yara-rule, analyze-suspicious-script, analyze-memory-image-with-volatility]

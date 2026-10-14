@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-compression, token-cost, behaviour-preservation, regression-tests]
 pairs_with:
   personas: [prompt-engineer]

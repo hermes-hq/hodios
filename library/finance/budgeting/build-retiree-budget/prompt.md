@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [retirement-budget, pension-income, fixed-income, later-life]
 pairs_with:
   prompts: [plan-retirement-drawdown, set-up-sinking-funds, cut-monthly-costs, plan-long-term-care-costs]

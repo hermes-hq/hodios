@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [it-certification, cloud-certification, comptia, aws-certification, scenario-questions, exam-domains]
 pairs_with:
   prompts: [prepare-certification-exam, analyze-exam-mistakes, plan-exam-day-strategy]

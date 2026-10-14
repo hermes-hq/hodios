@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pipelines, merge-requests, environments, oidc]
 pairs_with:
   personas: [devops-engineer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [book-proposal, readers-report, academic-publishing, monograph]
 pairs_with:
   prompts: [write-peer-review, turn-thesis-chapter-into-paper]

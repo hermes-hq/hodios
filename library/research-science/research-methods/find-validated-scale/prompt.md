@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [validated-instruments, psychometrics, questionnaire, measurement, scale-selection, cosmin]
 pairs_with:
   prompts: [operationalize-variables, validate-measurement-instrument, translate-and-adapt-questionnaire, write-survey-questionnaire]

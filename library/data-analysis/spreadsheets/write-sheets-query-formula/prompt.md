@@ -19,6 +19,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [query-function, group-by, pivot, date-filter, summary-table]
 pairs_with:
   prompts: [write-spreadsheet-formula, debug-spreadsheet-formula, build-pivot-analysis]

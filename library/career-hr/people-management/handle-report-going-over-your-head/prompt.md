@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [escalation-norms, bypassing, trust, upward-alignment, hard-conversations]
 pairs_with:
   prompts: [plan-one-on-one, run-skip-level-meetings, handle-defensive-employee]

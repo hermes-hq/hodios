@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-support, lending-to-family, gifting, boundaries, sandwich-generation]
 pairs_with:
   prompts: [manage-parent-finances, plan-long-term-care-costs, build-emergency-fund-plan, plan-couple-money-conversation]

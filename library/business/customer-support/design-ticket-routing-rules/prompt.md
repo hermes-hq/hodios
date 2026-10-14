@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ticket-routing, helpdesk-automation, skills-based-routing, queue-management, sla]
 pairs_with:
   prompts: [design-ticket-tagging-scheme, design-escalation-process, plan-support-staffing]

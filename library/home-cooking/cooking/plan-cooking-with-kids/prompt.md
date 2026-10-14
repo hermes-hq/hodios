@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kids-in-the-kitchen, kitchen-safety, family-activity, life-skills, food-safety]
 pairs_with:
   prompts: [plan-family-meals-for-picky-eaters, teach-cooking-technique, cook-along-assistant]

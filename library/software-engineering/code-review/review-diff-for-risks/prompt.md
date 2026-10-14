@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deployment, rollback, backward-compatibility, database-migration]
 pairs_with:
   prompts: [review-pull-request]

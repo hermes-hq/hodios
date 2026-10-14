@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [game-development, html5-canvas, game-loop, prototyping, game-jam]
 pairs_with:
   prompts: [design-game-mechanic, write-game-design-document]

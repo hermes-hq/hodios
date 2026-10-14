@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [deep-frying, kitchen-fire-safety, frying-oil, batters, tempura]
 pairs_with:
   prompts: [recreate-restaurant-dish, troubleshoot-recipe, plan-cooking-with-kids]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [lead-reactivation, closed-lost, crm-cleanup, sms-sales, follow-up]
 pairs_with:
   prompts: [revive-stalled-deal, qualify-leads, design-lead-follow-up-process]

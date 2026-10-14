@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-sense, pm-interview, product-design-interview, interview-feedback, structured-thinking]
 pairs_with:
   prompts: [run-mock-interview, prepare-case-interview, prepare-star-stories]

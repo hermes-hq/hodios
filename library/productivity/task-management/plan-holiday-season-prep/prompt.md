@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [holiday-season, festive-season, hosting, seasonal-planning, family-events, countdown]
 pairs_with:
   prompts: [plan-holiday-feast-schedule, keep-habits-through-disruption, plan-my-week]

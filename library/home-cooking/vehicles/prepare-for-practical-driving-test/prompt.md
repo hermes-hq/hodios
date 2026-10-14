@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [driving-test, learner-driver, test-nerves, manoeuvres, mock-test, driving-examiner]
 pairs_with:
   prompts: [plan-learner-driver-practice, learn-basic-car-checks]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [active-users, dau-mau, stickiness, event-data, analytics-sql]
 pairs_with:
   prompts: [define-engagement-metric, build-cohort-analysis, build-date-spine-for-metrics]

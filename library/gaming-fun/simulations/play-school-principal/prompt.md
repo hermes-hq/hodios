@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [school-leadership, headteacher, education-policy, decision-game, career-taster]
 pairs_with:
   prompts: [play-city-mayor-game, try-career-for-a-day]

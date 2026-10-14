@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [compose-file, local-development, developer-onboarding, health-checks]
 pairs_with:
   prompts: [review-dockerfile, generate-realistic-seed-data, write-onboarding-guide]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [inventory, stock-turns, days-of-cover, dead-stock, reorder-point]
 pairs_with:
   prompts: [run-pareto-analysis, analyze-sales-data, forecast-time-series, plan-inventory]

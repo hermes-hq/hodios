@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [quick-capture, notes-inbox, voice-notes, share-sheet, widgets, shortcuts]
 pairs_with:
   prompts: [process-notes-inbox, design-second-brain, choose-notes-app, process-brain-dump]

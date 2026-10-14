@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [inheritance-tax, estate-tax, lifetime-gifts, executor]
 pairs_with:
   prompts: [plan-windfall, manage-parent-finances, plan-tax-move-abroad]

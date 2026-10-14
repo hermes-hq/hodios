@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [seo-plugins, cms-settings, archives, permalinks, site-setup]
 pairs_with:
   prompts: [audit-technical-seo, write-meta-tags, write-robots-txt]

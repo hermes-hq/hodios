@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rsu, stock-options, espp, vesting, concentration-risk, startup-equity]
 pairs_with:
   prompts: [explain-tax-on-investments, check-portfolio-diversification, plan-windfall]

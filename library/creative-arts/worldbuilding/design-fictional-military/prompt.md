@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [armies, warfare, military-fiction, military-supply, setting-design]
 pairs_with:
   prompts: [design-fictional-war, design-fictional-government, design-fictional-technology, build-magic-system]

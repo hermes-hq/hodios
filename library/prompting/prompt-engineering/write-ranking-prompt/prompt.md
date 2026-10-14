@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scoring-rubric, weighted-criteria, position-bias, reusable-prompt]
 pairs_with:
   prompts: [write-judge-prompt, write-classification-prompt, rank-options-pairwise]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pitch-deck, startup-fundraising, storytelling, venture-capital]
 pairs_with:
   prompts: [prepare-investor-qa, estimate-market-size, model-unit-economics]

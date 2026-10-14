@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [character-work, role-preparation, super-objective, character-arc, text-analysis]
 pairs_with:
   prompts: [break-down-scene-for-actor, learn-lines]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [subversion, mercurial, perforce, tfvc, history-conversion, authors-file]
 pairs_with:
   prompts: [set-up-git-lfs, write-gitignore-file, speed-up-large-repo, move-repository-to-new-host]

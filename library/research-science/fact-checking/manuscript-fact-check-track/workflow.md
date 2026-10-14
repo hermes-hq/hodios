@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [claim-log, author-queries, pre-publication, long-form]
 pairs_with:
   prompts: [prioritize-claims-to-check, verify-quotes-against-source, verify-citations, check-internal-consistency]

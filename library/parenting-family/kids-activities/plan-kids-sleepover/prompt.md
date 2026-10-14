@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sleepover, slumber-party, sleepover-checklist, homesickness, kids-party, parent-communication]
 pairs_with:
   prompts: [plan-kids-party, plan-family-game-night]

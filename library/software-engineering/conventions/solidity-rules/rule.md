@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: frontier
 level: expert
+depth: advanced
 tags: [smart-contracts, reentrancy, access-control, evm, gas-optimization]
 applies_to: ["**/*.sol"]
 pairs_with:

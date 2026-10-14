@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [git-blame, git-log, pickaxe, code-archaeology, decision-history]
 pairs_with:
   prompts: [explain-codebase]

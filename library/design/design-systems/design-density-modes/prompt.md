@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [density, spacing-tokens, data-dense-ui, target-size, user-preferences]
 pairs_with:
   prompts: [define-design-tokens, design-interactive-table, design-internal-tool-ui]

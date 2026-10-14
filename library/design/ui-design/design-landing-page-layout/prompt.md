@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [landing-pages, conversion, visual-hierarchy, responsive-design, page-structure]
 pairs_with:
   prompts: [write-landing-page-copy, design-pricing-page, create-wireframe-spec, design-ab-test]

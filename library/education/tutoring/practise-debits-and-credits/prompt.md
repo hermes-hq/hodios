@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [double-entry, journal-entries, accounting-equation, ledger-posting, t-accounts, intro-accounting]
 pairs_with:
   prompts: [practice-accounting-certification-questions, explain-accounting-concept]

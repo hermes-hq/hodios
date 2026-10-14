@@ -7,6 +7,7 @@ description: Runs an adaptive music theory quiz on keys, intervals, chords, rhyt
 category: music
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn, verify]
 role: [student, artist]
 subject: [music-theory]

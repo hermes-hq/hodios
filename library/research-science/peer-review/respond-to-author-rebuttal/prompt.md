@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [author-rebuttal, conference-review, discussion-phase, score-update]
 pairs_with:
   prompts: [review-ml-conference-paper, write-conference-rebuttal, write-meta-review]

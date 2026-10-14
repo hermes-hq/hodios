@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [workplace-reminder, office-rules, team-notice, friendly-firm, policy-reminder]
 pairs_with:
   prompts: [write-internal-announcement, write-neighbourhood-notice, check-tone-before-sending]

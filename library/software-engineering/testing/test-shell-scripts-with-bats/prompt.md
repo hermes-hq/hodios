@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bats, shell-scripts, command-stubs, exit-codes, shellcheck]
 pairs_with:
   prompts: [write-cli-tests, test-filesystem-code]

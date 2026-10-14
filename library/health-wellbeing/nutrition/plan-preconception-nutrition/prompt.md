@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [preconception, trying-to-conceive, folic-acid, fertility, partner-health]
 pairs_with:
   prompts: [explain-pregnancy-nutrition, prepare-fertility-consultation, plan-eating-for-nutrient-gap, plan-plant-based-nutrition]

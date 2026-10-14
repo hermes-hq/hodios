@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [screen-inventory, feature-scope, state-coverage, design-planning, estimation]
 pairs_with:
   prompts: [map-user-flow, write-prd, spec-mobile-screen-states, design-empty-and-error-states, create-wireframe-spec]

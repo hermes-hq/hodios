@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kpi-cards, scorecard, sparkline, dashboard-layout]
 pairs_with:
   prompts: [design-dashboard, set-scorecard-status-thresholds, visualize-actual-vs-target, define-metric]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 stack: [javascript]
 tags: [automated-rules, google-ads-scripts, alerts, budget-guardrails, account-monitoring]
 pairs_with:

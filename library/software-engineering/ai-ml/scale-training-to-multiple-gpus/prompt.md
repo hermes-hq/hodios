@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [distributed-training, ddp, fsdp, multi-gpu, torchrun]
 pairs_with:
   prompts: [write-pytorch-training-loop, estimate-llm-gpu-requirements]

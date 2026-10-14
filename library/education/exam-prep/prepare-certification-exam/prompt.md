@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [certification, exam-blueprint, hands-on-labs, readiness, professional-development]
 pairs_with:
   prompts: [generate-practice-exam, quiz-me-interactively, analyze-exam-mistakes]

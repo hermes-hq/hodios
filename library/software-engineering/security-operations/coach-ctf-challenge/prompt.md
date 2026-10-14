@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ctf, capture-the-flag, graded-hints, security-training, write-ups]
 pairs_with:
   prompts: [analyze-packet-capture, analyze-suspicious-script]

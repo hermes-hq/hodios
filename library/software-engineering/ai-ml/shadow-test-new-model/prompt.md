@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [shadow-deployment, canary-release, model-rollout, model-comparison]
 pairs_with:
   prompts: [serve-ml-model-as-api, monitor-model-drift, choose-llm-for-feature]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [british-english, american-english, australian-english, canadian-english, spelling-variants, localisation]
 pairs_with:
   prompts: [proofread-text, copyedit-to-style-guide, adapt-message-for-culture]

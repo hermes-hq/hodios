@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [parent-engagement, family-workshop, home-learning, interpreters, run-of-show]
 pairs_with:
   prompts: [write-parent-email, write-classroom-newsletter, prepare-parent-teacher-conference]

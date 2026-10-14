@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shellcheck, quoting, exit-codes]
 pairs_with:
   prompts: [write-shell-script, triage-failing-ci]

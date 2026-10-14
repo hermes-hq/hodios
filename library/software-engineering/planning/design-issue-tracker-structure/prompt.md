@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [issue-tracker, linear, github-issues, workflow-states, labels, team-conventions]
 pairs_with:
   prompts: [design-kanban-workflow, write-bug-severity-policy, choose-scrum-or-kanban]

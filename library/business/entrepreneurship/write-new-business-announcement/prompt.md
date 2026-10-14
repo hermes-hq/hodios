@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [launch-outreach, warm-network, referrals, personal-network, word-of-mouth]
 pairs_with:
   prompts: [find-first-customers, write-elevator-pitch, write-launch-announcement]

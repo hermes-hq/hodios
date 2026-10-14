@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [film-photography, analogue-photography, film-stock, light-metering, darkroom]
 pairs_with:
   prompts: [choose-camera-gear, plan-photography-learning, choose-camera-settings]

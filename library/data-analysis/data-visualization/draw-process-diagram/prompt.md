@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mermaid, flowchart, swimlane, process-documentation]
 pairs_with:
   prompts: [map-business-process, write-c4-diagram]

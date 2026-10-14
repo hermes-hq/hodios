@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workforce-management, erlang-c, service-level, shrinkage, capacity-planning, coverage-plan]
 pairs_with:
   prompts: [analyze-support-tickets, build-staff-schedule, design-escalation-process]

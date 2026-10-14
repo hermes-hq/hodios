@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-source-project, comparison-page, alternatives-page, fair-comparison, competitor-content]
 pairs_with:
   prompts: [write-comparison-post, analyze-competitors, audit-docs-seo]

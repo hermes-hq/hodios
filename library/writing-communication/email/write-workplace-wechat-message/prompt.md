@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [wechat, dingtalk, workplace-chat, reporting-up, polite-reminder, declining]
 pairs_with:
   prompts: [ask-for-help-in-team-chat, decline-request-gracefully, check-tone-before-sending]

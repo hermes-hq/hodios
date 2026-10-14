@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quarterly-planning, okrs, capacity-planning, bets, dependencies]
 pairs_with:
   prompts: [prioritize-features, build-outcome-roadmap, estimate-feature-impact, write-roadmap-update]

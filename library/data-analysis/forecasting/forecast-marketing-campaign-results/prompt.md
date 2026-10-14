@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketing-funnel, cost-per-lead, diminishing-returns, paid-media, roi]
 pairs_with:
   prompts: [plan-media-budget, present-forecast-uncertainty, review-forecast-assumptions]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [widget-composition, state-management, widget-tests, platform-channels, cross-platform]
 pairs_with:
   personas: [mobile-engineer]

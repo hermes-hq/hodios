@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reactivity, shallowref, v-memo, hydration, vue-devtools]
 pairs_with:
   prompts: [fix-vue-reactivity-bug, speed-up-long-list-rendering, write-vue-composable]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scenarios, uncertainty, signposts, no-regret-moves, stress-test]
 pairs_with:
   prompts: [run-swot-analysis, build-annual-operating-plan, plan-market-entry]

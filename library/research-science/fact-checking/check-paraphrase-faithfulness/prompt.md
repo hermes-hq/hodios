@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [paraphrase, summary-accuracy, overclaiming, academic-integrity]
 pairs_with:
   prompts: [verify-quotes-against-source, paraphrase-with-attribution, check-science-news-against-paper]

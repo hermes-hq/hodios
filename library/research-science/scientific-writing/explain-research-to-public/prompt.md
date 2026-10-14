@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [science-communication, plain-language, press-release, anti-hype]
 pairs_with:
   prompts: [summarize-paper, write-abstract]

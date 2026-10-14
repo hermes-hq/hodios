@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [work-sample, take-home, scoring-rubric, candidate-experience, accommodations]
 pairs_with:
   prompts: [design-interview-loop, write-job-description, write-candidate-rejection]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subathon, marathon-stream, stream-timer, mod-rota, streamer-wellbeing]
 pairs_with:
   prompts: [plan-livestream-run-of-show, write-chat-mod-handbook]

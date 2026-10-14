@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [storage-full, disk-space, cloud-storage, offload-apps, phone-cleanup]
 pairs_with:
   prompts: [organize-photo-library, set-up-backups, speed-up-slow-computer]

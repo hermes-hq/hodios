@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stream-analytics, average-viewers, retention, chatters, experiments]
 pairs_with:
   prompts: [grow-streaming-channel, pick-vod-highlight-clips]

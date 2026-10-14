@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-migration, export, data-portability, attachments, internal-links]
 pairs_with:
   prompts: [choose-notes-app, plan-notes-backup-and-export, audit-notes-vault]

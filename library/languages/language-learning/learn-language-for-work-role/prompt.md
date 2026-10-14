@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [workplace-language, language-for-specific-purposes, scenarios, vocational, migrant-workers]
 pairs_with:
   prompts: [roleplay-real-situation, build-vocabulary-list, learn-survival-phrases]

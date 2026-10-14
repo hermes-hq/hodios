@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bdd, gherkin, cucumber, step-definitions, acceptance-tests]
 pairs_with:
   prompts: [write-gherkin-scenarios, write-integration-tests, write-page-objects-for-e2e]

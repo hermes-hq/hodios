@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [model-serving, inference-api, batching, model-versioning, load-testing]
 pairs_with:
   prompts: [convert-model-to-onnx, monitor-model-drift, shadow-test-new-model]

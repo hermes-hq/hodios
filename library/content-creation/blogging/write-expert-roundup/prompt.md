@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [expert-roundup, outreach-email, synthesis, attribution]
 pairs_with:
   prompts: [write-article-headlines-and-standfirsts, write-guest-post-pitch]

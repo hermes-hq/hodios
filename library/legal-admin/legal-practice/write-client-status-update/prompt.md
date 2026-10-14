@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [client-communication, case-update, plain-english, law-firm-operations]
 pairs_with:
   prompts: [draft-engagement-letter, write-client-intake-questionnaire]

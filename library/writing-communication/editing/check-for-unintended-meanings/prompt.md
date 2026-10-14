@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [double-meanings, product-names, headlines, hashtags, acronyms]
 pairs_with:
   prompts: [proofread-print-piece-before-ordering, review-document-for-ambiguity]

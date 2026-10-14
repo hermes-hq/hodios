@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shot-list, b-roll, call-sheet, continuity]
 pairs_with:
   prompts: [write-youtube-script, write-tutorial-video-script, create-paper-edit]

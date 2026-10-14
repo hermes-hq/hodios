@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [woodturning, lathe, bowl-turning, pen-turning, green-wood, workshop-safety]
 pairs_with:
   prompts: [plan-woodworking-project, sharpen-hand-tools]

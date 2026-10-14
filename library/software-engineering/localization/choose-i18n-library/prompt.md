@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [library-selection, icu-messageformat, tradeoffs]
 pairs_with:
   prompts: [extract-ui-strings, automate-translation-file-sync]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bike-maintenance, e-bike, chain-care, bike-brakes, puncture-repair, cycling]
 pairs_with:
   prompts: [choose-bike]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [check-constraints, unique-constraints, partial-indexes, data-integrity, not-null]
 pairs_with:
   prompts: [add-foreign-keys-to-legacy-schema, prevent-double-booking, review-database-migration, plan-zero-downtime-schema-change]

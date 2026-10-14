@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [manual-action, penalty-recovery, spam-policies, webmaster-tools]
 pairs_with:
   prompts: [review-backlink-profile, diagnose-organic-traffic-drop]

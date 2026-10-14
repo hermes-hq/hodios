@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardware, physical-product, tooling, preorders, unit-economics, stage-gates]
 pairs_with:
   prompts: [test-physical-prototype-with-users, test-preorders-before-tooling, audit-idea-evidence, write-customer-interview-guide]

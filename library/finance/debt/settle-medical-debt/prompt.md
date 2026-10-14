@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [medical-bills, financial-assistance, charity-care, hospital-billing, payment-plan, medical-collections]
 pairs_with:
   prompts: [understand-medical-bill, negotiate-with-creditor, respond-to-debt-collector, dispute-credit-report-error]

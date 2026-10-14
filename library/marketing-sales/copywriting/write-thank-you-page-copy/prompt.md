@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [thank-you-page, confirmation-page, post-conversion, expectation-setting, next-step]
 pairs_with:
   prompts: [write-landing-page-copy, write-post-purchase-emails, plan-cross-sells-and-upsells, write-ux-microcopy]

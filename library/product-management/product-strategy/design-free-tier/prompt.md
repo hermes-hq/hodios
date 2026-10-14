@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [saas]
 tags: [freemium, free-trial, reverse-trial, product-led-growth, packaging, abuse-prevention]
 pairs_with:

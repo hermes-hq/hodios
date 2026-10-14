@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-marketplace, integrations, marketplace-listing, app-review, partner-ecosystem]
 pairs_with:
   prompts: [write-integration-page-copy, plan-integration-partnerships, plan-product-launch, write-app-store-listing]

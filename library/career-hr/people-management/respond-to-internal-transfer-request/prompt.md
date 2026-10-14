@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-mobility, transfer-request, handover-plan, backfill, talent-hoarding]
 pairs_with:
   prompts: [respond-to-resignation, run-career-conversation, plan-key-person-cover]

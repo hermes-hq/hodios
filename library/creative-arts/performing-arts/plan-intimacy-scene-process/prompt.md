@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [intimacy-direction, consent, rehearsal-process, staging, actor-safety]
 pairs_with:
   prompts: [plan-scene-blocking, plan-rehearsal-schedule, write-casting-breakdown]

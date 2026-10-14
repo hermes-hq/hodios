@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lyric-editing, song-critique, prosody, hooks]
 pairs_with:
   prompts: [write-song-lyrics, analyze-song-structure]

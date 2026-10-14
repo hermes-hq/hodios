@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kitchen-design, work-zones, floor-plan, storage, appliances]
 pairs_with:
   prompts: [plan-renovation-budget, hire-contractor]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [abstract-review, programme-committee, scoring-rubric, calibration, conference]
 pairs_with:
   prompts: [write-meta-review, write-peer-review, review-grant-proposal]

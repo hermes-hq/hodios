@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [handwriting, cursive, digit-shapes, abbreviations, reading-skills, newcomers]
 pairs_with:
   prompts: [learn-writing-system, handle-foreign-language-letter, learn-school-vocabulary-for-parents, gloss-authentic-text]

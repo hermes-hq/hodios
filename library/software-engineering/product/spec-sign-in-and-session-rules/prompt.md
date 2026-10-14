@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [authentication, sessions, mfa, account-recovery, requirements]
 pairs_with:
   prompts: [review-auth-flow, implement-oauth-login, spec-team-invitation-flow]

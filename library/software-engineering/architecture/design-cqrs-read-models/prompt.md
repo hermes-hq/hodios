@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cqrs, projections, read-models, eventual-consistency, denormalisation]
 pairs_with:
   personas: [software-architect]

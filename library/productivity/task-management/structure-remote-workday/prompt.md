@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [remote-work, work-from-home, daily-structure, focus-blocks, breaks, hybrid-work]
 pairs_with:
   prompts: [design-shutdown-ritual, protect-deep-work-blocks, plan-working-from-home-with-kids]

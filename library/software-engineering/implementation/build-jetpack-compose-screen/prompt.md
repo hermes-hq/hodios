@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jetpack-compose, viewmodel, stateflow, state-hoisting, coroutines]
 args:
   - name: screen

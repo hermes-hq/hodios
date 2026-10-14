@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [progressive-summarization, highlights, web-clippings, layered-notes]
 pairs_with:
   prompts: [make-reading-notes, split-note-into-atomic-notes]

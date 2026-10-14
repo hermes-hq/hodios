@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workshops, hands-on-labs, setup-instructions, facilitation, devrel-events]
 pairs_with:
   prompts: [create-coding-exercises, outline-tech-talk-with-live-demo]

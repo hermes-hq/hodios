@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dual-track, learning-goals, validation, evidence-gates, product-trio]
 pairs_with:
   prompts: [build-outcome-roadmap, run-quarterly-planning, map-assumptions, design-validation-experiment]

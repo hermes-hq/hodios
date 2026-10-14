@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [music-industry, touring, management-game, band-life]
 args:
   - name: genre

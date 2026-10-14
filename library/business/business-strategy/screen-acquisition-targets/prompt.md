@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [m-and-a, target-screening, acquisition-criteria, buy-and-build, deal-pipeline]
 pairs_with:
   prompts: [evaluate-buying-a-business, plan-acquisition-integration, analyze-competitor-financials, map-growth-options]

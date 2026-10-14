@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [visual-impairment, tactile-graphics, image-description, screen-reader, braille]
 pairs_with:
   prompts: [describe-chart-for-accessibility, explain-concept-at-level]

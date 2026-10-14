@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [job-offer, offer-acceptance, employment-terms, start-date]
 pairs_with:
   prompts: [evaluate-job-offer, negotiate-job-offer, decline-job-offer, plan-first-90-days]

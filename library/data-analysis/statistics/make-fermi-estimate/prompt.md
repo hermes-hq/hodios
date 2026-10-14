@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [estimation, market-sizing, back-of-envelope, assumptions, order-of-magnitude]
 pairs_with:
   prompts: [estimate-market-size, explain-statistical-concept, run-what-if-analysis]

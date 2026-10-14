@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [svg, canvas, chart-libraries, text-alternatives, colorblind, wcag]
 pairs_with:
   personas: [accessibility-specialist]

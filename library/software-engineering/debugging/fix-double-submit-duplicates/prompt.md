@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [duplicates, idempotency, unique-constraints, retries, data-integrity]
 pairs_with:
   prompts: [debug-race-condition, add-retries-and-timeouts]

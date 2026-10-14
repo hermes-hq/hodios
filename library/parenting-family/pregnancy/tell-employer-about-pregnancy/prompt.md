@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pregnancy-announcement, workplace-rights, maternity-leave, manager-conversation, risk-assessment]
 pairs_with:
   prompts: [prepare-for-new-baby, plan-parental-leave-finances]

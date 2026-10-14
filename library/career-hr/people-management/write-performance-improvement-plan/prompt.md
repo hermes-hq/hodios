@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pip, underperformance, measurable-goals, record-keeping, fair-process]
 pairs_with:
   prompts: [write-performance-review, plan-one-on-one]

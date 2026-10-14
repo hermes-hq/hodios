@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [homebrew, stat-blocks, monster-design, game-balance, game-mastering]
 pairs_with:
   prompts: [balance-combat-encounter, design-homebrew-item]

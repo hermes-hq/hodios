@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coga, accessible-authentication, plain-language, timeouts, error-prevention, wcag]
 pairs_with:
   personas: [accessibility-specialist]

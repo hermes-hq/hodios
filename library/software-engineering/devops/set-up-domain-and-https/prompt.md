@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dns, https, tls, custom-domain, lets-encrypt]
 pairs_with:
   prompts: [write-reverse-proxy-config, deploy-to-vps]

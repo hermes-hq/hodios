@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [co-marketing, partner-marketing, joint-webinar, lead-sharing, audience-overlap]
 pairs_with:
   prompts: [write-partnership-proposal, plan-joint-partner-launch, plan-integration-partnerships, plan-event-marketing]

@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [plain-language, step-by-step, older-adults, device-help, digital-skills]
 pairs_with:
   prompts: [explain-error-message, troubleshoot-home-wifi, speed-up-slow-computer, teach-older-relative-smartphone, recover-deleted-files]

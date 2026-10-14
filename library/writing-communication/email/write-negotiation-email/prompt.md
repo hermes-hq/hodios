@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [negotiation-email, anchoring, concessions, batna, rate-negotiation]
 pairs_with:
   prompts: [prepare-supplier-negotiation, write-scope-change-email, reply-to-email]

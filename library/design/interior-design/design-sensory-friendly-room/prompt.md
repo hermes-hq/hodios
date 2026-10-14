@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sensory-needs, neurodivergent, calm-space, acoustics, lighting]
 pairs_with:
   prompts: [plan-lighting-scheme, design-bedroom]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-management, communication-plan, adkar, stakeholder-map, rollout, manager-toolkit]
 pairs_with:
   prompts: [write-internal-announcement, write-manager-talking-points, write-customer-change-notice]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [reviewer-invitation, editorial-process, email-templates]
 pairs_with:
   prompts: [plan-reviewer-search, decide-review-invitation]

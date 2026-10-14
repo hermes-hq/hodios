@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [job-offer, salary-negotiation, employment-terms, counter-offer, working-abroad]
 pairs_with:
   prompts: [practice-interview-in-language, build-interview-answer-bank-in-language, practise-polite-disagreement]

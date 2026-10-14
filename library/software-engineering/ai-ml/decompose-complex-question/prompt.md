@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [query-decomposition, multi-hop-qa, query-planning, retrieval]
 pairs_with:
   prompts: [rewrite-search-query, answer-from-retrieved-context, plan-multi-step-task-for-agent]

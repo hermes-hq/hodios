@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [petition, campaigning, civic-action, community-organising, signatures, advocacy]
 pairs_with:
   prompts: [write-letter-to-elected-official, write-public-consultation-response, write-neighbourhood-notice]

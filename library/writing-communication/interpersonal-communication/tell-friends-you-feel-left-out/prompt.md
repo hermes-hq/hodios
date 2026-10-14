@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [friend-groups, exclusion, feelings, belonging, requests]
 pairs_with:
   prompts: [clear-up-misunderstanding, decode-message-tone, assess-draining-friendship]

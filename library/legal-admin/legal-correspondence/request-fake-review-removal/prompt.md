@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fake-reviews, review-removal, platform-policy, online-reputation, review-platforms, defamation]
 pairs_with:
   prompts: [respond-to-online-review, manage-brand-serp, write-cease-and-desist-letter]

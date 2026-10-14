@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [out-of-hours, on-call-rota, emergency-line, auto-reply, holiday-cover]
 pairs_with:
   prompts: [plan-support-staffing, triage-service-call, organise-shared-support-inbox]

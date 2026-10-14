@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multi-stage-build, container-image, non-root]
 pairs_with:
   prompts: [review-dockerfile, build-container-image-in-ci, containerize-app-track]

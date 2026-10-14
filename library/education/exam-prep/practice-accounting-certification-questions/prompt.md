@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cpa-exam, acca, ifrs, us-gaap, journal-entries, task-based-simulation]
 pairs_with:
   prompts: [prepare-certification-exam, analyze-exam-mistakes, make-flashcards]

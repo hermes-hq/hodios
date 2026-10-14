@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [less-sugar, recipe-adaptation, sugar-substitutes, healthier-bakes, baking-chemistry]
 pairs_with:
   prompts: [tune-cookie-texture, convert-baking-recipe-to-grams]

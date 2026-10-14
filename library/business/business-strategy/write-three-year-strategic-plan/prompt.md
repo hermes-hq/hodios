@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [strategic-plan, three-year-plan, strategic-priorities, milestones, board-approval]
 pairs_with:
   prompts: [build-annual-operating-plan, prioritize-strategic-initiatives, build-strategy-map, build-strategy-presentation, run-swot-analysis]

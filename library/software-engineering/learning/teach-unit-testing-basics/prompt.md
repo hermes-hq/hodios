@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [unit-tests, test-frameworks, edge-cases, arrange-act-assert]
 pairs_with:
   prompts: [write-unit-tests, coach-coding-kata, review-code-for-learner]

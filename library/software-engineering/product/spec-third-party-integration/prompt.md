@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [integrations, data-sync, field-mapping, requirements]
 pairs_with:
   prompts: [list-feature-edge-cases, define-non-functional-requirements, spec-support-admin-tools]

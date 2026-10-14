@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [roadmap-hygiene, source-of-truth, confidence-labels, planning-rhythm, product-operations, audience-views]
 pairs_with:
   prompts: [build-outcome-roadmap, write-public-roadmap, write-roadmap-update, set-roadmap-change-rules]

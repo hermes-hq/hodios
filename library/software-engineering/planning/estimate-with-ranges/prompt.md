@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [estimation, three-point-estimate, pert, spikes, uncertainty]
 pairs_with:
   prompts: [break-down-epic, plan-spike]

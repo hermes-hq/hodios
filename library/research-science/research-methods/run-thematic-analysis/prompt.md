@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [qualitative, thematic-analysis, braun-and-clarke, qualitative-coding, interview-data]
 pairs_with:
   prompts: [build-qualitative-codebook, write-research-interview-protocol, write-discussion-section]

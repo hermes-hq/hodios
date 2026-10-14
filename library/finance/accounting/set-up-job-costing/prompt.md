@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-costing, project-profitability, overhead-rate, estimating]
 pairs_with:
   prompts: [calculate-product-margin, analyze-customer-profitability, set-up-chart-of-accounts]

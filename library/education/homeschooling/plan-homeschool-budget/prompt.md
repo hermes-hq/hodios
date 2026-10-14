@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [education-costs, curriculum-spending, free-resources, second-hand-materials, family-finances, exam-fees]
 pairs_with:
   prompts: [evaluate-homeschool-curriculum, plan-homeschool-year]

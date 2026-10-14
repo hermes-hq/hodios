@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [student-visa, study-plan, genuine-student, statement-of-purpose, ties-to-home]
 pairs_with:
   prompts: [practise-visa-interview, prepare-financial-evidence-for-visa, prepare-visa-application]

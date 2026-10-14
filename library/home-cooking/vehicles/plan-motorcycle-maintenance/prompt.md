@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [motorcycles, chain-care, pre-ride-check, scooters, service-schedule]
 pairs_with:
   prompts: [choose-first-motorcycle, plan-bike-maintenance, plan-car-maintenance]

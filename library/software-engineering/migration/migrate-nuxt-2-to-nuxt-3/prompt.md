@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [nitro, ssr, nuxt-modules, breaking-changes, end-of-life]
 pairs_with:
   prompts: [migrate-vue-2-to-vue-3, upgrade-major-dependency]

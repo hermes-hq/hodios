@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [agency-partnerships, white-label, overflow-work, cold-pitch, recurring-work]
 pairs_with:
   prompts: [build-freelance-pipeline-routine, write-freelance-profile, price-services]

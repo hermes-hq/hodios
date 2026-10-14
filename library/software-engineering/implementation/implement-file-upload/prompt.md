@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [file-upload, presigned-url, object-storage, malware-scanning, content-validation]
 pairs_with:
   personas: [backend-engineer, security-auditor]

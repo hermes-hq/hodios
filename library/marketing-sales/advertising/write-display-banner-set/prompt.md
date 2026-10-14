@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [display-banners, retargeting, iab-sizes, html5-banners, responsive-display, ad-frames]
 pairs_with:
   prompts: [write-social-ad-variations, check-ad-landing-message-match, plan-ad-creative-tests]

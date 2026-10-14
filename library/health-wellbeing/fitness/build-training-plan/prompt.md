@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [strength-training, running, progressive-overload, deload, periodization]
 pairs_with:
   prompts: [check-exercise-form, plan-nutrition-targets]

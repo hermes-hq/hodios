@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [teenagers, private-candidate, qualifications, university-entry, apprenticeship, pathway-planning]
 pairs_with:
   prompts: [write-homeschool-transcript, plan-private-candidate-exams, plan-homeschool-year]

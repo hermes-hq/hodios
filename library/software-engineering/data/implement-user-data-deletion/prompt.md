@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [right-to-erasure, data-map, anonymisation, privacy-engineering, audit-trail, account-deletion]
 pairs_with:
   prompts: [handle-data-subject-request, plan-data-archival, design-change-data-capture]

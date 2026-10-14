@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [preventive-care, annual-physical, health-screening, vaccinations, primary-care, wellness-visit]
 pairs_with:
   prompts: [prepare-doctor-questions, weigh-health-screening-invitation, build-medication-list, organize-family-medical-history]

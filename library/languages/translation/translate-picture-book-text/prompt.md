@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [childrens-books, read-aloud, rhyme, literary-translation]
 pairs_with:
   prompts: [translate-literary-passage, translate-singable-lyrics, translate-preserving-tone]

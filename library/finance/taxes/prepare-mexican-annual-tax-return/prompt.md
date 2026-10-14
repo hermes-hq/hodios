@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [declaracion-anual, sat, deducciones-personales, cfdi, mexico, saldo-a-favor]
 pairs_with:
   prompts: [issue-cfdi-invoice, organize-tax-documents, explain-tax-notice]

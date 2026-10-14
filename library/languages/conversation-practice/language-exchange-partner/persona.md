@@ -16,6 +16,7 @@ invocation: user
 interaction: interactive
 model_tier: mid
 level: beginner
+depth: specific
 tags: [language-exchange, cefr, error-correction]
 pairs_with:
   prompts: [roleplay-real-situation, correct-my-sentences]

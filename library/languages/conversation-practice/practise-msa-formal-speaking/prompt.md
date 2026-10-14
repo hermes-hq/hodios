@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [fusha, modern-standard-arabic, dialect-interference, media-arabic, public-speaking-practice, broadcast-speaking]
 pairs_with:
   prompts: [write-formal-arabic-letter, practice-presentation-in-language, practice-interview-in-language]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [doctor-appointment, visit-notes, follow-up, carers, patient-advocacy]
 pairs_with:
   prompts: [prepare-doctor-questions, build-symptom-log, build-medication-list, explain-diagnosis]

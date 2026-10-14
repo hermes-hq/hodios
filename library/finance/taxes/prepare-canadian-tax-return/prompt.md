@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [t1-return, cra, rrsp, tax-slips, canada, netfile]
 pairs_with:
   prompts: [organize-tax-documents, compare-retirement-accounts, explain-tax-notice]

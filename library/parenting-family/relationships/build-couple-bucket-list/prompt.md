@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [couples, shared-goals, life-goals, experiences, quality-time]
 pairs_with:
   prompts: [turn-bucket-list-into-plan, plan-date-night, plan-relationship-check-in]

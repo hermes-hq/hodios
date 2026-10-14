@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [discriminatory-questions, protected-characteristics, candidate-rights, redirect-technique]
 pairs_with:
   prompts: [debrief-interview, request-interview-adjustments, run-mock-interview]

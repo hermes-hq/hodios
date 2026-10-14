@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-costs, fuel-economy, save-money, car-insurance, depreciation, car-free]
 pairs_with:
   prompts: [compare-car-insurance, plan-car-maintenance, evaluate-switching-to-ev]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cash-flow-statement, indirect-method, working-capital, profit-vs-cash]
 pairs_with:
   prompts: [forecast-cash-flow, analyze-working-capital, prepare-financial-statements-from-trial-balance]

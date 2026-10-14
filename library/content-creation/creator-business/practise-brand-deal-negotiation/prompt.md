@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sponsorship, negotiation-practice, roleplay, usage-rights, exclusivity, rate-setting]
 pairs_with:
   prompts: [build-creator-rate-card, pitch-brand-sponsorship, review-sponsorship-contract]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [firestore, realtime-database, cloud-storage, authorization, emulator-tests]
 pairs_with:
   prompts: [write-firestore-security-rules, review-mobile-app-security, audit-tenant-isolation]

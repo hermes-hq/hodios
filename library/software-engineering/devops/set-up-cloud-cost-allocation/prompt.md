@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [finops, tagging-policy, budgets, cost-anomaly-alerts, showback]
 pairs_with:
   prompts: [reduce-cloud-spend, design-cloud-account-structure, write-policy-as-code]

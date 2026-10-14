@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [theme-park, queue-strategy, family-day-out, rides]
 pairs_with:
   prompts: [plan-family-trip, plan-accessible-trip]

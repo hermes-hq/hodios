@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [consistency-check, contradictions, cross-references, document-qa]
 pairs_with:
   prompts: [compare-documents, interrogate-a-document, extract-key-numbers]

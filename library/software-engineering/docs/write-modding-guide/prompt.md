@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [modding, scripting-api, load-order, mod-compatibility, game-mods]
 pairs_with:
   prompts: [write-code-tutorial, turn-game-design-into-tech-spec]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [session-zero, safety-tools, lines-and-veils, game-mastering, house-rules]
 pairs_with:
   prompts: [design-campaign-arc, build-rpg-character]

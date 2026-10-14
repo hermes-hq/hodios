@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [press-release, announcement, ap-style]
 pairs_with:
   prompts: [write-case-study, write-launch-announcement]

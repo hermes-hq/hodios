@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [disabled-entrepreneurs, long-term-illness, energy-pacing, flexible-work, benefits-interaction, contingency-plan]
 pairs_with:
   prompts: [prepare-disability-benefits-application, price-services, plan-side-business, start-freelance-business]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [phone-calls, phone-anxiety, appointments, confidence, everyday-tasks]
 pairs_with:
   prompts: [script-call-to-customer-service, practice-assertive-responses]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [concentration-risk, employer-stock, capital-gains, diversification, selling-plan]
 pairs_with:
   prompts: [explain-equity-compensation, check-portfolio-diversification, write-investment-decision-journal]

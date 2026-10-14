@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [revpar, adr, occupancy, hotel, channel-mix, booking-lead-time]
 pairs_with:
   prompts: [plan-hotel-room-rate-calendar, forecast-bookings-from-pickup, decompose-revenue-change]

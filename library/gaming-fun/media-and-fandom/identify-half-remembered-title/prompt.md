@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tip-of-my-tongue, find-a-title, memory-search, lost-media]
 pairs_with:
   prompts: [recommend-films-from-favorites, recommend-next-book]

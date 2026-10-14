@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reproducibility, open-data, open-code, preregistration, fair-data, replication]
 pairs_with:
   prompts: [review-statistical-methods, write-peer-review, check-manuscript-reporting, write-methods-section]

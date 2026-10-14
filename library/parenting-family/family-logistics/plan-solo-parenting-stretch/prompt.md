@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [solo-parenting, work-travel, clash-finding, backup-childcare, batch-cooking, household-routines]
 pairs_with:
   prompts: [prepare-child-for-parent-absence, coordinate-family-calendar, plan-sick-day-childcare-cover]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [documentary, interview-plan, b-roll, informed-consent, story-structure]
 pairs_with:
   prompts: [plan-video-shoot, create-paper-edit, write-guest-interview-questions]

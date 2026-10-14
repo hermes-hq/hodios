@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dbt-layers, model-lineage, audit-helper, data-modeling]
 pairs_with:
   prompts: [write-dbt-model, restructure-sql-query]

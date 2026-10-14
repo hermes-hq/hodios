@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [content-ideas, audience-questions, outlier-videos, packaging, search-vs-browse]
 pairs_with:
   prompts: [package-video-title-thumbnail, write-youtube-script, analyze-video-retention]

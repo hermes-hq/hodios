@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [equipment-purchase, business-case, total-cost-of-ownership, instrument-quotes, core-facility]
 pairs_with:
   prompts: [estimate-experiment-reagent-costs, set-up-equipment-booking-rules, plan-instrument-calibration-schedule]

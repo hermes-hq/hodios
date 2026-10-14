@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [patient-teaching, plain-language-health, teach-back, readability, nursing, discharge-advice]
 pairs_with:
   prompts: [write-sbar-handoff, explain-medication-leaflet]

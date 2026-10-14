@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [acceptance-sampling, quality-control, aql, oc-curve, incoming-inspection, lot-inspection]
 pairs_with:
   prompts: [build-control-chart, calculate-sample-size, calculate-measurement-uncertainty]

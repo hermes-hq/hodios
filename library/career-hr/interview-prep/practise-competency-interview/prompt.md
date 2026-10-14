@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [competency-interview, behaviour-indicators, civil-service, scoring-scale]
 pairs_with:
   prompts: [drill-star-answers, prepare-star-stories, prepare-assessment-center, run-mock-interview]

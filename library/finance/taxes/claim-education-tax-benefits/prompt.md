@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [american-opportunity-credit, lifetime-learning-credit, form-1098-t, student-loan-interest, tuition, united-states]
 pairs_with:
   prompts: [prepare-us-federal-tax-return, explain-tax-form, plan-education-savings]

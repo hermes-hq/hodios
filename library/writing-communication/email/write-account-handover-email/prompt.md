@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [account-handover, client-transition, account-management, continuity, warm-handoff]
 pairs_with:
   prompts: [write-handover-document, write-farewell-message, write-introduction-email]

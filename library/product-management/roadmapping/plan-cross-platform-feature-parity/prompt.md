@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-parity, multi-platform, parity-debt, platform-strategy, ios-android-web]
 pairs_with:
   prompts: [coordinate-cross-platform-feature-release, set-roadmap-investment-mix, critique-roadmap]

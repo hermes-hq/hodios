@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [true-crime, trauma-informed, safe-messaging, content-notes, defamation-risk, consent]
 pairs_with:
   prompts: [fact-check-episode-claims, create-podcast-edit-list]

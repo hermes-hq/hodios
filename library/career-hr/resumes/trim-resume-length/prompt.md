@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [condense, page-count, relevance-ranking]
 pairs_with:
   prompts: [review-resume, tailor-resume-to-job, update-outdated-resume]

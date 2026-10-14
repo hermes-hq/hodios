@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [genealogy, family-history, ancestry, diaspora, heritage-travel]
 pairs_with:
   prompts: [plan-itinerary, learn-destination-history, choose-accommodation]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [poetry-comparison, comparative-essay, anthology, close-reading, thesis, integrated-comparison]
 pairs_with:
   prompts: [practise-unseen-poem-analysis, analyze-poem, plan-essay-argument]

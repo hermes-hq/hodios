@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bootcamps, certificates, course-selection, career-switch, refund-terms]
 pairs_with:
   prompts: [finish-online-course, build-self-study-curriculum]

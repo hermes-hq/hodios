@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [composition, inheritance, class-hierarchy, delegation, object-oriented-design]
 pairs_with:
   prompts: [apply-design-pattern, add-characterization-tests]

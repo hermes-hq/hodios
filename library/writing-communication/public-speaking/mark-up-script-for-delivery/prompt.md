@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [vocal-delivery, pacing, emphasis, rehearsal, speech-markup]
 pairs_with:
   prompts: [write-speech, critique-speech-recording, write-speaker-notes]

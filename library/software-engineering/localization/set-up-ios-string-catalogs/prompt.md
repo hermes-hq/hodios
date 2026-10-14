@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [xcstrings, apple-platforms, plural-variations]
 pairs_with:
   prompts: [extract-ui-strings, write-translator-context-notes]

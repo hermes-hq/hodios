@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [dilekce, petition, official-letter, public-office, school-administration]
 pairs_with:
   prompts: [write-formal-letter, write-indonesian-formal-invitation]

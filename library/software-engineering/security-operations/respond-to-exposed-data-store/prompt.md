@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-exposure, public-bucket, open-database, access-logs, breach-assessment]
 pairs_with:
   prompts: [plan-data-breach-response, investigate-cloud-audit-logs, respond-to-leaked-secret, write-bug-bounty-report]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [home-security, burglary-prevention, locks, security-cameras, renter-friendly]
 pairs_with:
   prompts: [plan-smart-home, build-home-inventory, document-rental-move-in]

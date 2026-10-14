@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [rejection, follow-up, feedback-request, professional-relationships]
 pairs_with:
   prompts: [debrief-interview, write-networking-message, write-interview-thank-you]

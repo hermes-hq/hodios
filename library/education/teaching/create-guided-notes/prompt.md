@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [guided-notes, fill-in-notes, learning-support, student-handout]
 pairs_with:
   prompts: [create-graphic-organizer, convert-slides-to-handout, differentiate-lesson]

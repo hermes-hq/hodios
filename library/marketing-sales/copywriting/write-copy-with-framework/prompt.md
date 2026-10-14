@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [copy-formulas, aida, pas, awareness-levels, persuasion-structure]
 pairs_with:
   prompts: [write-headline-variations, translate-features-to-benefits, critique-marketing-copy, write-landing-page-copy]

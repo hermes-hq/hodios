@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [biaodian, de-di-de, cuobiezi, bingju, punctuation, grammar-rules]
 pairs_with:
   prompts: [proofread-other-language, write-workplace-wechat-message, diagnose-recurring-errors]

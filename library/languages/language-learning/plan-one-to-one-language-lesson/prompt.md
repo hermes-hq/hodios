@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lesson-plan, online-tutoring, communicative-teaching, task-based, error-correction, cefr]
 pairs_with:
   prompts: [design-language-class-activity, generate-language-drills, assess-language-level]

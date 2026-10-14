@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [scam-victim, bank-transfer-fraud, unauthorised-payment, reimbursement, financial-complaint]
 pairs_with:
   prompts: [dispute-card-charge, respond-to-identity-theft, complain-to-ombudsman, protect-relative-from-scams]

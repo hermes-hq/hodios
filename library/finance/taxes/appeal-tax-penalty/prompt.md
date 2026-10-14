@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tax-penalty, reasonable-excuse, appeal-letter, penalty-relief]
 pairs_with:
   prompts: [explain-tax-notice, set-up-tax-debt-payment-plan, fix-tax-return-mistake]

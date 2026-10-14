@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [beginner-lessons, now-next-later, outcomes-over-outputs, saying-no, accidental-product-owner]
 pairs_with:
   prompts: [build-outcome-roadmap, play-capacity-tradeoff-game, decline-feature-request]

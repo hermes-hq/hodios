@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [eczema, atopic-dermatitis, emollients, skin-care-routine, children]
 pairs_with:
   prompts: [explore-flare-triggers, set-up-medication-routine, plan-chronic-condition-self-management]

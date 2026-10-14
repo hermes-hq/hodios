@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [retrieval-practice, spaced-practice, interleaving, study-audit, two-week-trial]
 pairs_with:
   prompts: [analyze-exam-mistakes, check-study-technique-claim, create-study-plan]

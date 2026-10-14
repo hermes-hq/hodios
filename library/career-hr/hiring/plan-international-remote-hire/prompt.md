@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [international-hiring, employer-of-record, remote-work, cross-border-employment, worker-classification]
 pairs_with:
   prompts: [plan-first-hire, check-contractor-tax-status, write-offer-letter, plan-international-assignment]

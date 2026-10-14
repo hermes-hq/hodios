@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ap-exams, stimulus-based-questions, course-units, science-practices, historical-thinking, college-board]
 pairs_with:
   prompts: [practice-ap-free-response, analyze-exam-mistakes, plan-exam-day-strategy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shot-list, continuity, style-lock, storyboard]
 pairs_with:
   prompts: [create-storyboard, write-video-generation-prompt, fix-video-generation-drift]

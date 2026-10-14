@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fan-theories, canon, foreshadowing, evidence, creator-interviews]
 pairs_with:
   prompts: [explain-film-ending, plan-guided-rewatch, catch-up-on-series-spoiler-free]

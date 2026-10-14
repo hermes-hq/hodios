@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [outsourcing, vendor-management, acceptance-criteria, handback, contractors]
 pairs_with:
   prompts: [break-down-epic, write-definition-of-done, write-ownership-handover-doc]

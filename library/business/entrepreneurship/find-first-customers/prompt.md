@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [early-customers, prospect-list, customer-acquisition, founder-led-sales]
 pairs_with:
   prompts: [validate-business-idea, model-unit-economics]

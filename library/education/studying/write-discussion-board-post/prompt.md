@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [discussion-board, online-course, peer-replies, citations]
 pairs_with:
   prompts: [understand-assignment-brief, write-ai-use-disclosure, prepare-seminar-contribution]

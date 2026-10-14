@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [job-analysis, fit-gap, red-flags, ats]
 pairs_with:
   prompts: [tailor-resume-to-job, write-cover-letter, prepare-questions-for-interviewer]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [academic-dismissal, sap-appeal, financial-aid, readmission, academic-plan]
 pairs_with:
   prompts: [calculate-gpa-and-target, plan-courses-to-graduation, appeal-university-decision]

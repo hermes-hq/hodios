@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [playing-time, parent-communication, difficult-conversation, volunteer-coach, touchline-disputes]
 pairs_with:
   prompts: [plan-match-lineup, plan-team-season, tell-player-not-selected]

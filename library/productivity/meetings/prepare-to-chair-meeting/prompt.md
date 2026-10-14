@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chairperson, board-meeting, motions, quorum, rules-of-order]
 pairs_with:
   prompts: [write-formal-minutes, write-meeting-agenda, facilitate-tense-meeting]

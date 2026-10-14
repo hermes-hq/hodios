@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deadlines, triage, renegotiation, delegation, overload, stakeholder-messages]
 pairs_with:
   prompts: [prioritize-todo-list, work-backward-from-deadline, plan-my-week]

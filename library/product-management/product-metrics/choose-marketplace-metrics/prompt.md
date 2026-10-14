@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketplace, liquidity, two-sided, metric-definitions, supply-and-demand]
 pairs_with:
   prompts: [define-north-star-metric, write-tracking-plan, diagnose-metric-drop, explain-saas-metrics]

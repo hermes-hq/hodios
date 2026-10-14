@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [multiple-choice, elimination, confidence-rating, answer-changing, guessing-strategy, test-taking]
 pairs_with:
   prompts: [plan-exam-day-strategy, analyze-exam-mistakes, generate-practice-exam]

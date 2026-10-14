@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bonds, duration, yield, interest-rate-risk]
 pairs_with:
   prompts: [explain-fund-document, explain-investment-concept, compare-cash-vs-money-market-funds, explain-rebalancing]

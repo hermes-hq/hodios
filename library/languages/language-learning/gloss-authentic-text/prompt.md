@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [intensive-reading, authentic-materials, glossing, cultural-references, reading-comprehension]
 pairs_with:
   prompts: [explain-phrase-in-context, build-vocabulary-list, write-graded-reader]

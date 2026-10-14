@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [latin, ancient-greek, classics, parsing, morphology, syntax]
 pairs_with:
   prompts: [gloss-authentic-text, explain-grammar-point]

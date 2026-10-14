@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [review-meeting, rating-delivery, hard-conversations, appraisal, next-steps]
 pairs_with:
   prompts: [write-performance-review, set-goals-for-direct-report, handle-defensive-employee]

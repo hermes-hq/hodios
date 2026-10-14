@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [small-meetings, printed-deck, boardroom, discussion-document, page-turn]
 pairs_with:
   prompts: [convert-slides-to-handout, build-decision-request-deck, drill-presentation-qa]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [entry-sheet, shukatsu, new-graduate-hiring, japan, job-application]
 pairs_with:
   prompts: [practise-japanese-job-interview, write-rirekisho-and-shokumukeirekisho, research-company]

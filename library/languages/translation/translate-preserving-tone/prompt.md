@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [register, idioms, equivalent-effect]
 pairs_with:
   prompts: [review-translation, transcreate-marketing-copy]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependency-updates, semver, changelog, lockfile, renovate, dependabot]
 pairs_with:
   prompts: [audit-dependencies, review-pull-request]

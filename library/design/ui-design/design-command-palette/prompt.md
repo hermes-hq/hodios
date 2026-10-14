@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [command-palette, keyboard-shortcuts, power-users, quick-actions]
 pairs_with:
   prompts: [add-accessible-keyboard-shortcuts, design-search-experience, design-app-navigation, design-internal-tool-ui]

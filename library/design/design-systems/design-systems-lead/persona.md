@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [design-tokens, contribution-model, adoption-metrics, design-system-governance, system-as-product]
 pairs_with:
   prompts: [design-system-setup-track, define-design-tokens, write-component-spec, plan-design-system-governance, measure-design-system-adoption, audit-component-duplication]

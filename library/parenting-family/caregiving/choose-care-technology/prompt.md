@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [assistive-technology, personal-alarm, fall-detection, telecare, consent]
 pairs_with:
   prompts: [plan-aging-in-place-modifications, plan-long-distance-caregiving, set-up-medication-routine]

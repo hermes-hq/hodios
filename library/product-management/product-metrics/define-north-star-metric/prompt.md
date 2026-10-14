@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [north-star-metric, input-metrics, metric-tree, guardrail-metrics]
 pairs_with:
   prompts: [design-ab-test, diagnose-metric-drop, build-outcome-roadmap]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hyrox, obstacle-course-race, hybrid-training, compromised-running, functional-fitness]
 pairs_with:
   prompts: [plan-running-program, plan-race-day, design-interval-workout]

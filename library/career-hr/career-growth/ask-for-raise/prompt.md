@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [salary-negotiation, pay-raise, impact-evidence, compensation]
 pairs_with:
   prompts: [prepare-promotion-case, write-self-review, negotiate-job-offer]

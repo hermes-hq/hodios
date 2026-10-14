@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hint-ladder, spoiler-free, stuck, puzzle-boxes, escape-game-at-home]
 pairs_with:
   prompts: [explain-puzzle-answer, coach-cryptic-crossword, coach-sudoku-solving]

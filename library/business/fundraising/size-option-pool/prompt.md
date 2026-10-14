@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [option-pool, hiring-plan, equity-grants, dilution, cap-table]
 pairs_with:
   prompts: [model-round-dilution, plan-term-sheet-negotiation, explain-equity-compensation]

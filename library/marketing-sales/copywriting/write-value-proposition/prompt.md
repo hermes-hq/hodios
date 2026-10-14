@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [value-proposition, differentiation, swap-test, headline, proof]
 pairs_with:
   prompts: [map-value-proposition-canvas, write-positioning-statement, write-landing-page-copy, write-headline-variations, translate-features-to-benefits]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [abusive-customers, staff-safety, refusal-of-service, incident-report, de-escalation]
 pairs_with:
   prompts: [write-call-centre-script, roleplay-difficult-customer]

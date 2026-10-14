@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [franchise, due-diligence, franchisee-validation, red-flags, call-script]
 pairs_with:
   prompts: [evaluate-buying-a-business, evaluate-franchise-territory, plan-franchise-unit-opening]

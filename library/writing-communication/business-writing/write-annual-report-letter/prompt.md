@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-report, ceo-letter, chair-letter, shareholder-letter, impact-report, stakeholder-communication]
 pairs_with:
   prompts: [write-executive-summary, write-case-for-support, write-team-newsletter]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [how-to, step-by-step, tutorials, video-transcripts]
 pairs_with:
   prompts: [summarize-video-transcript, turn-voice-note-into-message, extract-references-and-resources]

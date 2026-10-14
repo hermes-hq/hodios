@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [value-of-information, stopping-rule, uncertainty, overthinking, due-diligence]
 pairs_with:
   prompts: [triage-a-decision, make-calibrated-forecast, build-decision-tree]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deprecation, end-of-life, migration-plan, customer-communication]
 pairs_with:
   prompts: [write-roadmap-update, write-launch-faq, close-feedback-loop]

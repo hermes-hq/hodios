@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-escalation, key-accounts, workaround, status-updates, root-cause, b2b]
 pairs_with:
   prompts: [prioritize-bug-backlog, write-bug-severity-policy]

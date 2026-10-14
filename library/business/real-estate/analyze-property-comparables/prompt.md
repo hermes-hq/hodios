@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [home-valuation, comparables, sales-comparison, adjustment-grid, house-prices]
 pairs_with:
   prompts: [check-analysis-for-pitfalls, run-what-if-analysis, write-listing-presentation]

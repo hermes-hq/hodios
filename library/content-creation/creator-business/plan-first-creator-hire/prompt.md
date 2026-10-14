@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [delegation, freelancers, time-audit, sops, paid-test, video-editor]
 pairs_with:
   prompts: [plan-first-hire, cost-out-content-plan, design-content-production-pipeline]

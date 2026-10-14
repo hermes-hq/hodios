@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [due-diligence, acquisition-review, investment-review, red-flags, retention-analysis]
 pairs_with:
   prompts: [assess-technical-due-diligence, assess-product-market-fit, screen-acquisition-targets, plan-product-integration-after-acquisition]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [speaker-brief, speaker-management, av-requirements, green-room, recording-consent]
 pairs_with:
   prompts: [run-call-for-speakers, write-run-of-show, invite-speaker]

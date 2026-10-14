@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [home-exercise-program, physiotherapy, rehabilitation, patient-handouts, exercise-adherence, allied-health]
 pairs_with:
   prompts: [write-therapy-goals, write-teach-back-script, write-patient-education-handout]

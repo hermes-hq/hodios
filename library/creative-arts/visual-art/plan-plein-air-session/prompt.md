@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [plein-air, urban-sketching, landscape-painting, art-practice, painting-outdoors]
 pairs_with:
   prompts: [choose-art-supplies, plan-composition-thumbnails, plan-painting-step-by-step]

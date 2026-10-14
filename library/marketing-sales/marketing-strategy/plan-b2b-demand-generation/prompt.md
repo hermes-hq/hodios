@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [demand-generation, b2b-marketing, pipeline-targets, lead-handling, always-on]
 pairs_with:
   prompts: [build-reverse-funnel-model, build-lead-scoring-model, write-marketing-sales-sla, choose-marketing-channels]

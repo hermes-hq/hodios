@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [facilitation, parking-lot, timeboxing, refocusing, chairing]
 pairs_with:
   prompts: [cut-agenda-to-fit-time, facilitate-tense-meeting, practise-chairing-meeting]

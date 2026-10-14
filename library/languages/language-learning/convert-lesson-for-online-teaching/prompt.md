@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [online-teaching, breakout-rooms, video-call, live-lessons, interaction-patterns]
 pairs_with:
   prompts: [plan-one-to-one-language-lesson, plan-task-based-language-lesson]

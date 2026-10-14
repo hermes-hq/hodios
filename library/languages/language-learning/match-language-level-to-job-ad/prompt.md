@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cefr, language-requirements, self-assessment, job-applications, gap-analysis, honest-cv]
 pairs_with:
   prompts: [assess-language-level, learn-language-for-work-role, practice-interview-in-language, plan-language-exam-prep]

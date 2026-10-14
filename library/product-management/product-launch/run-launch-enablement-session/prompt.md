@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [enablement, sales-training, objection-handling, certification]
 pairs_with:
   prompts: [write-sales-enablement-brief, prepare-product-demo, handle-sales-objections, plan-launch-support-readiness]

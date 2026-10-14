@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [backend-for-frontend, api-gateway, aggregation, mobile-backend, client-specific-api]
 pairs_with:
   personas: [api-designer, software-architect]

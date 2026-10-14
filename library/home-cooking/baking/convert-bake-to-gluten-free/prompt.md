@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gluten-free, coeliac, flour-blends, xanthan-gum, allergen-free]
 pairs_with:
   prompts: [convert-baking-recipe-to-grams, tune-cookie-texture, plan-celebration-cake]

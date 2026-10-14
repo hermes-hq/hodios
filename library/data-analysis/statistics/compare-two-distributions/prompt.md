@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [distribution-comparison, quantiles, kolmogorov-smirnov, anderson-darling, shift-function, tail-latency]
 pairs_with:
   prompts: [visualize-distribution, bootstrap-confidence-interval, run-two-group-comparison]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [application-status, recruiter-follow-up, competing-offer, job-hunt, interview-follow-up]
 pairs_with:
   prompts: [write-interview-thank-you, respond-to-job-rejection, evaluate-job-offer]

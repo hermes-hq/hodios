@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stand-up, open-mic, stage-fright, rehearsal, first-gig]
 pairs_with:
   prompts: [structure-stand-up-set, write-comedy-bit]

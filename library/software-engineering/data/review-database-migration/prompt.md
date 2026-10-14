@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [schema-migrations, table-locks, ddl, expand-contract, rollback]
 pairs_with:
   prompts: [plan-zero-downtime-schema-change, review-database-indexes]

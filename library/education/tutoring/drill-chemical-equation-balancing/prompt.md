@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [balancing-equations, stoichiometry, atom-tally, half-equations, ionic-equations, state-symbols]
 pairs_with:
   prompts: [hint-through-problem, practise-dimensional-analysis]

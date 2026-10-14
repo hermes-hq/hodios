@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [solo-mode, automa, board-games, bot-opponent]
 pairs_with:
   prompts: [design-board-game, write-board-game-rulebook]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [checklists, standard-operating-procedure, recurring-tasks, error-prevention, routines]
 pairs_with:
   prompts: [build-team-wiki-structure, write-project-plan, run-weekly-review]

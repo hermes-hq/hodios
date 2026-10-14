@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [intrusive-thoughts, ocd-awareness, cognitive-defusion, anxiety-skills, unwanted-thoughts]
 pairs_with:
   prompts: [cope-with-health-anxiety, reframe-negative-thoughts, check-in-on-new-parent-wellbeing, talk-to-doctor-about-mental-health]

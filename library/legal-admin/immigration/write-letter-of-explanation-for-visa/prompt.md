@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [letter-of-explanation, visa-cover-note, unexplained-deposit, employment-gap, previous-refusal]
 pairs_with:
   prompts: [prepare-financial-evidence-for-visa, write-visa-application-cover-letter, respond-to-visa-refusal]

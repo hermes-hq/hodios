@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [crashloopbackoff, oomkilled, imagepullbackoff, pending-pods, probes, pod-events]
 pairs_with:
   prompts: [write-kubernetes-manifests, write-helm-chart, fix-docker-build-failure, explain-stack-trace]

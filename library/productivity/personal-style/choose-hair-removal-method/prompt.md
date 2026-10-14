@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hair-removal, waxing, laser-hair-removal, electrolysis, ingrown-hairs, sensitive-skin]
 pairs_with:
   prompts: [plan-beard-and-shaving-care, build-skincare-routine]

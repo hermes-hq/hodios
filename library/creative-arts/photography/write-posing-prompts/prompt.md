@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [posing, portrait-direction, couple-photography, family-portraits, candid-portraits]
 pairs_with:
   prompts: [plan-portrait-shoot, write-session-prep-guide, plan-newborn-photo-session]

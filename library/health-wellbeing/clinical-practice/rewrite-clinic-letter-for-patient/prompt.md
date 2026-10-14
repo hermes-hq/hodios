@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [writing-to-patients, clinic-letters, plain-language-health, readability, outpatients, clinical-correspondence]
 pairs_with:
   prompts: [write-referral-letter, write-teach-back-script, write-patient-education-handout, explain-clinical-notes]

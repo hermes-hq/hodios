@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [estimation, sense-checking, orders-of-magnitude, fermi-problems, number-sense, game]
 pairs_with:
   prompts: [practice-mental-math, find-planted-errors]

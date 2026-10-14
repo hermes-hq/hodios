@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-store-optimization, aso, google-play, screenshot-captions, release-notes]
 pairs_with:
   prompts: [research-keywords, write-headline-variations]

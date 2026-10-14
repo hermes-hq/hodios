@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [incident-reports, near-misses, trend-analysis, safety, recurring-issues]
 pairs_with:
   prompts: [extract-recommendations-from-report, build-timeline-from-documents, extract-key-numbers]

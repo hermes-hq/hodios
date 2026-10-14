@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [slow-cooker, set-and-forget, workday-dinners, night-before-prep, cheap-cuts, crockpot]
 pairs_with:
   prompts: [plan-weekly-meals, convert-recipe-for-appliance, plan-freezer-meals]

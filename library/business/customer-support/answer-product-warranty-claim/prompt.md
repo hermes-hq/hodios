@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [warranty-claim, faulty-goods, repair-or-replace, consumer-rights, product-returns]
 pairs_with:
   prompts: [write-refund-policy, write-support-reply, resolve-invoice-dispute]

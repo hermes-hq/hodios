@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-report, company-filings, risk-factors, audit-opinion, accounting-red-flags]
 pairs_with:
   prompts: [read-company-financials, summarize-earnings-call, research-company-stock]

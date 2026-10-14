@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iot, mqtt, device-provisioning, telemetry, device-shadow, fleet-management]
 pairs_with:
   personas: [software-architect, embedded-engineer]

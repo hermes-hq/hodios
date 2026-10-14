@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [frost-protection, overwintering, tender-plants, horticultural-fleece, winter-garden, frost-dates]
 pairs_with:
   prompts: [build-garden-calendar, plan-container-garden, plan-greenhouse-year, diagnose-plant-problem]

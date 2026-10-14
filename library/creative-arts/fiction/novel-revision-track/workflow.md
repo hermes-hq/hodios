@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [manuscript-revision, developmental-edit, line-edit, beta-readers, editorial-letter]
 pairs_with:
   prompts: [critique-fiction-draft, check-story-continuity, revise-show-dont-tell, punch-up-dialogue]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [sqlalchemy, orm, transactions, breaking-changes]
 pairs_with:
   prompts: [switch-orm-or-query-layer, write-sqlalchemy-models, upgrade-major-dependency]

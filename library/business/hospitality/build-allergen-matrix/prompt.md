@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [allergens, allergen-matrix, cross-contact, food-labelling, restaurant, bakery, cafe]
 pairs_with:
   prompts: [prepare-for-food-safety-inspection, write-sop, engineer-restaurant-menu, write-menu-descriptions]

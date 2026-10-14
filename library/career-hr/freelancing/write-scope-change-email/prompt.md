@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [scope-creep, change-request, client-management, agency]
 pairs_with:
   prompts: [write-negotiation-email, decline-request-gracefully, write-project-proposal]

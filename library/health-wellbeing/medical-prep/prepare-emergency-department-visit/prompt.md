@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [emergency-room, urgent-care, triage, patient-advocacy, hospital-visit]
 pairs_with:
   prompts: [choose-right-care-service, prepare-emergency-medical-summary, build-medication-list, practise-describing-symptoms]

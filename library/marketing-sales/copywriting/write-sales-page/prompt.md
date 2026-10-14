@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-page, direct-response, customer-language, offer-design, conversion]
 pairs_with:
   prompts: [write-landing-page-copy, write-headline-variations, critique-marketing-copy, request-customer-testimonials]

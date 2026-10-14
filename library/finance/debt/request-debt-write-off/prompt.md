@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [debt-write-off, vulnerability, hardship, creditor-letters]
 pairs_with:
   prompts: [negotiate-with-creditor, compare-debt-relief-options, prepare-for-debt-advice-appointment, build-tight-budget]

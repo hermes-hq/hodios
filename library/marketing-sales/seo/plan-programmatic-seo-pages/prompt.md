@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [programmatic-seo, page-templates, thin-content, indexing, scaled-content]
 pairs_with:
   prompts: [research-keywords, build-internal-linking-plan, audit-technical-seo]

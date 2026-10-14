@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stakeholder-review, red-team, objections, audience-perspective, pre-read]
 pairs_with:
   prompts: [drill-presentation-qa, plan-backup-slides, critique-slide-deck, pre-wire-stakeholders-before-presentation]

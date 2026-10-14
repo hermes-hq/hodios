@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [volunteer-travel, voluntourism, responsible-travel, safeguarding, gap-year]
 pairs_with:
   prompts: [choose-destination, check-travel-requirements, plan-solo-trip]

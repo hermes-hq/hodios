@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [warehouse-slotting, pick-path, abc-analysis, stockroom-layout, order-picking, pick-faces]
 pairs_with:
   prompts: [plan-inventory, plan-order-fulfilment, run-5s-organisation]

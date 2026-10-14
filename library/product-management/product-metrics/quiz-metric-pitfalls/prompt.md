@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quiz-game, simpsons-paradox, survivorship-bias, vanity-metrics, novelty-effect, data-literacy]
 pairs_with:
   prompts: [explain-nps-change, diagnose-metric-drop, check-kpi-for-perverse-incentives]

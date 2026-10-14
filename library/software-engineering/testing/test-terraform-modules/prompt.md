@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [infrastructure-as-code, terraform-test, plan-assertions, mock-providers, variable-validation]
 pairs_with:
   prompts: [write-terraform-module, write-github-actions-workflow]

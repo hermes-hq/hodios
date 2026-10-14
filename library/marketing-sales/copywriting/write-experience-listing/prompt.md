@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tours-and-activities, experience-marketplace, listing-copy, tourism, tour-operator]
 subject: [hospitality]
 pairs_with:

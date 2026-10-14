@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chaos-engineering, resilience-testing, failure-injection, incident-response]
 pairs_with:
   prompts: [write-runbook, define-slos, plan-disaster-recovery, write-postmortem]

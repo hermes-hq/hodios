@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [narrative-audio, documentary, story-structure, tape-list, scene-writing]
 pairs_with:
   prompts: [write-documentary-outline, create-podcast-edit-list, plan-podcast-season]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [offline-first, sync-status, conflicts, connectivity, stale-data]
 pairs_with:
   prompts: [implement-offline-sync, design-empty-and-error-states, design-two-way-data-sync, write-ux-microcopy]

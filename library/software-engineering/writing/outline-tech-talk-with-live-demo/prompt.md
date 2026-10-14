@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [live-coding, conference-talk, meetup, demo-script, demo-fallback]
 pairs_with:
   prompts: [write-conference-talk-proposal, drill-presentation-qa]

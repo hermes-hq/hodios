@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [talent-management, agency-contract, commission, representation, due-diligence]
 pairs_with:
   prompts: [plan-first-creator-hire, review-sponsorship-contract, evaluate-platform-exclusive-deal]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [pub-quiz, quiz-night, tie-breaker, host-notes]
 args:
   - name: theme

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [self-compassion, self-criticism, emotions, kind-letter, reflection]
 pairs_with:
   prompts: [reframe-negative-thoughts, guided-journaling, process-grief]

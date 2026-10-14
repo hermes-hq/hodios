@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cleaning-business, re-clean, quality-guarantee, staff-feedback, job-checklist]
 pairs_with:
   prompts: [build-commercial-cleaning-rota, write-job-completion-report, write-support-reply]

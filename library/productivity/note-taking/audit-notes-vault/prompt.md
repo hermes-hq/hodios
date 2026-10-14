@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vault-cleanup, orphan-notes, duplicates, archiving, digital-declutter]
 pairs_with:
   prompts: [merge-overlapping-notes, design-note-tagging-scheme, suggest-links-between-notes]

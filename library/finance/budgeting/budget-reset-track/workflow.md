@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [money-reset, spending-audit, budget-setup, monthly-review]
 pairs_with:
   prompts: [categorize-expenses, build-monthly-budget, set-up-money-accounts-system, review-budget-vs-actual, fix-failing-budget]

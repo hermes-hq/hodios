@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [overselling, stock-sync, multichannel, stock-buffers, inventory-allocation, order-routing]
 pairs_with:
   prompts: [plan-inventory, design-sku-and-variant-structure, plan-order-fulfilment]

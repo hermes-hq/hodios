@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hanzi, kanji, radicals, mnemonics, stroke-order, hsk, jlpt]
 pairs_with:
   prompts: [learn-writing-system, build-vocabulary-list, mine-sentences-for-flashcards]

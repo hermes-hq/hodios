@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sign-in, sign-up, passkeys, two-factor, password-reset, account-recovery]
 pairs_with:
   prompts: [spec-sign-in-and-session-rules, implement-passkey-login, design-form-experience, write-ux-microcopy, design-onboarding-flow]

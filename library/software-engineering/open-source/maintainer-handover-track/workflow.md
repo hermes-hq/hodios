@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [succession, maintainer-transfer, access-control, project-handover, community-health]
 pairs_with:
   prompts: [promote-contributor-to-maintainer, retire-open-source-project, write-project-governance]

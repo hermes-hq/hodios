@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bootstrap, permutation-test, resampling, bca-interval, cluster-bootstrap, nonparametric]
 pairs_with:
   prompts: [write-python-stats-analysis, analyze-small-sample-data, compare-two-distributions]

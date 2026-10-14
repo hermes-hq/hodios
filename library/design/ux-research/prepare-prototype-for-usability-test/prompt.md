@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prototype-testing, test-readiness, pilot-session, clickable-prototype, session-prep]
 pairs_with:
   prompts: [write-usability-test-plan, plan-mobile-usability-test, brief-usability-test-observers]

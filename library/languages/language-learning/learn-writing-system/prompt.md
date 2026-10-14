@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [alphabet, script, mnemonics, spaced-repetition, hiragana, hangul, cyrillic]
 pairs_with:
   prompts: [coach-pronunciation, build-vocabulary-list, learn-survival-phrases]

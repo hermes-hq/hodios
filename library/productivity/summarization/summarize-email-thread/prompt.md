@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [email-thread, catch-up, follow-up, commitments]
 pairs_with:
   prompts: [summarize-meeting-transcript, summarize-long-document]

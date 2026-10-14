@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [database-cpu, query-plans, pg-stat-statements, plan-regression, mitigation-first]
 pairs_with:
   prompts: [investigate-latency-spike, find-worst-queries-in-workload, optimize-sql-query, handle-database-connection-exhaustion, write-incident-update]

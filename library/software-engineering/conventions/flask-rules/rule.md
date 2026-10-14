@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [app-factory, blueprints, sqlalchemy, csrf, wsgi]
 applies_to: ["**/*.py", "**/templates/**/*.html"]
 pairs_with:

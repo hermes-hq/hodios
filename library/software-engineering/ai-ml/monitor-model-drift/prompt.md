@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [model-monitoring, data-drift, population-stability-index, alerting]
 pairs_with:
   prompts: [write-model-retraining-pipeline, shadow-test-new-model]

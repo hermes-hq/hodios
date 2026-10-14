@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mathematical-notation, symbols, summation, set-builder, subscripts, reading-maths]
 pairs_with:
   prompts: [explain-worked-solution, read-textbook-actively]

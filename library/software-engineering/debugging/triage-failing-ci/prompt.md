@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [continuous-integration, build-failure, flaky-tests]
 pairs_with:
   personas: [debugger]

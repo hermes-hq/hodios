@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [freemium, trial-conversion, upgrade-triggers, paywall, product-led-growth, cohort-conversion]
 pairs_with:
   prompts: [define-activation-metric, analyze-conversion-funnel, design-ab-test, explain-saas-metrics]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [class-reunion, school-reunion, alumni, ticket-pricing, rsvp-tracking, organising-committee]
 pairs_with:
   prompts: [price-event-tickets, manage-event-rsvps, compare-event-venues, write-run-of-show]

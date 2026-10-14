@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [slow-computer, startup-programs, disk-space, malware-check, laptop-upgrade]
 pairs_with:
   prompts: [free-up-storage, choose-computer-specs, explain-error-message]

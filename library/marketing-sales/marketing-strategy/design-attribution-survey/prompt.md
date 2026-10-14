@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [self-reported-attribution, how-did-you-hear, intake-form, marketing-measurement, tally-sheet]
 pairs_with:
   prompts: [choose-marketing-channels, measure-brand-awareness, plan-local-advertising, plan-weekly-promotion-routine]

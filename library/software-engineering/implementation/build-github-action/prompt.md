@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [custom-action, action-yml, composite-action, script-injection, versioning]
 args:
   - name: action_job

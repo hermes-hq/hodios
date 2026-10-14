@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [menstrual-cycle, period, womens-health, symptom-tracking, energy-availability]
 pairs_with:
   prompts: [build-symptom-log, prepare-doctor-questions, track-fitness-progress]

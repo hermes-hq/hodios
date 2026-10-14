@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-level-agreement, sla, outsourcing, performance-targets, service-credits, vendor-management]
 pairs_with:
   prompts: [write-rfp, compare-vendors, build-supplier-scorecard, write-supplier-onboarding-pack]

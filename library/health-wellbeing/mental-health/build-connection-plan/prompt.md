@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [loneliness, social-connection, making-friends, reaching-out, belonging]
 pairs_with:
   prompts: [build-coping-plan, navigate-life-transition, practice-self-compassion]

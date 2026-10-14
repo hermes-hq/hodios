@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [puns, wordplay, pun-battle, groaners, word-games-for-two]
 pairs_with:
   prompts: [write-puns, play-improv-scene-partner]

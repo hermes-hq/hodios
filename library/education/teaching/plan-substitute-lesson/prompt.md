@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [substitute-teacher, cover-lesson, sub-plans, classroom-routines]
 pairs_with:
   prompts: [write-lesson-plan, design-classroom-activity, design-classroom-management-plan]

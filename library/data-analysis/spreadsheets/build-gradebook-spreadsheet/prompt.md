@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gradebook, weighted-grades, drop-lowest, late-penalty, letter-grades]
 pairs_with:
   prompts: [write-spreadsheet-formula, set-up-data-validation]

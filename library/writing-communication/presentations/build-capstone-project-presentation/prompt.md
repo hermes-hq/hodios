@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [final-year-project, live-demo, marking-rubric, judges-questions, team-project]
 pairs_with:
   prompts: [build-thesis-defence-slides, plan-backup-slides, drill-presentation-qa, plan-group-class-presentation]

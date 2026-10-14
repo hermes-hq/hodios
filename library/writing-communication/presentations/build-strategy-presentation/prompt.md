@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [strategy-communication, trade-offs, storyline, executive-audience, priorities]
 pairs_with:
   prompts: [outline-presentation, drill-presentation-qa, write-speaker-notes, write-product-strategy]

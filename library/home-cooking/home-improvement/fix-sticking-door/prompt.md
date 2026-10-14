@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [doors, sticking-door, door-latch, hinges, planing, seasonal-swelling]
 pairs_with:
   prompts: [diagnose-home-problem, assess-wall-cracks]

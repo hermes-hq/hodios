@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [illegal-eviction, harassment, lockout, tenant-rights, urgent-help]
 pairs_with:
   prompts: [respond-to-eviction-notice, object-to-landlord-entry, keep-repair-evidence-log]

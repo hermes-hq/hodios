@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [localisation, multilingual-audience, dubbing, voice-cloning-consent, separate-feeds]
 pairs_with:
   prompts: [adapt-script-for-dubbing, publish-accessible-episode-transcript, plan-podcast-growth]

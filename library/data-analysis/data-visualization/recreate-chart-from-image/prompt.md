@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chart-digitising, matplotlib, data-extraction, chart-redesign]
 pairs_with:
   prompts: [extract-data-from-figures, critique-chart, write-plotting-code]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [command-line, terminal, no-color, spinners, screen-reader, interactive-prompts]
 pairs_with:
   personas: [accessibility-specialist]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [incident-severity, escalation, notification, security-governance, response-targets]
 pairs_with:
   prompts: [write-ir-playbook, write-incident-response-plan, plan-security-tabletop, plan-data-breach-response]

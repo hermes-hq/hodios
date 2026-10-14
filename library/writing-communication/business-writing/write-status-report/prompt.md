@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rag-status, project-update, stakeholder-communication]
 pairs_with:
   prompts: [write-executive-summary, write-internal-announcement]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [board-paper, governance, board-resolution, cover-sheet, directors]
 pairs_with:
   prompts: [prepare-board-meeting, write-trustee-board-report, write-decision-memo, write-executive-summary]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-carer, unpaid-care, carer-benefits, pension-gaps, reduced-hours]
 pairs_with:
   prompts: [manage-parent-finances, plan-long-term-care-costs, plan-switch-to-part-time-finances, propose-flexible-work]

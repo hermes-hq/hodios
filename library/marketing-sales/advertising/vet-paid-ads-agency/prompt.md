@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [agency-selection, account-ownership, fee-models, proposal-scoring, red-flags, freelancer-hiring]
 pairs_with:
   prompts: [question-agency-ad-report, plan-ad-conversion-tracking, plan-media-budget]

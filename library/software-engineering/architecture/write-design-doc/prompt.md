@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [rfc, design-doc, trade-offs, rollout, proposal]
 pairs_with:
   personas: [software-architect]

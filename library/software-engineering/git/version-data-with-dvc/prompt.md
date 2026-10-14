@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dvc, data-versioning, reproducibility, model-artifacts, remote-storage]
 pairs_with:
   prompts: [set-up-git-lfs, write-gitignore-file, speed-up-large-repo]

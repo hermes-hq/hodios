@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hiit, intervals, cardio, treadmill, rowing, indoor-cycling]
 pairs_with:
   prompts: [calculate-heart-rate-zones, plan-running-program, plan-exercise-for-fat-loss]

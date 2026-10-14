@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [uv, lockfile, dependency-management, python-tooling]
 pairs_with:
   prompts: [modernize-python-packaging, migrate-python-linting-to-ruff]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-reconciliation, metric-definitions, tracking, data-quality]
 pairs_with:
   prompts: [define-metric, reconcile-datasets, build-metrics-glossary]

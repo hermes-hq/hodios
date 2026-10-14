@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recipe-video, overhead-shots, mise-en-place, hero-shot, vertical-video]
 pairs_with:
   prompts: [write-short-form-script, write-tutorial-video-script, plan-video-shoot]

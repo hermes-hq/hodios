@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: intermediate
+depth: specific
 tags: [clinical-laboratory, pathology, sample-rejection, specimen-labelling, biomedical-science, pre-analytical-errors]
 pairs_with:
   prompts: [write-patient-safety-incident-report, write-clinical-skills-checklist]

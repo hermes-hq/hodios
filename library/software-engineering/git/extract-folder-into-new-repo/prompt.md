@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [filter-repo, monorepo-split, preserve-history, repo-migration]
 pairs_with:
   prompts: [purge-file-from-git-history, write-codeowners-file]

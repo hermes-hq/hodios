@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [campaign-brief, creative-brief, agency-brief, single-minded-proposition, consumer-insight]
 pairs_with:
   prompts: [plan-marketing-campaign, write-messaging-framework, write-creator-brief, build-annual-marketing-calendar]

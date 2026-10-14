@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [coding-agents, production-access, least-privilege, data-masking, incident-debugging]
 pairs_with:
   prompts: [audit-agent-permissions, choose-mcp-servers-for-project, design-agent-sandbox]

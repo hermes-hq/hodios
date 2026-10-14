@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [owner-drawings, mixed-accounts, sole-trader, transaction-coding]
 pairs_with:
   prompts: [set-up-simple-bookkeeping, set-up-chart-of-accounts, reconcile-bank-account, prepare-for-accountant-meeting]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [home-office, business-expenses, deductions, working-from-home]
 pairs_with:
   prompts: [track-business-expenses, claim-employee-tax-deductions, plan-freelance-tax-set-aside]

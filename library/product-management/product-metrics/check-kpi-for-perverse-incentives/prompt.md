@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [goodharts-law, metric-gaming, counter-metrics, target-setting, unintended-consequences, incentive-design]
 pairs_with:
   prompts: [define-guardrail-metrics, set-metric-targets-from-baseline, define-public-service-kpis]

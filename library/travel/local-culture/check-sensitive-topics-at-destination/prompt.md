@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sensitive-topics, conversation, place-names, cross-cultural]
 pairs_with:
   prompts: [learn-destination-history, learn-local-etiquette, explain-cultural-misunderstanding]

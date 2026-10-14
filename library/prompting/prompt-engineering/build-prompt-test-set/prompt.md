@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [evals, golden-set, edge-cases, regression-check, prompt-design]
 pairs_with:
   prompts: [write-judge-prompt, improve-prompt, diagnose-prompt-failures, red-team-prompt, write-llm-eval-suite]

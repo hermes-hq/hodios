@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sms-marketing, whatsapp, text-messages, opt-out, consent]
 pairs_with:
   prompts: [write-promo-email, write-abandoned-cart-emails, write-post-purchase-emails]

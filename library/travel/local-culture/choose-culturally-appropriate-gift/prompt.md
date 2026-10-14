@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gift-giving, hosts, taboos, presents]
 pairs_with:
   prompts: [prepare-for-dinner-at-local-home, prepare-for-homestay, learn-business-etiquette-abroad]

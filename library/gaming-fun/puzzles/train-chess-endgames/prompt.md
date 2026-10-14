@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chess, chess-endgames, opposition, lucena, philidor, chess-improvement]
 pairs_with:
   prompts: [analyze-chess-game, build-chess-opening-repertoire]

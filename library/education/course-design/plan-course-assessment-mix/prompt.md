@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [assessment-strategy, constructive-alignment, authentic-assessment, assessment-load, marking-workload, feedback-timing]
 pairs_with:
   prompts: [design-course-outline, write-learning-objectives, create-rubric, write-module-descriptor]

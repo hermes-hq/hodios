@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lessons-learned, project-review, blameless, slide-outline, continuous-improvement]
 pairs_with:
   prompts: [write-project-retrospective-writeup, run-retrospective, outline-presentation, write-speaker-notes]

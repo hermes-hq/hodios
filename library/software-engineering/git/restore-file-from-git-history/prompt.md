@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [restore-file, deleted-file, old-version, pickaxe-search]
 pairs_with:
   prompts: [choose-git-undo-command, recover-lost-git-work, investigate-code-history]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bundle-size, code-splitting, tree-shaking, web-vitals]
 args:
   - name: target

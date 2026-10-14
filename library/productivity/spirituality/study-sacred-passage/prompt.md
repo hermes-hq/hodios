@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scripture, close-reading, exegesis, bible-study, sacred-texts, group-study]
 pairs_with:
   prompts: [plan-scripture-study, prepare-sermon-or-homily, write-devotional-reflection]

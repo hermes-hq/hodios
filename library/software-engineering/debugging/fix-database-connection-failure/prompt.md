@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [database-connectivity, connection-string, tls, networking, credentials]
 pairs_with:
   prompts: [tune-connection-pool, fix-docker-container-networking]

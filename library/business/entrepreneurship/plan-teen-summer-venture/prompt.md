@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [teen-business, summer-job, young-entrepreneurs, safety-rules, pricing-basics, flyer]
 pairs_with:
   prompts: [test-local-service-demand, play-corner-shop-first-year]

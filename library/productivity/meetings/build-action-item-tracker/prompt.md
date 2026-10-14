@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [action-items, action-log, tracking, follow-up]
 pairs_with:
   prompts: [chase-overdue-action-items, summarize-meeting-transcript, write-formal-minutes]

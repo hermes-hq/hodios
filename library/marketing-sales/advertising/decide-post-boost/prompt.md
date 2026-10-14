@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [boosted-posts, local-radius, first-ad-spend, small-budget, social-promotion]
 pairs_with:
   prompts: [plan-local-advertising, write-social-ad-variations, target-slow-day-ads]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [remote-facilitation, online-whiteboard, breakout-rooms, workshop-design, distributed-teams]
 pairs_with:
   prompts: [run-hybrid-meeting, write-workshop-report, design-workshop]

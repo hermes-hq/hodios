@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [driver-tree, metric-design, variance-analysis, business-reviews]
 pairs_with:
   prompts: [analyze-ab-test-results, run-what-if-analysis]

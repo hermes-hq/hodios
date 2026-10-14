@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [agent-actions, tool-descriptions, no-code-agents, human-confirmation, agent-instructions]
 pairs_with:
   prompts: [write-system-prompt, harden-prompt-against-injection, write-custom-gpt-instructions]

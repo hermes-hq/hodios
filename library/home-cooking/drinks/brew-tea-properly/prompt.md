@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tea, loose-leaf-tea, gongfu, matcha, steeping, water-temperature]
 pairs_with:
   prompts: [dial-in-espresso, pair-wine-with-food]

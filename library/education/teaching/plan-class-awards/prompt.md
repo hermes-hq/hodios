@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [student-recognition, end-of-year, certificates, classroom-celebration]
 pairs_with:
   prompts: [plan-last-week-of-school, write-report-card-comments, write-classroom-newsletter]

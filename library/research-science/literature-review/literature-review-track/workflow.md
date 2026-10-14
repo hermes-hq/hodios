@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [search-strategy, screening, prisma, synthesis]
 pairs_with:
   prompts: [build-literature-matrix, find-research-gaps, write-literature-review-section]

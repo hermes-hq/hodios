@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [personal-branding, freelancers, creators, visual-identity, brand-positioning, brand-voice]
 pairs_with:
   prompts: [plan-linkedin-personal-brand, write-freelance-profile, design-business-card, design-logo-concepts]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [system-prompt-design, custom-assistant, guardrail-design, test-questions]
 pairs_with:
   personas: [prompt-engineer]

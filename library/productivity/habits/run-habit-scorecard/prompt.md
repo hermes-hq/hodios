@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [habit-awareness, behaviour-change, self-reflection, daily-audit]
 pairs_with:
   prompts: [design-habit-plan, break-bad-habit, run-energy-audit]

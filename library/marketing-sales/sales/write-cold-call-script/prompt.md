@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cold-calling, call-script, brush-offs, meeting-booking, voicemail]
 pairs_with:
   prompts: [write-outbound-sequence, handle-sales-objections, prepare-discovery-call]

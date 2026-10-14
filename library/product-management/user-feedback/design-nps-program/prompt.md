@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [net-promoter-score, customer-satisfaction, customer-effort-score, closed-loop, survey-fatigue, cx-program]
 pairs_with:
   prompts: [explain-nps-change, design-in-product-survey, write-csat-survey, close-feedback-loop]

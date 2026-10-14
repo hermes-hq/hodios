@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [nonprofit]
 tags: [service-closure, exit-strategy, handover, client-transition, organisational-learning]
 pairs_with:

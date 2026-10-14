@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [promotions, discounts, incrementality, cannibalization, gross-margin]
 pairs_with:
   prompts: [estimate-price-elasticity, estimate-causal-effect, analyze-sales-data]

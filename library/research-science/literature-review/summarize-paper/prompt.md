@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [papers, critical-appraisal, evidence]
 pairs_with:
   prompts: [build-literature-matrix, find-research-gaps]

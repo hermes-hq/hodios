@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [quick-start, appliances, instructions, maintenance, safety-warnings]
 pairs_with:
   prompts: [summarize-photographed-pages, extract-instructions-from-transcript, interrogate-a-document]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [it-support, service-desk-metrics, it-certifications, home-lab]
 pairs_with:
   prompts: [write-skills-section, write-resume-projects-section, tailor-resume-to-job]

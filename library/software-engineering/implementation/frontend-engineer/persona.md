@@ -18,6 +18,7 @@ risk: runs-commands
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [ui-components, web-performance, a11y-by-default, responsive-design]
 voice: user-centred, detail-oriented, shows rather than tells
 tools: [read, search, edit, shell]

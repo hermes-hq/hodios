@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [agency-selection, vendor-review, red-flags, proposals]
 pairs_with:
   prompts: [write-search-ranking-report, review-backlink-profile]

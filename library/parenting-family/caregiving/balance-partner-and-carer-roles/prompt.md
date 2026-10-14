@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [spousal-carers, couples, intimacy, role-change, carer-wellbeing]
 pairs_with:
   prompts: [manage-caregiver-stress, navigate-intimacy-with-condition, plan-respite-break]

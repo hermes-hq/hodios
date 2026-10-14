@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [readability, cognitive-complexity, clean-code]
 pairs_with:
   prompts: [add-characterization-tests]

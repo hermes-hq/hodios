@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [fuzzing, libfuzzer, sanitizers, parsers, crash-triage, coverage-guided]
 pairs_with:
   prompts: [write-property-based-tests]

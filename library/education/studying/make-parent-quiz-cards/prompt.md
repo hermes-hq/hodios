@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [retrieval-practice, knowledge-organiser, quiz-cards, home-learning]
 pairs_with:
   prompts: [make-flashcards, build-reading-routine-with-child]

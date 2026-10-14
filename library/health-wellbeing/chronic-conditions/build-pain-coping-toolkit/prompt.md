@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [chronic-pain, pain-science, relaxation, distraction, acceptance, setback-plan]
 pairs_with:
   prompts: [plan-activity-pacing, plan-flare-day-logistics, guide-breathing-exercise]

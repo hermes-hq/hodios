@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paid-pilot, proof-of-concept, success-criteria, letter-of-intent, b2b-sales]
 pairs_with:
   prompts: [find-first-customers, plan-customer-proof-of-concept, review-letter-of-intent, model-unit-economics]

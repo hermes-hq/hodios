@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rolestorming, perspective-taking, borrowed-viewpoints, ideation-technique]
 pairs_with:
   prompts: [brainstorm-ideas, facilitate-group-brainstorm, find-ideas-from-analogies]

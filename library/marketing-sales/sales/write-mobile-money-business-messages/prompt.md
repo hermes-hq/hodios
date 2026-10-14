@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mobile-money, payment-reminders, scam-safety, east-africa]
 pairs_with:
   prompts: [write-whatsapp-business-service-scripts, write-fcommerce-facebook-post]

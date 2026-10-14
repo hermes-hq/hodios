@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [welcome-email, subscriber-onboarding, reply-prompt, deliverability]
 pairs_with:
   prompts: [plan-newsletter-format, grow-newsletter, write-newsletter-issue]

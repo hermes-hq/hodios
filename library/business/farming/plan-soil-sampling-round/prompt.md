@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [soil-sampling, soil-testing, nutrient-management, sampling-pattern, field-records]
 pairs_with:
   prompts: [explain-soil-analysis-report, plan-grassland-reseed, plan-arable-crop-rotation]

@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [trades, sole-trader, job-pricing, cash-flow, apprentices, subcontractors, quoting]
 pairs_with:
   prompts: [write-customer-quote, present-repair-options, resolve-invoice-dispute, write-job-completion-report, triage-service-call, evaluate-new-service-line]

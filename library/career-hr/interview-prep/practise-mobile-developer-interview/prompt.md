@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [ios, android]
 tags: [mobile-interview, app-lifecycle, mobile-architecture, concurrency-questions]
 pairs_with:

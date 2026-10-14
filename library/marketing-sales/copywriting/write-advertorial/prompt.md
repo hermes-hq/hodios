@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [advertorial, native-advertising, sponsored-content, disclosure]
 pairs_with:
   prompts: [write-sales-page, write-headline-variations, write-press-release, check-ad-policy-compliance]

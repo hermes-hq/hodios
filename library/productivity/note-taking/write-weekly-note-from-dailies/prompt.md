@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [daily-notes, weekly-note, journal-rollup, open-loops, periodic-notes]
 pairs_with:
   prompts: [design-daily-note-template, process-notes-inbox, write-note-for-future-self, set-up-work-logbook]

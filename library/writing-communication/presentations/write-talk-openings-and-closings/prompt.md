@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [opening-line, hook, call-to-action, callback, storytelling]
 pairs_with:
   prompts: [outline-presentation, write-speech, craft-personal-story]

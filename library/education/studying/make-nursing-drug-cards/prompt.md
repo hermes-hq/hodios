@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [nursing-school, drug-cards, medication-safety, clinical-placement]
 pairs_with:
   prompts: [drill-medical-terminology, make-flashcards, practice-nclex-questions]

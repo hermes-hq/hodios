@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [local-business, phone-filming, vertical-video, before-and-after, customer-consent]
 pairs_with:
   prompts: [write-short-form-script, write-video-hooks]

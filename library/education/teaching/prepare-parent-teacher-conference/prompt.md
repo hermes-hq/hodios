@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [parent-teacher-conference, family-engagement, conversation-plan, student-progress]
 pairs_with:
   prompts: [write-parent-email, write-report-card-comments, write-classroom-newsletter]

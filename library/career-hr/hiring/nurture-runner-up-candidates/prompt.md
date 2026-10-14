@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [talent-pipeline, silver-medalist, candidate-relationship, rehire-pool, candidate-consent]
 pairs_with:
   prompts: [write-candidate-rejection, write-candidate-outreach]

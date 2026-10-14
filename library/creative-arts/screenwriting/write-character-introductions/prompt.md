@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [character-introduction, action-lines, first-impression, casting]
 pairs_with:
   prompts: [write-casting-breakdown, format-screenplay-scene, write-script-coverage]

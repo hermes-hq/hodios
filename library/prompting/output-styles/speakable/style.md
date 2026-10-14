@@ -11,6 +11,7 @@ requires: [none]
 output: [script]
 risk: read-only
 level: beginner
+depth: specific
 role: [individual]
 tags: [text-to-speech, voice-assistant, audio-first, spoken-language, listening]
 pairs_with:

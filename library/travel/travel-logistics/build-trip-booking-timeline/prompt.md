@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [booking-order, trip-countdown, reservations, travel-timeline]
 pairs_with:
   prompts: [plan-itinerary, plan-flight-search, check-travel-requirements, organise-travel-documents]

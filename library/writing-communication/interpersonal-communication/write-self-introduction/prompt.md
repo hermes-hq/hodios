@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: small
 level: beginner
+depth: specific
 tags: [introductions, icebreakers, first-day, networking, small-talk]
 pairs_with:
   prompts: [write-professional-bio, practice-impromptu-speaking]

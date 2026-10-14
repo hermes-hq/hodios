@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hotfix, patch-release, release-tag, forward-port]
 pairs_with:
   prompts: [backport-fix-to-release-branches, review-emergency-hotfix, check-which-releases-contain-fix, write-changelog]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [card-sorting, information-architecture, navigation, tree-testing]
 pairs_with:
   prompts: [design-information-architecture, write-usability-test-plan]

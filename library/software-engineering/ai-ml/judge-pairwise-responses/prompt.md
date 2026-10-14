@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [llm-as-judge, pairwise-comparison, evals, position-bias, model-comparison]
 pairs_with:
   prompts: [write-judge-prompt, grade-response-with-rubric, write-llm-eval-suite]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [encryption, key-management, envelope-encryption, field-level-encryption, crypto-shredding]
 pairs_with:
   prompts: [review-cryptography-usage, plan-secrets-management, threat-model-feature]

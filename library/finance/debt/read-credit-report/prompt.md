@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [credit-file, payment-status, hard-search, identity-fraud, report-check]
 pairs_with:
   prompts: [dispute-credit-report-error, improve-credit-score, prepare-mortgage-application]

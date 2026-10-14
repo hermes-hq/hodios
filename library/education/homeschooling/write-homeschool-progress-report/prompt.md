@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-report, local-authority, evaluator, evidence-of-progress, record-keeping]
 pairs_with:
   prompts: [build-homeschool-portfolio, run-homeschool-term-review, plan-homeschool-year]

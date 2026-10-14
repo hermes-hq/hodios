@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-recovery, compensation-matrix, apology, goodwill, complaint-handling, root-cause]
 pairs_with:
   prompts: [write-support-reply, design-escalation-process, write-client-apology, respond-to-online-review]

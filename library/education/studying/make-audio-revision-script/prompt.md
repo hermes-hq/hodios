@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [audio-revision, dyslexia, commuting, retrieval-practice]
 pairs_with:
   prompts: [make-flashcards, run-blurting-session, make-study-guide]

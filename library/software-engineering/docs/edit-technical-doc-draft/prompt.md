@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [docs-editing, developer-docs, clarity, review-comments]
 pairs_with:
   prompts: [write-documentation-standards, audit-documentation, sync-docs-with-code-change]

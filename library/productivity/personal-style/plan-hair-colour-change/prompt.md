@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hair-colour, hair-dye, going-grey, bleaching, patch-test, colourist-brief]
 pairs_with:
   prompts: [find-flattering-colours, choose-haircut, plan-hair-care-routine]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [collaboration, co-streaming, guests, raids, cross-promotion]
 pairs_with:
   prompts: [pitch-creator-collaboration, plan-livestream-run-of-show, grow-streaming-channel]

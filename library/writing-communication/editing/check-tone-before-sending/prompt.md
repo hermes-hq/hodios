@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pre-send-check, passive-aggressive, workplace-messaging, chat-etiquette, email-etiquette]
 pairs_with:
   prompts: [rewrite-for-tone, decode-message-tone, reply-to-tricky-message]

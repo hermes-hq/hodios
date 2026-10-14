@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [culture-shock, moving-abroad, study-abroad, expat, homesickness]
 pairs_with:
   prompts: [learn-local-etiquette, plan-digital-nomad-base]

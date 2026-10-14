@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-pet, kids-responsibility, rota, animal-welfare, age-appropriate, family-routines]
 pairs_with:
   prompts: [create-chore-chart, coordinate-family-calendar, teach-kids-pet-care]

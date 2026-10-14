@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [speech-evaluation, speaking-club, peer-feedback, commend-recommend-commend, evaluator]
 pairs_with:
   prompts: [critique-speech-recording, review-talk-feedback, give-feedback-on-colleagues-presentation]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shangwu-youjian, formal-chinese, business-etiquette, honorifics, work-report]
 pairs_with:
   prompts: [write-workplace-wechat-message, write-year-end-work-summary, write-follow-up-email]

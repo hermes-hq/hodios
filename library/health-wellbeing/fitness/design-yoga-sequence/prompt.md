@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [yoga, sequencing, flexibility, props, vinyasa, hatha]
 pairs_with:
   prompts: [design-mobility-routine, guide-mindfulness-meditation]

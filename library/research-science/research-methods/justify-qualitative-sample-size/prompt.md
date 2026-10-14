@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [qualitative-research, sample-size, information-power, data-saturation, interview-studies, focus-groups]
 pairs_with:
   prompts: [design-sampling-plan, write-research-interview-protocol, write-ethics-application, plan-grounded-theory-study]

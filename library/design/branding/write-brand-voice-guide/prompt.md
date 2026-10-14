@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-voice, tone-of-voice, writing-guidelines, editorial-guidelines]
 pairs_with:
   prompts: [write-ux-microcopy, name-brand]

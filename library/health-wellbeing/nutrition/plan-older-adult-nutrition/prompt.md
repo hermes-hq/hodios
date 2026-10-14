@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [older-adults, healthy-ageing, protein, hydration, appetite-loss, carers]
 pairs_with:
   prompts: [plan-strength-for-older-adults, plan-meals-for-one, build-medication-list]

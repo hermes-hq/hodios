@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [animation, jank, layout-thrashing, compositing, scroll-performance]
 pairs_with:
   prompts: [improve-web-vitals, fix-react-rerenders, speed-up-long-list-rendering]

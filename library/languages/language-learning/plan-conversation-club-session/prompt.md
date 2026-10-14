@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [conversation-club, volunteers, newcomers, mixed-level-group, question-cards, community-library]
 pairs_with:
   personas: [esol-volunteer-tutor]

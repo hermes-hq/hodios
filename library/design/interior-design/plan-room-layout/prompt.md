@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [floor-plan, furniture-layout, lighting, small-spaces]
 pairs_with:
   prompts: [plan-decluttering, plan-renovation-budget]

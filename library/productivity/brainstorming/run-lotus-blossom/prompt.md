@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lotus-blossom, idea-grid, divergent-thinking, ideation-technique]
 pairs_with:
   prompts: [cluster-ideas, brainstorm-ideas, run-scamper-session]

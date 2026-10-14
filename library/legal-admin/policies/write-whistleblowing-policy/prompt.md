@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [whistleblowing, speak-up, anti-retaliation, reporting-channels, governance]
 pairs_with:
   prompts: [write-conflict-of-interest-policy, write-employee-handbook, build-compliance-checklist]

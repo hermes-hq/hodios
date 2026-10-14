@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [heart-framework, goals-signals-metrics, guardrail-metrics, feature-measurement, success-criteria]
 pairs_with:
   prompts: [write-tracking-plan, design-ab-test, review-launch-results, define-north-star-metric]

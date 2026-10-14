@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-governance, acceptable-use, data-classification, hr-policy]
 pairs_with:
   prompts: [write-workplace-policy, assess-ai-act-obligations, write-employee-handbook]

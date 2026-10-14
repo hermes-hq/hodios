@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [auditions, casting-process, callbacks, scoring-rubric, inclusive-casting]
 pairs_with:
   prompts: [write-casting-breakdown, plan-community-theatre-production, plan-rehearsal-schedule]

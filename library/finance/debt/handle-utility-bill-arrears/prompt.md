@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [energy-bills, water-bills, disconnection, payment-plan]
 pairs_with:
   prompts: [build-tight-budget, negotiate-with-creditor, find-alternatives-to-payday-loans]

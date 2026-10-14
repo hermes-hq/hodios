@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [domain-reputation, whois, certificate-transparency, passive-dns, lookalike-domain, ioc-enrichment]
 pairs_with:
   prompts: [investigate-reported-phishing, analyze-email-headers, write-threat-intel-brief, triage-soc-alert]

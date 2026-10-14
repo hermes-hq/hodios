@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [anti-money-laundering, aml, customer-due-diligence, suspicious-activity-reporting, regulated-sector, financial-crime]
 pairs_with:
   prompts: [write-aml-risk-assessment, plan-customer-due-diligence, set-up-sanctions-screening, plan-staff-compliance-training]

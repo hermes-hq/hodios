@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [military-families, deployment, fly-in-fly-out, separation, staying-connected, reunion, solo-parenting]
 pairs_with:
   prompts: [explain-hard-topic-to-child, plan-long-distance-connection, build-care-rota]

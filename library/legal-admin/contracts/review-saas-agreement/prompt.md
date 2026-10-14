@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [saas-contract, software-licence, auto-renewal, sla, data-ownership, vendor-lock-in]
 pairs_with:
   prompts: [review-data-processing-agreement, redline-contract, compare-vendors, build-contract-obligations-register]

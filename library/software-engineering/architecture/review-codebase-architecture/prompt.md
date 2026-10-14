@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [coupling, cohesion, architecture-smells, dependency-graph, modularity]
 pairs_with:
   personas: [software-architect, staff-engineer]

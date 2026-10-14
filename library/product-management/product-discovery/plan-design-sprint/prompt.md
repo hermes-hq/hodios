@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [design-sprint, prototyping, workshop-facilitation, usability-testing, sprint-questions]
 pairs_with:
   prompts: [write-problem-statement, map-assumptions, write-research-screener, write-customer-interview-guide]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [universal-credit, uk-benefits, dwp, advance-payment, claimant-commitment, housing-costs]
 pairs_with:
   prompts: [check-benefits-entitlement, apply-for-unemployment-benefits, appeal-benefits-decision]

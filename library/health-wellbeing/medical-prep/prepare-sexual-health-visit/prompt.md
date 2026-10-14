@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sexual-health, sti-testing, hiv-testing, prep, sexual-health-clinic]
 pairs_with:
   prompts: [prepare-contraception-consultation, prepare-doctor-questions, practise-describing-symptoms]

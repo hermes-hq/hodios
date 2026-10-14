@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [doctor-appointment, symptom-summary, patient-advocacy, plain-language-health]
 pairs_with:
   prompts: [build-symptom-log, explain-lab-results, explain-diagnosis]

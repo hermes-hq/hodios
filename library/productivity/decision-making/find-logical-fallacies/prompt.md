@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [informal-logic, fallacies, argument-analysis, reasoning-errors, rhetoric]
 pairs_with:
   prompts: [steelman-opposing-view, fact-check-claims]

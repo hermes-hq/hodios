@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-buying, dealership, out-the-door-price, trade-in, car-finance, add-ons]
 pairs_with:
   prompts: [plan-car-purchase, review-car-purchase-contract, inspect-used-car]

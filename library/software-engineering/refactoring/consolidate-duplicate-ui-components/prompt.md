@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [duplicate-components, component-variants, visual-regression, design-system-components]
 pairs_with:
   prompts: [audit-component-duplication, simplify-component-props, reduce-duplication]

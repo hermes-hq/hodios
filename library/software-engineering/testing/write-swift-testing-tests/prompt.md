@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [swift-testing, parameterized-tests, async-await, xcode, unit-tests]
 pairs_with:
   prompts: [write-unit-tests, write-native-ui-tests]

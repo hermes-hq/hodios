@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tomatoes, cordon-tomatoes, blight, side-shoots, grow-bags, vegetable-growing]
 pairs_with:
   prompts: [plan-seed-starting, plan-container-garden, diagnose-plant-problem, plan-greenhouse-year]

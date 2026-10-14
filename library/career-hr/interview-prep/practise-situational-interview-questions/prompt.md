@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hypothetical-questions, scenario-questions, judgement, mock-practice]
 pairs_with:
   prompts: [run-mock-interview, practise-competency-interview, practice-aptitude-tests]

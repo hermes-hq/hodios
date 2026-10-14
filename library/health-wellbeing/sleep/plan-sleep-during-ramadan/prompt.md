@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ramadan, fasting, split-sleep, suhoor, drowsy-driving, religious-observance]
 pairs_with:
   prompts: [plan-ramadan-meals, plan-power-naps, recover-from-a-bad-night]

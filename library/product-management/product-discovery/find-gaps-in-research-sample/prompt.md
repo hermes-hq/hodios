@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-sample, sampling-bias, participant-quotas, inclusive-research, recruitment-bias]
 pairs_with:
   prompts: [write-research-screener, set-up-research-panel, synthesize-customer-interviews, interview-non-customers, plan-continuous-interview-cadence]

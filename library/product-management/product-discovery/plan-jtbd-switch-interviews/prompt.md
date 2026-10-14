@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jobs-to-be-done, switch-interviews, forces-of-progress, buying-timeline, customer-interviews]
 pairs_with:
   prompts: [define-jobs-to-be-done, write-interview-outreach-messages, interview-non-customers, synthesize-customer-interviews]

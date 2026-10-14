@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [incident-management, severity-levels, escalation, status-page]
 pairs_with:
   prompts: [design-on-call-rotation, write-runbook, write-incident-update, write-postmortem]

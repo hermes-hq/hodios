@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-awareness, brand-tracking, share-of-voice, branded-search, marketing-measurement]
 pairs_with:
   prompts: [write-survey-questionnaire, analyze-marketing-attribution, build-kpi-tree]

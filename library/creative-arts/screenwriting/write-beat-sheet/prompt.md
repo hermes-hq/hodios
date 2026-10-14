@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [beat-sheet, save-the-cat, story-structure, page-count]
 pairs_with:
   prompts: [write-logline-and-synopsis, write-film-treatment, format-screenplay-scene, design-plot-twist]

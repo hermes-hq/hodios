@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [annual-plan, local-business, channel-plan, marketing-budget, marketing-calendar]
 pairs_with:
   prompts: [plan-marketing-campaign, write-positioning-statement, build-ideal-customer-profile, plan-media-budget]

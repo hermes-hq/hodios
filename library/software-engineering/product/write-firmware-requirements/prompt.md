@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [requirements, traceability, power-budget, firmware-update, fault-handling, manufacturing-test]
 pairs_with:
   prompts: [document-firmware-hardware-interface, define-non-functional-requirements, write-acceptance-criteria]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pitch-competition, judging-criteria, timed-pitch, judge-questions, demo-day]
 pairs_with:
   prompts: [review-pitch-deck, write-elevator-pitch, prepare-investor-qa, practise-elevator-pitch]

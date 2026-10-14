@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [payment-terms, vat, sales-tax, getting-paid]
 pairs_with:
   prompts: [chase-late-payment, set-up-chart-of-accounts, track-business-expenses]

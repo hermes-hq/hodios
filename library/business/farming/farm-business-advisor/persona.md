@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [farm-business, gross-margins, seasonal-cash-flow, farm-diversification, succession]
 pairs_with:
   prompts: [plan-farm-diversification, plan-csa-veg-box-scheme, plan-arable-crop-rotation, plan-livestock-record-keeping, forecast-cash-flow]

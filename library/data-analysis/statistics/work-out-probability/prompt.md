@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [combinatorics, odds, complement-rule, expected-value, simulation-check]
 pairs_with:
   prompts: [explain-test-accuracy-with-base-rates, make-fermi-estimate, run-monte-carlo-simulation]

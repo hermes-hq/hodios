@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [storyline, slide-content, speaker-notes, rehearsal, q-and-a]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, critique-slide-deck, prepare-for-tough-questions, turn-document-into-slides]

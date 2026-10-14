@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [heartburn, acid-reflux, meal-timing, bed-wedge, sleep-position, night-cough]
 pairs_with:
   prompts: [plan-evening-drinks-for-sleep, audit-bedroom-for-sleep, prepare-sleep-doctor-appointment]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dementia-care, activity-coordinators, meaningful-activity, reminiscence, sensory-activities, care-homes]
 pairs_with:
   prompts: [write-person-centred-care-plan, write-care-home-family-update]

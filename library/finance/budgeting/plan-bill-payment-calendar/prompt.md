@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bill-calendar, payday-timing, direct-debits, cash-flow-gap]
 pairs_with:
   prompts: [build-monthly-budget, set-up-money-accounts-system, clear-overdraft, untangle-bnpl-plans]

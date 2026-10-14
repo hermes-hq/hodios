@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [social-comparison, doomscrolling, scrolling, envy, feed-curation, self-esteem]
 pairs_with:
   prompts: [plan-digital-detox, work-on-body-image, reframe-negative-thoughts]

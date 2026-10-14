@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vectorization, polars, dtypes, memory-usage, duckdb]
 pairs_with:
   prompts: [write-dataframe-transformation, read-flame-graph]

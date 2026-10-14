@@ -19,6 +19,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [top-n, ranking, ties, leaderboard, dynamic-arrays]
 pairs_with:
   prompts: [write-spreadsheet-formula, build-sheets-dashboard, build-pivot-analysis]

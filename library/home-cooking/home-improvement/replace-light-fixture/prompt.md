@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [light-fitting, electrical-safety, wiring-colours, ceiling-light, diy-electrics, earthing]
 pairs_with:
   prompts: [plan-diy-project, hire-contractor, choose-wall-fixings]

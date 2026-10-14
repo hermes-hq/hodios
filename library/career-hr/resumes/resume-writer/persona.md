@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ats, achievements, quantify-impact, cv-conventions, honesty]
 pairs_with:
   prompts: [review-resume, rewrite-resume-bullets, tailor-resume-to-job, write-resume-from-scratch, optimize-linkedin-profile]

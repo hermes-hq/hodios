@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [book-conclusion, final-chapter, call-to-action, payoff, synthesis]
 pairs_with:
   prompts: [write-book-introduction, draft-nonfiction-chapter]

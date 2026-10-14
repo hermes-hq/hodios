@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lightning, thunderstorms, exposed-ridges, afternoon-storms, storm-safety, mountain-safety]
 pairs_with:
   prompts: [read-mountain-weather-forecast, set-turnaround-time, build-outdoor-first-aid-kit]

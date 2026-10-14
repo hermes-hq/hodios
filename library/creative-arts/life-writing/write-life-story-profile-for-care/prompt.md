@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dementia-care, life-story-work, care-home, family-stories, person-centred-care]
 pairs_with:
   prompts: [mine-memories-for-life-story, interview-relative-for-oral-history, plan-dementia-conversations]

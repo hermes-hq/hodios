@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [full-text-search, trigram-index, like-query, query-plan, indexing]
 pairs_with:
   prompts: [optimize-sql-query, design-search-index, implement-search-autocomplete]

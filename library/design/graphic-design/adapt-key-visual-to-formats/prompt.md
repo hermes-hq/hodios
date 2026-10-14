@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [key-visual, campaign-design, format-adaptation, resizing, safe-zones]
 pairs_with:
   prompts: [design-social-media-templates, write-display-banner-set, plan-poster-layout, prepare-print-files]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-critique, visual-hierarchy, mockup-review]
 pairs_with:
   prompts: [run-heuristic-evaluation, audit-design-consistency, write-ux-microcopy]

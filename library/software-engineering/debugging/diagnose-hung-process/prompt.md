@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [deadlock, thread-dump, hang, infinite-loop, stack-sampling]
 pairs_with:
   prompts: [debug-race-condition, find-root-cause]

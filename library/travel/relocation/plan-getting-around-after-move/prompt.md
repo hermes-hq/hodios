@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [commuting, public-transport, cycling, car-free, newcomers]
 pairs_with:
   prompts: [master-city-transit, exchange-driving-licence-abroad, plan-car-purchase, decide-whether-to-import-car]

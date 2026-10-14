@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [airport-security, hand-luggage, liquids-rule, lithium-batteries, dangerous-goods]
 pairs_with:
   prompts: [build-packing-list, plan-departure-day, travel-with-medication, fly-with-sports-equipment]

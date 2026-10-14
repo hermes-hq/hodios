@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [prior-authorization, medical-necessity, insurance-appeals, durable-medical-equipment, clinical-correspondence, payer-criteria]
 pairs_with:
   prompts: [write-referral-letter, summarize-patient-records, write-therapy-goals]

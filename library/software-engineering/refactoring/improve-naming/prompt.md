@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [identifier-naming, readability, rename, ubiquitous-language, clean-code]
 pairs_with:
   personas: [code-reviewer]

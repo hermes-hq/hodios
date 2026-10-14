@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wordless-comics, visual-storytelling, panel-transitions, character-acting, pacing]
 pairs_with:
   prompts: [write-comic-script, thumbnail-comic-page, review-comic-script]

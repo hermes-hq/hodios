@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [creative-brief, design-brief, commissioning, deliverables]
 pairs_with:
   prompts: [critique-graphic-design, write-brand-voice-guide]

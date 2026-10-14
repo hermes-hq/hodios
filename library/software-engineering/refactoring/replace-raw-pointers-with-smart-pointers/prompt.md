@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [smart-pointers, ownership, raii, memory-safety]
 pairs_with:
   personas: [cpp-engineer]

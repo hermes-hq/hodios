@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [marginal-rate, effective-rate, tax-brackets, pay-rise, financial-literacy]
 pairs_with:
   prompts: [explain-payslip, plan-freelance-tax-set-aside, explain-tax-on-investments]

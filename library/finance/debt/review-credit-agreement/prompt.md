@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [loan-agreement, apr, early-repayment, small-print]
 pairs_with:
   prompts: [compare-loan-offers, review-car-purchase-contract]

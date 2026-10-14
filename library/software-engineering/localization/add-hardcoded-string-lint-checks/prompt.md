@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [linting, ci-checks, regression-prevention]
 pairs_with:
   prompts: [extract-ui-strings, audit-translation-keys]

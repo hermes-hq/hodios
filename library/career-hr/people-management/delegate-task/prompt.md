@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [delegation, autonomy-levels, task-brief, check-ins, growing-people]
 pairs_with:
   prompts: [plan-one-on-one]

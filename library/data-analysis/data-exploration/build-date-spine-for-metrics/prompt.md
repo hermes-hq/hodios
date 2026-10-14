@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [date-spine, calendar-table, time-series, zero-fill, analytics-sql]
 pairs_with:
   prompts: [write-window-function-query, answer-question-with-sql]

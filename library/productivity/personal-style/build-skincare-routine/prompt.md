@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [skincare, sunscreen, retinoids, patch-test, routine-building]
 pairs_with:
   prompts: [learn-everyday-makeup, plan-beard-and-shaving-care, decode-product-claims]

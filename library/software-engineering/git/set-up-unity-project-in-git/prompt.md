@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [unityyamlmerge, meta-files, file-locking, game-assets, scene-conflicts]
 pairs_with:
   prompts: [set-up-git-lfs, write-gitignore-file, fix-line-ending-churn, unity-csharp-rules]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [credential-rotation, secret-rotation, zero-downtime, key-rotation, runbook]
 pairs_with:
   prompts: [plan-secrets-management, respond-to-leaked-secret, sync-secrets-into-kubernetes, harden-jwt-validation]

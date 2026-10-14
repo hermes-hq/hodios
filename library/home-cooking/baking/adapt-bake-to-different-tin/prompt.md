@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tin-size, pan-conversion, recipe-scaling, cake-tins, baking-time]
 pairs_with:
   prompts: [convert-baking-recipe-to-grams, plan-celebration-cake, calibrate-home-oven]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [data-literacy, chart-reading, misleading-charts, graphicacy, numeracy]
 pairs_with:
   prompts: [interpret-chart, critique-chart, explain-statistical-concept]

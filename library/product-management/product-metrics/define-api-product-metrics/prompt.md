@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-products, developer-experience, time-to-first-call, api-adoption, usage-metrics, developer-funnel]
 pairs_with:
   prompts: [define-north-star-metric, define-activation-metric, define-guardrail-metrics, measure-time-to-value]

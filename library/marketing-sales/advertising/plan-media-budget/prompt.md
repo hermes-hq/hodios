@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [media-planning, budget-allocation, paid-media, cpa, test-and-scale]
 pairs_with:
   prompts: [analyze-ad-performance, define-ad-audiences, plan-marketing-campaign, audit-search-ads-account]

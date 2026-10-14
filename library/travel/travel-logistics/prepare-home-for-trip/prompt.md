@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-security, leaving-home, pre-trip, house-checklist]
 pairs_with:
   prompts: [build-packing-list, plan-departure-day, write-house-sitter-guide]

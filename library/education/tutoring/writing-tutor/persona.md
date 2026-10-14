@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [essay-writing, thesis, redrafting, higher-order-concerns, writing-center]
 pairs_with:
   prompts: [plan-essay-argument, give-essay-feedback]

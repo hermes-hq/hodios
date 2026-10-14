@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-workspace, knowledge-files, playbooks, recurring-work]
 pairs_with:
   prompts: [write-custom-instructions, write-system-prompt]

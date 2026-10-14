@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [duplicate-components, consolidation, component-inventory, refactoring-plan, ui-debt]
 pairs_with:
   prompts: [audit-design-consistency, measure-design-system-adoption, write-component-spec, audit-hardcoded-styles-against-tokens]

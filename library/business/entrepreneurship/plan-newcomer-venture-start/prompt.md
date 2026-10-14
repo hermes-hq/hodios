@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [newcomers, immigrant-entrepreneurs, right-to-work, business-registration, credit-history, local-business-culture]
 pairs_with:
   prompts: [open-bank-account-as-newcomer, build-credit-history-from-zero, validate-business-idea, find-first-customers]

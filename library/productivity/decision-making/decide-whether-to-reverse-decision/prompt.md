@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sunk-cost, second-thoughts, course-correction, switching-cost, commitment]
 pairs_with:
   prompts: [review-decision-after-outcome, run-decision-journal, check-decision-for-biases]

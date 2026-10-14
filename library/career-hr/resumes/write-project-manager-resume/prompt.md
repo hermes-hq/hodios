@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pm-resume, delivery-evidence, budget-and-schedule, pm-certifications]
 pairs_with:
   prompts: [rewrite-resume-bullets, tailor-resume-to-job, write-skills-section]

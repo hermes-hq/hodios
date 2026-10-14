@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pull-request, prompt-review, regression, output-contract]
 pairs_with:
   prompts: [write-llm-eval-suite, run-prompt-regression-tests, detect-prompt-injection]

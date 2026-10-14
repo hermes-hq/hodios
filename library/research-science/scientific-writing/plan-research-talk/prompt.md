@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [conference-talk, slide-sequence, assertion-evidence, qa-prep, academic-presentation]
 pairs_with:
   prompts: [design-scientific-figures, design-research-poster, explain-research-to-public]

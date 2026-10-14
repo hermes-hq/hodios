@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [guardianship, conservatorship, deputyship, mental-capacity, dementia, court-application]
 pairs_with:
   prompts: [prepare-power-of-attorney-questions, manage-parent-finances, plan-future-care-for-disabled-adult, find-free-legal-help]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [lesson-design, exit-ticket, formative-assessment]
 pairs_with:
   prompts: [differentiate-lesson, design-classroom-activity, create-rubric]

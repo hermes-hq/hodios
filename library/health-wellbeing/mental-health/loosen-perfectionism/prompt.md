@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [perfectionism, behavioural-experiments, good-enough, procrastination, self-criticism]
 pairs_with:
   prompts: [reframe-negative-thoughts, practice-self-compassion, build-self-confidence]

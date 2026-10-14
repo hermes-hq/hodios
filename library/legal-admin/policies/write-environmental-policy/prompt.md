@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [environmental-policy, sustainability, greenwashing, carbon-targets, tender-requirements]
 pairs_with:
   prompts: [write-supplier-code-of-conduct, build-compliance-checklist]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [television, home-cinema, screen-size, hdr, energy-label]
 pairs_with:
   prompts: [time-a-purchase, decide-on-extended-warranty, compare-purchase-options, decode-product-claims]

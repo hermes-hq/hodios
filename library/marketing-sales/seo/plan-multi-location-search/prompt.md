@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multi-location, branches, franchises, location-pages, review-management]
 pairs_with:
   prompts: [plan-local-seo, audit-business-citations, write-service-area-pages]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [linting, code-formatting, lint-suppressions, tooling-audit, technical-debt]
 pairs_with:
   prompts: [fix-lint-violations-repo-wide, configure-linter-and-formatter, write-team-coding-standards]

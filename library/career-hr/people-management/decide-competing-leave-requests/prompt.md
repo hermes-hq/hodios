@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [annual-leave, holiday-requests, fairness, cover-planning, peak-periods]
 pairs_with:
   prompts: [plan-key-person-cover, rebalance-team-workload, plan-shift-team-huddle]

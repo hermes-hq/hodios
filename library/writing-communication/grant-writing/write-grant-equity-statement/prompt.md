@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [equity-diversity-inclusion, access-barriers, inclusive-delivery, funder-criteria, monitoring-data]
 pairs_with:
   prompts: [write-grant-application, write-grant-involvement-section, write-grant-evaluation-plan]

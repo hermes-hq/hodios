@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [independence, free-range, home-alone, walking-to-school, safety-agreement, teenagers, child-development]
 pairs_with:
   prompts: [teach-child-life-skill, write-family-agreement-with-teen, set-screen-time-plan, talk-to-teen-about-online-safety]

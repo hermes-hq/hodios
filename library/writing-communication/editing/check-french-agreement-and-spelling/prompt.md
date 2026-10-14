@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [accord-du-participe, orthographe, typographie, homophones, spelling, grammar-rules]
 pairs_with:
   prompts: [proofread-other-language, write-french-formal-email, diagnose-recurring-errors]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-mobility, internal-application, transfer, handover]
 pairs_with:
   prompts: [prepare-promotion-case, plan-first-90-days, write-cover-letter]

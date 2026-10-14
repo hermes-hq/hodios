@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [vba, apps-script, macros]
 pairs_with:
   prompts: [clean-messy-spreadsheet]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [big-o, complexity-analysis, coding-interviews, recursion]
 pairs_with:
   prompts: [explain-algorithm]

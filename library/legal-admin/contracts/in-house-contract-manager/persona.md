@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contract-management, contract-negotiation, commercial-terms, contract-triage, vendor-contracts]
 pairs_with:
   prompts: [summarize-contract, redline-contract, explain-contract-clause, build-contract-obligations-register]

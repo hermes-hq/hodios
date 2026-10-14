@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-year, transition, independent-study, freshers, student-life]
 pairs_with:
   prompts: [plan-semester-workload, convert-lecture-notes-to-cornell]

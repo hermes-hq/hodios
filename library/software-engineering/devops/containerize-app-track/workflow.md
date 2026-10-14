@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multi-stage-build, health-checks, non-root, containerization]
 pairs_with:
   prompts: [review-dockerfile, write-docker-compose]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [search-strategy, prisma-s, reproducibility, thesis]
 pairs_with:
   prompts: [build-search-string, deduplicate-search-results, write-prisma-flow-report]

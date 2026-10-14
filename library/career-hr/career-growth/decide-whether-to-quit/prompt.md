@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quitting, job-dissatisfaction, burnout, financial-runway, career-decision]
 pairs_with:
   prompts: [handle-difficult-manager, write-resignation-letter, plan-job-search, propose-flexible-work, make-life-decision]

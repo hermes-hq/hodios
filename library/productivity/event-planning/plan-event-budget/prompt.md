@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [event-costs, per-head-cost, contingency, cost-control, cash-flow]
 pairs_with:
   prompts: [price-event-tickets, compare-event-venues, review-event-vendor-contract]

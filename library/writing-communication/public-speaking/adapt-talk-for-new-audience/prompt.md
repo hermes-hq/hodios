@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audience-analysis, talk-reuse, repurposing, call-to-action]
 pairs_with:
   prompts: [shorten-presentation-for-time, write-talk-openings-and-closings, plan-conference-talk-pipeline]

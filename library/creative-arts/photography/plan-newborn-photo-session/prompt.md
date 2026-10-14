@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [newborn-photography, baby-safety, lifestyle-photography, natural-light, family-portraits]
 pairs_with:
   prompts: [plan-portrait-shoot, write-session-prep-guide, choose-camera-settings]

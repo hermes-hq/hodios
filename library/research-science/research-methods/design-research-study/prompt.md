@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [hypotheses, power-analysis, validity, preregistration]
 pairs_with:
   prompts: [write-survey-questionnaire, write-research-proposal]

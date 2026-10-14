@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [memoir, journals, old-diaries, source-material, creative-nonfiction]
 pairs_with:
   prompts: [draft-memoir-scene, build-life-timeline, shape-memoir-story]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [condolences, congratulations, set-phrases, cards, cefr]
 pairs_with:
   prompts: [explain-politeness-register, practise-dinner-guest-conversation, help-me-write-in-language]

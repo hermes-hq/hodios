@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [spaced-repetition, leitner-system, vocabulary-review, retrieval-practice, flashcard-export]
 pairs_with:
   prompts: [build-vocabulary-list, mine-sentences-for-flashcards, play-vocabulary-games-in-language]

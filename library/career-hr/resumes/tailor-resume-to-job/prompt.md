@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ats, keyword-coverage, tailoring, job-application]
 pairs_with:
   prompts: [analyze-job-posting, rewrite-resume-bullets, write-cover-letter]

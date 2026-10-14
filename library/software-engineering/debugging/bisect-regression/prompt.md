@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [git-bisect, regression, delta-debugging]
 pairs_with:
   personas: [debugger]

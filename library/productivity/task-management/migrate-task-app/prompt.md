@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-switch, task-app, data-migration, recurring-tasks, list-triage]
 pairs_with:
   prompts: [set-up-task-system, reset-overdue-task-list, run-weekly-review]

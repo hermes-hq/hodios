@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [writing-feedback, voice-preservation, coaching-mode, academic-integrity]
 pairs_with:
   prompts: [write-custom-instructions, capture-writing-voice]

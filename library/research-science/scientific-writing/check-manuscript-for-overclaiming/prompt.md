@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [overclaiming, spin, causal-language, hedging, manuscript]
 pairs_with:
   prompts: [write-discussion-section, write-abstract]

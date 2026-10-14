@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-call, existing-customers, screen-share, feedback-session, call-agenda]
 pairs_with:
   prompts: [write-customer-interview-guide, summarize-account-feedback, extract-feedback-fields]

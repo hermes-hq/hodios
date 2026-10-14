@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [breaking-change, backward-compatibility, versioning, public-api, openapi-spec]
 pairs_with:
   personas: [backend-engineer]

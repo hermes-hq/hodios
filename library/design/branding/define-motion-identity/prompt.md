@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [motion-design, logo-animation, kinetic-typography, visual-identity, reduced-motion]
 pairs_with:
   prompts: [build-brand-guidelines, write-sonic-branding-brief, spec-motion-and-microinteractions, write-logo-sting-prompt]

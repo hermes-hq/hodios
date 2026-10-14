@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [snippet-review, edge-cases, idioms, bugs]
 pairs_with:
   personas: [code-reviewer]

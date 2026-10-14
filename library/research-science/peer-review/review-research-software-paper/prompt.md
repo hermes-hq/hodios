@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [research-software, software-paper, software-review, reproducibility]
 pairs_with:
   prompts: [assess-reproducibility, write-peer-review]

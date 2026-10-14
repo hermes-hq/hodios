@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dns-logs, beaconing, dga, dns-tunnelling, zeek, threat-hunting]
 pairs_with:
   prompts: [analyze-packet-capture, write-siem-query, write-threat-hunt-plan, investigate-suspicious-domain]

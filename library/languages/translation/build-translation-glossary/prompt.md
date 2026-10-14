@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [termbase, terminology, do-not-translate, consistency, tbx]
 pairs_with:
   prompts: [post-edit-machine-translation, review-translation, translate-subtitles, build-localization-glossary]

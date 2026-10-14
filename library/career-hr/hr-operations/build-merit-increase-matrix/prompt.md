@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [merit-matrix, pay-review, compa-ratio, compensation-budget, salary-increase-guidelines]
 pairs_with:
   prompts: [allocate-merit-increases, design-salary-bands, analyze-pay-equity, write-pay-review-letters]

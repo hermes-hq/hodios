@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plot-twist, foreshadowing, misdirection, story-structure]
 pairs_with:
   prompts: [outline-story, write-beat-sheet, check-story-continuity]

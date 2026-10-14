@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paywall, upgrade-prompt, freemium, free-trial, subscription-terms]
 pairs_with:
   prompts: [write-pricing-page-copy, write-ux-microcopy, review-design-for-dark-patterns, write-in-app-announcement]

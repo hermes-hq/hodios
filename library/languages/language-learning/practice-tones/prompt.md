@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tones, tone-pairs, tone-sandhi, cantonese, vietnamese, thai, minimal-pairs]
 pairs_with:
   prompts: [coach-pronunciation, create-shadowing-script, learn-writing-system]

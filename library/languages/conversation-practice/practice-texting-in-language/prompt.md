@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [texting, informal-register, slang, abbreviations, chat-practice, group-chats]
 pairs_with:
   prompts: [practice-small-talk, explain-politeness-register, explain-phrase-in-context]

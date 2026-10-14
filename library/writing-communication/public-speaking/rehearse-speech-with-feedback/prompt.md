@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [speech-rehearsal, delivery, wedding-speech, toast, speech-timing]
 pairs_with:
   prompts: [write-speech, critique-speech-recording, mark-up-script-for-delivery, drill-presentation-qa]

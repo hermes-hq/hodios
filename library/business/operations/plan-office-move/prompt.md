@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [office-move, it-cutover, change-of-address, move-timeline, facilities, moving-abroad]
 pairs_with:
   prompts: [plan-business-continuity, compare-vendors, write-sop]

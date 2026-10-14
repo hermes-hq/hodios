@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [running, 5k, marathon, couch-to-5k, taper, injury-prevention]
 pairs_with:
   prompts: [build-training-plan, plan-sports-nutrition, track-fitness-progress, design-mobility-routine]

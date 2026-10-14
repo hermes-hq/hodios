@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [branching, rebase, reflog, commit-graph, simulator]
 pairs_with:
   prompts: [recover-lost-git-work]

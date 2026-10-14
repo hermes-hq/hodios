@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [handover-sheet, babysitters, carers, care-plan, emergency-contacts]
 pairs_with:
   prompts: [write-up-sick-day-plan, write-invisible-illness-explainer, plan-flare-day-logistics]

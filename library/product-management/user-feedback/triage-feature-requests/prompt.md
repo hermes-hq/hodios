@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-requests, backlog-grooming, jobs-to-be-done, request-deduplication]
 pairs_with:
   prompts: [analyze-user-feedback, close-feedback-loop, prioritize-features, push-back-on-roadmap-request]

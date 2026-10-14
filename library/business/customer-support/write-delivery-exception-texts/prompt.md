@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sms-templates, failed-delivery, last-mile, notifications, character-limits]
 pairs_with:
   prompts: [resolve-missing-parcel-complaint, write-appointment-reminder-messages, build-support-macros]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [review-comments, comment-labels, feedback-tone, second-language]
 pairs_with:
   prompts: [write-code-review-guidelines, respond-to-review-comments]

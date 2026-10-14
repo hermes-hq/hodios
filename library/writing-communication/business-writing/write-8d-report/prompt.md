@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [8d-report, quality-complaint, corrective-action, manufacturing-quality, root-cause]
 pairs_with:
   prompts: [write-a3-report, run-five-whys, write-supplier-nonconformance-report]

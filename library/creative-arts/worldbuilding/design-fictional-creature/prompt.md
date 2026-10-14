@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [creature-design, speculative-biology, monsters, setting-design]
 pairs_with:
   prompts: [design-fictional-geography, design-fictional-culture, build-magic-system]

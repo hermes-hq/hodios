@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [first-employee, employer-registration, right-to-work, employment-contract, employers-insurance, workplace-notices]
 pairs_with:
   prompts: [set-up-first-payroll, plan-first-hire, write-employee-privacy-notice, check-business-licences]

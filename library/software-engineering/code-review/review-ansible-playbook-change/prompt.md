@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [idempotency, configuration-management, handlers, ansible-vault, pull-request]
 pairs_with:
   personas: [devops-engineer]

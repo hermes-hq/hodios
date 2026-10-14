@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [lease-abstract, critical-dates, rent-review, portfolio-admin]
 pairs_with:
   prompts: [review-commercial-lease]

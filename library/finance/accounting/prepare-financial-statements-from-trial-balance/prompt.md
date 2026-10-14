@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trial-balance, profit-and-loss, balance-sheet, management-accounts]
 pairs_with:
   prompts: [review-small-business-pnl, review-balance-sheet, prepare-month-end-close]

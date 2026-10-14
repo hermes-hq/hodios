@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [modularization, feature-modules, build-times, dependency-graph]
 pairs_with:
   personas: [mobile-engineer, software-architect]

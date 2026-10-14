@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [legal-threat, regulator-complaint, press-threat, holding-reply, evidence-preservation]
 pairs_with:
   prompts: [write-support-reply, design-escalation-process, write-holding-statement, decide-goodwill-refund]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ux-copy, source-quality, translatability]
 pairs_with:
   prompts: [write-translator-context-notes, build-localization-glossary]

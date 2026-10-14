@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [washing-machine, dishwasher, appliance-repair, drain-filter, error-code, repair-or-replace]
 pairs_with:
   prompts: [clean-appliance-filters-and-seals, diagnose-home-problem, fix-laundry-problem]

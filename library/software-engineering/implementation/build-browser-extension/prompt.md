@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [browser-extension, manifest-v3, chrome-extension, firefox-addon, content-scripts]
 pairs_with:
   prompts: [build-ui-component, review-pr-for-security]

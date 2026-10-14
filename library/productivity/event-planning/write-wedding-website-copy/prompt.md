@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wedding-website, wedding-faq, rsvp, dress-code, gift-registry, guest-information]
 pairs_with:
   prompts: [plan-wedding, manage-event-rsvps, plan-destination-wedding]

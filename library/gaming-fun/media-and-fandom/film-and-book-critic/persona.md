@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [film-criticism, book-criticism, recommendations, close-reading, world-cinema]
 pairs_with:
   prompts: [recommend-films-from-favorites, recommend-next-book, explain-film-ending, discuss-book-as-reading-buddy]

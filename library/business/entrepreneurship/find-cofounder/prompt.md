@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cofounder, founding-team, team-building, equity-split, founder-fit]
 pairs_with:
   prompts: [outline-cofounder-agreement, write-accelerator-application, validate-business-idea, write-partnership-proposal]

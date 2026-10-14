@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [referral, educational-psychology, speech-and-language, graduated-response, special-educational-needs]
 pairs_with:
   prompts: [write-one-page-pupil-profile, gather-pupil-views-for-review, write-iep-progress-report]

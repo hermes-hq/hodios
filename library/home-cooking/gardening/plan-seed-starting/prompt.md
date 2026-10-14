@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [seed-starting, frost-dates, seedlings, hardening-off, grow-lights]
 pairs_with:
   prompts: [plan-vegetable-garden, build-garden-calendar, diagnose-plant-problem]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [business-loan, credit-facility, loan-covenants, security-interest, event-of-default, prepayment]
 pairs_with:
   prompts: [prepare-business-loan-application, compare-loan-offers, record-business-loan, explain-contract-clause]

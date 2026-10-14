@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [packer, golden-image, immutable-infrastructure, image-pipeline]
 pairs_with:
   prompts: [write-ansible-playbook, harden-linux-server, write-cloud-init-script]

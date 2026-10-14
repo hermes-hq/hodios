@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [review-game, retrieval-practice, gamification, active-learning, answer-key]
 pairs_with:
   prompts: [create-practice-worksheet, write-multiple-choice-questions, design-classroom-activity]

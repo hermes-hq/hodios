@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [weather-sensitivity, degree-days, short-range-forecast, demand-drivers]
 pairs_with:
   prompts: [forecast-time-series, add-event-adjustments-to-forecast, forecast-with-leading-indicators]

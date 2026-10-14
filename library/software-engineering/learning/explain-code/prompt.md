@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [code-reading, walkthrough, worked-example]
 pairs_with:
   prompts: [explain-codebase, explain-concept-with-code, explain-stack-trace]

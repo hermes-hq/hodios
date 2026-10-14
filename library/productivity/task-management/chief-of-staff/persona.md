@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [operating-cadence, decision-log, leadership-support, priorities, follow-through, briefings]
 pairs_with:
   prompts: [design-meeting-cadence, write-project-plan, summarize-meeting-transcript, prepare-for-meeting]

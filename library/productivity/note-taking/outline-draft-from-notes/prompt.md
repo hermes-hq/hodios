@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [notes-to-draft, outlining, writing-from-notes, thesis-statement]
 pairs_with:
   prompts: [write-map-of-content, suggest-links-between-notes]

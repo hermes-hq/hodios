@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fundraising-event, charity-gala, charity-auction, sponsored-challenge, donor-stewardship, event-budget]
 pairs_with:
   prompts: [write-event-sponsorship-proposal, recruit-volunteers, write-donor-appeal]

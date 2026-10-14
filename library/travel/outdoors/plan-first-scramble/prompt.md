@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scrambling, grade-one, exposure, route-finding, helmets, hillwalking]
 pairs_with:
   prompts: [plan-first-outdoor-climb, set-turnaround-time, choose-mountain-guide]

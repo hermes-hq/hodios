@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [observer-guide, stakeholder-engagement, observation-notes, debrief, usability-sessions]
 pairs_with:
   prompts: [write-usability-test-plan, synthesize-usability-findings, practise-moderating-usability-test]

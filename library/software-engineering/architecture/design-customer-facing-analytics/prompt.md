@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [embedded-analytics, olap, pre-aggregation, tenant-isolation, in-app-dashboards, data-freshness]
 pairs_with:
   personas: [software-architect, data-engineer]

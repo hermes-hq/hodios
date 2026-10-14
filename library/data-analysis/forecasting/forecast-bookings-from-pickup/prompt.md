@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pickup, booking-curve, on-the-books, revenue-management, occupancy]
 pairs_with:
   prompts: [plan-hotel-room-rate-calendar, project-month-end-from-partial-data, present-forecast-uncertainty]

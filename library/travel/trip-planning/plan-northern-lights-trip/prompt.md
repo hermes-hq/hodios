@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [aurora, arctic-travel, winter-travel, night-sky, bucket-list]
 pairs_with:
   prompts: [build-packing-list, plan-road-trip, plan-astrophotography-night]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [continuity, story-bible, timeline, manuscript]
 pairs_with:
   prompts: [critique-fiction-draft, outline-story]

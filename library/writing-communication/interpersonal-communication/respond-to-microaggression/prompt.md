@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [microaggressions, bias, workplace-inclusion, speaking-up, incident-notes]
 pairs_with:
   prompts: [set-boundary, prepare-difficult-conversation, handle-workplace-bullying, practice-assertive-responses]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [alert-triage, true-positive, escalation, enrichment, edr]
 pairs_with:
   prompts: [write-siem-query, investigate-reported-phishing, write-ir-playbook]

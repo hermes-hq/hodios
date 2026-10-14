@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [social-sciences]
 tags: [ontology, epistemology, research-paradigm, methodology-chapter, dissertation, interpretivism, pragmatism]
 pairs_with:

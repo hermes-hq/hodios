@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [independent-learning, workboxes, checklists, self-management, routines]
 pairs_with:
   prompts: [plan-multi-age-homeschool-week, plan-homeschool-around-work]

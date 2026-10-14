@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hiring-artists, collaboration, creator-owned, test-page, job-ad]
 pairs_with:
   prompts: [write-comic-script, plan-comic-production-schedule, write-character-model-sheet-brief]

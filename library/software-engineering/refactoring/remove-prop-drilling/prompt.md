@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prop-drilling, react-context, component-composition, data-flow]
 pairs_with:
   prompts: [split-react-component, fix-react-rerenders]

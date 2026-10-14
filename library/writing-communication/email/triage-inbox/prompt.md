@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [inbox-zero, phishing, delegation, email-batching]
 pairs_with:
   prompts: [reply-to-email, write-professional-email, decline-request-gracefully]

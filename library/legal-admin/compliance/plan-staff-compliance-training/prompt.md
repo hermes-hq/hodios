@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [compliance-training, training-matrix, staff-induction, training-records, refresher-training]
 pairs_with:
   prompts: [build-compliance-calendar, write-security-awareness-module, build-compliance-checklist]

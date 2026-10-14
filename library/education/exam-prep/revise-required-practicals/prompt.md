@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [required-practicals, gcse, a-level, variables, accuracy-and-precision, practical-skills]
 pairs_with:
   prompts: [design-science-lab-activity, drill-exam-command-words, make-flashcards]

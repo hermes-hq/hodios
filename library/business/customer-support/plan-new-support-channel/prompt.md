@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [support-channels, live-chat, phone-support, messaging-support, channel-launch]
 pairs_with:
   prompts: [plan-support-staffing, plan-out-of-hours-support, write-chat-quick-replies-for-shop, design-ticket-routing-rules]

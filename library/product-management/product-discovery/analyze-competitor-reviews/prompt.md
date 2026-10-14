@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [competitive-intelligence, review-mining, app-store-reviews, unmet-needs]
 pairs_with:
   prompts: [analyze-competitors, analyze-user-feedback, define-jobs-to-be-done, run-product-teardown]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [leave-application, application-letter, time-off-request, formal-letter, school-letters]
 pairs_with:
   prompts: [write-hindi-application-letter, write-formal-letter, write-email-to-teacher]

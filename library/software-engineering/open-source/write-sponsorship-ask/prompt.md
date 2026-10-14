@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [github-sponsors, open-collective, sponsorship-tiers, maintainer-funding]
 pairs_with:
   prompts: [choose-oss-funding-model, collect-adopter-stories]

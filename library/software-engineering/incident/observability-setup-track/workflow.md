@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [opentelemetry, structured-logging, distributed-tracing, dashboards-as-code, correlation-ids]
 pairs_with:
   prompts: [instrument-service-observability, define-slos, design-alerting-rules, write-runbook]

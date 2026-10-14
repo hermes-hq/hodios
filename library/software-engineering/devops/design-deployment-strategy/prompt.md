@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [canary-release, blue-green, progressive-delivery, automated-rollback]
 pairs_with:
   prompts: [add-feature-flag, plan-zero-downtime-schema-change, define-slos, write-github-actions-workflow]

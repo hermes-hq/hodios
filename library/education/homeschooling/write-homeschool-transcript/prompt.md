@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [high-school-transcript, course-descriptions, credits, grading-scale, college-applications, secondary-records]
 pairs_with:
   prompts: [build-homeschool-portfolio, plan-university-application, plan-private-candidate-exams]

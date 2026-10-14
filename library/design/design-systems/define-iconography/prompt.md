@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iconography, icon-design, pixel-grid, icon-naming, design-guidelines]
 pairs_with:
   prompts: [define-design-tokens, write-component-spec, build-brand-guidelines]

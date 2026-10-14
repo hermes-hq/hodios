@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [reschedule, cancel-meeting, calendar, time-zones, scheduling]
 pairs_with:
   prompts: [write-meeting-request-email, find-meeting-time-across-time-zones, write-meeting-invite]

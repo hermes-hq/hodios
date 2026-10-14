@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repository-backup, mirroring, restore-test, retention, code-hosting]
 pairs_with:
   prompts: [plan-disaster-recovery, move-repository-to-new-host, audit-repository-access, set-up-git-lfs]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [poem-titles, redrafting, close-reading]
 pairs_with:
   prompts: [critique-poem, order-poetry-manuscript]

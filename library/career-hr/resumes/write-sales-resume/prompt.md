@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [quota-attainment, stack-ranking, sales-metrics, pipeline-numbers]
 pairs_with:
   prompts: [rewrite-resume-bullets, tailor-resume-to-job, write-skills-section]

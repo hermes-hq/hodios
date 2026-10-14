@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [opportunity-scoring, outcome-driven-innovation, jobs-to-be-done, survey-analysis, underserved-needs]
 pairs_with:
   prompts: [define-jobs-to-be-done, prioritize-features, map-opportunity-solution-tree, map-value-proposition-canvas]

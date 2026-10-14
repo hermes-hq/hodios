@@ -17,6 +17,7 @@ advice_risk: [legal]
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [privacy-by-design, data-minimisation, retention, pseudonymisation, data-map]
 pairs_with:
   prompts: [review-diff-for-personal-data, map-personal-data-processing, threat-model-feature, redact-personal-data]

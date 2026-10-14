@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [yasashii-nihongo, easy-japanese, foreign-residents, furigana, inclusive-communication, public-notices]
 pairs_with:
   prompts: [simplify-to-plain-language, level-down-text-for-learner, edit-document-for-accessibility]

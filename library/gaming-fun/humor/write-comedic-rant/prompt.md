@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [rant, escalation, observational-comedy, monologue, video-script]
 pairs_with:
   prompts: [write-comedy-bit, write-satire-piece]

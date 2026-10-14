@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dfir-timeline, forensics, event-correlation, mitre-attack, evidence-gaps]
 pairs_with:
   prompts: [investigate-cloud-audit-logs, analyze-suspicious-script, write-threat-intel-brief]

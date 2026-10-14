@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [review-cycle, calibration, rater-bias, performance-conversation, sbi-feedback]
 pairs_with:
   prompts: [write-performance-review, plan-one-on-one, build-development-plan, write-performance-improvement-plan]

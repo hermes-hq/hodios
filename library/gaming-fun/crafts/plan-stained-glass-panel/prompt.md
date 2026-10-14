@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [stained-glass, copper-foil, lead-came, glass-cutting, soldering, lead-safety]
 args:
   - name: piece

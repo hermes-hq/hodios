@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [procurement, paper-process, vendor-onboarding, contract-signature, deal-closing, b2b-sales]
 pairs_with:
   prompts: [write-mutual-action-plan, prepare-deal-negotiation, answer-security-questionnaire, inspect-deal-qualification]

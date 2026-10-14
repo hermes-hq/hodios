@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [print-production, preflight, bleed, cmyk, pdf-export]
 pairs_with:
   prompts: [critique-graphic-design, write-design-brief, build-brand-guidelines]

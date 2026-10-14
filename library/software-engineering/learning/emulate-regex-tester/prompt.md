@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [regex, capture-groups, lookarounds, simulator, practice-sandbox]
 pairs_with:
   prompts: [write-regex]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [knowledge-files, retrieval, document-preparation, file-naming]
 pairs_with:
   prompts: [write-custom-gpt-instructions, build-project-instructions, write-long-document-prompt]

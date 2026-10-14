@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deep-links, universal-links, app-links, routing, deferred-deep-links]
 pairs_with:
   personas: [mobile-engineer]

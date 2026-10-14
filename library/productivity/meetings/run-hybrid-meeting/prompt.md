@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [hybrid-work, remote-meetings, inclusive-meetings, turn-taking, facilitation]
 pairs_with:
   prompts: [write-meeting-agenda, plan-all-hands-meeting, prepare-virtual-presentation]

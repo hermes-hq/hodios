@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [analysis-readme, reproducibility, knowledge-capture, handover]
 pairs_with:
   prompts: [write-report-runbook, document-jupyter-notebook, write-data-methodology-note]

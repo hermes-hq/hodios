@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [out-of-stock, discontinued-products, redirects, seasonal-products]
 pairs_with:
   prompts: [optimize-product-pages-for-search, optimize-category-pages, plan-site-migration-seo]

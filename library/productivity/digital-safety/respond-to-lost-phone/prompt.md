@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lost-phone, stolen-phone, find-my-device, remote-wipe, account-security, sim-lock]
 pairs_with:
   prompts: [get-back-into-locked-account, switch-phones, secure-personal-accounts, respond-to-sim-swap]

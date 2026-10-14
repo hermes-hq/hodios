@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, cloud-agents, reproducible-builds, setup-script]
 pairs_with:
   prompts: [write-agents-md, design-agent-sandbox, audit-agent-permissions]

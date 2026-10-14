@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cross-stitch, counted-thread, aida, stitch-chart, needlework, thread-palette]
 pairs_with:
   prompts: [plan-embroidery-piece]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [base-rate-fallacy, bayes-theorem, positive-predictive-value, natural-frequencies]
 pairs_with:
   prompts: [explain-statistical-concept, check-statistics-in-article, check-health-claim]

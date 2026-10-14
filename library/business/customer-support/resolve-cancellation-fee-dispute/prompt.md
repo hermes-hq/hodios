@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [no-show-fee, late-cancellation, deposit, chargeback-risk, policy-exception]
 pairs_with:
   prompts: [write-appointment-reminder-messages, reduce-appointment-no-shows, decide-goodwill-refund, respond-to-chargeback-as-merchant]

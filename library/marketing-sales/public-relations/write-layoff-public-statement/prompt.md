@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [layoffs, restructuring, redundancy-announcement, media-qa, customer-communication, employer-reputation]
 pairs_with:
   prompts: [plan-layoff-conversation, write-holding-statement, write-press-release]

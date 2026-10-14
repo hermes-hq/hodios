@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-history, genealogy, family-stories, oral-history]
 pairs_with:
   prompts: [interview-relative-for-oral-history, shape-memoir-story, write-legacy-letter]

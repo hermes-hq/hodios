@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [nonprofit]
 tags: [gift-acceptance, donor-due-diligence, ethical-fundraising, in-kind-gifts, governance]
 pairs_with:

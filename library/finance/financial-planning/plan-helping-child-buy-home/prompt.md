@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deposit-help, gifted-deposit, guarantor-mortgage, family-loan, intergenerational-wealth]
 pairs_with:
   prompts: [plan-supporting-family-financially, estimate-home-buying-costs, plan-retirement-scenarios, prepare-will-questions]

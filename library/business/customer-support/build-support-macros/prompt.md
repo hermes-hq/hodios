@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [macros, canned-responses, ticket-themes, personalisation]
 pairs_with:
   prompts: [analyze-support-tickets, write-support-reply]

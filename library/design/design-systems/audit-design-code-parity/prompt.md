@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-code-parity, design-handoff, component-inventory, design-library, drift]
 pairs_with:
   prompts: [structure-figma-component-library, audit-component-duplication, write-component-spec]

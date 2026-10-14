@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [gmat, data-sufficiency, two-part-analysis, table-analysis, business-school, pacing]
 pairs_with:
   prompts: [prepare-standardized-test, analyze-exam-mistakes, plan-exam-day-strategy]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ceremony-reading, wedding-reading, funeral-reading, reading-aloud, naming-ceremony]
 pairs_with:
   prompts: [mark-up-script-for-delivery, write-funeral-order-of-service, warm-up-voice-before-speaking]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [report-cards, parent-communication, strengths-and-next-steps]
 args:
   - name: student_notes

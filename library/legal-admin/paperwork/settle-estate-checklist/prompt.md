@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bereavement, executor, probate, digital-legacy]
 pairs_with:
   prompts: [prepare-will-questions, explain-legal-letter, prepare-government-form]

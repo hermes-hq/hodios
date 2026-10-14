@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fare-classes, basic-economy, refunds, change-fees, airline-tickets]
 pairs_with:
   prompts: [plan-flight-search, handle-travel-disruption, cancel-trip-bookings]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [middleware, async-errors, request-validation, rest-api, pull-request]
 pairs_with:
   personas: [backend-engineer]

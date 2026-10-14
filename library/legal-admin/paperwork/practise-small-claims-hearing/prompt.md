@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [small-claims, hearing-rehearsal, self-represented, mock-hearing]
 pairs_with:
   prompts: [prepare-small-claims-case, prepare-to-self-represent, write-complaint-letter]

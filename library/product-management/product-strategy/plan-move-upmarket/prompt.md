@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [upmarket, enterprise-readiness, larger-customers, sales-led, account-expansion]
 pairs_with:
   prompts: [choose-sales-motion, design-enterprise-sso, evaluate-custom-feature-for-key-account, design-pricing]

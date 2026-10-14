@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [coffee-gear, grinder, brew-methods, espresso-machine, home-barista, buying-guide]
 pairs_with:
   prompts: [dial-in-filter-coffee, dial-in-espresso, choose-coffee-beans]

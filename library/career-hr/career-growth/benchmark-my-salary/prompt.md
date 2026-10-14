@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [salary-research, market-pay, compensation, pay-benchmark]
 pairs_with:
   prompts: [ask-for-raise, negotiate-job-offer, answer-salary-expectations]

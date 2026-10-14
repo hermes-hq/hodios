@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [redundancy, layoffs, consultation, severance, hr-letters]
 pairs_with:
   prompts: [plan-layoff-conversation, design-redundancy-selection-criteria, plan-team-restructure]

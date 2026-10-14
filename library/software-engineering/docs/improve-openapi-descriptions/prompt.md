@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-reference, rest-api, api-spec]
 pairs_with:
   prompts: [write-openapi-spec-from-code, document-api-conventions]

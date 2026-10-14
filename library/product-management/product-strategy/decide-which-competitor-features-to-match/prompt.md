@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-parity, competitive-gaps, lost-deals, table-stakes, differentiation]
 pairs_with:
   prompts: [plan-competitive-response, analyze-competitor-reviews, write-competitive-battlecard, write-product-strategy]

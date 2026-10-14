@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [glossary, beginner-guide, jargon-buster, evergreen-content, plain-definitions]
 pairs_with:
   prompts: [write-explainer-article, write-pillar-page, write-how-to-article]

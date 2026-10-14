@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [handwriting-difficulties, assistive-technology, touch-typing, speech-to-text, recording-methods]
 pairs_with:

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deal-desk, discount-approval, deal-structure, payment-terms, concessions, contract-redlines]
 pairs_with:
   prompts: [prepare-deal-negotiation, build-buyer-business-case, write-sales-proposal, prepare-price-increase-conversation]

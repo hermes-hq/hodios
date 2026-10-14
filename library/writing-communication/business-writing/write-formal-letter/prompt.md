@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [formal-letter, letter-layout, din-5008, official-correspondence, salutations]
 pairs_with:
   prompts: [write-personal-letter, write-professional-email, write-escalation-email]

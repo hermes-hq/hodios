@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [portrait-photography, lighting-setup, posing, shot-list]
 pairs_with:
   prompts: [choose-camera-settings, write-event-shot-list, critique-photograph]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [racing-thoughts, worry-time, cognitive-shuffling, wind-down, falling-asleep]
 pairs_with:
   prompts: [reframe-sleep-worries, plan-middle-of-night-waking, beat-bedtime-procrastination]

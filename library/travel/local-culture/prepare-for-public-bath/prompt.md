@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [onsen, sauna, hammam, bathing-culture]
 pairs_with:
   prompts: [learn-local-etiquette, check-gestures-and-body-language]

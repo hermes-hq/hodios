@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sla, availability, uptime, service-credits, downtime]
 pairs_with:
   prompts: [define-slos, report-incident-trends, write-incident-update]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-intake, conflict-check, law-firm-operations, onboarding-forms]
 pairs_with:
   prompts: [draft-engagement-letter, write-client-status-update]

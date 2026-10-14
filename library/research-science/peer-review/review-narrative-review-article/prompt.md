@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [narrative-review, review-articles, sanra, literature-synthesis, manuscript]
 pairs_with:
   prompts: [review-systematic-review-manuscript, write-peer-review, review-conceptual-paper]

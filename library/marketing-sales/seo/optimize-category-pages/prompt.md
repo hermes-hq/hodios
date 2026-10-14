@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [category-pages, faceted-navigation, ecommerce-seo, collection-pages, crawl-budget]
 pairs_with:
   prompts: [audit-on-page-seo, write-meta-tags, build-internal-linking-plan, write-schema-markup]

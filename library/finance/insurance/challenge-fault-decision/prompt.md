@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [split-liability, no-claims-discount, dashcam-evidence, motor-claim, at-fault]
 pairs_with:
   prompts: [decide-whether-to-make-claim, appeal-insurance-denial, compare-car-insurance]

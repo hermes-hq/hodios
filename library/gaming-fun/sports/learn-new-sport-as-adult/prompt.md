@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [adult-beginner, skill-progression, sports-club, lessons, beginner-kit]
 pairs_with:
   prompts: [explain-sport-to-newcomer, design-warm-up, plan-sport-conditioning]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [standalone-components, signals, control-flow, schematics]
 pairs_with:
   prompts: [upgrade-angular-major-version, slim-down-angular-components]

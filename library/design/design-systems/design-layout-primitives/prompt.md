@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [layout-primitives, composition, component-api, css-layout, spacing-tokens]
 pairs_with:
   prompts: [design-component-api, define-layout-grid-and-breakpoints, audit-component-duplication, audit-hardcoded-styles-against-tokens]

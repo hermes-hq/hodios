@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [police-certificate, criminal-record-check, good-conduct-certificate, apostille, document-validity]
 pairs_with:
   prompts: [prepare-visa-application, prepare-citizenship-application, translate-personal-document]

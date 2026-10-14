@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crowdfunding, reward-tiers, project-page, japan]
 pairs_with:
   prompts: [write-crowdfunding-campaign, write-sales-page]

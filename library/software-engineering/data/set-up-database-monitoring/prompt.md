@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [database-alerts, grafana-panels, replication-lag, long-transactions, disk-growth, postgres-exporter]
 pairs_with:
   prompts: [design-alerting-rules, find-worst-queries-in-workload, find-lock-contention, automate-postgres-backups]

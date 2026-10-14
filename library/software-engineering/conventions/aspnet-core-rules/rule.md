@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [minimal-apis, dependency-injection, ef-core, problem-details, options-pattern]
 applies_to: ["**/*.cs", "**/appsettings*.json"]
 pairs_with:

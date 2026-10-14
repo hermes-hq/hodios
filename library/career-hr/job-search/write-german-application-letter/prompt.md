@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [anschreiben, din-5008, germany, job-application, formal-letter]
 pairs_with:
   prompts: [convert-cv-to-country-format, analyze-job-posting, decode-arbeitszeugnis]

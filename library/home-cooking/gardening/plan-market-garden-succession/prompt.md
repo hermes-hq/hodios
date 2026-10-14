@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [market-garden, succession-planting, crop-planning, veg-box, small-farm, bed-rotation]
 pairs_with:
   prompts: [plan-vegetable-garden, build-garden-calendar, plan-seed-starting]

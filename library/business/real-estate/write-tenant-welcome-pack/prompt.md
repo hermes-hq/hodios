@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [landlord, tenant-onboarding, welcome-pack, move-in]
 pairs_with:
   prompts: [set-up-rental-maintenance-process, write-property-inspection-report, check-landlord-obligations]

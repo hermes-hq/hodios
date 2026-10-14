@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [metrics-glossary, data-governance, semantic-layer, data-dictionary]
 pairs_with:
   prompts: [define-metric, explain-metric-discrepancy, build-kpi-tree]

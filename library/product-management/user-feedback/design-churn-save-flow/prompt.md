@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cancellation-flow, churn-reduction, retention-offers, exit-survey, dark-patterns, subscription-ux]
 pairs_with:
   prompts: [analyze-cancellation-feedback, design-in-product-survey, explain-saas-metrics]

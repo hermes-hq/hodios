@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [supplier-switch, transition-plan, bridge-stock, qualification, cutover, sourcing]
 pairs_with:
   prompts: [compare-vendors, vet-new-supplier, write-manufacturing-spec-sheet, terminate-supplier-relationship]

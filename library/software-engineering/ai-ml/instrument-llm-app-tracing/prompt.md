@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tracing, opentelemetry, token-usage, redaction, llm-ops]
 pairs_with:
   prompts: [reduce-llm-costs, write-llm-eval-suite, redact-personal-data]

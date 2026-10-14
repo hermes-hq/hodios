@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [refund-status, refund-tracking, acquirer-reference, returns-processing, payment-methods]
 pairs_with:
   prompts: [handle-duplicate-charge-complaint, decide-goodwill-refund, design-returns-process, reduce-where-is-my-order-contacts]

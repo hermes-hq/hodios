@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [data-validation, dropdowns, dependent-dropdown, protected-ranges, data-quality]
 pairs_with:
   prompts: [build-tracker-spreadsheet, write-conditional-formatting-rules, create-data-collection-form]

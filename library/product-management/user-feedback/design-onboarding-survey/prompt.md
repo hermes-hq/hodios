@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [signup-flow, user-segmentation, onboarding-personalisation, welcome-survey, activation]
 pairs_with:
   prompts: [design-in-product-survey, write-tracking-plan]

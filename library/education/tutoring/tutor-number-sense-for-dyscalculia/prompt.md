@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dyscalculia, number-sense, subitising, place-value, overlearning, maths-anxiety]
 pairs_with:
   prompts: [explain-fractions-with-models, tutor-adult-numeracy]

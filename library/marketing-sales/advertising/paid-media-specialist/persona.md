@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paid-media, media-buying, incrementality, creative-testing, roas]
 pairs_with:
   prompts: [plan-media-budget, define-ad-audiences, plan-ad-creative-tests, analyze-ad-performance, check-ad-policy-compliance]

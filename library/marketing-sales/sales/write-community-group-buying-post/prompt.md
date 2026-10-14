@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [group-buying, wechat-group, neighbourhood-sales, china]
 pairs_with:
   prompts: [write-xiaohongshu-note, write-whatsapp-business-service-scripts]

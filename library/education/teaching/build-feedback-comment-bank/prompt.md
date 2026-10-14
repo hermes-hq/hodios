@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [written-feedback, marking, grading, rubric, comment-bank]
 pairs_with:
   prompts: [create-rubric, give-essay-feedback, write-report-card-comments]

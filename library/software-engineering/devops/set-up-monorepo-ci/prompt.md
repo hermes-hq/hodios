@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [monorepo, affected-builds, nx, turborepo, build-cache, required-checks]
 pairs_with:
   prompts: [speed-up-ci-pipeline, write-github-actions-workflow, configure-branch-protection]

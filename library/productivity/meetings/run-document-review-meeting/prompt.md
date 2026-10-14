@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [document-review, review-comments, sign-off, facilitation]
 pairs_with:
   prompts: [run-silent-meeting, write-decision-memo, write-meeting-recap-email]

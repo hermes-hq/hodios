@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ktor, coroutines, rest-api, kotlinx-serialization, jvm]
 pairs_with:
   prompts: [build-rest-endpoint, build-spring-boot-rest-api]

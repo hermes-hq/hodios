@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [acronyms, jargon, definitions, reading-aid, terminology]
 pairs_with:
   prompts: [interrogate-a-document, summarize-long-document, build-cast-of-characters]

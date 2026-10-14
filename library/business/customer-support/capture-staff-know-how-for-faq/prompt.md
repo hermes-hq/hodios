@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [knowledge-capture, tacit-knowledge, staff-interview, saved-replies, faq-writing]
 pairs_with:
   prompts: [write-faq-from-documents, build-support-macros, write-help-center-article]

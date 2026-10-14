@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [xss, sanitization, rich-text, dompurify, user-generated-content]
 args:
   - name: where

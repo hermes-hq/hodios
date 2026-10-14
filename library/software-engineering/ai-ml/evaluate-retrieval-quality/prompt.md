@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retrieval-evaluation, recall-at-k, information-retrieval, golden-set]
 pairs_with:
   prompts: [design-rag-pipeline, write-llm-eval-suite, generate-synthetic-test-data]

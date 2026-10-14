@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [theoretical-framework, conceptual-framework, theory, dissertation, constructs]
 pairs_with:
   prompts: [compare-theories, refine-research-question, operationalize-variables, write-theoretical-framework-section]

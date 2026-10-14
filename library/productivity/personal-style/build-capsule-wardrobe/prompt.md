@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [capsule-wardrobe, mix-and-match, minimal-wardrobe, outfit-formulas, colour-palette]
 pairs_with:
   prompts: [find-flattering-colours, discover-personal-style, plan-clothing-care-and-repair]

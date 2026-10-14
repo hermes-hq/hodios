@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [escape-room, hint-ladder, puzzle-flow, party-game]
 pairs_with:
   prompts: [make-logic-puzzle]

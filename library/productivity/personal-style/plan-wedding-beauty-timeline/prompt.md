@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wedding-day, hair-and-makeup-trial, fittings, grooming-timeline, day-of-kit]
 pairs_with:
   prompts: [plan-wedding, choose-haircut, build-skincare-routine]

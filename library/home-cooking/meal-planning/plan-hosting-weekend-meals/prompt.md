@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hosting, house-guests, make-ahead, brunch, grocery-list, family-meals]
 pairs_with:
   prompts: [plan-dinner-party-menu, plan-holiday-feast-schedule, design-cocktail-menu, plan-freezer-meals]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [blood-test, phlebotomy, fasting-blood-test, lab-tests, needle-fear]
 pairs_with:
   prompts: [explain-lab-results, build-medication-list, prepare-doctor-questions]

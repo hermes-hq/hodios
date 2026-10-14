@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [calories, macros, food-tracking, recipe-nutrition, portion-estimate]
 pairs_with:
   prompts: [start-food-tracking, estimate-portion-sizes, analyze-diet-log, plan-nutrition-targets]

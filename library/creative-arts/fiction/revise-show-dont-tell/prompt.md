@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [show-dont-tell, line-editing, author-voice, filter-words]
 pairs_with:
   prompts: [critique-fiction-draft, punch-up-dialogue, write-setting-description]

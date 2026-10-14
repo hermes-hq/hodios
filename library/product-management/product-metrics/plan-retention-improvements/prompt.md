@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retention-curve, retention-levers, habit-formation, re-engagement, activation, growth-experiments]
 pairs_with:
   prompts: [define-activation-metric, build-experiment-backlog, design-holdout-experiment, find-churn-drivers]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [money, friend-groups, group-trips, bill-splitting, awkward-situations]
 pairs_with:
   prompts: [ask-for-money-back, split-shared-expenses, set-boundary]

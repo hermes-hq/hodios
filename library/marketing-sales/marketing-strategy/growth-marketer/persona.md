@@ -16,6 +16,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [growth-experiments, funnel, retention, acquisition, incrementality]
 pairs_with:
   prompts: [create-lead-magnet, design-ab-test, define-north-star-metric, diagnose-metric-drop]

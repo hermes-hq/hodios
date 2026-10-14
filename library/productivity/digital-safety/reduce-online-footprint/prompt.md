@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-brokers, people-search, data-removal, right-to-erasure, old-accounts]
 pairs_with:
   prompts: [lock-down-social-privacy, secure-personal-accounts, respond-to-online-harassment]

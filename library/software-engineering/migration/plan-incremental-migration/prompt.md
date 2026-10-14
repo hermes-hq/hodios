@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [strangler-fig, branch-by-abstraction, expand-contract, parallel-run]
 pairs_with:
   personas: [software-architect]

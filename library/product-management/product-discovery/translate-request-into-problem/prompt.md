@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [solution-requests, problem-framing, stakeholder-management, internal-tools, non-software-options]
 pairs_with:
   prompts: [write-problem-statement, estimate-problem-cost, map-internal-tool-workarounds, interview-frontline-staff]

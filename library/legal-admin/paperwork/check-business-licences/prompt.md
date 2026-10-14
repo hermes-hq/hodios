@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [business-licence, permits, business-registration, zoning, home-business, trading-standards]
 pairs_with:
   prompts: [choose-business-structure, build-compliance-checklist, review-commercial-lease, plan-home-food-business, plan-market-stall, plan-restaurant-opening]

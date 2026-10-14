@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [zine, self-publishing, risograph, imposition, diy-print]
 pairs_with:
   prompts: [make-one-sheet-minicomic, prepare-print-files, pair-typefaces]

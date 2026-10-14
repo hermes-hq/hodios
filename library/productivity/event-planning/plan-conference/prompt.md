@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [conference, programme, sponsors, registration, work-back-schedule, attendee-experience]
 pairs_with:
   prompts: [build-conference-programme, run-call-for-speakers, plan-event-budget, compare-event-venues, price-event-tickets]

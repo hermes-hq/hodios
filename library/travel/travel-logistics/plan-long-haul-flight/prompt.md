@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [long-flights, in-flight-comfort, seat-selection, economy-class, flight-sleep]
 pairs_with:
   prompts: [beat-jet-lag, plan-departure-day, plan-arrival-day, plan-airport-layover]

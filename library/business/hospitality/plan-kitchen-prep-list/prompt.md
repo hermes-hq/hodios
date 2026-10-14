@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prep-list, par-levels, mise-en-place, food-waste, covers-forecast, kitchen-stations]
 pairs_with:
   prompts: [engineer-restaurant-menu, write-opening-closing-checklist, build-allergen-matrix, prepare-for-food-safety-inspection]

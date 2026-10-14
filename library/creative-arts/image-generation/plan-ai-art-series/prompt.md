@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [art-series, generative-art, prompt-template, curation]
 pairs_with:
   prompts: [build-image-style-guide, write-image-prompt, write-artist-statement]

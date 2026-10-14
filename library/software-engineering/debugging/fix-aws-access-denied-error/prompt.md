@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iam, access-denied, least-privilege, kms, cloud-permissions]
 pairs_with:
   prompts: [review-cloud-iam-policy, fix-permission-denied-error]

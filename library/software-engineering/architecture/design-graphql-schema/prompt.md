@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [schema-design, nullability, relay-connections, n-plus-one, query-complexity]
 pairs_with:
   personas: [api-designer]

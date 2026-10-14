@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [asyncio, async-await, event-loop, concurrency, io-bound]
 pairs_with:
   prompts: [convert-callbacks-to-async-await, fix-event-loop-blocking, parallelize-python-workload, parallelize-sequential-io-calls]

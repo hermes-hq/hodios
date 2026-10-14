@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [archaeology, stratigraphy, excavation, harris-matrix, site-report]
 args:
   - name: site_type

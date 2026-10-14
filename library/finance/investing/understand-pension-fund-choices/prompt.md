@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [workplace-pension, default-fund, target-date-funds, glide-path]
 pairs_with:
   prompts: [compare-retirement-accounts, understand-pension-statement, calculate-fee-drag, assess-risk-tolerance]

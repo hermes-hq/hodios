@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cronjob, batch-jobs, scheduled-tasks, idempotency]
 pairs_with:
   prompts: [write-kubernetes-manifests, fix-scheduled-job-not-running, tune-kubernetes-resources]

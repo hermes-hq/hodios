@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [normalised-earnings, add-backs, business-sale, quality-of-earnings, ebitda]
 pairs_with:
   prompts: [review-small-business-pnl, prepare-year-end-accounts-pack, calculate-financial-ratios]

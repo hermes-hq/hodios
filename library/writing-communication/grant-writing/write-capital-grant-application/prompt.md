@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [capital-grant, equipment-funding, building-project, procurement, running-costs]
 pairs_with:
   prompts: [build-grant-budget, plan-grant-match-funding, write-grant-risk-register]

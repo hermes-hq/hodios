@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recruiter-outreach, salary-expectations, passive-candidate, linkedin-inmail]
 pairs_with:
   prompts: [negotiate-job-offer, analyze-job-posting, research-company]

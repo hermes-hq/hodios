@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [runbooks, operational-readiness, documentation-audit, alert-coverage, on-call-docs]
 pairs_with:
   prompts: [write-runbook, automate-runbook-steps, prune-noisy-alerts, design-alerting-rules]

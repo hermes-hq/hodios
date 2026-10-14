@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [debt-management-plan, insolvency, bankruptcy, debt-solutions]
 pairs_with:
   prompts: [prepare-for-debt-advice-appointment, negotiate-with-creditor, build-tight-budget]

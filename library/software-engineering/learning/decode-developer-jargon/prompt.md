@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [jargon, plain-language, cross-functional, stakeholder-communication]
 pairs_with:
   styles: [{id: beginner-friendly, level: 3}]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hedging, overclaiming, evidence, credibility, precise-wording]
 pairs_with:
   prompts: [replace-vague-claims-with-specifics, strengthen-argument-in-draft, check-summary-matches-document]

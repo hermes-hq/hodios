@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [test-data, factories, test-builders, fixtures]
 pairs_with:
   personas: [test-engineer]

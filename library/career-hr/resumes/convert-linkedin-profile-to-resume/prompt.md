@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 stack: [linkedin]
 tags: [profile-export, resume-draft, first-person-to-resume, gap-check]
 pairs_with:

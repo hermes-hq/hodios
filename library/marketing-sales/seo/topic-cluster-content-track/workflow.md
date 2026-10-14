@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [topic-clusters, pillar-pages, content-briefs, internal-links]
 pairs_with:
   prompts: [research-keywords, write-seo-content-brief, write-pillar-page, build-internal-linking-plan, mine-customer-language-for-keywords]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [tabletop-exercise, incident-response, injects, after-action-report, crisis-simulation]
 pairs_with:
   prompts: [write-ir-playbook, plan-security-incident-response]

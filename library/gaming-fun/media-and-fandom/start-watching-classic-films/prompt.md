@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [classic-films, old-hollywood, silent-film, black-and-white, film-history, viewing-route]
 pairs_with:
   prompts: [explore-directors-filmography, explore-national-cinema, recommend-films-from-favorites]

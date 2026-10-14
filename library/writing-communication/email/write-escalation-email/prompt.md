@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [escalation, blocked-work, vendor-management, stakeholder-communication]
 pairs_with:
   prompts: [write-follow-up-email, write-decision-memo, write-status-report]

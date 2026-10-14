@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [agent-coaching, quality-assurance, one-to-one, performance-feedback, ticket-examples]
 pairs_with:
   prompts: [qa-review-support-tickets, build-support-qa-scorecard, critique-draft-support-reply]

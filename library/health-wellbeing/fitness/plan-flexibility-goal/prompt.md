@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [flexibility, stretching, splits, toe-touch, deep-squat, range-of-motion]
 pairs_with:
   prompts: [design-mobility-routine, run-guided-stretch-session, track-fitness-progress]

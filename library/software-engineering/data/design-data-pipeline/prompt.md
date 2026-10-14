@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [idempotency, backfill, late-data, cdc]
 pairs_with:
   prompts: [write-data-quality-checks, design-star-schema]

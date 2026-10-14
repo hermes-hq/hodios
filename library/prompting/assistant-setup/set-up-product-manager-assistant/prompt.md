@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [product-context, metrics-glossary, spec-templates, evidence-labels, stakeholder-updates]
 pairs_with:
   prompts: [build-project-instructions, prepare-knowledge-files, write-prd]

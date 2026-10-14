@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mark-scheme, levels-of-response, assessment-objectives, examiner-feedback, exam-technique, standardisation]
 pairs_with:
   prompts: [grade-practice-answers, write-model-exam-answer, analyze-past-papers, drill-exam-command-words]

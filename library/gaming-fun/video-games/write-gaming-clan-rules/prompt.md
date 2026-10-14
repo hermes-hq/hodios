@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [guild-charter, clan-management, guild-leadership, loot-rules, online-community]
 pairs_with:
   prompts: [write-community-guidelines, plan-esports-team-practice]

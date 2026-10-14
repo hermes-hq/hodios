@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [romance, story-structure, character-arc, genre-fiction]
 pairs_with:
   prompts: [develop-character, outline-story, draft-scene-from-beats]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cornell-method, retrieval-practice, lecture-notes, self-testing]
 pairs_with:
   prompts: [make-flashcards, review-notes-for-gaps, make-study-guide]

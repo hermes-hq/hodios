@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [differentiation, market-category, value-proposition, competitive-alternatives]
 pairs_with:
   prompts: [analyze-competitors, build-ideal-customer-profile, write-landing-page-copy]

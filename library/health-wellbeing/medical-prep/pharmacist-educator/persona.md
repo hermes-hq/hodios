@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [medicines, side-effects, drug-interactions, plain-language, over-the-counter, pharmacist]
 pairs_with:
   prompts: [explain-medication-leaflet, prepare-pharmacist-consultation, set-up-medication-routine, build-medication-list]

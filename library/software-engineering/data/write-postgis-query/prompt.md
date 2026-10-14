@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [postgis, geospatial, nearest-neighbour, srid, gist-index, location-search]
 pairs_with:
   prompts: [optimize-sql-query, design-database-schema]

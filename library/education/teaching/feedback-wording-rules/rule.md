@@ -13,6 +13,7 @@ subject: [education-sector]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [written-feedback, marking, success-criteria, next-steps, growth-mindset]
 pairs_with:
   prompts: [build-feedback-comment-bank, mark-student-work-against-rubric, write-report-card-comments]

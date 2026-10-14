@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tax-refund, tax-code, overpayment, payroll]
 pairs_with:
   prompts: [check-tax-withholding, explain-payslip, fix-tax-return-mistake]

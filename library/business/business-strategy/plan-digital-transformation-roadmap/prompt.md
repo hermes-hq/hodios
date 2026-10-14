@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [digital-transformation, systems-roadmap, technology-planning, change-management, capability-map]
 pairs_with:
   prompts: [find-ai-use-cases-in-business, write-department-strategy, evaluate-build-vs-buy, prioritize-strategic-initiatives]

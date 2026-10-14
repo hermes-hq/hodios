@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [monetization, revenue-model, digital-products]
 pairs_with:
   prompts: [write-media-kit, pitch-brand-sponsorship, mine-audience-questions]

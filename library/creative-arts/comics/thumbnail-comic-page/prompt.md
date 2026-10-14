@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [page-layout, thumbnails, panel-layout, reading-flow, balloon-placement]
 pairs_with:
   prompts: [write-comic-script, critique-comic-page, plan-comic-lettering]

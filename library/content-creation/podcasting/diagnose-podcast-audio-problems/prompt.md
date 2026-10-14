@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [audio-quality, hum-and-hiss, noise-reduction, loudness, remote-recording]
 pairs_with:
   prompts: [choose-podcast-setup, create-podcast-edit-list]

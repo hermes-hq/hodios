@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bi-tools, tool-selection, analytics-platforms, licensing]
 pairs_with:
   prompts: [choose-charting-library, design-dashboard, build-looker-studio-report, build-metabase-dashboard]

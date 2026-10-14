@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [apns, fcm, notifications, device-tokens]
 pairs_with:
   prompts: [implement-push-notifications, debug-mobile-crash]

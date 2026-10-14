@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [counterfactual-history, decision-game, source-labelling, history-class]
 pairs_with:
   prompts: [explain-historical-event]

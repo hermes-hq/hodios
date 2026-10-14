@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [exploratory-testing, session-based-testing, test-charters, sfdipot, test-heuristics]
 pairs_with:
   prompts: [write-test-plan, write-manual-test-cases]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lean-canvas, one-page-plan, riskiest-assumption, problem-solution-fit, customer-segments]
 pairs_with:
   prompts: [validate-business-idea, analyze-business-model, write-business-plan, map-value-proposition-canvas]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [list-segmentation, engagement-segments, rfm, lifecycle-email, personalisation]
 pairs_with:
   prompts: [segment-customers, write-win-back-campaign, write-email-sequence, audit-email-deliverability]

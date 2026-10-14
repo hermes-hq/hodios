@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [daily-practice, cefr, spaced-repetition, study-routine, error-correction]
 pairs_with:
   prompts: [build-vocabulary-list, explain-grammar-point, generate-language-drills, correct-my-sentences, write-graded-reader]

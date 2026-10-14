@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [resume-metrics, achievement-bullets, estimating-impact, numbers-on-resume]
 pairs_with:
   prompts: [rewrite-resume-bullets, build-master-resume, tailor-resume-to-job]

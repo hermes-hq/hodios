@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [disability, reasonable-adjustments, accessible-housing, adaptations, tenant-requests]
 pairs_with:
   prompts: [plan-aging-in-place-modifications, review-lease]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [agua-fresca, fruit-drinks, infused-water, alcohol-free, summer-drinks]
 pairs_with:
   prompts: [make-cordial-or-shrub, invent-alcohol-free-cocktail]

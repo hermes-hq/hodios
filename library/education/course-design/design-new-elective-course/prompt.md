@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [elective-course, course-proposal, school-leadership, student-choice, course-approval, secondary-school]
 pairs_with:
   prompts: [write-course-syllabus, write-learning-objectives, design-course-outline]

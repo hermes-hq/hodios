@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-audit, brand-consistency, brand-positioning, visual-identity, brand-voice]
 pairs_with:
   prompts: [build-brand-guidelines, write-brand-voice-guide, plan-rebrand, audit-design-consistency]

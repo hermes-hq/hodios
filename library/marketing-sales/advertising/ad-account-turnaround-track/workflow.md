@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [account-takeover, wasted-spend, tracking-audit, account-structure, test-plan, readout]
 pairs_with:
   prompts: [audit-search-ads-account, analyze-ad-performance, plan-ad-conversion-tracking, triage-search-terms-report, plan-ad-creative-tests, calculate-break-even-roas]

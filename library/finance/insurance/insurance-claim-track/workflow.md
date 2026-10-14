@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [insurance-claim, home-insurance, car-insurance, loss-inventory, claims-adjuster, ombudsman]
 pairs_with:
   prompts: [appeal-insurance-denial, review-insurance-coverage, organize-important-documents, handle-car-accident-aftermath]

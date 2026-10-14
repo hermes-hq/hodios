@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [inbound-leads, speed-to-lead, lead-response, qualification, sales-email]
 pairs_with:
   prompts: [qualify-leads, prepare-discovery-call, write-sales-follow-up]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [guided-reading, small-group-instruction, early-literacy, reading-comprehension, word-work]
 pairs_with:
   prompts: [write-decodable-text, adapt-text-reading-level, write-reading-comprehension-set, plan-intervention-group]

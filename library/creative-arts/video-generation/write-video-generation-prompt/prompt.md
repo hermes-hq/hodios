@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [camera-movement, shot-list]
 pairs_with:
   prompts: [write-image-prompt, create-storyboard, build-image-style-guide]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rest-api, zod, error-middleware, supertest, graceful-shutdown]
 pairs_with:
   prompts: [build-rest-endpoint, implement-graceful-shutdown, review-express-handler-change]

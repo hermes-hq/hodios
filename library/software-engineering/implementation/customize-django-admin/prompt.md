@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [django-admin, back-office, internal-tools, n-plus-one, permissions]
 args:
   - name: models

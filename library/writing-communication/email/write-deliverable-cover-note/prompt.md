@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cover-note, deliverable, handoff, client-communication, review-request]
 pairs_with:
   prompts: [write-executive-summary, request-approval-by-email, ask-for-feedback-by-email]

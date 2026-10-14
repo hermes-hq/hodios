@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shipping-documents, commercial-invoice, customs, export, importing, freight-forwarder]
 pairs_with:
   prompts: [calculate-landed-cost, plan-order-fulfilment]

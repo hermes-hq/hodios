@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wall-fixings, wall-anchors, plasterboard, masonry, tv-mounting, shelving]
 pairs_with:
   prompts: [plan-gallery-wall, assemble-flat-pack-furniture, plan-diy-project]

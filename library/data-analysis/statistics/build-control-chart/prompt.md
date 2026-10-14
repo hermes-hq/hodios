@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spc, control-limits, process-control, quality-improvement]
 pairs_with:
   prompts: [detect-anomalies, analyze-process-cycle-times, map-business-process]

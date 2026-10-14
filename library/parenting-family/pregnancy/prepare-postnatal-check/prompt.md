@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [postnatal-check, six-week-check, pelvic-floor, contraception, birth-recovery]
 pairs_with:
   prompts: [plan-postpartum-exercise-return, prepare-birth-debrief, write-perinatal-mental-health-plan]

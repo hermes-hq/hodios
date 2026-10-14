@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [agent-evals, trajectory-scoring, simulated-tools, pass-at-k]
 pairs_with:
   prompts: [write-llm-eval-suite, design-agent-architecture, generate-synthetic-test-data]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [volunteering, unpaid-experience, community-leadership, returners]
 pairs_with:
   prompts: [rewrite-resume-bullets, explain-career-gap, reframe-for-career-change]

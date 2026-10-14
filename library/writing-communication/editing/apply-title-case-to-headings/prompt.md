@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [title-case, sentence-case, headings, capitalisation, style-guides]
 pairs_with:
   prompts: [copyedit-to-style-guide, build-style-sheet, format-citations]

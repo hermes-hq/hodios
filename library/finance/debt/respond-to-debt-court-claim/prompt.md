@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [debt-lawsuit, court-deadline, default-judgment, payment-offer]
 pairs_with:
   prompts: [respond-to-debt-collector, check-old-debt-time-limit, prepare-for-debt-advice-appointment, explain-legal-letter]

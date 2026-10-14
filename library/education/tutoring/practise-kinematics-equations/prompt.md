@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kinematics, suvat, projectile-motion, free-fall, acceleration, sign-convention]
 pairs_with:
   prompts: [coach-free-body-diagrams, practise-dimensional-analysis, practise-rearranging-formulas]

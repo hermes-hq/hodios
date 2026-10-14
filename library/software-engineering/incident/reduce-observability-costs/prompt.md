@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [telemetry-cost, cardinality, log-volume, trace-sampling, retention]
 pairs_with:
   prompts: [instrument-service-observability, prune-noisy-alerts, write-observability-queries, design-service-dashboard]

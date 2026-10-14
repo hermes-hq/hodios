@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [local-news, morning-briefing, attribution, daily-email, civic-calendar]
 pairs_with:
   prompts: [compile-weekend-events-listing, write-issue-correction-note]

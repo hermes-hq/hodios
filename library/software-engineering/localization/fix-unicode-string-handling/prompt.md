@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [unicode, grapheme-clusters, text-processing]
 pairs_with:
   prompts: [implement-locale-aware-sorting-and-search, review-i18n-readiness]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [iac, environment-promotion, terragrunt, repo-layout]
 pairs_with:
   prompts: [set-up-terraform-state-backend, write-terraform-module, refactor-terraform-without-recreating]

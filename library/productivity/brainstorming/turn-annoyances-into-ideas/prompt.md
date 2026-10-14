@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bug-list, pain-points, problem-finding, everyday-friction, opportunity-spotting]
 pairs_with:
   prompts: [validate-business-idea, write-how-might-we-questions, generate-business-ideas]

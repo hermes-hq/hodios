@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [home-experiments, practical-science, lab-safety, scientific-method, kitchen-chemistry, write-ups]
 pairs_with:
   prompts: [structure-lab-report, run-predict-observe-explain, write-homeschool-transcript]

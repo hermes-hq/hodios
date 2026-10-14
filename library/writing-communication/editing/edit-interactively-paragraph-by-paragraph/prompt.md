@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [guided-edit, paragraph-editing, word-choice, author-control]
 pairs_with:
   prompts: [line-edit-prose, tighten-prose, suggest-alternative-phrasings]

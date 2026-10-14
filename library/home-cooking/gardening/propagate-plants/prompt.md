@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [propagation, cuttings, division, layering, rooting, plant-swaps]
 pairs_with:
   prompts: [plan-houseplant-care, save-seeds, build-garden-calendar, plan-seed-starting]

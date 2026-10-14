@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [roleplay, guest-appearance, storytelling, interview-practice, soundbites]
 pairs_with:
   prompts: [write-podcast-guest-pitch, prepare-media-interview, practise-podcast-interview-hosting]

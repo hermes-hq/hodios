@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [channel-choice, new-platform, opportunity-cost, exit-criteria, fomo]
 pairs_with:
   prompts: [analyze-competitor-channels, define-content-pillars, plan-content-calendar]

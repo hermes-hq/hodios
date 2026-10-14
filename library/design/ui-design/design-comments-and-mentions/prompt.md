@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [comments, mentions, comment-threads, collaboration, resolve-states]
 pairs_with:
   prompts: [spec-comments-and-mentions, design-notification-strategy, design-sharing-and-permissions-ui, write-ux-microcopy]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [big-o, data-structures, benchmarking, time-complexity]
 pairs_with:
   personas: [performance-engineer]

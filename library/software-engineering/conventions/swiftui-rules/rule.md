@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [state-ownership, observable, navigation-stack, view-identity, previews]
 applies_to: ["**/*.swift"]
 pairs_with:

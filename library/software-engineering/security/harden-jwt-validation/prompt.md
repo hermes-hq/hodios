@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [jwt, token-validation, authentication, oidc]
 pairs_with:
   prompts: [implement-jwt-refresh-tokens, fix-jwt-validation-failure, review-auth-flow, implement-session-revocation]

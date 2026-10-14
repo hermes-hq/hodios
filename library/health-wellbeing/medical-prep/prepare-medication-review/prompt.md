@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [medication-review, deprescribing, polypharmacy, older-adults, carers]
 pairs_with:
   prompts: [build-medication-list, prepare-pharmacist-consultation, explain-medication-leaflet]

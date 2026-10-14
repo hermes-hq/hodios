@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [schema-evolution, schema-registry, avro, protobuf, compatibility, event-streaming]
 pairs_with:
   prompts: [design-change-data-capture, design-event-driven-system, review-database-migration]

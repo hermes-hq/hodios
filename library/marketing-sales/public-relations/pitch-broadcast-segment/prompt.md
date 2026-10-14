@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [broadcast-pitch, tv-segment, radio-interview, producers, b-roll]
 pairs_with:
   prompts: [pitch-journalist, prepare-media-interview, build-media-list]

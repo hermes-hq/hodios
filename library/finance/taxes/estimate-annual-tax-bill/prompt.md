@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [income-tax, tax-estimate, tax-bands, worked-example]
 pairs_with:
   prompts: [explain-marginal-tax-rates, check-tax-withholding, plan-estimated-tax-payments]

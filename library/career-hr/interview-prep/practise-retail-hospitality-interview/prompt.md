@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 subject: [retail, hospitality]
 tags: [frontline-jobs, customer-service-questions, shift-work, first-job]
 pairs_with:

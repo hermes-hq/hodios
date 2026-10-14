@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [meeting-request, scheduling, time-zones, agenda, stakeholder-management]
 pairs_with:
   prompts: [write-follow-up-email, write-introduction-email, write-professional-email]

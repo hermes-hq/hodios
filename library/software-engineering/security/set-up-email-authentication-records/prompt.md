@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spf, dkim, dmarc, email-spoofing, dns]
 pairs_with:
   prompts: [implement-transactional-email, audit-email-deliverability, set-up-domain-and-https]

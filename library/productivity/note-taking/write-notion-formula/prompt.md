@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [notion-formulas, formula-property, date-math, progress-bar, notion-databases]
 pairs_with:
   prompts: [set-up-notion-workspace, write-note-templates]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gatsby, static-site, url-parity, service-worker, content-collections]
 pairs_with:
   prompts: [switch-build-tool, upgrade-nextjs-major-version, plan-incremental-migration]

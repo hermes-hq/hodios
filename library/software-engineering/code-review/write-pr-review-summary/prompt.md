@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pull-request, review-comments, review-decision]
 pairs_with:
   personas: [code-reviewer]

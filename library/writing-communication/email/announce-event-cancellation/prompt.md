@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [event-cancellation, postponement, refunds, attendee-communication, bad-news]
 pairs_with:
   prompts: [postpone-or-cancel-event, write-event-invitation, write-bad-news-email]

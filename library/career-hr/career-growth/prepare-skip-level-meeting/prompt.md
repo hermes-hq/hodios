@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [skip-level, managing-up, raising-concerns, senior-leadership]
 pairs_with:
   prompts: [increase-work-visibility, handle-difficult-manager, plan-career-path]

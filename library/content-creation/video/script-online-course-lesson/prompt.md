@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [online-course, lesson-video, worked-example, learning-objective, on-screen-text]
 pairs_with:
   prompts: [plan-paid-online-course, write-tutorial-video-script, adapt-script-for-teleprompter]

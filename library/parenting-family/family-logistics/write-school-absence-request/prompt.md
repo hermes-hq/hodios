@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [school-absence, term-time-leave, absence-note, school-attendance, parent-to-school]
 pairs_with:
   prompts: [write-email-to-teacher, plan-catch-up-after-absence, extract-actions-from-school-messages]

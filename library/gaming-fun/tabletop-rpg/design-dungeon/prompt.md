@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dungeon-design, room-key, site-based-adventure, game-mastering, session-prep]
 pairs_with:
   prompts: [balance-combat-encounter, design-random-tables, create-player-handouts]

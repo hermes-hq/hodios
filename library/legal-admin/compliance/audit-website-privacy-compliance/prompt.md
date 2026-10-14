@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cookie-consent, privacy-notice, tracking-pixels, data-protection]
 pairs_with:
   prompts: [write-privacy-policy, map-personal-data-processing, build-compliance-checklist, handle-data-subject-request]

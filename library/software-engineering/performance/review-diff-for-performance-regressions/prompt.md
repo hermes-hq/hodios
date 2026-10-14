@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [n-plus-one, query-count, hot-path, big-o, pull-request]
 pairs_with:
   personas: [performance-engineer]

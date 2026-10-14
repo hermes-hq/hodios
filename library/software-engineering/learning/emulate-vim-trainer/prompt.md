@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [vim, text-editing, keyboard-motions, simulator, practice-sandbox]
 args:
   - name: level

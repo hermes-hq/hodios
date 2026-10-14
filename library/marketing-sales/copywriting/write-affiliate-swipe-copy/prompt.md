@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [affiliate-marketing, swipe-file, partner-marketing, disclosure, joint-venture]
 pairs_with:
   prompts: [design-affiliate-program, write-creator-brief, write-launch-copy-kit, write-promo-email]

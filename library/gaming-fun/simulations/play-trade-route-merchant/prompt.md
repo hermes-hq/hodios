@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trading-game, arbitrage, supply-and-demand, caravan, economics-game]
 pairs_with:
   prompts: [play-bazaar-haggling, play-age-of-sail-voyage]

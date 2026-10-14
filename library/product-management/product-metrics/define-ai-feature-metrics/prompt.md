@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-features, llm-product, acceptance-rate, quality-sampling, cost-per-task, human-review]
 pairs_with:
   prompts: [define-feature-success-metrics, define-guardrail-metrics, write-tracking-plan]

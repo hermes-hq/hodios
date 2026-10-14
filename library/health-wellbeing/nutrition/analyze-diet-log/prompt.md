@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [food-log, dietary-guidelines, eating-habits, fibre]
 pairs_with:
   prompts: [read-nutrition-label, plan-nutrition-targets]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [meta-analysis, heterogeneity, random-effects, publication-bias, grade, evidence-synthesis]
 pairs_with:
   prompts: [extract-data-for-meta-analysis, write-systematic-review-protocol, appraise-study-quality]

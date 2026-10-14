@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [social-enterprise, theory-of-change, mission-drift, earned-income, impact-measures, legal-form]
 pairs_with:
   prompts: [model-unit-economics, write-impact-report, write-business-plan, validate-business-idea]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-maintenance, test-readability, test-doubles, coverage]
 pairs_with:
   personas: [test-engineer]

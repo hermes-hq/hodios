@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [menopause, perimenopause, hrt, womens-health, hot-flushes, midlife-health]
 pairs_with:
   prompts: [plan-menopause-lifestyle, build-symptom-log, prepare-doctor-questions, prepare-treatment-decision]

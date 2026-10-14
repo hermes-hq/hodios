@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ai-adoption, workflow-automation, time-savings, human-in-the-loop, data-privacy]
 pairs_with:
   prompts: [write-custom-instructions, build-project-instructions, write-task-prompt]

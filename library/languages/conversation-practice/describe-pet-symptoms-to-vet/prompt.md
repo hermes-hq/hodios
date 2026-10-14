@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 advice_risk: [medical]
 tags: [vet-visit, symptoms, aftercare, newcomers]
 pairs_with:

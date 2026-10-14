@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [study-group, peer-learning, retrieval-practice, revision-session]
 pairs_with:
   prompts: [plan-group-project, prepare-office-hours-questions, make-flashcards]

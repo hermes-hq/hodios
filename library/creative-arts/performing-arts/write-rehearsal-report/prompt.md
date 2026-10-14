@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stage-management, rehearsal-report, production-communication, department-notes, theatre-admin]
 pairs_with:
   prompts: [plan-rehearsal-schedule, write-director-notes, write-show-report]

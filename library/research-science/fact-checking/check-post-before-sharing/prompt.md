@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sift-method, lateral-reading, media-literacy, viral-posts, whatsapp-forwards]
 pairs_with:
   prompts: [fact-check-claims, respond-to-misinformation, verify-screenshot-of-post]

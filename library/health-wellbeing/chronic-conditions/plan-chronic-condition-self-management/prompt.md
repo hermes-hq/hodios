@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [self-management, action-plan, health-tracking, routines, carers]
 pairs_with:
   prompts: [build-symptom-log, build-medication-list, plan-activity-pacing, prepare-doctor-questions]

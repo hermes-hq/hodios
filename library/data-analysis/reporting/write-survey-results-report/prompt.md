@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [survey-reporting, base-sizes, likert, questionnaire, findings]
 pairs_with:
   prompts: [analyze-survey-results, write-insight-report, write-data-methodology-note, make-report-accessible]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [club-setup, community-sport, club-committee, affiliation, grassroots-sport, volunteer-organiser]
 pairs_with:
   prompts: [plan-team-season]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [capstone, university-teaching, team-projects, peer-assessment, industry-partners, rubric]
 pairs_with:
   prompts: [map-program-curriculum, create-rubric, design-pbl-project]

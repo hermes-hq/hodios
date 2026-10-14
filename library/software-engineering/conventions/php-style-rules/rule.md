@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [strict-types, psr-12, composer, type-declarations, prepared-statements]
 applies_to: ["**/*.php"]
 pairs_with:

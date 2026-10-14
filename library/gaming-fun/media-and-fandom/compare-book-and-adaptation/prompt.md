@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [book-vs-film, adaptation, read-first, spoiler-levels]
 pairs_with:
   prompts: [explain-film-ending, recommend-next-book, catch-up-on-series-spoiler-free]

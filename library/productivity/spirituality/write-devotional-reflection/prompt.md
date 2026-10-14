@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [devotional, daily-reflection, parish-newsletter, contemplation, scripture]
 pairs_with:
   prompts: [study-sacred-passage, write-blessing-or-prayer, plan-scripture-study]

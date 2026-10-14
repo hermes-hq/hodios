@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brd, business-analysis, requirements, acceptance-criteria, moscow, procurement]
 pairs_with:
   prompts: [write-project-proposal, write-decision-memo, define-non-functional-requirements]

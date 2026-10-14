@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fixed-dates, funding-cycles, procurement-lead-time, legacy-contracts, governance-cycles]
 pairs_with:
   prompts: [build-outcome-roadmap, map-cross-team-dependencies, brief-board-on-roadmap]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [non-examined-assessment, independent-project, coursework-draft, source-evaluation, academic-integrity]
 pairs_with:
   prompts: [understand-assignment-brief, self-check-draft-against-rubric, write-ai-use-disclosure]

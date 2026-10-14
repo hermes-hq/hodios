@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [estate-planning, guardianship, executor, inheritance]
 pairs_with:
   prompts: [settle-estate-checklist]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [axe-core, lighthouse, wave, wcag, scan-results]
 pairs_with:
   personas: [accessibility-specialist]

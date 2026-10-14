@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [account-management, client-relationship, customer-retention, value-add, touchpoint]
 pairs_with:
   prompts: [prepare-business-review, reconnect-with-old-contact, pitch-retainer-to-client]

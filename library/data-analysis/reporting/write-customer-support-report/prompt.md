@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [support-metrics, csat, contact-drivers, first-response-time, repeat-contacts]
 pairs_with:
   prompts: [analyze-contact-centre-data, write-voice-of-customer-report, write-sla-performance-report, write-monthly-business-review]

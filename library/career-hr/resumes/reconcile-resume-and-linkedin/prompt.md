@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [consistency-check, background-check, employment-dates, profile-audit]
 pairs_with:
   prompts: [optimize-linkedin-profile, check-resume-ats-readiness, brief-your-references]

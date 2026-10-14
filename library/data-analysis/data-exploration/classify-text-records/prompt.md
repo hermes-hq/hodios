@@ -17,6 +17,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [text-classification, tagging, feedback-analysis]
 pairs_with:
   prompts: [analyze-survey-results, write-insight-report]

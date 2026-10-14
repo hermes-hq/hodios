@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [literary-translation, voice, rhythm, translators-note, prose-style]
 pairs_with:
   prompts: [translate-preserving-tone, review-translation, build-translation-glossary]

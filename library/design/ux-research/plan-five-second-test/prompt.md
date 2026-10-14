@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [five-second-test, first-impression, value-proposition, visual-hierarchy, recall-test]
 pairs_with:
   prompts: [plan-first-click-test, design-landing-page-layout, plan-desirability-study]

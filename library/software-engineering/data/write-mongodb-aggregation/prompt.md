@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [aggregation-pipeline, nosql, query-optimization, indexes]
 pairs_with:
   personas: [database-administrator]

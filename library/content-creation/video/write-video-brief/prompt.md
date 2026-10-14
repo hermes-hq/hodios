@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [video-brief, commissioning, deliverables, aspect-ratios, usage-rights, approvals]
 pairs_with:
   prompts: [plan-video-shoot, write-design-brief, give-rough-cut-notes]

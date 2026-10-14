@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-migration, opening-balances, cut-over, bookkeeping-tools]
 pairs_with:
   prompts: [set-up-chart-of-accounts, reconcile-bank-account, prepare-month-end-close, prepare-for-accountant-meeting]

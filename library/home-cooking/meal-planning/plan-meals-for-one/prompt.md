@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cooking-for-one, food-waste, leftovers, small-batch, freezer]
 pairs_with:
   prompts: [plan-weekly-meals, plan-budget-meals, recipe-from-ingredients]

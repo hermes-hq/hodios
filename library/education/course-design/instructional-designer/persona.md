@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [learning-design, backward-design, learning-and-development, performance-consulting, cognitive-load]
 pairs_with:
   prompts: [run-training-needs-analysis, design-course-outline, design-microlearning-series, evaluate-training-effectiveness, write-instructor-guide]

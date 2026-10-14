@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [landing-page, meta-description, title-tag, search-intent, conversion-copy]
 pairs_with:
   prompts: [research-keywords, write-landing-page-copy, audit-on-page-seo, write-schema-markup]

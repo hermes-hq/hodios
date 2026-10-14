@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [screen-states, empty-states, offline-mode, deep-links, analytics-events, edge-cases]
 pairs_with:
   prompts: [write-acceptance-criteria, list-feature-edge-cases, audit-mobile-accessibility]

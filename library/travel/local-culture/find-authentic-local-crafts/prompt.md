@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [souvenirs, handmade-goods, artisan-goods, export-restrictions, shopping-abroad]
 pairs_with:
   prompts: [haggle-at-local-market, learn-local-etiquette]

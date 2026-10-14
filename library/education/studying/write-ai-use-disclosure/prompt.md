@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ai-disclosure, academic-integrity, generative-ai, transparency]
 pairs_with:
   rules: [academic-integrity-rules]

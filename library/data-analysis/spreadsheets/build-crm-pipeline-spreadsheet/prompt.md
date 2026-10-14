@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-pipeline, deal-tracker, weighted-forecast, follow-ups, crm-lite]
 pairs_with:
   prompts: [review-sales-pipeline, write-conditional-formatting-rules, set-up-data-validation]

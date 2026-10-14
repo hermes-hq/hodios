@@ -11,6 +11,7 @@ requires: [none]
 output: [checklist]
 risk: read-only
 level: beginner
+depth: specific
 tags: [numbered-steps, how-to]
 levels:
   - label: Light ordering

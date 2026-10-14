@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [product-drop, collection-launch, early-access, small-batch, honest-scarcity]
 pairs_with:
   prompts: [write-back-in-stock-emails, write-preorder-campaign-emails, plan-email-segmentation]

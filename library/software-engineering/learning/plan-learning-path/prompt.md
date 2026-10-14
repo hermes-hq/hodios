@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [study-plan, upskilling]
 pairs_with:
   prompts: [explain-concept-with-code]

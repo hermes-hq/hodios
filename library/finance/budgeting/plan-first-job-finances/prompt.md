@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [first-job, young-adults, emergency-fund, workplace-pension, student-loans]
 pairs_with:
   prompts: [explain-payslip, build-monthly-budget, compare-retirement-accounts, plan-debt-payoff]

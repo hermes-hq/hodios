@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shareholders-agreement, minority-shareholder, drag-along, good-leaver, pre-emption-rights]
 pairs_with:
   prompts: [outline-cofounder-agreement, explain-contract-clause, summarize-contract]

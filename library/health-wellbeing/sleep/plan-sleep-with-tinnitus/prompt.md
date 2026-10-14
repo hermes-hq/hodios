@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tinnitus, sound-enrichment, white-noise, hearing, wind-down]
 pairs_with:
   prompts: [audit-bedroom-for-sleep, plan-middle-of-night-waking, reframe-sleep-worries]

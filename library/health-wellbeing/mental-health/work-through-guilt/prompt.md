@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [guilt, responsibility, making-amends, self-forgiveness, cbt-skills]
 pairs_with:
   prompts: [learn-from-a-regret, apologize-effectively, practice-self-compassion, process-grief]

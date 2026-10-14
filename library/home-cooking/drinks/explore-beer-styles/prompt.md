@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [beer-styles, craft-beer, beer-tasting, responsible-drinking]
 pairs_with:
   prompts: [host-tasting-night, find-alcohol-free-alternatives]

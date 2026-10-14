@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quoting, job-costing, markup, trades, margin]
 pairs_with:
   prompts: [design-spreadsheet-model, set-up-data-validation, write-customer-quote]

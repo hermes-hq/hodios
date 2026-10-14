@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [dogfooding, internal-testing, bug-triage, release-readiness, feedback-channels]
 pairs_with:
   prompts: [plan-beta-program, plan-release, design-in-product-survey]

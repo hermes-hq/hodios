@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [court-fees, fee-waiver, fee-remission, legal-costs, low-income]
 pairs_with:
   prompts: [prepare-small-claims-case, find-free-legal-help, prepare-to-self-represent]

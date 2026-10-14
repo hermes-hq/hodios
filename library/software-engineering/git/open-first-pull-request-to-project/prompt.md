@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-contribution, fork-workflow, open-source-contribution, pull-request-etiquette, sign-off]
 pairs_with:
   prompts: [sync-fork-with-upstream, fix-missing-dco-signoff, write-pr-description, address-review-with-fixup-commits]

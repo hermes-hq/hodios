@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [coming-out, lgbtq, identity, disclosure, family-reactions]
 pairs_with:
   prompts: [announce-unpopular-decision-to-family, respond-supportively-to-disclosure, set-boundary]

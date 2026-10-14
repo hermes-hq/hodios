@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vault-cleanup, tag-sprawl, digital-declutter, hub-note, maintenance-routine]
 pairs_with:
   prompts: [audit-notes-vault, design-note-tagging-scheme, merge-overlapping-notes, write-map-of-content, plan-notes-backup-and-export]

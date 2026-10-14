@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [self-advocacy, self-knowledge, asking-for-help, adjustments, independence]
 pairs_with:

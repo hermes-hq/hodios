@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audio-drama, fiction-podcast, radio-drama, sound-design]
 pairs_with:
   prompts: [format-screenplay-scene, punch-up-dialogue]

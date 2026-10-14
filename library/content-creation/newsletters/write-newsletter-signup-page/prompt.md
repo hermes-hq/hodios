@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [signup-form, landing-copy, reader-promise, microcopy, double-opt-in]
 pairs_with:
   prompts: [write-newsletter-welcome-email, plan-newsletter-format, grow-newsletter]

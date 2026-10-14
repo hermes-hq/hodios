@@ -7,6 +7,7 @@ description: Standing rules for Go an assistant writes, covering wrapped errors,
 category: conventions
 version: 1.0.0
 status: experimental
+depth: specific
 stage: [build]
 role: [software-engineer, backend-engineer, devops-engineer, sre]
 stack: [go]

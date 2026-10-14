@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [used-car, car-buying, test-drive, vehicle-history, pre-purchase-inspection]
 pairs_with:
   prompts: [plan-car-purchase, diagnose-car-warning, prepare-for-car-service]

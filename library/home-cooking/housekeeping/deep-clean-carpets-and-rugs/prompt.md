@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [carpet-cleaning, rugs, flooring-care, chemical-safety]
 pairs_with:
   prompts: [remove-stain, reduce-dust-and-allergens]

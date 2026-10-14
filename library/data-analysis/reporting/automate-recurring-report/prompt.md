@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [report-automation, data-pipeline, scheduled-refresh, data-quality-checks, runbook]
 pairs_with:
   prompts: [write-power-query, write-spreadsheet-automation, write-weekly-metrics-update]

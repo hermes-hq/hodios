@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deployment-environments, approvals, secrets, oidc, branch-protection]
 pairs_with:
   prompts: [write-github-actions-workflow, set-up-keyless-ci-deploys, design-ci-cd-pipeline]

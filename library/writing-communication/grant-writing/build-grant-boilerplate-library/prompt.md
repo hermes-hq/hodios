@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [boilerplate, content-library, reusable-text, attachments-checklist, approved-text]
 pairs_with:
   prompts: [write-grant-application, adapt-proposal-for-new-funder]

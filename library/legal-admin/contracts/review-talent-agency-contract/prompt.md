@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [talent-agency, artist-management, commission, sunset-clause, entertainment]
 pairs_with:
   prompts: [review-creative-rights-contract, evaluate-creator-management-offer, explain-contract-clause]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-hire, team-announcement, introduction, onboarding-logistics, people-news]
 pairs_with:
   prompts: [write-new-hire-welcome-email, write-internal-announcement, write-account-handover-email]

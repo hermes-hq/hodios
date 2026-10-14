@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [account-security, passwords, two-factor, password-manager, passkeys, privacy]
 pairs_with:
   prompts: [check-suspicious-message, recover-hacked-account, protect-relative-from-scams]

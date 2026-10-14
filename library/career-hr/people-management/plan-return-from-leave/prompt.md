@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [return-to-work, parental-leave, medical-leave, phased-return, reintegration]
 pairs_with:
   prompts: [plan-one-on-one, plan-new-hire-onboarding, propose-flexible-work]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mistranslation, quotations, cross-language, misquotes]
 pairs_with:
   prompts: [verify-quotes-against-source, trace-quote-origin, check-paraphrase-faithfulness]

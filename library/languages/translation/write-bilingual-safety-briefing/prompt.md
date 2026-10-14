@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [toolbox-talk, workplace-safety, multilingual-crews, pictograms]
 pairs_with:
   prompts: [translate-technical-manual-section, adapt-public-notice-for-many-languages, back-translate-to-verify]

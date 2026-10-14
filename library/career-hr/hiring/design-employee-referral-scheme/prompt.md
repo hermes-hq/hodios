@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employee-referrals, referral-bonus, sourcing-strategy, diverse-hiring, recruiting-programme]
 pairs_with:
   prompts: [write-sourcing-search-strings, design-interview-loop]

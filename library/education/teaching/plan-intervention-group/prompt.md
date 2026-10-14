@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [intervention, mtss, response-to-intervention, progress-monitoring, small-group-instruction, tier-2]
 pairs_with:
   prompts: [analyze-class-assessment-results, plan-phonics-lesson, write-iep-progress-report, run-plc-data-meeting]

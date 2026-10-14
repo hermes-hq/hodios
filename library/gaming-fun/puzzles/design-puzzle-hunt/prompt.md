@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [puzzle-hunt, meta-puzzle, team-building, hint-system, events]
 pairs_with:
   prompts: [create-escape-room-puzzles, create-scavenger-hunt, make-logic-puzzle, make-word-puzzles]

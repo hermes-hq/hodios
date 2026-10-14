@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subtitling, srt, webvtt, reading-speed, audiovisual-translation]
 pairs_with:
   prompts: [translate-preserving-tone, review-translation, adapt-regional-variant]

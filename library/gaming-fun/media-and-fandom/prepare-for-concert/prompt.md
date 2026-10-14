@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [concerts, live-music, setlists, listening-plan, gig-prep]
 pairs_with:
   prompts: [discover-new-music, prepare-for-first-opera-or-ballet, explain-song-meaning]

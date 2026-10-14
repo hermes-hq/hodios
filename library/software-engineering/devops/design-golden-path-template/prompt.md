@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [golden-path, paved-road, service-template, platform-engineering, developer-experience, service-catalog]
 pairs_with:
   prompts: [design-ci-cd-pipeline, instrument-service-observability, write-helm-chart]

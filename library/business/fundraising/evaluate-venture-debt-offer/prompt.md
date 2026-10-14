@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [venture-debt, warrants, covenants, cost-of-capital, runway]
 pairs_with:
   prompts: [evaluate-revenue-based-financing, calculate-cash-runway, choose-funding-instrument]

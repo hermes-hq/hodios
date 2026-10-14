@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 subject: [saas]
 tags: [integration-page, app-marketplace, setup-steps, data-sync, website-copy]
 pairs_with:

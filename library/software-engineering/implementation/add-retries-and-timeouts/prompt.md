@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [resilience, exponential-backoff, circuit-breaker, idempotency, timeouts]
 pairs_with:
   personas: [backend-engineer]

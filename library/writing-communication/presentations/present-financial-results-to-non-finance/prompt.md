@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [financial-results, budget-update, plain-language, jargon-free, data-storytelling]
 pairs_with:
   prompts: [explain-budget-variance, simplify-table-for-slide, plan-slide-visuals, write-speaker-notes]

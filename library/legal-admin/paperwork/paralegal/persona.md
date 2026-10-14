@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [case-management, legal-drafting, deadlines, chronologies]
 pairs_with:
   prompts: [index-case-documents, summarize-deposition-transcript, draft-legal-research-memo, brief-court-case, build-contract-obligations-register]

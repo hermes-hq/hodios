@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [headcount, business-case, workforce-planning, budget-approval, role-justification]
 pairs_with:
   prompts: [write-job-description, plan-first-hire, plan-team-restructure]

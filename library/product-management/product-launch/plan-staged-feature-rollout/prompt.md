@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [staged-rollout, feature-flags, guardrail-metrics, cohort-selection, halt-criteria]
 pairs_with:
   prompts: [design-deployment-strategy, add-feature-flag, define-feature-success-metrics, plan-product-launch]

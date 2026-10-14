@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [background-check, right-to-work, criminal-record-check, fair-chance-hiring, conditional-offer, candidate-consent]
 pairs_with:
   prompts: [write-offer-letter, run-reference-check]

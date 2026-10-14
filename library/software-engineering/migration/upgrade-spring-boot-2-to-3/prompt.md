@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spring-boot-3, spring-security-6, hibernate-6, openrewrite, java-17]
 pairs_with:
   prompts: [migrate-javax-to-jakarta, upgrade-major-dependency, fix-spring-bean-creation-error]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [traps, dungeon-design, game-mastering, encounter-design, session-prep]
 pairs_with:
   prompts: [design-dungeon, balance-combat-encounter]

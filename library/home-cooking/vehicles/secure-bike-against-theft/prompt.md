@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bike-security, bike-locks, e-bikes, bike-theft, bike-registration]
 pairs_with:
   prompts: [choose-bike, plan-bike-maintenance, fix-bike-puncture]

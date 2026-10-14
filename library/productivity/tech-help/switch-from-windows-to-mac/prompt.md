@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [windows-to-mac, mac-to-windows, data-migration, keyboard-shortcuts, app-alternatives]
 pairs_with:
   prompts: [set-up-new-computer, switch-phones, set-up-backups, factory-reset-computer]

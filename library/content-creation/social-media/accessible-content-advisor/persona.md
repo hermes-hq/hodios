@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [alt-text, captions, screen-readers, plain-language, inclusive-content, colour-contrast]
 pairs_with:
   prompts: [write-instagram-caption, audit-content-accessibility, write-alt-text]

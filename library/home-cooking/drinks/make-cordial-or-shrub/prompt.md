@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cordial, shrub, flavoured-syrup, alcohol-free, preserving, seasonal-fruit]
 pairs_with:
   prompts: [invent-alcohol-free-cocktail, preserve-food-safely]

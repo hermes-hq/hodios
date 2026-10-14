@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [blood-pressure, hypertension, home-monitoring, readings-log, cuff-size]
 pairs_with:
   prompts: [plan-chronic-condition-self-management, set-up-medication-routine, coordinate-care-across-specialists]

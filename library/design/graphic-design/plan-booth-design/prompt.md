@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trade-shows, booth-design, exhibition-graphics, event-design, large-format-print]
 pairs_with:
   prompts: [write-booth-copy, plan-event-marketing, follow-up-event-leads, plan-signage, prepare-print-files]

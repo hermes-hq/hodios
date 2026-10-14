@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [energy, smart-meter, baseload, degree-days, utility-bills]
 pairs_with:
   prompts: [detect-anomalies, decompose-seasonality, plan-energy-efficiency-upgrades]

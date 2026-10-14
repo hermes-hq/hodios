@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [back-from-leave, catch-up, inbox-triage, handover, re-entry]
 pairs_with:
   prompts: [summarize-email-thread, summarize-group-chat, triage-inbox]

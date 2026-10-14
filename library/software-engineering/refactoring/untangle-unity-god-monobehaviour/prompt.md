@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [monobehaviour, serialized-fields, component-design, prefabs]
 pairs_with:
   personas: [game-developer]

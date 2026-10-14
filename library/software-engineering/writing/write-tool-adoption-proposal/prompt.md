@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tool-adoption, vendor-lock-in, total-cost, trial-results, exit-plan]
 pairs_with:
   prompts: [write-adr, write-tech-radar-entries, plan-spike, vet-dependency]

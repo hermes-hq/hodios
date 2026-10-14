@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [self-confidence, self-talk, exposure-ladder, self-esteem, inner-critic]
 pairs_with:
   prompts: [reframe-negative-thoughts, practice-self-compassion, manage-event-anxiety]

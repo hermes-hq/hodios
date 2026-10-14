@@ -7,6 +7,7 @@ description: Simulates a subject oral exam, viva or thesis defence as a probing 
 category: exam-prep
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [verify]
 role: [student, researcher]
 requires: [none]

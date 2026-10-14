@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [batna, salary-negotiation, counterpart-simulation, concessions, anchoring, principled-negotiation]
 pairs_with:
   prompts: [negotiate-job-offer, prepare-deal-negotiation, prepare-supplier-negotiation, rehearse-difficult-conversation]

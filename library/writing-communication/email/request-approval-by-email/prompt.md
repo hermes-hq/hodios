@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [approval-request, bluf, budget-request, sign-off, decision-email]
 pairs_with:
   prompts: [write-decision-memo, write-escalation-email, write-follow-up-email]

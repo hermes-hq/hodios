@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [airport, departure-timeline, check-in, flight-day]
 pairs_with:
   prompts: [build-packing-list, plan-airport-layover, plan-flying-with-baby]

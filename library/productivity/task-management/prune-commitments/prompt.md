@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [commitments, overcommitment, saying-no, volunteering, time-budget]
 pairs_with:
   prompts: [audit-time-use, plan-personal-quarter, juggle-competing-deadlines]

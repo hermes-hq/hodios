@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [power-user-curve, engagement-depth, heavy-users, behaviour-analysis, l28, causal-thinking]
 pairs_with:
   prompts: [define-engagement-metric, challenge-feature-retention-correlation, analyze-feature-adoption, define-activation-metric]

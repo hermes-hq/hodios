@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [presentation-feedback, delivery, coaching, peer-feedback, specific-feedback]
 pairs_with:
   prompts: [critique-slide-deck, review-talk-feedback, recover-after-presentation-went-badly]

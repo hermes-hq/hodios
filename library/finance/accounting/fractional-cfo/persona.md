@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cash-runway, unit-economics, financial-forecast, margins, small-business-finance]
 pairs_with:
   prompts: [forecast-cash-flow, analyze-working-capital, calculate-break-even, review-small-business-pnl, calculate-product-margin, prepare-year-end-accounts-pack]

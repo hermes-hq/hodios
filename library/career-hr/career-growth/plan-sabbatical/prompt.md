@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [career-break, extended-leave, time-off, return-to-work, sabbatical-proposal]
 pairs_with:
   prompts: [propose-flexible-work, plan-return-to-work, plan-career-path]

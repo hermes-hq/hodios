@@ -13,6 +13,7 @@ subject: [mathematics, physics, chemistry]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [worked-examples, showing-working, units, significant-figures, sense-checking]
 pairs_with:
   rules: [academic-integrity-rules]

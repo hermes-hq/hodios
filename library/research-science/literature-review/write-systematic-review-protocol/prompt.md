@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [systematic-review, prisma-p, prospero, review-protocol, eligibility-criteria, evidence-synthesis]
 pairs_with:
   prompts: [build-search-string, screen-studies, appraise-study-quality, extract-data-for-meta-analysis, plan-meta-analysis]

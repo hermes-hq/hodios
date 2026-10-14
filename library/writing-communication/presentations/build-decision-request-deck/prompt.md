@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [approval, options-analysis, recommendation, stakeholders, executive-audience]
 pairs_with:
   prompts: [outline-presentation, drill-presentation-qa, critique-slide-deck]

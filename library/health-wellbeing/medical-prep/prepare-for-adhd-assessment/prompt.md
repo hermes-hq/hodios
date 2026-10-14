@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [adhd, adult-assessment, neurodivergence, referral, evidence-gathering, psychiatry]
 pairs_with:
   prompts: [prepare-doctor-questions, request-medical-records, build-symptom-log]

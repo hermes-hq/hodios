@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-gateway, http-api, authorizers, throttling, cors]
 pairs_with:
   prompts: [write-aws-lambda-function, write-least-privilege-iam-policy, set-up-domain-and-https]

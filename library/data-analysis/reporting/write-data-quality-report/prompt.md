@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-quality, data-stewardship, completeness, data-profiling, issue-log]
 pairs_with:
   prompts: [write-data-quality-checks, reconcile-datasets, write-data-correction-notice]

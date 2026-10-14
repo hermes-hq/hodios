@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [review-queue, triage, review-turnaround, pull-request, reviewer-workload]
 pairs_with:
   personas: [code-reviewer]

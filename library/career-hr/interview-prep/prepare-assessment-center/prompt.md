@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [assessment-centre, graduate-scheme, group-exercise, in-tray, competencies]
 pairs_with:
   prompts: [prepare-star-stories, prepare-interview-presentation, practice-aptitude-tests]

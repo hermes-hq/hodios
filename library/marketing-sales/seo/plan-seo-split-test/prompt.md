@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [split-testing, causal-impact, title-tests, hypothesis, controlled-test]
 pairs_with:
   prompts: [write-meta-tags, analyze-search-console-data, plan-programmatic-seo-pages]

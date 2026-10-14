@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [music-festival, concert-trip, event-travel, ticket-scams]
 pairs_with:
   prompts: [plan-group-trip, plan-trip-budget, build-packing-list, check-destination-safety]

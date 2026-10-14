@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [angular-services, dependency-injection, smart-dumb-components, rxjs-subscriptions]
 pairs_with:
   personas: [angular-engineer]

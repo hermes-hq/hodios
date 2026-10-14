@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dead-air, on-camera-confidence, rehearsal, small-streamer, narration]
 pairs_with:
   prompts: [grow-streaming-channel, plan-livestream-run-of-show]

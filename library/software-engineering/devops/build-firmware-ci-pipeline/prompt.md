@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [firmware, embedded-ci, hardware-in-the-loop, reproducible-builds, misra, binary-size]
 pairs_with:
   prompts: [design-ci-cd-pipeline, design-device-ota-updates, speed-up-ci-pipeline]

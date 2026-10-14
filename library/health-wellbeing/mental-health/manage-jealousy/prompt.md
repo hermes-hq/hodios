@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [jealousy, insecurity, trust, romantic-relationships, friendships, emotional-skills]
 pairs_with:
   prompts: [manage-anger, manage-social-media-comparison, reframe-negative-thoughts, assess-early-dating-warning-signs]

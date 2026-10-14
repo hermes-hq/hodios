@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [business-simulation, runway, burn-rate, startup-game]
 pairs_with:
   prompts: [validate-business-idea]

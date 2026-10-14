@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shutdown-ritual, work-life-boundaries, open-loops, end-of-day, remote-work, routines]
 pairs_with:
   prompts: [plan-my-day, design-daily-routine, run-weekly-review, design-habit-plan]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [email-templates, push-notifications, server-side-i18n]
 pairs_with:
   prompts: [implement-locale-formatting, design-locale-detection-and-routing]

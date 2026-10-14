@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [keyword-difficulty, low-competition, keyword-prioritisation, small-sites]
 pairs_with:
   prompts: [research-keywords, analyze-serp-for-keyword, find-keyword-gaps]

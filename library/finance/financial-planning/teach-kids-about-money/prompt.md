@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [financial-literacy, pocket-money, kids-and-money, family-values]
 pairs_with:
   prompts: [plan-savings-goal, explain-investment-concept]

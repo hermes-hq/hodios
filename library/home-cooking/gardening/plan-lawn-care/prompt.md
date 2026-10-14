@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lawn-care, turf, overseeding, mowing, weed-control, seasonal-timing]
 pairs_with:
   prompts: [plan-garden-irrigation, build-garden-calendar, diagnose-plant-problem]

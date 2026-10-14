@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workplace-mediation, conflict-resolution, interest-based-negotiation, team-conflict, facilitation]
 pairs_with:
   prompts: [mediate-disagreement, prepare-difficult-conversation, give-feedback-sbi, write-team-charter]

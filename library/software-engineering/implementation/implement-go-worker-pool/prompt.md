@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [goroutines, errgroup, worker-pool, context-cancellation, goroutine-leaks]
 pairs_with:
   prompts: [build-go-http-service, add-retries-and-timeouts]

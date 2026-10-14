@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [partnership-ads, spark-ads, whitelisting, creator-content, usage-rights, ad-disclosure]
 pairs_with:
   prompts: [write-creator-brief, evaluate-whitelisting-request, plan-tiktok-ads-campaign, analyze-creative-test-results]

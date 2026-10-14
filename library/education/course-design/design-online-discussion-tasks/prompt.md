@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [discussion-forums, asynchronous-learning, online-learning, collaborative-learning, discussion-rubric, facilitation]
 pairs_with:
   prompts: [convert-course-to-online, design-blended-program, create-rubric]

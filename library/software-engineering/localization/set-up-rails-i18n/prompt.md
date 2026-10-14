@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rails-i18n, i18n-tasks, locale-yaml, lazy-lookup, with-locale]
 pairs_with:
   prompts: [extract-ui-strings, localize-server-sent-messages, validate-translation-files-in-ci]

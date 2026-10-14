@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [holiday-let, short-let, guest-experience, durable-finishes, listing-photos]
 pairs_with:
   prompts: [compare-short-let-vs-long-let, write-tenant-welcome-pack]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [monthly-review, spending-variance, budget-adjustment, household-money]
 pairs_with:
   prompts: [build-monthly-budget, categorize-expenses, money-check-in-chat, set-up-sinking-funds]

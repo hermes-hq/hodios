@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [champion-enablement, internal-selling, b2b-sales, executive-summary, deal-acceleration]
 pairs_with:
   prompts: [build-buyer-business-case, multithread-open-deal, write-mutual-action-plan, write-sales-follow-up]

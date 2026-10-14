@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-mobility, internal-vacancies, talent-retention, role-change, release-period]
 pairs_with:
   prompts: [apply-for-internal-role, write-workplace-policy, design-salary-bands, define-hr-metrics]

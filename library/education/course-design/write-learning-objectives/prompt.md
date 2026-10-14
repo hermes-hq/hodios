@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [blooms-taxonomy, constructive-alignment, outcomes]
 pairs_with:
   prompts: [design-course-outline, create-rubric]

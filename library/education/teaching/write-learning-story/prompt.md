@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [learning-stories, early-years, observation, pedagogical-documentation, family-partnership, play-based-learning]
 pairs_with:
   prompts: [plan-early-years-activity, write-report-card-comments]

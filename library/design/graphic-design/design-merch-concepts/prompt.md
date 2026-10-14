@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [merchandise, apparel-design, screen-printing, brand-merch, band-merch]
 pairs_with:
   prompts: [create-mood-board, create-color-palette, prepare-print-files, design-logo-concepts]

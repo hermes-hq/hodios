@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bar-mitzvah, bat-mitzvah, confirmation, eighteenth-birthday, family-speech, milestone]
 pairs_with:
   prompts: [plan-coming-of-age-celebration, write-quinceanera-speech, mark-up-script-for-delivery]

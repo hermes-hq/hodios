@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hallucination-detection, faithfulness, groundedness, claim-verification, evals]
 pairs_with:
   prompts: [answer-from-retrieved-context, grade-response-with-rubric, add-llm-output-guardrails]

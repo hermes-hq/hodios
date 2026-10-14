@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [memoir, personal-essay, creative-nonfiction, narrative-arc]
 pairs_with:
   prompts: [write-personal-essay, write-family-history, write-legacy-letter, interview-relative-for-oral-history]

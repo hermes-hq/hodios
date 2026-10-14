@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [build-vs-buy, trade-offs, cost-modelling, baseline]
 pairs_with:
   prompts: [plan-fine-tuning, plan-ml-experiment]

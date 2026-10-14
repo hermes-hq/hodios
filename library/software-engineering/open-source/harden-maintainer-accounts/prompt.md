@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [account-takeover, two-factor-auth, trusted-publishing, branch-protection, software-supply-chain, access-review]
 pairs_with:
   prompts: [review-ci-pipeline-security, sign-release-artifacts, write-maintainer-handbook]

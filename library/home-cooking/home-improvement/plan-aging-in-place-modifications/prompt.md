@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [aging-in-place, fall-prevention, home-adaptations, grab-bars, eldercare]
 pairs_with:
   prompts: [plan-strength-for-older-adults, hire-contractor, plan-renovation-budget]

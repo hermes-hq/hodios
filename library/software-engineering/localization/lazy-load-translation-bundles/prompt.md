@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-splitting, message-catalog, caching, web-performance, namespaces]
 pairs_with:
   prompts: [reduce-bundle-size, set-up-react-i18next, configure-translation-fallbacks]

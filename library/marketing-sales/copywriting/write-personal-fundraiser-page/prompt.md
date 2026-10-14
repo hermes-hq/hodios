@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fundraiser, medical-bills, funeral-costs, crowdfunding-page, donation-appeal]
 pairs_with:
   prompts: [write-donation-page-copy, write-how-we-spent-it-post]

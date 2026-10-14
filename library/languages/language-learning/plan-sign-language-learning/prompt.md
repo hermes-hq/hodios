@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sign-language, deaf-culture, bsl, asl, inclusion, study-plan]
 pairs_with:
   prompts: [plan-language-learning, maintain-language-skills]

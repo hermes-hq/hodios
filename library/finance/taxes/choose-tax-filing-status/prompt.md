@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [filing-status, head-of-household, married-filing-separately, united-states, irs, tax-return]
 pairs_with:
   prompts: [compare-standard-vs-itemized-deductions, prepare-us-federal-tax-return, explain-family-tax-credits]

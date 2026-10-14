@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [publisher-pitch, pitch-deck, indie-games, funding]
 pairs_with:
   prompts: [write-game-design-document, scope-indie-game]

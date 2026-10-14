@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [lock-contention, concurrency, mutex-profile, thread-dump, scalability]
 pairs_with:
   prompts: [profile-hot-path, read-flame-graph, debug-race-condition]

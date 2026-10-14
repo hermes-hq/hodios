@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [oidc, workload-identity-federation, ci-credentials, least-privilege, trust-policy, secretless]
 pairs_with:
   prompts: [plan-secrets-management, write-github-actions-workflow, respond-to-leaked-secret]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cohort-retention, mau, dau, user-growth, layer-cake]
 pairs_with:
   prompts: [calculate-active-users-in-sql, forecast-subscription-revenue, present-forecast-uncertainty]

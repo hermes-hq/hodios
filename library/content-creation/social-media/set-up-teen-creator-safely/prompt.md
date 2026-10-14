@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [online-safety, teen-creators, privacy-settings, grooming-awareness, digital-footprint]
 pairs_with:
   prompts: [respond-to-sextortion-threat, recover-hacked-account, write-social-bio]

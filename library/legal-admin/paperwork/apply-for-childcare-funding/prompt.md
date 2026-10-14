@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [childcare-subsidy, funded-hours, childcare-costs, eligibility-code, working-parents]
 pairs_with:
   prompts: [choose-childcare, check-benefits-entitlement, prepare-government-form]

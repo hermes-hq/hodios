@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [office-chair, ergonomics, home-office, back-comfort, used-furniture]
 pairs_with:
   prompts: [set-up-home-office, buy-secondhand-safely, choose-furniture-that-fits, decode-product-claims]

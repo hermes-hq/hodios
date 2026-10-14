@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kettlebell, swing, turkish-get-up, home-workout, hip-hinge, conditioning]
 pairs_with:
   prompts: [check-exercise-form, plan-home-gym, track-fitness-progress]

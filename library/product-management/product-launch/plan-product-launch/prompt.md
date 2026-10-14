@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [launch-tiers, launch-readiness, go-no-go, rollback-plan]
 pairs_with:
   prompts: [write-launch-announcement, write-sales-enablement-brief, review-launch-results, plan-beta-program]

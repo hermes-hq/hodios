@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lineup, substitutions, playing-time, rotation, youth-sports, volunteer-coach]
 pairs_with:
   prompts: [plan-team-season, plan-youth-sports-practice, run-match-debrief]

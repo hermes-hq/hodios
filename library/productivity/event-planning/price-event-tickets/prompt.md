@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ticket-pricing, early-bird, break-even, refunds, event-revenue]
 pairs_with:
   prompts: [plan-event-budget, write-event-promo-copy, plan-event-marketing]

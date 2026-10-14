@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [structural-edit, skimmability, subheadings, fluff, voice-preservation]
 pairs_with:
   prompts: [write-blog-post-draft, line-edit-prose, write-article-headlines-and-standfirsts]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [alternative-assets, peer-to-peer-lending, equity-crowdfunding, collectibles]
 pairs_with:
   prompts: [spot-investment-scam, compare-property-investing-routes, explain-crypto-risks, check-portfolio-diversification]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regional-variants, locale-adaptation, spelling-conventions, dialect-vocabulary, forms-of-address]
 pairs_with:
   prompts: [transcreate-marketing-copy, review-translation, translate-subtitles]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cold-reading, audition-prep, sides, script-analysis, acting-technique]
 pairs_with:
   prompts: [break-down-scene-for-actor, plan-self-tape-audition]

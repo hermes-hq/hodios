@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [runbook, handover, key-person-risk, report-production]
 pairs_with:
   prompts: [automate-recurring-report, design-report-template, write-data-methodology-note]

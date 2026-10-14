@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cogs, inventory-valuation, fifo, stock-count]
 pairs_with:
   prompts: [calculate-product-margin, prepare-year-end-accounts-pack, explain-accounting-concept]

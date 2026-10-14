@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [logo-design, logo-evolution, distinctive-assets, visual-identity, brand-equity]
 pairs_with:
   prompts: [plan-rebrand, run-brand-audit, build-brand-guidelines]

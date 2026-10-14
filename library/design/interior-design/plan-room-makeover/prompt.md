@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [colour-palette, lighting, mood-board]
 pairs_with:
   prompts: [plan-room-layout, plan-decluttering, plan-diy-project]

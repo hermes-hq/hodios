@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [scope-and-sequence, curriculum-mapping, knowledge-rich-curriculum, spaced-revisits, prerequisites, key-stage-planning]
 pairs_with:
   prompts: [design-unit-plan, align-lesson-to-standards, map-program-curriculum]

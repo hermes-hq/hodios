@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [xunit, moq, nsubstitute, theories, unit-tests]
 pairs_with:
   prompts: [write-unit-tests, test-aspnet-core-api, write-test-data-factories]

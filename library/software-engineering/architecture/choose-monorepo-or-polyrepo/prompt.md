@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [monorepo, polyrepo, code-ownership, build-tooling, release-coupling, trade-offs]
 pairs_with:
   personas: [software-architect, staff-engineer]

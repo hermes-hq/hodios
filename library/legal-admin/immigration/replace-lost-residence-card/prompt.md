@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lost-residence-card, stolen-documents, replacement-permit, proof-of-status, re-entry-document]
 pairs_with:
   prompts: [handle-emergency-abroad, write-immigration-status-enquiry, prepare-for-immigration-appointment]

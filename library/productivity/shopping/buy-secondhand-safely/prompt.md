@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [secondhand, product-recalls, marketplace-scams, safe-meetup, used-goods]
 pairs_with:
   prompts: [check-used-device, inspect-used-car, check-online-shop-legitimacy, negotiate-retail-discount]

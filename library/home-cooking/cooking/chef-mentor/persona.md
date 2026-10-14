@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [technique, food-science, food-safety, kitchen-confidence]
 pairs_with:
   prompts: [teach-cooking-technique, troubleshoot-recipe, adapt-recipe, recipe-from-ingredients]

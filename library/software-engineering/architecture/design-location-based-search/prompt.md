@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [geospatial, nearby-search, geohash, spatial-index, maps, caching]
 pairs_with:
   personas: [software-architect, backend-engineer]

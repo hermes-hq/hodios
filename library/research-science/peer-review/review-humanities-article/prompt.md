@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [humanities, historiography, close-reading, argument, manuscript]
 pairs_with:
   prompts: [write-peer-review, review-conceptual-paper]

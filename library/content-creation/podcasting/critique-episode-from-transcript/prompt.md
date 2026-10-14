@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [host-coaching, interviewing, talk-time, question-craft, missed-follow-ups]
 pairs_with:
   prompts: [practise-podcast-interview-hosting, create-podcast-edit-list, define-cohost-roles]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [household-chores, rewards, responsibility, rotation]
 pairs_with:
   prompts: [coordinate-family-calendar, plan-behavior-approach]

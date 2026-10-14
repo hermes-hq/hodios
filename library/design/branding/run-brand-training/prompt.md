@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-training, internal-branding, employee-onboarding, brand-consistency, workshop-design]
 pairs_with:
   prompts: [build-brand-guidelines, write-brand-voice-guide, build-brand-platform, run-brand-audit]

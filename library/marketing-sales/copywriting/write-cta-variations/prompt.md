@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [call-to-action, button-copy, conversion, ab-test, friction-reducers]
 pairs_with:
   prompts: [write-headline-variations, write-landing-page-copy, critique-marketing-copy, write-ux-microcopy]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [market-stall, craft-fair, car-boot, floor-price, bundle-offers, bargaining]
 pairs_with:
   prompts: [pitch-to-stockists, practise-shop-floor-selling]

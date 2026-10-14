@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [pupil-voice, person-centred-planning, review-preparation, communication-support, visual-supports]
 pairs_with:

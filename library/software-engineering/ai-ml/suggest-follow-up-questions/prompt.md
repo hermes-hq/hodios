@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: intermediate
+depth: specific
 tags: [suggested-questions, conversational-ux, chat-ui, engagement]
 pairs_with:
   prompts: [answer-from-retrieved-context, route-user-request]

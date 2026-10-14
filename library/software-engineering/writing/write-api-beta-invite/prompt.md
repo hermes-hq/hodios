@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [beta, early-access, expectations, feedback-request, breaking-changes]
 pairs_with:
   prompts: [plan-beta-program, write-api-launch-announcement]

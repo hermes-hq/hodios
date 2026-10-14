@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [discrimination, equal-treatment, reasonable-adjustments, access-refused, service-provider]
 pairs_with:
   prompts: [write-complaint-letter, complain-to-ombudsman, find-free-legal-help, respond-to-rental-discrimination]

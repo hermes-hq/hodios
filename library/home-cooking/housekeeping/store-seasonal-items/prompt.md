@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [seasonal-storage, clothes-moths, damp-prevention, storage]
 args:
   - name: items

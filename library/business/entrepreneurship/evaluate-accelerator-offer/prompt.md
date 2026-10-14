@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [accelerator, incubator, equity-cost, programme-terms, alumni-references]
 pairs_with:
   prompts: [write-accelerator-application, model-round-dilution, explain-term-sheet, reference-check-investor]

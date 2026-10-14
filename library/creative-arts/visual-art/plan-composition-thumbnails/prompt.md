@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [composition, thumbnail-sketches, value-structure, notan, picture-design]
 pairs_with:
   prompts: [plan-painting-step-by-step, assess-reference-photo, critique-artwork]

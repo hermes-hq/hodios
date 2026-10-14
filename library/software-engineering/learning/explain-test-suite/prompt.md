@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [test-layout, fixtures, mocking, new-joiner]
 pairs_with:
   prompts: [explain-codebase, review-test-quality, map-repo-and-verify-setup]

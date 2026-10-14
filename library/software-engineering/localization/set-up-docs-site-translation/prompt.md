@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [docs-as-code, static-site, stale-content]
 pairs_with:
   prompts: [review-docs-for-localization, automate-translation-file-sync]

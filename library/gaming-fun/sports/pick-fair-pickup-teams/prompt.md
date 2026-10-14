@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pickup-games, team-balancing, social-sport, fair-teams, five-a-side, rotation]
 pairs_with:
   prompts: [schedule-tournament, adapt-sport-for-mixed-ability]

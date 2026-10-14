@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tax-forms, year-end-statement, payroll, filing]
 pairs_with:
   prompts: [explain-payslip, organize-tax-documents, check-tax-withholding]

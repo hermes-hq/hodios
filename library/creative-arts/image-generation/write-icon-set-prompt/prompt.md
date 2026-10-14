@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [icons, icon-set, vectorising, style-consistency, metaphors]
 pairs_with:
   prompts: [define-iconography, write-infographic-visual-prompt]

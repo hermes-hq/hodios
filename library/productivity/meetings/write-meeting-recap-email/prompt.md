@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [follow-up, action-items, recap, meeting-notes]
 pairs_with:
   prompts: [summarize-meeting-transcript, write-meeting-agenda, chase-overdue-action-items]

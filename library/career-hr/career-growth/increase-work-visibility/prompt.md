@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [visibility, self-advocacy, sponsorship, status-updates, glue-work]
 pairs_with:
   prompts: [write-brag-document, prepare-promotion-case, prepare-skip-level-meeting, write-self-review]

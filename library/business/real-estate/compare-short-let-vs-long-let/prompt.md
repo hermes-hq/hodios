@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [landlord, holiday-let, occupancy, net-yield, licensing]
 pairs_with:
   prompts: [analyze-rental-property, write-guest-messages-for-rental, set-asking-rent]

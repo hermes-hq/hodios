@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [beneficiary-feedback, service-improvement, participant-voice, accountability, safeguarding]
 pairs_with:
   prompts: [build-theory-of-change, write-impact-report, set-programme-eligibility-criteria]

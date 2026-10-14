@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [league-organising, fixtures, standings, round-robin, playoffs, volunteer-organiser]
 pairs_with:
   prompts: [schedule-tournament, plan-team-season, prepare-to-referee]

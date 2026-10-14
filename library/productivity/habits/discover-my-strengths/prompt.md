@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [strengths, self-knowledge, best-self, energy, career-direction]
 pairs_with:
   prompts: [clarify-personal-values, explore-meaning-and-purpose, run-energy-audit]

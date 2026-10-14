@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ways-of-working, team-process, trial, proposal, continuous-improvement]
 pairs_with:
   prompts: [write-tool-adoption-proposal, write-decision-memo, run-retrospective]

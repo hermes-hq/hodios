@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-handling, fault-injection, resilience, retries, timeouts]
 pairs_with:
   prompts: [build-fake-for-external-api, write-integration-tests, test-app-under-bad-network]

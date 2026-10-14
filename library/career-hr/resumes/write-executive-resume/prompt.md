@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [c-suite, senior-leadership, executive-search, p-and-l]
 pairs_with:
   prompts: [write-board-cv, write-resume-summary, present-promotions-on-resume]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sow, scope-definition, acceptance-criteria, change-control, milestones]
 pairs_with:
   prompts: [write-freelance-proposal, estimate-freelance-dev-project, write-scope-change-email, review-freelance-contract]

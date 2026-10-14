@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [career-exploration, job-shadowing, day-in-the-life, career-fit]
 pairs_with:
   prompts: [plan-career-path]

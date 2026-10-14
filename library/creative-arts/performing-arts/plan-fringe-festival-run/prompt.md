@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fringe-festival, touring, show-budget, festival-marketing, independent-theatre]
 pairs_with:
   prompts: [plan-community-theatre-production, plan-rehearsal-schedule, write-programme-bio]

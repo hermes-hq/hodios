@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lab-budget, reagent-costs, consumables, cost-per-sample, grant-budget]
 pairs_with:
   prompts: [plan-bench-experiment, set-up-reagent-inventory, write-equipment-purchase-case]

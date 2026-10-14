@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [master-services-agreement, client-terms, order-form, change-requests, limitation-of-liability, service-business]
 pairs_with:
   prompts: [write-statement-of-work, negotiate-client-payment-terms, set-kill-fee-and-cancellation-terms, review-freelance-contract]

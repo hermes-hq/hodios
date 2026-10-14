@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [data-catalog, metadata, lineage, pii]
 pairs_with:
   prompts: [write-data-quality-checks]

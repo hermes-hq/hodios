@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [data-modeling, ddl, normalization]
 pairs_with:
   prompts: [plan-zero-downtime-schema-change, optimize-sql-query]

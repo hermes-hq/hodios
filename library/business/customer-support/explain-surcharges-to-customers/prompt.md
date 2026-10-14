@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [surcharges, price-transparency, service-charge, card-fees, disputed-charges]
 pairs_with:
   prompts: [resolve-invoice-dispute, respond-to-online-review, write-support-reply]

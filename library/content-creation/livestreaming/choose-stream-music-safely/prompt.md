@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stream-music, copyright-claims, dmca, vod-audio, music-licensing]
 pairs_with:
   prompts: [set-up-stream-audio-chain, pick-vod-highlight-clips]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [single-income, dry-run, career-break, household-planning]
 pairs_with:
   prompts: [plan-parental-leave-finances, build-monthly-budget, stress-test-budget, split-shared-expenses]

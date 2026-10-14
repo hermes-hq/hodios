@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pairwise-comparison, ranking, preference-ordering, intransitivity, gut-check]
 pairs_with:
   prompts: [compare-options-matrix, prioritize-todo-list, cluster-ideas]

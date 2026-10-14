@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [kanban, wip-limits, flow-metrics, team-process, cycle-time]
 pairs_with:
   prompts: [write-definition-of-done, plan-team-capacity, design-interrupt-rotation]

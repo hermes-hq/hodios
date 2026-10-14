@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketing-case, campaign-planning, marketing-metrics, results-probing]
 pairs_with:
   prompts: [prepare-interview-presentation, run-mock-interview, prepare-star-stories]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [transactional, jpa, hibernate, dependency-injection, pull-request]
 pairs_with:
   personas: [java-spring-engineer]

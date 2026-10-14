@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stata, do-file, reproducibility, clustered-standard-errors, econometrics]
 pairs_with:
   prompts: [write-r-analysis-script, write-python-stats-analysis, interpret-regression-output]

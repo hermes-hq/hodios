@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [go-modules, semantic-import-versioning, major-release, module-path, breaking-changes]
 pairs_with:
   prompts: [plan-breaking-major-release, write-migration-guide, write-versioning-policy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [au-pair, host-family, cultural-exchange, settling-in, house-rules, live-in-help]
 pairs_with:
   prompts: [write-babysitter-handbook, choose-childcare, coordinate-family-calendar]

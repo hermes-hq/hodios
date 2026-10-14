@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [factory-games, production-chains, ratio-calculation, throughput, base-planning]
 pairs_with:
   prompts: [plan-game-strategy, plan-minecraft-build]

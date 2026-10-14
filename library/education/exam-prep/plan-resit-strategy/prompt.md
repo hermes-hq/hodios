@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [resit, failed-exam, examiner-feedback, study-method, academic-support, retake]
 pairs_with:
   prompts: [analyze-exam-mistakes, create-study-plan, analyze-past-papers]

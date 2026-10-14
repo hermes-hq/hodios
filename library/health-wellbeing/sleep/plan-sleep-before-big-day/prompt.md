@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pre-event-sleep, exam-nerves, early-start, sleep-anxiety, race-day]
 pairs_with:
   prompts: [reframe-sleep-worries, reset-sleep-schedule]

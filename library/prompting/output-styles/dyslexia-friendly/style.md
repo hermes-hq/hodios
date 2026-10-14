@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: beginner
+depth: specific
 role: [individual, student]
 tags: [dyslexia, readability, chunking, inclusive-writing, reading-fatigue]
 pairs_with:

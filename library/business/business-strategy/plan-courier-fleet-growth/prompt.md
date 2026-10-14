@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [courier, last-mile, cost-per-drop, owner-drivers, subcontracting, van-fleet]
 pairs_with:
   prompts: [plan-delivery-routes, assess-big-contract-risk, decide-in-house-or-outsource]

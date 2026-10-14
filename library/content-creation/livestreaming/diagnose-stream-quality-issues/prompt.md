@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dropped-frames, encoder-overload, bitrate, stream-lag, stream-settings]
 pairs_with:
   prompts: [choose-first-streaming-setup, plan-stream-scenes]

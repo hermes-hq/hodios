@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [offer-negotiation, competing-offer, compensation, closing-candidates, pay-equity]
 pairs_with:
   prompts: [write-offer-letter, run-hiring-debrief, write-candidate-rejection]

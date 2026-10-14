@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [newborn-paperwork, birth-registration, child-residence-permit, consular-registration, first-passport]
 pairs_with:
   prompts: [report-change-of-circumstances, understand-residence-permit-conditions, plan-flying-with-baby]

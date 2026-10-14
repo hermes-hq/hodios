@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pytest-django, factory-boy, test-client, query-count, permissions]
 pairs_with:
   prompts: [write-api-endpoint-tests, write-test-data-factories, write-pytest-tests]

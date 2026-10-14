@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [email-verification, authentication, tokens, account-takeover, signup]
 pairs_with:
   prompts: [implement-password-auth, implement-transactional-email, block-fake-signups]

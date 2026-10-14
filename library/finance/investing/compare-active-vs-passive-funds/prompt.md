@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [active-management, index-funds, survivorship-bias, benchmarks, fund-fees]
 pairs_with:
   prompts: [compare-two-funds, calculate-fee-drag, explain-fund-document]

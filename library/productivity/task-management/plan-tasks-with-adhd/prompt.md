@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [adhd, executive-function, time-blindness, task-initiation, external-reminders, neurodivergent]
 pairs_with:
   prompts: [run-focus-session, break-down-big-task, set-up-task-system, beat-procrastination]

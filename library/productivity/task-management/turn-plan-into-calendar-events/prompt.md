@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ics, icalendar, calendar-import, time-zones, recurring-events, reminders]
 pairs_with:
   prompts: [plan-my-week, work-backward-from-deadline, set-up-life-admin-calendar]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [semantic-tokens, design-tokens, usage-guidelines, colour-roles, design-documentation]
 pairs_with:
   prompts: [define-design-tokens, plan-semantic-token-migration, plan-design-system-docs-site]

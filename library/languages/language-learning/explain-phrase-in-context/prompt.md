@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [idioms, slang, register]
 pairs_with:
   prompts: [correct-my-sentences]

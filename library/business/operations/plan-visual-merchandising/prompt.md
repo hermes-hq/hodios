@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [visual-merchandising, store-layout, retail-display, signage, window-display, seasonal-calendar]
 pairs_with:
   prompts: [run-customer-experience-audit, plan-inventory, plan-market-stall]

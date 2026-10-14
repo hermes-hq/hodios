@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-flags, progressive-delivery, kill-switch]
 args:
   - name: change

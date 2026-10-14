@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mutation-testing, test-effectiveness, coverage]
 pairs_with:
   personas: [test-engineer]

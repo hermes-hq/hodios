@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hiking-mentor, outdoor-skills, mountain-safety, leave-no-trace, navigation, wild-camping]
 pairs_with:
   prompts: [set-turnaround-time, write-trip-intentions-plan, read-mountain-weather-forecast, plan-backpacking-food]

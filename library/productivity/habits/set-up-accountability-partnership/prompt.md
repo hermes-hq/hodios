@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [accountability-partner, goal-buddy, peer-support, check-ins, mastermind]
 pairs_with:
   prompts: [set-smart-goals, design-commitment-device, run-daily-accountability-check-in]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [homeowners, repair-fund, replacement-costs, sinking-funds]
 pairs_with:
   prompts: [plan-home-maintenance, set-up-sinking-funds, check-home-sum-insured]

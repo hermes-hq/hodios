@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [customs, cultural-context, respectful-travel, expat-life, cross-cultural]
 pairs_with:
   prompts: [learn-local-etiquette, learn-destination-history, plan-food-exploration]

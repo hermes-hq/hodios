@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-demo, screen-recording, buyer-problems, sales-enablement, chapters]
 pairs_with:
   prompts: [prepare-product-demo, write-explainer-video-script, write-video-chapters]

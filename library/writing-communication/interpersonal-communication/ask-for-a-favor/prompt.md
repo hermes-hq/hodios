@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [asking-for-help, introductions, requests, reciprocity, warm-intro]
 pairs_with:
   prompts: [write-introduction-email, reconnect-with-old-contact, write-thank-you-note]

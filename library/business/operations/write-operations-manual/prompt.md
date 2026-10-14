@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [operations-manual, franchise, brand-standards, roles-and-responsibilities, procedures, handover]
 pairs_with:
   prompts: [write-sop, map-business-process, choose-small-business-kpis]

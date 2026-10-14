@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [muscle-soreness, doms, recovery, injury-signs, rhabdomyolysis]
 pairs_with:
   prompts: [adjust-week-after-missed-workouts, plan-sleep-for-training-recovery, check-exercise-form]

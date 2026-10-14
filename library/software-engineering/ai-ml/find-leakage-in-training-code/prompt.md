@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-leakage, model-validation, cross-validation, ml-review]
 pairs_with:
   prompts: [review-training-data, plan-ml-experiment]

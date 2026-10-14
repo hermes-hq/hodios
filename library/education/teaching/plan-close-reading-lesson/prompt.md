@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [english, literature]
 tags: [close-reading, text-dependent-questions, annotation, reading-instruction]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [referrals, referral-request, internal-referral, networking-ask]
 pairs_with:
   prompts: [map-warm-introductions, write-networking-message, write-cover-letter]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [emotional-eating, stress-eating, binge-eating-screen, self-compassion, habit-change]
 pairs_with:
   prompts: [practice-hunger-and-fullness-cues, decode-food-cravings, plan-filling-snacks, eating-habits-track]

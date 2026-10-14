@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [active-record, callbacks, schema-migrations, background-jobs, pull-request]
 pairs_with:
   personas: [ruby-rails-engineer]

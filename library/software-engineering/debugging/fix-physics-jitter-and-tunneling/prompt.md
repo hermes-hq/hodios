@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rigidbody, jitter, tunnelling, fixed-timestep, interpolation, collision]
 pairs_with:
   personas: [game-developer]

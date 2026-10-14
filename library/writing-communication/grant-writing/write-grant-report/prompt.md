@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grant-reporting, funder-relations, outcome-indicators, budget-variance, programme-officer]
 pairs_with:
   prompts: [write-grant-application, write-impact-report, write-donor-appeal]

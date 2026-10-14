@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [passkeys, webauthn, passwordless, authentication]
 pairs_with:
   prompts: [implement-password-auth, implement-two-factor-auth, implement-session-revocation, review-auth-flow]

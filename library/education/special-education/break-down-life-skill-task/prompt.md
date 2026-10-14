@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [task-analysis, backward-chaining, prompt-hierarchy, independence, learning-disabilities, post-16]
 pairs_with:
   prompts: [create-visual-timetable, plan-one-to-one-support-session, write-iep-goals]

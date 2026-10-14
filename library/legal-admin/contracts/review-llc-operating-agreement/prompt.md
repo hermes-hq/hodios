@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [operating-agreement, partnership-agreement, llc, capital-contributions, buy-sell, deadlock]
 pairs_with:
   prompts: [review-shareholders-agreement, outline-cofounder-agreement, choose-business-structure, explain-contract-clause]

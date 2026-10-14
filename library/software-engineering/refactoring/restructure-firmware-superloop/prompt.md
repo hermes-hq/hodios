@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [state-machine, non-blocking, arduino, firmware, superloop]
 pairs_with:
   prompts: [design-firmware-task-architecture, write-microcontroller-firmware]

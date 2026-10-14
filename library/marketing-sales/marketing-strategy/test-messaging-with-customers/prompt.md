@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [message-testing, value-proposition, customer-research, experiment-design]
 pairs_with:
   prompts: [write-messaging-framework, write-positioning-statement, plan-five-second-test, build-voice-of-customer-bank]

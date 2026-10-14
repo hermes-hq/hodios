@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [resource-planning, team-capacity, utilisation, workload-heatmap, project-allocation]
 pairs_with:
   prompts: [build-gantt-chart-in-sheets, build-leave-tracker-spreadsheet, write-conditional-formatting-rules]

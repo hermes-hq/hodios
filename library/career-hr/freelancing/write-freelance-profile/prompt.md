@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [marketplace-profile, gig-description, service-packages, niche]
 pairs_with:
   prompts: [write-freelance-proposal, start-freelance-business, write-portfolio-site-copy]

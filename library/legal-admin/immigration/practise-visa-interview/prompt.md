@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [practice-session, consular-interview, spouse-interview, student-interview, interview-practice]
 pairs_with:
   prompts: [prepare-visa-application, write-student-visa-study-plan, document-genuine-relationship, roleplay-border-interview]

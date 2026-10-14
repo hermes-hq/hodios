@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [short-history, seasonal-indices, analogues, wide-ranges, launch-ramp]
 pairs_with:
   prompts: [forecast-new-product-demand, present-forecast-uncertainty, review-forecast-assumptions]

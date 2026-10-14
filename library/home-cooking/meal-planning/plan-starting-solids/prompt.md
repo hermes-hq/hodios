@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weaning, baby-food, first-foods, allergen-introduction, choking-safety, baby-led-weaning]
 pairs_with:
   prompts: [plan-child-nutrition, handle-picky-eating, plan-family-meals-for-picky-eaters]

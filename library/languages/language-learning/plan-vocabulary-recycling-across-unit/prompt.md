@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vocabulary-recycling, spaced-practice, retrieval-practice, lexis, unit-planning]
 pairs_with:
   prompts: [build-vocabulary-list, review-vocabulary-spaced, adapt-coursebook-unit-to-learners]

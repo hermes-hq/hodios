@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shutdown, company-closure, creditors, insolvency-check, orderly-exit]
 pairs_with:
   prompts: [evaluate-pivot, plan-cofounder-breakup, write-investor-update, plan-layoff-conversation]

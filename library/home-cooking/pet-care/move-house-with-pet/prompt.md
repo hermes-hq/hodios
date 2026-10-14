@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [moving-house, cat-settling, moving-day, microchip-update, new-home, pet-stress]
 pairs_with:
   prompts: [train-cat-to-carrier, find-lost-pet, plan-travel-with-pet, ask-landlord-about-pet]

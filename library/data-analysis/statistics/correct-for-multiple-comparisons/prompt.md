@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multiple-testing, p-values, false-discovery-rate, bonferroni]
 pairs_with:
   prompts: [check-analysis-for-pitfalls, analyze-ab-test-results, write-statistical-analysis-plan]

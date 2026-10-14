@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-routing, breaking-changes, future-flags, spa]
 pairs_with:
   prompts: [upgrade-major-dependency, upgrade-react-major-version]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [calisthenics, bodyweight, progressions, pull-up-bar, home-workout, strength-training]
 pairs_with:
   prompts: [plan-bodyweight-skill-progression, plan-core-training, track-fitness-progress]

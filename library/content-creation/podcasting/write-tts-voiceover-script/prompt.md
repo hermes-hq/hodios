@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [text-to-speech, voice-over, ssml, pronunciation]
 pairs_with:
   prompts: [write-explainer-animation-prompts, plan-ai-presenter-video, adapt-script-for-teleprompter]

@@ -16,6 +16,7 @@ risk: read-only
 interaction: interactive
 model_tier: mid
 level: beginner
+depth: specific
 tags: [inbox-triage, calendar-management, follow-ups, delegation, time-protection]
 pairs_with:
   prompts: [prioritize-todo-list, plan-my-week, summarize-email-thread, prepare-for-meeting]

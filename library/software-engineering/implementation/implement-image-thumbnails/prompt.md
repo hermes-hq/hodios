@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [images, thumbnails, webp, avif, exif]
 pairs_with:
   prompts: [implement-file-upload, implement-background-job]

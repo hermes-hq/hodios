@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [snap, food-stamps, food-assistance, benefit-claim, eligibility-interview, low-income]
 pairs_with:
   prompts: [check-benefits-entitlement, appeal-benefits-decision, plan-meals-from-food-parcel, prepare-government-form]

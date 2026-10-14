@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [homeschool, multi-age, family-learning, weekly-schedule, independent-study, morning-time]
 pairs_with:
   prompts: [plan-homeschool-year, differentiate-lesson, invent-learning-game]

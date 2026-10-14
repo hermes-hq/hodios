@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-accident, third-party-claim, vehicle-damage, loss-of-use, at-fault-driver, motor-insurance]
 pairs_with:
   prompts: [handle-car-accident-aftermath, challenge-fault-decision, decide-whether-to-make-claim, prepare-small-claims-case]

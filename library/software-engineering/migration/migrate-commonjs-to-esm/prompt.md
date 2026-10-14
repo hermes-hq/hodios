@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [esm, module-system, package-exports, dual-package, node-modules]
 pairs_with:
   prompts: [migrate-javascript-to-typescript, switch-build-tool, upgrade-major-dependency]

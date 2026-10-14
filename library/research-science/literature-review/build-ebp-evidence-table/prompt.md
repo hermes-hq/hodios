@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [evidence-based-practice, evidence-table, levels-of-evidence, johns-hopkins, nursing-research]
 pairs_with:
   prompts: [write-critically-appraised-topic, appraise-study-quality, build-literature-matrix]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stress-management, wellness-plan, early-warning-signs, self-care]
 pairs_with:
   prompts: [guided-journaling, reframe-negative-thoughts, prepare-for-therapy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employee-onboarding, preboarding, new-starters, time-to-productivity, early-attrition]
 pairs_with:
   prompts: [plan-new-hire-onboarding, write-team-onboarding-guide, design-probation-review-process, plan-employee-offboarding]

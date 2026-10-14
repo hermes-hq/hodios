@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [comic-script, graphic-novel, webtoon, full-script, page-turn, lettering]
 pairs_with:
   prompts: [write-beat-sheet, create-storyboard]

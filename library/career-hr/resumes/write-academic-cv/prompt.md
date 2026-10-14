@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [academic-cv, publications, research-funding, faculty-application, postdoc]
 pairs_with:
   prompts: [review-resume, write-cover-letter]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [new-starter, reneging, no-show, backup-candidates, hiring-recovery]
 pairs_with:
   prompts: [nurture-runner-up-candidates, plan-preboarding-period, plan-high-volume-hiring]

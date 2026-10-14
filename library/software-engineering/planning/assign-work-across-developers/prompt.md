@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [work-allocation, delegation, knowledge-sharing, merge-conflicts, pairing]
 pairs_with:
   prompts: [plan-sprint, reduce-bus-factor, plan-team-capacity]

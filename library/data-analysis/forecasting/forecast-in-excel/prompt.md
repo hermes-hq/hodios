@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [spreadsheet-formulas, seasonality, holdout-test, prediction-intervals]
 pairs_with:
   prompts: [forecast-time-series, present-forecast-uncertainty, design-spreadsheet-model]

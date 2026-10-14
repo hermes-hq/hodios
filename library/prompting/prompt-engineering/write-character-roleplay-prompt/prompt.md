@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [character-design, roleplay, voice-consistency, interactive-fiction]
 pairs_with:
   prompts: [write-system-prompt, red-team-prompt]

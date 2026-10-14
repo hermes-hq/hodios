@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trading-report, average-order-value, conversion-rate, weeks-of-cover, product-performance]
 pairs_with:
   prompts: [decompose-revenue-change, analyze-inventory-data, write-weekly-metrics-update, compare-period-performance]

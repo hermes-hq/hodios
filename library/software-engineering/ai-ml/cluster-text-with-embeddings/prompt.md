@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [embeddings, topic-modeling, hdbscan, k-means, customer-feedback]
 pairs_with:
   prompts: [analyze-aspect-sentiment, choose-ml-approach]

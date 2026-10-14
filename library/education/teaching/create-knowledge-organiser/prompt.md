@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [knowledge-organiser, retrieval-practice, key-vocabulary, self-quizzing, curriculum-planning]
 pairs_with:
   prompts: [design-homework-task-set, write-retrieval-practice-starters, plan-vocabulary-instruction]

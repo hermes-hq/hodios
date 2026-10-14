@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [contract-variation, working-under-protest, pay-cut, change-of-hours, employment-rights, consultation]
 pairs_with:
   prompts: [write-workplace-grievance, claim-unpaid-wages, appeal-dismissal]

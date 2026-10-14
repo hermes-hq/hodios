@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [script-submission, screenwriting-contests, fellowships, query-strategy]
 pairs_with:
   prompts: [write-logline-and-synopsis, write-fellowship-statement, review-first-ten-pages]

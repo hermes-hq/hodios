@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [campaign-wrap-up, incrementality, cost-per-result, marketing-measurement, lessons-learned]
 pairs_with:
   prompts: [analyze-ad-performance, analyze-email-campaign-report, write-marketing-performance-report, anticipate-report-questions]

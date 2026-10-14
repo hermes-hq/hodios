@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [llm-as-judge, rubric-grading, evals, automated-scoring]
 pairs_with:
   prompts: [judge-pairwise-responses, write-judge-prompt, check-answer-faithfulness, write-llm-eval-suite]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [scope-creep, change-request, trade-offs, sprint-commitment]
 pairs_with:
   prompts: [plan-sprint, estimate-with-ranges, replan-slipping-project]

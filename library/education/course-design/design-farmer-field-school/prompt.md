@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [farmer-field-school, agricultural-extension, participatory-learning, comparison-plots, agroecosystem-analysis, smallholders]
 args:
   - name: crop_or_livestock

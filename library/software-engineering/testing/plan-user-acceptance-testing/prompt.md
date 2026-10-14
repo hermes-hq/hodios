@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [uat, sign-off, business-testing, release-testing]
 pairs_with:
   prompts: [write-test-plan, write-acceptance-criteria, write-test-summary-report]

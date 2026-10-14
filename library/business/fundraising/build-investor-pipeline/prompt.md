@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [investor-outreach, warm-intros, fundraising-crm, venture-capital, angel-investors]
 pairs_with:
   prompts: [write-pitch-deck-outline, prepare-investor-qa, write-elevator-pitch, explain-term-sheet]

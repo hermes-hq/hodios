@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ci-caching, test-splitting, critical-path, build-time]
 args:
   - name: ci_config

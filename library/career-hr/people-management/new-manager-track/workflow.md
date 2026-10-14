@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [first-90-days, listening-tour, inherited-team, team-health, manager-onboarding]
 pairs_with:
   prompts: [plan-transition-to-manager, plan-first-90-days, plan-one-on-one, write-team-charter]

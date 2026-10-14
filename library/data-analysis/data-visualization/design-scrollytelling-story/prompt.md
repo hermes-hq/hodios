@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scrollytelling, data-journalism, narrative-visualization, storyboard]
 pairs_with:
   prompts: [tell-data-story, adapt-chart-for-mobile, build-d3-chart]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [funeral, memorial-service, order-of-service, humanist-ceremony, bereavement, readings]
 pairs_with:
   prompts: [write-obituary, write-speech, write-blessing-or-prayer]

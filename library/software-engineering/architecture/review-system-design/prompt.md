@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [design-review, failure-modes, scalability, reliability]
 pairs_with:
   personas: [software-architect]

@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [configuration, environment-variables, twelve-factor, hard-coded-values, secrets]
 pairs_with:
   prompts: [add-feature-flag]

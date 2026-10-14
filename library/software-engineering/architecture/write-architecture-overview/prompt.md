@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [architecture-docs, trade-offs, system-boundaries, diagrams-as-code]
 pairs_with:
   personas: [software-architect, technical-writer]

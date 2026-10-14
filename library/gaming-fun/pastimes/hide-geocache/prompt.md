@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [geocaching, cache-hiding, outdoor-hobby, listing-description, permission, maintenance-plan]
 pairs_with:
   prompts: [start-geocaching]

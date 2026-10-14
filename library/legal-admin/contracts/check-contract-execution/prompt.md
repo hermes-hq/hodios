@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contract-signing, signing-authority, e-signature, witnessing, counterparts]
 pairs_with:
   prompts: [build-contract-obligations-register, summarize-contract, draft-contract-amendment]

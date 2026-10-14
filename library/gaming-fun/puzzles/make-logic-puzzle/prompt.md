@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [logic-grid, deduction, unique-solution, brain-teaser]
 pairs_with:
   prompts: [create-escape-room-puzzles]

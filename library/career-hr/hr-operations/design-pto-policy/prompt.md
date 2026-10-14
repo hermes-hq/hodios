@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paid-time-off, annual-leave, unlimited-pto, holiday-allowance, carryover]
 pairs_with:
   prompts: [write-workplace-policy, write-employee-handbook, design-benefits-package, plan-hr-annual-calendar]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [launch-faq, launch-readiness, objection-handling, internal-enablement]
 pairs_with:
   prompts: [plan-product-launch, write-sales-enablement-brief, write-launch-announcement, write-prfaq]

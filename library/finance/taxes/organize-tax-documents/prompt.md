@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tax-return, tax-preparer, record-keeping, deductions]
 pairs_with:
   prompts: [explain-tax-notice, plan-freelance-tax-set-aside]

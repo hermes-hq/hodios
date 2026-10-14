@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [community-interpreting, interpreter-ethics, vicarious-trauma, professional-development]
 pairs_with:
   prompts: [practise-community-interpreting, work-through-interpreter-ethics-dilemmas, prepare-interpreting-assignment, practise-consecutive-note-taking]

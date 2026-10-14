@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [self-publishing, indie-author, book-launch, ebook, print-on-demand]
 pairs_with:
   prompts: [write-book-blurb, design-book-cover-brief, write-query-letter]

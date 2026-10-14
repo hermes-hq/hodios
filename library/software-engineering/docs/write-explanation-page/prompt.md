@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [explanation, diataxis, mental-model, concept-docs]
 pairs_with:
   prompts: [write-how-to-guide, reorganize-docs-by-diataxis, write-project-glossary]

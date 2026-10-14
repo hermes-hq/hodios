@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ci, least-privilege]
 pairs_with:
   prompts: [speed-up-ci-pipeline]

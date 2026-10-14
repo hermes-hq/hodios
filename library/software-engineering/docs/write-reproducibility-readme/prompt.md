@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reproducibility, research-code, ml-experiments, paper-code, random-seeds]
 pairs_with:
   prompts: [write-dataset-documentation, convert-notebook-to-pipeline]

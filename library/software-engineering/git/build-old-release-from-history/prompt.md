@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [old-release, reproducible-build, toolchain-pinning, legacy-build]
 pairs_with:
   prompts: [cut-hotfix-from-release-tag, bisect-regression, set-up-git-worktrees, fix-git-submodule-problems]

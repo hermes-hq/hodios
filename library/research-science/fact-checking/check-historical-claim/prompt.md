@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [historical-myths, primary-sources, historiography, popular-history]
 pairs_with:
   prompts: [trace-quote-origin, explain-state-of-evidence, fact-check-claims]

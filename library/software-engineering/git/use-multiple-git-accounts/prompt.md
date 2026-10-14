@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multiple-accounts, ssh-config, includeif, commit-identity]
 pairs_with:
   prompts: [set-up-git-on-new-machine, fix-git-push-authentication, fix-commit-author-identity, set-up-commit-signing]

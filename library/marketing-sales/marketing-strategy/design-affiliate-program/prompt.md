@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [affiliate-marketing, partner-marketing, commission-structure, affiliate-terms, incrementality]
 pairs_with:
   prompts: [design-referral-program, plan-influencer-campaign, analyze-marketing-attribution]

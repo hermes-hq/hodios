@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [equipment-finance, hire-purchase, vehicle-lease, balloon-payment, early-termination, asset-finance]
 pairs_with:
   prompts: [compare-equipment-lease-vs-buy, review-car-purchase-contract, explain-contract-clause, prepare-leased-car-return]

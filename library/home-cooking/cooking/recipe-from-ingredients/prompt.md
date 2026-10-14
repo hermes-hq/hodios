@@ -19,7 +19,8 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [leftovers, substitutions, pantry, food-waste]
+depth: specific
+tags: [leftovers, substitutions, pantry, food-waste, dinner-ideas, what-to-cook, fridge-ingredients]
 pairs_with:
   prompts: [adapt-recipe, plan-weekly-meals]
   personas: [chef-mentor]

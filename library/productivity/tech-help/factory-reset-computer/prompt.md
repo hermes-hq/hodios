@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [factory-reset, reinstall-windows, macos-reinstall, fresh-start, software-licences]
 pairs_with:
   prompts: [set-up-backups, speed-up-slow-computer, set-up-new-computer, prepare-device-for-resale]

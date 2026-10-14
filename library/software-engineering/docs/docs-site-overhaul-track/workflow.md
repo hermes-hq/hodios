@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [docs-overhaul, information-architecture, diataxis, redirects, docs-as-code, content-audit]
 pairs_with:
   prompts: [reorganize-docs-by-diataxis, test-code-in-docs, write-documentation-standards, audit-documentation]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [volunteers, community-groups, pta, light-minutes, action-items]
 pairs_with:
   prompts: [prepare-to-chair-meeting, run-residents-association-agm, recruit-volunteers, chase-overdue-action-items]

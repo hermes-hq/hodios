@@ -7,6 +7,7 @@ description: Takes a feature from open questions to a reviewed implementation in
 category: planning
 version: 1.0.1
 status: incubating
+depth: specific
 aliases: [product-feature-e2e]
 stage: [discover, design, plan, build]
 requires: [repo-read, file-write]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cease-and-desist, trademark-dispute, copyright-claim, holding-reply]
 pairs_with:
   prompts: [explain-legal-letter, apply-for-trademark]

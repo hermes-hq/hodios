@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [social-selling, account-based-selling, buying-committee, b2b-sales, linkedin-outreach]
 pairs_with:
   prompts: [plan-linkedin-personal-brand, optimize-linkedin-profile, write-cold-outreach, write-account-plan]

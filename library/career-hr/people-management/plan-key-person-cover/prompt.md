@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [key-person-risk, cross-training, bus-factor, succession-planning, knowledge-transfer, team-resilience]
 pairs_with:
   prompts: [build-team-skills-matrix, delegate-task, respond-to-resignation, reduce-bus-factor]

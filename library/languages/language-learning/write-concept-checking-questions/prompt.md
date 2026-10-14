@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ccqs, icqs, checking-understanding, timelines, grammar-meaning]
 pairs_with:
   prompts: [analyse-target-language-for-lesson, review-trainee-language-lesson-plan]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [young-learners, primary-school, tpr, songs-and-chants, storytelling, classroom-routines]
 pairs_with:
   prompts: [teach-language-to-child, plan-language-lesson-around-song]

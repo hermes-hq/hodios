@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ghostwriting, client-interviews, voice-capture, collaboration, book-planning]
 pairs_with:
   prompts: [build-story-bank, outline-nonfiction-book]

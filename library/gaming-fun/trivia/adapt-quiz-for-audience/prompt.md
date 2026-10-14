@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pub-quiz, localisation, age-appropriate, question-swap, difficulty-curve]
 pairs_with:
   prompts: [review-quiz-questions, host-trivia-night]

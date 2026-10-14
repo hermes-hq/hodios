@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [breaking-changes, codemods, caching-defaults, turbopack]
 pairs_with:
   prompts: [migrate-pages-router-to-app-router, upgrade-react-major-version, fix-nextjs-app-router-caching]

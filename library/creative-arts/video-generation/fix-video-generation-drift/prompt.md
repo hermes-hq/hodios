@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flicker, character-drift, one-variable-test, morphing-faces]
 pairs_with:
   prompts: [turn-storyboard-into-video-shots, write-image-to-video-motion-prompt, write-character-consistency-prompts]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [list-hygiene, sunset-policy, deliverability, re-permission, sender-reputation]
 pairs_with:
   prompts: [audit-newsletter-performance, write-win-back-campaign]

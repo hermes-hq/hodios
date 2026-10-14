@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vector-search, database-selection, semantic-search, trade-offs]
 pairs_with:
   prompts: [choose-database-for-workload, design-rag-pipeline, choose-embedding-model]

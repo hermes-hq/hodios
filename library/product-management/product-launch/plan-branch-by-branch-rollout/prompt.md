@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [phased-rollout, pilot-sites, rollout-waves, halt-criteria, rollback, multi-site]
 pairs_with:
   prompts: [brief-frontline-staff-on-release, plan-internal-tool-rollout, plan-release]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-hub, home-organisation, paper-clutter, shared-lists, drop-zone, weekly-reset]
 pairs_with:
   prompts: [coordinate-family-calendar, extract-actions-from-school-messages, split-mental-load-fairly]

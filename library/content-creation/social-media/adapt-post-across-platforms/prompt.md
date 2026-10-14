@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cross-posting, platform-native, character-limits, link-placement]
 pairs_with:
   prompts: [write-linkedin-post, write-instagram-caption, write-short-social-posts]

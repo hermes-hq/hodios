@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sqlalchemy, orm, lazy-loading, async-sessions, eager-loading]
 pairs_with:
   prompts: [write-sqlalchemy-models, migrate-sqlalchemy-1-to-2, fix-n-plus-one-queries]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [found-poetry, erasure-poem, blackout-poetry, constraint-writing]
 pairs_with:
   prompts: [generate-poetry-prompts, critique-poem]

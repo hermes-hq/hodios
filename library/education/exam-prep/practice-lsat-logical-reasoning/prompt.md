@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [lsat, logical-reasoning, argument-flaws, assumptions, conditional-logic, pacing]
 pairs_with:
   prompts: [prepare-standardized-test, map-argument-structure]

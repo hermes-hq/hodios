@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [monobehaviour, scriptableobject, garbage-collection, game-loop, serialization]
 applies_to: ["Assets/**/*.cs", "Packages/**/*.cs"]
 pairs_with:

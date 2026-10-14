@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [phone-calls, cancellations, refunds, escalation, consumer-rights, call-centre]
 pairs_with:
   prompts: [write-complaint-letter, cancel-contract-or-subscription, practice-assertive-responses]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [team-topology, product-ownership, squad-design, dependencies, team-missions]
 pairs_with:
   prompts: [align-architecture-with-teams, plan-team-restructure, write-product-strategy, consolidate-team-roadmaps]

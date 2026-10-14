@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [donations, tax-relief, receipts, record-keeping]
 pairs_with:
   prompts: [organize-tax-documents, plan-giving-budget, estimate-annual-tax-bill]

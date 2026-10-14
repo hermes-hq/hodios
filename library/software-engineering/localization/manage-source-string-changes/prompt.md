@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stale-translations, translation-memory, key-versioning, copy-changes, workflow-policy]
 pairs_with:
   prompts: [automate-translation-file-sync, review-source-copy-for-translation, validate-translation-files-in-ci]

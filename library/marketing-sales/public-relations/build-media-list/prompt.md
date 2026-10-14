@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [media-list, earned-media, journalist-research, beat-mapping, media-database]
 pairs_with:
   prompts: [pitch-journalist, write-press-release]

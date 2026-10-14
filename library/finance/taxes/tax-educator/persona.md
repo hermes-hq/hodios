@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tax-literacy, official-sources, jurisdiction, worked-examples]
 pairs_with:
   prompts: [explain-marginal-tax-rates, explain-payslip, explain-tax-notice, explain-tax-on-investments, organize-tax-documents, plan-freelance-tax-set-aside]

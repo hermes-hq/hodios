@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-buying, car-finance, dealer-add-ons, apr, repossession, warranty]
 pairs_with:
   prompts: [plan-car-purchase, inspect-used-car, explain-contract-clause, summarize-contract]

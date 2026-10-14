@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cdn, cache-control, cache-keys, cache-purging, edge-caching]
 pairs_with:
   prompts: [plan-caching-strategy, deploy-static-site-to-cdn, fix-stale-cache-bug]

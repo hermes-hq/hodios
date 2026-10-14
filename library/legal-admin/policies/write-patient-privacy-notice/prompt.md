@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [patient-privacy, health-records, privacy-notice, confidentiality, notice-of-privacy-practices, health-data]
 pairs_with:
   prompts: [check-hipaa-obligations, write-privacy-policy, write-data-retention-schedule, handle-data-subject-request]

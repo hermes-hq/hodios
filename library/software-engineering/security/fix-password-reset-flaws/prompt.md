@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [password-reset, account-takeover, authentication, owasp]
 pairs_with:
   prompts: [implement-password-auth, review-auth-flow, implement-session-revocation, add-rate-limiting]

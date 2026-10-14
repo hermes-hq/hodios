@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [library-databases, search-terms, source-evaluation, peer-reviewed-sources, research-paper]
 pairs_with:
   prompts: [understand-assignment-brief, read-textbook-actively, write-ai-use-disclosure]

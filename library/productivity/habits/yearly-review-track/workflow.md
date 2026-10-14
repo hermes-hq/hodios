@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [annual-review, reflection, life-areas, quarterly-planning]
 pairs_with:
   prompts: [design-habit-plan, run-weekly-review, design-daily-routine]

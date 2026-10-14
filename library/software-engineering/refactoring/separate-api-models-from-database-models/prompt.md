@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dto, api-contract, serialization, mass-assignment]
 pairs_with:
   prompts: [extract-data-access-layer, introduce-value-objects]

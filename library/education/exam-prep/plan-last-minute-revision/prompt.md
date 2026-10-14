@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cramming, triage, active-recall, sleep-protection, high-yield]
 pairs_with:
   prompts: [create-cheat-sheet, quiz-me-interactively, plan-exam-day-strategy]

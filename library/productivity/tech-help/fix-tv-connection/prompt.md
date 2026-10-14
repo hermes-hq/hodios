@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [television, hdmi, soundbar, streaming-devices, home-cinema, step-by-step]
 pairs_with:
   prompts: [walk-me-through-device-setting, troubleshoot-home-wifi, write-tech-support-request]

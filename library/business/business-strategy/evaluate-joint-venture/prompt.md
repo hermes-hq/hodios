@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [joint-venture, strategic-alliance, partnership-structure, governance, exit-terms]
 pairs_with:
   prompts: [evaluate-white-label-or-licensing, write-partnership-proposal, screen-acquisition-targets]

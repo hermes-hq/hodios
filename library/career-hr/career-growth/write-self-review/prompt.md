@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [self-assessment, review-cycle, goal-tracking, brag-document]
 pairs_with:
   prompts: [prepare-promotion-case, write-performance-review]

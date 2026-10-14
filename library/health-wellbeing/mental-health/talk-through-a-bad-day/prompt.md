@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bad-day, evening-debrief, emotional-support, reflective-listening, wind-down]
 pairs_with:
   prompts: [guided-journaling, practice-self-compassion, reframe-negative-thoughts]

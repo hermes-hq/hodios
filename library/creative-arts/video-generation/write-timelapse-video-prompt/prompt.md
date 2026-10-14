@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [time-lapse, day-to-night, sun-path, compressed-time]
 pairs_with:
   prompts: [write-video-generation-prompt, write-looping-video-prompt, fix-video-generation-drift]

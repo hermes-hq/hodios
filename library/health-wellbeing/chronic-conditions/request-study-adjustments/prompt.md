@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reasonable-adjustments, disability-services, student-support, attendance, deadline-extensions, university]
 pairs_with:
   prompts: [request-exam-access-arrangements, plan-activity-pacing, work-around-brain-fog]

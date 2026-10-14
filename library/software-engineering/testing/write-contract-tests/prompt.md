@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [contract-testing, pact, microservices, api-compatibility]
 pairs_with:
   personas: [backend-engineer, test-engineer]

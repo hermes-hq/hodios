@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pest-control, bedbugs, disrepair, tenant-rights, health-hazards]
 pairs_with:
   prompts: [request-landlord-repair, keep-repair-evidence-log, write-housing-complaint-to-authority]

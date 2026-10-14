@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pdf, document-templates, page-layout, tagged-pdf, fonts]
 pairs_with:
   prompts: [implement-background-job, write-visual-regression-tests, implement-transactional-email]

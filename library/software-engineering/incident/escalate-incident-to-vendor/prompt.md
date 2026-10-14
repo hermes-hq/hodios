@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [vendor-support, third-party-outage, support-case, escalation, dependencies]
 pairs_with:
   prompts: [collect-incident-evidence, triage-production-alert, write-incident-update, build-incident-timeline]

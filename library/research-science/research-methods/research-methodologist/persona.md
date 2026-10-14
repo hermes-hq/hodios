@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [validity, causal-inference, critical-appraisal]
 pairs_with:
   prompts: [design-research-study, write-peer-review, find-research-gaps]

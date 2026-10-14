@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [video-call, remote-presenting, audience-engagement, tech-check, webinar]
 pairs_with:
   prompts: [write-webinar-script, run-hybrid-meeting, prepare-for-tough-questions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [match-preview, club-media, grassroots-sport, sports-writing, matchday, club-newsletter]
 pairs_with:
   prompts: [write-match-report, scout-opponent]

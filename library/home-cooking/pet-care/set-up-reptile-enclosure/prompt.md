@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reptiles, vivarium, heat-gradient, uvb-lighting, exotic-pets, leopard-gecko]
 pairs_with:
   prompts: [choose-pet-for-lifestyle, plan-new-pet-care, prepare-vet-visit]

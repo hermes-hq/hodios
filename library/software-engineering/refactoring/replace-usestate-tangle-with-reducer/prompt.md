@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [react-hooks, use-reducer, state-machines, impossible-states]
 pairs_with:
   prompts: [split-react-component, remove-unnecessary-useeffects]

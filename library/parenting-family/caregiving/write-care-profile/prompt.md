@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [about-me, person-centred, carers, dementia, learning-disability, hospital-stay]
 pairs_with:
   prompts: [prepare-emergency-medical-summary, plan-respite-break, build-care-rota]

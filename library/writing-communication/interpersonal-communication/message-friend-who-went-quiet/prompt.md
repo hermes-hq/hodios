@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [checking-in, friendship-maintenance, low-pressure, texting, withdrawal]
 pairs_with:
   prompts: [reconnect-with-old-contact, support-struggling-friend, decode-message-tone]

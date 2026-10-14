@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [chargeback, card-dispute, consumer-rights, refunds]
 pairs_with:
   prompts: [write-complaint-letter, cancel-contract-or-subscription]

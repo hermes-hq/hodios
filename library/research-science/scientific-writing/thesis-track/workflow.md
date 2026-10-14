@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thesis, dissertation, phd, masters-thesis, viva, supervision]
 pairs_with:
   prompts: [refine-research-question, write-research-proposal, plan-thesis-structure, plan-phd-timeline, write-ethics-application, review-thesis-draft, turn-thesis-chapter-into-paper]

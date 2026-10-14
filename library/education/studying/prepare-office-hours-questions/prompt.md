@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [office-hours, help-seeking, first-generation-students, tutor-meetings]
 pairs_with:
   prompts: [understand-assignment-brief, explain-university-jargon, run-study-group-session]

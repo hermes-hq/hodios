@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [bar-exam, issue-spotting, irac, essay-grading, fact-pattern, mee-style]
 pairs_with:
   prompts: [grade-practice-answers, write-model-exam-answer, plan-exam-day-strategy]

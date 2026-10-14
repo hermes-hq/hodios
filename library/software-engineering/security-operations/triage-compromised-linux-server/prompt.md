@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [linux-forensics, live-response, rootkit, ssh-keys, cron, rebuild-decision]
 stack: [bash]
 pairs_with:

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weight-maintenance, weight-regain, relapse-prevention, habit-change, self-monitoring]
 pairs_with:
   prompts: [plan-sustainable-weight-loss, plan-nutrition-targets, start-food-tracking, plan-eating-on-weight-loss-medication]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [eviction, notice-to-quit, tenant-rights, rent-arrears, housing-help, possession]
 pairs_with:
   prompts: [explain-legal-letter, request-landlord-repair, prepare-to-self-represent]

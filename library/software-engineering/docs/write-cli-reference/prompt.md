@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cli, man-page, help-text, exit-codes, command-line]
 pairs_with:
   prompts: [document-configuration-options, document-error-codes, write-readme]

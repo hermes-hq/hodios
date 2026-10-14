@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gift-cards, gift-vouchers, bonus-offer, last-minute-gifts, holiday-season]
 pairs_with:
   prompts: [plan-holiday-sale-campaign, write-promo-email]

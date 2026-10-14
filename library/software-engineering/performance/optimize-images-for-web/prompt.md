@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [images, srcset, avif, webp, lazy-loading, lcp]
 pairs_with:
   prompts: [improve-web-vitals, reduce-bundle-size, set-performance-budgets]

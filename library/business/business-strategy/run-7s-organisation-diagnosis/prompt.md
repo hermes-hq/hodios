@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mckinsey-7s, organisational-alignment, change-readiness, org-diagnosis, organisational-culture]
 pairs_with:
   prompts: [cascade-strategy-to-team-goals, diagnose-strategic-challenge, run-yearly-company-health-check]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maps, choropleth, cartography, geospatial, normalisation]
 pairs_with:
   prompts: [analyze-location-data, choose-chart-colors, critique-chart]

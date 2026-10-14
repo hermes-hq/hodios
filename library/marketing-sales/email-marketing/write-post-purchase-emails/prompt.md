@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [post-purchase, lifecycle-email, email-flow, review-request, repeat-purchase]
 pairs_with:
   prompts: [write-email-sequence, write-abandoned-cart-emails, write-win-back-campaign, request-customer-testimonials]

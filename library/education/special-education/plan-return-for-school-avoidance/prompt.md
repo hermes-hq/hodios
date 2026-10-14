@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [education-sector]
 tags: [school-avoidance, attendance, anxiety-support, reintegration, part-time-timetable, family-partnership]
 pairs_with:

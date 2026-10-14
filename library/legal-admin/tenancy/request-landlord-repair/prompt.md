@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [disrepair, tenant-rights, landlord-letters]
 pairs_with:
   prompts: [review-lease, demand-deposit-return, write-complaint-letter]

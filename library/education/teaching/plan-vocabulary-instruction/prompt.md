@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tiered-vocabulary, academic-language, literacy, explicit-instruction, word-consciousness]
 pairs_with:
   prompts: [write-reading-comprehension-set, adapt-text-reading-level, write-lesson-plan]

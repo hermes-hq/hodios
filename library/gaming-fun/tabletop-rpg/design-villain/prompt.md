@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [villain, antagonist, campaign, game-mastering, story-hooks]
 pairs_with:
   prompts: [design-campaign-arc, create-npc]

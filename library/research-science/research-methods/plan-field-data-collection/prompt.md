@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fieldwork, sampling-design, field-safety, lone-working, data-backup, permits]
 pairs_with:
   prompts: [design-sampling-plan, write-field-observation-protocol, write-lab-protocol, write-data-management-plan]

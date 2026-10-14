@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [game-crash, stutter, shader-compilation, graphics-drivers, crash-logs]
 pairs_with:
   prompts: [speed-up-slow-computer, explain-error-message]

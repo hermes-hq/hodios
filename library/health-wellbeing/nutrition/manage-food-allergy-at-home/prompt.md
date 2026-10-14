@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [food-allergy, anaphylaxis, label-reading, cross-contact, allergen-free-kitchen, emergency-plan]
 pairs_with:
   prompts: [plan-special-diet-meals, check-food-safety, plan-school-lunches]

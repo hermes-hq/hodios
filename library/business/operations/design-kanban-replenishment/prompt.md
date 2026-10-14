@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kanban, two-bin, replenishment, lean, consumables, pull-system, reorder-point]
 pairs_with:
   prompts: [plan-inventory, run-5s-organisation, plan-production-schedule, plan-warehouse-slotting]

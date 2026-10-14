@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [layoffs, redundancy, termination-meeting, severance, outplacement]
 pairs_with:
   prompts: [plan-one-on-one, write-performance-improvement-plan]

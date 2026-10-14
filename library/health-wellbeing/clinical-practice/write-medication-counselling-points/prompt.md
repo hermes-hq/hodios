@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [medication-counselling, pharmacy-practice, patient-counselling, medicines-optimisation, new-medicine-service, nursing]
 pairs_with:
   prompts: [write-teach-back-script, build-medication-list, explain-medication-leaflet]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [complaint-handling, service-recovery, root-cause, follow-up, lessons-learned]
 pairs_with:
   prompts: [log-customer-complaint-fields, decide-goodwill-refund, critique-draft-support-reply, build-service-recovery-playbook]

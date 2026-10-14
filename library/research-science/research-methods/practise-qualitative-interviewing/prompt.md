@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [qualitative-interviewing, rehearsal, probing, interviewer-training, research-ethics]
 pairs_with:
   prompts: [write-research-interview-protocol, run-thematic-analysis, write-informed-consent-form]

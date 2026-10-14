@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [disrepair, housing-inspection, escalation, tenant-rights, housing-standards]
 pairs_with:
   prompts: [request-landlord-repair, keep-repair-evidence-log]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [comparative-testing, counterbalancing, within-subjects, design-decision, prototype-testing]
 pairs_with:
   prompts: [write-usability-test-plan, size-ux-research-sample, plan-preference-test]

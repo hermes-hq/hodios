@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [accessible-print, large-print, low-vision, dyslexia-friendly, clear-print, alternative-formats]
 pairs_with:
   prompts: [prepare-print-files, plan-signage, pair-typefaces, design-report-layout]

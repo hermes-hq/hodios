@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [statsforecast, sku-level, backtesting, cold-start, wape]
 pairs_with:
   prompts: [clean-demand-history, forecast-intermittent-demand, reconcile-top-down-and-bottom-up-forecasts, build-ml-forecasting-features]

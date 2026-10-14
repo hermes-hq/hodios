@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [widerspruch, bescheid, jobcenter, sozialrecht, deutschland]
 pairs_with:
   prompts: [appeal-benefits-decision, find-free-legal-help]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [teenagers, alcohol, vaping, drug-education, harm-reduction, safety-plan, hard-conversations]
 pairs_with:
   prompts: [write-family-agreement-with-teen, support-teen-mental-health, talk-to-teen-about-online-safety]

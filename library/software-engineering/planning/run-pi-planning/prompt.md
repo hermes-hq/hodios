@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [safe, program-increment, big-room-planning, cross-team-dependencies, roam, release-train]
 pairs_with:
   prompts: [plan-sprint, plan-team-capacity, find-critical-path]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [receiving-feedback, criticism, emotional-regulation, defensiveness]
 pairs_with:
   prompts: [respond-to-angry-email, give-feedback-sbi, apologize-effectively, set-boundary]

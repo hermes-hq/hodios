@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [budget-pacing, daily-budgets, overdelivery, month-end, spend-forecast]
 pairs_with:
   prompts: [plan-media-budget, analyze-ad-performance, calculate-break-even-roas]

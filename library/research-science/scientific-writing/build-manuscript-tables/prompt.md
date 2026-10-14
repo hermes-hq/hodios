@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [manuscript-tables, table-one, regression-table, apa-style, journal-submission]
 pairs_with:
   prompts: [write-results-section, report-statistical-results, design-scientific-figures]

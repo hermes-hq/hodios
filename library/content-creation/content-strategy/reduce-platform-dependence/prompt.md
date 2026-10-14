@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [owned-media, email-list, account-backup, algorithm-risk, audience-ownership, resilience]
 pairs_with:
   prompts: [grow-newsletter, plan-creator-monetization, plan-content-repurposing-system]

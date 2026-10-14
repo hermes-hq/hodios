@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [journalism, profile-writing, interview-based, characterisation, long-form]
 pairs_with:
   prompts: [write-feature-article, write-guest-interview-questions, write-article-headlines-and-standfirsts]

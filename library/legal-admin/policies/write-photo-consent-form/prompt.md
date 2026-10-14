@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [photo-consent, image-rights, data-protection, children-images, school-photos, event-photography]
 pairs_with:
   prompts: [write-safeguarding-policy, write-volunteer-policy, write-privacy-policy, write-data-retention-schedule]

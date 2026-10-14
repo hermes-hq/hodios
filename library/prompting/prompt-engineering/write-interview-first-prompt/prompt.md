@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [clarifying-questions, requirements-gathering, interview-pattern, reusable-prompt]
 pairs_with:
   prompts: [write-task-prompt, write-system-prompt, turn-chat-into-prompt]

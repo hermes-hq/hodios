@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [home-extension, moving-costs, extend-or-move, ceiling-price, property-decision]
 pairs_with:
   prompts: [estimate-home-buying-costs, plan-renovation-budget, decide-on-remortgage, compare-sell-vs-rent-out-home]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [email-migration, new-email-address, email-forwarding, account-updates, contacts]
 pairs_with:
   prompts: [secure-personal-accounts, digital-declutter-track, set-up-backups]

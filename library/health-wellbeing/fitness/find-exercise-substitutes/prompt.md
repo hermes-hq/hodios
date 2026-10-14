@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [exercise-swap, movement-pattern, strength-training, home-workout, gym-equipment]
 pairs_with:
   prompts: [check-exercise-form, choose-training-split, plan-travel-workouts]

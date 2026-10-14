@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [train-the-trainer, facilitation-skills, teach-back, trainer-certification, cascade-training, learning-and-development]
 pairs_with:
   prompts: [write-instructor-guide, design-workshop, evaluate-training-effectiveness]

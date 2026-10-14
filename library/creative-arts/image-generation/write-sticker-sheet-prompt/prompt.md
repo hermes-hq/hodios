@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stickers, die-cut, print-on-demand, planner-stickers, style-consistency]
 pairs_with:
   prompts: [build-image-style-guide, write-product-mockup-prompt]

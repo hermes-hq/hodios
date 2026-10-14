@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hoa, condo-board, building-management, fines, governing-documents, appeal]
 pairs_with:
   prompts: [write-neighbor-dispute-letter, write-complaint-letter, explain-legal-letter]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [homemade-cleaners, vinegar, baking-soda, chemical-safety, green-cleaning, cleaning-recipes]
 pairs_with:
   prompts: [build-cleaning-kit, clean-by-surface-material, disinfect-after-illness]

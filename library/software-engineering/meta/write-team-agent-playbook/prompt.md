@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, team-guide, review-rules, engineering-practices]
 pairs_with:
   prompts: [plan-coding-agent-rollout, assess-task-for-agent-delegation, write-agents-md, mine-review-comments-for-agent-rules]

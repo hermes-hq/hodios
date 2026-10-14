@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [homemade-gifts, coupon-book, experience-gifts, low-cost-gifts, quality-time]
 pairs_with:
   prompts: [choose-meaningful-gift, plan-partner-birthday]

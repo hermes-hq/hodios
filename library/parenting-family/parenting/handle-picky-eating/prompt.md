@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [picky-eating, fussy-eaters, family-meals, food-exposure, toddlers]
 pairs_with:
   prompts: [plan-behavior-approach, plan-child-bedtime-routine]

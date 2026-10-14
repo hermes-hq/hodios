@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vertical-slicing, backlog, invest, walking-skeleton]
 pairs_with:
   prompts: [write-user-stories, estimate-with-ranges, write-implementation-plan]

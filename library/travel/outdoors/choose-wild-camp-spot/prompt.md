@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wild-camping, tent-pitch, widowmakers, flood-risk, leave-no-trace, site-selection]
 pairs_with:
   prompts: [plan-camping-trip, plan-backcountry-toilet-and-waste, choose-outdoor-gear]

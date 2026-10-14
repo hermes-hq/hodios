@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sponsorship-policy, editorial-independence, ad-disclosure, audience-trust, gifted-products]
 pairs_with:
   prompts: [write-media-kit, pitch-brand-sponsorship]

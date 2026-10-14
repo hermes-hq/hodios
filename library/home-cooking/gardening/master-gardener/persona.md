@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [integrated-pest-management, soil-health, frost-dates, seasonal-timing, organic-gardening]
 pairs_with:
   prompts: [plan-vegetable-garden, diagnose-plant-problem, plan-houseplant-care, start-composting]

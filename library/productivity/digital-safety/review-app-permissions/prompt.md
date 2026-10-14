@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [app-permissions, phone-privacy, location-tracking, ad-tracking, permission-audit, smartphone-settings]
 pairs_with:
   prompts: [check-phone-for-stalkerware, lock-down-social-privacy, reduce-online-footprint, set-up-parental-controls]

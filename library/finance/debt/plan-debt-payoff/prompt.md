@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [debt-avalanche, debt-snowball, credit-cards, interest]
 pairs_with:
   prompts: [build-monthly-budget, plan-savings-goal]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [passport, booking-confirmations, document-backup, trip-folder]
 pairs_with:
   prompts: [check-travel-requirements, handle-emergency-abroad, build-packing-list]

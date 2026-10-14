@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [email-automation, flow-priority, triggers, exit-conditions, build-order]
 pairs_with:
   prompts: [write-email-sequence, write-abandoned-cart-emails, write-browse-abandonment-emails, write-service-reminder-emails]

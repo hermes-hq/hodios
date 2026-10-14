@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [moment-js, date-handling, time-zones, bundle-size]
 pairs_with:
   prompts: [fix-date-time-bug, upgrade-major-dependency]

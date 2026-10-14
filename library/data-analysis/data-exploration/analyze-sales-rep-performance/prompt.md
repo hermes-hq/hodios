@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-performance, win-rate, sales-cycle, crm-data, coaching, quota-attainment]
 pairs_with:
   prompts: [review-sales-pipeline, plan-sales-territory, run-win-loss-analysis, analyze-price-realisation]

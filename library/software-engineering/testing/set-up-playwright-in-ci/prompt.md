@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [playwright, e2e, ci, sharding, test-setup]
 pairs_with:
   prompts: [write-e2e-test, write-page-objects-for-e2e, test-login-flows-in-e2e]

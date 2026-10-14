@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [refurbished, open-box, ex-display, product-grading, warranty-check]
 pairs_with:
   prompts: [check-used-device, buy-secondhand-safely, time-a-purchase, decide-on-extended-warranty]

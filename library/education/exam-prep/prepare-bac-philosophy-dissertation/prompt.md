@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [baccalaureat, dissertation, problematique, essay-structure, france]
 pairs_with:
   prompts: [practise-grand-oral, write-model-exam-answer, plan-exam-day-strategy]

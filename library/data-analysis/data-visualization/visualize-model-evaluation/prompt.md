@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [model-evaluation, roc-curve, confusion-matrix, calibration]
 pairs_with:
   prompts: [handle-imbalanced-classes, train-text-classifier, write-plotting-code, evaluate-classifier-with-roc]

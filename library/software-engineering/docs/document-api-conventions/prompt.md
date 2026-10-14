@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-reference, pagination, rate-limiting, idempotency, api-versioning]
 pairs_with:
   prompts: [document-error-codes, write-api-authentication-guide, write-openapi-spec-from-code]

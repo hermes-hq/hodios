@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sonic-identity, style-tags, ai-music, track-consistency]
 pairs_with:
   prompts: [write-music-prompt, plan-music-release, write-background-music-cues]

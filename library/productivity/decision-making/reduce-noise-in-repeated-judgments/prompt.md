@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [consistency, structured-judgment, rubrics, fairness, inter-rater-agreement]
 pairs_with:
   prompts: [check-decision-for-biases, write-personal-decision-rules, run-calibration-session]

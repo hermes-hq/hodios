@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [white-label, licensing-deal, private-label, royalties, ip-commercialisation]
 pairs_with:
   prompts: [choose-distribution-channels, evaluate-joint-venture, design-revenue-model]

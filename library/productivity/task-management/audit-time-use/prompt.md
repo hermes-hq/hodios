@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [time-tracking, calendar-audit, deep-work, priorities, time-allocation]
 pairs_with:
   prompts: [plan-my-week, reduce-meeting-load, run-energy-audit]

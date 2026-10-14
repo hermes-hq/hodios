@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [homebrew, homebrew-tap, cli-distribution, macos, package-publishing]
 pairs_with:
   prompts: [publish-package-from-ci, write-installation-guide, sign-release-artifacts]

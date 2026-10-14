@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [homework, family-routines, executive-function, family-agreement]
 args:
   - name: child_and_schedule

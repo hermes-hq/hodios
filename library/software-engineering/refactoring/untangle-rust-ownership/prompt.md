@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ownership, borrowing, interior-mutability, clone-reduction]
 pairs_with:
   prompts: [fix-rust-borrow-checker-error, remove-shared-mutable-state]

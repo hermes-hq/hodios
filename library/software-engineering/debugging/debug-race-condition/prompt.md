@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [concurrency, race-condition, deadlock, thread-safety, async]
 pairs_with:
   personas: [debugger, backend-engineer]

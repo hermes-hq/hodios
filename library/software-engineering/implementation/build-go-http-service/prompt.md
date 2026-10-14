@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [net-http, rest-api, middleware, context, http-server]
 pairs_with:
   prompts: [build-rest-endpoint, implement-graceful-shutdown, implement-go-worker-pool]

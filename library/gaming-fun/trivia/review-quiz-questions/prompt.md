@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pub-quiz, question-writing, ambiguity, answer-key, quality-check, myth-busting]
 pairs_with:
   prompts: [host-trivia-night, rule-on-disputed-quiz-answer]

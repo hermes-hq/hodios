@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [school-communication, safeguarding, photo-consent, celebrating-students, plain-language]
 pairs_with:
   prompts: [plan-nonprofit-social-media, write-short-social-posts]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [photo-competition, camera-club, image-selection, photo-titles, entry-rules]
 pairs_with:
   prompts: [critique-photograph, prepare-photo-for-print, cull-photo-shoot]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-router, server-components, incremental-migration, data-fetching, layouts]
 pairs_with:
   prompts: [plan-incremental-migration, upgrade-major-dependency]

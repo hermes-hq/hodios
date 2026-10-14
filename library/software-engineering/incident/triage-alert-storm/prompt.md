@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [alert-storm, alert-grouping, dependency-map, silencing, alert-triage]
 pairs_with:
   prompts: [triage-production-alert, prune-noisy-alerts, design-alerting-rules, write-incident-update]

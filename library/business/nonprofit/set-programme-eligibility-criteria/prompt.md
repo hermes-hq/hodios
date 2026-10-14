@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [nonprofit]
 tags: [eligibility, waiting-list, service-design, equity, intake]
 pairs_with:

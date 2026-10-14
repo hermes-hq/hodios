@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [boolean-search, x-ray-search, sourcing, talent-sourcing, passive-candidates]
 pairs_with:
   prompts: [write-candidate-outreach, write-job-description]

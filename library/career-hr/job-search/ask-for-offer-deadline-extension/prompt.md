@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [job-offer, exploding-offer, offer-deadline, decision-time, competing-offers]
 pairs_with:
   prompts: [expedite-other-interviews-with-offer, evaluate-job-offer, handle-verbal-offer-call]

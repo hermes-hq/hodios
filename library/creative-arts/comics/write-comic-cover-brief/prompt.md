@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cover-art, art-direction, creative-brief, trade-dress, variant-covers]
 pairs_with:
   prompts: [write-comic-solicitation, write-character-model-sheet-brief, prepare-comic-print-files]

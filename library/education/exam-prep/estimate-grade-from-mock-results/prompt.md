@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mock-exams, grade-boundaries, marks-analysis, target-grades, exam-strategy]
 pairs_with:
   prompts: [analyze-exam-mistakes, analyze-past-papers, plan-last-minute-revision]

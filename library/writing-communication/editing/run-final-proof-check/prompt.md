@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [final-proof, cross-references, numbering, pre-publication, layout-check]
 pairs_with:
   prompts: [proofread-text, build-style-sheet, proofread-slide-deck, proofread-print-piece-before-ordering]

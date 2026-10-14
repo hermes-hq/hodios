@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coaching-offer, consulting-services, one-to-one-calls, service-pricing, creator-services]
 pairs_with:
   prompts: [plan-creator-digital-product, plan-creator-monetization, review-creator-income-mix]

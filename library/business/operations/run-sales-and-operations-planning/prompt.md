@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [s-and-op, demand-review, supply-planning, capacity, consensus-plan, cross-functional, monthly-cycle]
 pairs_with:
   prompts: [plan-inventory, plan-production-schedule, map-supply-risk, choose-small-business-kpis]

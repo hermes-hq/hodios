@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cheap-flights, airfare, fare-alerts, open-jaw, baggage-fees]
 pairs_with:
   prompts: [plan-multi-city-route, plan-trip-budget, plan-airport-layover]

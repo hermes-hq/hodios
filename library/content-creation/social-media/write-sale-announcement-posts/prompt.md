@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sale-posts, promotion-terms, honest-urgency, reference-pricing]
 pairs_with:
   prompts: [write-holiday-social-posts, write-instagram-caption, reply-to-price-inquiry-dms]

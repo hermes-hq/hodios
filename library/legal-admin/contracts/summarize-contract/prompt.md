@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [contract-review, termination, liability, auto-renewal]
 pairs_with:
   prompts: [draft-simple-agreement, explain-legal-letter]

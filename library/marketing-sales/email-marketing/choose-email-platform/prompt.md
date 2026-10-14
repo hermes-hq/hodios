@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [email-software, vendor-selection, marketing-tools, tool-comparison]
 pairs_with:
   prompts: [migrate-email-platform, map-email-automation-flows]

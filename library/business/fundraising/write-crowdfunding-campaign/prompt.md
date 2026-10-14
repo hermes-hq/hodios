@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [crowdfunding, kickstarter, indiegogo, reward-tiers, stretch-goals, campaign-page]
 pairs_with:
   prompts: [write-elevator-pitch, plan-online-store, write-donor-appeal]

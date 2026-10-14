@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [message-source, locale-resolver, bean-validation, resource-bundles, thymeleaf]
 pairs_with:
   prompts: [design-localized-api-errors, localize-server-sent-messages, propagate-locale-through-services]

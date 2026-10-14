@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [logic-model, theory-of-change, funder-research, outcomes]
 pairs_with:
   prompts: [write-grant-application, write-donor-appeal]

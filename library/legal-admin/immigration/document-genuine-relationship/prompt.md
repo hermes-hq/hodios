@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [partner-visa, spouse-visa, relationship-evidence, evidence-bundle, family-reunification]
 pairs_with:
   prompts: [prepare-visa-application, practise-visa-interview, respond-to-request-for-evidence, prepare-financial-evidence-for-visa]

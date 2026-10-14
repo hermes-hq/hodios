@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [slo, error-budget, reliability-review, burn-rate, sli]
 pairs_with:
   prompts: [define-slos, report-incident-trends, design-alerting-rules, audit-postmortem-action-items]

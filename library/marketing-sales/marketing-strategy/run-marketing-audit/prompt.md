@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketing-audit, diagnosis, funnel-review, quick-wins, gap-analysis]
 pairs_with:
   prompts: [write-marketing-plan, analyze-channel-performance, define-marketing-kpis, run-brand-audit]

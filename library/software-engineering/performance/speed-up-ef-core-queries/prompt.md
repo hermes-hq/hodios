@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ef-core, linq, as-no-tracking, split-query, projection]
 pairs_with:
   prompts: [fix-n-plus-one-queries, review-ef-core-data-access-change, optimize-sql-query]

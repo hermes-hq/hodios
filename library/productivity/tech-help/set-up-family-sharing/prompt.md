@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-plans, shared-subscriptions, shared-calendar, shared-albums, household-tech]
 pairs_with:
   prompts: [set-up-parental-controls, digital-declutter-track, set-up-backups]

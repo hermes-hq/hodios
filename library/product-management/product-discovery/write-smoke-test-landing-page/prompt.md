@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [smoke-test, landing-page-test, demand-validation, waitlist, pass-threshold]
 pairs_with:
   prompts: [design-validation-experiment, interpret-validation-test-results, test-messaging-with-customers, audit-idea-evidence]

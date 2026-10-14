@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [buying-decision, customer-reviews, review-analysis, fake-reviews, star-ratings]
 pairs_with:
   prompts: [summarize-long-document, compare-documents]

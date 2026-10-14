@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [informed-consent, impact-stories, ethical-storytelling, safeguarding, anonymisation, story-log]
 pairs_with:
   personas: [nonprofit-storyteller]

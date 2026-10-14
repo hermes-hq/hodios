@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [memes, wordplay, cultural-references, idioms, comedy-explained]
 pairs_with:
   prompts: [write-puns, play-pun-battle]

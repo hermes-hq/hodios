@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cell-level-merge, nbdime, output-stripping, merge-conflict]
 pairs_with:
   prompts: [resolve-merge-conflict, reduce-recurring-merge-conflicts, set-up-git-hooks]

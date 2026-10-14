@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [multilingual-learners, academic-vocabulary, bilingual-glossary, international-students, newcomer-students, sentence-frames, command-words]
 pairs_with:
   prompts: [build-subject-glossary, read-textbook-actively, explain-university-jargon, explain-lesson-in-simple-english]

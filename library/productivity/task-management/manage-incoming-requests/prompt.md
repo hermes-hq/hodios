@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [request-intake, ad-hoc-requests, triage-rules, queue, service-levels, stakeholders]
 pairs_with:
   prompts: [plan-around-interruptions, decline-request-gracefully, set-up-task-system]

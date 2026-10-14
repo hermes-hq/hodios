@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [disney-strategy, dreamer-realist-critic, perspective-shifting, idea-development]
 pairs_with:
   prompts: [run-six-thinking-hats, run-pre-mortem, develop-idea-with-ppco]

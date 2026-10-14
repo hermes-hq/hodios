@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dead-stock, slow-moving-stock, excess-inventory, markdowns, clearance, working-capital, overstock]
 pairs_with:
   prompts: [plan-inventory, plan-stock-take, calculate-product-margin]

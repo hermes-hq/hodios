@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [amateur-theatre, school-play, performance-rights, show-budget, production-team, front-of-house]
 pairs_with:
   prompts: [plan-rehearsal-schedule, run-show-auditions, write-cue-sheet]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [baby-sleep, feeding, safe-sleep]
 pairs_with:
   prompts: [prepare-for-new-baby, build-care-rota, plan-child-bedtime-routine]

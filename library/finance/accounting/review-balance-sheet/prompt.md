@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [balance-sheet, liquidity, solvency, financial-statements]
 pairs_with:
   prompts: [review-small-business-pnl, analyze-working-capital, explain-accounting-concept]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wisdom-of-crowds, judgmental-forecasting, aggregation, team-estimates, disagreement]
 pairs_with:
   prompts: [make-calibrated-forecast, score-probability-forecasts, plan-delphi-study]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [product-ops, internal-guide, customer-facing-teams, feedback-quality, verbatim]
 pairs_with:
   prompts: [build-feedback-intake-process, design-feedback-tagging-taxonomy, extract-feedback-fields]

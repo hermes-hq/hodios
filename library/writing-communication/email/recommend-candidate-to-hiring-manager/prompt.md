@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [referral, candidate-recommendation, internal-referral, hiring-manager]
 pairs_with:
   prompts: [write-reference-letter, design-employee-referral-scheme, write-introduction-email]

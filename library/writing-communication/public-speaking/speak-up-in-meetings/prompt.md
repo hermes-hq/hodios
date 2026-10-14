@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [introverts, assertiveness, meeting-participation, being-interrupted, visibility]
 pairs_with:
   prompts: [prepare-for-meeting, practice-impromptu-speaking]

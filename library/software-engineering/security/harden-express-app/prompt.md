@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardening, nodejs-security, security-headers, middleware, owasp]
 pairs_with:
   prompts: [harden-web-app-config, add-rate-limiting, fix-prototype-pollution, audit-dependencies]

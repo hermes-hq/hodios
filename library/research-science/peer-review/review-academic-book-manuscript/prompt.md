@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [readers-report, monographs, university-press, book-manuscript, scholarly-publishing]
 pairs_with:
   prompts: [review-academic-book-proposal, review-humanities-article, review-thesis-draft]

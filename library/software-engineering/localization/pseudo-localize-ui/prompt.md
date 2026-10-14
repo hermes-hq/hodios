@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [pseudo-localization, i18n-testing, truncation, hard-coded-strings, text-expansion]
 pairs_with:
   prompts: [extract-ui-strings, review-i18n-readiness, plan-rtl-support]

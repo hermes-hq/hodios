@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-kickoff, sales-enablement, team-meetings, sales-training, sales-leadership]
 pairs_with:
   prompts: [build-sales-playbook, plan-new-rep-ramp, set-sales-quotas, plan-team-offsite]

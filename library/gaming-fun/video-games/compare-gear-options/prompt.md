@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [character-build, damage-calculation, theorycrafting, critical-hits, stat-allocation]
 pairs_with:
   prompts: [plan-game-strategy, calculate-game-probabilities]

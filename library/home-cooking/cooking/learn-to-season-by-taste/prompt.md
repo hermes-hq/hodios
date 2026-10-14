@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [seasoning, tasting, flavour-balance, salt-acid-fat-heat, palate-training, kitchen-confidence]
 pairs_with:
   prompts: [rescue-dish-flavor, cook-along-assistant, teach-cooking-technique]

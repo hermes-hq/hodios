@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [returns-and-exchanges, shop-floor, handover-to-colleague, listening-speed, service-phrases]
 pairs_with:
   prompts: [roleplay-guest-service-shifts, practise-conversation-strategies, practice-phone-call-in-language]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deduplication, entity-resolution, fuzzy-matching, crm-hygiene]
 pairs_with:
   prompts: [clean-messy-spreadsheet, reconcile-datasets, write-dataframe-transformation]

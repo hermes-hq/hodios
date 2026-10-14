@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bake-sale, fundraising-event, allergen-labels, volunteer-bakers, school-events]
 pairs_with:
   prompts: [plan-cookie-baking-day, pack-baked-goods-for-shipping]

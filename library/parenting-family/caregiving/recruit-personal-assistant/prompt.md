@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [personal-assistants, direct-employment, finding-carers, home-care, self-directed-support]
 pairs_with:
   prompts: [set-up-household-employer, choose-home-care-agency, write-care-profile]

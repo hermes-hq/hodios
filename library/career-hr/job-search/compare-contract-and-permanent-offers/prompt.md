@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contracting, day-rate, salary-comparison, benefits-value, job-offer, total-compensation]
 pairs_with:
   prompts: [evaluate-job-offer, accept-job-offer-in-writing, negotiate-job-offer]

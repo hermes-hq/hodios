@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [safe, convertible-note, valuation-cap, discount, cap-table, dilution]
 pairs_with:
   prompts: [model-round-dilution, explain-term-sheet, choose-funding-instrument]

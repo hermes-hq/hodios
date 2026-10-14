@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [down-round, anti-dilution, pay-to-play, recapitalisation, option-repricing]
 pairs_with:
   prompts: [plan-bridge-round, model-exit-waterfall, explain-term-sheet]

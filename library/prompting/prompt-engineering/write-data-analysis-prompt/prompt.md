@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-interpreter, csv-analysis, data-quality, reproducibility, reusable-prompt]
 pairs_with:
   prompts: [explore-dataset, write-spreadsheet-ai-prompts, build-ai-output-review-checklist]

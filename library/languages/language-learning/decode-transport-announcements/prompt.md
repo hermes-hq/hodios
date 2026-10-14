@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [public-transport, announcements, listening-drill, commuting, newcomers, key-word-listening]
 pairs_with:
   prompts: [create-listening-exercise, drill-numbers-and-dates, learn-survival-phrases, decode-voicemail-messages]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bike-puncture, inner-tube, tubeless, cycling, roadside-repair, bike-repair]
 pairs_with:
   prompts: [plan-bike-maintenance, choose-bike]

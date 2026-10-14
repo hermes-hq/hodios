@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [amazon, fba, unit-economics, marketplace-fees, break-even, acos, landed-cost]
 pairs_with:
   prompts: [compare-fba-vs-self-fulfilment, plan-marketplace-ads, price-products-for-online-store]

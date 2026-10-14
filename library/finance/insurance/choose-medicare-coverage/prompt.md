@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [healthcare]
 tags: [medicare, medigap, medicare-advantage, part-d, turning-65, usa]
 pairs_with:

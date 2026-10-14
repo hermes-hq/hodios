@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kite-flying, kites, outdoor-hobby, wind, family-outing, stunt-kites]
 args:
   - name: flyer

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [selling-a-car, private-sale, car-listing, payment-scams, vehicle-paperwork, test-drive]
 pairs_with:
   prompts: [inspect-used-car, plan-car-purchase, evaluate-switching-to-ev]

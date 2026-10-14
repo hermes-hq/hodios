@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [fine-tuning, lora, distillation, baseline]
 pairs_with:
   prompts: [choose-ml-approach, write-llm-eval-suite, review-training-data]

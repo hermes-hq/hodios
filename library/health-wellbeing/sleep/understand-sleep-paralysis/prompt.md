@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sleep-paralysis, hypnagogic-hallucinations, rem-sleep, waking-episodes, sleep-deprivation]
 pairs_with:
   prompts: [prepare-sleep-doctor-appointment, reset-sleep-schedule, cope-with-nightmares]

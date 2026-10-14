@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [redlining, contract-negotiation, tracked-changes, fallback-positions]
 pairs_with:
   prompts: [summarize-contract, compare-contract-versions, explain-contract-clause]

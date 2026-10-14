@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [countries, capitals, landmarks, clue-ladder, guessing-game]
 pairs_with:
   prompts: [play-guess-the-year, play-twenty-questions]

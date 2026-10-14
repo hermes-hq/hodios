@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [parking-fine, traffic-fine, penalty-notice, signage]
 pairs_with:
   prompts: [explain-legal-letter, write-complaint-letter]

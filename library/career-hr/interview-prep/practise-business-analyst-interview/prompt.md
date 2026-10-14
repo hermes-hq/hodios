@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [requirements-elicitation, process-mapping, acceptance-criteria, stakeholder-scenarios]
 pairs_with:
   prompts: [practise-data-science-interview, run-mock-interview, prepare-case-interview]

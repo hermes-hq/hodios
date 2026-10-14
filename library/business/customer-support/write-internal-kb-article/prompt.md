@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [internal-knowledge-base, agent-playbook, solved-case, knowledge-centred-service, case-reuse]
 pairs_with:
   prompts: [build-support-macros, write-help-center-article, summarize-support-conversation, write-known-issue-brief]

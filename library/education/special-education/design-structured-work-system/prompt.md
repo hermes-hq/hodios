@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [structured-teaching, working-independently, visual-structure, workstation, task-boxes]
 pairs_with:

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [spring-festival, mid-autumn, greetings, holiday-messages, chinese-etiquette, greeting-card]
 pairs_with:
   prompts: [write-card-message, write-workplace-wechat-message]

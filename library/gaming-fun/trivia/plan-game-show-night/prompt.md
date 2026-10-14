@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [game-show, party-planning, team-building, host-script, family-fun]
 pairs_with:
   prompts: [host-trivia-night, create-custom-bingo, create-party-game-cards]

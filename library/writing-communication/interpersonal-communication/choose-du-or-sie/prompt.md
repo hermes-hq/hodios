@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [duzen, siezen, forms-of-address, workplace-culture, register, dach]
 pairs_with:
   prompts: [explain-politeness-register, adapt-message-for-culture, check-german-spelling-and-commas]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [language-analysis, meaning-form-pronunciation, anticipated-problems, lesson-preparation, weak-forms]
 pairs_with:
   prompts: [write-concept-checking-questions, review-trainee-language-lesson-plan, compare-native-and-target-language]

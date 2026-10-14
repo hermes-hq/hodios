@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [request-for-quotation, procurement, supplier-quotes, comparison, purchasing]
 pairs_with:
   prompts: [write-rfp, compare-vendors, prepare-supplier-negotiation]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [employment-reference, skilled-migration, work-experience-evidence, employer-letter, skills-assessment]
 pairs_with:
   prompts: [match-job-to-occupation-code, estimate-immigration-points-score, prepare-visa-application]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [native-hedge, hedgerow, bare-root, boundary-planting, wildlife-habitat, privacy-screen]
 pairs_with:
   prompts: [plan-pruning, plan-pollinator-garden, plan-fruit-trees, build-garden-calendar]

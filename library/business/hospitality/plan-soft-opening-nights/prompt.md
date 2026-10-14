@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [soft-opening, friends-and-family, ticket-times, service-rehearsal, restaurant-launch]
 pairs_with:
   prompts: [plan-restaurant-opening, write-opening-closing-checklist, plan-shop-opening]

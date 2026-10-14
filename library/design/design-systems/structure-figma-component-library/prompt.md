@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-library, figma-variables, component-properties, library-publishing, design-handoff]
 pairs_with:
   prompts: [audit-design-code-parity, define-design-tokens, measure-design-system-adoption]

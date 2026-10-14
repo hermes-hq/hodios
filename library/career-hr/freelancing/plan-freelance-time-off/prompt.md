@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [holiday, unpaid-leave, client-notice, handover, out-of-office]
 pairs_with:
   prompts: [write-client-welcome-pack, plan-freelance-tax-set-aside]

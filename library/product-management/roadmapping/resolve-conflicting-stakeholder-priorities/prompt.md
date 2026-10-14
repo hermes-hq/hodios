@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [stakeholder-conflict, decision-paper, escalation, trade-offs, decision-rights]
 pairs_with:
   prompts: [plan-stakeholder-alignment, push-back-on-roadmap-request, compare-roadmap-scenarios, write-roadmap-update]

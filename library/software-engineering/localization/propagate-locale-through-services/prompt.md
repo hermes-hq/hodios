@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [request-context, background-jobs, cache-keys, distributed-systems, time-zones]
 pairs_with:
   prompts: [localize-server-sent-messages, design-localized-api-errors, design-locale-detection-and-routing]

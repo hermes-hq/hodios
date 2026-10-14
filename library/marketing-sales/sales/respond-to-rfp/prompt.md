@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [rfp, tender, proposal-writing, compliance-matrix, bid-management]
 pairs_with:
   prompts: [write-sales-proposal, write-case-study, write-mutual-action-plan]

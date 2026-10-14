@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [homeschool-methods, charlotte-mason, classical-education, montessori, child-led-learning, family-fit]
 pairs_with:
   prompts: [evaluate-homeschool-curriculum, plan-homeschool-year, plan-deschooling-period]

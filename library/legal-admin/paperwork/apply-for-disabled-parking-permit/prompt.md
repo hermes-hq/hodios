@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [blue-badge, disabled-parking, accessible-parking-placard, mobility-evidence, non-visible-disability]
 pairs_with:
   prompts: [prepare-disability-benefits-application, prepare-government-form]

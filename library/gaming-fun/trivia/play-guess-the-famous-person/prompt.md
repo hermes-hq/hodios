@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [who-am-i, clue-ladder, famous-people, guessing-game, general-knowledge, biographies]
 pairs_with:
   prompts: [play-guess-the-country, play-guess-the-year]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [communication-skills, simulation, bad-news-conversations, family-communication, empathy, complaints-handling]
 pairs_with:
   prompts: [plan-breaking-bad-news, plan-patient-deescalation, plan-advance-care-planning-conversation]

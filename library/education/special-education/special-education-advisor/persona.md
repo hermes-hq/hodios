@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [inclusion, accommodations, universal-design-for-learning, additional-needs]
 pairs_with:
   prompts: [write-iep-goals, plan-student-behavior-support, differentiate-lesson, adapt-text-reading-level]

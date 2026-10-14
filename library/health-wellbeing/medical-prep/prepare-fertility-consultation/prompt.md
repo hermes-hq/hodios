@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fertility, ivf, trying-to-conceive, fertility-tests, family-building]
 pairs_with:
   prompts: [prepare-doctor-questions, organize-family-medical-history, prepare-prenatal-visits]

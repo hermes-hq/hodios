@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [life-transitions, divorce, retiring, empty-nest, identity, moving-abroad]
 pairs_with:
   prompts: [guided-journaling, build-connection-plan, process-grief, practice-self-compassion]

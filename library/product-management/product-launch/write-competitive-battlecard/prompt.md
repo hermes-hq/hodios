@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [battlecard, competitive-intelligence, sales-enablement, objection-handling, product-marketing]
 pairs_with:
   prompts: [write-sales-enablement-brief, run-product-teardown, analyze-competitor-reviews]

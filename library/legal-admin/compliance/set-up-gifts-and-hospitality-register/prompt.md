@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [anti-bribery, gifts-register, corporate-hospitality, conflicts-of-interest, public-officials]
 pairs_with:
   prompts: [write-anti-bribery-policy, write-conflict-of-interest-policy, write-supplier-code-of-conduct, write-whistleblowing-policy, plan-staff-compliance-training]

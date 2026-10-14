@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [garage-sale, yard-sale, selling-secondhand, price-stickers, decluttering-sale, community-sale]
 pairs_with:
   prompts: [plan-decluttering, dispose-of-household-items, buy-secondhand-safely, organise-garage-or-shed]

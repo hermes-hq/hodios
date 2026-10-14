@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [last-mile, proof-of-delivery, safe-place, age-verification, driver-briefing]
 pairs_with:
   prompts: [plan-delivery-routes, write-job-aid, practise-de-escalation-skills]

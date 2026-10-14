@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [deadlines, due-dates, calendar, obligations, date-extraction]
 pairs_with:
   prompts: [summarize-long-document, plan-my-week, summarize-email-thread]

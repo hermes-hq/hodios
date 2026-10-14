@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [third-party-claim, public-liability, admission-of-liability, notify-insurer, personal-liability]
 pairs_with:
   prompts: [map-small-business-insurance-needs, review-insurance-coverage, explain-insurance-policy]

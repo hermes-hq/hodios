@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [incontinence, dignity, personal-care, ageing-parents, carers]
 pairs_with:
   prompts: [plan-personal-care-at-home, plan-carer-sleep, build-care-rota]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [planned-vs-actual, predictability, slippage, planning-retrospective, estimation-accuracy, unplanned-work]
 pairs_with:
   prompts: [run-quarterly-planning, critique-roadmap, forecast-roadmap-dates-with-ranges, write-roadmap-update]

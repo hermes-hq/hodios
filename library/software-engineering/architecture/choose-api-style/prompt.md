@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rest, grpc, trpc, api-style, http-api]
 pairs_with:
   personas: [api-designer]

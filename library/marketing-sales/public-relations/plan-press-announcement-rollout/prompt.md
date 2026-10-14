@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [embargo, media-exclusive, announcement-day, news-sequencing, press-briefing]
 pairs_with:
   prompts: [write-press-release, pitch-journalist, build-media-list]

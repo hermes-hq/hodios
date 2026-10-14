@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ecology, food-web, conservation, trophic-cascade, carrying-capacity]
 args:
   - name: biome

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stakeholder-interviews, internal-knowledge, hypotheses, research-planning, sales-and-support-input]
 pairs_with:
   prompts: [write-discovery-research-plan, map-assumptions, translate-request-into-problem, turn-sales-notes-into-product-insights]

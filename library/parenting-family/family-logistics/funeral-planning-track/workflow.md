@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [funeral, bereavement, death-notice, eulogy, funeral-costs, after-a-death]
 pairs_with:
   prompts: [write-condolence-message, settle-estate-checklist, process-grief, plan-family-meeting]

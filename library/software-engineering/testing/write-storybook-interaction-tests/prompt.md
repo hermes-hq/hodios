@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [storybook, play-functions, interaction-tests, component-states, ui-components]
 pairs_with:
   prompts: [write-component-tests, write-visual-regression-tests]

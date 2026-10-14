@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [image-occlusion, diagrams, labelling, spaced-repetition]
 pairs_with:
   prompts: [make-flashcards, tidy-flashcard-deck, make-dual-coding-notes]

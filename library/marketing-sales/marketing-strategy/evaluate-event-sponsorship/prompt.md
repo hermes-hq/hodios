@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [event-sponsorship, trade-show, conference-roi, cost-per-opportunity, go-no-go]
 pairs_with:
   prompts: [plan-event-marketing, evaluate-sponsorship-requests, build-reverse-funnel-model, analyze-channel-performance]

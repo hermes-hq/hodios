@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [robo-adviser, diy-investing, financial-adviser, investment-fees, platform-fees]
 pairs_with:
   prompts: [choose-financial-advisor, prepare-financial-adviser-meeting, explain-investment-concept, compare-retirement-accounts]

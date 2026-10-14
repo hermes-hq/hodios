@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [name-screening, trademark-search, linguistic-check, domain-availability, brand-risk]
 pairs_with:
   prompts: [name-brand, design-brand-architecture, plan-rebrand]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-ambassador, long-term-partnership, exclusivity, retainer-deal, contract-terms]
 pairs_with:
   prompts: [build-creator-rate-card, review-sponsorship-contract]

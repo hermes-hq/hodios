@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [manipulation, guilt-tripping, assertiveness, pushback, self-trust]
 pairs_with:
   prompts: [set-boundary, decode-message-tone, write-biff-response]

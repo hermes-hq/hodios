@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [revenue-leakage, quote-to-cash, unbilled-work, legacy-prices, margin-recovery]
 pairs_with:
   prompts: [analyze-price-realisation, set-discount-policy, plan-owner-led-price-rise, design-pricing]

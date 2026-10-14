@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [what-to-watch, movie-night, group-decision, family-movie]
 pairs_with:
   prompts: [recommend-films-from-favorites, plan-watch-party, plan-family-game-night]

@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-bar, mixology, drink-balance, alcohol-free, bartending, responsible-drinking]
 pairs_with:
   prompts: [fix-unbalanced-cocktail, invent-alcohol-free-cocktail, stock-home-bar, design-cocktail-menu]

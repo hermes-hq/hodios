@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [data-recovery, deleted-files, recycle-bin, version-history, memory-card]
 pairs_with:
   prompts: [set-up-backups, explain-error-message]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [github-token, workflow-yaml, workflow-triggers, token-permissions, ci-caching]
 pairs_with:
   prompts: [triage-failing-ci, write-github-actions-workflow]

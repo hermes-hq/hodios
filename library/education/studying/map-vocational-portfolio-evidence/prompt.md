@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [vocational-qualifications, portfolio-evidence, assessment-criteria, nvq]
 pairs_with:
   prompts: [log-apprenticeship-learning-hours, write-reflective-account]

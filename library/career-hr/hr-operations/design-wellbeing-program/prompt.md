@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employee-wellbeing, burnout-prevention, psychosocial-risk, workload, employee-assistance]
 pairs_with:
   prompts: [design-engagement-survey, design-absence-management-process, design-benefits-package, rebalance-team-workload]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [estate-planning, incapacity, record-keeping, family-admin]
 pairs_with:
   prompts: [build-net-worth-statement, organize-important-documents, plan-digital-legacy, settle-estate-checklist]

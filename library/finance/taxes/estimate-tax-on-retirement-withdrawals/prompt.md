@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retirement-income, pension-tax, withdrawal-order, tax-brackets]
 pairs_with:
   prompts: [plan-retirement-drawdown, explain-marginal-tax-rates, compare-pension-lump-sum-vs-income]

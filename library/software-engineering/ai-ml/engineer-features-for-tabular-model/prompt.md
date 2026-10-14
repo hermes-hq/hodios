@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-engineering, target-encoding, point-in-time, leakage, cross-validation]
 pairs_with:
   personas: [ml-engineer]

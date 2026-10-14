@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fire-safety, fire-risk-assessment, emergency-evacuation, escape-routes, fire-doors, premises-safety]
 pairs_with:
   prompts: [write-workplace-risk-assessment, write-health-and-safety-policy]

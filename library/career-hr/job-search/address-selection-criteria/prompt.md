@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [selection-criteria, ksa, civil-service, star-method, job-application]
 pairs_with:
   prompts: [prepare-star-stories, answer-application-questions, analyze-job-posting]

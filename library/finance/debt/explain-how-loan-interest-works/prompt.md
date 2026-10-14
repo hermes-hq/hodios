@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [apr, compound-interest, amortization, minimum-payments, interest-calculation]
 pairs_with:
   prompts: [explain-credit-card-statement, compare-loan-offers, plan-debt-payoff]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [azure-pipelines, yaml-templates, ci, deployment-approvals]
 pairs_with:
   prompts: [design-ci-cd-pipeline, set-up-keyless-ci-deploys, migrate-ci-provider]

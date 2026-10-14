@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sales-enablement, talk-track, objection-handling, product-marketing]
 pairs_with:
   prompts: [plan-product-launch, write-launch-announcement, write-case-study]

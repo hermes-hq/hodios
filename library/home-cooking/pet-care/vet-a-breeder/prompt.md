@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [breeders, puppy-buying, kitten-buying, puppy-farms, health-testing, pet-scams]
 pairs_with:
   prompts: [choose-pet-for-lifestyle, plan-new-pet-care, plan-puppy-socialisation]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [app-comparison, task-apps, note-apps, app-switching, tool-selection, switching-costs]
 pairs_with:
   prompts: [set-up-task-system, design-second-brain, compare-options-matrix, set-up-notion-workspace]

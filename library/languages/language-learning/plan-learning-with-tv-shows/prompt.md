@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [comprehensible-input, subtitles, sentence-mining, immersion, listening]
 pairs_with:
   prompts: [mine-sentences-for-flashcards, create-shadowing-script, plan-language-learning]

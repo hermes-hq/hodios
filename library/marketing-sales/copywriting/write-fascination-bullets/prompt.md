@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [bullets, curiosity, sales-page, opt-in-page, direct-response]
 pairs_with:
   prompts: [write-sales-page, write-headline-variations, create-lead-magnet, translate-features-to-benefits]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rally, protest, picket-line, call-and-response, advocacy, outdoor-speaking]
 pairs_with:
   prompts: [prepare-to-speak-at-public-meeting, handle-hecklers-and-disruptions, mark-up-script-for-delivery]

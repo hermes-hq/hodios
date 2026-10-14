@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [writing-for-the-ear, spoken-word, announcements, voiceover, listenability]
 pairs_with:
   prompts: [simplify-to-plain-language, tighten-prose, rewrite-for-tone]

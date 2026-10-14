@@ -7,6 +7,7 @@ description: Standing rules for C# an assistant writes, covering nullable refere
 category: conventions
 version: 1.0.0
 status: experimental
+depth: specific
 stage: [build]
 role: [software-engineer, backend-engineer]
 stack: [csharp]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [internal-packages, code-reuse, versioning, monorepo, drift]
 pairs_with:
   prompts: [reduce-duplication, rename-public-api-safely]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [out-of-stock, backorders, waitlist, sold-out, restock, product-page]
 pairs_with:
   prompts: [write-back-in-stock-emails, plan-multichannel-inventory-sync, decide-discontinued-product-pages]

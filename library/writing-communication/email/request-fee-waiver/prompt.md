@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [late-fee, goodwill-gesture, charge-refund, customer-retention, penalty]
 pairs_with:
   prompts: [write-complaint-letter, appeal-tax-penalty, write-negotiation-email]

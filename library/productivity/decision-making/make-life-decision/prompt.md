@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [values, regret-minimization, reversibility, crossroads, life-choices]
 pairs_with:
   prompts: [run-decision-journal, run-pre-mortem, compare-options-matrix]

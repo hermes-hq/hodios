@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-handoff, design-specs, ui-states, acceptance-criteria, design-dev-collaboration]
 pairs_with:
   prompts: [create-wireframe-spec, write-component-spec, define-design-tokens, design-form-experience]

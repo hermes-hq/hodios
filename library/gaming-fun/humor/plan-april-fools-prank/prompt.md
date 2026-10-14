@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [april-fools, practical-joke, family-fun, office-fun, safe-pranks]
 pairs_with:
   prompts: [write-clean-jokes, write-mock-press-release]

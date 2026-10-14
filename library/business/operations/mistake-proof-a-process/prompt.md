@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [poka-yoke, error-proofing, human-error, lean, process-controls]
 pairs_with:
   prompts: [run-five-whys, run-fmea, write-capa-report]

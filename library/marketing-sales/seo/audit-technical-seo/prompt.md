@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [technical-seo, crawlability, indexing, core-web-vitals, redirects, canonicals]
 pairs_with:
   prompts: [audit-on-page-seo, write-schema-markup]

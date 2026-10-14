@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [on-camera-confidence, delivery, eyeline, rehearsal, camera-nerves]
 pairs_with:
   prompts: [adapt-script-for-teleprompter, write-short-form-script]

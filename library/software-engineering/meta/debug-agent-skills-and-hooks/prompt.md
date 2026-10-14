@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, agent-skills, agent-hooks, custom-commands, subagents]
 pairs_with:
   prompts: [write-agent-skill, design-coding-agent-hooks, define-specialist-subagent, write-agent-custom-command]

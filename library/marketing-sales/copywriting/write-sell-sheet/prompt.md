@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sell-sheet, leave-behind, one-pager, trade-buyers, sales-collateral]
 pairs_with:
   prompts: [write-brochure-copy, write-wholesale-line-sheet, write-case-study, translate-features-to-benefits, write-board-game-sell-sheet]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [surface-pattern, seamless-repeat, colourways, textile-design, print-on-demand]
 pairs_with:
   prompts: [build-image-style-guide, write-product-mockup-prompt]

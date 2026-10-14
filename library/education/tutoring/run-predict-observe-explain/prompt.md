@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [predict-observe-explain, misconceptions, conceptual-change, science-inquiry, demonstrations]
 pairs_with:
   prompts: [explain-concept-at-level]

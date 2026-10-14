@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [museum-work, exhibition-design, heritage, conservation, career-taster]
 pairs_with:
   prompts: [play-archaeology-dig, try-career-for-a-day]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-plan, budgeting-cycle, headcount-plan, quarterly-milestones, operating-cadence]
 pairs_with:
   prompts: [set-okrs, run-scenario-planning, prepare-board-meeting]

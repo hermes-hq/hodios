@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [leaving-do, retirement-party, farewell, office-collection, send-off, workplace-celebration]
 pairs_with:
   prompts: [write-farewell-message, write-event-invitation, plan-surprise-party]

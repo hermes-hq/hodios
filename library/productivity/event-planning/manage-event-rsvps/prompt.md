@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rsvp, guest-list, attendee-management, no-shows, waitlist]
 pairs_with:
   prompts: [write-event-invitation, plan-event-seating, plan-event-budget]

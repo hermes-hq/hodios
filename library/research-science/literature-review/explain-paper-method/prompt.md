@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [method-explanation, papers, assumptions, critical-appraisal]
 pairs_with:
   prompts: [read-paper-with-me, interpret-paper-statistics, identify-study-design]

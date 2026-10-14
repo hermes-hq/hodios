@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rfi, request-for-information, design-coordination, drawings, contractors]
 pairs_with:
   prompts: [write-construction-change-order, plan-construction-lookahead]

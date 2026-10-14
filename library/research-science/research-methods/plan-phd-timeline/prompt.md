@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [phd, project-timeline, milestones, thesis-by-publication, doctoral-research]
 pairs_with:
   prompts: [plan-thesis-structure, refine-research-question, write-research-proposal, choose-target-journal]

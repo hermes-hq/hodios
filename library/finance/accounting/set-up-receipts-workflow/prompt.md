@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [expense-management, receipts, reimbursement, approval-workflow]
 pairs_with:
   prompts: [track-business-expenses, prepare-month-end-close, set-up-chart-of-accounts]

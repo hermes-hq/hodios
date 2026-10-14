@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-tracking, exception-monitoring, source-maps, release-health, pii-scrubbing]
 pairs_with:
   prompts: [instrument-service-observability, decode-minified-stack-trace, design-alerting-rules]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repeat-contacts, complaint-handling, final-response, single-point-of-contact, unreasonable-behaviour]
 pairs_with:
   prompts: [set-abusive-customer-boundaries, decide-goodwill-refund, build-service-recovery-playbook]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [market-research, research-brief, agency-brief, commissioning, rfp]
 pairs_with:
   prompts: [write-pr-agency-brief, design-research-study]

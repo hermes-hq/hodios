@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [directing, giving-notes, rehearsal-notes, run-through, actor-notes]
 pairs_with:
   prompts: [plan-scene-blocking, break-down-scene-for-actor]

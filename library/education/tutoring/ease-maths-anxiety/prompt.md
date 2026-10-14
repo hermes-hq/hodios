@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [maths-anxiety, confidence, growth-mindset, low-stakes-practice, process-praise]
 pairs_with:
   prompts: [hint-through-problem, practice-mental-math]

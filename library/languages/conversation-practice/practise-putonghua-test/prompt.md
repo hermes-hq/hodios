@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [putonghua-test, psc, tones, pinyin, proficiency-test, regional-accent]
 pairs_with:
   prompts: [practice-tones, coach-pronunciation, plan-language-exam-prep]

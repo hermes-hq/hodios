@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [background-jobs, message-queues, idempotency, retries, dead-letter-queue]
 pairs_with:
   prompts: [write-integration-tests, test-time-dependent-code, fix-flaky-test]

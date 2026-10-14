@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [message-queues, event-streaming, dual-publish, idempotency, dead-letter-queue]
 pairs_with:
   prompts: [design-event-driven-system, plan-incremental-migration]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [laws-of-the-game, rules-explained, officiating, controversial-call, fans, var]
 pairs_with:
   prompts: [explain-sport-to-newcomer, prepare-to-referee]

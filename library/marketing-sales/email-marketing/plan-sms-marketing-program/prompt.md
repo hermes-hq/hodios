@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sms-marketing, text-messaging, channel-mix, consent, cost-per-send]
 pairs_with:
   prompts: [write-sms-campaign, map-email-automation-flows, set-email-frequency]

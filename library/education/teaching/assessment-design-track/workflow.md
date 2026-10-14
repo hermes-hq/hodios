@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [assessment-design, test-blueprint, mark-scheme, accessible-assessment, item-writing, validity]
 pairs_with:
   prompts: [write-multiple-choice-questions, create-rubric, align-lesson-to-standards, analyze-class-assessment-results]

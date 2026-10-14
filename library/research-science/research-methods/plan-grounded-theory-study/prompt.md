@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [grounded-theory, qualitative-research, theoretical-sampling, constant-comparison, memo-writing]
 subject: [social-sciences]
 pairs_with:

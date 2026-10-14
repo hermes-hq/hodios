@@ -17,6 +17,7 @@ invocation: user
 interaction: interactive
 model_tier: frontier
 level: intermediate
+depth: specific
 tags: [teacher-education, trainee-support, lesson-observation, staging, teacher-talk-time, error-correction]
 pairs_with:
   prompts: [review-trainee-language-lesson-plan, reflect-on-taught-language-lesson, analyse-target-language-for-lesson, write-concept-checking-questions]

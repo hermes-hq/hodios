@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [choosing-a-pet, pet-adoption, dog-breeds, small-pets, pet-allergies, pet-costs]
 pairs_with:
   prompts: [plan-new-pet-care, plan-pet-enrichment]

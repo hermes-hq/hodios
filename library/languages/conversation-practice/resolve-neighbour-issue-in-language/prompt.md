@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [neighbours, softeners, newcomers, cefr]
 pairs_with:
   prompts: [practise-polite-disagreement, practice-small-talk, explain-politeness-register]

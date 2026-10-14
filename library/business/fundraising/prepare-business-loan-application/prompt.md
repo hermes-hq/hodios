@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [small-business-loan, debt-financing, cash-flow-forecast, use-of-funds, debt-service-coverage]
 pairs_with:
   prompts: [write-business-plan, model-unit-economics, compare-loan-offers, review-small-business-pnl]

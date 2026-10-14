@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sample-size, participant-numbers, problem-discovery, confidence-interval, research-planning]
 pairs_with:
   prompts: [write-usability-test-plan, measure-ux-with-sus, plan-unmoderated-usability-test]

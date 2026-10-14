@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [knights-and-knaves, truth-tellers-and-liars, deduction, brain-teaser, logic-class]
 pairs_with:
   prompts: [make-logic-puzzle, write-lateral-thinking-puzzles, testsolve-puzzle]

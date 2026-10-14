@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [event-loop, concurrency, async-await, promises]
 pairs_with:
   prompts: [fix-unawaited-async-bug, test-asynchronous-code, drill-code-reading]

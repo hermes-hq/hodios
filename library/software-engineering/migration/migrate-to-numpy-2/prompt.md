@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [numpy, type-promotion, ruff, binary-compatibility]
 pairs_with:
   prompts: [upgrade-major-dependency, upgrade-python-version, migrate-pandas-to-polars]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [disclosure, emotional-support, listening, what-to-say, compassion]
 pairs_with:
   prompts: [support-struggling-friend, practice-active-listening, write-condolence-message]

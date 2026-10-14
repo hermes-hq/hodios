@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [account-statement, portfolio-statement, investment-fees, reconciliation]
 pairs_with:
   prompts: [calculate-investment-returns, calculate-fee-drag, check-portfolio-diversification, understand-pension-statement]

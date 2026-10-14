@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [client-negotiation, scope-creep, conditional-offers, freelancers, hedging]
 pairs_with:
   prompts: [practise-polite-disagreement, practise-salary-talk-in-language, decode-workplace-indirectness]

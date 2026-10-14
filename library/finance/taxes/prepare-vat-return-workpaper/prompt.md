@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vat, gst, sales-tax, tax-return]
 pairs_with:
   prompts: [check-sales-tax-obligations, prepare-month-end-close, plan-business-tax-calendar]

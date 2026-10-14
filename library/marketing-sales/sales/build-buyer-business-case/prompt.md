@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [business-case, champion-enablement, payback, value-selling, budget-approval, roi]
 pairs_with:
   prompts: [prepare-discovery-call, write-sales-proposal, write-mutual-action-plan]

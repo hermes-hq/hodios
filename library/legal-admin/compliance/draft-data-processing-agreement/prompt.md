@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-processing-agreement, processor-obligations, subprocessors, standard-contractual-clauses, security-measures, vendor-contracts]
 pairs_with:
   prompts: [review-data-processing-agreement, assess-international-data-transfer, answer-security-questionnaire, map-personal-data-processing]

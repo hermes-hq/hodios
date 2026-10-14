@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [manuscript, referee-report, reporting-guidelines]
 pairs_with:
   prompts: [respond-to-reviewers]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [game-design-document, tunables, save-data, gameplay-systems, data-driven-design]
 pairs_with:
   prompts: [write-game-design-document, design-game-mechanic, design-game-economy]

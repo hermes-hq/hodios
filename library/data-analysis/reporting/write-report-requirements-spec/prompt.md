@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [requirements, bi-spec, acceptance-criteria, stakeholder-asks]
 pairs_with:
   prompts: [write-data-request-brief, define-metric, design-dashboard, design-power-bi-data-model]

@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ccpa, data-protection, privacy-engineering, data-subject-rights, lawful-basis]
 pairs_with:
   prompts: [map-personal-data-processing, draft-dpia, write-privacy-policy, audit-website-privacy-compliance, review-data-processing-agreement]

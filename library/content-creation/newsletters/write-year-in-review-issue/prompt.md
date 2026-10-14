@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [year-in-review, reader-thanks, milestones, anniversary-issue]
 pairs_with:
   prompts: [write-newsletter-issue, grow-newsletter]

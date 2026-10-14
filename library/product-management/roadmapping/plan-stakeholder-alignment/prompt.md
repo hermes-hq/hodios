@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stakeholder-management, stakeholder-mapping, daci, alignment, influence]
 pairs_with:
   prompts: [push-back-on-roadmap-request, write-roadmap-update, run-quarterly-planning]

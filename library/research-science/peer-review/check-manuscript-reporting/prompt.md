@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reporting-guidelines, equator-network, consort, prisma, strobe, arrive, coreq, manuscript]
 pairs_with:
   prompts: [write-methods-section, write-peer-review, appraise-study-quality]

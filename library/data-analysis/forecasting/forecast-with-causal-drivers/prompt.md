@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dynamic-regression, price-elasticity, adstock, scenarios, regressors]
 pairs_with:
   prompts: [forecast-with-leading-indicators, add-event-adjustments-to-forecast, review-forecast-assumptions]

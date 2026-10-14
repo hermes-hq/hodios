@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [chronology, timelines, causation, anachronism, revision-game]
 pairs_with:
   prompts: [explain-historical-event, take-time-travel-field-trip]

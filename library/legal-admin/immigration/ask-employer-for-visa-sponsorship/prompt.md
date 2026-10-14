@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [work-visa-sponsorship, sponsor-licence, job-offer, employer-conversation, talking-points]
 pairs_with:
   prompts: [compare-visa-routes, negotiate-job-offer, reply-to-recruiter]

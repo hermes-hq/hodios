@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [persuasion, stakeholder-buy-in, objection-handling, framing, influence]
 pairs_with:
   prompts: [prepare-for-tough-questions, write-decision-memo, prepare-difficult-conversation]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-commission, comp-plan, tiered-rates, accelerators, clawbacks]
 pairs_with:
   prompts: [write-spreadsheet-formula, audit-spreadsheet-model]

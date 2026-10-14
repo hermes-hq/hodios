@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-sabbatical, temporary-move, school-re-entry, year-abroad, children]
 pairs_with:
   prompts: [plan-sabbatical, choose-school-type-abroad, wind-down-home-country-before-move, plan-moving-back-home]

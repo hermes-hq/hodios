@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cluster-upgrade, deprecated-apis, node-pools, version-skew, maintenance-window]
 pairs_with:
   prompts: [set-up-kubernetes-autoscaling, write-kubernetes-manifests, plan-disaster-recovery]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [usability-testing, moderation-skills, think-aloud, rehearsal, simulated-participant]
 pairs_with:
   prompts: [write-usability-test-plan, synthesize-usability-findings, plan-guerrilla-usability-test]

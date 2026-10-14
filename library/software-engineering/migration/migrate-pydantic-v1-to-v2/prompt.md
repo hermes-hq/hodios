@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pydantic, data-validation, breaking-changes, api-schema]
 pairs_with:
   prompts: [upgrade-major-dependency, migrate-flask-to-fastapi, review-fastapi-change]

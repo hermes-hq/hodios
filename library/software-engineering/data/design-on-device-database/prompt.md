@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [offline-first, local-storage, schema-migrations, encryption-at-rest, sync, room]
 pairs_with:
   prompts: [design-database-schema, migrate-views-to-declarative-ui]

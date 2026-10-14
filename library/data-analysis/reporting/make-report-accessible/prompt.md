@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [inclusive-reports, alt-text, screen-reader, colour-blind, accessible-tables]
 pairs_with:
   prompts: [critique-chart, choose-chart-colors, check-report-figures]

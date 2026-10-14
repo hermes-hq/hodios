@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wine-pairing, non-alcoholic, dinner-party, hosting, sommelier]
 pairs_with:
   prompts: [plan-dinner-party-menu]

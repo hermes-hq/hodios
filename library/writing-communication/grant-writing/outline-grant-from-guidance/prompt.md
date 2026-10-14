@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [compliance-matrix, scoring-criteria, word-budget, funding-call, proposal-outline]
 pairs_with:
   prompts: [write-grant-application, check-grant-application-before-submission, build-grant-work-plan]

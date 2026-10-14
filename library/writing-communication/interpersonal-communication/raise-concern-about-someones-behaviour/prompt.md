@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [concern, addiction, worried-about-someone, caring-conversation, family-support]
 pairs_with:
   prompts: [support-struggling-friend, set-boundary, prepare-difficult-conversation]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [talk-feedback, session-ratings, post-talk-review, speaker-improvement]
 pairs_with:
   prompts: [critique-speech-recording, adapt-talk-for-new-audience, plan-conference-talk-pipeline]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-presentation, client-presentation, stakeholder-buy-in, visual-identity, creative-rationale]
 pairs_with:
   prompts: [build-brand-platform, design-logo-concepts, outline-presentation, build-brand-guidelines]

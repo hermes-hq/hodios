@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [property-listing, estate-agent, fair-housing, price-reduction, valuation-request]
 pairs_with:
   prompts: [write-sphere-of-influence-emails, write-promo-email]

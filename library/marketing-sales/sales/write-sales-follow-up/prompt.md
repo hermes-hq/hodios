@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [follow-up, deal-progression, recap-email, outbound]
 pairs_with:
   prompts: [summarize-sales-call, write-cold-outreach, handle-sales-objections]

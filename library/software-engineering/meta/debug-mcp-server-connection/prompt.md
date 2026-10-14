@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, mcp-servers, connection-errors, agent-config]
 pairs_with:
   prompts: [choose-mcp-servers-for-project, audit-agent-permissions, write-agent-environment-setup]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ending-explained, film-analysis, interpretation, fan-theories]
 pairs_with:
   prompts: [catch-up-on-series-spoiler-free, recommend-films-from-favorites]

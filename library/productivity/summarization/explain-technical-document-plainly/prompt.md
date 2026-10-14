@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [non-technical-reader, plain-english, it-policy, engineering-report, decision-support]
 pairs_with:
   prompts: [build-document-glossary, summarize-long-document, interrogate-a-document]

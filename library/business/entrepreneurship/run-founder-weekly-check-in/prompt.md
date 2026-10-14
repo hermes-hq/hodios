@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [accountability, weekly-review, commitments, solo-founder, key-numbers]
 pairs_with:
   prompts: [set-up-weekly-owner-admin-routine, model-unit-economics]

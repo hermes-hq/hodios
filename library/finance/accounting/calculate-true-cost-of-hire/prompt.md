@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employment-cost, employer-costs, payroll-tax, loaded-cost]
 pairs_with:
   prompts: [set-up-first-payroll, build-small-business-budget, calculate-cash-runway]

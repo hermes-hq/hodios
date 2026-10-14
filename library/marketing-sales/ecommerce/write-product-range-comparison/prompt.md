@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [product-comparison, buying-guide, choice-overload, returns-reduction, product-range]
 pairs_with:
   prompts: [write-product-description, optimize-product-page-conversion, write-product-qa-answers]

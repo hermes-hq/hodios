@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [animal-health, sick-animal, vet-call, animal-welfare, smallholding]
 pairs_with:
   prompts: [prepare-herd-health-plan-review, set-up-farm-biosecurity, plan-calving-season]

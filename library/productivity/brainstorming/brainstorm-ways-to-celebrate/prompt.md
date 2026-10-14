@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recognition, milestones, team-morale, appreciation, marking-achievements]
 pairs_with:
   prompts: [write-thank-you-note, plan-surprise-party, run-personal-retrospective]

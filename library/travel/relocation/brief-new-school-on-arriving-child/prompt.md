@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [school-handover, school-records, new-pupil, moving-abroad, children]
 pairs_with:
   prompts: [choose-school-type-abroad, raise-child-in-new-country, learn-school-vocabulary-for-parents]

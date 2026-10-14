@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [telemarketing, cold-calling, do-not-call, robocalls, sales-calls]
 pairs_with:
   prompts: [check-email-marketing-compliance, check-call-recording-compliance, write-cold-call-script, run-legitimate-interests-assessment]

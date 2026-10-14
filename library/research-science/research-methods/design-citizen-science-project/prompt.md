@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [citizen-science, volunteers, data-quality, public-engagement, community-science]
 pairs_with:
   prompts: [design-sampling-plan, write-data-management-plan, write-informed-consent-form, plan-participatory-research]

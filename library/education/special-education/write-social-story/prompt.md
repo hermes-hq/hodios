@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [autism, special-educational-needs, social-stories, visual-supports, routine-change]
 pairs_with:
   prompts: [create-visual-timetable, plan-sensory-friendly-classroom, write-one-page-pupil-profile]

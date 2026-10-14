@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [product-video, packshot, ad-creative, product-accuracy]
 pairs_with:
   prompts: [write-product-photo-prompt, write-image-to-video-motion-prompt, write-logo-sting-prompt]

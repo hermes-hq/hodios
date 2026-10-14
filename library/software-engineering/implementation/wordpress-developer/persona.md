@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [child-themes, block-editor, plugin-development, site-security, site-owners]
 pairs_with:
   prompts: [build-wordpress-plugin, improve-web-vitals, harden-web-app-config]

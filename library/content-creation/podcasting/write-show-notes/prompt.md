@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [show-notes, timestamps, pull-quotes, episode-summary]
 pairs_with:
   prompts: [plan-podcast-episode, repurpose-video-into-posts, write-video-chapters]

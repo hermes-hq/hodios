@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [entrypoint, exit-codes, restart-loop, oom-kill, cpu-architecture]
 pairs_with:
   prompts: [fix-docker-build-failure, diagnose-crashlooping-pod]

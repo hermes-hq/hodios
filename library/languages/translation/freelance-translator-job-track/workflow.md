@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [freelance-translation, quality-assurance, client-queries, terminology]
 pairs_with:
   prompts: [quote-translation-job, build-translation-glossary, review-translation, check-target-language-typography]

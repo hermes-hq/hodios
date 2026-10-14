@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [seating-plan, table-plan, guest-list, wedding-reception, gala-dinner]
 pairs_with:
   prompts: [manage-event-rsvps, plan-wedding, navigate-family-gathering-tension]

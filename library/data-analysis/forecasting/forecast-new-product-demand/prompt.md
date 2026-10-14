@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [new-product, analogue-forecasting, launch-curve, demand-sizing]
 pairs_with:
   prompts: [forecast-time-series, estimate-market-size, plan-inventory]

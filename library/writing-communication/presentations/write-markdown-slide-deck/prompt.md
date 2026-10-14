@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [marp, slidev, reveal-js, quarto, slides-as-code, tech-talk]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, outline-tech-talk-with-live-demo]

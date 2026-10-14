@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [right-to-erasure, data-deletion, opt-out, data-protection, privacy-rights, ccpa]
 pairs_with:
   prompts: [request-my-personal-data, reduce-online-footprint, complain-to-ombudsman]

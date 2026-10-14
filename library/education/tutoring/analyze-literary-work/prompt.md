@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [close-reading, literary-analysis, themes, characterisation, essay-angles, quotations]
 pairs_with:
   prompts: [plan-essay-argument, give-essay-feedback]

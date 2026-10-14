@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [normalisation, data-cleaning, data-import, data-entry, lookup-tables, schema-design]
 pairs_with:
   prompts: [design-database-schema, write-data-dictionary]

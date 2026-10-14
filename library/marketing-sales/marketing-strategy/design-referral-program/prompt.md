@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [referral-program, word-of-mouth, incentives, viral-loop, fraud-prevention]
 pairs_with:
   prompts: [plan-marketing-campaign, create-lead-magnet, write-email-sequence]

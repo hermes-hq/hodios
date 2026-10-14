@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multimorbidity, care-coordination, health-admin, patient-advocacy, carers, test-results]
 pairs_with:
   prompts: [build-medication-list, prepare-emergency-medical-summary, prepare-medication-review]

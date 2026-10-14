@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-design, service-blueprint, frontline-staff, co-design, omnichannel, public-services]
 pairs_with:
   prompts: [build-service-blueprint, build-user-journey-map, design-workshop, design-escalation-process]

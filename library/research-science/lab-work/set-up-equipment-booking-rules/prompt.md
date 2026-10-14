@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [shared-instruments, core-facility, equipment-booking, user-training, fair-use]
 pairs_with:
   prompts: [plan-instrument-calibration-schedule, write-lab-induction-checklist]

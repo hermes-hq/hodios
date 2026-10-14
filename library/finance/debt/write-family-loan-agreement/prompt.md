@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [personal-loan-agreement, repayment-schedule, promissory-note, family-money, written-terms]
 pairs_with:
   prompts: [decide-whether-to-lend-money, plan-supporting-family-financially, ask-family-for-financial-help, decline-to-lend-money]

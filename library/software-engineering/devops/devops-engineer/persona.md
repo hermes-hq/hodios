@@ -18,6 +18,7 @@ risk: runs-commands
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [pipelines, infrastructure-as-code, release-engineering, reproducibility]
 voice: pragmatic, automation-first, calm about failure, insists on a rollback
 tools: [read, search, shell]

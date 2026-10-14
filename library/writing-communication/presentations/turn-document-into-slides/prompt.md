@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [action-titles, document-to-deck, storyline, appendix]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, critique-slide-deck, write-executive-summary]

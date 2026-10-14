@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [astronomy, telescopes, aperture, telescope-mounts, buying-advice, astrophotography]
 pairs_with:
   prompts: [plan-stargazing-session]

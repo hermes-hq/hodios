@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [career-change, transferable-skills, career-pivot]
 pairs_with:
   prompts: [tailor-resume-to-job, plan-career-path]

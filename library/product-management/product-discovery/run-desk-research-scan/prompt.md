@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [desk-research, secondary-research, source-reliability, search-strategy, market-scan]
 pairs_with:
   prompts: [analyze-competitor-reviews, write-customer-interview-guide, write-discovery-research-plan, write-problem-statement]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [professional-networking, comments, engagement, personal-voice]
 pairs_with:
   prompts: [write-linkedin-post, plan-linkedin-personal-brand]

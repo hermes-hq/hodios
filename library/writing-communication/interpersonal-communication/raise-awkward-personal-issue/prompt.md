@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [awkward-situations, hygiene, sensitive-topics, kindness, privacy]
 pairs_with:
   prompts: [prepare-difficult-conversation, set-boundary]

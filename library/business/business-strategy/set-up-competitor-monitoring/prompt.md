@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitive-intelligence, competitor-tracking, market-signals, monthly-digest]
 pairs_with:
   prompts: [profile-a-competitor, analyze-competitors, plan-competitive-response]

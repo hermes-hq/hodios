@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thesis-to-article, manuscript, journal-submission, early-career-researchers, dissertation]
 pairs_with:
   prompts: [choose-target-journal, write-abstract, write-introduction-section, write-journal-cover-letter]

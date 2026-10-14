@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [writing-feedback, developmental-editing, beta-reading, draft-review]
 pairs_with:
   prompts: [edit-for-structure, strengthen-argument-in-draft, tighten-prose, line-edit-prose]

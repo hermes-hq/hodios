@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [consolidation, mergers-and-acquisitions, migration-planning, token-bridging, governance]
 pairs_with:
   prompts: [plan-design-system-governance, plan-semantic-token-migration, plan-visual-refresh-rollout]

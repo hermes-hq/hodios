@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [discontinuation, last-time-buy, spare-parts, connected-devices, take-back, warranty]
 pairs_with:
   prompts: [rationalize-product-line, plan-feature-sunset, write-customer-change-notice]

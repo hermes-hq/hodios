@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multi-agent, delegation, context-engineering]
 pairs_with:
   prompts: [write-agent-handoff]

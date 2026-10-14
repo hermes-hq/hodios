@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workplace-training, learning-objectives, practice-activities, facilitation, worked-examples]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, plan-lunch-and-learn-session, convert-slides-to-handout]

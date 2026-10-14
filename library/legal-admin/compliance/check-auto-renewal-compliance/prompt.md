@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subscriptions, auto-renewal, free-trials, cancellation-flow, price-increases, consumer-law]
 pairs_with:
   prompts: [design-churn-save-flow, check-online-shop-consumer-law, write-terms-change-notice, write-terms-of-service]

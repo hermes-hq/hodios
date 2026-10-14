@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [journal-club, critical-appraisal, paper-presentation, discussion-questions]
 pairs_with:
   prompts: [summarize-paper, appraise-study-quality, read-paper-with-me, plan-research-talk]

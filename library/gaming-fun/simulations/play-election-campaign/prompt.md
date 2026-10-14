@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [civics, election-game, voting-systems, polling, coalitions]
 args:
   - name: office

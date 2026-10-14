@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [case-method, mba, case-analysis, decision-analysis, class-preparation]
 pairs_with:
   prompts: [prepare-case-interview, pick-strategy-framework, build-issue-tree]

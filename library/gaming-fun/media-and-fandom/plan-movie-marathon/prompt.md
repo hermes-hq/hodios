@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [movie-marathon, viewing-order, themed-food, binge-watch]
 pairs_with:
   prompts: [plan-watch-party, recommend-films-from-favorites]

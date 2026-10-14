@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [prompt-injection, indirect-prompt-injection, data-exfiltration, agent-safety, content-scanning]
 pairs_with:
   prompts: [harden-prompt-against-injection, add-llm-output-guardrails, run-tool-using-agent-loop]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fantasy-maps, cartography, game-maps, novel-maps, labelling]
 pairs_with:
   prompts: [design-fictional-geography, write-isometric-scene-prompt]

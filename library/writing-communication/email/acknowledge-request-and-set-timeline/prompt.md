@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [holding-reply, acknowledgement, response-time, expectation-setting]
 pairs_with:
   prompts: [ask-clarifying-questions-by-email, reply-to-email, write-delay-notification]

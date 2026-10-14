@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [packed-lunch, workday-lunch, lunch-prep, cost-comparison, commute-food, desk-lunch]
 pairs_with:
   prompts: [plan-weekly-meals, plan-meal-prep-session]

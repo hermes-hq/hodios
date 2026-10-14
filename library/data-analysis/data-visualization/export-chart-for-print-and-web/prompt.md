@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [image-export, dpi, svg, print-ready]
 pairs_with:
   prompts: [lay-out-multi-panel-figure, design-scientific-figures, create-chart-style-guide]

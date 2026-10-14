@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cv-translation, working-abroad, back-translation, job-titles, newcomers]
 pairs_with:
   prompts: [convert-cv-to-country-format, back-translate-to-verify, translate-personal-document]

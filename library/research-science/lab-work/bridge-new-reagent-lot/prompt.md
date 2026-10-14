@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lot-bridging, reagent-lot, lot-to-lot-variation, assay-consistency, quality-control]
 pairs_with:
   prompts: [plan-antibody-validation, analyze-standard-curve, set-up-reagent-inventory]

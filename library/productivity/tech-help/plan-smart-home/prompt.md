@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [smart-home, home-automation, matter-standard, smart-devices, iot-privacy]
 pairs_with:
   prompts: [troubleshoot-home-wifi, automate-personal-routine, secure-personal-accounts]

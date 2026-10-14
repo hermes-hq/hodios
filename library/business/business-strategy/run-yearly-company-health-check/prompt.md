@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [business-review, scorecard, year-end, owner-wellbeing, risk-review, top-three-fixes]
 pairs_with:
   prompts: [write-one-page-strategy-for-owners, reduce-owner-dependence, forecast-cash-flow]

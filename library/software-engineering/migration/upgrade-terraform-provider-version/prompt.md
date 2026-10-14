@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [provider-upgrade, terraform-plan, moved-blocks, lock-file, state-upgrade]
 pairs_with:
   prompts: [refactor-terraform-without-recreating, review-iac-plan, fix-terraform-error]

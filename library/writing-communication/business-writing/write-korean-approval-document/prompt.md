@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [approval-request, budget-request, workplace-korean, internal-approval, gaejosik]
 pairs_with:
   prompts: [write-korean-business-email, write-decision-memo]

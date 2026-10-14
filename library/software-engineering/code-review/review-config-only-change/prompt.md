@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [configuration, blast-radius, feature-flags, rollback, helm-values]
 pairs_with:
   prompts: [review-diff-for-risks, review-pull-request]

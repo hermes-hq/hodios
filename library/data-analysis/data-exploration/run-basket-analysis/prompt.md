@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [association-rules, cross-sell, bundling, retail-analytics]
 pairs_with:
   prompts: [segment-customers, explore-dataset, analyze-ab-test-results]

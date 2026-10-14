@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [floor-plan, room-layout, capacity, cabaret-layout, site-plan, guest-flow]
 pairs_with:
   prompts: [plan-event-seating, compare-event-venues, write-event-risk-assessment, plan-accessible-event]

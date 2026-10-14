@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pour-over, filter-brewing, french-press, brew-ratio, extraction, home-barista]
 pairs_with:
   prompts: [choose-coffee-beans, choose-home-coffee-setup, dial-in-espresso]

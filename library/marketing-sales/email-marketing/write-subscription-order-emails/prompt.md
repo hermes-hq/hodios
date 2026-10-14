@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [subscribe-and-save, recurring-orders, subscription-box, order-notifications, retention]
 pairs_with:
   prompts: [plan-subscribe-and-save, write-dunning-emails, write-post-purchase-emails]

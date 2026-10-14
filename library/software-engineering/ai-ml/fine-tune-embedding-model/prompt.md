@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [embeddings, contrastive-learning, hard-negatives, sentence-transformers, retrieval]
 pairs_with:
   prompts: [choose-embedding-model, plan-fine-tuning, review-training-data]

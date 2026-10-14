@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [story-mapping, walking-skeleton, release-planning, backlog]
 pairs_with:
   prompts: [define-mvp-scope, plan-release, build-outcome-roadmap, write-shaped-pitch]

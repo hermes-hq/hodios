@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [live-show, run-of-show, venue-sound, audience-qa, event-production]
 pairs_with:
   prompts: [plan-podcast-episode, invent-recurring-podcast-segments, plan-listener-voicemail-episode]

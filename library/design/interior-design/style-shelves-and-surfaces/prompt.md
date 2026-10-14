@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [styling, shelving, display, accessories, bookshelves]
 args:
   - name: surface

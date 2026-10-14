@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [slide-decks, pitch-decks, pre-reads, critical-reading]
 pairs_with:
   prompts: [summarize-long-document, extract-key-numbers, extract-open-questions]

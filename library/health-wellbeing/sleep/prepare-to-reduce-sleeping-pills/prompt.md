@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sleeping-pills, tapering, rebound-insomnia, prescriber-conversation, sleep-diary, cbt-i]
 pairs_with:
   prompts: [prepare-sleep-doctor-appointment, reframe-sleep-worries, plan-middle-of-night-waking]

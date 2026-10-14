@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [payments, card-data-migration, subscriptions, pci-dss, cutover-plan]
 pairs_with:
   prompts: [integrate-payments, build-webhook-handler, plan-incremental-migration]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [desktop-app, ipc, process-model, auto-update, local-storage, app-security]
 pairs_with:
   personas: [software-architect, frontend-engineer]

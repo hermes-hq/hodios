@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [venture-capital, pitch-practice, investor-perspective, startup-fundraising, mock-partner-meeting]
 pairs_with:
   prompts: [write-pitch-deck-outline, prepare-investor-qa, explain-term-sheet, build-investor-pipeline, evaluate-pivot]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [browsing-agent, computer-use, agent-brief, human-confirmation, web-tasks]
 pairs_with:
   prompts: [write-task-prompt, write-deep-research-brief, harden-prompt-against-injection]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [grief, bereavement, loss, continuing-bonds, emotional-support]
 pairs_with:
   prompts: [guided-journaling, practice-self-compassion, support-struggling-friend]

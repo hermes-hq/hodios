@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-contracts, generated-types, end-to-end-types, type-drift]
 pairs_with:
   prompts: [extract-shared-package, consolidate-duplicate-type-definitions, extract-api-client-from-fetch-calls]

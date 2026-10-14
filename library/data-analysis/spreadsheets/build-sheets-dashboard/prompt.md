@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kpi, slicers, dropdowns, workbook-structure, data-refresh]
 pairs_with:
   prompts: [design-dashboard, build-pivot-analysis, write-spreadsheet-formula, build-spreadsheet-chart]

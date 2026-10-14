@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [figma]
 tags: [accessibility-annotations, wcag, design-handoff, aria, keyboard-navigation, screen-readers]
 pairs_with:

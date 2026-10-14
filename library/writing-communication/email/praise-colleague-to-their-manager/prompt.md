@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recognition, peer-feedback, appreciation, managing-up, review-evidence]
 pairs_with:
   prompts: [write-recognition-message, write-award-nomination, give-feedback-sbi]

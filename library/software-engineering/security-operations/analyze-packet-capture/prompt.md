@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [packet-analysis, network-forensics, beaconing, dns-analysis, exfiltration]
 pairs_with:
   prompts: [build-forensic-timeline, review-firewall-rules, triage-soc-alert]

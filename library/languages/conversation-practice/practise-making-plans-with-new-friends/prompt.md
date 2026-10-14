@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [invitations, making-plans, social-life, newcomers, cefr]
 pairs_with:
   prompts: [practice-small-talk, practice-texting-in-language, practise-dinner-guest-conversation]

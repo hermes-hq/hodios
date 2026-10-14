@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reddit, community-rules, self-promotion, disclosure]
 pairs_with:
   prompts: [reply-to-comments, mine-audience-questions]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [no-code, workflow-automation, integrations, human-in-the-loop]
 pairs_with:
   prompts: [map-business-process, write-sop]

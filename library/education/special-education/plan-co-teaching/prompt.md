@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [co-teaching, inclusion, collaboration, small-group-instruction]
 pairs_with:
   prompts: [differentiate-lesson, design-station-rotation, write-lesson-plan]

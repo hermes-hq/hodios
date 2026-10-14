@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [international-shipping, cross-border, import-duties, landed-cost, localisation, market-entry]
 pairs_with:
   prompts: [calculate-landed-cost, check-sales-tax-obligations, plan-international-seo, write-shipping-policy-page]

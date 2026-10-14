@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [meeting-prep, backup-slides, stakeholder-questions, review-meeting]
 pairs_with:
   prompts: [write-monthly-business-review, write-insight-report, check-report-figures]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reactivity, composition-api, composables, watchers, pull-request]
 pairs_with:
   personas: [vue-engineer]

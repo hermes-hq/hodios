@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trustees, strategic-plan, mission, impact-measures, community-group, stop-list]
 pairs_with:
   prompts: [build-theory-of-change, write-case-for-support, write-impact-report]

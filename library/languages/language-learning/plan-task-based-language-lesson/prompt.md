@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [task-based-learning, tblt, lesson-plan, focus-on-form, monitoring, communicative-teaching]
 pairs_with:
   prompts: [design-language-class-activity, analyse-target-language-for-lesson, reflect-on-taught-language-lesson]

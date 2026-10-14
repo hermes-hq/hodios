@@ -7,6 +7,7 @@ description: Standing rules that make an assistant minimise personal data - ask 
 category: assistant-setup
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [operate]
 output: [explanation]
 risk: read-only

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-photography, portrait-session, photo-delivery, shoot-planning, photo-backup]
 pairs_with:
   prompts: [write-session-prep-guide, plan-portrait-shoot, cull-photo-shoot, match-edits-across-photo-set]

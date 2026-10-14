@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scope-creep, indie-games, milestones, cut-list]
 pairs_with:
   prompts: [write-game-design-document, write-game-pitch]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [blue-ocean, strategy-canvas, value-curve, errc-grid, differentiation]
 pairs_with:
   prompts: [assess-competitive-advantage, analyze-business-model, design-pricing, map-growth-options]

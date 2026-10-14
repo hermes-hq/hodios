@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wcag, axe, keyboard-navigation, screen-reader, aria, a11y-fixes]
 pairs_with:
   prompts: [audit-web-accessibility, fix-keyboard-navigation, fix-form-accessibility, write-screen-reader-test-plan]

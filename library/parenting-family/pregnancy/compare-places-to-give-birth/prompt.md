@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [birth-setting, birth-centre, labour-ward, maternity-unit, informed-decision]
 pairs_with:
   prompts: [prepare-for-home-birth, write-birth-preferences, prepare-prenatal-visits]

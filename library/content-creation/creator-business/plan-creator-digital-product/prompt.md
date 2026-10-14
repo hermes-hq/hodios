@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [digital-products, templates, presets, presale, launch-plan]
 pairs_with:
   prompts: [plan-creator-monetization, plan-paid-online-course, mine-audience-questions]

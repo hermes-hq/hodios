@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [triage, fit-scoring, tailored-applications, shortlist]
 pairs_with:
   prompts: [analyze-job-posting, write-cover-letter, map-warm-introductions]

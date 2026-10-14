@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [account-deletion, account-closure, data-export, offboarding, privacy-ux]
 pairs_with:
   prompts: [design-settings-screen, review-design-for-dark-patterns, write-ux-microcopy, design-churn-save-flow]

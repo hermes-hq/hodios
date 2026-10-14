@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitive-selling, deal-strategy, competitor-displacement, evaluation-criteria, b2b-sales]
 pairs_with:
   prompts: [write-competitive-battlecard, handle-sales-objections, inspect-deal-qualification, run-win-loss-analysis]

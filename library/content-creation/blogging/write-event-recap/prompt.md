@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [event-recap, conference-coverage, takeaways, photo-captions]
 pairs_with:
   prompts: [turn-article-into-thread, write-article-headlines-and-standfirsts]

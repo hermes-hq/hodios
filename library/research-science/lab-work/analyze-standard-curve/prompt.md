@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [standard-curve, calibration-curve, four-parameter-logistic, limit-of-quantification, interpolation]
 pairs_with:
   prompts: [troubleshoot-elisa, design-plate-layout, calculate-solution-dilutions]

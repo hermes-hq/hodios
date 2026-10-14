@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [childcare, nursery, daycare, childminder, nanny, return-to-work]
 pairs_with:
   prompts: [prepare-for-new-baby, prepare-child-for-school, coordinate-family-calendar]

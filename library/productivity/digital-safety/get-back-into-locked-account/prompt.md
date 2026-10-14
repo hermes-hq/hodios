@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [account-recovery, two-factor, locked-out, lost-phone, recovery-codes]
 pairs_with:
   prompts: [recover-hacked-account, secure-personal-accounts, set-up-passkeys]

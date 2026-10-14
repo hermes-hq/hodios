@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-history, genealogy, historical-documents, archaic-language]
 pairs_with:
   prompts: [translate-literary-passage, translate-personal-document, transliterate-names]

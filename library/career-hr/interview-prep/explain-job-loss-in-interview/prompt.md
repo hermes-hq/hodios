@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [layoff, fired, termination, reason-for-leaving, honesty]
 pairs_with:
   prompts: [recover-from-layoff, explain-career-gap, brief-your-references]

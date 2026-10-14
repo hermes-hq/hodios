@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [agm, annual-general-meeting, residents-association, voluntary-groups, governance, elections]
 pairs_with:
   prompts: [prepare-to-chair-meeting, write-formal-minutes, write-meeting-agenda, practise-chairing-meeting]

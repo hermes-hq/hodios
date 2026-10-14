@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [preregistration, open-science, osf, aspredicted, analysis-plan, reproducibility]
 pairs_with:
   prompts: [design-research-study, write-data-management-plan, write-methods-section]

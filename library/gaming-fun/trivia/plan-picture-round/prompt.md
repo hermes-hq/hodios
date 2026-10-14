@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [picture-round, handout, close-ups, pub-quiz, answer-key, image-sourcing]
 pairs_with:
   prompts: [host-trivia-night, plan-music-quiz-round]

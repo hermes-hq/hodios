@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [managed-database, logical-replication, database-cutover, rds, cloud-sql]
 pairs_with:
   prompts: [upgrade-database-major-version, migrate-database-engine, plan-cloud-migration, automate-postgres-backups]

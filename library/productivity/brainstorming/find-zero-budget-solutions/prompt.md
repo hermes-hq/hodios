@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bricolage, frugal-innovation, resourcefulness, no-budget, effectuation]
 pairs_with:
   prompts: [brainstorm-ideas, find-new-uses-for-item, brainstorm-community-project-ideas]

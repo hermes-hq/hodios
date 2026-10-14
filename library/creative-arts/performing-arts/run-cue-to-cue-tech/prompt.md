@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [technical-rehearsal, stage-management, cue-to-cue, tech-week, show-calling]
 pairs_with:
   prompts: [write-cue-sheet, plan-rehearsal-schedule, write-show-report]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cloud-storage, icloud, google-one, onedrive, storage-plan]
 pairs_with:
   prompts: [set-up-backups, set-up-family-sharing, fix-cloud-sync, free-up-storage]

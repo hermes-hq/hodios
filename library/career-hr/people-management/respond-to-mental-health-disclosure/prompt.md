@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mental-health-at-work, disclosure, confidentiality, workplace-adjustments, manager-support]
 pairs_with:
   prompts: [plan-workplace-adjustments-as-manager, handle-employee-burnout, plan-return-from-leave]

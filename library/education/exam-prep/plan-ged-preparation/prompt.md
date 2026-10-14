@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ged, hiset, high-school-equivalency, adult-education, second-chance-learning, study-schedule]
 pairs_with:
   prompts: [plan-exam-day-strategy, practice-functional-skills-maths, quiz-me-interactively]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [loyalty-programme, incrementality, points-liability, redemption, self-selection, customer-retention]
 pairs_with:
   prompts: [design-loyalty-program, segment-customers, build-cohort-analysis, analyze-repeat-purchase-behaviour]

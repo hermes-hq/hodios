@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [world-cinema, film-history, subtitles, viewing-route, film-movements]
 pairs_with:
   prompts: [explore-directors-filmography, recommend-films-from-favorites, start-watching-classic-films]

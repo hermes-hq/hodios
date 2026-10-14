@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [term-sheet, venture-capital, liquidation-preference, dilution, cap-table, vesting]
 pairs_with:
   prompts: [prepare-investor-qa, build-investor-pipeline, prepare-board-meeting]

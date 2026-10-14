@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [onboarding-emails, nurture-sequence, lifecycle-marketing, activation]
 pairs_with:
   prompts: [write-promo-email, write-landing-page-copy]

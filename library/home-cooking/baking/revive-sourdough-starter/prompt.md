@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sourdough-starter, levain, starter-maintenance, dried-starter, fermentation]
 pairs_with:
   prompts: [start-sourdough-starter, plan-bread-bake-schedule, read-sourdough-crumb]

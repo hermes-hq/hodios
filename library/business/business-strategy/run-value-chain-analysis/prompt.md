@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [value-chain, porter, cost-drivers, differentiation, activity-analysis]
 pairs_with:
   prompts: [decide-in-house-or-outsource, assess-competitive-advantage, analyze-business-model, draft-wardley-map]

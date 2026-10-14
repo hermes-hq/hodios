@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dotfiles, bare-repository, gnu-stow, chezmoi, shell-config]
 pairs_with:
   prompts: [set-up-git-on-new-machine, write-gitignore-file, audit-agent-permissions]

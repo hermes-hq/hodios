@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [biometrics, face-id, keychain, keystore, biometricprompt, auth]
 args:
   - name: platform

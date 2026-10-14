@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitor-comparison, 2x2-matrix, market-map, pitch-deck, harvey-balls]
 pairs_with:
   prompts: [analyze-competitors, write-competitive-battlecard, write-pitch-deck-outline, add-sources-to-slides]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [level-up, character-build, player-character, build-choices, character-sheet]
 pairs_with:
   prompts: [build-rpg-character]

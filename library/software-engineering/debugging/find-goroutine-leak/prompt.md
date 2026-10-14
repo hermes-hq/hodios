@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [goroutines, pprof, context-cancellation, channels, memory-leak]
 pairs_with:
   prompts: [diagnose-hung-process, debug-race-condition]

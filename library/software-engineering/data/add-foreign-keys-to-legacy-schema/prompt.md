@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [foreign-keys, referential-integrity, orphan-rows, online-ddl, not-valid-constraints]
 pairs_with:
   prompts: [map-legacy-database-schema, plan-zero-downtime-schema-change, review-database-migration]

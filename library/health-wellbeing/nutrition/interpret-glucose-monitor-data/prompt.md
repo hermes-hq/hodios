@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [continuous-glucose-monitor, blood-glucose, wearables, meal-timing, self-tracking]
 pairs_with:
   prompts: [interpret-wearable-data, fix-afternoon-energy-crash, estimate-meal-nutrition, check-health-claim]

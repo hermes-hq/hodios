@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [temporal-tables, slowly-changing-data, as-of-queries, effective-dating, system-versioning, bitemporal]
 pairs_with:
   prompts: [implement-audit-log, design-date-and-time-storage, design-star-schema]

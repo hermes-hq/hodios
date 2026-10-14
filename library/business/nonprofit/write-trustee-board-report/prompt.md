@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [nonprofit]
 tags: [board-report, trustees, charity-governance, chief-executive-report]
 pairs_with:

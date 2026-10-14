@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [b2b-terms, standard-terms, retention-of-title, late-payment, limitation-of-liability, wholesale]
 pairs_with:
   prompts: [review-supplier-terms, plan-wholesale-pricing, negotiate-client-payment-terms, write-product-warranty-terms]

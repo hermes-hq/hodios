@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deliverability, spam-folder, email-authentication, sender-reputation, bounce-handling]
 pairs_with:
   prompts: [audit-email-deliverability, write-re-permission-campaign, set-email-frequency]

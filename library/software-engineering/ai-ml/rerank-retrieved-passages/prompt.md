@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [reranking, relevance-scoring, retrieval, search-quality]
 pairs_with:
   prompts: [answer-from-retrieved-context, rewrite-search-query, write-hypothetical-answer-for-retrieval]

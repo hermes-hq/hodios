@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [long-distance, grandparents, video-calls, time-zones, family-rituals, connection]
 pairs_with:
   prompts: [plan-relationship-check-in, choose-meaningful-gift, plan-date-night]

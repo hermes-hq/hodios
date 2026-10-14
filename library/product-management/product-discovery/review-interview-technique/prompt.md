@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-interviews, interviewing-skills, leading-questions, talk-ratio, coaching-notes]
 pairs_with:
   prompts: [write-customer-interview-guide, simulate-customer-interview, drill-follow-up-probes, synthesize-customer-interviews]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [call-script, phone-support, call-flow, identity-verification, hold-etiquette, de-escalation]
 pairs_with:
   prompts: [build-support-macros, design-escalation-process, roleplay-difficult-customer, write-clinic-phone-scripts]

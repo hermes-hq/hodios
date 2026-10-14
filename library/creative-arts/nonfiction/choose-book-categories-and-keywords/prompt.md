@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [book-metadata, bisac, retailer-keywords, discoverability, self-publishing]
 pairs_with:
   prompts: [generate-nonfiction-book-titles, plan-self-publishing, plan-nonfiction-book-launch]

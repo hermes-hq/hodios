@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [voice-over, narration, point-of-view, screenplay-format]
 pairs_with:
   prompts: [format-screenplay-scene, adapt-story-for-screen, plan-nonlinear-structure]

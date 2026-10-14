@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [measurement-system, unit-conversion, metric-imperial, cldr, user-preferences]
 pairs_with:
   prompts: [implement-locale-formatting, parse-localized-user-input, review-diff-for-numeric-and-unit-bugs]

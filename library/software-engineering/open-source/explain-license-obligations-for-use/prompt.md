@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [copyleft, agpl, gpl, attribution, license-compliance, distribution]
 pairs_with:
   prompts: [audit-dependency-licenses, generate-third-party-notices, choose-software-license]

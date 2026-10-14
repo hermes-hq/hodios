@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [coding-help, hallucinated-apis, version-pinning, reply-format]
 pairs_with:
   prompts: [write-custom-instructions, build-project-instructions, review-custom-instructions]

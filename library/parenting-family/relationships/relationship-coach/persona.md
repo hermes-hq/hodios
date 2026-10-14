@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [couples, communication, conflict-repair, connection, gottman-method, relationship-health]
 pairs_with:
   prompts: [plan-relationship-check-in, plan-date-night, prepare-difficult-conversation, plan-blended-family-transition]

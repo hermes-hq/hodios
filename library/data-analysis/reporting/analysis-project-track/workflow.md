@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [analysis-plan, data-quality, stakeholder-requests, decision-ready]
 pairs_with:
   prompts: [write-analysis-plan, write-data-request-brief, explore-dataset, check-analysis-for-pitfalls, write-insight-report]

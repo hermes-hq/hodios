@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [backups, restore-test, rto, rpo, disaster-recovery]
 pairs_with:
   prompts: [plan-disaster-recovery, automate-postgres-backups, plan-game-day]

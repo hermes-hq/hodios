@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [narrative-memo, six-pager, read-first-meeting, tenets, faq]
 pairs_with:
   prompts: [write-decision-memo, write-executive-summary, write-project-proposal]

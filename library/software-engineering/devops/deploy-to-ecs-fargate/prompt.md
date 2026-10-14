@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ecs, fargate, task-definition, deployment-circuit-breaker, alb]
 pairs_with:
   prompts: [build-container-image-in-ci, set-up-keyless-ci-deploys, configure-load-balancer]

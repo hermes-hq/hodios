@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [debugging-skills, scientific-method, error-messages, rubber-ducking]
 pairs_with:
   prompts: [draft-help-request-for-stuck-problem, trace-program-execution, explain-stack-trace]

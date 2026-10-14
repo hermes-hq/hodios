@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [indecision, analysis-paralysis, procrastination, close-call, decision-date]
 pairs_with:
   prompts: [decide-whether-to-research-more, make-life-decision, test-decision-before-committing]

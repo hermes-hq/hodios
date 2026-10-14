@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [venue-check, av-setup, microphone, tech-rehearsal, speaker-logistics]
 pairs_with:
   prompts: [prepare-virtual-presentation, write-emcee-script]

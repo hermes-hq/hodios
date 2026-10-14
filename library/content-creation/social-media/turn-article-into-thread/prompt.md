@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [repurposing, character-limits, hooks, long-form-to-short-form]
 pairs_with:
   prompts: [write-linkedin-post, repurpose-video-into-posts]

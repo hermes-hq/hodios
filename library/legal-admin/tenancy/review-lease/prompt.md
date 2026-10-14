@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [security-deposit, break-clause]
 pairs_with:
   prompts: [summarize-contract, explain-contract-clause, demand-deposit-return]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [glossary, terminology, ubiquitous-language, domain-terms]
 pairs_with:
   prompts: [write-documentation-standards, write-explanation-page, write-onboarding-guide, review-docs-for-localization]

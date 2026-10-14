@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [business-tools, saas-selection, accounting-software, booking-system, tool-sprawl]
 pairs_with:
   prompts: [plan-online-store, automate-business-workflow, estimate-startup-costs]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [press-releases, churnalism, corporate-claims, newsroom]
 pairs_with:
   prompts: [fact-check-claims, check-statistics-in-article, evaluate-poll-in-news]

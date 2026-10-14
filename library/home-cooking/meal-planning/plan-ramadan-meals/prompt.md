@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ramadan, suhoor, iftar, fasting, hydration, halal]
 pairs_with:
   prompts: [plan-weekly-meals, plan-freezer-meals, plan-special-diet-meals]

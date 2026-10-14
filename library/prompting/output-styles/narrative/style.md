@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite, explanation]
 risk: read-only
 level: beginner
+depth: specific
 tags: [storytelling, scenarios, worked-scenario, memorable-explanations]
 pairs_with:
   styles: [{id: example-led, level: 2}, {id: beginner-friendly, level: 2}]

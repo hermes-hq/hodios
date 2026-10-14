@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-review-process, conventional-comments, team-norms, pull-request, engineering-culture]
 pairs_with:
   personas: [code-reviewer]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [accountant, year-end, meeting-prep, sole-trader, freelancers]
 pairs_with:
   prompts: [prepare-year-end-accounts-pack, choose-business-structure, plan-freelance-tax-set-aside, reconcile-bank-account]

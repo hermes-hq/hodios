@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [roleplay, historical-empathy, source-tagging, interview, anachronism]
 pairs_with:
   prompts: [stage-historical-debate, talk-to-everyday-person-from-history, analyze-primary-source]

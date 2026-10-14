@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [points-test, skilled-migration, points-calculator, express-entry, eligibility-check]
 pairs_with:
   prompts: [compare-visa-routes, match-job-to-occupation-code, write-employment-experience-letter]

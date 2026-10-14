@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kustomize, helm-values, manifest-overlays, rendered-diff]
 pairs_with:
   prompts: [write-kubernetes-manifests, write-helm-chart]

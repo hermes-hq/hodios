@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [intercessions, prayers-of-the-people, liturgy, worship-leading, lay-ministry]
 pairs_with:
   prompts: [prepare-sermon-or-homily, write-blessing-or-prayer, write-devotional-reflection]

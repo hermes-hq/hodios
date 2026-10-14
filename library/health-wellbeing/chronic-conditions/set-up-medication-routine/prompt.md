@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [medication-adherence, pill-organiser, reminders, carers, refills, polypharmacy]
 pairs_with:
   prompts: [build-medication-list, prepare-pharmacist-consultation, explain-medication-leaflet]

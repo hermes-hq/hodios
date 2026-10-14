@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [impostor-syndrome, new-job, new-role, self-doubt, asking-questions]
 pairs_with:
   prompts: [build-self-confidence, loosen-perfectionism, reframe-negative-thoughts]

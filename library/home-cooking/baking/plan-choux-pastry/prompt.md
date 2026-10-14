@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [choux-pastry, eclairs, profiteroles, pastry-cream, patisserie]
 pairs_with:
   prompts: [calibrate-home-oven, plan-croissant-lamination, plan-macaron-bake]

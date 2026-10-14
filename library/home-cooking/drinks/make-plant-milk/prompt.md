@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [plant-milk, oat-milk, dairy-free, homemade]
 pairs_with:
   prompts: [troubleshoot-milk-steaming, brew-masala-chai]

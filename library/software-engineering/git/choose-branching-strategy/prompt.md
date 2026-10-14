@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trunk-based-development, github-flow, gitflow, release-branches, branch-protection]
 pairs_with:
   prompts: [write-github-actions-workflow, add-feature-flag, split-large-pull-request, write-contributing-guide]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [releasing-guide, release-checklist, versioning, rollback, bus-factor]
 pairs_with:
   prompts: [automate-release-versioning, write-changelog, write-release-notes]

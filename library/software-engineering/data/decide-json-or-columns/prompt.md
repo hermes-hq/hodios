@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jsonb, json-columns, semi-structured-data, gin-index, expression-index, schema-flexibility]
 pairs_with:
   prompts: [design-database-schema, plan-zero-downtime-schema-change]

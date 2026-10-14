@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thesis, synthesis, review-update, new-evidence]
 pairs_with:
   prompts: [audit-literature-review-draft, write-literature-review-section, set-up-literature-alerts]

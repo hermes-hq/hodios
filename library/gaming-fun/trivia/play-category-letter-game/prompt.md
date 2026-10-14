@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [category-games, letter-games, word-games-for-groups, family-games, quick-thinking]
 pairs_with:
   prompts: [play-taboo-word-game, create-party-game-cards]

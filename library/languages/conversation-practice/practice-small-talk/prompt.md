@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [small-talk, fillers, follow-up-questions, casual-conversation, fluency]
 pairs_with:
   prompts: [practice-opinion-debate, roleplay-real-situation, explain-politeness-register]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deferred-revenue, revenue-recognition, subscriptions, deposits]
 pairs_with:
   prompts: [prepare-month-end-close, write-journal-entries, review-balance-sheet]

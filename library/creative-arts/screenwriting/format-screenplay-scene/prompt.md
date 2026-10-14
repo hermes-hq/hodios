@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fountain, sluglines, script-format, adaptation]
 pairs_with:
   prompts: [write-logline-and-synopsis, punch-up-dialogue]

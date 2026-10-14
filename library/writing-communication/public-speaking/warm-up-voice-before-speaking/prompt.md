@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [vocal-warm-up, voice-care, projection, breath-support, vocal-fatigue]
 pairs_with:
   prompts: [check-venue-before-talk, mark-up-script-for-delivery]

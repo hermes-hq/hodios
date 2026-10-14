@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [health-checks, readiness-probe, liveness-probe, load-balancer, reliability]
 pairs_with:
   prompts: [implement-graceful-shutdown, write-kubernetes-manifests, diagnose-crashlooping-pod]

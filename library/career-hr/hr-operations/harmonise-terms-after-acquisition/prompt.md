@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mergers-and-acquisitions, terms-and-conditions, integration, employee-transfer, benefits-alignment]
 pairs_with:
   prompts: [design-benefits-package, design-salary-bands, write-workplace-policy, write-employee-handbook]

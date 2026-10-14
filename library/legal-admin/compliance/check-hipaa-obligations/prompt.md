@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hipaa, health-data, business-associate-agreement, phi, health-apps, security-risk-analysis]
 pairs_with:
   prompts: [run-vendor-due-diligence, plan-data-breach-response, map-personal-data-processing, write-patient-privacy-notice]

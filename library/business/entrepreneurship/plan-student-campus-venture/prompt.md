@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [student-entrepreneurs, campus-business, semester-plan, time-budget, university-incubator]
 pairs_with:
   prompts: [validate-business-idea, find-first-customers, price-services, budget-for-university]

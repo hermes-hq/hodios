@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [finals-week, exam-timetable, revision-schedule, exam-triage, spaced-practice, sleep-protection]
 pairs_with:
   prompts: [plan-last-minute-revision, plan-exam-day-strategy, generate-practice-exam]

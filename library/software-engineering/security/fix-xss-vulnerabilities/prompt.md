@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [xss, output-encoding, html-sanitization, owasp]
 pairs_with:
   prompts: [audit-input-handling, render-user-markdown-safely, harden-web-app-config, write-exploit-regression-test]

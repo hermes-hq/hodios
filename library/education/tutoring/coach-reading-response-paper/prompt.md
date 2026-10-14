@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [response-paper, critical-response, academic-reading, thesis-statement, college-composition, student-voice]
 pairs_with:
   prompts: [map-argument-structure, practise-summarising-a-text, give-essay-feedback]

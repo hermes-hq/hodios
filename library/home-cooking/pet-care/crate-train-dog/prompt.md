@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [crate-training, puppy, safe-den, reward-based-training, settling, travel-crate]
 pairs_with:
   prompts: [house-train-puppy, plan-separation-anxiety-training, plan-new-pet-care, train-dog-behavior]

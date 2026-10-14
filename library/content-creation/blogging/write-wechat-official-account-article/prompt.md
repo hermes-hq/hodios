@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [wechat, official-account, mobile-reading, china]
 pairs_with:
   prompts: [write-xiaohongshu-note, write-article-headlines-and-standfirsts]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cronbach-alpha, mcdonald-omega, internal-consistency, item-analysis, survey-scale]
 pairs_with:
   prompts: [run-factor-analysis, analyze-likert-data, calculate-inter-rater-reliability]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-detection, onpush, signals, zone-js, angular-devtools]
 pairs_with:
   prompts: [fix-angular-change-detection-error, slim-down-angular-components, speed-up-long-list-rendering]

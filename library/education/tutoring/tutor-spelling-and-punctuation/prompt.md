@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [spelling, punctuation, error-patterns, grammar-rules, targeted-practice]
 pairs_with:
   prompts: [give-essay-feedback, tutor-adult-literacy]

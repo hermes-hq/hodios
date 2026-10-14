@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [memory-clinic, dementia-assessment, cognitive-decline, carers, observations-log]
 pairs_with:
   prompts: [plan-dementia-conversations, build-medication-list, build-symptom-log]

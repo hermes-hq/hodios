@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [missing-data, multiple-imputation, mice, sensitivity-analysis]
 pairs_with:
   prompts: [write-statistical-analysis-plan, run-regression-analysis, check-analysis-for-pitfalls]

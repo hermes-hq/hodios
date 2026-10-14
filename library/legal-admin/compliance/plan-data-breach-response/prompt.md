@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-breach, incident-response, breach-notification, data-protection]
 pairs_with:
   prompts: [map-personal-data-processing, review-data-processing-agreement, build-compliance-checklist]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [reading-comprehension, pacing, skimming, timed-practice, pace-log]
 pairs_with:
   prompts: [practice-mcat-cars, practice-sat-section, practice-gre-verbal]

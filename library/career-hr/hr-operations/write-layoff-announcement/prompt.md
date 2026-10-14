@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [layoffs, restructuring, internal-communication, all-hands, change-communication]
 pairs_with:
   prompts: [plan-layoff-day-logistics, write-layoff-public-statement, plan-layoff-conversation, lead-team-after-layoffs]

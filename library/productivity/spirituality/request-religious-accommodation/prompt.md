@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [workplace-accommodation, prayer-time, religious-leave, dress-code, employee-rights]
 pairs_with:
   prompts: [plan-religious-holiday-observance]

@@ -11,6 +11,7 @@ requires: [none]
 output: [conversation, questions]
 risk: read-only
 level: beginner
+depth: specific
 role: [student, teacher, language-learner]
 tags: [guided-questions, active-recall, reasoning-practice, self-explanation]
 pairs_with:

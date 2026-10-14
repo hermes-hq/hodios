@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [disk-full, no-space-left, log-rotation, inodes, deleted-open-files]
 pairs_with:
   prompts: [triage-production-alert, write-runbook, design-alerting-rules]

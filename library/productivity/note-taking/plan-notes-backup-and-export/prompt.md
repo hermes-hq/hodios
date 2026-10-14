@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [backup, data-portability, 3-2-1-backup, restore-test, digital-legacy]
 pairs_with:
   prompts: [choose-notes-app, migrate-notes-between-apps, write-household-operations-manual]

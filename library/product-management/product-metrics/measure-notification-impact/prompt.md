@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [push-notifications, lifecycle-messaging, notification-fatigue, incrementality, opt-out-rate, holdout-group]
 pairs_with:
   prompts: [design-holdout-experiment, design-notification-strategy, write-push-notifications, define-guardrail-metrics]

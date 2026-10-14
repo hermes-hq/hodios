@@ -17,6 +17,7 @@ invocation: user
 interaction: interactive
 model_tier: frontier
 level: beginner
+depth: specific
 tags: [heritage-speakers, family-language, register-shifting, literacy, identity, diaspora]
 pairs_with:
   prompts: [plan-heritage-language-learning, practise-heritage-literacy, expand-heritage-register, untangle-mixed-language-sentences, name-grammar-you-already-use, rehearse-talk-with-elder-relatives]

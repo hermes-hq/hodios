@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [awkward-spaces, furniture-layout, sloped-ceiling, narrow-room, floor-plan]
 pairs_with:
   prompts: [plan-room-layout, critique-room-design]

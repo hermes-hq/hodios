@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [serp-analysis, search-intent, competitor-research, ranking-difficulty]
 pairs_with:
   prompts: [write-seo-content-brief, research-keywords, find-keyword-gaps]

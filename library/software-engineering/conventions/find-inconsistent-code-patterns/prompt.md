@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [consistency, pattern-drift, codebase-audit, technical-debt, house-style]
 pairs_with:
   prompts: [write-team-coding-standards, unify-error-handling, write-custom-lint-rule]

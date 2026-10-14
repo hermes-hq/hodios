@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lesson-videos, student-privacy, school-policy, recording-routine, channel-planning]
 pairs_with:
   prompts: [write-tutorial-video-script, plan-video-series, package-video-title-thumbnail]

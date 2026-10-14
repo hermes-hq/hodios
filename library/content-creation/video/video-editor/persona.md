@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [video-editing, pacing, b-roll, sound-design, audience-retention]
 pairs_with:
   prompts: [create-paper-edit, analyze-video-retention, write-documentary-outline, plan-video-shoot]

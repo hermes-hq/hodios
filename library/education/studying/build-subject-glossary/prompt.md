@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [glossary, key-terms, subject-terminology, etymology, confused-words]
 pairs_with:
   prompts: [make-flashcards, create-memory-aids, make-study-guide]

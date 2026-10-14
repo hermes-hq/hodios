@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interruptions, reactive-work, restart-notes, office-hours, context-switching]
 pairs_with:
   prompts: [plan-my-day, protect-deep-work-blocks, audit-time-use]

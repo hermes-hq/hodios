@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [help-center, self-service, ticket-deflection, knowledge-base, launch-review]
 pairs_with:
   prompts: [design-help-center-structure, write-help-center-article, analyze-support-tickets, build-support-macros]

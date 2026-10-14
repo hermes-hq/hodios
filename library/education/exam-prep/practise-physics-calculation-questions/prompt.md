@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [method-marks, unit-conversion, significant-figures, error-carried-forward, gcse, a-level]
 pairs_with:
   prompts: [analyze-exam-mistakes]

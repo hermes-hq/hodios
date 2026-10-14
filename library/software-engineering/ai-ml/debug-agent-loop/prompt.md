@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [agent-debugging, tool-selection, infinite-loop, stop-conditions]
 pairs_with:
   prompts: [design-tool-schema, run-tool-using-agent-loop, design-agent-architecture]

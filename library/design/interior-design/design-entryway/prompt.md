@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hallway, entrance, drop-zone, small-spaces, coat-storage]
 pairs_with:
   prompts: [plan-lighting-scheme, plan-colour-flow-between-rooms]

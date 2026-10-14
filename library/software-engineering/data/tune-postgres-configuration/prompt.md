@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [postgresql-conf, shared-buffers, work-mem, checkpoints, autovacuum-tuning, database-tuning]
 pairs_with:
   prompts: [fix-table-bloat-and-vacuum, tune-connection-pool, find-worst-queries-in-workload]

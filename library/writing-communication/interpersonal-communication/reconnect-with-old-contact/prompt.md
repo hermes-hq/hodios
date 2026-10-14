@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [reconnecting, networking, old-friends, mentors, lost-touch]
 pairs_with:
   prompts: [write-introduction-email, write-follow-up-email, write-personal-letter]

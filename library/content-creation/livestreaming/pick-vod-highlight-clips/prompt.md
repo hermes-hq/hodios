@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vod, stream-clips, highlights, vertical-video, clip-titles]
 pairs_with:
   prompts: [write-short-form-script, write-video-chapters, grow-streaming-channel]

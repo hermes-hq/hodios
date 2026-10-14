@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [equals-hashcode, optional, streams, collections, pull-request]
 pairs_with:
   personas: [java-spring-engineer]

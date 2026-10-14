@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [backlinks, wikilinks, connected-notes, zettelkasten, knowledge-graph]
 pairs_with:
   prompts: [write-map-of-content, audit-notes-vault]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dual-coding, sketchnotes, visual-notes, active-recall]
 pairs_with:
   prompts: [build-concept-map, convert-lecture-notes-to-cornell, make-study-guide]

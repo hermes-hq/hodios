@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 advice_risk: [mental-health]
 tags: [hard-seasons, new-baby, bereavement, minimum-viable, burnout, flexibility]
 pairs_with:

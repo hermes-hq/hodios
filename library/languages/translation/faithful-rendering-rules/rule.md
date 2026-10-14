@@ -12,6 +12,7 @@ role: []
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [translation-accuracy, fidelity, ambiguity, human-review]
 pairs_with:
   personas: [translator, community-interpreter-mentor]

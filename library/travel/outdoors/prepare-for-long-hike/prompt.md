@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trekking, altitude, gear-checklist, trail-safety]
 pairs_with:
   prompts: [assess-fitness-baseline, design-mobility-routine, start-walking-program]

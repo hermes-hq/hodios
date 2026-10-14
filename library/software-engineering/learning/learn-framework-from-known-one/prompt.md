@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [framework-switching, concept-mapping, false-friends, idioms]
 pairs_with:
   prompts: [learn-new-programming-language, plan-learning-path, explain-library-internals]

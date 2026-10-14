@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [plasterboard-repair, drywall-patch, wall-filler, making-good, end-of-tenancy, plaster]
 pairs_with:
   prompts: [plan-room-painting, assess-wall-cracks, deep-clean-for-move-out]

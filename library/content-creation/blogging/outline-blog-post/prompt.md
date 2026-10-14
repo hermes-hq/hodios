@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [search-intent, angle, post-structure, examples, takeaway]
 pairs_with:
   prompts: [write-blog-post-draft, generate-blog-post-ideas, write-article-headlines-and-standfirsts]

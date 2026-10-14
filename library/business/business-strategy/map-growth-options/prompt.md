@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ansoff-matrix, growth-strategy, diversification, market-penetration, adjacencies]
 pairs_with:
   prompts: [plan-market-entry, prioritize-strategic-initiatives, estimate-market-size, draw-strategy-canvas]

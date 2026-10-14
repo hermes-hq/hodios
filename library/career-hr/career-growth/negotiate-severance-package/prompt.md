@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [severance, exit-terms, layoff, redundancy, negotiation-plan]
 pairs_with:
   prompts: [review-severance-agreement, recover-from-layoff]

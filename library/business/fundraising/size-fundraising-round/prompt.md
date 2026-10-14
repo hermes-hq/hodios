@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [round-size, use-of-funds, runway, milestones, burn-rate]
 pairs_with:
   prompts: [calculate-cash-runway, write-pitch-deck-outline, model-round-dilution]

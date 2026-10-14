@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [narrow-framing, alternatives, option-generation, both-and, whether-or-not]
 pairs_with:
   prompts: [frame-a-decision, compare-options-matrix, test-decision-before-committing]

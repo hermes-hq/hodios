@@ -13,6 +13,7 @@ subject: [education-sector]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [data-protection, pupil-privacy, special-category-data, safeguarding, data-minimisation]
 pairs_with:
   prompts: [write-class-handover-notes, write-behaviour-incident-record, write-one-page-pupil-profile]

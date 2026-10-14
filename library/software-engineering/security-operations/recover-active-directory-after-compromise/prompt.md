@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [active-directory, krbtgt, domain-compromise, eviction, privileged-access, ad-cs]
 stack: [powershell]
 pairs_with:

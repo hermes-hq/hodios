@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [long-conversations, context-window, fresh-start, conversation-summary]
 pairs_with:
   prompts: [turn-chat-into-prompt, build-project-instructions]

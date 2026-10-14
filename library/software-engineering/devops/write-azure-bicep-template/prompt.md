@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bicep, infrastructure-as-code, arm, managed-identity, what-if]
 pairs_with:
   prompts: [review-iac-plan, deploy-to-azure-app-service, write-terraform-module]

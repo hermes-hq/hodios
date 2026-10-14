@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [event-emails, webinar-emails, reminder-emails, attendance-rate, follow-up]
 pairs_with:
   prompts: [write-event-promo-copy, plan-event-marketing, write-email-sequence, write-promo-email]

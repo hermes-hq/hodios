@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [comics-editing, sequential-art, script-notes, page-pacing, creator-development]
 pairs_with:
   prompts: [review-comic-script, critique-comic-page, thumbnail-comic-page, plan-webcomic-series]

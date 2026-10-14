@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [metric-change, back-casting, change-management, series-break]
 pairs_with:
   prompts: [define-metric, build-metrics-glossary, write-data-correction-notice]

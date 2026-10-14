@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [health-news, evidence-hierarchy, nutrition-claims, relative-risk, misinformation]
 pairs_with:
   prompts: [fact-check-claims, check-statistics-in-article, respond-to-misinformation]

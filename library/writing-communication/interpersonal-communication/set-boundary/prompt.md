@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [boundaries, assertiveness, saying-no, pushback]
 pairs_with:
   prompts: [prepare-difficult-conversation, decline-request-gracefully, respond-to-criticism]

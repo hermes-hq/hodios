@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [desktop-app, ui-automation, accessibility-api, keyboard-shortcuts, screen-reader, wcag]
 pairs_with:
   personas: [accessibility-specialist]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [forecast-error, bias, wape, mase, forecast-value-added]
 pairs_with:
   prompts: [forecast-time-series, add-event-adjustments-to-forecast, write-forecast-commentary]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [signals, rxjs, change-detection, standalone-components, typed-forms]
 pairs_with:
   personas: [frontend-engineer]

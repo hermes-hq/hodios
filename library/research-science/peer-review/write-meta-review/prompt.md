@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [meta-review, area-chair, editorial-decision, referee-reports, decision-letter]
 pairs_with:
   prompts: [write-peer-review, review-statistical-methods, respond-to-reviewers]

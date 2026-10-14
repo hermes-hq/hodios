@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [new-arrivals, multilingual-learners, induction, buddy-system, refugee-students, inclusion]
 pairs_with:
   prompts: [create-language-supports-for-ell, write-parent-email, differentiate-lesson]

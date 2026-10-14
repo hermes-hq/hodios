@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [inheritance, wills, care-costs, family-meeting, estate-planning, ageing-parents]
 pairs_with:
   prompts: [prepare-difficult-conversation, navigate-family-gathering-tension, plan-dementia-conversations, mediate-disagreement]

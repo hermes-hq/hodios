@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [behaviour-preservation, pure-refactor, semantic-diff, pull-request, regression-risk]
 pairs_with:
   personas: [code-reviewer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [saga-pattern, compensating-actions, distributed-systems, orchestration, idempotency]
 pairs_with:
   personas: [software-architect]

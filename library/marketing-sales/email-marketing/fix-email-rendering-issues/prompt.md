@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [html-email, email-rendering, outlook-fixes, gmail-clipping, dark-mode]
 pairs_with:
   prompts: [code-html-email, audit-html-email-accessibility, design-email-template]

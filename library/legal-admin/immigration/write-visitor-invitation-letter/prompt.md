@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [invitation-letter, visitor-visa, family-visit, sponsor-letter, supporting-documents]
 pairs_with:
   prompts: [prepare-visa-application, prepare-financial-evidence-for-visa, practise-visa-interview]

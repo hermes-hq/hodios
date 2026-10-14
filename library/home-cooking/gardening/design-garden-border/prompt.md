@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [planting-design, perennials, borders, garden-design, seasonal-interest]
 pairs_with:
   prompts: [plan-pollinator-garden, build-garden-calendar, diagnose-plant-problem]

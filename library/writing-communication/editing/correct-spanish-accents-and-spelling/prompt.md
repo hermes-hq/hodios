@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tildes, ortografia, rae, punctuation, spelling, grammar-rules]
 pairs_with:
   prompts: [proofread-text, diagnose-recurring-errors, distinguish-confusing-words]

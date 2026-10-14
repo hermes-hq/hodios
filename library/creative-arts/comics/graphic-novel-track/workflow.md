@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [graphic-novel-development, page-budget, chapter-breakdown, full-script, production-plan]
 pairs_with:
   prompts: [review-comic-script, thumbnail-comic-page, plan-comic-production-schedule, write-graphic-novel-pitch]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [d3, svg, interactive-charts, web-charts]
 pairs_with:
   prompts: [choose-chart-type, make-data-visualization-accessible, design-chart-interactions]

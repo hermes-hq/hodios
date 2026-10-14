@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hyperparameter-tuning, optuna, cross-validation, overfitting]
 pairs_with:
   prompts: [plan-ml-experiment, train-gradient-boosting-model]

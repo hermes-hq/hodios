@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [plpgsql, database-triggers, stored-functions, security-definer, search-path]
 pairs_with:
   prompts: [review-database-migration, implement-audit-log, write-row-level-security-policies]

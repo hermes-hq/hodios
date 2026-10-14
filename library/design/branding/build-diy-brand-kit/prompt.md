@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [local-business, brand-kit, diy-design, low-budget, free-fonts, brand-starter]
 pairs_with:
   prompts: [design-logo-concepts, create-color-palette, pair-typefaces, design-social-media-templates, design-business-card]

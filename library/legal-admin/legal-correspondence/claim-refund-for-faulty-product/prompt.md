@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [consumer-rights, faulty-goods, refund-claim, retailer-letter, statutory-rights]
 pairs_with:
   prompts: [dispute-card-charge, write-complaint-letter, explain-warranty-terms, complain-to-ombudsman]

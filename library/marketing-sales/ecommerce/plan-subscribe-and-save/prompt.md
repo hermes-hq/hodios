@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subscriptions, replenishment, repeat-purchase, retention, recurring-orders, consumables]
 pairs_with:
   prompts: [write-post-purchase-emails, plan-order-fulfilment, set-free-shipping-threshold]

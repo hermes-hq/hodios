@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [asking-out, romantic-interest, first-move, rejection, consent, low-pressure]
 pairs_with:
   prompts: [plan-first-date, turn-down-romantic-interest, write-dating-app-openers, decode-message-tone]

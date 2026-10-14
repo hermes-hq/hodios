@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sim-swap, phone-number-takeover, account-takeover, two-factor, mobile-carrier, fraud-response]
 pairs_with:
   prompts: [recover-hacked-account, respond-to-identity-theft, secure-personal-accounts, claim-scam-reimbursement-from-bank]

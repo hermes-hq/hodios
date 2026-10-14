@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [token-costs, prompt-caching, model-routing, batching, latency]
 pairs_with:
   prompts: [write-llm-eval-suite, design-agent-architecture, reduce-cloud-spend]

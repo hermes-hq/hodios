@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [information-architecture, navigation, sitemap, tree-testing, labelling]
 pairs_with:
   prompts: [plan-card-sort, create-wireframe-spec, adapt-design-for-mobile]

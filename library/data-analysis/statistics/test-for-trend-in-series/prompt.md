@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trend-test, mann-kendall, sens-slope, time-series, autocorrelation]
 pairs_with:
   prompts: [find-change-points-in-series, check-if-metric-change-is-noise, run-regression-analysis]

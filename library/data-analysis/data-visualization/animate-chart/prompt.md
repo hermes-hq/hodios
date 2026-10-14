@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [animation, bar-chart-race, social-video, matplotlib]
 pairs_with:
   prompts: [visualize-time-series, visualize-ranking, design-scrollytelling-story]

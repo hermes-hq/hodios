@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [second-product, adjacency, multi-product, focus, right-to-win, opportunity-cost]
 pairs_with:
   prompts: [assess-product-market-fit, set-kill-criteria, write-product-strategy, define-mvp-scope]

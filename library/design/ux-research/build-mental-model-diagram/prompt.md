@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mental-models, problem-space, interview-analysis, opportunity-mapping, support-gaps]
 pairs_with:
   prompts: [synthesize-customer-interviews, build-user-journey-map, define-jobs-to-be-done]

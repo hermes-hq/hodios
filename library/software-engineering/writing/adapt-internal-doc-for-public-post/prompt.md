@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [engineering-blog, redaction, confidentiality, public-writing, design-doc]
 pairs_with:
   prompts: [write-tech-blog-post, write-public-incident-report, review-tech-article-draft, write-engineering-blog-guidelines]

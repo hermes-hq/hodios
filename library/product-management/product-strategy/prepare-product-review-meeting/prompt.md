@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [executive-review, stakeholder-management, decision-framing, presentation-prep, hard-questions]
 pairs_with:
   prompts: [write-roadmap-update, plan-stakeholder-alignment, set-kill-criteria, write-experiment-readout]

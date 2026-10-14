@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tattoo-design, concept-sketch, flash, artist-brief, line-art]
 pairs_with:
   prompts: [write-image-prompt, describe-image-as-prompt]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [document-refresh, knowledge-base, policy-review, handbook, content-audit]
 pairs_with:
   prompts: [build-style-sheet, review-document-for-ambiguity, format-document-for-scanning]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [book-proposal, monograph, university-press, academic-publishing, competing-titles]
 pairs_with:
   prompts: [review-academic-book-proposal, write-nonfiction-book-proposal, plan-thesis-structure]

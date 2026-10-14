@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [filler-words, pacing, vocal-variety, eye-contact, deliberate-practice, delivery-skills]
 pairs_with:
   prompts: [critique-speech-recording, practice-impromptu-speaking, warm-up-voice-before-speaking]

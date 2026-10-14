@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [captions, alt-text, plain-language, colour-contrast, screen-readers, inclusive-content]
 pairs_with:
   prompts: [write-alt-text, make-presentation-accessible, write-editorial-guidelines]

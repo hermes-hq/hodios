@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [typography, punctuation, number-formats, locale-conventions]
 pairs_with:
   prompts: [review-translation, adapt-regional-variant, post-edit-machine-translation]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [manuscript, cars-model, research-gap, citations, imrad]
 pairs_with:
   prompts: [write-methods-section, write-results-section, write-discussion-section, write-abstract]

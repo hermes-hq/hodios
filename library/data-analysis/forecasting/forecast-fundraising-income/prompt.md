@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [income-forecast, donor-retention, grant-pipeline, charity-finance]
 pairs_with:
   prompts: [plan-annual-fundraising-mix, analyze-donor-data, plan-for-funding-loss, present-forecast-uncertainty]

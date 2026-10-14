@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [order-fraud, chargebacks, payment-risk, order-review, card-testing, order-verification]
 pairs_with:
   prompts: [respond-to-chargeback-as-merchant, resolve-missing-parcel-complaint]

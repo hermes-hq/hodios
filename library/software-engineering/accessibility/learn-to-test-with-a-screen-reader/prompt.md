@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [screen-reader, nvda, voiceover, talkback, manual-testing]
 pairs_with:
   personas: [accessibility-specialist]

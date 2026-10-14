@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quoting, fixed-price, scope-creep]
 pairs_with:
   prompts: [estimate-with-ranges, write-freelance-proposal, review-freelance-contract]

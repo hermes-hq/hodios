@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [native-modules, metro, new-architecture, cocoapods, autolinking]
 pairs_with:
   prompts: [fix-mobile-build-failure, debug-mobile-crash]

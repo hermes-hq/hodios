@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [csv, file-downloads, data-export, streaming, csv-injection]
 pairs_with:
   prompts: [implement-csv-import, implement-background-job, implement-audit-log]

@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [islands, content-collections, static-site, client-directives, partial-hydration]
 applies_to: ["src/**/*.astro", "src/content/**", "astro.config.*", "src/**/*.ts"]
 pairs_with:

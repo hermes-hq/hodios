@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [plugins, extensibility, api-versioning, sandboxing]
 pairs_with:
   personas: [software-architect, api-designer]

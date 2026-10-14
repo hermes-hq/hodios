@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [help-center, knowledge-base, information-architecture, self-service, content-gaps, ticket-deflection]
 pairs_with:
   prompts: [write-help-center-article, analyze-support-tickets, build-support-macros]

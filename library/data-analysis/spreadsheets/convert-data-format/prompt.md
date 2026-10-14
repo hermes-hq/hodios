@@ -17,6 +17,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [csv, json, xml, data-conversion, leading-zeros]
 pairs_with:
   prompts: [clean-messy-spreadsheet, extract-tables-from-pdf]

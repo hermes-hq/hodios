@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [buildings-insurance, contents-insurance, renters-insurance, excess, sub-limits]
 pairs_with:
   prompts: [check-home-sum-insured, explain-insurance-policy, build-home-inventory, choose-insurance-deductible]

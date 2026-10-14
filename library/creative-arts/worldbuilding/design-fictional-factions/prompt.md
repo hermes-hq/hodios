@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [factions, power-structures, political-intrigue, setting-design, plot-hooks]
 pairs_with:
   prompts: [design-fictional-culture, build-world-timeline, build-series-bible]

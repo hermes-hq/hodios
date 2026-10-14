@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependencies, licensing]
 pairs_with:
   personas: [security-auditor]

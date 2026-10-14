@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 stack: [markdown]
 tags: [profile-readme, developer-profile, pinned-repositories, open-source-portfolio]
 pairs_with:

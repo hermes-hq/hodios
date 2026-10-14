@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [balanced-scorecard, strategy-map, cause-and-effect, leading-indicators, performance-management]
 pairs_with:
   prompts: [build-kpi-tree, write-three-year-strategic-plan, set-okrs, cascade-strategy-to-team-goals]

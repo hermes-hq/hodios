@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [editorial-standards, rating-scale, corrections-policy, transparency]
 pairs_with:
   prompts: [write-fact-check-article, prioritize-claims-to-check]

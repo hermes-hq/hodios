@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jee-main, jee-advanced, neet, ncert, mock-tests, error-log, india]
 pairs_with:
   prompts: [create-study-plan, analyze-exam-mistakes, plan-last-minute-revision]

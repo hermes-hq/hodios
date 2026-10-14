@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [ai-memory, personalization, privacy, assistant-profile, data-minimization]
 pairs_with:
   prompts: [write-custom-instructions, build-project-instructions]

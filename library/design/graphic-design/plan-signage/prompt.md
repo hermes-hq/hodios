@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wayfinding, signage, environmental-graphics, inclusive-design, event-design]
 pairs_with:
   prompts: [plan-poster-layout, plan-booth-design, plan-visual-merchandising]

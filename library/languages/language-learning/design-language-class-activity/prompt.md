@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [communicative-language-teaching, task-based-learning, information-gap, role-cards, error-correction, delayed-correction]
 pairs_with:
   prompts: [design-classroom-activity, generate-language-drills, write-lesson-plan]

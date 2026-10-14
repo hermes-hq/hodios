@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jpa, hibernate, entity-mapping, associations, fetch-strategy]
 pairs_with:
   prompts: [fix-jpa-lazy-loading-error, fix-n-plus-one-queries, design-database-schema]

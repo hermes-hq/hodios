@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [explainer, plain-language, timeline, context-piece, journalism]
 pairs_with:
   prompts: [write-data-story-article, fact-check-claims, write-article-headlines-and-standfirsts]

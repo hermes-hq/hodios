@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [data-modeling, incremental-models, dbt-tests, staging-models, analytics-engineering]
 applies_to: ["models/**/*.sql", "models/**/*.yml", "macros/**", "snapshots/**", "dbt_project.yml"]
 pairs_with:

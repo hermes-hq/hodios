@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [biosketch, personal-statement, research-funding, academic-cv, track-record]
 pairs_with:
   prompts: [write-grant-key-personnel-section, write-fellowship-application, write-specific-aims-page]

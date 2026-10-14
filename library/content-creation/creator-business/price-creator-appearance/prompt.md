@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [appearance-fee, event-appearance, speaking-fee, brand-activation, travel-rider]
 pairs_with:
   prompts: [build-creator-rate-card, write-media-kit, review-sponsorship-contract]

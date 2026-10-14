@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lead-qualification, bant, meddicc, champ, lead-scoring]
 pairs_with:
   prompts: [build-ideal-customer-profile, prepare-discovery-call, write-sales-follow-up]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [statistical-consulting, assumptions, effect-sizes, reproducibility]
 pairs_with:
   prompts: [analyze-ab-test-results, check-statistics-in-article, design-research-study]

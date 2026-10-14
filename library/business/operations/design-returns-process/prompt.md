@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [returns, exchanges, refunds, return-rate, restocking, reverse-logistics]
 pairs_with:
   prompts: [write-refund-policy, plan-order-fulfilment, write-support-reply, build-service-recovery-playbook]

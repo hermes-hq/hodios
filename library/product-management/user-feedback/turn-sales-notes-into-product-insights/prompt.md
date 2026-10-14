@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-gaps, sales-feedback, feature-requests, gap-register, deal-blockers]
 pairs_with:
   prompts: [run-win-loss-analysis, triage-feature-requests, write-customer-interview-guide, write-sales-enablement-brief]

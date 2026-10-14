@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [drawing-fundamentals, art-critique, art-study, value-structure]
 pairs_with:
   prompts: [critique-artwork, plan-drawing-practice, write-artist-statement]

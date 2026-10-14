@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [tiktok]
 tags: [spark-ads, creative-volume, learning-phase, events-api, short-form-video]
 pairs_with:

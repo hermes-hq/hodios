@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [renovation, builder-contract, change-orders, payment-schedule, mechanics-lien]
 pairs_with:
   prompts: [hire-contractor, plan-renovation-budget, explain-contract-clause]

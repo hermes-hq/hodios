@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [firestore, nosql-modelling, denormalisation, composite-indexes, read-costs, subcollections]
 pairs_with:
   prompts: [write-firestore-security-rules, implement-offline-sync]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [learning-space, storage, organising, small-spaces, toy-rotation]
 pairs_with:
   prompts: [plan-homeschool-budget, plan-multi-age-homeschool-week]

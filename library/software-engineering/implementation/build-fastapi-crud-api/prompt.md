@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pydantic, sqlalchemy, rest-api, crud, pytest]
 pairs_with:
   prompts: [build-rest-endpoint, implement-pagination, speed-up-fastapi-endpoint]

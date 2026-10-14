@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [review-comments, conflicting-feedback, revision-plan, stakeholders, decision-log]
 pairs_with:
   prompts: [critique-draft, edit-for-structure, strengthen-argument-in-draft]

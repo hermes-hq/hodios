@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [llm-apps]
 tags: [conversational-ui, ai-ux, streaming, citations, chat-design]
 pairs_with:

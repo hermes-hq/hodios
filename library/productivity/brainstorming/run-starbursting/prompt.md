@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [starbursting, question-storming, five-w-one-h, idea-scrutiny, blind-spots]
 pairs_with:
   prompts: [write-how-might-we-questions, run-pre-mortem, validate-business-idea]

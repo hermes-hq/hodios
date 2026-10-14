@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [long-exposure, nd-filters, light-trails, slow-shutter, tripod-technique]
 pairs_with:
   prompts: [plan-landscape-photo-trip, choose-camera-settings, plan-astrophotography-night]

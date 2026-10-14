@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [commissioned-work, ip-assignment, work-made-for-hire, ownership-check, licensing]
 pairs_with:
   prompts: [review-freelance-contract, audit-small-business-ip, apply-for-trademark]

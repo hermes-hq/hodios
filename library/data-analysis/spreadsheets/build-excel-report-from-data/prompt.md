@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [xlsx-generation, live-formulas, workbook-automation, data-validation, formula-recalculation]
 pairs_with:
   prompts: [build-pivot-analysis, design-spreadsheet-model, write-spreadsheet-formula, audit-spreadsheet-model]

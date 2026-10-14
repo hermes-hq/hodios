@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardware-products, sell-through, return-rate, warranty-cost, unit-margin, field-failure-rate]
 pairs_with:
   prompts: [analyze-field-service-notes, analyze-in-home-use-test-results, set-metric-targets-from-baseline]

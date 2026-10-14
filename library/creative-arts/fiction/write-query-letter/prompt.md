@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [query-letter, literary-agents, synopsis, comp-titles]
 pairs_with:
   prompts: [write-logline-and-synopsis, write-book-blurb, critique-fiction-draft]

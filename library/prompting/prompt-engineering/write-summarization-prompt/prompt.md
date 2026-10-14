@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [summarization-prompt, faithfulness, reusable-prompt, audience-fit, abstractive-summary]
 pairs_with:
   prompts: [write-long-document-prompt, build-prompt-test-set, write-batch-processing-prompt]

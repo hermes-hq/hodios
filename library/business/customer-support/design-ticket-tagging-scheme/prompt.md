@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contact-reasons, ticket-tags, helpdesk-fields, support-reporting, data-quality]
 pairs_with:
   prompts: [classify-incoming-customer-messages, analyze-support-tickets, design-ticket-routing-rules]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [merge-conflicts, merge-commit, rebase, semantic-conflict, pull-request]
 pairs_with:
   personas: [code-reviewer]

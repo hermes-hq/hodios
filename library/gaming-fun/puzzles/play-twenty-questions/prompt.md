@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [twenty-questions, yes-no-questions, guessing-game, deduction, family-games, road-trip-games]
 pairs_with:
   prompts: [host-situation-puzzle, play-guess-the-country]

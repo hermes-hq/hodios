@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [active-learning, cooperative-learning, jigsaw, gallery-walk]
 pairs_with:
   prompts: [write-lesson-plan, generate-discussion-questions]

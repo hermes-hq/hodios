@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [online-booking, appointments, scheduling-software, deposits, cancellation-policy, salon, clinic]
 pairs_with:
   prompts: [reduce-appointment-no-shows, write-appointment-reminder-messages, plan-mobile-service-route, write-salon-client-consultation]

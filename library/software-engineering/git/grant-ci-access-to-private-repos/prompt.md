@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deploy-keys, app-tokens, submodules, private-packages, least-privilege]
 pairs_with:
   prompts: [fix-git-in-ci-pipelines, set-up-keyless-ci-deploys, respond-to-leaked-secret]

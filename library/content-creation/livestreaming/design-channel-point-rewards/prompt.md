@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [channel-points, loyalty-rewards, viewer-interaction, redemptions, community]
 pairs_with:
   prompts: [write-chat-bot-commands, grow-streaming-channel]

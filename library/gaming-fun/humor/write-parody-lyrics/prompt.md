@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [parody-song, song-lyrics, party-song, celebration, singalong, meter]
 pairs_with:
   prompts: [write-roast, write-comedy-bit]

@@ -7,6 +7,7 @@ description: Standing rules for Python an assistant writes, covering type hints,
 category: conventions
 version: 1.0.0
 status: experimental
+depth: specific
 stage: [build]
 role: [software-engineer, backend-engineer, data-engineer, ml-engineer]
 stack: [python]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [type-hints, pytest, packaging, async-io, data-validation]
 pairs_with:
   rules: [python-style-rules]

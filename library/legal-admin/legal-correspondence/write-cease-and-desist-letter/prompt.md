@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cease-and-desist, demand-letter, harassment, defamation, stop-contact, formal-notice]
 pairs_with:
   prompts: [write-neighbor-dispute-letter, respond-to-online-harassment, write-trademark-infringement-letter, find-free-legal-help]

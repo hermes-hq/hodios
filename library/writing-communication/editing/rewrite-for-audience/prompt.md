@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audience-adaptation, knowledge-transfer, explain-like-im-five, customer-facing]
 pairs_with:
   prompts: [simplify-to-plain-language, rewrite-for-tone, adapt-message-for-culture]

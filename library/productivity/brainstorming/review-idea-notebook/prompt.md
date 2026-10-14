@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [idea-backlog, incubation, personal-knowledge, creative-practice, idea-triage]
 pairs_with:
   prompts: [cluster-ideas, sort-ideas-how-now-wow, run-monthly-review]

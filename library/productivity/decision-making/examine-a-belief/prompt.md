@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [epistemics, socratic-questioning, open-mindedness, calibration]
 pairs_with:
   prompts: [steelman-opposing-view, make-calibrated-forecast]

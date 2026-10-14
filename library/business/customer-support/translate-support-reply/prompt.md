@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [multilingual-tickets, machine-translation, back-translation, glossary, register]
 pairs_with:
   prompts: [build-multilingual-reply-snippets, write-support-reply, translate-preserving-tone]

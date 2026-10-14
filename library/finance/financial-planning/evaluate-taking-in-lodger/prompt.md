@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [spare-room, rental-income, side-income, lodger-agreement, household-finances]
 pairs_with:
   prompts: [check-rights-as-lodger, write-house-share-agreement, compare-home-insurance-quotes, compare-sell-vs-rent-out-home]

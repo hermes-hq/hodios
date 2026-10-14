@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [modals, drawers, bottom-sheets, popovers, toasts, interaction-patterns]
 pairs_with:
   prompts: [define-elevation-and-layering, design-destructive-action-safeguards, critique-ui-screen, design-app-navigation]

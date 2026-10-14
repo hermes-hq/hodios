@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stage-play, playwriting-structure, interval, cast-size]
 pairs_with:
   prompts: [write-beat-sheet, write-ten-minute-play, plan-community-theatre-production]

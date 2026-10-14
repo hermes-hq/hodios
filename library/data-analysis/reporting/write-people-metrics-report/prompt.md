@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hr-metrics, attrition, headcount, absence-rate, people-analytics]
 pairs_with:
   prompts: [define-hr-metrics, analyze-workforce-data, apply-small-number-suppression, forecast-headcount]

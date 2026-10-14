@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [monorepo, git-history, build-tooling, codeowners, ci]
 pairs_with:
   personas: [devops-engineer]

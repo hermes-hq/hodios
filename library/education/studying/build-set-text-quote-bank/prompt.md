@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quotations, close-reading, closed-book-exam, gcse-english]
 pairs_with:
   prompts: [make-flashcards, create-memory-aids]

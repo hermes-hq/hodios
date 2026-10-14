@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [llm-as-judge, evals, grading-rubric, judge-bias, calibration]
 pairs_with:
   prompts: [build-prompt-test-set, write-llm-eval-suite, diagnose-prompt-failures]

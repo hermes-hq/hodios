@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [financial-model, balance-sheet, cash-flow, working-capital, balance-check]
 pairs_with:
   prompts: [build-three-year-projections, build-cash-flow-statement, audit-spreadsheet-model, run-what-if-analysis]

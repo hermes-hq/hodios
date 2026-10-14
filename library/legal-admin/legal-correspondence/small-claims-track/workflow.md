@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [small-claims, demand-letter, evidence-bundle, enforcement, settlement, self-represented]
 pairs_with:
   prompts: [write-complaint-letter, prepare-small-claims-case, practise-small-claims-hearing, complain-to-ombudsman]

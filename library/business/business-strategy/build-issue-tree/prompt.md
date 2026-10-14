@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [issue-tree, mece, hypothesis-driven, problem-structuring, workplan]
 pairs_with:
   prompts: [diagnose-growth-plateau, pick-strategy-framework, build-kpi-tree]

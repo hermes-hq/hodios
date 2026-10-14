@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [single-source, content-reuse, docs-includes, docs-maintenance]
 pairs_with:
   prompts: [audit-documentation, reorganize-docs-by-diataxis, sync-docs-with-code-change]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cost-reduction, warehouse-sizing, credits, query-history, finops]
 pairs_with:
   prompts: [reduce-cloud-spend, optimize-sql-query, write-dbt-incremental-model]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [statistics]
 tags: [apa-style, effect-size, confidence-intervals, statistical-reporting, spss-output]
 pairs_with:

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [aspnet-core, webapplicationfactory, xunit, testcontainers, integration-tests]
 pairs_with:
   prompts: [write-integration-tests, write-api-endpoint-tests]

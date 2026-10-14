@@ -13,6 +13,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: beginner
+depth: specific
 tags: [si-units, unit-conversion, measurement, number-formatting, localisation]
 pairs_with:
   rules: [british-english-rules]

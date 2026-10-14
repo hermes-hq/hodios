@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [criterion, cargo-profile, lto, allocations, flamegraph]
 pairs_with:
   prompts: [profile-hot-path, write-microbenchmark, read-flame-graph]

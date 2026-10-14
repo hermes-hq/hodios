@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reference-check, structured-interview, hiring-decision, candidate-consent]
 pairs_with:
   prompts: [run-hiring-debrief, write-offer-letter]

@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gnu-make, justfile, task-runner, developer-experience, build-automation]
 args:
   - name: tasks

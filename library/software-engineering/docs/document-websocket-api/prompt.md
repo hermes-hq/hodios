@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [websockets, server-sent-events, realtime, api-reference]
 pairs_with:
   prompts: [document-webhook-events]

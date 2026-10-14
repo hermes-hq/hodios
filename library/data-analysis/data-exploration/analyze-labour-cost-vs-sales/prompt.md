@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [labour-cost, staffing, sales-per-labour-hour, rota, scheduling]
 pairs_with:
   prompts: [build-weekly-flash-report, analyze-sales-data, analyze-store-footfall-conversion, speed-up-cafe-morning-rush]

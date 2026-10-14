@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [surat-undangan, formal-invitation, eyd, community-meeting, office-letter, indonesian]
 pairs_with:
   prompts: [write-event-invitation, write-turkish-petition]

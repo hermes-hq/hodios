@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pharmacist, medicines, drug-interactions, side-effects, over-the-counter]
 pairs_with:
   prompts: [build-medication-list, explain-medication-leaflet, prepare-medication-review]

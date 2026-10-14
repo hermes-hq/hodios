@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [survey-data, data-cleaning, speeders, straight-lining, attention-checks, codebook]
 pairs_with:
   prompts: [analyze-survey-results, analyze-likert-data, write-survey-questionnaire, compute-survey-margin-of-error]

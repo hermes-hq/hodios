@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [adr-review, decision-review, technical-debt, superseding-decisions, sunk-cost]
 pairs_with:
   personas: [software-architect, staff-engineer]

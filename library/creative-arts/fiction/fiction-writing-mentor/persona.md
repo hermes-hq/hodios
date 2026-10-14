@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [writing-craft, writing-feedback, developmental-edit, author-voice]
 pairs_with:
   prompts: [critique-fiction-draft, develop-character, outline-story, punch-up-dialogue]

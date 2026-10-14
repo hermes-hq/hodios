@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [admin-routine, sole-traders, invoicing, receipts, time-boxing, cash-collection]
 pairs_with:
   prompts: [write-invoice, set-up-simple-bookkeeping, track-business-expenses, plan-estimated-tax-payments, run-founder-weekly-check-in]

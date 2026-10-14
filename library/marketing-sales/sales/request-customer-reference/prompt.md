@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-reference, case-study, customer-advocacy, social-proof, reviews]
 pairs_with:
   prompts: [request-customer-testimonials, write-case-study, ask-clients-for-referrals]

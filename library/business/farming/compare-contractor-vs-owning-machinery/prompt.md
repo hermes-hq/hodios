@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [machinery-costs, contractor-rates, break-even-area, depreciation, timeliness, machinery-sharing]
 pairs_with:
   prompts: [compare-equipment-lease-vs-buy, calculate-break-even, plan-machinery-preseason-checks]

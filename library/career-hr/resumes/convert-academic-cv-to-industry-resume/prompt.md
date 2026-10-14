@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [leaving-academia, phd-to-industry, postdoc-transition, transferable-skills]
 pairs_with:
   prompts: [write-academic-cv, reframe-for-career-change, write-skills-section]

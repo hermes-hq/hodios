@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [working-agreement, team-conventions, merge-methods, rebasing, release-tags]
 pairs_with:
   prompts: [choose-branching-strategy, conventional-commits-rules, write-commit-message, set-up-new-repository]

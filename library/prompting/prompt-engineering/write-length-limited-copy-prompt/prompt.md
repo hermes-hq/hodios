@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [character-limits, word-count, meta-description, sms-copy, ad-copy]
 pairs_with:
   prompts: [cut-text-to-length-limit, write-headline-variations, write-spreadsheet-ai-prompts]

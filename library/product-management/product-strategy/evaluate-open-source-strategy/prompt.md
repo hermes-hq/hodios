@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 advice_risk: [legal]
 tags: [open-source-project, open-core, licensing-models, community, business-model]
 pairs_with:

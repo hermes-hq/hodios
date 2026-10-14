@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [vendor-pitch, sales-outreach-reply, not-interested, buyer-questions, unsubscribe-request]
 pairs_with:
   prompts: [decline-request-gracefully, compare-vendors, reject-vendor-proposal]

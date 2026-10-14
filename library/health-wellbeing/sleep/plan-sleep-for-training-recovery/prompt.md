@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [athletes, recovery, training-load, evening-exercise, competition-nerves]
 pairs_with:
   prompts: [plan-sports-nutrition, plan-power-naps, plan-sleep-before-big-day]

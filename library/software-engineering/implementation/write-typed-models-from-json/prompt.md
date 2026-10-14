@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [json, zod, pydantic, codable, runtime-validation, api-client]
 args:
   - name: samples

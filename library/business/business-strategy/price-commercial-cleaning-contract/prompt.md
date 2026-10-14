@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cleaning-business, bid-pricing, production-rates, labour-costing, tender, contract-pricing]
 pairs_with:
   prompts: [build-commercial-cleaning-rota, price-services, assess-big-contract-risk]

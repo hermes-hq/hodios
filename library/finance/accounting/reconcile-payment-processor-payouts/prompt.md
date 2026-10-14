@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [clearing-account, merchant-fees, chargebacks, online-sales]
 pairs_with:
   prompts: [reconcile-bank-account, prepare-month-end-close, set-up-chart-of-accounts]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [couples, romantic-gestures, appreciation, connection, small-habits]
 pairs_with:
   prompts: [plan-date-night, plan-relationship-check-in, choose-meaningful-gift]

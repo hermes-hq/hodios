@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [owner-pay, founder-salary, drawings, cash-reserve, tax-set-aside]
 pairs_with:
   prompts: [record-owner-drawings-and-capital, forecast-cash-flow, build-small-business-budget, decide-when-to-go-full-time]

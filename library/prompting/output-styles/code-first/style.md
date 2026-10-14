@@ -12,6 +12,7 @@ requires: [none]
 output: [code, explanation]
 risk: read-only
 level: intermediate
+depth: specific
 role: [software-engineer, data-scientist, devops-engineer, student]
 tags: [code-examples, show-dont-tell, minimal-prose, developer-answers]
 pairs_with:

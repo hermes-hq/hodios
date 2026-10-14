@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [poem-endings, closure, close-reading, redrafting]
 pairs_with:
   prompts: [critique-poem, workshop-poem-revision, title-poem]

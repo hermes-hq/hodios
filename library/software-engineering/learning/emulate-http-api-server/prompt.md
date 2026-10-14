@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rest-api, http-status-codes, curl, simulator, practice-sandbox]
 args:
   - name: api_theme

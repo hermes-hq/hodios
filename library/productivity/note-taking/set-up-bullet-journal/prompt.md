@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bullet-journal, paper-planner, rapid-logging, analog-planning, task-migration]
 pairs_with:
   prompts: [set-up-task-system, design-habit-plan, run-weekly-review]

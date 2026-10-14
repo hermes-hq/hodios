@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [beta-program, early-access, exit-criteria, customer-feedback-loop]
 pairs_with:
   prompts: [analyze-user-feedback, plan-product-launch, define-mvp-scope]

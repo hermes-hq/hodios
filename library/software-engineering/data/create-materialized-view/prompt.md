@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [materialized-views, summary-tables, precomputed-aggregates, refresh-strategy, dashboard-performance]
 pairs_with:
   prompts: [optimize-sql-query, design-cqrs-read-models, plan-caching-strategy]

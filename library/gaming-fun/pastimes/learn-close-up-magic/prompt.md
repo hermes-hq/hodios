@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [magic, close-up-magic, card-tricks, coin-magic, sleight-of-hand, patter]
 args:
   - name: experience

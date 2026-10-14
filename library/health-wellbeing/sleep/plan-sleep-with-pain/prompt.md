@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [chronic-pain, sleep-position, pillows, pain-flare, pacing]
 pairs_with:
   prompts: [audit-bedroom-for-sleep, plan-middle-of-night-waking, improve-sleep-habits]

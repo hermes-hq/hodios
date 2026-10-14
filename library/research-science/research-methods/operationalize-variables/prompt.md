@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [operational-definitions, constructs, measurement, levels-of-measurement, codebook, quantitative-research]
 pairs_with:
   prompts: [write-testable-hypotheses, find-validated-scale, write-survey-questionnaire, design-research-study]

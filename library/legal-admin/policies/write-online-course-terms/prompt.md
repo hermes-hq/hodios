@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [online-courses, digital-products, course-licence, refund-terms, payment-plans, digital-downloads]
 pairs_with:
   prompts: [plan-paid-online-course, write-refund-policy, write-acceptable-use-policy, write-privacy-policy]

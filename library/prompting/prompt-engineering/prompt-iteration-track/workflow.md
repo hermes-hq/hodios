@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [evals, prompt-design, regression-check, iteration, golden-set]
 pairs_with:
   prompts: [build-prompt-test-set, write-judge-prompt, diagnose-prompt-failures, improve-prompt]

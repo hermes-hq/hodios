@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [resolvers, nullability, dataloader, api-errors, partial-responses]
 pairs_with:
   prompts: [debug-network-request, design-api-contract]

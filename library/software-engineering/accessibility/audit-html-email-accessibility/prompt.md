@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [html-email, layout-tables, dark-mode, images-off, screen-reader]
 pairs_with:
   personas: [accessibility-specialist]

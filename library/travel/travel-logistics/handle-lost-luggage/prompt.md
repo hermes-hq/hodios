@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lost-luggage, delayed-baggage, damaged-bag, airline-claim, passenger-rights]
 pairs_with:
   prompts: [handle-travel-disruption, choose-travel-insurance, write-complaint-letter, prepare-small-claims-case]

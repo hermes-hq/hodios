@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [remarketing, audience-windows, frequency-caps, abandoned-cart, cross-sell, objection-handling]
 pairs_with:
   prompts: [define-ad-audiences, plan-dynamic-product-ads, write-display-banner-set, write-social-ad-variations]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [irrigation, drip-irrigation, watering-schedule, water-saving, rainwater-harvesting]
 pairs_with:
   prompts: [cut-household-water-use, build-raised-bed-plan, plan-lawn-care]

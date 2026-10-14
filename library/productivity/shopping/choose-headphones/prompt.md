@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [headphones, earbuds, noise-cancelling, hearing-safety, battery-life]
 pairs_with:
   prompts: [time-a-purchase, summarize-reviews-before-buying, decode-product-claims, compare-purchase-options]

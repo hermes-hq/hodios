@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [renovation, cost-estimate, contingency, kitchen-remodel, bathroom-remodel, phasing]
 pairs_with:
   prompts: [hire-contractor, plan-diy-project]

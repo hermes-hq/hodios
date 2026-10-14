@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [all-staff-message, leadership-communication, year-in-review, staff-thanks, internal-communications]
 pairs_with:
   prompts: [write-internal-announcement, write-recognition-message, write-annual-report-letter]

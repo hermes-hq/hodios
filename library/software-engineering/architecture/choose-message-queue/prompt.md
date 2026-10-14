@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [message-broker, event-streaming, queues, rabbitmq, sqs]
 pairs_with:
   personas: [software-architect]

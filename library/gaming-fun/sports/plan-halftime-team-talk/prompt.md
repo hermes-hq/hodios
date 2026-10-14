@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [team-talk, halftime, in-game-coaching, adjustments, amateur-coach, motivation]
 pairs_with:
   prompts: [scout-opponent, run-match-debrief, choose-team-formation]

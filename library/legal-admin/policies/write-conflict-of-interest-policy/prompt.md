@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conflict-of-interest, board-governance, related-party-transactions, declarations, register-of-interests]
 pairs_with:
   prompts: [write-whistleblowing-policy, build-compliance-checklist]

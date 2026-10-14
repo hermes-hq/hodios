@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [food-labels, ingredients, additives, allergens, added-sugar]
 pairs_with:
   prompts: [analyze-diet-log, plan-nutrition-targets]

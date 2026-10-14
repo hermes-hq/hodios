@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rules-teach, board-games, game-night, rules-summary]
 pairs_with:
   prompts: [design-board-game, host-trivia-night]

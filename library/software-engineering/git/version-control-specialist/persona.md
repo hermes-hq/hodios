@@ -7,6 +7,7 @@ description: Git expert for any version-control problem, history surgery or team
 category: git
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [build, maintain, learn]
 role: [software-engineer, devops-engineer, tech-lead, maintainer]
 stack: [git]

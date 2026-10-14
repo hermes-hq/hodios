@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [consumer-rights, subscriptions, auto-renewal, arbitration]
 pairs_with:
   prompts: [explain-contract-clause, request-my-personal-data, write-complaint-letter]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-patterns, over-engineering, clean-code, trade-offs]
 pairs_with:
   personas: [software-architect, code-reviewer]

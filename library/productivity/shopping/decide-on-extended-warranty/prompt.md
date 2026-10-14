@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [extended-warranty, product-insurance, consumer-rights, expected-value, small-print]
 pairs_with:
   prompts: [choose-home-appliance, compare-purchase-options, decode-product-claims]

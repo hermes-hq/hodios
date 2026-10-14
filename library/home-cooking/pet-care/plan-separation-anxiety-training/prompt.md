@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [separation-anxiety, dog-training, home-alone, dog-behaviour, desensitisation]
 pairs_with:
   prompts: [train-dog-behavior, prepare-vet-visit, plan-pet-enrichment]

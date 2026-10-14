@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fund-comparison, etfs, factsheets, tracking-difference]
 pairs_with:
   prompts: [explain-fund-document, calculate-fee-drag, check-portfolio-diversification, explain-investment-concept]

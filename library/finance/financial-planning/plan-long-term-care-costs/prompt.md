@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [long-term-care, ageing-parents, care-home-fees, assisted-living, means-testing]
 pairs_with:
   prompts: [manage-parent-finances, plan-supporting-family-financially, plan-retirement-drawdown]

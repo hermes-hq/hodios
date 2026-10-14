@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fitness-test, police-fitness, military-fitness, bleep-test, entry-test, test-day]
 pairs_with:
   prompts: [assess-fitness-baseline, build-training-plan, design-warm-up]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [side-effects, medicines, adverse-reactions, pharmacist, symptom-tracking]
 pairs_with:
   prompts: [set-up-medication-routine, explore-flare-triggers, coordinate-care-across-specialists]

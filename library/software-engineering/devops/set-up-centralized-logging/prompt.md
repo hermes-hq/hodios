@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [logging, log-shipping, fluent-bit, loki, retention]
 pairs_with:
   prompts: [instrument-service-observability, reduce-observability-costs, write-observability-queries]

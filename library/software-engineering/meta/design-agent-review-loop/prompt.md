@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [coding-agents, multi-agent, agent-review, iteration-limits]
 pairs_with:
   prompts: [define-specialist-subagent, write-subagent-brief, write-ai-reviewer-instructions, verify-agent-completion-claims]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tv-pitch, series-engine, show-bible, season-arc, pilot]
 pairs_with:
   prompts: [write-logline-and-synopsis, write-beat-sheet, format-screenplay-scene]

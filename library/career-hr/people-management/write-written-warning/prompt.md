@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [disciplinary, written-warning, misconduct, conduct-policy, record-keeping]
 pairs_with:
   prompts: [conduct-workplace-investigation, write-performance-improvement-plan, address-underperformance-early]

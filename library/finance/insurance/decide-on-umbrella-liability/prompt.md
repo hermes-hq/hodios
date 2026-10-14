@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [umbrella-policy, personal-liability, liability-limits, excess-liability, asset-protection]
 pairs_with:
   prompts: [review-insurance-coverage, respond-to-liability-claim, compare-car-insurance]

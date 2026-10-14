@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [user-onboarding, activation, progressive-disclosure, first-run]
 pairs_with:
   prompts: [write-ux-microcopy, create-wireframe-spec, build-user-journey-map]

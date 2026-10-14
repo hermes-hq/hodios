@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [client-management, agency, status-meeting, scope-creep]
 pairs_with:
   prompts: [write-client-check-in-email, prepare-business-review, write-meeting-recap-email]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pet-euthanasia, pet-loss, pet-grief, palliative-care, quality-of-life]
 pairs_with:
   prompts: [care-for-senior-pet, prepare-vet-visit]

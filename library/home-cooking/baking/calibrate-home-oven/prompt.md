@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [oven-temperature, oven-thermometer, hot-spots, fan-oven, baking-accuracy]
 pairs_with:
   prompts: [tune-cookie-texture, plan-macaron-bake, adjust-recipe-for-altitude]

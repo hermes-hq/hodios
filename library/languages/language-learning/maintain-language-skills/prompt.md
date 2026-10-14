@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [language-attrition, maintenance-plan, habit-stacking, immersion-at-home, self-assessment]
 pairs_with:
   prompts: [plan-learning-with-tv-shows, run-language-journal, plan-heritage-language-learning]

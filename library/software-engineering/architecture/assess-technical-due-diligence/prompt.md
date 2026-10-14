@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [technical-due-diligence, risk-assessment, open-source-licenses, security-posture, acquisition, investment]
 pairs_with:
   personas: [software-architect, staff-engineer]

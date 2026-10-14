@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tech-support-scam, remote-access, fraud-response, bank-fraud, malware-cleanup]
 pairs_with:
   prompts: [check-suspicious-message, recover-hacked-account, claim-scam-reimbursement-from-bank, protect-relative-from-scams]

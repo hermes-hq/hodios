@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [webinar, polls, live-demo, run-of-show, call-to-action]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, prepare-for-tough-questions, moderate-panel]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [nonprofit]
 tags: [succession-planning, founder-transition, key-person-risk, chief-executive, governance]
 pairs_with:

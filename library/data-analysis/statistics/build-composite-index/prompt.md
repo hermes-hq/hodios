@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [composite-indicator, index-construction, normalisation, sensitivity-analysis]
 pairs_with:
   prompts: [build-kpi-tree, run-monte-carlo-simulation, define-metric]

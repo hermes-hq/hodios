@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [file-recovery, version-history, autorecover, corrupted-file, data-loss]
 pairs_with:
   prompts: [speed-up-slow-workbook, explain-inherited-spreadsheet]

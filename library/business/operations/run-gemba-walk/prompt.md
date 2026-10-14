@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gemba-walk, lean, go-and-see, frontline, waste-reduction, continuous-improvement]
 pairs_with:
   prompts: [plan-kaizen-event, run-five-whys, map-business-process, run-5s-organisation]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [biff, high-conflict, co-parenting, hostile-messages, de-escalation]
 pairs_with:
   prompts: [reply-to-tricky-message, respond-to-angry-email, set-boundary]

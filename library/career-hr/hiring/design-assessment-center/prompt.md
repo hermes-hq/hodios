@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [assessment-centre, graduate-recruitment, group-exercise, role-play-exercise, competency-matrix, wash-up]
 pairs_with:
   prompts: [design-interview-loop, train-interviewers, run-hiring-debrief]

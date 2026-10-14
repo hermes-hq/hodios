@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 advice_risk: [mental-health]
 tags: [deschooling, leaving-school, decompression, school-anxiety, transition, low-pressure-learning]
 pairs_with:

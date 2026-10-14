@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-survey, response-rate, survey-incentives, research-recruiting]
 pairs_with:
   prompts: [write-csat-survey, design-newsletter-reader-survey, write-email-subject-lines]

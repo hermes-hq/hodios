@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 advice_risk: [mental-health]
 tags: [gaming-balance, habit-change, sleep-and-gaming, self-reflection, digital-wellbeing]
 pairs_with:

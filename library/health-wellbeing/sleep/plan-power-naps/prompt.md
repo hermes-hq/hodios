@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [napping, sleep-inertia, caffeine-nap, afternoon-dip, daytime-sleepiness]
 pairs_with:
   prompts: [plan-shift-work-sleep, plan-on-call-sleep]

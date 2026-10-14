@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [facilitator-guide, train-the-trainer, instructor-notes, workshop-delivery, learning-and-development]
 pairs_with:
   prompts: [design-workshop, design-course-outline, evaluate-training-effectiveness]

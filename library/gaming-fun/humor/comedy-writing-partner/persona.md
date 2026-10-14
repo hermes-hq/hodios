@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [writers-room, joke-writing, tags, punch-up, comedy-feedback]
 pairs_with:
   prompts: [write-comedy-bit, write-one-liners, fix-joke-that-fell-flat]

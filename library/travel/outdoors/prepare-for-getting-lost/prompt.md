@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lost-on-trail, benighted, navigation, search-and-rescue, emergency-shelter, mountain-safety]
 pairs_with:
   prompts: [write-trip-intentions-plan, practise-map-skills, set-turnaround-time]

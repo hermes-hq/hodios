@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-quality, data-observability, alerting, data-tests]
 pairs_with:
   prompts: [write-dbt-model, design-data-pipeline, write-data-dictionary]

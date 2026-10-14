@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interpreting, assignment-prep, glossary, client-briefing]
 pairs_with:
   prompts: [build-translation-glossary, practise-consecutive-note-taking, drill-medical-terms-for-interpreters]

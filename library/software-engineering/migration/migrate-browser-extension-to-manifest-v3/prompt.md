@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [browser-extensions, manifest-v3, service-workers, chrome-web-store]
 pairs_with:
   prompts: [build-browser-extension, upgrade-major-dependency]

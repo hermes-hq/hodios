@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [beneficiary-designation, death-in-service, policy-in-trust, expression-of-wish, estate-planning]
 pairs_with:
   prompts: [calculate-life-cover-need, check-insurance-after-life-change, review-insurance-coverage]

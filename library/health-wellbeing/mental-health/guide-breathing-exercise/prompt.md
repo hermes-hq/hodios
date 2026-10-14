@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [breathing-exercise, grounding, anxiety, calm, panic]
 pairs_with:
   prompts: [build-coping-plan, practice-self-compassion]

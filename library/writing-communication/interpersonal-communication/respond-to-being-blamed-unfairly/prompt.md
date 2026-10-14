@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [blame, workplace, facts-not-feelings, record-keeping, self-advocacy]
 pairs_with:
   prompts: [respond-to-criticism, handle-credit-taking-colleague, handle-difficult-manager]

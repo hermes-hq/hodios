@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [enrolment, cohort-survival, pupil-projections, school-places]
 pairs_with:
   prompts: [forecast-time-series, present-forecast-uncertainty, review-forecast-assumptions]

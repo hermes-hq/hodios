@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [observation, state-ownership, view-identity, property-wrappers]
 pairs_with:
   prompts: [debug-mobile-crash]

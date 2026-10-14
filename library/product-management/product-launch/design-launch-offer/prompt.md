@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [introductory-offer, founding-price, discount-strategy, offer-terms, price-anchoring]
 pairs_with:
   prompts: [design-pricing, plan-promotional-offer, plan-product-launch, plan-price-change-communication, write-launch-announcement]

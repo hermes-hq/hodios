@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [component-api, compound-components, component-variants, design-system-components]
 pairs_with:
   prompts: [consolidate-duplicate-ui-components, split-react-component]

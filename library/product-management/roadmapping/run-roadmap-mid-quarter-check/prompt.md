@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [status-check, at-risk-items, rag-status, course-correction, quarterly-plan]
 pairs_with:
   prompts: [run-quarterly-planning, set-roadmap-change-rules, write-roadmap-update, forecast-roadmap-dates-with-ranges]

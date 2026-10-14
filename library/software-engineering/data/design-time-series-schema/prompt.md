@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [time-series, iot, downsampling, retention, cardinality, late-data]
 pairs_with:
   prompts: [plan-table-partitioning, design-database-schema, choose-database-for-workload]

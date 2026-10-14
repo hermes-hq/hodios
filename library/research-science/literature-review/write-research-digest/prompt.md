@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [current-awareness, journal-watch, lab-newsletter, papers]
 pairs_with:
   prompts: [set-up-literature-alerts, summarize-paper, prioritize-reading-list]

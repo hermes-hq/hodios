@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [action-scene, fight-choreography, chase, screen-direction]
 pairs_with:
   prompts: [plan-generated-scene-coverage, fix-video-generation-drift, write-slow-motion-shot-prompt]

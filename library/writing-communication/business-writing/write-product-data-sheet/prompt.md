@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-sheet, product-specifications, technical-documentation, b2b, ordering-codes]
 pairs_with:
   prompts: [write-brochure-copy, write-user-manual]

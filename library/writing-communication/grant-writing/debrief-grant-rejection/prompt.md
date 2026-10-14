@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grant-rejection, reviewer-feedback, resubmission-decision, funder-feedback, lessons-learned]
 pairs_with:
   prompts: [write-grant-resubmission-response, adapt-proposal-for-new-funder, review-grant-proposal]

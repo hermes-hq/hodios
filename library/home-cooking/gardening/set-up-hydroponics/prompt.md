@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hydroponics, indoor-growing, grow-lights, microgreens, nutrient-solution]
 pairs_with:
   prompts: [plan-seed-starting, plan-container-garden, diagnose-plant-problem]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [google-ads, paid-search, responsive-search-ads, negative-keywords]
 pairs_with:
   prompts: [analyze-ad-performance, write-headline-variations, write-landing-page-copy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regex, input-validation, redos, pull-request]
 pairs_with:
   personas: [code-reviewer]

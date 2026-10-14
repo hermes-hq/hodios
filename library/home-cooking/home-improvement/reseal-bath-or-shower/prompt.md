@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [silicone, bathroom-sealant, shower-leak, mouldy-sealant, caulking, bathroom-repair]
 pairs_with:
   prompts: [diagnose-home-problem, deep-clean-bathroom, reduce-damp-and-mould]

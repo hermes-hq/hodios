@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [autoscaling, hpa, keda, cluster-autoscaler, resource-requests, capacity]
 pairs_with:
   personas: [devops-engineer, site-reliability-engineer]

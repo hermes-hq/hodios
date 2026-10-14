@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [senior-pet, older-dog, older-cat, pet-arthritis, quality-of-life]
 pairs_with:
   prompts: [prepare-vet-visit, prepare-for-pet-end-of-life, compare-pet-food-options]

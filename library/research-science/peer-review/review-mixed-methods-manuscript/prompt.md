@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mixed-methods, integration, joint-displays, meta-inferences, manuscript]
 pairs_with:
   prompts: [review-qualitative-manuscript, review-statistical-methods, write-peer-review]

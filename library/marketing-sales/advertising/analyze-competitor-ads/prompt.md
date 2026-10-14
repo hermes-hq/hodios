@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitor-research, ad-library, creative-angles, offer-analysis, positioning-gaps]
 pairs_with:
   prompts: [analyze-competitors, plan-ad-creative-tests, write-ad-creative-brief, write-social-ad-variations]

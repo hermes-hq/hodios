@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cloudwatch, alarms, sns, metric-filters, infrastructure-as-code]
 pairs_with:
   prompts: [design-alerting-rules, design-service-dashboard, write-cloudformation-template]

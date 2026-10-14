@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [game-economy, sources-and-sinks, progression-pacing, monetization, balancing, live-ops]
 pairs_with:
   prompts: [design-game-mechanic, write-game-design-document]

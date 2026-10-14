@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [education-sector]
 tags: [provision-mapping, senco, intervention-review, tiered-support, school-budget]
 pairs_with:

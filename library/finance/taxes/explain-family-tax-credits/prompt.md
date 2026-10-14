@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [child-tax-credit, childcare-costs, dependants, household-tax]
 pairs_with:
   prompts: [organize-tax-documents, plan-parental-leave-finances, check-tax-withholding]

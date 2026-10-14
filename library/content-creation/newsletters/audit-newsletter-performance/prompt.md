@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [email-metrics, open-rate, click-rate, unsubscribes, list-hygiene, deliverability]
 pairs_with:
   prompts: [grow-newsletter, plan-newsletter-format, write-newsletter-issue]

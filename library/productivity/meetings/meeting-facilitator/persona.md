@@ -15,6 +15,7 @@ risk: read-only
 interaction: interactive
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [facilitation, decision-rules, timeboxing, inclusive-meetings, action-items]
 pairs_with:
   prompts: [write-meeting-agenda, run-retrospective, summarize-meeting-transcript, reduce-meeting-load, facilitate-group-brainstorm]

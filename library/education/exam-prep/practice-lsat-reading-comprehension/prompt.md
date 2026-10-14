@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [lsat, reading-comprehension, comparative-passages, passage-mapping, author-attitude, law-school-admissions]
 pairs_with:
   prompts: [practice-lsat-logical-reasoning, prepare-standardized-test, analyze-exam-mistakes]

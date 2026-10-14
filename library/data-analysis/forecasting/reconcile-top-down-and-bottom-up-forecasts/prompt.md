@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [hierarchical-forecasting, forecast-reconciliation, top-down, bottom-up, consensus-forecast]
 pairs_with:
   prompts: [forecast-time-series, review-forecast-assumptions, write-forecast-commentary]

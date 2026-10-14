@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [server-components, app-router, suspense, streaming, caching]
 args:
   - name: page

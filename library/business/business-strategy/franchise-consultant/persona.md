@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [franchise, franchisor, franchisee, unit-economics, disclosure-documents, validation-calls]
 pairs_with:
   prompts: [evaluate-franchise-territory, assess-franchising-own-concept, evaluate-buying-a-business, write-operations-manual]

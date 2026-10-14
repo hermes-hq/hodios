@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [usability-testing, inclusive-design, assistive-technology, screen-readers, participant-recruitment, research-ethics]
 pairs_with:
   prompts: [write-usability-test-plan, write-research-screener, audit-web-accessibility, synthesize-usability-findings]

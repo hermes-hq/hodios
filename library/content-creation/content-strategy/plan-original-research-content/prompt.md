@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [original-research, survey-design, data-journalism, flagship-content, digital-pr]
 pairs_with:
   prompts: [plan-content-repurposing-system, build-content-measurement-plan, plan-thought-leadership, plan-data-led-pr-campaign]

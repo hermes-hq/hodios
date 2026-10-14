@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [stretching, mobility, flexibility, desk-workers, voice-friendly, cool-down]
 pairs_with:
   prompts: [design-mobility-routine, design-workday-movement-breaks, design-yoga-sequence]

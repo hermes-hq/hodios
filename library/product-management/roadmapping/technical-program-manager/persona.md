@@ -17,6 +17,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [program-management, dependency-mapping, risk-management, status-reporting, decision-log]
 pairs_with:
   prompts: [map-cross-team-dependencies, run-quarterly-planning, plan-release, plan-stakeholder-alignment, write-roadmap-update]

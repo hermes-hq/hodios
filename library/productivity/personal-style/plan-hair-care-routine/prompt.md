@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hair-care, curly-hair, wash-routine, heat-styling, protective-styles, scalp-care]
 pairs_with:
   prompts: [choose-haircut, build-skincare-routine, plan-hair-colour-change]

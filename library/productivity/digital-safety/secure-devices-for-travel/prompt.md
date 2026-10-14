@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [travel-security, public-wifi, border-device-search, lost-phone, two-factor]
 pairs_with:
   prompts: [set-up-backups, secure-personal-accounts]

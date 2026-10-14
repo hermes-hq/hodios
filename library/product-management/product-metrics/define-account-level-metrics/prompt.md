@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [b2b-products, account-metrics, seat-utilisation, breadth-of-use, champion-risk, user-to-account-rollup]
 pairs_with:
   prompts: [define-engagement-metric, design-customer-health-score, analyze-net-revenue-retention, define-product-qualified-lead]

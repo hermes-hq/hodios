@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [heterogeneous-effects, segment-analysis, interaction-test, p-hacking, a-b-testing, subgroup-analysis]
 pairs_with:
   prompts: [correct-for-multiple-comparisons, analyze-ab-test-results, write-experiment-readout, design-ab-test]

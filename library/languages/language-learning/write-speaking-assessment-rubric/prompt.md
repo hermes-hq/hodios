@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cefr, speaking-test, rubric-bands, marker-reliability, comment-bank, oral-assessment]
 pairs_with:
   personas: [language-assessment-specialist]

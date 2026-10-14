@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [post-renovation, construction-dust, deep-clean, new-finishes]
 pairs_with:
   prompts: [clean-by-surface-material, reduce-dust-and-allergens]

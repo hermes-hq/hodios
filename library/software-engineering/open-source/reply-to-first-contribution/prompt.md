@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [first-time-contributor, newcomers, contributor-experience, pull-request]
 pairs_with:
   prompts: [write-good-first-issues, audit-contributor-funnel, review-pull-request]

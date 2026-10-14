@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-switching, calques, loanwords, bilingualism, heritage-speakers, language-contact]
 pairs_with:
   prompts: [expand-heritage-register, list-false-friends, compare-native-and-target-language, correct-my-sentences]

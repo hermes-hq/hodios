@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [manager-of-managers, first-time-managers, coaching-plan, leadership-development, checkpoints]
 pairs_with:
   prompts: [run-skip-level-meetings, coach-with-grow-model, plan-transition-to-manager]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [formal-analysis, visual-analysis, iconography, close-looking, composition, art-criticism]
 pairs_with:
   prompts: [plan-essay-argument, analyze-film-scene-for-coursework]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [trips-home, house-guests, family-expectations, annual-leave, moving-abroad]
 pairs_with:
   prompts: [plan-long-distance-connection, plan-holiday-visits-between-families, handle-homesickness]

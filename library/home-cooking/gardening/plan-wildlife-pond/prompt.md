@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wildlife-pond, garden-wildlife, amphibians, native-plants, pond-liner, water-safety]
 pairs_with:
   prompts: [plan-pollinator-garden, design-garden-border, plan-wildflower-meadow, control-garden-pests]

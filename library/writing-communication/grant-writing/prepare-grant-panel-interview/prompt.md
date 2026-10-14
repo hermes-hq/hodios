@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [panel-interview, funding-pitch, mock-panel, assessment-criteria, rehearsal]
 pairs_with:
   prompts: [review-grant-proposal, prepare-funder-site-visit]

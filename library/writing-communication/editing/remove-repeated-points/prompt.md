@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repetition, redundancy, long-documents, consolidation, reports]
 pairs_with:
   prompts: [edit-for-structure, tighten-prose, check-summary-matches-document]

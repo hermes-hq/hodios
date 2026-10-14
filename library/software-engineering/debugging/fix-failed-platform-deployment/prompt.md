@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [paas, build-logs, environment-variables, hosting, works-locally]
 pairs_with:
   prompts: [debug-production-only-bug, fix-module-import-error]

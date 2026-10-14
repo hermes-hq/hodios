@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [furniture-restoration, refinishing, wood-finishing, lead-paint, upcycling, antiques]
 pairs_with:
   prompts: [plan-woodworking-project]

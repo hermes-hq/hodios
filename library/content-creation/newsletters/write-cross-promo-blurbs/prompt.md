@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [newsletter-swap, recommendations, cross-promotion, partner-outreach, audience-growth]
 pairs_with:
   prompts: [grow-newsletter, write-newsletter-sponsor-spot]

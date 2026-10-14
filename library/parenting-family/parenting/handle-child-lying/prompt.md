@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lying, honesty, child-behaviour, trust, consequences, parent-scripts]
 pairs_with:
   prompts: [plan-behavior-approach, rehearse-parenting-moment, write-family-agreement-with-teen]

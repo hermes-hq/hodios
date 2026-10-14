@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [docketing, court-deadlines, time-computation, scheduling-order, calendaring]
 pairs_with:
   prompts: [extract-deadlines, draft-discovery-requests, write-client-status-update]

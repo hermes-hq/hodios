@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [issue-tree, hypothesis-driven, pyramid-principle, mece]
 pairs_with:
   prompts: [run-swot-analysis, estimate-market-size, analyze-business-model, set-okrs, design-pricing]

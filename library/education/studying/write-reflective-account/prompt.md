@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reflective-practice, gibbs-cycle, placement, nursing, teacher-training, anonymisation]
 pairs_with:
   prompts: [understand-assignment-brief]

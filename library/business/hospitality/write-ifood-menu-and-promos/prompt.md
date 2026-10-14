@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [delivery-app, menu-writing, combos, food-copy, brazil]
 pairs_with:
   prompts: [write-menu-descriptions, write-whatsapp-business-service-scripts]

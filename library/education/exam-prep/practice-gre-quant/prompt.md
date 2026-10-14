@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gre, quantitative-comparison, numeric-entry, picking-numbers, estimation, pacing]
 pairs_with:
   prompts: [practice-gre-verbal, prepare-standardized-test, analyze-exam-mistakes]

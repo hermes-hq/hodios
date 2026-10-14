@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [idempotency, reruns, partition-overwrite, merge-upsert, duplicates]
 pairs_with:
   prompts: [design-data-pipeline, debug-failed-pipeline-run, data-backfill-track]

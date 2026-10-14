@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [documentary, historical-reconstruction, archival-ethics, period-detail]
 pairs_with:
   prompts: [write-documentary-outline, write-b-roll-prompts, convert-article-to-video-scenes]

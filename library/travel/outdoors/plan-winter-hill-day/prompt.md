@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [winter-walking, crampons, ice-axe, avalanche-awareness, short-daylight, hypothermia]
 pairs_with:
   prompts: [read-mountain-weather-forecast, set-turnaround-time, write-trip-intentions-plan]

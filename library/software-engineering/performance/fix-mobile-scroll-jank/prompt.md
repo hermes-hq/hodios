@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scroll-performance, frame-drops, recycling, image-decoding, jank]
 pairs_with:
   prompts: [speed-up-app-cold-start, reduce-mobile-battery-drain, hit-game-frame-budget]

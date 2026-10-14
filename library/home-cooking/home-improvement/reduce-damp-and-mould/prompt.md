@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mould, condensation, damp, ventilation, humidity, renters]
 pairs_with:
   prompts: [diagnose-home-problem, plan-energy-efficiency-upgrades, plan-cleaning-schedule]

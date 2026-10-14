@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [double-opt-in, warm-introduction, networking, connector]
 pairs_with:
   prompts: [write-professional-email, write-follow-up-email, write-thank-you-note]

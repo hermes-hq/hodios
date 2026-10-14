@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [summer-holidays, school-holidays, summer-camps, childcare, family-budget, screen-time]
 pairs_with:
   prompts: [plan-rainy-day-activities, coordinate-family-calendar, set-screen-time-plan, create-kids-craft]

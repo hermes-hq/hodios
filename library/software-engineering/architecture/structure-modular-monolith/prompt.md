@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [modular-monolith, module-boundaries, bounded-contexts, dependency-rules, data-ownership]
 pairs_with:
   prompts: [decide-microservices-or-monolith, find-service-boundaries, write-architecture-fitness-functions, fix-layering-violations, split-shared-database]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vue-3, composition-api, reactivity, pinia]
 pairs_with:
   prompts: [fix-hydration-mismatch]

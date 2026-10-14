@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lawn-mower, garden-tools, robot-mower, battery-tools, garden-safety]
 pairs_with:
   prompts: [plan-lawn-care, choose-cordless-tool-system, time-a-purchase, buy-secondhand-safely]

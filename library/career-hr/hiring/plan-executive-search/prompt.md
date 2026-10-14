@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [executive-hiring, leadership-hiring, search-firm, board-involvement, senior-hire]
 pairs_with:
   prompts: [brief-recruitment-agency, run-reference-check, run-hiring-debrief, plan-offer-call]

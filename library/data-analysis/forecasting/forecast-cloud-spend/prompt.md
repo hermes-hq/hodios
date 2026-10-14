@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [finops, cloud-costs, commitments, budget-alerts, usage-drivers]
 pairs_with:
   prompts: [estimate-cloud-costs, reduce-cloud-spend, explain-cloud-bill-to-finance, set-up-cloud-cost-allocation]

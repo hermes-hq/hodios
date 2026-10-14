@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [log-redaction, sensitive-data, structured-logging, error-tracking, pii]
 pairs_with:
   prompts: [review-diff-for-personal-data, respond-to-leaked-secret, find-secrets-exposed-to-client]

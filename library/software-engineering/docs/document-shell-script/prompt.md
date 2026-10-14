@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [usage-header, help-text, exit-codes, ops-scripts, runbook-ready]
 pairs_with:
   prompts: [write-shell-script, write-cli-reference, write-runbook]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [copy-into, snowpipe, external-stage, file-format, load-audit]
 pairs_with:
   prompts: [bulk-load-data-into-database, design-data-pipeline, reduce-snowflake-costs]

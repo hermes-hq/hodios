@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [decision-journal, behavioural-finance, investor-biases, pre-mortem]
 pairs_with:
   prompts: [write-investment-policy-statement, evaluate-stock-tip, make-sense-of-market-drop, calculate-investment-returns]

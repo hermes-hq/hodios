@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [replanning, commitment-inventory, stop-list, overcommitment, stakeholder-communication]
 pairs_with:
   prompts: [critique-roadmap, audit-customer-commitments, allocate-capacity-across-departments, write-roadmap-update, build-outcome-roadmap]

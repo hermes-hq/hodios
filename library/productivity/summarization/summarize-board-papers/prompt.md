@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [board-pack, governance, trustees, committee-papers, meeting-prep]
 pairs_with:
   prompts: [extract-key-numbers, extract-open-questions, summarize-slide-deck]

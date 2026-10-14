@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [early-retirement, bridge-years, withdrawal-order, cash-buffer, retirement-income]
 pairs_with:
   prompts: [plan-financial-independence, plan-retirement-drawdown, compare-state-pension-claiming-ages, prepare-retirement-countdown-checklist]

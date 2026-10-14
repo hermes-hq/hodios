@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [fpga, verilog, systemverilog, vhdl, timing-closure, clock-domain-crossing]
 pairs_with:
   personas: [embedded-engineer]

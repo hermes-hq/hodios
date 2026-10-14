@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [worship-livestream, community-broadcast, volunteer-tech, filming-consent, streaming-licence]
 pairs_with:
   prompts: [plan-livestream-run-of-show, set-up-stream-audio-chain, choose-stream-music-safely]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reasonable-adjustments, accommodation-request, disability-at-work, inclusive-management, confidentiality]
 pairs_with:
   prompts: [request-workplace-accommodation, plan-one-on-one, plan-return-from-leave]

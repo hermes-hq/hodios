@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [print-marketing, brochure, flyer, direct-mail, local-business, leaflet-drop, door-hanger]
 pairs_with:
   prompts: [write-headline-variations, critique-marketing-copy, write-landing-page-copy, write-direct-mail-letter, canvass-neighbours-after-job]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [virtual-event, online-summit, webinar, time-zones, online-engagement, captions]
 pairs_with:
   prompts: [plan-hybrid-event, write-webinar-script, prepare-virtual-presentation, write-event-email-sequence]

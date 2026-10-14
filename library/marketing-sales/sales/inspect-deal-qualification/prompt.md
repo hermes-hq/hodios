@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [meddicc, deal-review, deal-inspection, forecast-accuracy, enterprise-sales, b2b-sales]
 pairs_with:
   prompts: [review-sales-pipeline, multithread-open-deal, write-mutual-action-plan, summarize-sales-call]

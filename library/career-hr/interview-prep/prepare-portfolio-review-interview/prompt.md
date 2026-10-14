@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [portfolio-presentation, design-critique, case-study-walkthrough, design-hiring]
 pairs_with:
   prompts: [write-portfolio-case-study, prepare-interview-presentation, debrief-interview]

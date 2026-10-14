@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dataview, dql, queries, frontmatter, inline-fields, task-lists]
 pairs_with:
   prompts: [set-up-obsidian-vault, write-note-templates, write-map-of-content, write-obsidian-templater-template]

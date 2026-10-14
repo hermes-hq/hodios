@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ad-policy, ad-review, restricted-categories, ad-disapproval, personal-attributes]
 pairs_with:
   prompts: [write-social-ad-variations, write-google-ads, write-video-ad-script, write-advertorial]

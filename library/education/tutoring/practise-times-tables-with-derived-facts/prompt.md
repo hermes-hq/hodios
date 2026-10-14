@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [times-tables, multiplication-facts, derived-facts, number-sense, maths-game, fluency]
 pairs_with:
   prompts: [practice-mental-math, explain-school-maths-method-to-parent]

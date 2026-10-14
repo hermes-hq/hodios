@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [composition-api, reactivity, composables, pinia, ssr-hydration]
 pairs_with:
   personas: [frontend-engineer]

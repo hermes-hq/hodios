@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [guarantee, consumer-rights, exclusions, making-a-claim, fine-print]
 pairs_with:
   prompts: [decide-on-extended-warranty, summarize-what-applies-to-me, interrogate-a-document]

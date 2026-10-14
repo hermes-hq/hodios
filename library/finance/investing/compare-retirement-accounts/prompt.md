@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pension, tax-advantaged-accounts, employer-match, financial-literacy]
 pairs_with:
   prompts: [plan-retirement-scenarios, explain-tax-on-investments, explain-investment-concept]

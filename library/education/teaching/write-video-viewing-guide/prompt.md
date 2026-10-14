@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [video-in-class, viewing-guide, active-viewing, student-handout]
 pairs_with:
   prompts: [generate-discussion-questions, create-guided-notes, plan-flipped-lesson]

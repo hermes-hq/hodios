@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [file-permissions, eacces, bind-mounts, selinux, least-privilege]
 pairs_with:
   prompts: [explain-stack-trace, review-dockerfile]

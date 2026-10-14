@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [occasional-verse, eulogy, wedding-reading, read-aloud]
 pairs_with:
   prompts: [write-poem-in-form, critique-poem]

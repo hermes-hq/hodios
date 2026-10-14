@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [profiling, flame-graph, benchmark, latency]
 args:
   - name: target

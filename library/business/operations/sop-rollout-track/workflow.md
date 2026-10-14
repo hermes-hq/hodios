@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [standard-operating-procedure, change-rollout, staff-training, process-audit, adoption]
 pairs_with:
   prompts: [write-sop, map-business-process, write-operations-manual, run-five-whys]

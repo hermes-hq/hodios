@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [video-description, chapters, timestamps, video-seo]
 pairs_with:
   prompts: [write-youtube-script, package-video-title-thumbnail, write-show-notes]

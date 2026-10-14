@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pre-commitment, must-haves, anchoring, satisficing, search-criteria]
 pairs_with:
   prompts: [compare-options-matrix, check-decision-for-biases, decide-where-to-live]

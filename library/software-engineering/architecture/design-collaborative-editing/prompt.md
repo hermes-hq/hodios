@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crdt, operational-transform, multiplayer-editing, presence, offline-first, realtime]
 pairs_with:
   personas: [software-architect, fullstack-engineer]

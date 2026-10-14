@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [appendix, backup-slides, q-and-a, anticipate-questions, executive-audience]
 pairs_with:
   prompts: [drill-presentation-qa, shorten-presentation-for-time, critique-slide-deck]

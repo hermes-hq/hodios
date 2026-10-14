@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [leetcode, data-structures, problem-solving, hint-ladder]
 pairs_with:
   prompts: [explain-algorithm, quiz-big-o-complexity, practice-coding-interview]

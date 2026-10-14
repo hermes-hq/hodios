@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deaf-awareness, hearing-impairment, radio-aid, captions, inclusive-classroom, special-educational-needs]
 pairs_with:
   prompts: [differentiate-lesson, write-teaching-assistant-briefing, write-one-page-pupil-profile]

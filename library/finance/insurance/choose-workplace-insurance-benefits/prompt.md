@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [benefits-enrolment, group-life, group-disability, employee-benefits, salary-sacrifice]
 pairs_with:
   prompts: [compare-health-insurance-plans, review-insurance-coverage, calculate-life-cover-need]

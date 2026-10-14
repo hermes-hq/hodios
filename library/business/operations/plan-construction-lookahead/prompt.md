@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lookahead-schedule, site-coordination, last-planner, constraint-log, trade-sequencing]
 pairs_with:
   prompts: [write-construction-rfi, write-construction-change-order, write-toolbox-talk]

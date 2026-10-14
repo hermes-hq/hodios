@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [confidence, assertive-writing, workplace-messaging, hedging, apologising]
 pairs_with:
   prompts: [rewrite-for-tone, check-tone-before-sending, calibrate-claim-strength]

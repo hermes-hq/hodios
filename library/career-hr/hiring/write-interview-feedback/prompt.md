@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [interview-scorecard, interviewer-notes, evidence-based-hiring, structured-interview, bias-check]
 pairs_with:
   prompts: [run-hiring-debrief, design-interview-loop, train-interviewers]

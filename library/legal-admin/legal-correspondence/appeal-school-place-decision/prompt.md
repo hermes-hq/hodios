@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [school-admissions, admission-appeal, school-place, parent-advocacy, appeal-hearing]
 pairs_with:
   prompts: [write-public-records-request, appeal-benefits-decision]

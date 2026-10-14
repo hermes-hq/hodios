@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [pipeline, target-companies, weekly-targets, referrals]
 pairs_with:
   prompts: [write-networking-message, analyze-job-posting, optimize-linkedin-profile]

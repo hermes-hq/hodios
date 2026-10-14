@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [memory-safety, buffer-overflow, use-after-free, sanitizers, compiler-hardening]
 pairs_with:
   prompts: [write-fuzz-harness, debug-native-crash, review-cpp-diff-for-undefined-behaviour]

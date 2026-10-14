@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [prayer, meditation, contemplative-practice, daily-routine, rule-of-life]
 pairs_with:
   prompts: [write-blessing-or-prayer, memorise-sacred-text, plan-scripture-study]

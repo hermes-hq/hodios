@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [polars, dataframes, data-cleaning, data-validation]
 pairs_with:
   prompts: [reconcile-datasets]

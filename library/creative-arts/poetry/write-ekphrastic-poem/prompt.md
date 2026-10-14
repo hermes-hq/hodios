@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [ekphrasis, art-response, poetry-writing, museum-writing, creative-prompt]
 pairs_with:
   prompts: [critique-poem, write-poem-in-form, workshop-poem-revision]

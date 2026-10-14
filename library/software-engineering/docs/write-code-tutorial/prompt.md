@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tutorial, how-to, developer-education]
 pairs_with:
   personas: [technical-writer]

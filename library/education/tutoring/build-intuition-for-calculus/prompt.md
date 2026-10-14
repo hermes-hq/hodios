@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rates-of-change, limits, derivatives, integrals, local-linearity, accumulation]
 pairs_with:
   prompts: [practise-function-graph-sketching, hint-through-problem]

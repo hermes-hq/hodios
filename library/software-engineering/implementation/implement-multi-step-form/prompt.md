@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wizard, multi-step-form, schema-validation, draft-saving]
 pairs_with:
   prompts: [implement-form-validation, make-multi-step-form-accessible, implement-idempotency-keys]

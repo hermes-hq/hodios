@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flash-report, prime-cost, labour-cost, weekly-kpis, covers, average-spend]
 pairs_with:
   prompts: [build-staff-schedule, engineer-restaurant-menu, investigate-bar-stock-variance]

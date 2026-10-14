@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [infinite-scroll, load-more, feed-pattern, virtualization, keyboard]
 pairs_with:
   personas: [accessibility-specialist]

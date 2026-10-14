@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [raii, undefined-behavior, sanitizers, cmake, abi-stability, move-semantics]
 pairs_with:
   personas: [embedded-engineer, game-developer]

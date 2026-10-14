@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [utility-bill, billing-error, meter-readings, estimated-bills, back-billing, energy-supplier]
 pairs_with:
   prompts: [explain-utility-bill, handle-utility-bill-arrears, complain-to-ombudsman, write-complaint-letter]

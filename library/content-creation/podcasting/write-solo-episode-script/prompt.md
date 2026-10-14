@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [solo-episode, read-aloud, writing-for-the-ear, signposting, storytelling]
 pairs_with:
   prompts: [plan-podcast-episode, write-podcast-intro-outro, write-show-notes]

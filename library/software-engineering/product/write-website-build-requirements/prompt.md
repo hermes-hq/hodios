@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [website, vendor-brief, cms, requirements]
 pairs_with:
   prompts: [spec-app-idea-for-developers, define-non-functional-requirements, write-acceptance-criteria]

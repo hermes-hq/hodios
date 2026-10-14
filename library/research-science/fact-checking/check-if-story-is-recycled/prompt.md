@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [false-context, resurfaced-content, misinformation, dates]
 pairs_with:
   prompts: [verify-image-provenance, fact-check-claims, respond-to-misinformation]

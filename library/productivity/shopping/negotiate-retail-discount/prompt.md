@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [price-negotiation, floor-model, price-match, haggling, walk-away-point]
 pairs_with:
   prompts: [time-a-purchase, buy-secondhand-safely, choose-furniture-that-fits]

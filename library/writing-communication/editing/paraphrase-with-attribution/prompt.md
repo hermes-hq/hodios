@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [paraphrasing, patchwriting, citations, academic-integrity, apa, mla]
 pairs_with:
   prompts: [summarize-paper, simplify-to-plain-language, proofread-text]

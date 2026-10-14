@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [campaign-pitch, recruiting-players, game-mastering, lines-and-veils]
 pairs_with:
   prompts: [run-session-zero, design-campaign-arc, build-rpg-character]

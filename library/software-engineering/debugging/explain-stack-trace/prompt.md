@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [exception, crash, error-message]
 pairs_with:
   personas: [debugger]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [album-art, cover-art, square-format, music-release]
 pairs_with:
   prompts: [write-image-prompt, build-image-style-guide, plan-music-release]

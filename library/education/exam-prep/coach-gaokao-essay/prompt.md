@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gaokao, zuowen, argumentative-essay, essay-feedback, china]
 pairs_with:
   prompts: [plan-kaoyan-study, grade-practice-answers, analyze-exam-mistakes]

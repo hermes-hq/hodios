@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [kpi-movement, signal-vs-noise, natural-variation, weekly-review, binomial-interval]
 pairs_with:
   prompts: [build-control-chart, explain-metric-discrepancy, find-change-points-in-series]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [one-on-ones, employee-privacy, performance-feedback, hr-escalation]
 pairs_with:
   prompts: [build-project-instructions, plan-one-on-one, set-up-assistant-for-new-job]

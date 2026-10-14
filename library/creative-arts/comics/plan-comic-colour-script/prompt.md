@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [colour-script, colour-palette, colouring, mood, value-structure]
 pairs_with:
   prompts: [write-character-model-sheet-brief, critique-comic-page]

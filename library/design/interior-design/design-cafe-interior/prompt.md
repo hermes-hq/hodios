@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hospitality-interiors, seating-plan, acoustics, commercial-interiors, customer-flow]
 pairs_with:
   prompts: [plan-restaurant-opening, write-interior-design-brief, speed-up-cafe-morning-rush]

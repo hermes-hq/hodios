@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [impact-analysis, blast-radius, revenue-impact, affected-users, postmortem-input]
 pairs_with:
   prompts: [write-postmortem, calculate-sla-availability, write-observability-queries, build-incident-timeline]

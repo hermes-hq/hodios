@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [meta-ads, account-audit, creative-fatigue, audience-overlap, event-match-quality, wasted-spend]
 pairs_with:
   prompts: [structure-meta-ads-account, diagnose-ad-fatigue, set-up-server-side-conversions, analyze-ad-performance]

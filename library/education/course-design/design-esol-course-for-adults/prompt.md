@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [esol, adult-literacy, refugees, rolling-enrolment, can-do-statements, community-learning]
 pairs_with:
   prompts: [design-adult-evening-class, write-learning-objectives]

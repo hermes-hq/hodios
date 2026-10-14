@@ -13,6 +13,7 @@ requires: [none]
 risk: read-only
 invocation: model
 level: intermediate
+depth: specific
 tags: [chart-standards, colour-blind-safe, honest-axes, action-titles, labelling]
 pairs_with:
   prompts: [choose-chart-type, write-plotting-code, critique-chart, choose-chart-colors]

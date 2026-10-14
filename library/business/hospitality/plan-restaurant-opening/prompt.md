@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [restaurant-startup, cafe, soft-launch, startup-costs]
 pairs_with:
   prompts: [write-business-plan, model-unit-economics, plan-shop-opening, prepare-business-loan-application]

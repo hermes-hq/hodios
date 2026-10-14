@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [niche-selection, learning-in-public, beginner-creators, coaching, demand-signals, career-change]
 pairs_with:
   prompts: [define-content-pillars, plan-faceless-video-channel, analyze-competitor-channels]

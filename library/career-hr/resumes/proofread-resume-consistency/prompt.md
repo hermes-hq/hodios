@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [typos, style-consistency, final-check, date-formats]
 pairs_with:
   prompts: [review-resume, check-resume-ats-readiness, trim-resume-length]

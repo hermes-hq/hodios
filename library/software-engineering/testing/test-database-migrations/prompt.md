@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [schema-migrations, data-migrations, rollback, zero-downtime, testcontainers]
 pairs_with:
   prompts: [review-database-migration, write-integration-tests]

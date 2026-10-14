@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [middleware, decorators, request-pipeline, http-handlers]
 pairs_with:
   prompts: [move-logic-out-of-controllers, reduce-duplication]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [greeting-cards, invitations, printables, occasions, stationery]
 pairs_with:
   prompts: [write-image-prompt, write-seamless-pattern-prompt, write-card-message]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [health-anxiety, reassurance-seeking, symptom-checking, cyberchondria, worry]
 pairs_with:
   prompts: [set-up-worry-time, reframe-negative-thoughts, prepare-doctor-questions, talk-to-doctor-about-mental-health]

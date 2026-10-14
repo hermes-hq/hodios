@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [objective-c, bridging-header, nullability, mixed-language, objc-interop]
 pairs_with:
   prompts: [port-code-to-another-language, migrate-cocoapods-to-swift-packages]

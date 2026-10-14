@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [request-triage, analytics-team, service-levels, request-priority, intake-form]
 pairs_with:
   prompts: [write-data-request-brief, prune-report-inventory, plan-self-service-reporting]

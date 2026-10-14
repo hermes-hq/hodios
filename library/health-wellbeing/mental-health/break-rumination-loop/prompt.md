@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rumination, overthinking, cbt-skills, low-mood, replaying-conversations]
 pairs_with:
   prompts: [set-up-worry-time, reframe-negative-thoughts, practice-self-compassion, talk-through-a-bad-day]

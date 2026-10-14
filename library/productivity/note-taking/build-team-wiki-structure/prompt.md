@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [knowledge-base, information-architecture, team-wiki, page-templates, documentation-ownership]
 pairs_with:
   prompts: [design-second-brain, organize-digital-files, build-reusable-checklist]

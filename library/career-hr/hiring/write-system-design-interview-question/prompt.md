@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [system-design-interview, technical-interview, interview-rubric, developer-hiring, leveling]
 pairs_with:
   prompts: [write-coding-interview-question, build-interview-scorecard, design-interview-loop]

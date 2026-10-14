@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sbar, clinical-handover, escalation, nursing, deliberate-practice, patient-safety]
 pairs_with:
   prompts: [write-sbar-handoff, practise-osce-station, prepare-for-clinical-placement]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [app-idea, mvp, developer-brief, requirements]
 pairs_with:
   prompts: [define-mvp-scope, write-prd, write-website-build-requirements]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [adaptive-clothing, inclusive-design, sensory-friendly, dressing-aids, alterations, disability]
 pairs_with:
   prompts: [plan-clothing-care-and-repair, decode-dress-code]

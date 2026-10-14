@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [startup-budget, opening-costs, working-capital, contingency, cash-runway]
 pairs_with:
   prompts: [write-business-plan, model-unit-economics, forecast-cash-flow, prepare-business-loan-application]

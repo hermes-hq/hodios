@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [chart-review, record-summary, problem-list, medication-reconciliation, medical-records, care-transitions]
 pairs_with:
   prompts: [draft-discharge-summary, write-referral-letter, prepare-case-presentation, structure-soap-note]

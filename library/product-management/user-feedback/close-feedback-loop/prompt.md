@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-communication, feature-requests, declined-requests, customer-trust]
 pairs_with:
   prompts: [triage-feature-requests, write-launch-announcement, decline-request-gracefully]

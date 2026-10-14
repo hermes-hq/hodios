@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [salary-bands, pay-ranges, compensation-structure, compa-ratio, market-pricing, pay-transparency]
 pairs_with:
   prompts: [evaluate-job-for-grading, analyze-pay-equity, allocate-merit-increases, build-career-ladder]

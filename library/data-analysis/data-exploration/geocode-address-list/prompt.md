@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [geocoding, addresses, coordinates, match-rate, geospatial]
 pairs_with:
   prompts: [analyze-location-data, deduplicate-records, anonymize-dataset]

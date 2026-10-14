@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [film-treatment, pitch-document, series-pitch, story-structure]
 pairs_with:
   prompts: [write-logline-and-synopsis, write-beat-sheet, adapt-story-for-screen]

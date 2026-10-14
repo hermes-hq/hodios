@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [jargon, acronyms, glossary, first-use-definitions, audience-fit]
 pairs_with:
   prompts: [simplify-to-plain-language, run-readability-check, rewrite-for-audience]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [content-licensing, viral-video, media-requests, clip-rights, usage-rights]
 pairs_with:
   prompts: [evaluate-whitelisting-request, build-creator-rate-card]

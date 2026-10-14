@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [business-travel, expense-policy, meeting-prep, travel-schedule, time-zones]
 pairs_with:
   prompts: [beat-jet-lag, build-packing-list, plan-flight-search]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [work-placement, practicum, industrial-placement, teaching-practice, learning-goals]
 pairs_with:
   prompts: [write-reflective-account, prepare-for-clinical-placement, log-apprenticeship-learning-hours]

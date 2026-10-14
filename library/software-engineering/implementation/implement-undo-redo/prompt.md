@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [undo-redo, command-pattern, editors, keyboard-shortcuts]
 pairs_with:
   prompts: [implement-state-machine, implement-optimistic-locking]

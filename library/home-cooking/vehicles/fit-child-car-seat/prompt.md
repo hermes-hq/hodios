@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [child-car-seat, isofix, booster-seat, rear-facing, child-safety, harness-fit]
 pairs_with:
   prompts: [check-car-before-road-trip, learn-basic-car-checks]

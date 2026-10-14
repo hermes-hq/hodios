@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [javascript-rendering, single-page-apps, server-side-rendering, crawlability, prerendering]
 pairs_with:
   prompts: [audit-technical-seo, diagnose-page-not-indexed]

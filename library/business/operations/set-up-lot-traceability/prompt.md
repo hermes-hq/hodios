@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [traceability, batch-codes, lot-tracking, mock-recall, product-safety]
 pairs_with:
   prompts: [run-product-recall-customer-contact, write-quality-control-checklist, plan-inventory]

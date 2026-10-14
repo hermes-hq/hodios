@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [debt-collection, debt-validation, limitation-period, payment-plan]
 pairs_with:
   prompts: [explain-legal-letter, dispute-credit-report-error, plan-debt-payoff]

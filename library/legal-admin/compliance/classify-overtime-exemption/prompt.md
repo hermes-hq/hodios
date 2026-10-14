@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [overtime, minimum-wage, exempt-employees, wage-and-hour, working-time, back-pay]
 pairs_with:
   prompts: [design-on-call-and-overtime-pay, set-up-first-payroll, check-first-hire-employer-obligations]

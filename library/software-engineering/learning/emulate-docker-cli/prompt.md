@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [port-mapping, image-layers, multi-container, simulator, practice-sandbox]
 args:
   - name: scenario

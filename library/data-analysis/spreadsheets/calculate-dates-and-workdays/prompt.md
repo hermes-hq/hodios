@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [date-formulas, workdays, fiscal-year, week-numbers, holidays]
 pairs_with:
   prompts: [write-spreadsheet-formula, build-gantt-chart-in-sheets, build-timesheet-calculator]

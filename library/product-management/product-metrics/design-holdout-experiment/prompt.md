@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [statistics]
 tags: [holdout-group, incrementality, long-term-effects, causal-inference, sample-size]
 pairs_with:

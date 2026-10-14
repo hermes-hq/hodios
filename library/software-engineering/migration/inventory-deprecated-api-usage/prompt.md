@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deprecations, upgrade-readiness, tech-debt, warnings, effort-estimate]
 pairs_with:
   prompts: [upgrade-major-dependency, upgrade-game-engine-version]

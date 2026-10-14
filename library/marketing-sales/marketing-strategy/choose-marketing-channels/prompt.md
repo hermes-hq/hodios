@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [channel-selection, traction, early-stage, marketing-tests, bullseye-framework]
 pairs_with:
   prompts: [write-marketing-plan, build-ideal-customer-profile, design-ab-test, plan-media-budget]

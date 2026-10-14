@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-of-conduct, moderation, enforcement, community-health, harassment]
 pairs_with:
   prompts: [draft-maintainer-issue-replies]

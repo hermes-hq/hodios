@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ttuieosseugi, matchumbeop, honorifics, spelling, grammar-rules, spacing]
 pairs_with:
   prompts: [proofread-other-language, write-korean-business-email, diagnose-recurring-errors]

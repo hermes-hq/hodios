@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [internal-comms, company-announcement, recognition, all-hands]
 pairs_with:
   prompts: [write-launch-announcement, write-sales-enablement-brief, write-launch-faq, write-internal-announcement]

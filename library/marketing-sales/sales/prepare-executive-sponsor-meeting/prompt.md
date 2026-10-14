@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [executive-meeting, c-suite, deal-strategy, business-outcomes, enterprise-sales]
 pairs_with:
   prompts: [build-buyer-business-case, write-mutual-action-plan, prepare-deal-negotiation]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [story-points, relative-estimation, backlog-refinement, t-shirt-sizing]
 pairs_with:
   prompts: [refine-backlog-ticket, break-down-epic, estimate-with-ranges]

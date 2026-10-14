@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [jewellery-making, beading, wirework, metal-clay, findings, nickel-allergy]
 args:
   - name: piece

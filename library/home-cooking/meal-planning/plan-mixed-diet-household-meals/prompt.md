@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mixed-diets, vegan, food-allergies, cross-contact, family-meals, grocery-list]
 pairs_with:
   prompts: [plan-special-diet-meals, plan-weekly-meals, adapt-recipe]

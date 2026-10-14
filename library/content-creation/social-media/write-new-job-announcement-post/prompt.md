@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [career-milestone, new-role, gratitude, personal-brand]
 pairs_with:
   prompts: [write-linkedin-post, announce-role-change-to-contacts, write-thoughtful-linkedin-comments]

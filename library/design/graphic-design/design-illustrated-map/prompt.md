@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [visitor-map, wayfinding, map-design, event-design, cartography]
 pairs_with:
   prompts: [plan-signage, design-infographic, design-accessible-print-materials]

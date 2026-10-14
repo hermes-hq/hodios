@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ux-writing, error-messages, empty-states, content-design]
 pairs_with:
   prompts: [write-brand-voice-guide, critique-ui-screen]

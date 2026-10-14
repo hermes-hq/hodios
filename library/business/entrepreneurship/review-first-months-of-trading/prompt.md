@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [post-launch-review, plan-vs-actual, early-traction, cash-check, next-quarter-priorities]
 pairs_with:
   prompts: [write-business-plan, forecast-cash-flow, evaluate-pivot, plan-first-90-days-of-startup, review-small-business-pnl]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [look-see-visit, neighbourhoods, school-visits, commute, moving-abroad]
 pairs_with:
   prompts: [decide-where-to-live, find-rental-from-abroad]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [knitting, crochet, dropped-stitch, tinking, lifelines, fibre-crafts]
 pairs_with:
   prompts: [plan-knitting-project, resize-knitting-pattern]

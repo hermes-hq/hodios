@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pothole, fly-tipping, streetlight, local-government, public-hazard, damage-claim]
 pairs_with:
   prompts: [complain-to-ombudsman, write-public-records-request, write-formal-letter]

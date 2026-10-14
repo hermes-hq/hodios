@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [method-selection, forecasting-design, baseline-first, model-choice]
 pairs_with:
   prompts: [forecast-time-series, build-ml-forecasting-features, forecast-new-product-demand]

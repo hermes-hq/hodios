@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [diet-review, red-flags, nutrient-gaps, fad-diets, weight-management]
 pairs_with:
   prompts: [compare-diet-approaches, check-health-claim, plan-sustainable-weight-loss, plan-nutrition-targets]

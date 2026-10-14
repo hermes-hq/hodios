@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hardening, plugin-audit, wp-config, backups, web-application-firewall]
 pairs_with:
   prompts: [build-wordpress-plugin, harden-web-app-config, harden-linux-server]

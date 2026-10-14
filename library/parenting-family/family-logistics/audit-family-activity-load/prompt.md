@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [after-school-clubs, overscheduling, family-time, driving-time, activity-costs, weekly-load]
 pairs_with:
   prompts: [choose-extracurricular-activities, coordinate-family-calendar, plan-school-run-carpool]

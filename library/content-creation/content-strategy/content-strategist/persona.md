@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repurposing, cadence, vanity-metrics, audience-research]
 pairs_with:
   prompts: [define-content-pillars, plan-content-calendar, analyze-content-performance, repurpose-video-into-posts]

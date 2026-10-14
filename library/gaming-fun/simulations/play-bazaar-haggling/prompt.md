@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [haggling, bargaining-game, anchoring, walk-away, negotiation-practice]
 pairs_with:
   prompts: [play-diplomatic-summit]

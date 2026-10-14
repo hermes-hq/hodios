@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [one-page-plan, owner-interview, priorities, key-numbers, strategic-choices]
 pairs_with:
   prompts: [run-swot-analysis, build-annual-operating-plan, run-yearly-company-health-check]

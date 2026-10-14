@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [eldercare, multigenerational-living, ageing-parents, respite, family-agreement, carers]
 pairs_with:
   prompts: [plan-aging-in-place-modifications, plan-parent-care-conversation, build-care-rota, plan-family-meeting]

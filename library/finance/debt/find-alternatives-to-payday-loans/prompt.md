@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [payday-loans, high-cost-credit, emergency-money, hardship-fund, credit-union, cash-shortfall]
 pairs_with:
   prompts: [build-tight-budget, negotiate-with-creditor, prepare-for-debt-advice-appointment, build-emergency-fund-plan]

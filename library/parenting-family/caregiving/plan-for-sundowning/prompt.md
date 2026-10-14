@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dementia, sundowning, agitation, evening-routine, carers]
 pairs_with:
   prompts: [plan-dementia-conversations, plan-carer-sleep, plan-dementia-walking-safety]

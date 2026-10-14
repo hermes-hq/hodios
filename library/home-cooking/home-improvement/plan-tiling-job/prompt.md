@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tiling, setting-out, tile-adhesive, grout, waterproofing, splashback]
 pairs_with:
   prompts: [plan-diy-project, choose-flooring, reseal-bath-or-shower]

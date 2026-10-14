@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-plan, research-synthesis, usability-testing, user-interviews, research-readout]
 pairs_with:
   prompts: [write-research-screener, write-usability-test-plan, write-customer-interview-guide, synthesize-usability-findings, synthesize-customer-interviews]

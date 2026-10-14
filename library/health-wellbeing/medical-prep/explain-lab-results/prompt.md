@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [blood-test, reference-range, test-results, plain-language-health]
 pairs_with:
   prompts: [prepare-doctor-questions, explain-diagnosis]

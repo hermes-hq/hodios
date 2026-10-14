@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [chronic-pain, pacing, invisible-illness, disability, grief]
 pairs_with:
   prompts: [plan-chronic-condition-self-management, practice-self-compassion, build-connection-plan]

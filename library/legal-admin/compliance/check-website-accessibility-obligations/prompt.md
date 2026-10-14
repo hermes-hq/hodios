@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [accessibility-law, ada, european-accessibility-act, wcag, digital-accessibility, legal-risk]
 pairs_with:
   prompts: [write-accessibility-statement, assess-european-accessibility-act-readiness, audit-web-accessibility]

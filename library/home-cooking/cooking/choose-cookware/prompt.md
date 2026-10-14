@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cookware, pans, cast-iron, kitchen-equipment, induction]
 pairs_with:
   prompts: [stock-starter-pantry, plan-learning-to-cook, teach-cooking-technique]

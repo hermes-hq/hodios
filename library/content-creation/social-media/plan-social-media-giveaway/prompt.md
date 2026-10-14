@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [giveaway, contest, sweepstakes, official-rules, spam-prevention]
 pairs_with:
   prompts: [write-instagram-caption, reply-to-comments]

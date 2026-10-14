@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [linear-algebra, matrices, vectors, eigenvalues, determinants, transformations]
 pairs_with:
   prompts: [build-intuition-for-calculus, decode-math-notation]

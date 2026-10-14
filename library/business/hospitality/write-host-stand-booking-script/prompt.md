@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [restaurant-bookings, waitlist, table-turns, deposits, front-of-house]
 pairs_with:
   prompts: [train-server-with-roleplay, reduce-appointment-no-shows, write-appointment-reminder-messages]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [meeting-the-parents, in-laws, couples, visiting-family, cross-cultural-relationships, first-impressions]
 pairs_with:
   prompts: [choose-meaningful-gift, navigate-family-gathering-tension, adapt-message-for-culture]

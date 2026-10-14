@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [survival-phrases, phrasebook, crash-course, moving-abroad, pronunciation-respelling]
 pairs_with:
   prompts: [learn-writing-system, roleplay-real-situation, explain-politeness-register]

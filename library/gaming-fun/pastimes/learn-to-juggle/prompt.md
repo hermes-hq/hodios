@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [juggling, skill-practice, cascade-pattern, circus-skills, motor-learning, practice-plan]
 args:
   - name: current_level

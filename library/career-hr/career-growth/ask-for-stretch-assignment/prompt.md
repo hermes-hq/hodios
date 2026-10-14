@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stretch-project, career-visibility, development-opportunity, manager-conversation]
 pairs_with:
   prompts: [increase-work-visibility, build-development-plan, prepare-promotion-case]

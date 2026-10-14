@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ship-log, internal-update, stakeholder-communication, release-summary]
 pairs_with:
   prompts: [write-release-notes, write-engineering-quarter-review]

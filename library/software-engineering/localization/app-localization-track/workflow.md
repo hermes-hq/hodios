@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [first-locale, string-extraction, pseudo-localization, translation-handoff, linguistic-qa]
 pairs_with:
   prompts: [review-i18n-readiness, extract-ui-strings, implement-locale-formatting, pseudo-localize-ui, write-translator-context-notes, review-translated-strings]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [software-supply-chain, code-signing, provenance, sbom, slsa]
 pairs_with:
   prompts: [review-ci-pipeline-security, write-security-policy, audit-dependency-licenses]

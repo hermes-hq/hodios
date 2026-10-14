@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [multi-brand, white-label, theming, design-tokens, brand-variation]
 pairs_with:
   prompts: [define-design-tokens, generate-platform-token-files, design-dark-mode]

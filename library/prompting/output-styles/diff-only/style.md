@@ -13,6 +13,7 @@ requires: [none]
 output: [diff]
 risk: read-only
 level: intermediate
+depth: specific
 tags: [code-changes, unified-diff]
 levels:
   - label: Changes with explanation

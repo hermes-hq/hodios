@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [security-md, vulnerability-disclosure, coordinated-disclosure, safe-harbour, cve]
 pairs_with:
   personas: [security-auditor, open-source-maintainer]

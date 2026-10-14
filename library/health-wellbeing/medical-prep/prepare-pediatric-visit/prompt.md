@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pediatrics, well-child-visit, child-development, vaccinations, carers]
 pairs_with:
   prompts: [prepare-doctor-questions, build-symptom-log, build-medication-list]

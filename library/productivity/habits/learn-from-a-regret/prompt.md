@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [regret, hindsight, making-amends, apology, self-forgiveness, values]
 pairs_with:
   prompts: [practice-self-compassion, clarify-personal-values, run-personal-retrospective]

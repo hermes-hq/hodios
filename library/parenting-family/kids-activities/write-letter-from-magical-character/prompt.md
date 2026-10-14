@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [tooth-fairy, letter-to-child, family-traditions, milestones, childhood-magic, keepsake]
 pairs_with:
   prompts: [tell-hero-story-series, write-jokes-for-kids]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sponsored-stream, live-ad-read, sponsor-overlay, sponsorship-disclosure, campaign-proof]
 pairs_with:
   prompts: [plan-livestream-run-of-show, write-sponsored-content-concept, write-sponsorship-policy-page]

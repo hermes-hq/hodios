@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [launch-budget, marketing-budget, cost-planning, launch-tiers]
 pairs_with:
   prompts: [plan-product-launch, define-launch-tiers, plan-launch-event, review-launch-results]

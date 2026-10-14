@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [document-inventory, household-admin, emergency-planning, renewals]
 pairs_with:
   prompts: [prepare-will-questions, prepare-power-of-attorney-questions, settle-estate-checklist]

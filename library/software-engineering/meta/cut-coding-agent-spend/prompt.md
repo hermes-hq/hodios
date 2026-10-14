@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, cost-optimization, token-usage, context-engineering]
 pairs_with:
   prompts: [prune-agent-instructions, choose-mcp-servers-for-project, choose-model-tier-for-task, benchmark-coding-agents-on-repo]

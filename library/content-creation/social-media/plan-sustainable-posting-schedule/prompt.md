@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [posting-schedule, batching, repurposing, creator-burnout, consistency]
 pairs_with:
   prompts: [plan-content-calendar, repurpose-video-into-posts, write-short-social-posts]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sous-vide, precision-cooking, searing, food-safety, meal-timing]
 pairs_with:
   prompts: [check-food-safety, plan-dinner-party-menu, teach-cooking-technique]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [running-total, year-to-date, rolling-12-months, fiscal-year, sumifs]
 pairs_with:
   prompts: [summarise-transactions-by-month, calculate-dates-and-workdays, compare-period-performance]

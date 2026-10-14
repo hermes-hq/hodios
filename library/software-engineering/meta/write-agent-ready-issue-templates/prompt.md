@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [coding-agents, issue-templates, acceptance-criteria, ticket-quality]
 pairs_with:
   prompts: [make-issue-agent-ready, write-subagent-brief, assess-task-for-agent-delegation]

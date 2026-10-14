@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [capacity-planning, saturation-date, headroom, growth-forecast]
 pairs_with:
   prompts: [forecast-time-series, forecast-with-leading-indicators, present-forecast-uncertainty]

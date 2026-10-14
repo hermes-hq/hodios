@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audience-targeting, lookalike-audiences, retargeting, paid-social, campaign-structure]
 pairs_with:
   prompts: [write-social-ad-variations, write-google-ads, write-video-ad-script, analyze-ad-performance, build-ideal-customer-profile]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prose-poem, compression, imagery, writing-practice]
 pairs_with:
   prompts: [critique-poem, relineate-poem]

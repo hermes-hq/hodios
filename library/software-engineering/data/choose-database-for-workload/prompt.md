@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [database-selection, access-patterns, consistency, managed-services, total-cost, decision-record]
 pairs_with:
   prompts: [design-database-schema, design-time-series-schema, write-adr]

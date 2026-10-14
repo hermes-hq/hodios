@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [creative-block, art-motivation, art-practice, perfectionism]
 pairs_with:
   prompts: [generate-sketchbook-prompts, develop-art-style, plan-drawing-practice]

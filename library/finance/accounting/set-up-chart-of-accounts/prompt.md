@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chart-of-accounts, general-ledger, account-numbering, tracking-categories]
 pairs_with:
   prompts: [prepare-month-end-close, forecast-cash-flow]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [running, endurance, easy-running, injury-prevention, coaching, race-training]
 pairs_with:
   prompts: [plan-running-program, plan-race-day, plan-strength-for-runners, calculate-heart-rate-zones]

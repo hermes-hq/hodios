@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-awareness, reach-and-frequency, distinctive-assets, mental-availability, media-planning]
 pairs_with:
   prompts: [measure-brand-awareness, plan-marketing-campaign, write-campaign-brief, plan-media-budget]

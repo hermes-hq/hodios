@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iso-27001, isms, certification-audit, statement-of-applicability, information-security, risk-assessment]
 pairs_with:
   prompts: [write-information-security-policy, answer-security-questionnaire, plan-soc2-readiness-project, run-vendor-due-diligence]

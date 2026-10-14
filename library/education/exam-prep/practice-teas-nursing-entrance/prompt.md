@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [teas, hesi-a2, nursing-school, entrance-exam, anatomy-physiology, pre-nursing]
 pairs_with:
   prompts: [practice-nclex-questions, drill-medical-terminology]

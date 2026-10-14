@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [word-of-mouth, talk-triggers, customer-experience, signature-moment, referrals]
 pairs_with:
   prompts: [design-referral-program, design-loyalty-program, brainstorm-guerrilla-marketing, design-attribution-survey]

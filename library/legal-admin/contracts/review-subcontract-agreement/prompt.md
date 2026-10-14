@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subcontracting, flow-down-clauses, pay-when-paid, retention, liquidated-damages]
 pairs_with:
   prompts: [redline-contract, check-contract-insurance-requirements, explain-contract-clause]

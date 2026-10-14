@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [breaking-bad-news, spikes-protocol, clinical-communication, end-of-life-care, palliative-care, oncology]
 pairs_with:
   prompts: [write-teach-back-script, rewrite-clinic-letter-for-patient, plan-patient-deescalation]

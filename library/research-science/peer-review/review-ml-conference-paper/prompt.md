@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ml-research, conference-review, ablation, benchmarks, data-leakage, openreview]
 pairs_with:
   prompts: [respond-to-author-rebuttal, write-meta-review, assess-reproducibility]

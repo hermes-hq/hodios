@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [feature-requests, saying-no, customer-communication, workarounds]
 pairs_with:
   prompts: [close-feedback-loop, triage-feature-requests, push-back-on-roadmap-request]

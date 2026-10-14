@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-questions, shop-owners, helpful-content, answer-first, local-business]
 pairs_with:
   prompts: [write-faq-from-documents, write-local-business-profile, write-how-to-article]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [opportunity-assessment, market-sizing, product-risks, go-no-go]
 pairs_with:
   prompts: [write-problem-statement, map-assumptions, write-prfaq, define-jobs-to-be-done]

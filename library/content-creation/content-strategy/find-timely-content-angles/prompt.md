@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [newsjacking, seasonal-content, reactive-content, cultural-moments, news-peg]
 pairs_with:
   prompts: [plan-content-calendar, write-op-ed, pitch-freelance-article]

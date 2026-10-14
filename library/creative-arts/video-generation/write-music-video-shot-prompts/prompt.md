@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [music-video, beat-sync, visual-motif, shot-list]
 pairs_with:
   prompts: [plan-music-release, turn-storyboard-into-video-shots, write-looping-video-prompt]

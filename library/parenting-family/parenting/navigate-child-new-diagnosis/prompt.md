@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [neurodiversity, autism, adhd, dyslexia, special-educational-needs, new-diagnosis, siblings]
 pairs_with:
   prompts: [prepare-for-iep-meeting, set-up-routines-for-child-with-adhd, explain-hard-topic-to-child]

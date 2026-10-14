@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [launch-kickoff, cross-functional-alignment, scope-definition]
 pairs_with:
   prompts: [plan-product-launch, define-launch-tiers, write-launch-faq]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [durable-execution, workflow-engine, temporal, step-functions, state-machine]
 pairs_with:
   personas: [software-architect]

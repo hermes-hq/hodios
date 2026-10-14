@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [investor-update, investor-relations, runway, monthly-report]
 pairs_with:
   prompts: [model-unit-economics, prepare-investor-qa]

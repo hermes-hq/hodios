@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [card-games, playtesting, prototype, game-balance]
 pairs_with:
   prompts: [teach-board-game-rules, design-game-mechanic]

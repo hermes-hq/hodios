@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [business-visa, invitation-letter, visa-documents, business-travel, corporate-letters]
 pairs_with:
   prompts: [write-visitor-invitation-letter, write-no-objection-certificate, prepare-visa-application]

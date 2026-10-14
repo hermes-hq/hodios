@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lts-upgrade, target-framework, breaking-changes, container-images, ef-core]
 pairs_with:
   prompts: [upgrade-major-dependency, modernize-csharp-code, port-dotnet-framework-app]

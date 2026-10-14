@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [literary-journals, poetry-contests, cover-letter, submission-tracker, chapbook]
 pairs_with:
   prompts: [order-poetry-manuscript, critique-poem]

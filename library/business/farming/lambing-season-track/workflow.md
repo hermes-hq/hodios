@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lambing, sheep-flock, lamb-losses, scanning-results, turnout, season-review]
 pairs_with:
   prompts: [plan-lambing-shed-rota, plan-tupping-calendar, triage-unwell-livestock, plan-low-stress-weaning]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [disclosure, misrepresentation, underwriting, application-questions, material-facts]
 pairs_with:
   prompts: [explain-insurance-policy, check-insurance-after-life-change, calculate-life-cover-need]

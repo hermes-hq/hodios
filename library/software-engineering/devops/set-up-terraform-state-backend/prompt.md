@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iac, terraform-state, state-locking]
 pairs_with:
   prompts: [structure-terraform-environments, write-terraform-module, resolve-terraform-drift]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-hiring, roleplay-exercise, work-sample, interview-rubric, discovery-call]
 pairs_with:
   prompts: [design-interview-loop, build-interview-scorecard, practise-sales-roleplay-interview]

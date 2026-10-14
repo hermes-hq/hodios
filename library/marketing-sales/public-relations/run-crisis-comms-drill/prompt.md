@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crisis-simulation, tabletop-exercise, injects, crisis-team, debrief, preparedness]
 pairs_with:
   prompts: [build-crisis-comms-plan, write-holding-statement]

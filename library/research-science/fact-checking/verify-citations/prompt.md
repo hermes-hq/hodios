@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [citations, hallucinated-references, doi, academic-integrity, reference-checking]
 pairs_with:
   prompts: [format-citations, fact-check-claims, write-introduction-section]

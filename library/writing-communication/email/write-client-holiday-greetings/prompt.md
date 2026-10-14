@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [year-end, season-greetings, client-relationships, holiday-hours, thank-you, account-management]
 pairs_with:
   prompts: [write-greetings-for-other-faiths-holidays, write-client-check-in-email, write-out-of-office-message, write-card-message]

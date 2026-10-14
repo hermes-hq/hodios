@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [strict-mode, type-checking, mypy, ratchet, incremental-adoption]
 pairs_with:
   prompts: [migrate-javascript-to-typescript, plan-incremental-migration]

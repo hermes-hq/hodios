@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [financial-independence, early-retirement, savings-rate, withdrawal-rate, sequence-risk]
 pairs_with:
   prompts: [plan-retirement-scenarios, write-investment-policy-statement, build-monthly-budget, compare-retirement-accounts]

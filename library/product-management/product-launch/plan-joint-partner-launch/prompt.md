@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [co-marketing, integration-launch, partner-approvals, joint-announcement, marketplace-listing]
 pairs_with:
   prompts: [plan-integration-partnerships, plan-press-announcement-rollout, write-launch-announcement, plan-product-launch]

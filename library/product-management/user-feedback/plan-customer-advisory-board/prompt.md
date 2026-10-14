@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-advisory-board, customer-research, b2b, executive-sponsorship]
 pairs_with:
   prompts: [close-feedback-loop, plan-beta-program, analyze-user-feedback]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bouldering, climbing, finger-strength, injury-prevention, technique, indoor-climbing]
 pairs_with:
   prompts: [design-warm-up, plan-sport-conditioning, track-fitness-progress]

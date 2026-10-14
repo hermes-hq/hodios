@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [cold-email, phd-application, academic-outreach]
 pairs_with:
   prompts: [plan-phd-application]

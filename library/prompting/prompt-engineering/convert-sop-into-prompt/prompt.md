@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sop-automation, agent-instructions, escalation-rules, process-automation]
 pairs_with:
   prompts: [write-sop, design-prompt-chain, write-system-prompt]

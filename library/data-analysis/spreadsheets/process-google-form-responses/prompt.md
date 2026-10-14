@@ -19,6 +19,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [google-forms, form-responses, arrayformula, live-summary, sign-ups]
 pairs_with:
   prompts: [build-sheets-dashboard, set-up-data-validation, analyze-survey-results]

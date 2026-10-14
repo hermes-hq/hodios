@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [model-rocketry, rocket-launch, stem-activity, safety-code, family-outing, model-making]
 pairs_with:
   prompts: [build-scale-model-kit]

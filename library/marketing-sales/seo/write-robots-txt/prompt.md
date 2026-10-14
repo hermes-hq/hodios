@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [robots-txt, crawling, ai-crawlers, crawl-budget, site-config]
 pairs_with:
   prompts: [audit-technical-seo, optimize-for-ai-search]

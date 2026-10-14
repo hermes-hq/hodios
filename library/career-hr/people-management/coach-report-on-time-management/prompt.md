@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [missed-deadlines, priority-setting, planning-skills, skill-coaching, estimation]
 pairs_with:
   prompts: [coach-with-grow-model, address-underperformance-early, rebalance-team-workload]

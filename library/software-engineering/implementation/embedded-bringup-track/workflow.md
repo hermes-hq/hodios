@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [board-bring-up, firmware, hardware-validation, smoke-test, uart-console, microcontrollers]
 pairs_with:
   personas: [embedded-engineer]

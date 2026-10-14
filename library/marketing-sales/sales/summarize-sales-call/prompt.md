@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [crm-notes, call-summary, deal-qualification, next-steps]
 pairs_with:
   prompts: [write-sales-follow-up, write-sales-proposal, prepare-discovery-call]

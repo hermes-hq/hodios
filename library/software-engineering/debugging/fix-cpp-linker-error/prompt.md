@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [linker, cmake, undefined-reference, build-errors]
 pairs_with:
   prompts: [debug-native-crash, triage-failing-ci]

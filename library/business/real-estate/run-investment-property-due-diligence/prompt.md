@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [buy-to-let, property-investing, due-diligence, sitting-tenants, red-flags]
 pairs_with:
   prompts: [analyze-rental-property, check-landlord-obligations, evaluate-renovation-resale-deal]

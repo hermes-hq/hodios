@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [botanical-illustration, natural-history, scientific-illustration, plate-layout, accuracy-check]
 pairs_with:
   prompts: [write-educational-diagram-prompt, write-seamless-pattern-prompt]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [home-birth, midwife, transfer-plan, birth-pool, household-prep]
 pairs_with:
   prompts: [write-birth-preferences, write-birth-partner-guide, plan-labour-day-logistics]

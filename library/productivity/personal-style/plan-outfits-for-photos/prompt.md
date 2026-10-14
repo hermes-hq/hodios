@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [photo-session, headshots, family-photos, colour-coordination, camera-ready]
 pairs_with:
   prompts: [find-flattering-colours, decode-dress-code, write-session-prep-guide]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [new-phone, data-transfer, two-factor, whatsapp-backup, phone-wipe]
 pairs_with:
   prompts: [set-up-backups, check-used-device, secure-personal-accounts]

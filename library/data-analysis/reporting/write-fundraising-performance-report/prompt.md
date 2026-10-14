@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [donor-retention, income-streams, board-reporting, unrestricted-income, net-income]
 pairs_with:
   prompts: [forecast-fundraising-income, analyze-donor-data, write-trustee-board-report]

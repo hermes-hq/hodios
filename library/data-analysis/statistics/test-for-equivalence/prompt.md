@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [equivalence-testing, tost, non-inferiority, smallest-effect-of-interest, absence-of-evidence]
 pairs_with:
   prompts: [run-two-group-comparison, calculate-sample-size, analyze-ab-test-results]

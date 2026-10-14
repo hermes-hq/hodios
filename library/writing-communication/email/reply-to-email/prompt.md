@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [email-reply, follow-up, next-steps]
 pairs_with:
   prompts: [write-professional-email, rewrite-for-tone, triage-inbox, decline-request-gracefully]

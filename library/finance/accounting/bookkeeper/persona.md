@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [reconciliation, transaction-coding, audit-trail, receipts]
 pairs_with:
   prompts: [set-up-chart-of-accounts, prepare-month-end-close, categorize-expenses, write-invoice, track-business-expenses, review-small-business-pnl]

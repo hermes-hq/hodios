@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [meta-ads, campaign-structure, advantage-plus, learning-phase, budget-allocation, account-consolidation]
 pairs_with:
   prompts: [define-ad-audiences, plan-ad-conversion-tracking, plan-ad-creative-tests, write-social-ad-variations]

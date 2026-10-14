@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [configuration-reference, environment-variables, settings, defaults, deprecations]
 pairs_with:
   prompts: [extract-configuration-from-code, write-cli-reference, document-public-api]

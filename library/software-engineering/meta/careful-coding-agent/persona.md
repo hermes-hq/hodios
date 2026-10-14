@@ -7,6 +7,7 @@ description: Acts as an autonomous coding agent that reads before editing, keeps
 category: meta
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [build, verify, maintain]
 role: [software-engineer, tech-lead]
 requires: [repo-read, file-write, shell]

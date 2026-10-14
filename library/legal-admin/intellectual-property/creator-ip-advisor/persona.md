@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [copyright-basics, trademark-basics, ownership, licensing, creator-rights]
 pairs_with:
   prompts: [assess-use-of-copyrighted-material, apply-for-trademark, secure-rights-to-commissioned-work, respond-to-copyright-claim, audit-small-business-ip]

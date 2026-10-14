@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thesis, dissertation, phd, supervision, research-question, milestones]
 pairs_with:
   prompts: [plan-thesis-structure, write-research-proposal, design-research-study, find-research-gaps]

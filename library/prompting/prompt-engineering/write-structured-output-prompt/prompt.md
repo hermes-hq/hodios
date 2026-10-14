@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [json-output, json-schema, structured-extraction, output-validation]
 pairs_with:
   prompts: [build-structured-extraction, write-batch-processing-prompt, create-few-shot-examples, build-prompt-test-set]

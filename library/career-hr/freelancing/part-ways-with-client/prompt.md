@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fire-a-client, ending-relationship, handover, notice-period, client-communication]
 pairs_with:
   prompts: [close-out-client-project, review-freelance-contract, chase-late-payment]

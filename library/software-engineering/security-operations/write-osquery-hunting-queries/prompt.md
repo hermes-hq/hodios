@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [osquery, threat-hunting, endpoint-visibility, persistence, fleet-management]
 pairs_with:
   prompts: [write-threat-hunt-plan, write-siem-query, investigate-windows-persistence, triage-compromised-linux-server]

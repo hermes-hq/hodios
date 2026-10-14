@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [franchise, franchisee-support, ticket-priorities, knowledge-base, field-support]
 pairs_with:
   prompts: [design-escalation-process, design-help-center-structure, plan-support-staffing]

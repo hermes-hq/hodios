@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [overcommitment, false-precision, outcomes-over-outputs, plan-review, wip-limits]
 pairs_with:
   prompts: [build-outcome-roadmap, forecast-roadmap-dates-with-ranges, map-cross-team-dependencies]

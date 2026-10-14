@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, best-of-n, code-comparison]
 pairs_with:
   prompts: [review-ai-generated-code, benchmark-coding-agents-on-repo, review-agent-transcript]

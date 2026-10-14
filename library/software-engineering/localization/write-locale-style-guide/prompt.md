@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [translation-style, voice-and-tone, translator-guidance]
 pairs_with:
   prompts: [build-localization-glossary, write-translator-context-notes]

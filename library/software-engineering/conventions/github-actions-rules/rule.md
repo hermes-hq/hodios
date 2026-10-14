@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [workflow-permissions, script-injection, action-pinning, oidc, concurrency-groups]
 applies_to: [".github/workflows/*.yml", ".github/workflows/*.yaml", ".github/actions/**"]
 pairs_with:

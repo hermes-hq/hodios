@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-mobility, internal-candidate, promotion-interview, insider-knowledge]
 pairs_with:
   prompts: [apply-for-internal-role, prepare-star-stories, prepare-promotion-case]

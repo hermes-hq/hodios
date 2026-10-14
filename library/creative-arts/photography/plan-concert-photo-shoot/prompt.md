@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [concert-photography, live-music, low-light-photography, stage-lighting, music-photography]
 pairs_with:
   prompts: [choose-camera-settings, cull-photo-shoot, match-edits-across-photo-set]

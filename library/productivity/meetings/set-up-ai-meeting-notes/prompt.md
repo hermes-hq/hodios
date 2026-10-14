@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ai-notetaker, recording-consent, privacy, meeting-notes, team-policy]
 pairs_with:
   prompts: [check-call-recording-compliance, summarize-meeting-transcript, prepare-to-take-meeting-notes]

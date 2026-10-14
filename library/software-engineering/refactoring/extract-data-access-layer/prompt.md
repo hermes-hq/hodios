@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repository-pattern, data-access, orm-queries, transactions]
 pairs_with:
   prompts: [move-logic-out-of-controllers, decouple-for-testability]

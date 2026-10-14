@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [government-forms, bureaucracy, official-applications, required-documents]
 pairs_with:
   prompts: [explain-legal-letter, prepare-small-claims-case]

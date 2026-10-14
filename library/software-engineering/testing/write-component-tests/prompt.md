@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [testing-library, component-tests, user-event, mock-service-worker, jsdom]
 pairs_with:
   prompts: [write-e2e-test, write-visual-regression-tests]

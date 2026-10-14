@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [semver, deprecation-policy, support-window, breaking-changes, release-policy]
 pairs_with:
   prompts: [write-migration-guide, write-changelog, backport-fix-to-release-branches]

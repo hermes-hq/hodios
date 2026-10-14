@@ -16,6 +16,7 @@ invocation: user
 interaction: interactive
 model_tier: mid
 level: beginner
+depth: specific
 tags: [cefr, lesson-structure, spaced-repetition, error-correction]
 pairs_with:
   prompts: [explain-grammar-point, generate-language-drills, assess-language-level, correct-my-sentences]

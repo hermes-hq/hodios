@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [report-template, recurring-report, management-reporting, commentary]
 pairs_with:
   prompts: [write-monthly-business-review, automate-recurring-report, build-metrics-glossary]

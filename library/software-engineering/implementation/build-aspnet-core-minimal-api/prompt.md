@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [aspnet-core, minimal-api, ef-core, rest-api, openapi-docs]
 pairs_with:
   prompts: [build-rest-endpoint, implement-pagination]

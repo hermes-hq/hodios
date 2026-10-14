@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [force-push, shared-branch, reflog, team-coordination]
 pairs_with:
   prompts: [recover-lost-git-work, configure-branch-protection, explain-git-error]

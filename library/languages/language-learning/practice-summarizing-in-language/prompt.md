@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [reading-comprehension, paraphrasing, summary-writing, cefr, exam-skills]
 pairs_with:
   prompts: [gloss-authentic-text, grade-language-writing-task, write-graded-reader]

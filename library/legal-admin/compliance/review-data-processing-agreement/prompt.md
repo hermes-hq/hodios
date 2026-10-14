@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vendor-review, subprocessors, data-transfers, data-protection]
 pairs_with:
   prompts: [map-personal-data-processing, plan-data-breach-response, build-compliance-checklist]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [csp, strict-dynamic, nonces, inline-scripts, xss-mitigation]
 pairs_with:
   prompts: [harden-web-app-config, fix-xss-vulnerabilities, secure-third-party-scripts]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tdd, kata, red-green-refactor, deliberate-practice]
 pairs_with:
   prompts: [create-coding-exercises, review-code-for-learner]

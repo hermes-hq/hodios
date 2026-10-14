@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ring-buffer, lock-free, isr, memory-ordering, spsc-queue, firmware]
 pairs_with:
   personas: [embedded-engineer, concurrency-specialist]

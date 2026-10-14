@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [case-report, care-guideline, clinical-research, patient-consent, manuscript]
 pairs_with:
   prompts: [write-peer-review, check-manuscript-reporting]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [postmortem, blameless, retrospective]
 pairs_with:
   prompts: [triage-production-alert, write-incident-update]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [realist-synthesis, programme-theory, complex-interventions, context-mechanism-outcome, rameses, evidence-synthesis]
 pairs_with:
   prompts: [build-search-string, chase-citations, plan-process-evaluation, write-systematic-review-protocol]

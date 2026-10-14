@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependencies, package-manager, peer-dependencies, version-resolution, lockfile]
 pairs_with:
   prompts: [triage-failing-ci, fix-docker-build-failure]

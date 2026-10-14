@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [ticket-handoff, follow-the-sun, sla-breach, ticket-ownership, callbacks]
 pairs_with:
   prompts: [design-escalation-process, organise-shared-support-inbox, plan-support-staffing]

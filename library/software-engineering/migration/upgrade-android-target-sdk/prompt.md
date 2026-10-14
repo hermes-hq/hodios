@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [target-sdk, play-store-requirement, runtime-permissions, foreground-services, behavior-changes]
 pairs_with:
   prompts: [upgrade-major-dependency, localize-android-string-resources]

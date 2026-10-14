@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardening, mass-assignment, authorization-policies, blade, rate-limiting]
 pairs_with:
   prompts: [review-laravel-change, audit-app-security, harden-web-app-config]

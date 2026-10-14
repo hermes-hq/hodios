@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cold-outreach, investor-outreach, angel-investors, venture-capital, first-contact]
 pairs_with:
   prompts: [write-investor-intro-request, build-investor-pipeline, write-investor-one-pager]

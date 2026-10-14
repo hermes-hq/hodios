@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [clip-extension, last-frame, continuity, long-takes]
 pairs_with:
   prompts: [fix-video-generation-drift, write-first-last-frame-prompts, turn-storyboard-into-video-shots]

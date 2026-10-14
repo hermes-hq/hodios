@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pregnancy-sleep, side-sleeping, heartburn, leg-cramps, pregnancy-pillow]
 pairs_with:
   prompts: [explain-pregnancy-nutrition, plan-power-naps, audit-bedroom-for-sleep]

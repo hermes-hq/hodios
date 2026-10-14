@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [networking, career-fair, small-talk, elevator-pitch, counterpart-simulation, introverts]
 pairs_with:
   prompts: [prepare-networking-conversation, plan-career-fair, write-networking-message, write-tell-me-about-yourself]

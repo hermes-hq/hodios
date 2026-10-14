@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [relaunch, burnout, season-model, show-ending, archive]
 pairs_with:
   prompts: [plan-podcast-season, read-podcast-listener-stats, plan-podcast-growth]

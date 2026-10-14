@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ux-maturity, design-ops, research-ops, capability-assessment, organisational-change]
 pairs_with:
   prompts: [make-case-for-ux-research, plan-ux-research-roadmap, build-research-repository]

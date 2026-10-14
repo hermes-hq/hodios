@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [impulse-buying, spending-triggers, cooling-off-rule, online-shopping]
 pairs_with:
   prompts: [fix-failing-budget, plan-no-spend-month, categorize-expenses, decide-whether-to-buy]

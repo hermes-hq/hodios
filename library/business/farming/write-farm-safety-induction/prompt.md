@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [farm-safety, safety-induction, livestock-handling, machinery-safety, farm-visits]
 pairs_with:
   prompts: [write-toolbox-talk, write-emergency-procedures-for-staff, write-workplace-risk-assessment, plan-livestock-record-keeping]

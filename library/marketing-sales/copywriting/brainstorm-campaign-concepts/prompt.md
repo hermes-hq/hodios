@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [creative-concepts, big-idea, advertising-ideas, campaign-creative, insight]
 pairs_with:
   prompts: [write-campaign-brief, write-taglines, write-headline-variations, plan-ad-creative-tests]

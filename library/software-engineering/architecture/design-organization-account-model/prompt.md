@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [account-model, organisations, memberships, invitations, seat-billing]
 pairs_with:
   personas: [software-architect]

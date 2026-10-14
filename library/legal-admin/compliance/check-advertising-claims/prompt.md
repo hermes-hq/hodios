@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [advertising-claims, claim-substantiation, green-claims, misleading-advertising, price-claims, comparative-advertising]
 pairs_with:
   prompts: [check-endorsement-disclosures, check-product-labelling-rules, check-online-shop-consumer-law]

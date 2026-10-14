@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [adaptive-exercise, disability, long-term-illness, pacing, inclusive-coaching, wheelchair-users]
 pairs_with:
   prompts: [plan-seated-workout, adapt-exercise-for-condition, plan-low-impact-cardio, plan-activity-pacing]

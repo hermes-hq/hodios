@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [seasonal-workers, harvest-crew, worker-welfare, labour-planning, piece-rates, ethical-recruitment]
 pairs_with:
   prompts: [estimate-harvest-labour-needs, write-farm-worker-welcome-pack, write-farm-safety-induction, build-farm-daily-job-sheet]

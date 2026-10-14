@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [composition-api, script-setup, composables, reactivity]
 pairs_with:
   prompts: [migrate-vue-2-to-vue-3, write-vue-composable, split-large-vue-component]

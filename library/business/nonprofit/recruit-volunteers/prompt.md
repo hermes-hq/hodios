@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [volunteer-management, volunteer-recruitment, role-description, safeguarding, volunteer-retention]
 pairs_with:
   prompts: [write-sop, plan-fundraising-event]

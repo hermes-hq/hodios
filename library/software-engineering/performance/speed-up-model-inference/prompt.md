@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [inference-latency, quantization, dynamic-batching, onnx-runtime, model-serving]
 pairs_with:
   prompts: [serve-ml-model-as-api, convert-model-to-onnx, self-host-open-weight-llm, reduce-tail-latency]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ga4, google-analytics, event-data, sessions, unnest]
 pairs_with:
   prompts: [analyze-web-analytics, query-json-columns-in-sql]

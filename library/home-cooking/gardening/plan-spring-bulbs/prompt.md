@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bulbs, spring-flowers, naturalising, bulb-lasagne, tulips, daffodils]
 pairs_with:
   prompts: [design-garden-border, plan-container-garden, build-garden-calendar, plan-pollinator-garden]

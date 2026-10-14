@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [handover, account-access, succession, volunteers, password-hygiene, continuity]
 pairs_with:
   prompts: [write-editorial-guidelines, plan-content-calendar]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [scalability, capacity-planning, bottlenecks, autoscaling]
 pairs_with:
   prompts: [plan-load-test, plan-caching-strategy, profile-hot-path, estimate-cloud-costs]

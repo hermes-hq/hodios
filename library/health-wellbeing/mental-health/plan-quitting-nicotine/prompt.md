@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quit-smoking, vaping, nicotine, cravings, quit-date, relapse-prevention]
 pairs_with:
   prompts: [build-coping-plan, prepare-doctor-questions, build-mood-tracker]

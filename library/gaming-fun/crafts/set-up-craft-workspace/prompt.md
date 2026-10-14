@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [craft-room, workspace-setup, dust-control, ventilation, storage, maker-space]
 args:
   - name: crafts

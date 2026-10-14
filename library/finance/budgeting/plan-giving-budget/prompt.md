@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [charitable-giving, tithing, donations, values-based-spending]
 pairs_with:
   prompts: [build-monthly-budget, set-up-sinking-funds, plan-windfall]

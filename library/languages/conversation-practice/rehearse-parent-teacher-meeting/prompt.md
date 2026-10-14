@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [parents-evening, school-jargon, newcomers, cefr]
 pairs_with:
   prompts: [learn-school-vocabulary-for-parents, roleplay-real-situation, help-me-write-in-language]

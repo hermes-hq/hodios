@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [active-listening, reflective-listening, listening-drill, empathy, open-questions]
 pairs_with:
   prompts: [rehearse-difficult-conversation, give-feedback-sbi, practice-assertive-responses]

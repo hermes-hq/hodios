@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [criticism, arts-and-culture, film-criticism, book-criticism, spoiler-policy]
 pairs_with:
   prompts: [write-article-headlines-and-standfirsts, write-personal-essay]

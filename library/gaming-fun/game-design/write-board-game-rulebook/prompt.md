@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rulebook, teaching-order, board-games, card-games]
 pairs_with:
   prompts: [design-board-game, plan-playtest-session]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [version-diff, change-log, audit-trail, full-outer-join, lookup]
 pairs_with:
   prompts: [reconcile-datasets, audit-spreadsheet-model, write-power-query]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [vet-visit, pet-health, symptom-timeline, vet-costs]
 pairs_with:
   prompts: [plan-new-pet-care, train-dog-behavior]

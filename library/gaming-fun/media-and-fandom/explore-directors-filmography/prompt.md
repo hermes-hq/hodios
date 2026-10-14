@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [film-directors, auteur, viewing-route, film-history, spoiler-free]
 pairs_with:
   prompts: [recommend-films-from-favorites, explore-national-cinema, plan-movie-marathon]

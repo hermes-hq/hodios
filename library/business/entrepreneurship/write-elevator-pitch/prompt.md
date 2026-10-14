@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [elevator-pitch, one-liner, storytelling, networking, spoken-delivery]
 pairs_with:
   prompts: [write-pitch-deck-outline, prepare-investor-qa, build-investor-pipeline]

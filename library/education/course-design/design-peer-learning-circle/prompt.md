@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [learning-circles, peer-learning, facilitation, library-programmes, online-courses, community-learning]
 pairs_with:
   prompts: [design-retiree-learning-group, build-self-study-curriculum]

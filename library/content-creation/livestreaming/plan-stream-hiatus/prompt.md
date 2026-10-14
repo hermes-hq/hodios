@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [streaming-break, streamer-burnout, return-stream, paid-supporters, community-communication]
 pairs_with:
   prompts: [grow-streaming-channel, read-stream-analytics, reduce-membership-churn]

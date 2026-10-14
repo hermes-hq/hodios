@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [exclusivity, minimum-guarantee, platform-contract, streaming-deal, decision]
 pairs_with:
   prompts: [reduce-platform-dependence, review-creator-income-mix, review-sponsorship-contract]

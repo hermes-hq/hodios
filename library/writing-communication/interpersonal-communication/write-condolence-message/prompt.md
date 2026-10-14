@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [condolences, sympathy-card, grief, bereavement]
 pairs_with:
   prompts: [write-personal-letter, write-thank-you-note, write-speech]

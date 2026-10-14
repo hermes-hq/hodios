@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sponsorship, integration, ad-disclosure, paid-promotion, retention]
 pairs_with:
   prompts: [write-podcast-ad-read, pitch-brand-sponsorship, write-media-kit]

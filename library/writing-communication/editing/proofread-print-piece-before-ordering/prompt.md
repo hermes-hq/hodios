@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [invitations, flyers, menu-boards, print-proof, typos]
 pairs_with:
   prompts: [proofread-text, check-for-unintended-meanings, run-final-proof-check]

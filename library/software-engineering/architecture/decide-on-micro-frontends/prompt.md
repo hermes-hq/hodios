@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [micro-frontends, module-federation, team-autonomy, frontend-platform, independent-deploys, trade-offs]
 pairs_with:
   personas: [software-architect, staff-engineer]

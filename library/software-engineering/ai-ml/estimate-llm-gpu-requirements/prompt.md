@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gpu-sizing, kv-cache, quantization, self-hosting, capacity-planning]
 pairs_with:
   prompts: [plan-fine-tuning, choose-llm-for-feature, estimate-llm-feature-cost]

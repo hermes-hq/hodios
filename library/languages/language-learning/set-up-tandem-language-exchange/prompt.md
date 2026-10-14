@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tandem, language-exchange, peer-correction, learner-autonomy, reflection-log, matching]
 pairs_with:
   prompts: [plan-conversation-club-session, practise-conversation-strategies]

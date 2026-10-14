@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-relocation, life-decision, moving-abroad, family-decision, job-offer]
 pairs_with:
   prompts: [evaluate-job-offer, plan-relocation-finances, plan-accompanying-partner-move, plan-relocation-scouting-trip]

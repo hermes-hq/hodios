@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [collaborative-fiction, storytelling-game, continuity, choose-your-path]
 pairs_with:
   prompts: [write-interactive-fiction, check-story-continuity, play-text-adventure]

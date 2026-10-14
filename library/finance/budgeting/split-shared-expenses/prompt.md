@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [couples-money, housemates, joint-account, fairness]
 pairs_with:
   prompts: [build-monthly-budget, plan-savings-goal]

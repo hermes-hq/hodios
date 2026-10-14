@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [local-seo, google-business-profile, reviews, citations, map-pack]
 pairs_with:
   prompts: [write-schema-markup, research-keywords, audit-on-page-seo]

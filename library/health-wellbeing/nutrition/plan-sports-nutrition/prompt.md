@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sports-nutrition, hydration, race-day, endurance, recovery, fuelling]
 pairs_with:
   prompts: [plan-running-program, plan-nutrition-targets, evaluate-supplement]

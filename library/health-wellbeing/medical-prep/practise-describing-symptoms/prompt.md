@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [symptom-history, doctor-role-play, appointment-practice, health-communication, second-language, rehearsal]
 pairs_with:
   prompts: [prepare-doctor-questions, build-symptom-log, prepare-telehealth-visit]

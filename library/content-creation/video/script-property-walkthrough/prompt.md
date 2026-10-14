@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [property-listing, walkthrough, shot-list, fair-housing, gimbal]
 pairs_with:
   prompts: [plan-video-shoot, write-short-form-script]

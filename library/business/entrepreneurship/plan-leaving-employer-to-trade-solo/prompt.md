@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tradespeople, self-employment, day-rate, van-and-tools, cash-buffer, leave-date]
 pairs_with:
   prompts: [price-services, track-business-expenses, plan-estimated-tax-payments, find-first-customers]

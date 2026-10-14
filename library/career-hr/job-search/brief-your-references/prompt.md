@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [references, reference-check, referee, thank-you-note]
 pairs_with:
   prompts: [negotiate-job-offer, write-interview-thank-you]

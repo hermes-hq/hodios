@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [burnout, workload, boundaries, recovery, phased-return, relapse-prevention]
 pairs_with:
   prompts: [check-burnout-signs, build-coping-plan, improve-sleep-habits, talk-to-doctor-about-mental-health]

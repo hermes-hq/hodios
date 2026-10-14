@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [slideshow, memorial, celebration, family-history, music-timing, captions]
 pairs_with:
   prompts: [write-talk-openings-and-closings]

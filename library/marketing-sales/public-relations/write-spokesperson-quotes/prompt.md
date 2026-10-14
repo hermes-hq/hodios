@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [press-quotes, spokesperson, executive-voice, press-release, quote-writing]
 pairs_with:
   prompts: [write-press-release, write-reactive-expert-comment, write-press-backgrounder]

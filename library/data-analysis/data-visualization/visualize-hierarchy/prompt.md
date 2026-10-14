@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [treemap, sunburst, hierarchical-data, chart-design]
 pairs_with:
   prompts: [visualize-part-to-whole, design-sankey-diagram, write-plotting-code]

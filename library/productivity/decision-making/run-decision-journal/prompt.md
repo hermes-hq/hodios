@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [decision-journal, calibration, hindsight-bias, judgement]
 pairs_with:
   prompts: [run-pre-mortem, compare-options-matrix, make-life-decision]

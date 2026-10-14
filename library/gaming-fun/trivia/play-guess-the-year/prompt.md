@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [timeline, dates, guessing-game, nostalgia, general-knowledge]
 pairs_with:
   prompts: [play-guess-the-country, play-two-truths-and-a-lie]

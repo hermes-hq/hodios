@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paid-social, ad-creative, hooks, creative-testing]
 pairs_with:
   prompts: [write-headline-variations, analyze-ad-performance, plan-marketing-campaign]

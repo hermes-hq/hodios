@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [altitude-sickness, acclimatisation, trekking, mountain-travel, travel-health]
 pairs_with:
   prompts: [plan-adventure-trip, choose-travel-insurance, build-packing-list, plan-long-distance-walk]

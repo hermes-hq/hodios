@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [health-inspection, food-hygiene, haccp, self-audit, temperature-logs, allergens, restaurant]
 pairs_with:
   prompts: [write-opening-closing-checklist, plan-equipment-maintenance, write-sop, check-food-safety]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [allegro, product-listing, gpsr, poland]
 pairs_with:
   prompts: [write-marketplace-listing, write-product-description]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rapport-de-stage, internship, report-structure, france, work-placement]
 pairs_with:
   prompts: [write-french-cover-letter, understand-assignment-brief, write-reflective-account]

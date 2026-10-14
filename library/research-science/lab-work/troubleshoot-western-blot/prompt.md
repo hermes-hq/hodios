@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [western-blot, immunoblotting, background, band-pattern, loading-control]
 pairs_with:
   prompts: [troubleshoot-failed-experiment, plan-antibody-validation, write-lab-notebook-entry]

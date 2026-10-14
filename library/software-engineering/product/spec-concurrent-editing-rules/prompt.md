@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [edit-conflicts, collaboration, data-integrity, requirements]
 pairs_with:
   prompts: [list-feature-edge-cases, spec-record-status-lifecycle, spec-roles-and-permissions]

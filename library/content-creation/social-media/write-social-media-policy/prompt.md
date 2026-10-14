@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [staff-policy, confidentiality, personal-accounts, employer-disclosure, escalation]
 pairs_with:
   prompts: [plan-employee-advocacy, handle-social-media-backlash, write-community-guidelines]

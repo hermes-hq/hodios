@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ultra-processed-food, nova, food-processing, label-reading, swaps]
 pairs_with:
   prompts: [read-nutrition-label, reduce-added-sugar, reduce-salt-intake]

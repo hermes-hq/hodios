@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brier-score, calibration, track-record, superforecasting]
 pairs_with:
   prompts: [make-calibrated-forecast, extract-predictions, combine-expert-forecasts]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rice, ice-scoring, kano, moscow, backlog, sensitivity-analysis]
 pairs_with:
   prompts: [build-outcome-roadmap, define-mvp-scope]

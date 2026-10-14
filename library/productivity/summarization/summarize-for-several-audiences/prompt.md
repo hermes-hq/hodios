@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [audience, stakeholder-updates, internal-comms, consistency]
 pairs_with:
   prompts: [summarize-long-document, write-executive-summary, plan-change-communications]

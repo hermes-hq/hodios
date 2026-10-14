@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [stats-intuition, simulation, misconceptions, worked-example]
 pairs_with:
   prompts: [choose-statistical-test, interpret-regression-output, make-fermi-estimate]

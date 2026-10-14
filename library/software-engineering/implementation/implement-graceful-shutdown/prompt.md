@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [graceful-shutdown, sigterm, zero-downtime, deployments, reliability]
 pairs_with:
   prompts: [implement-health-checks, implement-message-queue-consumer, write-kubernetes-manifests]

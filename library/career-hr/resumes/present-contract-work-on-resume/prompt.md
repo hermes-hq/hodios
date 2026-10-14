@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [freelance-history, contract-roles, short-tenures, agency-placements]
 pairs_with:
   prompts: [rewrite-resume-bullets, tailor-resume-to-job, explain-career-gap]

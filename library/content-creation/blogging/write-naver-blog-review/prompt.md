@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [naver-blog, review-post, sponsored-disclosure, korea]
 pairs_with:
   prompts: [write-product-review-post, write-xiaohongshu-note]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [joke-doctor, comedy-feedback, punchline, joke-rewrite, timing]
 pairs_with:
   prompts: [write-comedy-bit, write-one-liners, punch-up-with-humor]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [step-by-step, voice-friendly, older-adults, device-help, plain-language, settings]
 pairs_with:
   prompts: [teach-older-relative-smartphone, turn-on-accessibility-features, explain-error-message]

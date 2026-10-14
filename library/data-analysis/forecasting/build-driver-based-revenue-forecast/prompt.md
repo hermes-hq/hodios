@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [driver-tree, sensitivity, conversion-rate, average-order-value, scenarios]
 pairs_with:
   prompts: [build-kpi-tree, design-spreadsheet-model, review-forecast-assumptions, present-forecast-uncertainty]

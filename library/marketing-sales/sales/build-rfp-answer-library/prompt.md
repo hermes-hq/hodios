@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rfp, bid-management, content-library, tenders, proposal-management]
 pairs_with:
   prompts: [respond-to-rfp, answer-security-questionnaire, write-sales-proposal]

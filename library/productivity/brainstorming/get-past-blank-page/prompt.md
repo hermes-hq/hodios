@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [blank-page, writing-starters, first-draft, outlining, getting-started]
 pairs_with:
   prompts: [beat-procrastination, outline-draft-from-notes, get-unstuck-in-draft, brainstorm-ideas]

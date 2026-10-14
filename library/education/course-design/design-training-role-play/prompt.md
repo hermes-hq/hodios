@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [role-play-exercises, skills-practice, observer-checklist, debrief, experiential-learning, soft-skills-training]
 pairs_with:
   prompts: [design-workshop, design-branching-scenario, write-instructor-guide]

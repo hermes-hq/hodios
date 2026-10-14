@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [intake-scoring, keep-the-lights-on, shared-services, demand-management, allocation-rules]
 pairs_with:
   prompts: [prioritize-features, push-back-on-roadmap-request, decline-feature-request]

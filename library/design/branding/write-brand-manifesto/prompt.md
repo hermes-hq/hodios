@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [manifesto, brand-voice, brand-purpose, brand-writing, beliefs]
 pairs_with:
   prompts: [build-brand-platform, write-brand-story, write-brand-voice-guide, write-taglines]

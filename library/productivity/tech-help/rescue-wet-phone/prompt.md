@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [water-damage, liquid-spill, phone-repair, laptop-spill, device-insurance]
 pairs_with:
   prompts: [fix-phone-not-charging, fix-computer-that-wont-start, recover-deleted-files, set-up-backups]

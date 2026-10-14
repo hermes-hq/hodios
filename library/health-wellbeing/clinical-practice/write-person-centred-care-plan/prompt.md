@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [care-planning, person-centred-care, care-homes, domiciliary-care, dementia-care]
 pairs_with:
   prompts: [write-home-safety-assessment-summary, write-sbar-handoff, practice-nursing-care-plan]

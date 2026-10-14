@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fridge, freezer, food-safety, appliance-repair, defrost, repair-or-replace]
 pairs_with:
   prompts: [prepare-for-power-cut, clean-appliance-filters-and-seals, diagnose-home-problem]

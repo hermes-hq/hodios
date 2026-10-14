@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gen-l10n, arb, flutter-localizations, intl-package, icu-plurals]
 pairs_with:
   prompts: [write-icu-plural-messages, extract-ui-strings, plan-rtl-support]

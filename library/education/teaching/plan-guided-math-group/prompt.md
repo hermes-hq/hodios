@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [mathematics]
 tags: [guided-math, small-group-instruction, manipulatives, maths-rotations]
 pairs_with:

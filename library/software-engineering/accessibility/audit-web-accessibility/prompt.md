@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [wcag, aria, assistive-technology, audit]
 pairs_with:
   personas: [accessibility-specialist]

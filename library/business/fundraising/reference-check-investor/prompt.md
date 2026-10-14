@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [investor-diligence, backchannel, reference-calls, board-member, venture-capital]
 pairs_with:
   prompts: [compare-term-sheets, explain-term-sheet, build-investor-pipeline]

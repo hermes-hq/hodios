@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [boss-design, combat-design, telegraphing, encounter-design]
 pairs_with:
   prompts: [design-game-level, design-enemy-roster, design-difficulty-curve]

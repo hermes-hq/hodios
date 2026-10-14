@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [video-analysis, match-review, performance-analysis, tagging, self-review, amateur-coach]
 pairs_with:
   prompts: [run-match-debrief, break-down-sports-technique]

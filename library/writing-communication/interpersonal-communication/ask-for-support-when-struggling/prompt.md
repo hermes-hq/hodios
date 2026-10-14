@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [asking-for-help, emotional-support, reaching-out, not-okay, vulnerability, support-network]
 pairs_with:
   prompts: [support-struggling-friend, talk-to-doctor-about-mental-health, talk-through-a-bad-day, explain-reduced-availability-to-friends]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [buy-now-pay-later, payment-calendar, late-fees, cash-flow]
 pairs_with:
   prompts: [build-tight-budget, plan-debt-payoff]

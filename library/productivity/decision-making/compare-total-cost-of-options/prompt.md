@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lifetime-cost, break-even, running-costs, resale-value, ownership-cost]
 pairs_with:
   prompts: [compare-purchase-options, run-cost-benefit-analysis, compare-service-quotes]

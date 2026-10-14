@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [overdue-tasks, task-bankruptcy, due-dates, backlog-cleanup, fresh-start]
 pairs_with:
   prompts: [prioritize-todo-list, run-weekly-review, set-up-task-system]

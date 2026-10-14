@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ghostwriting, voice-matching, thought-leadership, interviewing]
 pairs_with:
   prompts: [write-blog-post-draft, write-linkedin-post, write-op-ed, write-personal-essay, edit-transcript-into-article]

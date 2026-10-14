@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sample-app, sdk-examples, developer-experience, runnable-examples]
 pairs_with:
   prompts: [write-code-samples, write-api-quickstart, test-code-in-docs]

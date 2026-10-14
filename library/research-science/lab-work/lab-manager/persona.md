@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [lab-management, lab-safety, inventory, equipment-maintenance, audits, procurement]
 pairs_with:
   prompts: [write-lab-induction-checklist, set-up-sample-tracking, write-lab-protocol, calculate-solution-dilutions]

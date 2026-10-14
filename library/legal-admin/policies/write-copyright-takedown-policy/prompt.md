@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [notice-and-takedown, counter-notice, repeat-infringer, user-uploads, safe-harbour]
 pairs_with:
   prompts: [respond-to-copyright-claim, request-content-takedown, write-acceptable-use-policy]

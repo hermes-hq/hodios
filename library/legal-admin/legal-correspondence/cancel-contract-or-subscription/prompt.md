@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cancellation, subscriptions, consumer-rights, notice-period]
 pairs_with:
   prompts: [dispute-card-charge, review-consumer-terms, write-complaint-letter]

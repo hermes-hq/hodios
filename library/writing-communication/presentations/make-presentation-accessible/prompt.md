@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [inclusive-design, alt-text, colour-contrast, captions, audio-description]
 pairs_with:
   prompts: [critique-slide-deck, write-alt-text, review-color-contrast]

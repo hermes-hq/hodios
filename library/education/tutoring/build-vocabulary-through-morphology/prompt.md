@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [morphology, academic-vocabulary, word-roots, prefixes-suffixes, word-families, etymology]
 pairs_with:
   prompts: [tutor-reading-comprehension]

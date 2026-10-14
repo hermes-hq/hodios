@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [form-design, inline-validation, error-messages, checkout, conversion]
 pairs_with:
   prompts: [write-ux-microcopy, critique-ui-screen, fix-form-accessibility, write-design-handoff]

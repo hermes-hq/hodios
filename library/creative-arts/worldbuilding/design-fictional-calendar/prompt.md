@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [timekeeping, festivals, holidays, astronomy, setting-design]
 pairs_with:
   prompts: [build-world-timeline, design-fictional-religion, design-fictional-culture, design-alien-planet]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [price-enquiries, front-desk, phone-script, price-ranges, booking-conversion, scoping-questions]
 pairs_with:
   prompts: [present-repair-options, triage-open-quotes, answer-group-booking-enquiry, reply-to-inbound-lead]

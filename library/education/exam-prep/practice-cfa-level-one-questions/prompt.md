@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cfa, cfa-level-1, investment-analysis, financial-calculator, ethics-standards, fixed-income]
 pairs_with:
   prompts: [prepare-certification-exam, practice-accounting-certification-questions, analyze-exam-mistakes]

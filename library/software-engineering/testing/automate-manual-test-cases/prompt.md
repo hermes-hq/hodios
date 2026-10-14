@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-automation, manual-testing, test-levels, regression]
 pairs_with:
   prompts: [write-manual-test-cases, write-e2e-test, write-integration-tests]

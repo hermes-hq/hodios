@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sponsor-calendar, ad-inventory, exclusivity-windows, booking-rules, sponsor-fatigue]
 pairs_with:
   prompts: [build-creator-rate-card, write-sponsor-renewal-proposal]

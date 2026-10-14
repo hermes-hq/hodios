@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [phone-screen, screening-call, knockout-questions, structured-interview, candidate-experience]
 pairs_with:
   prompts: [design-interview-loop, write-job-description, screen-resumes, run-hiring-debrief]

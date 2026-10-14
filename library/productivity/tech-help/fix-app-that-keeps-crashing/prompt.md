@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [app-crash, app-freezing, clear-cache, reinstall-app, software-updates]
 pairs_with:
   prompts: [explain-error-message, free-up-storage, write-tech-support-request, speed-up-slow-computer]

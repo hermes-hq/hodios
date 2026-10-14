@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [water-planning, water-treatment, dry-camp, dehydration, desert-hiking, pack-weight]
 pairs_with:
   prompts: [plan-backpacking-food, plan-hot-weather-hike, set-turnaround-time]

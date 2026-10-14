@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [writing-prompts, writing-exercises, poetry-workshop, daily-practice]
 pairs_with:
   prompts: [write-poem-in-form, critique-poem]

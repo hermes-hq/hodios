@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lesson-opener, engagement, curiosity, lesson-design]
 pairs_with:
   prompts: [write-lesson-plan, write-retrieval-practice-starters]

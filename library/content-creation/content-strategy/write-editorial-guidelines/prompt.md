@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [editorial-guidelines, house-style, contributor-guide, sourcing-rules, ai-policy]
 pairs_with:
   prompts: [write-blog-post-draft, write-guest-post-pitch]

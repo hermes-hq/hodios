@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sports-analytics, advanced-stats, expected-goals, sabermetrics, fan-analytics]
 pairs_with:
   prompts: [explain-sport-to-newcomer, plan-fantasy-sports-draft]

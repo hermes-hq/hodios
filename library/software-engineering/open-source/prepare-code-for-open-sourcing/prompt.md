@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-sourcing, release-readiness, secrets-in-history, license-compliance, ospo]
 pairs_with:
   prompts: [audit-repo-for-secrets, audit-dependency-licenses, choose-software-license, plan-open-source-launch, write-contributing-guide]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [figures, figure-captions, colour-accessibility, chart-types, manuscript]
 pairs_with:
   prompts: [write-results-section, plan-research-talk, design-research-poster]

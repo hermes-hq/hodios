@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [delivery-drivers, couriers, phone-calls, addresses, read-back]
 pairs_with:
   prompts: [practice-phone-call-in-language, practise-conversation-strategies, roleplay-shop-floor-customers]

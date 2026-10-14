@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [speech-to-text, whisper, diarization, word-error-rate, audio-processing]
 pairs_with:
   prompts: [clean-up-speech-transcript, redact-personal-data]

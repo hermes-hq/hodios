@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [export-controls, dual-use, encryption, export-licence, trade-compliance, end-use-checks]
 pairs_with:
   prompts: [set-up-sanctions-screening, find-hs-tariff-code, run-vendor-due-diligence]

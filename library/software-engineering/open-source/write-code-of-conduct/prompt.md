@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contributor-covenant, moderation, enforcement, community-health, incident-reporting]
 pairs_with:
   prompts: [handle-code-of-conduct-report, write-contributing-guide, write-project-governance]

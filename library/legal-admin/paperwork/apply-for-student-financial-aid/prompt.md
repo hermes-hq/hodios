@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [student-finance, fafsa, student-loans, student-grants, financial-aid-verification, university-funding]
 pairs_with:
   prompts: [compare-financial-aid-offers, plan-scholarship-applications, prepare-government-form]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-guidelines, brand-book, logo-usage, visual-identity, brand-consistency]
 pairs_with:
   prompts: [build-brand-platform, write-brand-voice-guide, design-presentation-template, design-social-media-templates, define-iconography]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [calibration, performance-ratings, rater-bias, review-cycle, facilitation]
 pairs_with:
   prompts: [write-performance-review, allocate-merit-increases, build-career-ladder]

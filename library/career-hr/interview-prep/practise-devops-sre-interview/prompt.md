@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [docker, kubernetes]
 tags: [sre-interview, troubleshooting-scenario, linux-networking, incident-response]
 pairs_with:

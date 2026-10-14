@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stop-motion, animation, frame-rate, classroom-project]
 pairs_with:
   prompts: [create-storyboard, write-sound-effect-prompts]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [board-and-lodging, household-costs, family-money, young-adults]
 pairs_with:
   prompts: [plan-supporting-family-financially, plan-first-job-finances, split-shared-expenses]

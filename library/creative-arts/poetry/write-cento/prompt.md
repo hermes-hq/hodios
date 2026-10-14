@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cento, collage-poem, public-domain, intertextuality]
 pairs_with:
   prompts: [write-found-poem, write-golden-shovel]

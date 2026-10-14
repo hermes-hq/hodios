@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [roleplay, social-history, composite-character, daily-life, source-tagging]
 pairs_with:
   prompts: [interview-historical-figure, take-time-travel-field-trip, analyze-primary-source]

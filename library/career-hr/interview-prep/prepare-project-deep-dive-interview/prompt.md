@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-walkthrough, past-project, trade-offs, technical-depth]
 pairs_with:
   prompts: [prepare-star-stories, prepare-system-design-interview, prepare-take-home-walkthrough]

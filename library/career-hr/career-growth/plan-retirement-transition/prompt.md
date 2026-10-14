@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [phased-retirement, work-identity, later-life, knowledge-handover, encore-career]
 pairs_with:
   prompts: [plan-career-path, propose-flexible-work, plan-sabbatical]

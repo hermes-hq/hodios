@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jquery, vanilla-js, dom-apis, bundle-size]
 pairs_with:
   prompts: [modernize-javascript-syntax, upgrade-major-dependency]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [respite-care, carers, carer-breaks, short-breaks, handover]
 pairs_with:
   prompts: [build-care-rota, manage-caregiver-stress, write-care-profile]

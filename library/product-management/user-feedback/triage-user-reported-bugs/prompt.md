@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bug-triage, bug-reports, severity, deduplication, support-escalation]
 pairs_with:
   prompts: [write-bug-severity-policy, prioritize-bug-backlog, triage-feature-requests]

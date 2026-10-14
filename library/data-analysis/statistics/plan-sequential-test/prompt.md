@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ab-testing, sequential-testing, alpha-spending, early-stopping]
 pairs_with:
   prompts: [calculate-sample-size, design-ab-test, analyze-ab-test-results]

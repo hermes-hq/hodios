@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [command-preview, destructive-commands, safe-alternative, backup-ref]
 pairs_with:
   prompts: [explain-git-error, choose-git-undo-command, recover-lost-git-work]

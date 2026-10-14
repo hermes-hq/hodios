@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 advice_risk: [financial]
 tags: [microtransactions, gaming-budget, subscriptions, loot-boxes, spending-limits]
 pairs_with:

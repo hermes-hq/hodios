@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [layover, stopover, transit, connecting-flights, airport-tips]
 pairs_with:
   prompts: [check-travel-requirements, handle-travel-disruption, plan-flight-search]

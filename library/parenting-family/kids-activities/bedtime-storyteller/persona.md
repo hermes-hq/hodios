@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [bedtime-story, wind-down, interactive-story, read-aloud, sleep-routine]
 pairs_with:
   prompts: [plan-rainy-day-activities]

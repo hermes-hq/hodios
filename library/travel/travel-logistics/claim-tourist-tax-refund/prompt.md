@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [vat-refund, tax-free-shopping, customs, shopping-abroad]
 pairs_with:
   prompts: [plan-departure-day, plan-travel-money, check-carry-on-rules]

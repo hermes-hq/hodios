@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [report-card, school-report, grades, parent-teacher-meeting, child-progress]
 pairs_with:
   prompts: [summarize-photographed-pages, extract-deadlines, compare-documents]

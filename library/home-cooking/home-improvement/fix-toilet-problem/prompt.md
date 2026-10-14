@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [toilet, cistern, fill-valve, flush-valve, water-leak, plumbing]
 pairs_with:
   prompts: [diagnose-home-problem, cut-household-water-use]

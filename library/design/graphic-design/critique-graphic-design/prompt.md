@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-critique, typography, composition, print-production]
 pairs_with:
   prompts: [write-design-brief, pair-typefaces, create-color-palette]

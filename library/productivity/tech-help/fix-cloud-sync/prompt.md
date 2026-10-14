@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cloud-sync, cloud-storage, photo-sync, contacts-sync, data-safety, step-by-step]
 pairs_with:
   prompts: [set-up-backups, free-up-storage, recover-deleted-files, organize-photo-library]

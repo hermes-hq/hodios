@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cookie-consent, consent-banner, dialog, focus-management, third-party-widget]
 pairs_with:
   personas: [accessibility-specialist]

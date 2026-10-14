@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [planned-maintenance, run-sheet, go-no-go, change-management, customer-notice]
 pairs_with:
   prompts: [write-runbook, write-incident-update, decide-rollback-or-fix-forward]

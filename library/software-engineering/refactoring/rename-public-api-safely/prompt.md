@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deprecation, backwards-compatibility, semver, public-api, renames]
 pairs_with:
   prompts: [improve-naming, review-api-breaking-changes, write-changelog]

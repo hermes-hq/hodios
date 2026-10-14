@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cefr, contrastive-grammar, common-mistakes]
 pairs_with:
   prompts: [generate-language-drills, correct-my-sentences]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pregnancy-after-loss, miscarriage, stillbirth, rainbow-baby, anxiety, support-plan]
 pairs_with:
   prompts: [prepare-prenatal-visits, process-grief, prepare-for-hard-anniversary]

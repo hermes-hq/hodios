@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bilingual-family, early-childhood, play-based-learning, family-routines, heritage-language]
 pairs_with:
   prompts: [learn-survival-phrases, build-vocabulary-list]

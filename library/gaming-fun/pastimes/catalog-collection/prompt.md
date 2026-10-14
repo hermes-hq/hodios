@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [collecting, inventory, catalogue-design, provenance, insurance-records, spreadsheet-template]
 pairs_with:
   prompts: [start-a-collection, assess-inherited-collection]

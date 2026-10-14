@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [furusato-nozei, one-stop-tokurei, kifukin-koujo, juuminzei, japan]
 pairs_with:
   prompts: [prepare-kakutei-shinkoku]

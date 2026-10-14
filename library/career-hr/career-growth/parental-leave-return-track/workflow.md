@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [parental-leave, maternity-leave, return-to-work, keep-in-touch-days, childcare, working-parents]
 pairs_with:
   prompts: [propose-flexible-work, increase-work-visibility, write-brag-document, plan-one-on-one]

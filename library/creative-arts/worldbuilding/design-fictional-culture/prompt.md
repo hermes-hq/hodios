@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fictional-culture, societies, customs, setting-design]
 pairs_with:
   prompts: [build-magic-system, develop-character]

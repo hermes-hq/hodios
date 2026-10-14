@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conflicting-evidence, heterogeneity, effect-modification, study-comparison, evidence-appraisal]
 pairs_with:
   prompts: [appraise-study-quality, build-literature-matrix, read-paper-with-me, plan-meta-analysis]

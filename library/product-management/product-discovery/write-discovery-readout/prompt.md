@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-readout, decision-memo, evidence-strength, stakeholder-communication]
 pairs_with:
   prompts: [synthesize-customer-interviews, write-opportunity-assessment, audit-idea-evidence, write-experiment-readout]

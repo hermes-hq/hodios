@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [school-libraries, collection-development, weeding, diverse-books, library-audit, purchasing-plan]
 pairs_with:
   prompts: [plan-library-reading-programme, plan-information-literacy-session, build-course-reading-list]

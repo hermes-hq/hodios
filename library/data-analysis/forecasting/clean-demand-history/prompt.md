@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [demand-cleansing, stockouts, censored-demand, outliers, structural-breaks]
 pairs_with:
   prompts: [forecast-time-series, forecast-intermittent-demand, add-event-adjustments-to-forecast]

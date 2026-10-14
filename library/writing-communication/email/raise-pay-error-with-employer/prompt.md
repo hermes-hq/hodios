@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [payslip, pay-error, underpayment, overtime, deductions, payroll-query]
 pairs_with:
   prompts: [explain-payslip, claim-unpaid-wages, write-workplace-grievance, request-employment-documents]

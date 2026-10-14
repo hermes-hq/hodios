@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [monthly-shop, rural-living, shelf-life, freezer-planning, bulk-buying, payday-shopping]
 pairs_with:
   prompts: [plan-weekly-meals, plan-freezer-meals, set-up-pantry-restock-system]

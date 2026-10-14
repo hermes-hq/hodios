@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [javascript, typescript, html-css]
 tags: [frontend-interview, ui-component-build, browser-fundamentals, web-accessibility]
 pairs_with:

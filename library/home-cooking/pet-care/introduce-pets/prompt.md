@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pet-introductions, new-pet, multi-pet-home, dog-and-cat, cat-introductions, pet-body-language]
 pairs_with:
   prompts: [solve-cat-behavior-problem, plan-new-pet-care, choose-pet-for-lifestyle]

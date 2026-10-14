@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-catalog, service-ownership, runbook-links, dependencies, internal-docs]
 pairs_with:
   prompts: [write-onboarding-guide, write-ownership-handover-doc]

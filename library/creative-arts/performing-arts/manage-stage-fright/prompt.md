@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [stage-fright, performance-nerves, pre-show-routine, audition-prep, mistakes-recovery]
 pairs_with:
   prompts: [learn-lines, plan-self-tape-audition]

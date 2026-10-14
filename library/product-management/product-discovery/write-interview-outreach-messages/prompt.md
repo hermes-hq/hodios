@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-interviews, research-recruiting, outreach-copy, interview-invitation, follow-up-messages]
 pairs_with:
   prompts: [write-research-screener, write-customer-interview-guide, plan-continuous-interview-cadence]

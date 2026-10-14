@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [search-campaign, local-services, keyword-planning, call-tracking, launch-checklist, search-terms]
 pairs_with:
   prompts: [write-google-ads, triage-search-terms-report, plan-ad-conversion-tracking, schedule-ads-around-phone-hours, audit-search-ads-account]

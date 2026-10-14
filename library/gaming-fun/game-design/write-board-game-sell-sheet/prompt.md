@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sell-sheet, publisher-pitch, board-games, card-games]
 pairs_with:
   prompts: [design-board-game, write-board-game-rulebook]

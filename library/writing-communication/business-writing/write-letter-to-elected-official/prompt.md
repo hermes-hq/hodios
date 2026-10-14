@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [advocacy, constituent-letter, civic-engagement, lobbying, petition, local-government]
 pairs_with:
   prompts: [write-public-consultation-response, write-formal-letter, plan-persuasive-argument]

@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [science-communication, plain-language, analogies, uncertainty, anti-hype]
 pairs_with:
   prompts: [explain-research-to-public, design-research-poster, check-health-claim]

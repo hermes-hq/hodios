@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [nengajo, new-year, greeting-card, kanchu-mimai, mourning, japanese-etiquette]
 pairs_with:
   prompts: [write-card-message, write-thank-you-note, write-japanese-business-email]

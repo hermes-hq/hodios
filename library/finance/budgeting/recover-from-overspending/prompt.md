@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [overspending, budget-recovery, catch-up-plan, money-stress]
 pairs_with:
   prompts: [build-monthly-budget, plan-no-spend-month, clear-overdraft, set-up-sinking-funds]

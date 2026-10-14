@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [disrepair, evidence, timeline, tenant-rights, record-keeping]
 pairs_with:
   prompts: [request-landlord-repair, write-housing-complaint-to-authority, build-timeline-from-documents]

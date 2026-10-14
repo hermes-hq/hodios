@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rehoming, pet-surrender, rescue-organisations, adoption-profile, behaviour-support, difficult-decisions]
 pairs_with:
   prompts: [train-dog-behavior, solve-cat-behavior-problem, ask-landlord-about-pet, introduce-pets]

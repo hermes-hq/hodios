@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cargo-test, doc-tests, tokio, proptest, trait-fakes]
 pairs_with:
   prompts: [write-unit-tests, write-property-based-tests, write-fuzz-harness]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [event-branding, key-visual, wayfinding, conference-design, festival-identity, campaign-identity]
 pairs_with:
   prompts: [write-design-brief, create-mood-board, plan-signage, design-social-media-templates, prepare-print-files, design-merch-concepts]

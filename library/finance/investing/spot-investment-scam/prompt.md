@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fraud, ponzi-scheme, crypto-scams, consumer-protection]
 pairs_with:
   prompts: [explain-fund-document, explain-investment-concept]

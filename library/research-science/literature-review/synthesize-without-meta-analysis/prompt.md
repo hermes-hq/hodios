@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [swim-guideline, narrative-synthesis, vote-counting, evidence-synthesis, systematic-review, effect-direction]
 pairs_with:
   prompts: [build-literature-matrix, plan-meta-analysis, write-summary-of-findings-table, appraise-study-quality]

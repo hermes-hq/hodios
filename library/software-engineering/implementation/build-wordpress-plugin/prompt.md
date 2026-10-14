@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plugin-development, settings-api, nonces, output-escaping, uninstall-cleanup]
 pairs_with:
   personas: [wordpress-developer]

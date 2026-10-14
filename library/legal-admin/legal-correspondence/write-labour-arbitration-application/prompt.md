@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [laodong-zhongcai, laodong-zhengyi, qianxin, china]
 pairs_with:
   prompts: [claim-unpaid-wages, find-free-legal-help]

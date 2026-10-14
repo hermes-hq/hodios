@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [statefulset, database-operator, persistent-volumes, backups, storage-class]
 pairs_with:
   prompts: [plan-disaster-recovery, write-kubernetes-manifests, upgrade-kubernetes-cluster]

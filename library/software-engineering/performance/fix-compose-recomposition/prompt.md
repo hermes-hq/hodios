@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [jetpack-compose, recomposition, compose-stability, layout-inspector, derivedstateof]
 pairs_with:
   prompts: [fix-mobile-scroll-jank, split-large-composable, fix-compose-state-bug]

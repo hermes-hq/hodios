@@ -12,6 +12,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: beginner
+depth: specific
 role: [individual, founder, manager]
 tags: [recommendations, decision-support, clear-answers, trade-offs]
 pairs_with:

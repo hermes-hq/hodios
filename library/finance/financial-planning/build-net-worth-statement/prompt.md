@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [net-worth, balance-sheet, financial-tracking, quarterly-review]
 pairs_with:
   prompts: [plan-financial-independence, plan-debt-payoff]

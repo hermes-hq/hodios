@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grant-variation, no-cost-extension, budget-reallocation, programme-officer, grant-management]
 pairs_with:
   prompts: [write-grant-report, write-grant-budget-narrative]

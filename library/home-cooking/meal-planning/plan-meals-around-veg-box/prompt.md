@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [veg-box, farm-share, seasonal-produce, gluts, perishability, unfamiliar-vegetables]
 pairs_with:
   prompts: [plan-weekly-meals, preserve-food-safely, recipe-from-ingredients]

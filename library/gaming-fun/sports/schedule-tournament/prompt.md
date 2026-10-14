@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tournament, bracket, round-robin, fixtures, sports-day, event-schedule]
 pairs_with:
   prompts: [prepare-to-referee]

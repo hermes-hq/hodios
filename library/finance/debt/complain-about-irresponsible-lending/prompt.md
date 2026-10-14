@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [affordability-complaint, unaffordable-credit, ombudsman, refunds]
 pairs_with:
   prompts: [break-payday-loan-cycle, negotiate-with-creditor, review-credit-agreement, compare-debt-relief-options]

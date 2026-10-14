@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [food-hygiene, food-handler-card, allergen-awareness, cross-contamination, temperature-control, kitchen-safety]
 pairs_with:
   prompts: [prepare-for-food-safety-inspection, analyze-exam-mistakes]

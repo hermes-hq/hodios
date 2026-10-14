@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [whatsapp-business, quick-replies, pix, chat-scripts, brazil]
 pairs_with:
   prompts: [write-mercado-livre-listing, write-ifood-menu-and-promos]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [synthesis, citations, thesis]
 pairs_with:
   prompts: [build-literature-matrix, find-research-gaps]

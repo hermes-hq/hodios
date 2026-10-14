@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shopping-cart, checkout, inventory, promo-codes, order-creation]
 pairs_with:
   prompts: [integrate-payments, implement-money-arithmetic, implement-idempotency-keys]

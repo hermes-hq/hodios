@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [social-media-privacy, privacy-settings, profile-visibility, location-sharing, tagging]
 pairs_with:
   prompts: [reduce-online-footprint, secure-personal-accounts, respond-to-online-harassment]

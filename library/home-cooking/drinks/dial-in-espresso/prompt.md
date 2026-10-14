@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [espresso, extraction, home-barista, coffee-brewing]
 args:
   - name: machine

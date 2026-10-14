@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [deliverability, email-authentication, dmarc, sender-reputation, ip-warmup, spam-folder]
 pairs_with:
   prompts: [write-win-back-campaign, write-promo-email]

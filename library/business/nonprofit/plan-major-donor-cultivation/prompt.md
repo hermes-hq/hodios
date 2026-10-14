@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [major-gifts, moves-management, donor-cultivation, stewardship, donor-relations]
 pairs_with:
   prompts: [plan-capital-campaign, write-donor-thank-you, write-case-for-support, write-impact-report]

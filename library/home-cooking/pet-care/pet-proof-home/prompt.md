@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pet-safety, toxic-plants, toxic-foods, household-hazards, escape-proofing, poisoning-prevention]
 pairs_with:
   prompts: [plan-new-pet-care, build-pet-emergency-plan, plan-houseplant-care, introduce-pets]

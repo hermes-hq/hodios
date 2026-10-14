@@ -17,6 +17,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [strangler-fig, dual-running, reversibility, deprecations, cutover, legacy-systems]
 pairs_with:
   prompts: [plan-incremental-migration, upgrade-major-dependency, inventory-deprecated-api-usage, switch-orm-or-query-layer]

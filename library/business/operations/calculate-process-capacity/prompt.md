@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [takt-time, throughput, bottleneck-analysis, line-balancing, capacity-planning]
 pairs_with:
   prompts: [map-business-process, run-value-stream-map, analyze-process-cycle-times, reduce-changeover-time]

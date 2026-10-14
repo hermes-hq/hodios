@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [waitlist, invite-waves, early-access, activation, capacity-planning]
 pairs_with:
   prompts: [plan-beta-program, plan-product-launch, write-launch-announcement]

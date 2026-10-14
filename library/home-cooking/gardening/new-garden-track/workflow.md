@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [new-garden, overgrown-garden, garden-survey, garden-layout, first-year, garden-makeover]
 pairs_with:
   prompts: [design-garden-border, plan-vegetable-garden, clear-perennial-weeds, plan-pruning, build-garden-calendar]

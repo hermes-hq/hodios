@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [crafts-at-home, recycled-materials, fine-motor-skills, screen-free, preschool, art-projects]
 pairs_with:
   prompts: [plan-rainy-day-activities, design-kids-science-experiment, plan-kids-summer]

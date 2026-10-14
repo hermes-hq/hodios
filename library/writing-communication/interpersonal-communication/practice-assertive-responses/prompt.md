@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [assertiveness, i-statements, broken-record, fogging, saying-no, rehearsal]
 pairs_with:
   prompts: [set-boundary, rehearse-difficult-conversation, decline-request-gracefully, respond-to-criticism]

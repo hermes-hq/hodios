@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [undo, revert, reset, amend, wrong-branch]
 pairs_with:
   prompts: [recover-lost-git-work, explain-git-error, clean-up-commit-history]

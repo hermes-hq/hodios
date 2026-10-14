@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [passkeys, passwordless, account-security, phishing-resistance, password-manager]
 pairs_with:
   prompts: [secure-personal-accounts, recover-hacked-account, switch-phones]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [localisation, right-to-left, text-expansion, mirroring, internationalisation]
 pairs_with:
   prompts: [plan-rtl-support, review-i18n-readiness, write-ux-microcopy, create-wireframe-spec]

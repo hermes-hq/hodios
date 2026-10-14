@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [anova, post-hoc-tests, tukey-hsd, games-howell, kruskal-wallis, eta-squared]
 pairs_with:
   prompts: [choose-statistical-test, correct-for-multiple-comparisons, interpret-interaction-effect]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [spaced-repetition, minimum-information, cloze-deletion, card-design]
 pairs_with:
   prompts: [make-flashcards, create-memory-aids]

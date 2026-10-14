@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [aws-sdk, codemods, serverless, end-of-support]
 pairs_with:
   prompts: [upgrade-major-dependency, inventory-deprecated-api-usage]

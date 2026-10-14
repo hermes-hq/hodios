@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [type-level-programming, generics, conditional-types, code-reading]
 pairs_with:
   prompts: [simplify-typescript-types, fix-typescript-type-error, explain-code]

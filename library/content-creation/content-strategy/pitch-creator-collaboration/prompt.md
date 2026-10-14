@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [creator-collaboration, collab-pitch, cross-promotion, creator-outreach]
 pairs_with:
   prompts: [write-podcast-guest-pitch, pitch-brand-sponsorship, analyze-competitor-channels]

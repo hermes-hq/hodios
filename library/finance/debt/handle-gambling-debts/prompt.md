@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gambling-harm, self-exclusion, spending-blocks, priority-debts]
 pairs_with:
   prompts: [plan-gambling-reduction, plan-debt-payoff, negotiate-with-creditor, prepare-for-debt-advice-appointment]

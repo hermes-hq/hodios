@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [past-clients, referrals, stay-in-touch, client-anniversary, content-calendar]
 pairs_with:
   prompts: [write-just-listed-email, write-milestone-emails, set-email-frequency]

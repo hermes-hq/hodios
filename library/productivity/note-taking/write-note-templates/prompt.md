@@ -19,6 +19,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [templates, properties, front-matter, structured-notes]
 pairs_with:
   prompts: [design-note-tagging-scheme, design-daily-note-template, set-up-obsidian-vault]

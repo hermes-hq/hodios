@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [surface-care, chemical-safety, natural-stone, wood-floors, stainless-steel]
 pairs_with:
   prompts: [remove-stain]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [trailing-spouse, dependent-visa, career-break, moving-abroad, couples]
 pairs_with:
   prompts: [prepare-for-culture-shock, get-qualifications-recognised, build-connection-plan]

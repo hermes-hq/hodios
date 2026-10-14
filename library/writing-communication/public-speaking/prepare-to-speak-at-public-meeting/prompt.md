@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [public-comment, city-council, school-board, planning-hearing, civic-engagement, local-government]
 pairs_with:
   prompts: [write-letter-to-elected-official, write-public-consultation-response, write-speech, practice-impromptu-speaking]

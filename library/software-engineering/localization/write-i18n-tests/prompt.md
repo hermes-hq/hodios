@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plural-rules, pseudo-locale, snapshot-tests, cldr, time-zones]
 pairs_with:
   prompts: [pseudo-localize-ui, validate-translation-files-in-ci, write-icu-plural-messages]

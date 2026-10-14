@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vbac, repeat-caesarean, shared-decision, previous-birth, informed-decision]
 pairs_with:
   prompts: [prepare-birth-debrief, write-birth-preferences, prepare-for-planned-caesarean]

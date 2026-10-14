@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [saas]
 tags: [mrr, net-revenue-retention, churn-rate, revenue-metrics, unit-economics]
 pairs_with:

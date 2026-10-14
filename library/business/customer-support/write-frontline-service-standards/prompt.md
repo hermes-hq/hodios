@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [service-standards, observable-behaviours, staff-coaching, front-desk, customer-experience]
 pairs_with:
   prompts: [build-service-recovery-playbook, write-job-aid, build-support-qa-scorecard]

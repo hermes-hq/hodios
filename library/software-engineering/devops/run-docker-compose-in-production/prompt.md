@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [compose, single-host, restart-policy, log-rotation, self-hosting]
 pairs_with:
   prompts: [write-docker-compose, deploy-to-vps, harden-linux-server]

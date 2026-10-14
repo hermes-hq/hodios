@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [youth-sports, coaching, season-planning, parent-communication, playing-time, volunteer-coach]
 pairs_with:
   prompts: [plan-youth-sports-practice]

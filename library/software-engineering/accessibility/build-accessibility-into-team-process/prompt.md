@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shift-left, definition-of-done, accessibility-program, team-process, team-enablement]
 pairs_with:
   personas: [accessibility-specialist]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tax-deadlines, compliance-calendar, annual-filings, payroll-tax]
 pairs_with:
   prompts: [plan-estimated-tax-payments, prepare-vat-return-workpaper, prepare-month-end-close]

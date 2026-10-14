@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mature-students, adult-learners, returning-to-education, access-courses, career-change]
 pairs_with:
   prompts: [fit-study-around-shift-work, explain-university-jargon, create-study-plan]

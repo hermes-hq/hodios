@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [governance, rag-status, programme-board, risks-and-issues, escalation, executive-audience]
 pairs_with:
   prompts: [build-decision-request-deck, present-missed-target, plan-backup-slides]

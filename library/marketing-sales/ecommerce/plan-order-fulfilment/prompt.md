@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fulfilment, shipping-rates, pick-and-pack, carriers, packaging, order-tracking, online-shop]
 pairs_with:
   prompts: [design-returns-process, plan-peak-season-operations, plan-inventory, compare-vendors]

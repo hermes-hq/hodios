@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [action-sequence, set-piece, escalation, action-lines]
 pairs_with:
   prompts: [write-beat-sheet, format-screenplay-scene, build-suspense-in-scene]

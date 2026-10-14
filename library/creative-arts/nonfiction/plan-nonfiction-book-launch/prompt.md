@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [book-launch, author-publicity, podcast-pitching, advance-readers, book-marketing]
 pairs_with:
   prompts: [write-nonfiction-book-proposal, write-book-blurb]

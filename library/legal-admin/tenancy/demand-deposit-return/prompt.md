@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [security-deposit, tenant-rights, wear-and-tear, deposit-scheme]
 pairs_with:
   prompts: [write-complaint-letter, prepare-small-claims-case, review-lease]

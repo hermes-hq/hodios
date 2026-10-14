@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [strength-training, training-split, full-body, upper-lower, push-pull-legs, training-frequency]
 pairs_with:
   prompts: [build-training-plan, review-training-program, find-exercise-substitutes]

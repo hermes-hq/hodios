@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hybrid-search, bm25, reciprocal-rank-fusion, retrieval]
 pairs_with:
   prompts: [design-rag-pipeline, rerank-retrieved-passages, rewrite-search-query]

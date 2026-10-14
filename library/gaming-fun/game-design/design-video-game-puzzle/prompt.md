@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [puzzle-design, aha-moment, environmental-puzzle, hint-system, sequence-design, mechanics]
 pairs_with:
   prompts: [design-game-level, design-game-onboarding, plan-playtest-session]

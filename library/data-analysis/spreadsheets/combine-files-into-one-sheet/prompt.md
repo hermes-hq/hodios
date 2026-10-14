@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [consolidation, append-data, monthly-files, vstack, data-prep]
 pairs_with:
   prompts: [write-power-query, clean-messy-spreadsheet, build-pivot-analysis]

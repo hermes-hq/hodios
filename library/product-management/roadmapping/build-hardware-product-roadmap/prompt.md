@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [evt-dvt-pvt, tooling, long-lead-parts, certification, critical-path, firmware-updates]
 pairs_with:
   prompts: [plan-seasonal-product-calendar, set-product-cost-target, plan-retail-shelf-launch, map-cross-team-dependencies]

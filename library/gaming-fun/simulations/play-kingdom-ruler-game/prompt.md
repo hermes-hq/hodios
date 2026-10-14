@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [swipe-game, fantasy-kingdom, balance-game, short-turns]
 args:
   - name: realm_flavor

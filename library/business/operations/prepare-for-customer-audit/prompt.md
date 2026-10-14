@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [supplier-audit, audit-preparation, customer-requirements, audit-findings, quality-assurance]
 pairs_with:
   prompts: [write-capa-report, audit-sop-library, write-quality-control-checklist]

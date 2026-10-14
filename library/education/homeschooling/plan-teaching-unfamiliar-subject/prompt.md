@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [parent-confidence, outsourcing, tutor-or-class, learn-alongside, skill-swap, upper-level-subjects]
 pairs_with:
   prompts: [evaluate-homeschool-curriculum, plan-homeschool-co-op]

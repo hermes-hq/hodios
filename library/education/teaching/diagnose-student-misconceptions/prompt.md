@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [misconceptions, hinge-questions, formative-assessment, reteaching, error-analysis]
 pairs_with:
   prompts: [analyze-class-assessment-results, design-formative-assessment, write-multiple-choice-questions]

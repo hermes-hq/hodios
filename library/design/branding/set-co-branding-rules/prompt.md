@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [co-branding, brand-partnership, logo-lockup, trademark-use, partner-marketing]
 pairs_with:
   prompts: [build-brand-guidelines, design-brand-architecture, write-partnership-proposal]

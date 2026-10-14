@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pacing, greybox, teaching-mechanics, encounter-design, teach-test-twist]
 pairs_with:
   prompts: [design-game-mechanic, write-game-design-document]

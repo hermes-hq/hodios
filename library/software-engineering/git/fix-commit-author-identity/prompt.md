@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [author-email, mailmap, commit-identity, includeif, history-rewrite]
 pairs_with:
   prompts: [set-up-git-on-new-machine, set-up-commit-signing, purge-file-from-git-history, choose-git-undo-command]

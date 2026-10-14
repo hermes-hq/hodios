@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [territory-planning, account-segmentation, coverage-model, pipeline-math, quota]
 pairs_with:
   prompts: [write-account-plan, review-sales-pipeline, build-sales-playbook]

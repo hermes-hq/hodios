@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [es2015, legacy-javascript, codemods, modern-syntax]
 pairs_with:
   prompts: [convert-callbacks-to-async-await, migrate-commonjs-to-esm]

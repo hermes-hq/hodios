@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [autovacuum, table-bloat, dead-tuples, xid-wraparound, index-bloat, maintenance]
 pairs_with:
   personas: [database-administrator]

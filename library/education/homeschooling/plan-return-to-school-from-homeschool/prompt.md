@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [school-entry, year-placement, transition, records-for-school, school-routines, first-term]
 pairs_with:
   prompts: [build-homeschool-portfolio, write-homeschool-transcript, plan-homeschool-socialisation]

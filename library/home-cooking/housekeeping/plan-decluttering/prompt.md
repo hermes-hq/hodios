@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [declutter, minimalism, storage, moving-house, routines]
 pairs_with:
   prompts: [organize-digital-files]

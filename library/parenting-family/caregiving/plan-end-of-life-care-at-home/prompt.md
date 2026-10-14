@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [palliative-care, dying-at-home, hospice, carers, grief]
 pairs_with:
   prompts: [build-care-rota, prepare-advance-care-plan-questions, process-grief]

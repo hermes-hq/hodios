@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plc, data-team, meeting-protocol, collaborative-inquiry, instructional-improvement, common-assessment]
 pairs_with:
   prompts: [analyze-class-assessment-results, plan-intervention-group, write-lesson-observation-feedback]

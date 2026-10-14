@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spreadsheet-performance, volatile-functions, recalculation, lookups, file-size]
 pairs_with:
   prompts: [audit-spreadsheet-model, debug-spreadsheet-formula, write-power-query]

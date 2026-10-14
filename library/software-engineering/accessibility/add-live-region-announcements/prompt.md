@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [aria-live, status-messages, screen-reader, toasts, wcag]
 pairs_with:
   personas: [accessibility-specialist]

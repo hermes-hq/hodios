@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tarts, shortcrust, blind-baking, pate-sucree, quiche, custard-tart]
 pairs_with:
   prompts: [plan-fruit-pie, calibrate-home-oven, adapt-bake-to-different-tin]

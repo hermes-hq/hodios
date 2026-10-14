@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-catalog, error-messages, retries, support-deflection, error-codes]
 pairs_with:
   prompts: [write-troubleshooting-guide, write-cli-reference, document-public-api]

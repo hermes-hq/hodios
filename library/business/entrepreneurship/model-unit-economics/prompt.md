@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cac, ltv, payback-period, contribution-margin]
 pairs_with:
   prompts: [analyze-business-model, design-pricing, write-investor-update]

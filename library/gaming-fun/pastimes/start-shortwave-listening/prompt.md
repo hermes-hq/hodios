@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shortwave, radio-listening, software-defined-radio, swl, propagation, antennas]
 pairs_with:
   prompts: [get-started-with-amateur-radio, learn-morse-code]

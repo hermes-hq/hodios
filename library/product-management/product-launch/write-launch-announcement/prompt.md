@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [feature-announcement, changelog, in-app-messaging, product-marketing]
 pairs_with:
   prompts: [plan-product-launch, write-sales-enablement-brief, write-press-release]

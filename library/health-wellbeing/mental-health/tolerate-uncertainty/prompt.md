@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [uncertainty, waiting-for-results, reassurance-seeking, anxiety-skills, worry]
 pairs_with:
   prompts: [set-up-worry-time, cope-with-health-anxiety, guide-breathing-exercise, reframe-negative-thoughts]

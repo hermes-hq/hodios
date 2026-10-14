@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [board-paper, governance, trustees, decision-request, executive-summary]
 pairs_with:
   prompts: [build-outcome-roadmap, write-roadmap-update, plan-runway-based-roadmap]

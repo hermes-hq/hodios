@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [subject-lines, preheaders, open-rate, copywriting-angles]
 pairs_with:
   prompts: [plan-subject-line-ab-test, write-promo-email, critique-marketing-email]

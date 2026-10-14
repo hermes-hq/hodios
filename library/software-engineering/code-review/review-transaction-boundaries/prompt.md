@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [transactions, isolation-levels, consistency, orm, pull-request]
 pairs_with:
   personas: [code-reviewer]

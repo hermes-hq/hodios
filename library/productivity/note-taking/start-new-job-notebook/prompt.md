@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-starter, new-job, glossary, people-notes, first-90-days]
 pairs_with:
   prompts: [set-up-work-logbook, build-personal-crm, write-note-templates, plan-first-90-days]

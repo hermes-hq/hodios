@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [home-repair, handmade-projects, shot-list, safety-callouts, step-checkpoints]
 pairs_with:
   prompts: [plan-video-shoot, write-video-chapters, write-video-hooks]

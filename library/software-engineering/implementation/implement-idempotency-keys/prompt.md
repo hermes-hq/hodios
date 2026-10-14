@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [idempotency, rest-api, retries, duplicate-requests, distributed-systems]
 pairs_with:
   prompts: [add-retries-and-timeouts, integrate-payments, build-webhook-handler, build-rest-endpoint]

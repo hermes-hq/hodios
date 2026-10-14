@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-lifecycle, email-flows, revenue-per-recipient, list-health, retention]
 pairs_with:
   prompts: [map-email-automation-flows, set-email-frequency, analyze-email-campaign-report, write-win-back-campaign]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hashtags, discoverability, social-seo, keyword-research]
 pairs_with:
   prompts: [write-instagram-caption, run-social-media-audit, write-short-form-script]

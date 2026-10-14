@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [unplugged-coding, computational-thinking, algorithms-for-kids, stem-play, logic-games, screen-free]
 pairs_with:
   prompts: [invent-learning-game, design-kids-science-experiment, set-brick-building-challenges]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [newcomers, migrants, third-culture-kids, school-system, heritage-language, cultural-adjustment, expat-families]
 pairs_with:
   prompts: [plan-bilingual-upbringing, prepare-child-for-school, write-email-to-teacher]

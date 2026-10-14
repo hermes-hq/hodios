@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [middleware, request-validation, error-middleware, graceful-shutdown, rest-api]
 applies_to: ["**/*.js", "**/*.ts"]
 pairs_with:

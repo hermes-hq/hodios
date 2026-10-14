@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [autonomo, iva, modelo-303, modelo-130, espana]
 pairs_with:
   prompts: [prepare-spanish-income-tax, track-business-expenses]

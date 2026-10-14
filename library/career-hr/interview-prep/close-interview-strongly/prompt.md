@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [interview-close, objection-handling, next-steps, final-impression]
 pairs_with:
   prompts: [prepare-questions-for-interviewer, write-interview-thank-you, debrief-interview]

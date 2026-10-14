@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tls, certificate-expiry, certificate-chain, acme, mutual-tls]
 pairs_with:
   prompts: [triage-production-alert, write-incident-update, design-synthetic-checks, write-postmortem]

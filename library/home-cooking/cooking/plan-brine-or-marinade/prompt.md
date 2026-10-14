@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [brining, marinades, salting, flavour-building, meat-prep]
 pairs_with:
   prompts: [plan-barbecue-cook, cook-meat-to-doneness, plan-holiday-feast-schedule]

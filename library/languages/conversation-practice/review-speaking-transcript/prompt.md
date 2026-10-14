@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [speaking-feedback, self-recording, hesitation, overused-words, fluency]
 pairs_with:
   prompts: [create-shadowing-script, coach-pronunciation, practice-speaking-exam]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [systematic-review, meta-analysis, prisma, amstar, risk-of-bias, grade, manuscript]
 pairs_with:
   prompts: [write-peer-review, check-manuscript-reporting, review-statistical-methods, appraise-study-quality]

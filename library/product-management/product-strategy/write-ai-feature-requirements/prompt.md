@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [llm-apps]
 tags: [ai-requirements, llm-evals, prd, failure-handling, ai-safety, quality-bar]
 pairs_with:

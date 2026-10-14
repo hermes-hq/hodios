@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [imports, module-resolution, esm, commonjs, virtualenv]
 pairs_with:
   prompts: [explain-stack-trace, resolve-dependency-conflict]

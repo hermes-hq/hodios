@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [risk-acceptance, security-policy, compensating-controls, security-review, governance]
 pairs_with:
   prompts: [write-decision-memo, request-approval-by-email]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketing-metrics, cost-per-lead, pipeline-contribution, channel-mix, monthly-report]
 pairs_with:
   prompts: [analyze-ad-performance, analyze-web-analytics, write-monthly-business-review, check-report-figures]

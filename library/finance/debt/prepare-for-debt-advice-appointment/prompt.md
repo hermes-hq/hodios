@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [debt-advice, debt-help, priority-debts, financial-statement, money-advice]
 pairs_with:
   prompts: [negotiate-with-creditor, respond-to-debt-collector, build-tight-budget, plan-debt-payoff]

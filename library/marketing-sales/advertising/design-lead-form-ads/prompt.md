@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lead-forms, lead-quality, qualifying-questions, speed-to-lead, instant-forms, follow-up-script]
 pairs_with:
   prompts: [qualify-leads, reply-to-inbound-lead, plan-ad-conversion-tracking]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spikes, prototyping, technical-investigation, decision-support]
 pairs_with:
   prompts: [plan-spike, write-design-doc]

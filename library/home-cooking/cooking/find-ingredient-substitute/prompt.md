@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [substitutions, missing-ingredient, swaps, pantry, kitchen-fixes]
 pairs_with:
   prompts: [adapt-recipe, recipe-from-ingredients, rescue-dish-flavor]

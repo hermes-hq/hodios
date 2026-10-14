@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [business-email-compromise, mailbox-rules, oauth-consent, session-revocation, account-takeover]
 pairs_with:
   prompts: [investigate-reported-phishing, investigate-cloud-audit-logs, write-ir-playbook, plan-data-breach-response]

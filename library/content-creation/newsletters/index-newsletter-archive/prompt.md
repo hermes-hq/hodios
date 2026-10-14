@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [archive-index, content-inventory, evergreen-content, link-rot, content-reuse]
 pairs_with:
   prompts: [turn-newsletter-archive-into-ebook, build-evergreen-issue-bank, write-year-in-review-issue]

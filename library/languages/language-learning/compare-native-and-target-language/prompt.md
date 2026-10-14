@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [contrastive-analysis, language-transfer, error-prediction, interference, l1-influence]
 pairs_with:
   prompts: [list-false-friends, diagnose-recurring-errors, coach-pronunciation, plan-language-learning]

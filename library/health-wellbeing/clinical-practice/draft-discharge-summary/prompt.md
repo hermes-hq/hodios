@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [discharge-summary, care-transitions, medical-records, medicine-changes, hospital-medicine, junior-doctors]
 pairs_with:
   prompts: [summarize-patient-records, rewrite-clinic-letter-for-patient, write-referral-letter, structure-soap-note]

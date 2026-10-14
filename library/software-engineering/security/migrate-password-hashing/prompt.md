@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [password-hashing, argon2, bcrypt, authentication]
 pairs_with:
   prompts: [implement-password-auth, review-cryptography-usage, review-auth-flow, defend-against-credential-stuffing]

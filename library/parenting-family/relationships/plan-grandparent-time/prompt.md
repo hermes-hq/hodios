@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [grandparents, grandchildren, long-distance-family, video-calls, intergenerational, family-traditions]
 pairs_with:
   prompts: [plan-long-distance-connection, create-family-tradition, plan-family-reunion]

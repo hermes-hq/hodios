@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [matcha, japanese-tea, matcha-latte]
 pairs_with:
   prompts: [brew-tea-properly, troubleshoot-milk-steaming]

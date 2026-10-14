@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [inclusive-sport, adapted-rules, mixed-ability, disability-sport, step-model, walking-sports]
 pairs_with:
   prompts: [plan-youth-sports-practice, pick-fair-pickup-teams]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [assumption-review, sensitivity-analysis, base-rates, hockey-stick, sanity-check]
 pairs_with:
   prompts: [check-analysis-for-pitfalls, run-scenario-planning, write-forecast-commentary]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [negativity, team-morale, behaviour-feedback, hard-conversations, legitimate-concerns]
 pairs_with:
   prompts: [handle-defensive-employee, address-high-performer-behaviour, give-feedback-sbi]

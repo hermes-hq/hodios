@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ai-at-work, future-of-work, task-analysis, upskilling, automation-exposure]
 pairs_with:
   prompts: [build-development-plan, plan-career-path, write-brag-document, increase-work-visibility]

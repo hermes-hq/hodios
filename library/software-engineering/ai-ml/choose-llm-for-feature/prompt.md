@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [model-selection, llm-evals, latency, inference-cost]
 pairs_with:
   prompts: [write-llm-eval-suite, reduce-llm-costs]

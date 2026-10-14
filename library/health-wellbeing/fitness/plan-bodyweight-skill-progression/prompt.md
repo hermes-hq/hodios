@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [calisthenics, pull-up, push-up, handstand, pistol-squat, skill-practice]
 pairs_with:
   prompts: [build-training-plan, check-exercise-form, track-fitness-progress]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [debriefing, research-ethics, deception, participant-wellbeing, irb]
 pairs_with:
   prompts: [write-informed-consent-form, write-ethics-application, design-behavioral-experiment]

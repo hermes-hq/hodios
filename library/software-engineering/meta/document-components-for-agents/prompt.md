@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, component-catalog, component-reuse, frontend, agent-instructions]
 pairs_with:
   prompts: [write-agents-md, write-scoped-agent-rules, build-page-from-mockup]

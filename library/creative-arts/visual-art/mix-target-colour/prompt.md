@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [colour-mixing, paint-palette, colour-theory, oil-painting, watercolour, acrylic-painting]
 pairs_with:
   prompts: [design-limited-palette, choose-art-supplies, plan-painting-step-by-step]

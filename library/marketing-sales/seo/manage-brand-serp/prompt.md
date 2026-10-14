@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-search, knowledge-panel, online-reputation, sitelinks, entity-seo]
 pairs_with:
   prompts: [write-schema-markup, plan-local-seo]

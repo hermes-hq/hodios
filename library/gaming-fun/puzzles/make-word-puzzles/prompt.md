@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [word-search, cryptogram, anagrams, word-ladder, printables, answer-key]
 pairs_with:
   prompts: [write-crossword-clues, write-riddles, make-logic-puzzle]

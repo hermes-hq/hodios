@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-design, prompt-evals, iteration, model-agnostic]
 pairs_with:
   prompts: [improve-prompt, write-system-prompt, create-few-shot-examples, diagnose-prompt-failures, compress-prompt]

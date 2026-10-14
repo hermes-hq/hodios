@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fastlane, store-metadata, localized-screenshots, release-notes, character-limits]
 pairs_with:
   prompts: [write-app-store-listing, plan-new-language-launch, localize-react-native-app]

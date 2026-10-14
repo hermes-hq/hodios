@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [manuscript, imrad, journal-submission, reporting-guidelines, paper-drafting]
 pairs_with:
   prompts: [choose-target-journal, write-methods-section, write-results-section, write-introduction-section, write-discussion-section, write-abstract, check-manuscript-reporting, verify-citations, write-journal-cover-letter]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [affinity-mapping, synthesis-workshop, facilitation, insights, collaborative-analysis]
 pairs_with:
   prompts: [synthesize-customer-interviews, synthesize-usability-findings, set-up-rainbow-spreadsheet]

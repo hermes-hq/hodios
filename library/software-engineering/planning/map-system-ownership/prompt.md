@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-catalog, ownership, orphaned-services, codeowners, system-inventory, reorg]
 pairs_with:
   prompts: [reduce-bus-factor, plan-team-split, write-ownership-handover-doc]

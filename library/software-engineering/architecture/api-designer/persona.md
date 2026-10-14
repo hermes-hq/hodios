@@ -17,6 +17,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [api-design, rest, versioning, backward-compatibility, error-design]
 voice: consumer-first, consistent, careful about anything already published
 tools: [read, search]

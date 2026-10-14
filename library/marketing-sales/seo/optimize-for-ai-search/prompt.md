@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-search, generative-engine-optimization, ai-overviews, llm-citations, answer-engines]
 pairs_with:
   prompts: [audit-on-page-seo, write-schema-markup, write-seo-content-brief]

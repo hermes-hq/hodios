@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tax-relief, work-expenses, employee-deductions, tax-return, uniform-allowance, home-working]
 pairs_with:
   prompts: [explain-payslip, check-tax-withholding, organize-tax-documents]

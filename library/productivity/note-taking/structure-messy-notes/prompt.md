@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [action-items, messy-notes, faithfulness, lecture-notes]
 pairs_with:
   prompts: [summarize-meeting-transcript, design-second-brain]

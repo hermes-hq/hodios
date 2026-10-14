@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gingerbread-house, holiday-baking, royal-icing, templates, family-project]
 pairs_with:
   prompts: [plan-royal-icing-cookies, plan-cookie-baking-day]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [knitting, crochet, gauge, pattern-grading, stitch-maths, yarn-substitution]
 pairs_with:
   prompts: [plan-knitting-project, fix-knitting-mistake]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tidyverse, data-frames, simulator, practice-sandbox]
 pairs_with:
   prompts: [explore-dataset]

@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [string-extraction, message-catalog, translation-keys]
 pairs_with:
   prompts: [review-i18n-readiness, write-icu-plural-messages]

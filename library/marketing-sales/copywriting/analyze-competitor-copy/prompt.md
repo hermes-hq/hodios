@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitor-analysis, copy-teardown, differentiation, persuasion]
 pairs_with:
   prompts: [analyze-competitors, critique-marketing-copy, write-messaging-framework, write-landing-page-copy]

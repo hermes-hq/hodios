@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [fixtures, test-data, synthetic-data, privacy]
 args:
   - name: schema

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-diagnosis, plain-language, patient-education]
 pairs_with:
   prompts: [prepare-doctor-questions, explain-lab-results, build-symptom-log]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rebuild-cost, underinsurance, average-clause, contents-value, sum-insured]
 pairs_with:
   prompts: [build-home-inventory, compare-home-insurance-quotes, explain-insurance-policy]

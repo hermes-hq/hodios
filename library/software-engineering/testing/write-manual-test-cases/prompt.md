@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [user-acceptance-testing, test-cases, smoke-test, regression-pack]
 pairs_with:
   prompts: [write-test-plan, write-exploratory-test-charters, write-gherkin-scenarios]

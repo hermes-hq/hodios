@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [validation-tests, fake-door, concierge-test, pass-threshold, proceed-or-stop]
 pairs_with:
   prompts: [design-validation-experiment, audit-idea-evidence, write-discovery-readout, write-smoke-test-landing-page]

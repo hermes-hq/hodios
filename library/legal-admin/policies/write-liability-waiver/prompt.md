@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [liability-waiver, risk-acknowledgement, participation-agreement, activity-providers, informed-participation]
 pairs_with:
   prompts: [write-booking-terms, write-membership-terms, write-workplace-risk-assessment]

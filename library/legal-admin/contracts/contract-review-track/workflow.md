@@ -22,6 +22,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [contract-negotiation, redlining, risk-review, lawyer-brief]
 pairs_with:
   prompts: [summarize-contract, redline-contract, review-freelance-contract, review-nda]

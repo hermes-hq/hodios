@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [house-viewing, house-hunting, renters, home-buying, red-flags, damp]
 pairs_with:
   prompts: [estimate-home-buying-costs, document-rental-move-in]

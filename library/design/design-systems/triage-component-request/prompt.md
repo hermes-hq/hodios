@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [component-request, intake, contribution-review, reuse, request-triage]
 pairs_with:
   prompts: [plan-design-system-governance, write-component-spec, audit-component-duplication]

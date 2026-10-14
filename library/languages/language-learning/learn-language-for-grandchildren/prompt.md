@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [grandparents, child-directed-speech, video-calls, family-language, older-learners, songs-and-rhymes]
 pairs_with:
   prompts: [teach-language-to-child, learn-survival-phrases, build-personal-phrasebook, review-vocabulary-spaced]

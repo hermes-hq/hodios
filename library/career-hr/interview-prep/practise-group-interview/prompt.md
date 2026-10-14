@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [group-exercise, group-discussion, teamwork-assessment, graduate-schemes]
 pairs_with:
   prompts: [prepare-assessment-center, practise-panel-interview, manage-interview-anxiety]

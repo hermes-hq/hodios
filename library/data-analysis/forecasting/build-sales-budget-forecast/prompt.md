@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-budget, phasing, sales-bridge, price-volume-mix, stretch-target]
 pairs_with:
   prompts: [build-annual-operating-plan, reconcile-top-down-and-bottom-up-forecasts, review-forecast-assumptions, forecast-cost-inflation-for-budget]

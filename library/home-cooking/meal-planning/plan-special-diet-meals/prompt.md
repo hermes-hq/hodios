@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [vegetarian, halal, kosher, high-protein, gluten-free, grocery-list]
 pairs_with:
   prompts: [plan-weekly-meals, plan-budget-meals, adapt-recipe]

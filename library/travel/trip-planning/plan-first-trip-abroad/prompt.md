@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [first-trip, passport, international-travel, airport-steps, travel-money]
 pairs_with:
   prompts: [check-travel-requirements, build-packing-list, plan-departure-day, choose-travel-insurance]

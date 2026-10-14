@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [occupational-therapy, functional-assessment, activities-of-daily-living, discharge-planning, rehabilitation, allied-health]
 pairs_with:
   prompts: [write-home-safety-assessment-summary, write-therapy-goals, write-person-centred-care-plan]

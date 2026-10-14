@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [usb-c, thunderbolt, hdmi, charger-wattage, adapters]
 pairs_with:
   prompts: [set-up-external-monitor, fix-phone-not-charging, fix-tv-connection]

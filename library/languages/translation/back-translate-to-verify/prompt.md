@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [back-translation, survey-translation, informed-consent, quality-assurance, meaning-shift]
 pairs_with:
   prompts: [review-translation, build-translation-glossary, write-translation-brief]

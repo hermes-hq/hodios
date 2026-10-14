@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [mixed-level-class, reading-comprehension, tiered-tasks, worksheet, cefr]
 pairs_with:
   prompts: [level-down-text-for-learner, gloss-authentic-text, turn-realia-into-worksheet]

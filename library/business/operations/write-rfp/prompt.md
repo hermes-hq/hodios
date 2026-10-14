@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [rfp, procurement, requirements, tendering]
 pairs_with:
   prompts: [compare-vendors]

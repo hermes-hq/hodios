@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [roguelike, roguelite, run-structure, meta-progression, build-variety, replayability]
 pairs_with:
   prompts: [design-progression-system, design-difficulty-curve, design-loot-table]

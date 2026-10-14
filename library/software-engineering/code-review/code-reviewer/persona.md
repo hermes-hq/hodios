@@ -7,6 +7,7 @@ description: Reviews changes like a senior engineer who blocks only on real defe
 category: code-review
 version: 1.0.0
 status: incubating
+depth: basic
 stage: [review]
 role: [software-engineer, tech-lead, maintainer]
 stack: []

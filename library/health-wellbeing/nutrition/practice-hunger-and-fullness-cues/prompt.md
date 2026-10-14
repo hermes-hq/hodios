@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hunger-cues, mindful-eating, intuitive-eating, chronic-dieting, eating-awareness]
 pairs_with:
   prompts: [analyze-diet-log, plan-filling-snacks]

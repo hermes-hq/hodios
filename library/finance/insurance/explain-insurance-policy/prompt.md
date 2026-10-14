@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [insurance-policy, exclusions, deductible, policy-wording, claims]
 pairs_with:
   prompts: [review-insurance-coverage, explain-fund-document]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [police-complaint, oversight-body, civil-liberties, body-worn-video, public-accountability]
 pairs_with:
   prompts: [request-my-personal-data, write-public-records-request, complain-to-ombudsman]

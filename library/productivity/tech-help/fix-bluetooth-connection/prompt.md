@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bluetooth, headphones, pairing, car-audio, wireless-audio, step-by-step]
 pairs_with:
   prompts: [explain-error-message, write-tech-support-request, walk-me-through-device-setting]

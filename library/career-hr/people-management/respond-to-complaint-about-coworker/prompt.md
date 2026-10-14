@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coworker-complaint, team-conflict, triage, fairness, escalation]
 pairs_with:
   prompts: [respond-to-harassment-report-as-manager, mediate-disagreement, triage-employee-concern]

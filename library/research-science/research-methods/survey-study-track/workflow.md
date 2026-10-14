@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [survey-research, questionnaire-design, pilot-testing, sampling, data-cleaning]
 pairs_with:
   prompts: [write-survey-questionnaire, design-sampling-plan, analyze-survey-results, compute-survey-margin-of-error, write-preregistration]

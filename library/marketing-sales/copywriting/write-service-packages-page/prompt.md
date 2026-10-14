@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [service-packages, productised-services, pricing-page, scope-creep, freelancers]
 pairs_with:
   prompts: [package-service-tiers, design-pricing, write-landing-page-copy, write-sales-faq, write-sales-proposal, present-repair-options]

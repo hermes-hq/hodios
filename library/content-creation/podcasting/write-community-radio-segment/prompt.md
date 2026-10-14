@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [live-radio, running-order, links, backtiming]
 pairs_with:
   prompts: [write-guest-interview-questions, write-radio-ad, write-podcast-intro-outro]

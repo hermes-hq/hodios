@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [partial-clone, sparse-checkout, fsmonitor, git-performance, large-repos]
 pairs_with:
   prompts: [set-up-git-lfs, purge-file-from-git-history, extract-folder-into-new-repo]

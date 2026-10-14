@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [narration, past-tenses, connectors, cefr, storytelling]
 pairs_with:
   prompts: [correct-my-sentences, explain-grammar-point, run-language-journal]

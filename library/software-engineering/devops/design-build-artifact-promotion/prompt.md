@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [artifacts, container-registry, immutable-tags, image-signing, provenance, retention]
 pairs_with:
   personas: [release-manager, devops-engineer]

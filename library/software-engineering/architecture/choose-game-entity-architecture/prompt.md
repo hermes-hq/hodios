@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [entity-component-system, data-oriented-design, game-loop, composition]
 pairs_with:
   personas: [game-developer]

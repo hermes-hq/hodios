@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [name-discrepancy, transliteration, one-and-the-same-person, document-consistency, date-of-birth-mismatch]
 pairs_with:
   prompts: [prepare-visa-application, write-letter-of-explanation-for-visa, prepare-name-change, translate-personal-document]

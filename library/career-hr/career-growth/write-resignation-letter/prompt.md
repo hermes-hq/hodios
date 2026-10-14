@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [resignation, notice-period, handover, counteroffer, leaving-well]
 pairs_with:
   prompts: [evaluate-job-offer, plan-first-90-days]

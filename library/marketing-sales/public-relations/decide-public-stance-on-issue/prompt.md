@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [corporate-stance, issues-management, stakeholder-expectations, values, reputation-risk]
 pairs_with:
   prompts: [write-holding-statement, write-media-policy]

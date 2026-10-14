@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lending, family-money, personal-loans, boundaries, gift-or-loan]
 pairs_with:
   prompts: [decline-to-lend-money, decide-on-cosigning-loan, decide-whether-to-say-yes]

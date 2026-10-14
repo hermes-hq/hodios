@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [project-kickoff, ways-of-working, raci, risks, facilitation]
 pairs_with:
   prompts: [build-project-kickoff-deck, write-project-kickoff-email, run-pre-mortem, write-meeting-agenda]

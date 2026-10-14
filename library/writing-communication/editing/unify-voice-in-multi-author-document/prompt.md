@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [voice-consistency, collaborative-writing, terminology, harmonise, single-voice]
 pairs_with:
   prompts: [build-style-sheet, capture-writing-voice, edit-for-structure]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [release-planning, milestones, feature-freeze, release-scope]
 pairs_with:
   prompts: [triage-issue-backlog, triage-stale-pull-requests, write-release-announcement-kit]

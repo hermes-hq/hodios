@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [time-value, convenience, outsourcing-chores, hourly-value, household]
 pairs_with:
   prompts: [decide-rent-borrow-or-buy, run-cost-benefit-analysis, prune-commitments]

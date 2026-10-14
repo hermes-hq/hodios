@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [handover, sbar, read-back, shift-work, workplace-language]
 pairs_with:
   prompts: [practise-sbar-handover, roleplay-patient-conversations-for-nurses, learn-language-for-work-role]

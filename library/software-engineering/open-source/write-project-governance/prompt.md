@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-governance, decision-rules, steering-committee, succession, community-health]
 pairs_with:
   prompts: [write-contributing-guide]

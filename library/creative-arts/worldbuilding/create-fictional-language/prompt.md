@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conlang, naming-language, phonology, setting-design]
 pairs_with:
   prompts: [design-fictional-culture, design-fictional-geography, build-series-bible]

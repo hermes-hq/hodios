@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [call-recording, meeting-transcripts, ai-note-taker, consent-notice, recording-retention]
 pairs_with:
   prompts: [run-vendor-due-diligence, check-telemarketing-compliance, write-data-retention-schedule, assess-employee-monitoring-plan]

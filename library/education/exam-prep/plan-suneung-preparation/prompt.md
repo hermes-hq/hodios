@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [suneung, csat, mock-tests, error-log, korea]
 pairs_with:
   prompts: [analyze-exam-mistakes, plan-last-minute-revision, plan-exam-day-strategy]

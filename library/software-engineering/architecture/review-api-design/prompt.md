@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-design, rest-api, consistency, versioning, error-responses]
 pairs_with:
   personas: [backend-engineer]

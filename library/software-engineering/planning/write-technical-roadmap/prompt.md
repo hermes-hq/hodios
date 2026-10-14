@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [engineering-roadmap, tech-debt, sequencing, capacity-planning, trade-offs]
 pairs_with:
   personas: [staff-engineer]

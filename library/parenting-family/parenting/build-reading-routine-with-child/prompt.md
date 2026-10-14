@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-aloud, early-literacy, dialogic-reading, reluctant-readers, bedtime-stories, family-reading]
 pairs_with:
   prompts: [plan-child-bedtime-routine, help-with-homework, plan-bilingual-upbringing]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [project-review, portfolio, beginner-programming, feedback-priorities]
 pairs_with:
   prompts: [review-code-for-learner, pick-portfolio-project, guide-first-coding-project]

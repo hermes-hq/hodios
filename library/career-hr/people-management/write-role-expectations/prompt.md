@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [role-clarity, expectations, decision-rights, raci, levelling]
 pairs_with:
   prompts: [set-goals-for-direct-report, build-career-ladder, plan-one-on-one]

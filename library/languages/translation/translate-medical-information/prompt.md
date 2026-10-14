@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [medical-translation, patient-information, discharge-instructions, medication-leaflet, plain-language, dosage-accuracy]
 pairs_with:
   prompts: [prepare-doctor-questions, translate-personal-document]

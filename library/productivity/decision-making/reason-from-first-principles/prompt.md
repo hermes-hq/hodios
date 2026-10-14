@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [first-principles, assumptions, problem-solving, rethinking, chestertons-fence]
 pairs_with:
   prompts: [solve-contradiction-with-triz, run-second-order-thinking, find-logical-fallacies, run-pre-mortem]

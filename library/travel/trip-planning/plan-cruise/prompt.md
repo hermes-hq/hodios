@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cruise, cabin-choice, shore-excursions, trip-cost]
 pairs_with:
   prompts: [plan-trip-budget, choose-travel-insurance, plan-flight-search, check-travel-requirements]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-keys, authentication, secrets, rest-api, access-control]
 pairs_with:
   prompts: [add-rate-limiting, implement-role-based-access, implement-audit-log, implement-password-auth]

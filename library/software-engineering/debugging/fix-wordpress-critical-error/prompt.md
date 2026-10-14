@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [white-screen, php-errors, plugins, recovery-mode, site-recovery]
 pairs_with:
   prompts: [explain-stack-trace, build-wordpress-plugin]

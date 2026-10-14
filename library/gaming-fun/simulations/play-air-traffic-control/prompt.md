@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [aviation, air-traffic-control, separation, sequencing, career-taster]
 pairs_with:
   prompts: [play-space-mission-control, try-career-for-a-day]

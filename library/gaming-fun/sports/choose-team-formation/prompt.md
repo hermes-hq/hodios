@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [formation, tactics, team-shape, positions, amateur-coach, system-of-play]
 pairs_with:
   prompts: [plan-match-lineup, design-set-plays, scout-opponent]

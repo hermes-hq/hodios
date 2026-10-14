@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [self-directed-learning, retrieval-practice, spaced-repetition, concept-map, transfer]
 pairs_with:
   prompts: [build-concept-map, explain-concept-at-level, quiz-me-interactively, make-flashcards, run-feynman-check]

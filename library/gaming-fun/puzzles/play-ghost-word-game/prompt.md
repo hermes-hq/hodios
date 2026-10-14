@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ghost, superghost, spelling, word-building, bluffing, vocabulary-practice]
 pairs_with:
   prompts: [play-hidden-word-game, play-countdown-game]

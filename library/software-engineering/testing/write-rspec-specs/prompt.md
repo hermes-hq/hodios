@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rspec, factorybot, request-specs, model-specs, verified-doubles]
 pairs_with:
   prompts: [write-api-endpoint-tests, write-test-data-factories, write-unit-tests]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-grid, aria-grid, roving-tabindex, spreadsheet-ui, keyboard]
 pairs_with:
   personas: [accessibility-specialist]

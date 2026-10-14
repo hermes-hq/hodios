@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [prisma-orm, migrations, transactions, query-efficiency, connection-management]
 applies_to: ["**/schema.prisma", "prisma/**", "**/*.ts", "**/*.js"]
 pairs_with:

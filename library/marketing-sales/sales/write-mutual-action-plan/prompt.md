@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mutual-action-plan, close-plan, enterprise-sales, deal-management]
 pairs_with:
   prompts: [summarize-sales-call, write-sales-proposal, prepare-deal-negotiation, build-sales-playbook]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [garden-calendar, seasonal-timing, frost-dates, garden-jobs, maintenance-schedule]
 pairs_with:
   prompts: [plan-pruning, plan-seed-starting, plan-vegetable-garden, plan-lawn-care]

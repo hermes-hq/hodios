@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [win-loss-analysis, deal-review, competitive-intelligence, buyer-interviews, sales-enablement]
 pairs_with:
   prompts: [analyze-competitors, synthesize-customer-interviews, review-sales-pipeline]

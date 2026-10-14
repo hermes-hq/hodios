@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [route-guards, auth, authorization, open-redirect, middleware]
 args:
   - name: routes

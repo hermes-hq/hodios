@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [driving, licensing, car-insurance, road-safety, epilepsy, diabetes]
 pairs_with:
   prompts: [plan-chronic-condition-self-management, set-up-medication-routine, decide-whether-to-disclose-condition]

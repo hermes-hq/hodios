@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [intuition, expertise, feedback-loops, heuristics, judgement]
 pairs_with:
   prompts: [check-decision-for-biases, compare-options-matrix, get-unstuck-on-a-decision]

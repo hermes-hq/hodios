@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [medallion-architecture, lakehouse, data-layers, data-ownership, retention]
 pairs_with:
   prompts: [design-lakehouse-table-layout, design-data-pipeline, write-data-contract]

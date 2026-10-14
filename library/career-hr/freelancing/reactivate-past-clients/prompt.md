@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [past-clients, client-reactivation, repeat-business, check-in-message, client-acquisition]
 pairs_with:
   prompts: [build-freelance-pipeline-routine, ask-clients-for-referrals, announce-freelance-availability, pitch-retainer-to-client]

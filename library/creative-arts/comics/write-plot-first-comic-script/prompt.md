@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plot-style-script, writer-artist-collaboration, page-breakdown, pacing, scripting]
 pairs_with:
   prompts: [script-dialogue-over-drawn-pages, write-comic-script, review-comic-script]

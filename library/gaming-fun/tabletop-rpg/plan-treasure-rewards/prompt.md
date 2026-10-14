@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [treasure, magic-items, rewards, game-balance, game-mastering]
 pairs_with:
   prompts: [design-homebrew-item, design-random-tables, design-campaign-arc]

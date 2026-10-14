@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [affiliate-program, referral-partner, commission-terms, cookie-window, clawback, partner-program]
 pairs_with:
   prompts: [plan-creator-affiliate-links, explain-contract-clause, summarize-contract]

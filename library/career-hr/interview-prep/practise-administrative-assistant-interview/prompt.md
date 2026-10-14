@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [office-jobs, executive-assistant, receptionist, prioritisation-questions]
 pairs_with:
   prompts: [run-mock-interview, practise-situational-interview-questions, drill-star-answers]

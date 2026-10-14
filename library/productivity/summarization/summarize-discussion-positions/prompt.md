@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [debate-summary, rfc, consensus, forum-thread, steelman]
 pairs_with:
   prompts: [summarize-email-thread, summarize-long-document, compare-documents]

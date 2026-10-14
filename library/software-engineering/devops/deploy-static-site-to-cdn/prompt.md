@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [static-hosting, single-page-app, cache-headers, cache-invalidation, s3, cloudfront]
 pairs_with:
   prompts: [set-up-domain-and-https, configure-cdn-caching, write-github-actions-workflow]

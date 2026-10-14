@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [how-to, diataxis, task-docs, procedures]
 pairs_with:
   prompts: [write-code-tutorial, write-troubleshooting-guide, reorganize-docs-by-diataxis, write-explanation-page]

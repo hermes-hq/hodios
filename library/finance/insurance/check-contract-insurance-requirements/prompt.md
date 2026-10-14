@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [insurance-clause, certificate-of-insurance, additional-insured, waiver-of-subrogation, professional-indemnity]
 pairs_with:
   prompts: [map-small-business-insurance-needs, review-freelance-contract, explain-contract-clause]

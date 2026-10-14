@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [garage-storage, shed, tool-storage, hazardous-materials]
 pairs_with:
   prompts: [dispose-of-household-items, plan-decluttering]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contract-variation, amendment-letter, change-order, scope-change, term-extension]
 pairs_with:
   prompts: [compare-contract-versions, build-contract-obligations-register, explain-contract-clause]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [analyst-resume, bi-dashboards, analysis-impact, data-portfolio]
 pairs_with:
   prompts: [write-resume-projects-section, write-skills-section, tailor-resume-to-job]

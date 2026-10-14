@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pull-request, pr-template, review-checklist, contributor-experience]
 pairs_with:
   prompts: [write-pr-description, write-codeowners-file, configure-branch-protection]

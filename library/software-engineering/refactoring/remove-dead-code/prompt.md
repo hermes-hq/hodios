@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dead-code, unused-dependencies, feature-flags, deprecation]
 args:
   - name: scope

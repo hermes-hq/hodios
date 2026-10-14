@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [appeal-video, ethical-storytelling, informed-consent, donation-ask, burned-in-captions]
 pairs_with:
   prompts: [write-short-form-script, plan-video-shoot]

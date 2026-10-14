@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ugc, language-detection, translation-cache, privacy, rate-limiting]
 pairs_with:
   prompts: [design-multilingual-content-schema, design-llm-translation-pipeline, propagate-locale-through-services]

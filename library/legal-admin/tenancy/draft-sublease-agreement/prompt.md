@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sublease, subletting, subtenant, sublet-agreement, summer-sublet]
 pairs_with:
   prompts: [request-consent-to-sublet, review-lease, write-house-share-agreement]

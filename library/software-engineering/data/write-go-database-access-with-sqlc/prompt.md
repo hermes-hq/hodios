@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sqlc, pgx, generated-queries, transactions, data-access]
 pairs_with:
   prompts: [design-database-schema, optimize-sql-query, write-upsert-query, build-go-http-service]

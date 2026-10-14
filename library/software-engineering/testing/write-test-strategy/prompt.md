@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [test-pyramid, ci-gates, quality-engineering, test-ownership]
 pairs_with:
   prompts: [write-test-plan, speed-up-test-suite, review-test-quality]

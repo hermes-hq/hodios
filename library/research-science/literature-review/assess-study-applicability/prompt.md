@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [external-validity, generalisability, transferability, evidence-based-practice]
 pairs_with:
   prompts: [appraise-study-quality, identify-study-design, write-critically-appraised-topic]

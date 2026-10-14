@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tidyverse, ggplot2, reproducibility, data-checks]
 pairs_with:
   prompts: [choose-statistical-test, write-plotting-code, write-dataframe-transformation]

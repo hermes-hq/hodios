@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ai-literacy, hallucinations, checking-citations, privacy, responsible-use]
 pairs_with:
   prompts: [practise-spotting-ai-errors, learn-prompting-basics, audit-ai-answer-for-errors, choose-ai-tool]

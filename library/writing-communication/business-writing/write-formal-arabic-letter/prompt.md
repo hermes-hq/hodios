@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [formal-letter, modern-standard-arabic, official-correspondence, honorifics, government-office]
 pairs_with:
   prompts: [practise-msa-formal-speaking, write-formal-letter]

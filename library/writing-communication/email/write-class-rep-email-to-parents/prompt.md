@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [class-rep, room-parent, school-parents, teacher-gift, volunteer-ask, parent-group-chat]
 pairs_with:
   prompts: [write-email-to-teacher, brainstorm-fundraiser-ideas, write-neighbourhood-notice, get-group-decision-by-email]

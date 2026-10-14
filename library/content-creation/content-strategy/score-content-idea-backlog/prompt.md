@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [idea-triage, idea-backlog, scoring-model, editorial-planning, content-ideas]
 pairs_with:
   prompts: [define-content-pillars, plan-content-calendar, mine-audience-questions, find-timely-content-angles]

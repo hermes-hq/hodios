@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [house-style, editorial-standards, writing-standards, consistency, team-writing]
 pairs_with:
   prompts: [build-style-sheet, copyedit-to-style-guide, write-brand-voice-guide]

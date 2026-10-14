@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-labeling, annotation, inter-annotator-agreement, label-taxonomy]
 pairs_with:
   prompts: [bootstrap-labels-with-llm, review-training-data]

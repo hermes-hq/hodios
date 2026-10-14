@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wearables, hrv, sleep-tracking, vo2-max, recovery, health-tracking]
 pairs_with:
   prompts: [calculate-heart-rate-zones, track-fitness-progress, improve-sleep-habits]

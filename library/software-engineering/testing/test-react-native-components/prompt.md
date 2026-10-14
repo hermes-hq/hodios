@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [react-native-testing-library, jest, native-modules, react-navigation, component-tests]
 pairs_with:
   prompts: [write-component-tests, mock-modules-in-jest-or-vitest, mock-http-with-msw]

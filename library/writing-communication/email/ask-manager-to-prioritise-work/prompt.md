@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [workload, overload, managing-up, capacity]
 pairs_with:
   prompts: [push-back-on-deadline-by-email, rebalance-team-workload, juggle-competing-deadlines]

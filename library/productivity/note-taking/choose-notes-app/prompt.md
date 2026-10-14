@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [app-comparison, data-portability, offline-access, privacy, tool-selection]
 pairs_with:
   prompts: [migrate-notes-between-apps, design-second-brain, plan-notes-backup-and-export]

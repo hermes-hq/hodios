@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ai-literacy, hallucinations, checking-citations, lateral-reading, misinformation]
 pairs_with:
   prompts: [audit-ai-answer-for-errors, learn-prompting-basics]

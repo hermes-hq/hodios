@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [user-flow, flowchart, friction, drop-off, error-states]
 pairs_with:
   personas: [product-designer]

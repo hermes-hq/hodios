@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spec-script, tv-writing, episode-outline, show-voice]
 pairs_with:
   prompts: [write-beat-sheet, develop-tv-series-concept, format-screenplay-scene, write-script-coverage]

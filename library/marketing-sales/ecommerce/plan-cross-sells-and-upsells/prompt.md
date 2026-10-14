@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cross-selling, upselling, average-order-value, product-recommendations, bundles, cart-add-ons]
 pairs_with:
   prompts: [run-basket-analysis, optimize-product-page-conversion, write-post-purchase-emails]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hardship-fund, crisis-grant, charity-grant, emergency-help, essential-costs, low-income]
 pairs_with:
   prompts: [check-benefits-entitlement, find-alternatives-to-payday-loans, negotiate-with-creditor]

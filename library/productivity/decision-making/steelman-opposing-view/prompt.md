@@ -17,6 +17,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [steelman, cruxes, debate-prep, intellectual-honesty]
 pairs_with:
   personas: [thinking-partner]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pop-up-shop, retail-test, short-term-lease, makers, sell-through, conversion-rate]
 pairs_with:
   prompts: [plan-market-stall, plan-shop-opening, plan-visual-merchandising, plan-grand-opening-event]

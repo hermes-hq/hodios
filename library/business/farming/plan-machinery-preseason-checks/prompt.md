@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [farm-machinery, pre-season-service, sprayer-calibration, spare-parts, defects-log]
 pairs_with:
   prompts: [plan-equipment-maintenance, compare-contractor-vs-owning-machinery, write-farm-task-risk-assessment]

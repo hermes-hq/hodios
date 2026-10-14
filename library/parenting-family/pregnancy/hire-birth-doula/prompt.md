@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [doula, birth-support, interview-questions, birth-partner, service-agreement]
 pairs_with:
   prompts: [write-birth-preferences, write-birth-partner-guide, plan-solo-parent-birth-support]

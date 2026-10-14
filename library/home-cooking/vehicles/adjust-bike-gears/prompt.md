@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bike-gears, derailleur, indexing, bike-repair, cycling-maintenance]
 pairs_with:
   prompts: [plan-bike-maintenance, fix-bike-puncture]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ad-scheduling, call-ads, missed-calls, bid-adjustments, after-hours, front-desk]
 pairs_with:
   prompts: [plan-ad-conversion-tracking, evaluate-lead-platform-ads, target-slow-day-ads]

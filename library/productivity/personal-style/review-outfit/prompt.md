@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [outfit-feedback, outfit-check, proportions, formality, quick-fixes]
 pairs_with:
   prompts: [check-clothing-fit, choose-accessories, decode-dress-code]

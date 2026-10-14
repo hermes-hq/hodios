@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [internship, recruiting-calendar, early-careers, placements, university]
 pairs_with:
   prompts: [plan-career-fair, write-cover-letter, write-networking-message]

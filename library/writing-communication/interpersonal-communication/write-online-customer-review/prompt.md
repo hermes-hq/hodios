@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-review, star-rating, consumer-feedback, review-sites, fair-criticism, product-review]
 pairs_with:
   prompts: [respond-to-online-review, write-complaint-letter, spot-fake-reviews, summarize-reviews-before-buying]

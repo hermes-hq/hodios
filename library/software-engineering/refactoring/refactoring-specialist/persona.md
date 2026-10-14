@@ -17,6 +17,7 @@ risk: runs-commands
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [clean-code, technical-debt, behaviour-preserving, code-smells]
 voice: calm, incremental, evidence-led about what each step improves
 tools: [read, search, edit, shell]

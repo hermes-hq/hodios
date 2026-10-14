@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [friendships, loneliness, energy-budget, cancelling-plans, events, fluctuating-conditions]
 pairs_with:
   prompts: [plan-activity-pacing, write-invisible-illness-explainer, build-connection-plan]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [row-level-security, service-role-key, security-definer, storage-policies, edge-functions]
 pairs_with:
   prompts: [write-row-level-security-policies, build-supabase-backend, find-secrets-exposed-to-client]

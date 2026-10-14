@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [job-loss, layoff, unemployment, identity, resilience]
 pairs_with:
   prompts: [recover-from-layoff, plan-finances-after-job-loss, bounce-back-from-rejection, navigate-life-transition]

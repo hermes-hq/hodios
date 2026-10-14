@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [design-tokens, first-release, ui-audit, pilot-team, design-system-governance]
 pairs_with:
   prompts: [audit-design-consistency, define-design-tokens, write-component-spec, plan-design-system-governance, measure-design-system-adoption]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [newcomer-route, reading-graphic-novels, bande-dessinee, superheroes, trade-paperbacks, reading-route]
 pairs_with:
   prompts: [start-anime-and-manga, recommend-next-book, plan-franchise-watch-order]

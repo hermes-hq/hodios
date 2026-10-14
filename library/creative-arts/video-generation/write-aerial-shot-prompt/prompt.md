@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [drone-shot, establishing-shot, camera-movement, parallax]
 pairs_with:
   prompts: [write-video-generation-prompt, write-b-roll-prompts, write-timelapse-video-prompt]

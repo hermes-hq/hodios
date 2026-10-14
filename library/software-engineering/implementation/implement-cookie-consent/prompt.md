@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cookie-consent, consent-banner, privacy, analytics, tag-manager, consent-mode]
 args:
   - name: site

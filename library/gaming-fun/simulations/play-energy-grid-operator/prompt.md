@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [energy-transition, power-grid, renewables, battery-storage, systems-thinking]
 pairs_with:
   prompts: [play-supply-chain-game, play-city-mayor-game]

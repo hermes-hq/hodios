@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: beginner
+depth: specific
 tags: [utility-css, design-tokens, dark-mode, responsive-design, focus-states]
 applies_to: ["**/*.html", "**/*.jsx", "**/*.tsx", "**/*.vue", "**/*.svelte", "**/*.astro", "**/*.css", "tailwind.config.*"]
 pairs_with:

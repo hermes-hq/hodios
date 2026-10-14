@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wargame, competitor-simulation, game-theory, roleplay, price-war, scenario]
 pairs_with:
   prompts: [run-local-competitor-walkround, plan-competitive-response, run-scenario-planning]

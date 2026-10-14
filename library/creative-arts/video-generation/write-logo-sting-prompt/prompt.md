@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [logo-animation, intro-sting, brand-motion, compositing]
 pairs_with:
   prompts: [write-jingle, write-sound-effect-prompts, design-logo-concepts]

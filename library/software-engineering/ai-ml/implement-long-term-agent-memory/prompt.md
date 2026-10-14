@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [long-term-memory, personalisation, embeddings, data-retention, user-privacy]
 pairs_with:
   prompts: [extract-durable-user-preferences, implement-chat-history-management, redact-personal-data]

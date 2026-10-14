@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [accessibility-statement, wcag, conformance, digital-inclusion]
 pairs_with:
   prompts: [audit-web-accessibility, audit-mobile-accessibility, write-accessibility-conformance-report]

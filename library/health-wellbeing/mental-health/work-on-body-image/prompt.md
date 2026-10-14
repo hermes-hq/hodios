@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [body-image, body-neutrality, media-audit, self-talk, eating-disorder-warning-signs]
 pairs_with:
   prompts: [practice-self-compassion, reframe-negative-thoughts, build-self-confidence]

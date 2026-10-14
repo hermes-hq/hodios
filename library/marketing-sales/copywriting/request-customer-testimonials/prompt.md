@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [testimonials, social-proof, customer-quotes, endorsements]
 pairs_with:
   prompts: [write-case-study, write-sales-page, write-landing-page-copy]

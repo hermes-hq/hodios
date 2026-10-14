@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-voice, tone-of-voice, brand-consistency, copy-editing, voice-guidelines]
 pairs_with:
   prompts: [write-brand-voice-guide, copyedit-to-style-guide, rewrite-for-tone]

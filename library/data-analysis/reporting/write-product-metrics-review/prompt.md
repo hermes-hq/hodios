@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-analytics, retention-cohorts, activation-rate, feature-adoption, monthly-review]
 pairs_with:
   prompts: [diagnose-metric-drop, analyze-feature-adoption, write-experiment-readout, define-activation-metric]

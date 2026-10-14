@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [relocation-package, destination-services, home-search, corporate-move, moving-abroad]
 pairs_with:
   prompts: [find-rental-from-abroad, choose-school-type-abroad, choose-arrival-accommodation]

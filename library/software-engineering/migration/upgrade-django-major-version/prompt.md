@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deprecation-warnings, lts, third-party-packages, breaking-changes]
 pairs_with:
   prompts: [runtime-upgrade-track, upgrade-major-dependency, review-django-change]

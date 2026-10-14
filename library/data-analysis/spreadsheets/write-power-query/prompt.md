@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [power-query, m-language, etl, data-prep]
 pairs_with:
   prompts: [clean-messy-spreadsheet, write-dax-measure, reconcile-datasets]

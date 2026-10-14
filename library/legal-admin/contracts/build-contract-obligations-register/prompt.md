@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contract-management, renewals, notice-periods, obligations-tracking]
 pairs_with:
   prompts: [summarize-contract, compare-contract-versions]

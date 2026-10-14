@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [spss, spss-syntax, apa-reporting, output-tables, ibm-spss]
 pairs_with:
   prompts: [choose-statistical-test, interpret-statistical-test-output, report-statistical-results]

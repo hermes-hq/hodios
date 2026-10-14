@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [layout-grid, breakpoints, responsive-design, container-queries, reflow]
 pairs_with:
   prompts: [define-design-tokens, adapt-design-for-mobile, fix-reflow-and-text-resize]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [web-scraping, robots-txt, html-parsing, rate-limiting, data-collection]
 pairs_with:
   prompts: [write-python-automation-script, integrate-third-party-api, write-file-parser]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [suitcase, cabin-bag, travel-backpack, airline-baggage, carry-on]
 pairs_with:
   prompts: [build-packing-list, time-a-purchase, find-replacement-part, buy-secondhand-safely]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [color-contrast, wcag, apca, design-tokens]
 pairs_with:
   personas: [accessibility-specialist]

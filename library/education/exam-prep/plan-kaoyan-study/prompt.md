@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kaoyan, postgraduate-entrance-exam, past-papers, mock-tests, china]
 pairs_with:
   prompts: [coach-gaokao-essay, analyze-past-papers, analyze-exam-mistakes]

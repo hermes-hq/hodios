@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [boss-strategy, character-build, deckbuilding, patch-notes]
 pairs_with:
   prompts: [design-game-mechanic]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [model-card, model-documentation, model-governance, forecast-overrides]
 pairs_with:
   prompts: [measure-forecast-accuracy, monitor-forecast-drift, write-data-methodology-note]

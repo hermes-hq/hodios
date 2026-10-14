@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mlm, business-opportunity, earnings-claims, pyramid-scheme, due-diligence]
 pairs_with:
   prompts: [spot-investment-scam, evaluate-buying-a-business, turn-down-friends-sales-pitch, validate-business-idea]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mental-load, invisible-work, household-fairness, couples, domestic-labour, ownership]
 pairs_with:
   prompts: [coordinate-family-calendar, create-chore-chart, plan-family-meeting, plan-relationship-check-in]

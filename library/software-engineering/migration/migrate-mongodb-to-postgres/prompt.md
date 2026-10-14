@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [document-to-relational, jsonb, aggregation-pipeline, change-streams, data-remodelling]
 pairs_with:
   prompts: [migrate-database-engine, design-mongodb-schema, switch-orm-or-query-layer]

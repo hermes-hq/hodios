@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ota-updates, iot-fleet, ab-partitions, secure-boot, staged-rollout, rollback]
 pairs_with:
   prompts: [build-firmware-ci-pipeline, design-deployment-strategy, plan-disaster-recovery]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [usmle, clinical-vignettes, step-1, step-2-ck, distractor-analysis, next-best-step]
 pairs_with:
   prompts: [analyze-exam-mistakes, make-flashcards, practise-osce-station]

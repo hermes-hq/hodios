@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [official-statistics, statistical-release, public-data, revisions]
 pairs_with:
   prompts: [write-data-methodology-note, compute-survey-margin-of-error, apply-small-number-suppression]

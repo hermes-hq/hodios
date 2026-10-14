@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-history, old-photographs, photo-animation, respectful-ai]
 pairs_with:
   prompts: [restore-old-photo-prompt, write-image-to-video-motion-prompt]

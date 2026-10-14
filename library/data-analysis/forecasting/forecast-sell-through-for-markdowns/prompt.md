@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sell-through, markdowns, rate-of-sale, clearance, weeks-of-cover]
 pairs_with:
   prompts: [size-seasonal-buy-quantity, analyze-inventory-data, plan-inventory]

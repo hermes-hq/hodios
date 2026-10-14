@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ranked-play, tilt-control, competitive-gaming, practice-plan, matchmaking-rating]
 pairs_with:
   prompts: [review-gameplay-replay, plan-esports-team-practice, plan-game-strategy]

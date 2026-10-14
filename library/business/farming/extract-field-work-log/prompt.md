@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [field-records, spray-records, fertiliser-records, data-extraction, farm-inspection]
 pairs_with:
   prompts: [log-livestock-movements-from-notes, plan-harvest-logistics, plan-livestock-record-keeping]

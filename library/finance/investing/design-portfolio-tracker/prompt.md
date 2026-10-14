@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [portfolio-tracking, spreadsheet-template, xirr, asset-allocation, rebalancing-bands]
 pairs_with:
   prompts: [calculate-investment-returns, explain-rebalancing, write-investment-policy-statement]

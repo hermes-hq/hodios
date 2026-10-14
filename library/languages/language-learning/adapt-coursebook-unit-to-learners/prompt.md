@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coursebook, materials-adaptation, personalisation, syllabus, relevance]
 pairs_with:
   prompts: [plan-vocabulary-recycling-across-unit, turn-realia-into-worksheet, plan-task-based-language-lesson]

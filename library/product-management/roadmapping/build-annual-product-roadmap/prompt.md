@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-planning, product-themes, quarterly-plan, capacity-planning, confidence-levels]
 pairs_with:
   prompts: [build-outcome-roadmap, critique-roadmap, run-quarterly-planning, forecast-roadmap-dates-with-ranges]

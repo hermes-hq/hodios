@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [salary, compensation, pay-range, recruiter-screen, pay-history]
 pairs_with:
   prompts: [negotiate-job-offer, prepare-phone-screen, evaluate-job-offer, reply-to-recruiter]

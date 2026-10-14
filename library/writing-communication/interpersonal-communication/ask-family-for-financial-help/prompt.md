@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [money, family-dynamics, family-loans, asking-for-help, repayment]
 pairs_with:
   prompts: [ask-for-a-favor, ask-for-money-back, plan-family-inheritance-conversation]

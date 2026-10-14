@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [oom-kills, heap-dump, memory-growth, rolling-restart, mitigation-first]
 pairs_with:
   prompts: [find-memory-leak, reduce-memory-footprint, collect-incident-evidence, decide-rollback-or-fix-forward, write-incident-update]

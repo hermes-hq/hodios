@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [anxiety, fear-of-flying, presentation-nerves, exam-anxiety, coping-skills]
 pairs_with:
   prompts: [guide-breathing-exercise, reframe-negative-thoughts, set-up-worry-time]

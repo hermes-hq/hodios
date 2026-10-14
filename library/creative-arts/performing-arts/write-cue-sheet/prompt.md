@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cue-sheet, stage-management, calling-script, lighting-cues, sound-cues, tech-rehearsal]
 pairs_with:
   prompts: [plan-rehearsal-schedule, plan-community-theatre-production]

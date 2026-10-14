@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [astrology, birth-chart, symbolism, self-reflection, reflective-writing]
 pairs_with:
   prompts: [reflect-with-tarot-spread, keep-dream-journal]

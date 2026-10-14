@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mongoose, odm, validation, indexes, typescript-types]
 pairs_with:
   prompts: [design-mongodb-schema, optimize-mongodb-queries, write-mongodb-aggregation]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [prescription-medicines, controlled-medicines, medical-devices, time-zones, airport-security]
 pairs_with:
   prompts: [build-medication-list, check-travel-requirements, choose-travel-insurance, beat-jet-lag, plan-accessible-trip]

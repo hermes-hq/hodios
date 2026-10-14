@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [digitising, family-photos, vhs-transfer, film-scanning, archiving, family-history]
 pairs_with:
   prompts: [organize-photo-library, set-up-backups, digitize-paper-documents]

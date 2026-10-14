@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [black-friday, seasonality, budget-ramp, creative-calendar, cyber-week, peak-trading]
 pairs_with:
   prompts: [plan-holiday-sale-campaign, pace-ad-budget, calculate-break-even-roas, choose-bidding-strategy]

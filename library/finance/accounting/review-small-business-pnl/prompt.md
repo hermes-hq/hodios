@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [profit-and-loss, gross-margin, financial-statements, cost-control]
 pairs_with:
   prompts: [prepare-month-end-close, forecast-cash-flow, calculate-product-margin]

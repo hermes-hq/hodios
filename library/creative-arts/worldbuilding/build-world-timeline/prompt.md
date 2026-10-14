@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [world-history, fictional-history, causality, factions]
 pairs_with:
   prompts: [design-fictional-culture, design-fictional-geography, build-magic-system, build-series-bible]

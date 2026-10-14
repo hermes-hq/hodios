@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [refinance, product-transfer, mortgage, interest-rates, fixed-rate-ending]
 pairs_with:
   prompts: [compare-mortgage-options, compare-mortgage-overpay-vs-invest, prepare-mortgage-application, stress-test-budget]

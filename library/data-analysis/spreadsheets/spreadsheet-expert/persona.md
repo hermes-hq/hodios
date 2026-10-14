@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [formula-writing, workbook-structure, auditability, lookups]
 pairs_with:
   prompts: [write-spreadsheet-formula, debug-spreadsheet-formula, design-spreadsheet-model, audit-spreadsheet-model, build-tracker-spreadsheet]

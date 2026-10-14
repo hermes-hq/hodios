@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feedback-loop, feedback-themes, decision-log, closing-the-loop, feedback-ops]
 pairs_with:
   prompts: [design-feedback-tagging-taxonomy, analyze-user-feedback, triage-feature-requests, close-feedback-loop]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [low-impact, cardio, arthritis, joint-pain, body-neutral, aqua-exercise]
 pairs_with:
   prompts: [adapt-exercise-for-condition, start-walking-program, plan-seated-workout]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [margin-trading, leveraged-etfs, cfds, margin-call]
 pairs_with:
   prompts: [explain-options-risks, explain-crypto-risks, evaluate-stock-tip, spot-investment-scam]

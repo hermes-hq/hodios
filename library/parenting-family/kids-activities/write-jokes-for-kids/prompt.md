@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kids-jokes, knock-knock, wordplay, joke-show, lunchbox-notes, kind-humour]
 pairs_with:
   prompts: [write-riddles, write-puns, create-puppet-show]

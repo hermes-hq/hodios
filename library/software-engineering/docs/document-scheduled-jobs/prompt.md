@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cron-jobs, background-jobs, job-inventory, operations-docs, job-schedules]
 pairs_with:
   prompts: [write-runbook, document-data-pipeline, write-ownership-handover-doc, implement-background-job]

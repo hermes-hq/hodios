@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [franchise, territory-analysis, catchment, sales-projections, encroachment, due-diligence]
 pairs_with:
   prompts: [evaluate-buying-a-business, model-unit-economics, calculate-break-even]

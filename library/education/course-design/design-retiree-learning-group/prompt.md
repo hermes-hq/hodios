@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [older-adults, lifelong-learning, peer-led, interest-group, third-age, group-convenor]
 pairs_with:
   prompts: [design-peer-learning-circle, design-adult-evening-class]

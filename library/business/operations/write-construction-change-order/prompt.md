@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-order, contract-variation, cost-impact, extension-of-time, contractors]
 pairs_with:
   prompts: [write-construction-rfi, plan-construction-lookahead, write-customer-quote]

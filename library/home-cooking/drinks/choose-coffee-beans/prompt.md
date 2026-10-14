@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [coffee-beans, roast-level, coffee-origins, processing-method, specialty-coffee, buying-guide]
 pairs_with:
   prompts: [dial-in-filter-coffee, dial-in-espresso, choose-home-coffee-setup]

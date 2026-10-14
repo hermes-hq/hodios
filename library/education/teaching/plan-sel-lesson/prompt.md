@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [social-emotional-learning, sel, wellbeing, self-regulation, classroom-community, pshe]
 pairs_with:
   prompts: [design-classroom-management-plan, plan-student-behavior-support, plan-first-week-of-school]

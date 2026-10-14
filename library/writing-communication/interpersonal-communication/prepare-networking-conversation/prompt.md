@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [networking, small-talk, introverts, conferences, meetups, follow-up]
 pairs_with:
   prompts: [write-self-introduction, write-follow-up-email, reconnect-with-old-contact]

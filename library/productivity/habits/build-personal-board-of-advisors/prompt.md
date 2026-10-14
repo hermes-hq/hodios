@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [personal-board, support-network, mentors, sponsors, networking]
 pairs_with:
   prompts: [find-mentor, build-connection-plan, discover-my-strengths]

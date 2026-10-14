@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [woodworking, cut-list, joinery, wood-finishing, workshop-safety, furniture-making]
 pairs_with:
   prompts: [plan-diy-project, plan-sewing-project]

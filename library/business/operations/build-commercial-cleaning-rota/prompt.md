@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cleaning-schedule, hygiene, disinfection, chemical-safety, colour-coding, salon, gym]
 pairs_with:
   prompts: [write-opening-closing-checklist, prepare-for-food-safety-inspection, write-sop, plan-equipment-maintenance]

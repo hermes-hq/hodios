@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-generated-code, code-slop, codebase-conventions, duplication]
 pairs_with:
   prompts: [review-ai-generated-code, remove-dead-code, reduce-duplication]

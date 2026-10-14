@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-with-children, assent, safeguarding, kids-products, age-appropriate-design]
 pairs_with:
   prompts: [write-usability-test-plan, set-research-data-handling-rules, plan-inclusive-usability-study]

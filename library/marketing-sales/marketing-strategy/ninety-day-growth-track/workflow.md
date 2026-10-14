@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [local-marketing, ninety-day-plan, marketing-audit, content-calendar, keep-change-drop]
 pairs_with:
   prompts: [choose-marketing-channels, plan-weekly-promotion-routine, design-attribution-survey, set-promotion-budget-for-small-business, write-local-business-profile]

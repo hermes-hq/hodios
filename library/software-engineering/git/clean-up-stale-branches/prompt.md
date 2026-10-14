@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stale-branches, branch-hygiene, squash-merge, archive-tags]
 pairs_with:
   prompts: [choose-branching-strategy, configure-branch-protection, recover-lost-git-work]

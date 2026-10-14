@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [teach-back, patient-understanding, patient-education, discharge-teaching, plain-language-health, nursing]
 pairs_with:
   prompts: [write-patient-education-handout, write-medication-counselling-points, rewrite-clinic-letter-for-patient]

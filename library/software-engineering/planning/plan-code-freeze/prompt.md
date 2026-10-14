@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-freeze, change-freeze, peak-season, release-management, exception-process]
 pairs_with:
   prompts: [plan-stabilization-sprint, plan-team-capacity]

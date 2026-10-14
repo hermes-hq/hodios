@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [founder-market-fit, self-assessment, unfair-advantage, skill-gaps, personal-runway]
 pairs_with:
   prompts: [compare-business-ideas, validate-business-idea, find-cofounder, decide-when-to-go-full-time]

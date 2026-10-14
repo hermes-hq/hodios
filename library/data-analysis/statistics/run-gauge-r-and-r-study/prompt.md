@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gauge-rr, measurement-system-analysis, msa, repeatability, reproducibility, anova-method]
 pairs_with:
   prompts: [calculate-process-capability, calculate-measurement-uncertainty, run-bland-altman-analysis]

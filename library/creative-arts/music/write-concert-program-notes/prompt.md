@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [program-notes, recitals, classical-music, audience-guides]
 pairs_with:
   prompts: [prepare-music-audition, write-artist-bio]

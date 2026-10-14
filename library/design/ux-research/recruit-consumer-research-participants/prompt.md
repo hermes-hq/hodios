@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [participant-recruitment, recruitment-quotas, screener-fraud, consumer-panels, intercepts]
 pairs_with:
   prompts: [write-research-screener, set-participant-incentives, recruit-b2b-research-participants]

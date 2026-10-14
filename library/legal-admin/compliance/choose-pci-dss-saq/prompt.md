@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pci-dss, card-payments, payment-security, self-assessment, merchant-compliance]
 pairs_with:
   prompts: [answer-security-questionnaire, build-compliance-checklist, run-vendor-due-diligence]

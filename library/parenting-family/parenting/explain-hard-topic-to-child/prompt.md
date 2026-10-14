@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [grief, divorce, child-development, family-change]
 pairs_with:
   prompts: [plan-behavior-approach]

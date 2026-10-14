@@ -7,6 +7,7 @@ description: Standing rules for tests an assistant writes, covering behaviour ov
 category: testing
 version: 1.0.0
 status: experimental
+depth: specific
 stage: [verify, build]
 role: [software-engineer, qa-engineer, backend-engineer, frontend-engineer]
 requires: [none]

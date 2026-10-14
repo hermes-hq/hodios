@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [work-anxiety, workplace-wellbeing, anxiety-skills, speaking-up, email-anxiety]
 pairs_with:
   prompts: [manage-impostor-feelings, check-burnout-signs, set-up-worry-time, manage-event-anxiety]

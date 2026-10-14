@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ground-rules, working-agreements, team-norms, facilitation, committees]
 pairs_with:
   prompts: [facilitate-tense-meeting, design-meeting-cadence, run-retrospective]

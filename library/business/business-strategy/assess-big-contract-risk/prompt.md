@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-concentration, anchor-client, payment-terms, working-capital, exit-scenario, contract-terms]
 pairs_with:
   prompts: [forecast-cash-flow, test-capacity-before-growth, price-commercial-cleaning-contract]

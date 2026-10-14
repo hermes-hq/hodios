@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [campaign-report, sponsor-reporting, campaign-metrics, audience-sentiment, brand-relations]
 pairs_with:
   prompts: [write-sponsor-renewal-proposal, read-stream-analytics]

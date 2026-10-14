@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ingress, gateway-api, cert-manager, tls-certificates, routing]
 pairs_with:
   prompts: [write-kubernetes-manifests, set-up-domain-and-https, fix-kubernetes-service-unreachable]

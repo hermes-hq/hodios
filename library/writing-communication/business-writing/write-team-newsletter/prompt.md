@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [internal-comms, company-update, recognition, shout-outs]
 pairs_with:
   prompts: [write-internal-announcement, write-status-report]

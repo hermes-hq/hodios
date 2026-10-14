@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [medication-list, pill-schedule, pharmacist-questions, carers, polypharmacy]
 pairs_with:
   prompts: [prepare-doctor-questions, prepare-for-surgery, evaluate-supplement]

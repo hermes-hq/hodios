@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [evals, llm-as-judge, prompt-injection, golden-set]
 pairs_with:
   prompts: [design-rag-pipeline, plan-fine-tuning]

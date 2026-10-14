@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-chaining, ai-automation, pipeline-design, structured-output, evals]
 pairs_with:
   prompts: [write-system-prompt, diagnose-prompt-failures, create-few-shot-examples]

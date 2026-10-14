@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quarto, rmarkdown, papermill, batch-rendering, report-automation]
 pairs_with:
   prompts: [automate-recurring-report, generate-docx-report-from-template, apply-small-number-suppression]

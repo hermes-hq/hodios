@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [art-exhibition, open-studio, hanging-plan, art-labels, exhibition-promotion]
 pairs_with:
   prompts: [price-artwork, write-artist-statement, prepare-art-portfolio]

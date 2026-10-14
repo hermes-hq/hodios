@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [traffic-drop, algorithm-update, search-console, root-cause, seo-diagnosis]
 pairs_with:
   prompts: [analyze-search-console-data, audit-technical-seo, diagnose-metric-drop, plan-site-migration-seo]

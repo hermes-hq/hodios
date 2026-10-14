@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wont-boot, black-screen, startup-repair, recovery-mode, laptop-power]
 pairs_with:
   prompts: [recover-deleted-files, set-up-backups, explain-error-message, write-tech-support-request]

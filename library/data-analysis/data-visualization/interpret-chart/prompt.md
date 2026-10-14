@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [data-literacy, misleading-charts, chart-reading, statistical-literacy]
 pairs_with:
   prompts: [critique-chart, check-analysis-for-pitfalls]

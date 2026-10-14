@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [music-licensing, sync-licence, master-rights, film-production, content-id]
 pairs_with:
   prompts: [request-copyright-permission, check-stock-asset-licence, choose-stream-music-safely]

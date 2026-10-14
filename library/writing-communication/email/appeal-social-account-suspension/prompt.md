@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [account-suspension, platform-appeal, community-guidelines, creator-account, account-restriction]
 pairs_with:
   prompts: [recover-hacked-account, report-impersonation-account, reduce-platform-dependence]

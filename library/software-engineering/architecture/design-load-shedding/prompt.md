@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [load-shedding, overload, backpressure, admission-control, retry-storms]
 pairs_with:
   personas: [software-architect]

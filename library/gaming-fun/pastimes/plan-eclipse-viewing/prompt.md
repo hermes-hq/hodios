@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [eclipse, solar-eclipse, astronomy, eye-safety, solar-filters, skywatching]
 pairs_with:
   prompts: [plan-stargazing-session, choose-first-telescope]

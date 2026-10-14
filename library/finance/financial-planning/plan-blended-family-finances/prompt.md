@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stepfamily, second-marriage, child-support, beneficiary-nominations, inheritance]
 pairs_with:
   prompts: [plan-blended-family-transition, prepare-will-questions, plan-couple-money-conversation, update-finances-after-marriage]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coverage-report, pr-measurement, message-pull-through, share-of-voice, sentiment]
 pairs_with:
   prompts: [measure-brand-awareness]

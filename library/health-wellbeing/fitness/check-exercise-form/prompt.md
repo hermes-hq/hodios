@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [technique, form-cues, injury-prevention, strength-training]
 pairs_with:
   prompts: [build-training-plan]

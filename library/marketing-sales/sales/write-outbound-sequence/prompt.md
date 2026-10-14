@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [outbound, cadence, multichannel, cold-email, breakup-email]
 pairs_with:
   prompts: [write-cold-outreach, write-cold-call-script, build-ideal-customer-profile, prepare-discovery-call]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [word-groups, red-herrings, four-by-four, lateral-thinking, daily-puzzle]
 pairs_with:
   prompts: [play-hidden-word-game, make-word-puzzles]

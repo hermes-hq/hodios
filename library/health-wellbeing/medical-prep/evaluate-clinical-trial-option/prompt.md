@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [clinical-trials, informed-consent, research-participation, randomisation, patient-advocacy]
 pairs_with:
   prompts: [prepare-treatment-decision, prepare-second-opinion, explain-diagnosis]

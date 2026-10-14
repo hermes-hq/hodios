@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [yeonmal-jeongsan, hometax, sodeuk-gongje, seaek-gongje, korea]
 pairs_with:
   prompts: [check-jeonse-contract, explain-payslip]

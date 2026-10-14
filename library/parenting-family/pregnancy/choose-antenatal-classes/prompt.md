@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [antenatal-classes, childbirth-education, birth-partner, feeding-preparation, parent-community]
 pairs_with:
   prompts: [prepare-for-new-baby, write-birth-partner-guide, plan-infant-feeding]

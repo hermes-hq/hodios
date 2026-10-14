@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [refactor-formula, nested-if, let-function, lookup-table, equivalence-test]
 pairs_with:
   prompts: [debug-spreadsheet-formula, write-lambda-function, explain-inherited-spreadsheet]

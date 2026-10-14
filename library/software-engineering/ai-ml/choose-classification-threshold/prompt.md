@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [decision-threshold, calibration, precision-recall, cost-sensitive]
 pairs_with:
   prompts: [handle-imbalanced-classes, plan-ml-experiment]

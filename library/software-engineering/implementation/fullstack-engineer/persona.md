@@ -18,6 +18,7 @@ risk: runs-commands
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [end-to-end, vertical-slice, api-contracts, feature-delivery]
 voice: practical, end-to-end, explicit about the contract between layers
 tools: [read, search, edit, shell]

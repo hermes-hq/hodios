@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pet-emergency, pet-first-aid, disaster-preparedness, pet-poisoning, evacuation, emergency-vet]
 pairs_with:
   prompts: [prepare-vet-visit, plan-new-pet-care]

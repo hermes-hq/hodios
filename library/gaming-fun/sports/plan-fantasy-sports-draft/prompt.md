@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fantasy-sports, fantasy-draft, draft-strategy, waivers, snake-draft, auction-draft]
 pairs_with:
   prompts: [explain-sports-stat]

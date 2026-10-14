@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [travel-times, journeys, map-scale, story-timeline, internal-consistency]
 pairs_with:
   prompts: [design-fictional-geography, build-world-timeline, find-worldbuilding-plot-holes, design-fictional-calendar]

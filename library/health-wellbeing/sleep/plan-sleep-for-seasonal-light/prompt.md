@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [daylight, winter-darkness, midnight-sun, body-clock, light-therapy]
 pairs_with:
   prompts: [reset-sleep-schedule, audit-bedroom-for-sleep, plan-easier-mornings]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [eye-strain, screen-time, dry-eyes, workstation-setup, eye-test, digital-eye-strain]
 pairs_with:
   prompts: [design-workday-movement-breaks, set-up-home-office, prepare-doctor-questions]

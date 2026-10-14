@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [out-of-memory, heap, oom-killer, streaming, memory-limits]
 pairs_with:
   prompts: [find-memory-leak, diagnose-crashlooping-pod, fix-container-exits-on-start]

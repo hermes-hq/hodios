@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [forced-colors, high-contrast, windows-contrast-themes, system-colors, focus-indicator, low-vision]
 pairs_with:
   personas: [accessibility-specialist]

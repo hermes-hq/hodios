@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sentimental-items, keepsakes, memory-box, inherited-items]
 pairs_with:
   prompts: [plan-decluttering, organize-photo-library]

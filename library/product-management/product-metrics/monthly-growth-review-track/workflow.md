@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-source-project, growth-review, monthly-review, growth-experiments, no-telemetry]
 pairs_with:
   prompts: [set-up-oss-growth-metrics, review-weekly-growth-numbers, audit-contributor-funnel, audit-readme-conversion]

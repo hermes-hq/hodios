@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wedding-guest, celebrations, social-spending, saying-no]
 pairs_with:
   prompts: [set-up-sinking-funds, budget-for-holidays-and-gifts, plan-savings-goal]

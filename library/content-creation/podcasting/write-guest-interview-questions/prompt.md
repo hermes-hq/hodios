@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interviewing, follow-up-questions, guest-research, question-path]
 pairs_with:
   prompts: [plan-podcast-episode, write-show-notes]

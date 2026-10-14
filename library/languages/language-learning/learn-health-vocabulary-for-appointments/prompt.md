@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [newcomers, medical-vocabulary, appointments, pharmacy, interpreter-rights, survival-language]
 pairs_with:
   prompts: [learn-survival-phrases, translate-medical-information, build-personal-phrasebook]

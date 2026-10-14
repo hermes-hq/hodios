@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [multilingual-learners, eal, plain-language, newcomers, key-vocabulary, sheltered-instruction]
 pairs_with:
   prompts: [explain-concept-at-level, build-vocabulary-through-morphology]

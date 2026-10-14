@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interfaith-family, interfaith-couples, raising-children, family-conversations, holidays]
 pairs_with:
   prompts: [answer-child-faith-questions, plan-religious-holiday-observance]

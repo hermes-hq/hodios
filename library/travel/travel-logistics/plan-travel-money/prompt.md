@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [currency, card-fees, cash, atm, dynamic-currency-conversion]
 pairs_with:
   prompts: [plan-trip-budget, check-destination-safety, handle-emergency-abroad]

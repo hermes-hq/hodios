@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [beginner-cooking, cooking-skills, practice-plan, knife-skills]
 pairs_with:
   prompts: [teach-cooking-technique, troubleshoot-recipe, recipe-from-ingredients]

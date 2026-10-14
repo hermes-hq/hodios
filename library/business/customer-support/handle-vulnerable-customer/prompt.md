@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vulnerable-customers, bereavement, financial-hardship, compassionate-handling, safeguarding]
 pairs_with:
   prompts: [write-support-reply, decide-goodwill-refund, design-accessible-customer-service]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [chapter-openings, hooks, opening-pages, pacing, reader-engagement]
 pairs_with:
   prompts: [draft-nonfiction-chapter, build-story-bank]

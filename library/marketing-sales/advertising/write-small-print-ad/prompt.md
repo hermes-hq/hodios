@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [print-ads, local-paper, community-magazine, offer-code, ad-layout]
 pairs_with:
   prompts: [plan-local-advertising, write-outdoor-ad-copy]

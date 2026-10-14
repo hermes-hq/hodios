@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [file-note, record-keeping, attendance-note, audit-trail, call-record]
 pairs_with:
   prompts: [write-formal-minutes, summarize-meeting-transcript, write-meeting-recap-email]

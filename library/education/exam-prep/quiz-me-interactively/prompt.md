@@ -7,6 +7,7 @@ description: Runs an adaptive quiz one question at a time, adjusts difficulty to
 category: exam-prep
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [verify, learn]
 role: [student, language-learner, individual]
 requires: [none]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [moving-abroad, international-shipping, quotes, movers, household-goods]
 pairs_with:
   prompts: [decide-what-to-ship-abroad, compare-vendors]

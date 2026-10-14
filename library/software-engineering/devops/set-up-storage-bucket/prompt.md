@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [object-storage, s3, presigned-urls, lifecycle-rules, cors]
 pairs_with:
   prompts: [implement-file-upload, write-terraform-module, write-least-privilege-iam-policy]

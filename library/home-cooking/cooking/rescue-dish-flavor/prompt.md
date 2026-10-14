@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [seasoning, flavour-balance, kitchen-fixes, too-salty, too-spicy]
 pairs_with:
   prompts: [troubleshoot-recipe, adapt-recipe, cook-along-assistant]

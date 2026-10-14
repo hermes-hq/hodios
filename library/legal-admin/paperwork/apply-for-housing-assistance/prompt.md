@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [social-housing, homelessness, housing-benefit, rent-assistance, housing-application]
 pairs_with:
   prompts: [respond-to-eviction-notice, appeal-benefits-decision, find-free-legal-help, prepare-government-form]

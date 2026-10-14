@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [season-planning, episode-arc, guest-booking, release-schedule, podcast-promotion]
 pairs_with:
   prompts: [plan-podcast-episode, write-podcast-guest-pitch, write-guest-interview-questions, launch-podcast]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crop-rotation, arable-farming, cover-crops, soil-health, break-crops]
 pairs_with:
   prompts: [plan-farm-diversification, plan-equipment-maintenance]

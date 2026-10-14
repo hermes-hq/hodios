@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [ecommerce, retail]
 tags: [refunds, returns, order-management, requirements]
 pairs_with:

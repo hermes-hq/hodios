@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [composition-api, reactivity, composables, pinia, ssr, hydration]
 applies_to: ["**/*.vue", "composables/**", "stores/**", "server/**", "nuxt.config.*", "src/**/*.ts"]
 pairs_with:

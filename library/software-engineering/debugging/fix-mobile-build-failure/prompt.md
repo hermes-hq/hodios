@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [build-errors, xcode, gradle, cocoapods, code-signing, toolchain]
 pairs_with:
   personas: [mobile-engineer]

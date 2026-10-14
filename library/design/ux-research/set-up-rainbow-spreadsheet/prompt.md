@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rainbow-spreadsheet, collaborative-analysis, observation-notes, session-tallies, team-observation]
 pairs_with:
   prompts: [brief-usability-test-observers, synthesize-usability-findings, write-usability-test-plan]

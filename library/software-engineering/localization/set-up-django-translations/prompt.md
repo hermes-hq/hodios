@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gettext, makemessages, locale-middleware, gettext-lazy, po-files]
 pairs_with:
   prompts: [design-multilingual-content-schema, extract-ui-strings, localize-server-sent-messages]

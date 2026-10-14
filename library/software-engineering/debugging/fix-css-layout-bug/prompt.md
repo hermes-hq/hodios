@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flexbox, css-grid, stacking-context, overflow, z-index, responsive-design]
 pairs_with:
   prompts: [build-ui-component, improve-web-vitals]

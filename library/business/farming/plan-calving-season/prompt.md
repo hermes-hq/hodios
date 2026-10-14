@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [calving, suckler-herd, dairy-herd, colostrum, body-condition-score, night-checks]
 pairs_with:
   prompts: [plan-tupping-calendar, plan-low-stress-weaning, triage-unwell-livestock, plan-livestock-record-keeping]

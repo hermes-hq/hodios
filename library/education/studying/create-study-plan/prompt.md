@@ -19,7 +19,8 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
-tags: [spaced-repetition, schedule, retrieval-practice]
+depth: basic
+tags: [spaced-repetition, schedule, retrieval-practice, study-for-exam, revision-plan]
 pairs_with:
   prompts: [make-flashcards, generate-practice-exam]
   personas: [study-coach]

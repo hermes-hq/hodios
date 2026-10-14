@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [youth-sports, coaching, practice-plan, drills, volunteer-coach]
 pairs_with:
   prompts: [plan-team-season]

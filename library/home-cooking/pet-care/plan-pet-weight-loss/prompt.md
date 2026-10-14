@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pet-weight, overweight-dog, overweight-cat, body-condition-score, treat-budget, pet-exercise]
 pairs_with:
   prompts: [compare-pet-food-options, plan-pet-enrichment, prepare-vet-visit, care-for-senior-pet]

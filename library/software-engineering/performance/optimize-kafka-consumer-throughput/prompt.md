@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [consumer-lag, throughput, partitions, batching, message-ordering]
 pairs_with:
   prompts: [implement-message-queue-consumer, speed-up-batch-job, tune-connection-pool]

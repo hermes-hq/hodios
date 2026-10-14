@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [appraisal, receiving-feedback, self-advocacy, register, workplace-speaking]
 pairs_with:
   prompts: [run-mock-performance-review, practise-polite-disagreement, practise-giving-status-update-in-language]

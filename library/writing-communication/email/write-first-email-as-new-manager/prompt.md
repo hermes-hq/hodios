@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [new-manager, first-email, team-introduction, one-to-ones, listening-tour]
 pairs_with:
   prompts: [plan-transition-to-manager, write-self-introduction, plan-one-on-one]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sharpening, chisels, plane-irons, honing, whetstones, woodworking]
 pairs_with:
   prompts: [plan-woodworking-project, plan-wood-turning-project]

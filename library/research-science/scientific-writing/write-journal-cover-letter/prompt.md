@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [manuscript-submission, cover-letter, journal-fit, desk-rejection]
 pairs_with:
   prompts: [write-abstract, respond-to-reviewers, check-manuscript-reporting]

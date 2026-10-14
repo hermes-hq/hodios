@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [memoir, real-people, consent, family-conversations, letter-writing]
 pairs_with:
   prompts: [check-memoir-for-privacy-risks, write-memoir-authors-note]

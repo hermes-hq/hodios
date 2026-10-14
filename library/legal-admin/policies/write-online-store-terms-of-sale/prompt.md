@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [terms-and-conditions, consumer-contracts, online-shop, pricing-errors, cancellation-rights, faulty-goods]
 pairs_with:
   prompts: [write-refund-policy, write-shipping-policy-page, check-online-shop-consumer-law, write-product-warranty-terms]

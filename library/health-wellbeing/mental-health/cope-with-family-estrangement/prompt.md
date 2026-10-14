@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-estrangement, ambiguous-loss, no-contact, holidays, family-conflict]
 pairs_with:
   prompts: [write-message-to-estranged-relative, prepare-for-hard-anniversary, process-grief, practice-self-compassion]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [menu-translation, allergies, ordering-food, food-culture, travel-phrases]
 pairs_with:
   prompts: [plan-food-exploration, learn-local-etiquette]

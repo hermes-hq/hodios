@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [supply-and-demand, market-failure, ad-as, diagram-labels, a-level, ib]
 pairs_with:
   prompts: [write-model-exam-answer, analyze-past-papers]

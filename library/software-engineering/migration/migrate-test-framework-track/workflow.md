@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-framework, codemod, parity-check, jest, vitest, pytest]
 pairs_with:
   prompts: [upgrade-major-dependency, plan-incremental-migration]

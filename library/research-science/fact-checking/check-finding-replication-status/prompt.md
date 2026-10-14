@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [replication-crisis, meta-analysis, effect-sizes, pop-psychology]
 pairs_with:
   prompts: [explain-state-of-evidence, check-science-news-against-paper, assess-preprint-reliability]

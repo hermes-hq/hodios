@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [money-conversations, disclosure, couples, debt-shame]
 pairs_with:
   prompts: [plan-debt-payoff, plan-couple-money-conversation, prepare-for-debt-advice-appointment]

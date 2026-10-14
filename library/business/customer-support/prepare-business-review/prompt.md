@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [qbr, executive-business-review, account-health, renewals, value-realisation]
 pairs_with:
   prompts: [plan-customer-onboarding, analyze-support-tickets]

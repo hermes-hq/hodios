@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [depreciation, asset-register, net-book-value, asset-disposals, fixed-assets]
 pairs_with:
   prompts: [build-amortization-schedule, write-spreadsheet-formula, prepare-year-end-accounts-pack]

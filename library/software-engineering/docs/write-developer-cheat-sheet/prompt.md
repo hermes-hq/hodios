@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quick-reference, command-reference, one-pager, gotchas]
 pairs_with:
   prompts: [write-onboarding-guide, write-cli-reference, write-how-to-guide]

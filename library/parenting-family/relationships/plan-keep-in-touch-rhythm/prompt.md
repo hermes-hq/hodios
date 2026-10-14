@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [keeping-in-touch, adult-friendship, staying-connected, busy-life, reaching-out]
 pairs_with:
   prompts: [deepen-acquaintance-into-friendship, plan-long-distance-connection, reconnect-with-old-contact]

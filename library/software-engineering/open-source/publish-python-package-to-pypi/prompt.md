@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pypi, pyproject, wheels, testpypi, trusted-publishing, package-publishing]
 pairs_with:
   prompts: [publish-package-from-ci, modernize-python-packaging, write-changelog]

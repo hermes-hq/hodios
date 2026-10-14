@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [paediatrician, family-doctor, baby-health, meet-and-greet, health-insurance]
 pairs_with:
   prompts: [prepare-pediatric-visit, compare-health-insurance-plans, register-newborn-birth]

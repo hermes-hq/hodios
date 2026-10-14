@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [courier, owner-driver, cost-per-mile, van-finance, gig-economy, self-employment]
 pairs_with:
   prompts: [track-business-expenses, plan-estimated-tax-payments, find-first-customers]

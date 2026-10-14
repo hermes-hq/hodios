@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [executive-summary, bluf, pyramid-principle]
 pairs_with:
   prompts: [write-project-proposal, write-status-report, tighten-prose]

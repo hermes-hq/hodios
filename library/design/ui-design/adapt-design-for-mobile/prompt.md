@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [responsive-design, mobile-first, touch-targets, content-priority, progressive-disclosure]
 pairs_with:
   prompts: [write-design-handoff, critique-ui-screen, design-information-architecture]

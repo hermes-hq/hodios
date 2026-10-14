@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [glossary-injection, structured-output, human-review, translation-memory, cost-control]
 pairs_with:
   prompts: [automate-translation-file-sync, build-localization-glossary, validate-translation-files-in-ci]

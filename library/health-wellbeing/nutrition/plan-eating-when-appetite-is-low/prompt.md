@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [poor-appetite, food-fortification, carers, cancer-treatment, older-adults, recovery]
 pairs_with:
   prompts: [plan-older-adult-nutrition, plan-eating-for-condition, prepare-doctor-questions]

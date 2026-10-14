@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [issue-triage, duplicates, labels, backlog]
 pairs_with:
   personas: [open-source-maintainer]

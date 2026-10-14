@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [translator-comments, string-catalogs, placeholders, character-limits, ambiguity]
 pairs_with:
   prompts: [extract-ui-strings, translate-string-catalog, build-localization-glossary, review-translated-strings]

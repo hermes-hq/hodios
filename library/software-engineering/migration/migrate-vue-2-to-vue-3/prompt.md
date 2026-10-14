@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [vue-3, migration-build, pinia, breaking-changes, end-of-life]
 pairs_with:
   prompts: [upgrade-major-dependency, convert-vue-options-api-to-composition, migrate-nuxt-2-to-nuxt-3]

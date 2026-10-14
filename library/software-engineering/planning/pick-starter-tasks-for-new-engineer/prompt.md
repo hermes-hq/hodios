@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [new-hire, ramp-up, starter-tasks, buddy-system]
 pairs_with:
   prompts: [write-onboarding-guide, plan-team-capacity, reduce-bus-factor]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [internal-tools, requirements-interview, automation-request, workflow-automation]
 pairs_with:
   prompts: [write-user-stories, list-feature-edge-cases]

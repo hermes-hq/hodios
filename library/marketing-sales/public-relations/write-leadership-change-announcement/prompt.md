@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [executive-appointment, executive-departure, leadership-transition, interim-ceo, media-lines, corporate-announcement]
 pairs_with:
   prompts: [write-press-release, write-spokesperson-quotes, write-press-backgrounder]

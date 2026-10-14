@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [strength-training, progressive-overload, consistency, coaching]
 pairs_with:
   prompts: [build-training-plan, check-exercise-form, plan-nutrition-targets]

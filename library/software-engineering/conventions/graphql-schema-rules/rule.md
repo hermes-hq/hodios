@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [schema-design, nullability, dataloader, relay-connections, resolvers]
 applies_to: ["**/*.graphql", "**/*.gql", "**/resolvers/**", "**/schema/**"]
 pairs_with:

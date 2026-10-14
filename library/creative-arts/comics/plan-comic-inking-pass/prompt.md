@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [inking, line-weight, spotting-blacks, hatching, inking-style]
 pairs_with:
   prompts: [thumbnail-comic-page, plan-comic-colour-script, critique-comic-page]

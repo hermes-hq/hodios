@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [heritage-speakers, family-language, receptive-bilingualism, literacy, speaking-confidence, diaspora]
 pairs_with:
   prompts: [plan-language-learning, learn-writing-system, explain-politeness-register]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [portrait-drawing, facial-proportions, likeness, drawing-fundamentals, graphite-drawing]
 pairs_with:
   prompts: [teach-drawing-fundamental, assess-reference-photo, critique-artwork]

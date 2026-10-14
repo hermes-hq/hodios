@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [raci, responsibilities, accountability, roles-and-responsibilities, decision-rights]
 pairs_with:
   prompts: [map-business-process, write-sop, write-approval-matrix]

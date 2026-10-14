@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [functional-core, imperative-shell, pure-functions, side-effects]
 pairs_with:
   prompts: [decouple-for-testability, simplify-function]

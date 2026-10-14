@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [story-development, premise, character-arc, sample-scene]
 pairs_with:
   prompts: [develop-character, outline-story, critique-fiction-draft]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [vulnerability-response, emergency-patching, exposure-assessment, compromise-assessment, cve]
 pairs_with:
   prompts: [prioritize-vulnerability-backlog, write-threat-hunt-plan, write-incident-update, write-siem-query]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contract-manufacturing, private-label, tooling-ownership, minimum-order-quantity, quality-agreement, product-sourcing]
 pairs_with:
   prompts: [review-supplier-terms, write-manufacturing-spec-sheet, redline-contract, evaluate-white-label-or-licensing]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [teacher-evaluation, lesson-observation, appraisal, pre-observation-conference]
 pairs_with:
   prompts: [write-lesson-plan, write-teacher-professional-goals, write-lesson-observation-feedback]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [connect-four, nim, dots-and-boxes, reversi, tic-tac-toe, board-games, game-strategy]
 pairs_with:
   personas: [chess-coach]

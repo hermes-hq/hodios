@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [viral-content, content-analysis, hooks, swipe-file]
 pairs_with:
   prompts: [adapt-trend-format, analyze-competitor-channels, write-video-hooks]

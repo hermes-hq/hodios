@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-titles, internal-titles, background-checks, title-inflation]
 pairs_with:
   prompts: [present-promotions-on-resume, reconcile-resume-and-linkedin, tailor-resume-to-job]

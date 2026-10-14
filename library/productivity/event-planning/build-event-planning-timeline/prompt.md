@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [event-timeline, work-back-schedule, critical-path, lead-times, milestones]
 pairs_with:
   prompts: [choose-event-date, plan-event-budget, write-run-of-show]

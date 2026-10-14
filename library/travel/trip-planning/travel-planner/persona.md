@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [seasonality, slow-travel, travel-advice]
 pairs_with:
   prompts: [plan-itinerary, plan-road-trip, plan-trip-budget, check-travel-requirements]

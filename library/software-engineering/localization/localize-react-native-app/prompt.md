@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hermes, intl-polyfills, rtl, permission-strings]
 pairs_with:
   prompts: [plan-rtl-support, extract-ui-strings, localize-app-store-listing]

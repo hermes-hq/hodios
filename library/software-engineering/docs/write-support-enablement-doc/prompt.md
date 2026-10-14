@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [support-handoff, feature-launch, internal-docs, escalation-paths, known-limits]
 pairs_with:
   prompts: [plan-launch-support-readiness, write-troubleshooting-guide, document-permissions-matrix, write-release-notes]

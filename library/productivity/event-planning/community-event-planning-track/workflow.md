@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [community-events, volunteers, street-party, school-fair, risk-assessment, run-sheet]
 pairs_with:
   prompts: [plan-fundraising-event, write-event-invitation, run-pre-mortem, build-reusable-checklist]

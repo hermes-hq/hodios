@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [developer-experience, developer-productivity, build-times, flaky-tests, platform-engineering, developer-survey]
 pairs_with:
   prompts: [assess-technical-debt, write-tech-debt-proposal, measure-dora-metrics]

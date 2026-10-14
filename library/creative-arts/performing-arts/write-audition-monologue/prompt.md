@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [monologue, audition, drama-school, character-objective]
 pairs_with:
   prompts: [write-short-film-script, write-comedy-sketch]

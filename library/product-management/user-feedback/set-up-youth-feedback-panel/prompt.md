@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [youth-voice, children-participation, safeguarding, parental-consent, child-assent, advisory-panel]
 pairs_with:
   prompts: [set-up-offline-feedback-channels, plan-customer-advisory-board]

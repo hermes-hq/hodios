@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [voice-profile, writing-voice, ghostwriting, style-analysis, personal-brand]
 pairs_with:
   prompts: [build-email-templates, line-edit-prose, remove-ai-writing-tics]

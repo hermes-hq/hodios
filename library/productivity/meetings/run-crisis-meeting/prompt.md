@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crisis-management, emergency-response, incident-command, situation-report, business-continuity]
 pairs_with:
   prompts: [build-crisis-comms-plan, write-meeting-recap-email]

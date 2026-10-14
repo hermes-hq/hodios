@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cyber-resilience-act, eu-regulation, open-source-steward, vulnerability-reporting, sbom, regulatory-compliance]
 pairs_with:
   prompts: [write-security-policy, write-open-source-usage-policy, coordinate-security-release]

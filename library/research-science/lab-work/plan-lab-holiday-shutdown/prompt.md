@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lab-closure, holiday-cover, alarm-cover, freezer-alarms, lone-working]
 pairs_with:
   prompts: [plan-freezer-failure-response, set-up-lab-cleaning-rota, set-up-reagent-inventory]

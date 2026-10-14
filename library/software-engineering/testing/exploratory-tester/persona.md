@@ -16,6 +16,7 @@ risk: read-only
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [exploratory-testing, test-heuristics, bug-reports, test-oracles, session-based-testing]
 pairs_with:
   prompts: [write-exploratory-test-charters, write-test-plan, write-manual-test-cases]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [direct-mail, print-marketing, response-device, offer, postcard]
 pairs_with:
   prompts: [write-brochure-copy, write-sales-page, write-headline-variations, plan-local-advertising]

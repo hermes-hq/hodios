@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [year-end-review, performance-report, self-assessment, workplace-china, quantified-results]
 pairs_with:
   prompts: [write-weekly-update-to-manager, write-status-report]

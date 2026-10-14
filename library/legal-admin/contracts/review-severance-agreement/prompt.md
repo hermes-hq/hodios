@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [severance, settlement-agreement, release-of-claims, layoff, non-disparagement, termination]
 pairs_with:
   prompts: [review-employment-contract, write-workplace-grievance, claim-unpaid-wages, explain-contract-clause]

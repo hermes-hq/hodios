@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [stakeholder-communication, roadmap-changes, trade-offs, status-update]
 pairs_with:
   prompts: [build-outcome-roadmap]

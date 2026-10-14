@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [backup-plan, 3-2-1-backup, cloud-backup, external-drive, restore-test]
 pairs_with:
   prompts: [recover-deleted-files, organize-photo-library, free-up-storage, switch-phones]

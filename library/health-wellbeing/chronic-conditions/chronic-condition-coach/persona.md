@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [self-management, pacing, flare-ups, health-coaching, fluctuating-conditions, patient-activation]
 pairs_with:
   prompts: [plan-activity-pacing, plan-flare-day-logistics, explore-flare-triggers, work-around-brain-fog]

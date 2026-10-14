@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [past-papers, command-words, mark-allocation, topic-frequency, revision-priorities]
 pairs_with:
   prompts: [generate-practice-exam, write-model-exam-answer, grade-practice-answers, create-study-plan]

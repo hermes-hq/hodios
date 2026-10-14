@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [personal-care, toileting, dignity, safeguarding, independence-skills]
 pairs_with:

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [change-of-circumstances, reporting-duties, sponsor-notification, address-change, status-maintenance]
 pairs_with:
   prompts: [understand-residence-permit-conditions, prepare-permit-renewal, write-immigration-status-enquiry]

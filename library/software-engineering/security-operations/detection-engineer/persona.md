@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [detection-as-code, sigma, false-positives, mitre-attack, alert-quality]
 pairs_with:
   prompts: [write-sigma-rule, write-yara-rule, write-siem-query, map-detection-coverage, write-threat-hunt-plan]

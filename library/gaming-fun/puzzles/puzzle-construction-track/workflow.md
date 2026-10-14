@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [puzzle-construction, testsolving, aha-moment, hint-ladder, unique-solution]
 pairs_with:
   prompts: [testsolve-puzzle, make-logic-puzzle, design-puzzle-hunt, write-riddles]

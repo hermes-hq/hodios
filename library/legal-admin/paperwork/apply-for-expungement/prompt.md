@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [expungement, record-sealing, spent-convictions, criminal-record, pardon, second-chance]
 pairs_with:
   prompts: [prepare-job-search-with-criminal-record, prepare-for-background-check, find-free-legal-help, write-character-reference]

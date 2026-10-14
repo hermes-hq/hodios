@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [code-reading, architecture-overview, new-joiner]
 pairs_with:
   personas: [socratic-tutor]

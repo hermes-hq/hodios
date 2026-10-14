@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [elections, voting, civic, neutrality, priorities]
 pairs_with:
   prompts: [evaluate-policy-proposal, steelman-opposing-view, check-voting-record-claim]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dashboard-review, bi, metric-definitions, decision-support, declutter]
 pairs_with:
   prompts: [design-dashboard, critique-chart, define-metric]

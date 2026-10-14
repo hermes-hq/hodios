@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [account-research, trigger-events, outbound, buyer-priorities, pre-call-research]
 pairs_with:
   prompts: [write-cold-outreach, plan-account-based-outreach, prepare-discovery-call]

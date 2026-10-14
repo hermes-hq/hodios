@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [search-ui, filters, result-count, focus-management, ecommerce-ui]
 pairs_with:
   personas: [accessibility-specialist]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recruiting-outreach, passive-candidates, inmail, sourcing, candidate-experience]
 pairs_with:
   prompts: [write-sourcing-search-strings, write-job-description]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-audit, refocus, channel-pruning, cadence, starter-plan, burnout]
 pairs_with:
   prompts: [audit-content-library, define-content-pillars, plan-content-calendar, build-content-measurement-plan, cost-out-content-plan]

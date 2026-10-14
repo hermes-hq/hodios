@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [acceptance-speech, thank-you, awards-ceremony, gratitude, short-speech]
 pairs_with:
   prompts: [mark-up-script-for-delivery, rehearse-speech-with-feedback, write-speech]

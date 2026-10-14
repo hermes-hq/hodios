@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [travel-insurance, trip-cancellation, medical-cover, pre-existing-conditions]
 pairs_with:
   prompts: [plan-trip-budget, check-travel-requirements, explain-insurance-policy]

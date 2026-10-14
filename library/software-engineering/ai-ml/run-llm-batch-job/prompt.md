@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [batch-processing, checkpointing, data-enrichment, cost-cap, idempotency]
 pairs_with:
   prompts: [build-structured-extraction, estimate-llm-feature-cost, reduce-llm-costs]

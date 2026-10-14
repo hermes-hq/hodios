@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [home-wifi, mesh-wifi, wifi-extender, home-network, powerline, dead-zones]
 pairs_with:
   prompts: [troubleshoot-home-wifi, secure-home-router, plan-smart-home]

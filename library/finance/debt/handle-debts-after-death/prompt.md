@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bereavement, estate-debts, executor, joint-liability]
 pairs_with:
   prompts: [settle-estate-checklist, respond-to-debt-collector, plan-finances-after-partner-death]

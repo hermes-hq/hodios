@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [email-review, pre-send-qa, conversion-copy, offer-clarity]
 pairs_with:
   prompts: [write-promo-email, write-email-subject-lines, analyze-email-campaign-report]

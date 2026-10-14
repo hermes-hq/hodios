@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [venture-round, startup-fundraising, investor-pipeline, pitch-preparation, closing-checklist]
 pairs_with:
   prompts: [write-pitch-deck-outline, build-investor-pipeline, write-investor-intro-request, prepare-investor-qa, prepare-due-diligence-data-room, explain-term-sheet, write-investor-update]

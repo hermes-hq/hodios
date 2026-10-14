@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [supported-versions, compatibility, support-policy, end-of-life]
 pairs_with:
   prompts: [write-migration-guide, write-release-notes, write-readme]

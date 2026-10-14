@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [military-history, family-history, service-records, war-memories, genealogy]
 pairs_with:
   prompts: [write-family-history, plan-genealogy-research, interview-relative-for-oral-history]

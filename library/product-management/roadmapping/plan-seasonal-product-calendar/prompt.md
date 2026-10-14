@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [selling-windows, buying-deadlines, lead-times, trade-shows, sample-dates, critical-path]
 pairs_with:
   prompts: [build-hardware-product-roadmap, plan-retail-shelf-launch, rationalize-product-line]

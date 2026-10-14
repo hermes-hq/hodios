@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [acceptance-criteria, traceability, requirements, test-coverage]
 pairs_with:
   prompts: [write-acceptance-criteria, review-pull-request]

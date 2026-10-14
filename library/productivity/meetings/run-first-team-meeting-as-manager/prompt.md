@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-manager, first-90-days, team-trust, listening, introductions]
 pairs_with:
   prompts: [plan-transition-to-manager, write-first-email-as-new-manager, write-team-charter]

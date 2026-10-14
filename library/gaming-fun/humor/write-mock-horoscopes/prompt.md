@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [newsletter-filler, parody, office-newsletter, star-signs, party-game]
 pairs_with:
   prompts: [write-clean-jokes, write-funny-awards-ceremony]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [script-review, full-script, drawability, page-turn, word-count]
 pairs_with:
   prompts: [write-comic-script, thumbnail-comic-page, adapt-story-into-comic]

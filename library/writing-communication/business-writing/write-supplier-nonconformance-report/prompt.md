@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [supply-chain]
 tags: [nonconformance, supplier-quality, ncr, corrective-action-request, goods-inspection]
 pairs_with:

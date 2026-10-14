@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ib-diploma, theory-of-knowledge, knowledge-questions, areas-of-knowledge, counterclaims, academic-integrity]
 pairs_with:
   prompts: [plan-essay-argument, give-essay-feedback]

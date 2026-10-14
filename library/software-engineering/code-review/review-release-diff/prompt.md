@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [release-review, deploy-verification, migrations, regression]
 pairs_with:
   personas: [code-reviewer]

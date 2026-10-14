@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gradle, agp, r8, build-tooling]
 pairs_with:
   prompts: [upgrade-android-target-sdk, speed-up-gradle-build, migrate-gradle-to-kotlin-dsl]

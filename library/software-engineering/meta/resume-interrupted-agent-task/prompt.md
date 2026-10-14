@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, session-recovery, git-state, task-continuity]
 pairs_with:
   prompts: [write-agent-handoff, recover-from-bad-agent-session, manage-agent-context-for-long-task]

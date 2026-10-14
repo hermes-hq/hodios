@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chemical-equilibrium, ice-tables, kc, kp, le-chatelier, reaction-quotient]
 pairs_with:
   prompts: [practise-ph-calculations, practise-mole-calculations]

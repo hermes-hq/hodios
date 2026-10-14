@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [donor-appeal, fundraising-letter, year-end-appeal, storytelling, gift-ask]
 pairs_with:
   prompts: [write-grant-application, write-crowdfunding-campaign]

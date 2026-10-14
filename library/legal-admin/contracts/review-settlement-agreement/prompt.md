@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [settlement-agreement, release-of-claims, dispute-resolution, full-and-final, confidentiality-clause, debt-settlement]
 pairs_with:
   prompts: [write-settlement-offer-letter, prepare-small-claims-case, explain-contract-clause]

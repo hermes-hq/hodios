@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pest, phpunit, model-factories, feature-tests, laravel-fakes]
 pairs_with:
   prompts: [write-api-endpoint-tests, write-test-data-factories]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-meeting, facilitation, siblings, shared-decisions, ground-rules, ageing-parents]
 pairs_with:
   prompts: [build-care-rota, plan-parent-care-conversation, prepare-difficult-conversation]

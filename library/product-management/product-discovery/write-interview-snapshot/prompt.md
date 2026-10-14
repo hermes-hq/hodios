@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [customer-interviews, interview-snapshot, opportunities, verbatim-quotes, research-notes]
 pairs_with:
   prompts: [synthesize-customer-interviews, map-opportunity-solution-tree, plan-continuous-interview-cadence, review-interview-technique]

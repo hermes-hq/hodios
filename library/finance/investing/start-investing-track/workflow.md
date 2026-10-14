@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [first-time-investor, investing-basics, account-types, written-plan]
 pairs_with:
   prompts: [assess-risk-tolerance, compare-retirement-accounts, compare-ways-to-invest, calculate-fee-drag, write-investment-policy-statement]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [style-sheet, word-list, consistency, house-style]
 pairs_with:
   prompts: [proofread-text, edit-for-structure]

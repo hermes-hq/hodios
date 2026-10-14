@@ -16,6 +16,7 @@ risk: runs-commands
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [idempotency, data-contracts, backfill, data-observability]
 pairs_with:
   prompts: [design-data-pipeline, write-dbt-model, write-data-quality-checks, design-star-schema, plan-zero-downtime-schema-change, write-data-dictionary]

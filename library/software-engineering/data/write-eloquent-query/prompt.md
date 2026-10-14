@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [eloquent, orm, eager-loading, subqueries, aggregation]
 pairs_with:
   prompts: [extract-reusable-orm-query-scopes, speed-up-laravel-app, fix-n-plus-one-queries, review-database-indexes]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [encryption, envelope-encryption, kms, blind-index, key-rotation]
 pairs_with:
   prompts: [plan-data-encryption, review-cryptography-usage, rotate-credentials-without-downtime, plan-secrets-management]

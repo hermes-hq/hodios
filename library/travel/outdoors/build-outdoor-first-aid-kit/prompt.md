@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-aid-kit, wilderness-first-aid, blisters, repair-kit, remote-trips, pack-weight]
 pairs_with:
   prompts: [refresh-first-aid-knowledge, write-trip-intentions-plan, lead-group-hike]

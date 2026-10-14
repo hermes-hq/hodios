@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [placement-test, cefr, oral-interview, cut-scores, enrolment]
 pairs_with:
   personas: [language-assessment-specialist]

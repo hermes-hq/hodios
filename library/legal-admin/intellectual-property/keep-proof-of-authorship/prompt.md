@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [authorship-evidence, creative-records, provenance, copyright-disputes, archiving]
 pairs_with:
   prompts: [prepare-copyright-registration, request-content-takedown, respond-to-copyright-claim]

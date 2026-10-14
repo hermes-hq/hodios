@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [breaking-changes, codemods, peer-dependencies, react-19]
 pairs_with:
   prompts: [upgrade-major-dependency, convert-class-components-to-hooks]

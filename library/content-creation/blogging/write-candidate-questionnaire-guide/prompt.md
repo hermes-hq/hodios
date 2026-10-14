@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [voter-guide, local-elections, candidate-questionnaire, editorial-fairness, civic-reporting]
 pairs_with:
   prompts: [write-council-meeting-story, write-news-story]

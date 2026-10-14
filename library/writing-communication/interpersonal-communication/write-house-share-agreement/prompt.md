@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [house-share, housemates, roommate-agreement, shared-living, chores-rota, bill-splitting]
 pairs_with:
   prompts: [split-shared-expenses, set-boundary, clear-up-misunderstanding]

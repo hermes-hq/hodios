@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [remote-work, home-office, focus-time, video-calls, school-holidays, working-parents]
 pairs_with:
   prompts: [map-school-holiday-cover, coordinate-family-calendar, plan-rainy-day-activities]

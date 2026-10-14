@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [business-case, npv, payback, roi, capital-budgeting]
 pairs_with:
   prompts: [run-what-if-analysis, design-spreadsheet-model]

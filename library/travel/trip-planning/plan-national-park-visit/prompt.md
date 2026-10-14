@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [national-parks, day-hikes, permits, wildlife, wilderness]
 pairs_with:
   prompts: [plan-camping-trip, prepare-for-long-hike, build-packing-list, plan-road-trip]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [quote, price-objection, like-for-like, scope-of-work]
 pairs_with:
   prompts: [handle-workmanship-callback, resolve-invoice-dispute, triage-service-call]

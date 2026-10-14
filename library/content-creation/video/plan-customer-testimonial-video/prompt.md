@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [testimonial, customer-story, interview-questions, shot-list, release-form, endorsement-disclosure]
 pairs_with:
   prompts: [request-customer-testimonials, plan-video-shoot, create-paper-edit]

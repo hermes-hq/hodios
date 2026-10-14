@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [personal-crm, friendships, staying-in-touch, networking, reminders, contact-notes]
 pairs_with:
   prompts: [set-up-notion-workspace, design-second-brain, set-up-task-system]

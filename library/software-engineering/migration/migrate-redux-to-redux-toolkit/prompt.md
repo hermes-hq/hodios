@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [redux, redux-toolkit, rtk-query, immer, incremental]
 pairs_with:
   prompts: [replace-state-management-library, plan-incremental-migration, convert-class-components-to-hooks]

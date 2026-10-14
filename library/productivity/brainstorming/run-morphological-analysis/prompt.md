@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [morphological-analysis, zwicky-box, combinatorial-ideas, concept-generation, option-space]
 pairs_with:
   prompts: [solve-contradiction-with-triz, cluster-ideas, compare-options-matrix, brainstorm-ideas]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [small-business-it, office-setup, backups, multi-factor-authentication, device-management, joiners-and-leavers, wi-fi]
 pairs_with:
   prompts: [write-information-security-policy, plan-business-continuity, plan-office-move, set-up-backups]

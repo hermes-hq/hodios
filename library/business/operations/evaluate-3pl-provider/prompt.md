@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [3pl, fulfilment, outsourcing, rate-card, warehouse-contract]
 pairs_with:
   prompts: [compare-fba-vs-self-fulfilment, plan-order-fulfilment, compare-vendors, write-vendor-sla]

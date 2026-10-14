@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [appliances, energy-label, running-costs, buying-guide, white-goods]
 pairs_with:
   prompts: [compare-purchase-options, decide-on-extended-warranty, time-a-purchase, summarize-reviews-before-buying]

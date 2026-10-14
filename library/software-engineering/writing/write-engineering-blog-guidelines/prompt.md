@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [engineering-blog, editorial-process, contributor-guide, disclosure-review]
 pairs_with:
   prompts: [review-tech-article-draft, write-tech-blog-post]

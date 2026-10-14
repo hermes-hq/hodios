@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [causal-inference, difference-in-differences, propensity-scores, quasi-experiments]
 pairs_with:
   prompts: [run-regression-analysis, check-analysis-for-pitfalls, analyze-ab-test-results]

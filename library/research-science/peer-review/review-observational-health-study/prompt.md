@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [epidemiology, strobe, confounding, selection-bias, cohort-studies, manuscript]
 pairs_with:
   prompts: [review-statistical-methods, review-causal-identification, check-manuscript-reporting]

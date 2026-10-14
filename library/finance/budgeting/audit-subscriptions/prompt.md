@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [recurring-charges, free-trials, bank-statement, cancellations]
 pairs_with:
   prompts: [categorize-expenses, cut-monthly-costs, cancel-contract-or-subscription]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cbt-i, sleep-anxiety, unhelpful-beliefs, cognitive-restructuring, behavioural-experiment]
 pairs_with:
   prompts: [improve-sleep-habits, prepare-sleep-doctor-appointment]

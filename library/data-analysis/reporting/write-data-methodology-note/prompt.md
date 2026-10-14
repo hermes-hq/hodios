@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [methodology-note, data-caveats, metric-definitions, transparency, dashboard-documentation]
 pairs_with:
   prompts: [build-metrics-glossary, define-metric, write-insight-report, explain-metric-discrepancy]

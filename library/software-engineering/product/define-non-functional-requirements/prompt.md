@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [non-functional-requirements, quality-attributes, slo, requirements, iso-25010]
 pairs_with:
   personas: [product-manager, software-architect]

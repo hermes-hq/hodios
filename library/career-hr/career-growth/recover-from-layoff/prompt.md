@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [layoff, redundancy, severance, unemployment-benefits, job-loss]
 pairs_with:
   prompts: [plan-job-search, review-resume, write-networking-message]

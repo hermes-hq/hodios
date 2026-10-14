@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [local-search, map-pack, fake-listings, review-fraud, google-business-profile]
 pairs_with:
   prompts: [plan-local-seo, audit-business-citations]

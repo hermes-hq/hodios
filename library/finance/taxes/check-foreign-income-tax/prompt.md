@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [foreign-income, double-taxation, tax-treaties, foreign-tax-credit]
 pairs_with:
   prompts: [plan-tax-move-abroad, explain-tax-on-investments, organize-rental-income-records]

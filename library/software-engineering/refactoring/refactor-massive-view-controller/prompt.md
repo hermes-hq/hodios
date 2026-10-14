@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [uikit, view-controllers, mvvm, child-view-controllers]
 pairs_with:
   prompts: [migrate-views-to-declarative-ui, decouple-for-testability]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [diagnostic-accuracy, quadas-2, sensitivity-specificity, systematic-review, bivariate-model]
 subject: [medicine, statistics]
 pairs_with:

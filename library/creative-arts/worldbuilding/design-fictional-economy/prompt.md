@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fictional-economy, money, prices, setting-design, story-hooks]
 pairs_with:
   prompts: [design-fictional-geography, design-fictional-factions, design-fictional-culture, build-magic-system]

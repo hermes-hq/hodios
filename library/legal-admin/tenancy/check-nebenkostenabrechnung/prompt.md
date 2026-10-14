@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [nebenkosten, betriebskosten, mietrecht, deutschland]
 pairs_with:
   prompts: [prepare-german-tax-return, write-widerspruch]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [teacher-interview, safeguarding, behaviour-management, lesson-observation, school-panel]
 pairs_with:

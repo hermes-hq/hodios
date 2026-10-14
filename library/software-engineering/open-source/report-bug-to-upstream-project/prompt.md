@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [minimal-reproduction, upstream-issue, bug-report, dependency-bug, issue-template]
 pairs_with:
   prompts: [reproduce-bug-report, maintain-patched-fork-of-dependency, write-upstream-feature-proposal]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [multilingual, interpreters, plain-language, international-teams, inclusion]
 pairs_with:
   prompts: [write-meeting-agenda, run-hybrid-meeting, brief-staff-on-working-with-interpreters]

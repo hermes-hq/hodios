@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-work, secondary-school, teenagers, group-roles, real-audience, learner-support]
 pairs_with:
   prompts: [design-pbl-project, write-speaking-assessment-rubric]

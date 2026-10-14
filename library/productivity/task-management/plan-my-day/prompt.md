@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [daily-planning, time-blocking, must-do, energy, buffers]
 pairs_with:
   prompts: [plan-my-week, prioritize-todo-list, run-focus-session, design-shutdown-ritual]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pca, dimension-reduction, eigenvalues, loadings, biplot]
 pairs_with:
   prompts: [run-factor-analysis, build-composite-index, write-python-stats-analysis]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recession-planning, downturn-playbook, cash-resilience, early-warning-triggers, cost-levers]
 pairs_with:
   prompts: [run-scenario-planning, forecast-cash-flow, assess-strategic-risks, business-turnaround-track]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [essay-planning, thesis, counterargument, command-words, argument]
 pairs_with:
   prompts: [give-essay-feedback, explain-historical-event]

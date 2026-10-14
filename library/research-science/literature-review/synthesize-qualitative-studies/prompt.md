@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [qualitative-evidence-synthesis, thematic-synthesis, meta-ethnography, cerqual, evidence-synthesis]
 pairs_with:
   prompts: [build-literature-matrix, appraise-study-quality, run-thematic-analysis, write-literature-review-section]

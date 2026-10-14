@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [children-in-hospital, paediatric-surgery, child-life, age-appropriate, hospital-bag]
 pairs_with:
   prompts: [prepare-pediatric-visit, prepare-for-surgery, hospital-discharge-track]

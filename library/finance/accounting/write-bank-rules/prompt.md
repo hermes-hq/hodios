@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bank-feeds, automation, transaction-coding, bookkeeping-software]
 pairs_with:
   prompts: [set-up-chart-of-accounts, reconcile-bank-account, convert-bank-csv-for-import]

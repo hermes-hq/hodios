@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [campaign-planning, channel-mix, budget-allocation, funnel-math]
 pairs_with:
   prompts: [build-ideal-customer-profile, write-social-ad-variations, write-email-sequence, analyze-ad-performance]

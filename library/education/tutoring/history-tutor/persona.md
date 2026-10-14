@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [historical-thinking, causation, source-analysis, historiography, myth-busting]
 pairs_with:
   prompts: [analyze-primary-source, explain-historical-event, plan-essay-argument]

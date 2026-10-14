@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [startup-errors, dependency-injection, application-context, configuration-properties]
 pairs_with:
   prompts: [fix-gradle-or-maven-build-failure, fix-jpa-lazy-loading-error]

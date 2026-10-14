@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [graduated-approach, sen-support, senco, provision-mapping, pupil-voice, review-meeting]
 pairs_with:
   prompts: [write-iep-goals, write-iep-progress-report, write-one-page-pupil-profile, plan-ta-deployment]

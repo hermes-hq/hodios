@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hypotheses, null-hypothesis, falsifiability, quantitative-research, confirmatory-research]
 pairs_with:
   prompts: [refine-research-question, operationalize-variables, write-preregistration, choose-statistical-test]

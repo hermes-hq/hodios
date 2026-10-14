@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [questionnaire-design, survey-research, question-wording, response-scales, survey-bias]
 pairs_with:
   prompts: [write-survey-questionnaire, plan-cognitive-interviews, survey-study-track]

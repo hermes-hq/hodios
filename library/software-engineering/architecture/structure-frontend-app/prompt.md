@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [state-management, feature-folders, data-fetching, dependency-rule, web-app, code-organization]
 pairs_with:
   personas: [frontend-engineer, software-architect]

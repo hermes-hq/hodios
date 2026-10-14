@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-design, contract-first, openapi-spec, versioning, public-api]
 pairs_with:
   personas: [software-architect, backend-engineer]

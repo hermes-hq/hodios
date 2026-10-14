@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grade-appeal, marking, student-complaint, reply-drafting, assessment-fairness]
 pairs_with:
   prompts: [create-rubric, write-parent-email, build-feedback-comment-bank]

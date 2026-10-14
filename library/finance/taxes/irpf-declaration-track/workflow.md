@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [irpf, receita-federal, imposto-de-renda, restituicao, brasil]
 pairs_with:
   prompts: [manage-mei-obligations, organize-tax-documents]

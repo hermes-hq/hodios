@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bank-statement, card-fraud, merchant-names, unknown-transactions]
 pairs_with:
   prompts: [audit-subscriptions, dispute-card-charge, respond-to-identity-theft]

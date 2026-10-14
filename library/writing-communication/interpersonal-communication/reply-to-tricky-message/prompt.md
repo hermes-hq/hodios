@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [texting, group-chat, awkward-situations, saying-no, family-dynamics, first-dates]
 pairs_with:
   prompts: [set-boundary, respond-to-criticism, apologize-effectively]

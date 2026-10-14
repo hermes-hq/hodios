@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [theoretical-framework, conceptual-framework, thesis, dissertation, constructs]
 pairs_with:
   prompts: [write-introduction-section, write-literature-review-section, plan-thesis-structure]

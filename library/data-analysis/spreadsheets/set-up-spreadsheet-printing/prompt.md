@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [page-setup, print-area, pdf-export, page-breaks, print-titles]
 pairs_with:
   prompts: [format-spreadsheet-for-readability, build-invoice-template-spreadsheet]

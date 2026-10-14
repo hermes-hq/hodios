@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flipped-classroom, blended-learning, pre-class-video, active-learning, homework-design]
 pairs_with:
   prompts: [write-lesson-plan, design-formative-assessment, design-station-rotation]

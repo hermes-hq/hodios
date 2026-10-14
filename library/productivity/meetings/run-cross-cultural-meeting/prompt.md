@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [intercultural, global-teams, inclusion, hierarchy, facilitation]
 pairs_with:
   prompts: [run-multilingual-meeting, find-meeting-time-across-time-zones, write-meeting-ground-rules]

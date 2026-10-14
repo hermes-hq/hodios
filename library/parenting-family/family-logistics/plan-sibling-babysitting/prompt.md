@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [older-sibling, readiness, home-rules, emergency-steps, teen-responsibility, sibling-care]
 pairs_with:
   prompts: [plan-child-independence-ladder, write-babysitter-handbook, write-family-emergency-plan]

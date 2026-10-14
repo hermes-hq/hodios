@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ugc, content-for-brands, usage-rights, service-packages, portfolio]
 pairs_with:
   prompts: [build-creator-rate-card, write-media-kit, request-ugc-repost-permission]

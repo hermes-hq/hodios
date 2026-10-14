@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [liquidation-preference, exit-waterfall, acquisition, cap-table, payout]
 pairs_with:
   prompts: [compare-term-sheets, explain-term-sheet, evaluate-down-round-terms]

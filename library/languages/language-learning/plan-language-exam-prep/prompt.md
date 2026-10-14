@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [language-certificate, dele, delf, goethe-zertifikat, jlpt, toefl, ielts, cefr]
 pairs_with:
   prompts: [assess-language-level, grade-language-writing-task, practice-speaking-exam, prepare-standardized-test]

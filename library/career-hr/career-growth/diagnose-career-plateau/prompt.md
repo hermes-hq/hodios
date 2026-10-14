@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [career-stagnation, root-cause, career-decision, next-step]
 pairs_with:
   prompts: [plan-career-path, handle-being-passed-over-for-promotion, decide-whether-to-quit]

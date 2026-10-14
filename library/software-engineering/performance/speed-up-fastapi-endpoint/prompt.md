@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [async, pydantic, sqlalchemy, profiling, latency]
 pairs_with:
   prompts: [fix-event-loop-blocking, fix-n-plus-one-queries, parallelize-sequential-io-calls, tune-app-server-workers]

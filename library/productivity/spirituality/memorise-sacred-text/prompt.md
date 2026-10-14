@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [memorisation, spaced-repetition, hifz, recitation, chanting, scripture]
 pairs_with:
   prompts: [plan-scripture-study, plan-prayer-or-meditation-practice]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contributor-agreement, sign-off, inbound-outbound, contributor-experience]
 pairs_with:
   prompts: [choose-software-license, write-contributing-guide, set-up-commit-signing]

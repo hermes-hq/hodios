@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [writing-fellowship, personal-statement, application-essay, writer-voice]
 pairs_with:
   prompts: [write-logline-and-synopsis, plan-spec-episode]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [open-space, unconference, self-organising, large-groups, facilitation]
 pairs_with:
   prompts: [run-lean-coffee, plan-team-offsite, facilitate-group-brainstorm]

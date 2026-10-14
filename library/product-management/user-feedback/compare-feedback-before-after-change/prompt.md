@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [before-after, impact-assessment, complaint-rate, normalisation, seasonality, unintended-effects]
 pairs_with:
   prompts: [review-launch-results, analyze-user-feedback, explain-nps-change]

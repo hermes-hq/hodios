@@ -11,6 +11,7 @@ requires: [none]
 output: [article, summary]
 risk: read-only
 level: intermediate
+depth: specific
 role: [writer, individual]
 tags: [inverted-pyramid, news-writing, attribution, lede, neutral-tone]
 pairs_with:

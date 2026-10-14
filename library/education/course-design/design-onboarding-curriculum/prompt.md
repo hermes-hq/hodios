@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [new-hire-onboarding, corporate-training, time-to-proficiency, cohort-learning, sign-off]
 pairs_with:
   prompts: [run-training-needs-analysis, design-branching-scenario, evaluate-training-effectiveness, plan-new-hire-onboarding]

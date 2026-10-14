@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [server-training, roleplay, steps-of-service, table-service, allergy-handling, upselling, waiting-staff]
 pairs_with:
   prompts: [build-allergen-matrix, build-service-recovery-playbook, roleplay-difficult-customer]

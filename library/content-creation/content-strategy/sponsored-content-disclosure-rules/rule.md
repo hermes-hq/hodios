@@ -13,6 +13,7 @@ requires: [none]
 risk: read-only
 advice_risk: [legal]
 level: beginner
+depth: specific
 tags: [ad-disclosure, affiliate-links, gifted-products, influencer-marketing, endorsements, transparency]
 pairs_with:
   prompts: [check-endorsement-disclosures, write-sponsored-post, write-video-sponsor-segment, write-newsletter-sponsor-spot]

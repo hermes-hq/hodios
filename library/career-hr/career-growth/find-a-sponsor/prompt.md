@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sponsorship, advocacy, career-visibility, senior-leaders]
 pairs_with:
   prompts: [find-mentor, increase-work-visibility, prepare-skip-level-meeting]

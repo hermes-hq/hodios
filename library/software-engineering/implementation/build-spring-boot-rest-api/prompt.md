@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [layered-architecture, rest-api, jpa, bean-validation, problem-details]
 pairs_with:
   prompts: [build-rest-endpoint, implement-optimistic-locking]

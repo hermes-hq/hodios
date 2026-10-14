@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gap-insurance, car-finance, write-off, depreciation, dealer-add-ons]
 pairs_with:
   prompts: [compare-car-insurance, review-car-purchase-contract]

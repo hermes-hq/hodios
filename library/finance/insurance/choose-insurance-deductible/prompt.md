@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [excess, deductible, break-even, premium-savings, self-insurance]
 pairs_with:
   prompts: [compare-home-insurance-quotes, compare-car-insurance, decide-whether-to-make-claim]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [neighbours, noise, awkward-situations, first-contact, community]
 pairs_with:
   prompts: [write-neighbor-dispute-letter, write-neighbourhood-notice, set-boundary]

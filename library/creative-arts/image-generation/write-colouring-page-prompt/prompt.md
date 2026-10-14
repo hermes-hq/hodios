@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [colouring-pages, line-art, printables, classroom-resources]
 pairs_with:
   prompts: [write-image-prompt, write-sticker-sheet-prompt]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dependency-injection, transactions, jpa, testcontainers, layered-architecture]
 pairs_with:
   rules: [java-style-rules]

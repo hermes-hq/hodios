@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [public-roadmap, now-next-later, customer-communication, transparency]
 pairs_with:
   prompts: [build-outcome-roadmap, write-roadmap-update, write-monthly-product-update, close-feedback-loop]

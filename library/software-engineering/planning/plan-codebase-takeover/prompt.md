@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [legacy-system, ownership-transfer, knowledge-capture, risk-register]
 pairs_with:
   prompts: [write-ownership-handover-doc, assess-technical-debt, reduce-bus-factor]

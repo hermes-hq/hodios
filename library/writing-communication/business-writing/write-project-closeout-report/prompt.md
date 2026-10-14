@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-closure, lessons-learned, variance, handover, benefits-realisation]
 pairs_with:
   prompts: [write-status-report, write-handover-document, run-retrospective]

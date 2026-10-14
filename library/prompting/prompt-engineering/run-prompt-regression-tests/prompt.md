@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regression-check, prompt-evals, golden-set, ab-comparison, flaky-outputs]
 pairs_with:
   prompts: [build-prompt-test-set, write-judge-prompt, diagnose-prompt-failures, improve-prompt]

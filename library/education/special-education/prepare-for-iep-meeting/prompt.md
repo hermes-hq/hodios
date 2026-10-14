@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [special-educational-needs, ehcp, school-meeting, parent-advocacy, accommodations]
 pairs_with:
   prompts: [write-email-to-teacher, write-iep-goals, set-up-routines-for-child-with-adhd]

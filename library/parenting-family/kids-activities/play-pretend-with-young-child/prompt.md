@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [pretend-play, imaginative-play, early-learning, voice-mode, child-led-play, preschool]
 pairs_with:
   prompts: [plan-early-years-activity, invent-learning-game, create-puppet-show]

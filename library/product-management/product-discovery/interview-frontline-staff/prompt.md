@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [frontline-staff, internal-tools, contextual-interviews, power-dynamics, service-change]
 pairs_with:
   prompts: [map-internal-tool-workarounds, plan-contextual-inquiry, synthesize-customer-interviews, translate-request-into-problem]

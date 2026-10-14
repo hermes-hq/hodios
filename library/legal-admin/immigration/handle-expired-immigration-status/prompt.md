@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [expired-visa, overstay-risk, lawful-status, bridging-permission, urgent-immigration]
 pairs_with:
   prompts: [prepare-permit-renewal, find-free-legal-help, vet-immigration-adviser, write-immigration-status-enquiry]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [constitution, bylaws, community-groups, governance, membership-rules, unincorporated-association]
 pairs_with:
   prompts: [start-amateur-sports-club, run-residents-association-agm, write-agm-notice, write-safeguarding-policy]

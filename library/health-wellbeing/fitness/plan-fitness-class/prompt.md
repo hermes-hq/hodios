@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [group-fitness, class-planning, hiit, circuit-training, cueing]
 pairs_with:
   prompts: [design-yoga-sequence, assess-fitness-baseline]

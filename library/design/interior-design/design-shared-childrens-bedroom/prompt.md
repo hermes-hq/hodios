@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [kids-rooms, siblings, bunk-beds, furniture-layout, storage]
 pairs_with:
   prompts: [design-nursery, childproof-home]

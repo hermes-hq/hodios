@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multiple-choice, distractors, item-writing, assessment-design, misconceptions]
 pairs_with:
   prompts: [generate-practice-exam, create-rubric, write-learning-objectives]

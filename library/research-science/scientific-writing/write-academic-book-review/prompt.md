@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [book-review, scholarly-review, humanities, social-sciences-writing, academic-publishing]
 pairs_with:
   prompts: [summarize-paper, write-letter-on-published-paper]

@@ -17,6 +17,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: basic
 tags: [chart-selection, encodings, data-storytelling]
 pairs_with:
   prompts: [write-plotting-code, critique-chart]

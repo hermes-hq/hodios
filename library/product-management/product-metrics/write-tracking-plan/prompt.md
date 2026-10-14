@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [event-tracking, instrumentation, analytics-taxonomy, event-naming, data-quality]
 pairs_with:
   prompts: [define-north-star-metric, analyze-conversion-funnel, design-ab-test, review-launch-results]

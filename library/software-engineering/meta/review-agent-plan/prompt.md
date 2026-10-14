@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [coding-agents, plan-mode, human-in-the-loop]
 pairs_with:
   prompts: [review-agent-transcript, write-implementation-plan, review-ai-generated-code]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-repurposing, content-workflow, cross-posting, production-system]
 pairs_with:
   prompts: [plan-content-calendar, turn-article-into-thread, repurpose-video-into-posts, define-content-pillars]

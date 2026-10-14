@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [load-testing, capacity-planning, workload-model, k6]
 pairs_with:
   prompts: [define-slos, write-k6-load-test]

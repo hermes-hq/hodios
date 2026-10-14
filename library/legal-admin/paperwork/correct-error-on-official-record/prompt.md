@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [record-correction, civil-register, spelling-mistake, document-mismatch, rectification]
 pairs_with:
   prompts: [replace-birth-or-marriage-certificate, resolve-name-mismatch-in-documents, prepare-name-change]

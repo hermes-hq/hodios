@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [networking, dns, tls, troubleshooting-method, simulator]
 args:
   - name: fault

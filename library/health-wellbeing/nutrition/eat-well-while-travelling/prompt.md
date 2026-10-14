@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [business-travel, travel-eating, packable-snacks, food-safety, hotel-eating]
 pairs_with:
   prompts: [order-healthily-when-eating-out, plan-hydration, plan-filling-snacks, beat-jet-lag]

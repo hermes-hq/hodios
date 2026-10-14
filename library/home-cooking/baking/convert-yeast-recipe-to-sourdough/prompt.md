@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [levain, natural-leaven, wild-yeast, recipe-conversion, fermentation-schedule]
 pairs_with:
   prompts: [convert-to-bakers-percentages, plan-bread-bake-schedule, start-sourdough-starter]

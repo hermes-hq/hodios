@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shared-inbox, ticket-ownership, response-targets, saved-replies, team-workflow]
 pairs_with:
   prompts: [build-support-macros, design-escalation-process, write-support-reply]

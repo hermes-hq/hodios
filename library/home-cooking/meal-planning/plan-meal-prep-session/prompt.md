@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [batch-cooking, food-storage, freezer, food-safety]
 pairs_with:
   prompts: [plan-weekly-meals]

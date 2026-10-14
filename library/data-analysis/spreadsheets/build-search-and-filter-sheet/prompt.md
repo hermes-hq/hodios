@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [search-box, filter-function, dropdown-criteria, lookup-page, dynamic-arrays]
 pairs_with:
   prompts: [set-up-data-validation, write-spreadsheet-formula, build-sheets-dashboard]

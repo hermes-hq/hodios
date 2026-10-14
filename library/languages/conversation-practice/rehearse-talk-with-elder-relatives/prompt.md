@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [heritage-speakers, family-visits, kinship-terms, forms-of-address, family-history, dialect]
 pairs_with:
   prompts: [plan-heritage-language-learning, explain-politeness-register, practice-small-talk, practise-heritage-literacy]

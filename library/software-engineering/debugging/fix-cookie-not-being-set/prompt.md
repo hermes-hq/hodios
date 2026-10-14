@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cookies, samesite, sessions, cors, authentication]
 pairs_with:
   prompts: [debug-network-request, fix-redirect-loop, review-auth-flow]

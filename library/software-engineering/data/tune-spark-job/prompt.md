@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [spark-ui, data-skew, shuffle, executor-memory, small-files, query-plan]
 pairs_with:
   prompts: [write-pyspark-job, speed-up-batch-job, design-lakehouse-table-layout]

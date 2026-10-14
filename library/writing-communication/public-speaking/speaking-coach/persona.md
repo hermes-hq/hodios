@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [rehearsal, delivery, stage-fright, filler-words]
 pairs_with:
   prompts: [write-speech, prepare-for-tough-questions, outline-presentation, write-speaker-notes]

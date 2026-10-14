@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [responsible-tourism, indigenous-tourism, community-tourism, operator-vetting]
 pairs_with:
   prompts: [plan-respectful-travel-photography, choose-ethical-volunteer-trip, prepare-for-homestay]

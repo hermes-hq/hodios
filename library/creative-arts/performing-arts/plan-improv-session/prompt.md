@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [improv, warm-ups, drama-games, side-coaching, team-building, workshop-plan]
 pairs_with:
   prompts: [write-comedy-sketch, write-icebreaker-games]

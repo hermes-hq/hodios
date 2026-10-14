@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [business-sale, asset-purchase, share-purchase, earn-out, warranties-and-indemnities]
 pairs_with:
   prompts: [evaluate-buying-a-business, review-letter-of-intent, check-contracts-for-change-of-control]

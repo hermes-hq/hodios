@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-data, catalogue-audit, data-quality, product-attributes, duplicate-products, store-hygiene]
 pairs_with:
   prompts: [design-sku-and-variant-structure, optimize-shopping-feed, write-product-description]

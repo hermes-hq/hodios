@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [apprenticeships, off-the-job-training, ksbs, learning-log]
 pairs_with:
   prompts: [map-vocational-portfolio-evidence, write-reflective-account]

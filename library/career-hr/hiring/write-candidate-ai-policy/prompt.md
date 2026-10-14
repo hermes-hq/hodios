@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-in-hiring, candidate-ai-use, assessment-integrity, generative-ai, hiring-policy]
 pairs_with:
   prompts: [write-take-home-assignment, design-interview-loop, write-interview-process-guide]

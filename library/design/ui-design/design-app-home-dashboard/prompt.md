@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [home-screen, overview-page, personalisation, information-hierarchy, empty-states]
 pairs_with:
   prompts: [design-app-navigation, design-onboarding-flow, design-empty-and-error-states, design-customer-facing-dashboard, critique-ui-screen]

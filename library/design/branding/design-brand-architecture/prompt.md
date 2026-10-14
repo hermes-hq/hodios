@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [brand-architecture, sub-brands, product-naming, brand-portfolio, brand-strategy]
 pairs_with:
   prompts: [build-brand-platform, name-brand, plan-rebrand, build-brand-guidelines]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [professional-summary, personal-profile, first-impression]
 pairs_with:
   prompts: [tailor-resume-to-job, review-resume, rewrite-resume-bullets]

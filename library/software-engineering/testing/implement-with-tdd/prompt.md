@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tdd, test-first, red-green-refactor]
 pairs_with:
   prompts: [write-unit-tests, derive-test-cases-from-requirements, refactor-test-suite]

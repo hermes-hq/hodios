@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [restless-legs, evening-routine, iron-levels, symptom-log, leg-discomfort]
 pairs_with:
   prompts: [prepare-sleep-doctor-appointment, plan-sleep-with-pain, improve-sleep-habits]

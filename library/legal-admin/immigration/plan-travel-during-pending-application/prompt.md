@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pending-application, travel-permission, abandonment-risk, re-entry, continuous-residence]
 pairs_with:
   prompts: [calculate-absences-from-country, prepare-permit-renewal, write-immigration-status-enquiry]

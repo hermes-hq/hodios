@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [computer-science]
 tags: [related-work, conference-paper, novelty, research-positioning, citations]
 pairs_with:

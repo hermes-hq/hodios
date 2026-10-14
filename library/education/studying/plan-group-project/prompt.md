@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [group-work, team-agreement, backward-planning, free-riders, project-tracker]
 pairs_with:
   prompts: [create-study-plan]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [job-aid, quick-reference-card, work-instructions, frontline-training, plain-language]
 pairs_with:
   prompts: [write-sop, write-user-manual, simplify-to-plain-language, plan-new-hire-onboarding]

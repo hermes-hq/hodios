@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [disciplinary-hearing, employee-rights, workplace-allegations, written-response, dismissal-risk]
 pairs_with:
   prompts: [write-workplace-grievance, claim-unpaid-wages, review-employment-contract]

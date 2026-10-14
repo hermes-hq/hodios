@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [transactional-email, password-reset, email-capture, magic-links, e2e]
 pairs_with:
   prompts: [implement-transactional-email, write-e2e-test, write-api-endpoint-tests]

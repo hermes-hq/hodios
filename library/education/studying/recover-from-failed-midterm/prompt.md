@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [midterm, grade-recovery, office-hours, study-methods, exam-review]
 pairs_with:
   prompts: [analyze-exam-mistakes, calculate-grade-needed-on-final, prepare-office-hours-questions, decide-whether-to-drop-course]

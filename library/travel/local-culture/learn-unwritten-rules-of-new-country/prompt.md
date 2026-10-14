@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [newcomers, social-norms, expat, workplace-culture, neighbours, settling-in]
 pairs_with:
   prompts: [prepare-for-culture-shock, learn-local-etiquette, learn-business-etiquette-abroad]

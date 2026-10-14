@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, agent-instructions, docs-drift, ci-checks]
 pairs_with:
   prompts: [prune-agent-instructions, write-agents-md, consolidate-agent-instruction-files, fix-ignored-agent-instruction]

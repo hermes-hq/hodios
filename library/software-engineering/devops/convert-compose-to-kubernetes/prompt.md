@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [compose-file, manifest-conversion, container-orchestration]
 pairs_with:
   prompts: [write-kubernetes-manifests, write-docker-compose, sync-secrets-into-kubernetes]

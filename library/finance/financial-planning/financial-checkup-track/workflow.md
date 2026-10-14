@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [net-worth, cash-flow, emergency-fund, annual-review]
 pairs_with:
   prompts: [build-monthly-budget, plan-debt-payoff, review-insurance-coverage, plan-retirement-scenarios, compare-retirement-accounts, cut-monthly-costs]

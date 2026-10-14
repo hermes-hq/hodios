@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [replanning, lost-days, sick-days, emergencies, renegotiate, recovery]
 pairs_with:
   prompts: [plan-my-week, juggle-competing-deadlines, push-back-on-deadline-by-email]

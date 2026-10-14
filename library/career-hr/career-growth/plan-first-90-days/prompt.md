@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [first-90-days, new-job, early-wins, stakeholder-map, expectations]
 pairs_with:
   prompts: [plan-one-on-one, plan-new-hire-onboarding]

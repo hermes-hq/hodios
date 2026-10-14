@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [proposal-review, b2b-sales, deal-closing, pricing-clarity, sales-writing]
 pairs_with:
   prompts: [write-sales-proposal, build-buyer-business-case, prepare-deal-negotiation]

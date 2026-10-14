@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [series-planning, binge-watching, recurring-format, playlists, packaging]
 pairs_with:
   prompts: [package-video-title-thumbnail, write-youtube-script, write-short-form-script]

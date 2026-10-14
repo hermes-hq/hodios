@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [iconography, sacred-architecture, museum-visit, symbols, temples, churches]
 pairs_with:
   prompts: [explain-religious-tradition, prepare-to-attend-religious-ceremony]

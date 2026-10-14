@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-email, subject-lines, call-to-action, value-first-content]
 pairs_with:
   prompts: [write-newsletter-issue, plan-newsletter-format, write-year-in-review-issue]

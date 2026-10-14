@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wholesale-pricing, trade-terms, margin-chain, distributor-margin, channel-conflict]
 pairs_with:
   prompts: [pitch-to-stockists, write-wholesale-line-sheet, recruit-resellers, choose-distribution-channels]

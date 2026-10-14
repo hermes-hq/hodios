@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [domain-driven-design, bounded-context, microservices, modular-monolith, data-ownership]
 pairs_with:
   personas: [software-architect]

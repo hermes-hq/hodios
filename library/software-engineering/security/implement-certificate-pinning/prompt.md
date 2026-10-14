@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [certificate-pinning, tls, mobile-security]
 pairs_with:
   prompts: [review-mobile-app-security, choose-spa-token-storage, implement-biometric-login]

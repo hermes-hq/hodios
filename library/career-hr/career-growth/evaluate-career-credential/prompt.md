@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [certification, mba, bootcamp, return-on-investment, upskilling]
 pairs_with:
   prompts: [build-development-plan, plan-career-path]

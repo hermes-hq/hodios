@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [salon, barber, chair-hour, service-menu, stylist-levels, add-ons]
 pairs_with:
   prompts: [plan-owner-led-price-rise, set-up-appointment-booking-system, test-capacity-before-growth]

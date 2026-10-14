@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [parents, schools, youth-clubs, faq, handouts]
 pairs_with:
   prompts: [write-meeting-invite, write-meeting-recap-email]

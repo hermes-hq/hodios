@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [lab-induction, new-starters, lab-safety, training-records, lab-management]
 pairs_with:
   prompts: [write-lab-protocol, write-lab-notebook-entry, set-up-sample-tracking]

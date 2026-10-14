@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ats, applicant-tracking-system, resume-parsing, keywords, resume-format]
 pairs_with:
   prompts: [review-resume, tailor-resume-to-job, rewrite-resume-bullets]

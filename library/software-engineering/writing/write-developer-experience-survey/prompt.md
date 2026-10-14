@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [developer-experience, devex, survey-design, platform-engineering, engineering-productivity]
 pairs_with:
   prompts: [design-engagement-survey, analyze-employee-survey, write-survey-questionnaire]

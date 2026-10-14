@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [literary-agents, query-letter, author-platform, book-pitch, representation]
 pairs_with:
   prompts: [write-nonfiction-book-proposal, validate-nonfiction-book-idea]

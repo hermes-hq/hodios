@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [indexing, book-production, cross-references, page-proofs, back-matter]
 pairs_with:
   prompts: [draft-nonfiction-chapter]

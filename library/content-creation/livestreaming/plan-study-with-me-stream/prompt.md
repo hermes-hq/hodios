@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [study-with-me, coworking-stream, body-doubling, focus-timer, pomodoro]
 pairs_with:
   prompts: [plan-stream-scenes, write-chat-bot-commands, choose-stream-music-safely]

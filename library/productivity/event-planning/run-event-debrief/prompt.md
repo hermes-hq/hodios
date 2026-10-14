@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [post-event-review, lessons-learned, attendee-feedback, events]
 pairs_with:
   prompts: [plan-event-budget, write-event-recap, write-donor-thank-you]

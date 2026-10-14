@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [assistive-technology, disability-support, dyslexia, visual-impairment, reasonable-adjustments]
 pairs_with:
   prompts: [adapt-study-for-learning-difference, make-audio-revision-script]

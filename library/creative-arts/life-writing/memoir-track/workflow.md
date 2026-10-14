@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [memoir, creative-nonfiction, book-planning, revision-plan, writing-habit]
 pairs_with:
   prompts: [shape-memoir-story, draft-memoir-scene, build-life-timeline, critique-memoir-chapter, check-memoir-for-privacy-risks]

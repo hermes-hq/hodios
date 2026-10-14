@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [featured-snippets, people-also-ask, serp-features, answer-formatting]
 pairs_with:
   prompts: [optimize-for-ai-search, audit-on-page-seo, analyze-search-console-data]

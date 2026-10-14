@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [visual-refresh, rebrand-rollout, theming, visual-qa, release-planning]
 pairs_with:
   prompts: [audit-hardcoded-styles-against-tokens, define-design-tokens, plan-rebrand]

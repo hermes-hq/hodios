@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [public-services, user-needs, policy-intent, assisted-digital, journey-mapping, phase-gates]
 pairs_with:
   prompts: [find-gaps-in-research-sample, interview-frontline-staff, write-discovery-readout, translate-request-into-problem]

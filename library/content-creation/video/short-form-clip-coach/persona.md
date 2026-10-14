@@ -17,6 +17,7 @@ risk: read-only
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hooks, vertical-video, retention, trends, phone-filming, posting-habits]
 pairs_with:
   prompts: [write-short-form-script, write-video-hooks, adapt-trend-format, brainstorm-shop-phone-clips]

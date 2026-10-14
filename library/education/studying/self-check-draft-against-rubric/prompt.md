@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [self-assessment, marking-criteria, coursework-draft, metacognition]
 pairs_with:
   rules: [academic-integrity-rules]

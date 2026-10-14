@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ai-privacy, chatbot-privacy, data-retention, model-training, personal-data, privacy-settings]
 pairs_with:
   prompts: [review-app-permissions, reduce-online-footprint, lock-down-social-privacy]

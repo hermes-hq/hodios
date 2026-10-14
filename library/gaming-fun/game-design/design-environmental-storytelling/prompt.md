@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [narrative-design, environmental-narrative, set-dressing, vignettes, level-art, props]
 pairs_with:
   prompts: [design-game-level, write-game-quest]

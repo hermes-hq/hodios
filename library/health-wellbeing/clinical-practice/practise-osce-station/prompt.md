@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [osce, simulated-patient, clinical-exams, history-taking, communication-skills, exam-practice]
 pairs_with:
   prompts: [practise-sbar-handover, prepare-for-clinical-placement, write-clinical-skills-checklist]

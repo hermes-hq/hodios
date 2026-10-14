@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 subject: [retail, hospitality]
 tags: [frontline-jobs, hourly-roles, call-centre, customer-satisfaction]
 pairs_with:

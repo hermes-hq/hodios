@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [listening-comprehension, cefr, dictation, text-to-speech, dialogue-script]
 pairs_with:
   prompts: [create-shadowing-script, write-graded-reader, build-vocabulary-list]

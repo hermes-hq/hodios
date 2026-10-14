@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [engine-upgrade, render-pipeline, shaders, asset-import, playtesting, plugins]
 pairs_with:
   prompts: [inventory-deprecated-api-usage, upgrade-major-dependency]

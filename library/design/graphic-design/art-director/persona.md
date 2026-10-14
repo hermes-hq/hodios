@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [art-direction, design-critique, visual-concept, photography-direction, creative-feedback]
 pairs_with:
   prompts: [create-mood-board, write-design-brief, critique-graphic-design, design-book-cover-brief, design-packaging]

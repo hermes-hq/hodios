@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [supplier-contract, purchase-terms, battle-of-forms, defective-goods, procurement]
 pairs_with:
   prompts: [redline-contract, build-contract-obligations-register, explain-contract-clause]

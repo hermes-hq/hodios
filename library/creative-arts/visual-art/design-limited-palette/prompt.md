@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [limited-palette, colour-harmony, colour-theory, paint-palette, colour-mixing]
 pairs_with:
   prompts: [mix-target-colour, plan-painting-step-by-step, choose-art-supplies]

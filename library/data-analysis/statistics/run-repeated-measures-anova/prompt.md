@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repeated-measures, mixed-anova, sphericity, greenhouse-geisser, within-subjects]
 pairs_with:
   prompts: [run-multilevel-model, run-anova-with-post-hoc, run-paired-comparison]

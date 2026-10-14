@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-versioning, deprecation, breaking-changes, backward-compatibility]
 pairs_with:
   prompts: [design-api-contract, write-migration-guide]

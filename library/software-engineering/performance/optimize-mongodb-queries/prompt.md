@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [explain-plan, compound-index, aggregation-pipeline, nosql, indexing]
 pairs_with:
   prompts: [write-mongodb-aggregation, optimize-sql-query, find-worst-queries-in-workload]

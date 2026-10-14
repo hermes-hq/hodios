@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [review-tone, constructive-feedback, referee-report]
 pairs_with:
   prompts: [write-peer-review, assess-referee-report-quality]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [awards-night, judging, nominations, recognition, ceremony-running-order]
 pairs_with:
   prompts: [write-run-of-show, write-funny-awards-ceremony, write-award-nomination]

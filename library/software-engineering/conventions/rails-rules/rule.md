@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [active-record, n-plus-one, migrations, background-jobs, request-specs]
 applies_to: ["app/**/*.rb", "config/**/*.rb", "db/**/*.rb", "lib/**/*.rb", "spec/**/*.rb", "test/**/*.rb", "app/views/**"]
 authorship: ai-assisted

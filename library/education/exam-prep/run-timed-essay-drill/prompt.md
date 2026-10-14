@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [timed-essay, level-descriptors, essay-planning, humanities, mock-exam, band-feedback]
 pairs_with:
   prompts: [plan-essay-argument, give-essay-feedback, write-model-exam-answer]

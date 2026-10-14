@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [junit5, mockito, assertj, parameterized-tests, unit-tests]
 pairs_with:
   prompts: [write-unit-tests, test-spring-boot-slices, write-test-data-factories]

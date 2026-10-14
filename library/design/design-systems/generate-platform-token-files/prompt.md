@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [design-tokens, token-pipeline, theming, dtcg, css-variables, multi-platform]
 pairs_with:
   prompts: [define-design-tokens, audit-hardcoded-styles-against-tokens, design-dark-mode]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regular-expressions, named-groups, readability, pattern-matching]
 pairs_with:
   prompts: [write-regex]

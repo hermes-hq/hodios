@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [oposiciones, temario, public-sector-exams, memorisation, spain]
 pairs_with:
   prompts: [create-memory-aids, make-flashcards, prepare-oral-exam]

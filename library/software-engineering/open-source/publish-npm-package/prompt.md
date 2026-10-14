@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [npm, package-exports, esm, type-declarations, dist-tags, package-publishing]
 pairs_with:
   prompts: [publish-package-from-ci, automate-release-versioning, write-changelog]

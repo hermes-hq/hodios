@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [learning-and-development, needs-analysis, performance-consulting, root-cause, corporate-training]
 pairs_with:
   prompts: [evaluate-training-effectiveness, design-elearning-module, design-workshop]

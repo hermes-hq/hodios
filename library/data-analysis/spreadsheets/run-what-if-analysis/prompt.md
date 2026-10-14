@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scenario-analysis, sensitivity-analysis, tornado-chart, breakeven]
 pairs_with:
   prompts: [build-kpi-tree]

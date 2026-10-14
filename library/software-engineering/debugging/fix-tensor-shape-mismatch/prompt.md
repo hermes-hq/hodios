@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tensors, shape-errors, broadcasting, deep-learning, numpy]
 pairs_with:
   prompts: [explain-stack-trace, fix-cuda-setup-error]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [waitlist, deferral, letter-of-continued-interest, college-admissions, application-update]
 pairs_with:
   prompts: [write-why-this-college-essay, choose-between-college-offers, plan-university-application]

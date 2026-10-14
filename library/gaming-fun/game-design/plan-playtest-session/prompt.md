@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [playtesting, prototype, user-testing, observation]
 pairs_with:
   prompts: [analyze-playtest-notes, design-game-mechanic]

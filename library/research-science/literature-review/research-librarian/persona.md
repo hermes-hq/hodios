@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [search-strategy, bibliographic-databases, grey-literature, reference-management, information-literacy]
 pairs_with:
   prompts: [build-search-string, write-systematic-review-protocol, evaluate-source-credibility, read-paper-with-me]

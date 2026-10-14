@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crop-diagnosis, field-walking, plant-disease, nutrient-deficiency, herbicide-damage]
 pairs_with:
   prompts: [explain-soil-analysis-report, plan-orchard-season-tasks, plan-crop-irrigation-schedule]

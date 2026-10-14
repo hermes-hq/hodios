@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fake-door, concierge-test, wizard-of-oz, landing-page-test, experiment-card, assumption-testing]
 pairs_with:
   prompts: [map-assumptions, design-ab-test, define-mvp-scope, write-customer-interview-guide]

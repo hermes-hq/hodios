@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [drizzle, orm, schema-migrations, relations, indexes]
 pairs_with:
   prompts: [design-database-schema, review-database-migration, write-prisma-schema, fix-n-plus-one-queries]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [prenatal, prenatal-exercise, pelvic-floor, trimester, talk-test, maternity]
 pairs_with:
   prompts: [explain-pregnancy-nutrition, prepare-prenatal-visits, plan-postpartum-exercise-return]

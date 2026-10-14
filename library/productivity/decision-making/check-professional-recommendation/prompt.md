@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [second-opinion, informed-consent, upselling, questions-to-ask, conflicts-of-interest]
 pairs_with:
   prompts: [prepare-second-opinion, weigh-conflicting-advice, map-incentives-in-situation]

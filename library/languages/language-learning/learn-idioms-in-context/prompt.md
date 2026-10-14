@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [idioms, figurative-language, register, regional-variation, story-based-learning]
 pairs_with:
   prompts: [explain-phrase-in-context, learn-english-phrasal-verbs, build-vocabulary-list]

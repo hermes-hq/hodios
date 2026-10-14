@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quota-attainment, pipeline-coverage, win-rate, sales-forecast, revops]
 pairs_with:
   prompts: [review-sales-pipeline, analyze-sales-data, write-monthly-business-review, set-scorecard-status-thresholds]

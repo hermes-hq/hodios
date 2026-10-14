@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [impact-analysis, call-sites, pull-request, regression]
 pairs_with:
   personas: [code-reviewer]

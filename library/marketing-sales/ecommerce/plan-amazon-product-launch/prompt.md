@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [amazon, new-listing-launch, amazon-ppc, early-reviews, launch-pricing, inventory-planning]
 pairs_with:
   prompts: [plan-marketplace-ads, write-marketplace-listing, calculate-amazon-fba-profit, write-amazon-a-plus-content]

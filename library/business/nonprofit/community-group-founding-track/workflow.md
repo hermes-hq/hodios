@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [community-group, grassroots, founding-team, constitution, pilot-project, small-grants]
 pairs_with:
   prompts: [recruit-volunteers, write-grant-application, write-case-for-support, design-social-enterprise-model]

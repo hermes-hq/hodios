@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [thank-you-note, follow-up, interview-follow-up]
 pairs_with:
   prompts: [debrief-interview, prepare-questions-for-interviewer]

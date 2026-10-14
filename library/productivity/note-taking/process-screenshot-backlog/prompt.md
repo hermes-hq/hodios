@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [screenshots, camera-roll, text-extraction, capture-backlog, digital-clutter]
 pairs_with:
   prompts: [process-notes-inbox, organize-phone-notes-app, organize-recipe-collection, set-up-quick-note-capture]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [recipe-spec, plating-guide, kitchen-consistency, mise-en-place, allergens, standard-recipe]
 pairs_with:
   prompts: [cost-menu-dish, build-allergen-matrix, plan-kitchen-prep-list]

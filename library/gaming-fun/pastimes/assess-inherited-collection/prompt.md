@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [collectibles, inheritance, appraisal, stamps, coins, valuation-scepticism]
 pairs_with:
   prompts: [start-a-collection, catalog-collection]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bug-report, reproduction-steps, severity, defect-tracking, support-escalation]
 pairs_with:
   prompts: [reproduce-bug-report, write-acceptance-criteria]

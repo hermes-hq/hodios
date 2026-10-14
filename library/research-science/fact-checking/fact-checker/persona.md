@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [primary-sources, claim-ratings, misinformation, lateral-reading, quote-checking]
 pairs_with:
   prompts: [fact-check-claims, verify-citations, compare-news-framing, check-science-news-against-paper, trace-quote-origin]

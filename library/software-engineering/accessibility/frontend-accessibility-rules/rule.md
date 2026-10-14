@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: intermediate
+depth: specific
 tags: [wcag, semantic-html, aria, keyboard-navigation, focus-management]
 applies_to: ["**/*.html", "**/*.jsx", "**/*.tsx", "**/*.vue", "**/*.svelte", "**/*.astro", "**/*.css", "**/*.scss"]
 pairs_with:

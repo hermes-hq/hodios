@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [search-console, web-analytics, rank-tracking, baseline, kpi-dashboard]
 pairs_with:
   prompts: [analyze-search-console-data, write-search-ranking-report, plan-new-site-search-launch]

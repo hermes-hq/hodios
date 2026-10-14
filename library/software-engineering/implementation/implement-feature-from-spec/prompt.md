@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spec-driven, requirements, acceptance-criteria]
 args:
   - name: spec

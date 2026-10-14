@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ssti, template-engines, remote-code-execution, injection, owasp]
 pairs_with:
   prompts: [fix-xss-vulnerabilities, fix-command-injection, write-exploit-regression-test, review-pr-for-security]

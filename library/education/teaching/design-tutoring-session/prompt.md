@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [private-tutoring, one-to-one, diagnostic-questions, worked-examples, homework, session-notes]
 pairs_with:
   prompts: [write-lesson-plan, analyze-exam-mistakes, hint-through-problem]

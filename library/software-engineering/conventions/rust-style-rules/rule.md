@@ -7,6 +7,7 @@ description: Standing rules for Rust an assistant writes, covering ownership-fir
 category: conventions
 version: 1.0.0
 status: experimental
+depth: specific
 stage: [build]
 role: [software-engineer, backend-engineer, embedded-engineer]
 stack: [rust]

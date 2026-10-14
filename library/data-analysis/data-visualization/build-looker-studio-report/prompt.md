@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [looker-studio, google-analytics, data-blending, calculated-fields]
 pairs_with:
   prompts: [design-dashboard, audit-dashboard, explain-metric-discrepancy]

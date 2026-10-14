@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [lullaby, bedtime, singable, family-song]
 pairs_with:
   prompts: [write-song-lyrics, suggest-chord-progressions]

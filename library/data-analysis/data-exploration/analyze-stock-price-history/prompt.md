@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stock-prices, volatility, drawdown, correlation, total-return, time-series]
 pairs_with:
   prompts: [calculate-investment-returns, decompose-seasonality, detect-anomalies]

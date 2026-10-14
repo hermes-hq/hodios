@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [concept-testing, value-proposition, early-validation, stimulus-design, discussion-guide]
 pairs_with:
   prompts: [write-usability-test-plan, design-diary-study, run-competitive-ux-audit]

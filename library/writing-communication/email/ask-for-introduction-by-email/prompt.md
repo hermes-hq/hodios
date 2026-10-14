@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [warm-introduction, forwardable-blurb, referral-request, relationship-building, mutual-contact]
 pairs_with:
   prompts: [write-introduction-email, write-networking-message, write-investor-intro-request]

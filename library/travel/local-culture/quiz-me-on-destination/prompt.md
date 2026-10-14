@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [travel-quiz, trip-preparation, retrieval-practice, cultural-knowledge]
 pairs_with:
   prompts: [learn-local-etiquette, learn-destination-history, quiz-me-interactively]

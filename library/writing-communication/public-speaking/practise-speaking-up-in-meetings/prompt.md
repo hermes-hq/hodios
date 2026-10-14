@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [meeting-dynamics, interruptions, assertiveness, holding-the-floor, quiet-voices, idea-credit]
 pairs_with:
   prompts: [speak-up-in-meetings, practice-assertive-responses]

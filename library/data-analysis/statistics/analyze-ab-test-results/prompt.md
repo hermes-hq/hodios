@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ab-testing, sample-ratio-mismatch, confidence-intervals, guardrail-metrics]
 pairs_with:
   personas: [statistician]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tech-pack, product-specification, manufacturing, sourcing, tolerances, quality-control, samples]
 pairs_with:
   prompts: [build-bill-of-materials, write-rfp, compare-vendors, audit-supplier-factory]

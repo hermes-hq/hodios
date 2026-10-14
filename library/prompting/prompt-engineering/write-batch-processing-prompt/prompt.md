@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [batch-processing, jsonl, consistency, error-handling]
 pairs_with:
   prompts: [write-structured-output-prompt, write-classification-prompt, write-spreadsheet-ai-prompts]

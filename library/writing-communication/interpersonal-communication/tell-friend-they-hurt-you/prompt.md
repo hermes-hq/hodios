@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hurt-feelings, close-friends, speaking-up, repair, honest-conversation, family]
 pairs_with:
   prompts: [set-boundary, respond-to-an-apology, rephrase-with-nonviolent-communication, decide-whether-to-raise-an-issue]

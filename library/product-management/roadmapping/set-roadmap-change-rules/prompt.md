@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-control, scope-swaps, mid-quarter-changes, interrupt-budget, decision-rights, planning-discipline]
 pairs_with:
   prompts: [push-back-on-roadmap-request, run-quarterly-planning, write-roadmap-update, set-up-roadmap-cadence]

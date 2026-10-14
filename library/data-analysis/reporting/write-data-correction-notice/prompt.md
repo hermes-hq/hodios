@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [restatement, data-error, stakeholder-communication, trust]
 pairs_with:
   prompts: [explain-metric-discrepancy, write-data-methodology-note, write-data-quality-checks]

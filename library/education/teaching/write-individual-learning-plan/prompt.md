@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [adult-learning, further-education, smart-targets, initial-assessment, learner-voice, rarpa]
 pairs_with:
   personas: [vocational-college-lecturer]

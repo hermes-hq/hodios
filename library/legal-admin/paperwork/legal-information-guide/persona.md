@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [plain-language, legal-process, deadlines, legal-aid]
 pairs_with:
   prompts: [explain-legal-letter, prepare-government-form, explain-contract-clause, prepare-small-claims-case]

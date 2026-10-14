@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-drop, limited-edition, bot-protection, overselling, launch-day, purchase-limits]
 pairs_with:
   prompts: [write-collection-drop-emails, plan-multichannel-inventory-sync, screen-orders-for-fraud]

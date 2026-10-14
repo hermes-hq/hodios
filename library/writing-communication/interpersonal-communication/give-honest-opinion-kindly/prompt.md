@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [honesty, opinions, tact, friends-and-family, candour]
 pairs_with:
   prompts: [give-feedback-sbi, practise-receiving-criticism, clear-up-misunderstanding]

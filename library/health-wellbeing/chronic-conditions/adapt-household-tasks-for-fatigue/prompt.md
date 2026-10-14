@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [energy-conservation, four-ps, housework, daily-living-aids, occupational-therapy, fatigue]
 pairs_with:
   prompts: [plan-activity-pacing, plan-flare-day-logistics, work-around-brain-fog]

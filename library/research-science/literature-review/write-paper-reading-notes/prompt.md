@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-notes, papers, thesis, plagiarism-prevention]
 pairs_with:
   prompts: [summarize-paper, build-literature-matrix, write-annotated-bibliography]

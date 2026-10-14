@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [promotion-outcome, bad-news, career-path, disappointment, retention]
 pairs_with:
   prompts: [write-promotion-nomination, run-career-conversation, build-career-ladder]

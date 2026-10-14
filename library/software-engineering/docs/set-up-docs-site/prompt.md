@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [docusaurus, mkdocs, sphinx, static-site, docs-deploy]
 pairs_with:
   prompts: [reorganize-docs-by-diataxis, write-docs-landing-page, set-up-docs-linting]

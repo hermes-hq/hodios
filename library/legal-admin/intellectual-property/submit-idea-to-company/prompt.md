@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [idea-pitch, unsolicited-submissions, inventors, disclosure-risk, confidentiality]
 pairs_with:
   prompts: [choose-invention-protection-route, prepare-invention-disclosure, keep-proof-of-authorship]

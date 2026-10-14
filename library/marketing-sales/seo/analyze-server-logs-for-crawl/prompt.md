@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [log-file-analysis, crawl-budget, googlebot, bot-traffic, crawl-waste]
 pairs_with:
   prompts: [audit-technical-seo, write-robots-txt, diagnose-page-not-indexed]

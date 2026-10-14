@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [site-visit, funder-relations, programme-officer, assessment-visit, stakeholder-prep]
 pairs_with:
   prompts: [prepare-grant-panel-interview, write-grant-report]

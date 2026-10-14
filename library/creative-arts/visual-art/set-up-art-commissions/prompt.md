@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [art-commissions, commission-terms, client-communication, freelance-artist]
 pairs_with:
   prompts: [price-artwork, start-freelance-business]

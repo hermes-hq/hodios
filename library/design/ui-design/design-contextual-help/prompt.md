@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [in-product-help, tooltips, inline-hints, user-assistance, support-deflection]
 pairs_with:
   prompts: [design-onboarding-flow, build-accessible-tooltips, write-help-center-article, write-ux-microcopy, design-help-center-structure]

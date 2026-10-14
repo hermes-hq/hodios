@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-list, skimming, time-budget, seminar-reading]
 pairs_with:
   prompts: [read-textbook-actively, plan-reading-week, prepare-seminar-contribution, plan-semester-workload]

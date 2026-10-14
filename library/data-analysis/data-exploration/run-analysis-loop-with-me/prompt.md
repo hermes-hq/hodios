@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pair-analysis, hypothesis-tree, iterative-analysis, sql-queries, human-in-the-loop]
 pairs_with:
   prompts: [answer-question-with-sql, explore-dataset, decompose-revenue-change, check-analysis-for-pitfalls]

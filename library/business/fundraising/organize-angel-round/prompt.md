@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [angel-investors, party-round, syndicate, allocation, investor-admin]
 pairs_with:
   prompts: [choose-funding-instrument, build-investor-pipeline, plan-round-closing-checklist]

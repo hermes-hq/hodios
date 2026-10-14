@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [retraining, income-dip, career-switch, cash-runway, adult-education]
 pairs_with:
   prompts: [career-change-track, plan-switch-to-part-time-finances, build-monthly-budget, prioritize-financial-goals]

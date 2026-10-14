@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [usage-licence, licence-terms, exclusivity, creator-rights, licensing-fee]
 pairs_with:
   prompts: [review-creative-rights-contract, request-copyright-permission, price-artwork]

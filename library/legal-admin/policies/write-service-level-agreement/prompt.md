@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-level-agreement, uptime, service-credits, support-response-times, availability, saas-contracts]
 pairs_with:
   prompts: [calculate-sla-availability, write-terms-of-service, write-service-level-terms-for-contract-clients, draft-data-processing-agreement]

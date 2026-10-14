@@ -7,6 +7,7 @@ description: Reviews a pull request diff for correctness bugs, risky changes and
 category: code-review
 version: 1.0.1
 status: experimental
+depth: basic
 aliases: [review-pr, git-review-pr, git-review, git-pr-review]
 stage: [review]
 stack: []

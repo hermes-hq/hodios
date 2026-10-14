@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [upskilling, reskilling, skills-matrix, learning-pathway, workforce-development, proficiency-levels]
 pairs_with:
   prompts: [run-training-needs-analysis, build-team-skills-matrix, evaluate-training-effectiveness]

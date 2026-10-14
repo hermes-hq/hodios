@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [layoff-survivors, post-layoff, team-morale, change-leadership, workload-reset, trust]
 pairs_with:
   prompts: [plan-layoff-conversation, plan-one-on-one, run-stay-interview]

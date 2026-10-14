@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [disciplinary-hearing, misconduct, fair-process, right-to-be-accompanied, hr-letter]
 pairs_with:
   prompts: [conduct-workplace-investigation, write-written-warning, write-grievance-outcome-letter]

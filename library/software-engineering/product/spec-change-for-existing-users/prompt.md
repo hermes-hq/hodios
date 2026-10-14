@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [backfill, grandfathering, rollout, requirements]
 pairs_with:
   prompts: [write-prd, spec-plan-limits-and-entitlements, write-customer-change-notice]

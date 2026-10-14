@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [self-introduction, new-job, icebreaker, first-week, personal-story]
 pairs_with:
   prompts: [write-self-introduction, write-speaker-notes, outline-presentation]

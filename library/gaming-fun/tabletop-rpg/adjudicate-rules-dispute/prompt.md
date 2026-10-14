@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rules-lawyer, rules-as-written, table-ruling, game-mastering]
 pairs_with:
   prompts: [run-session-zero, teach-board-game-rules]

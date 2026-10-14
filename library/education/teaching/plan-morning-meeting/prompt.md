@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [morning-meeting, classroom-community, elementary, daily-routine]
 pairs_with:
   prompts: [plan-sel-lesson, design-classroom-management-plan, plan-first-week-of-school]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [roast, toast, speech-writing, celebration, retirement-party, best-man]
 pairs_with:
   prompts: [write-comedy-bit, write-parody-lyrics]

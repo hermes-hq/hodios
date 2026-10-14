@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [newsletter-economics, paid-conversion, churn, sponsorship, subscription-price, unit-economics]
 pairs_with:
   prompts: [place-newsletter-paywall-break, audit-newsletter-performance, write-newsletter-sponsor-spot, announce-newsletter-change]

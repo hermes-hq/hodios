@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [genealogy, archival-records, palaeography, transcription, family-history]
 pairs_with:
   prompts: [plan-genealogy-research, break-genealogy-brick-wall, write-family-history]

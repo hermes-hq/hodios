@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lesson-plan, sunday-school, madrasa, religious-studies, faith-formation, children]
 pairs_with:
   prompts: [answer-child-faith-questions, explain-religious-tradition]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [earned-value, estimate-at-completion, cost-forecast, project-controls]
 pairs_with:
   prompts: [forecast-roadmap-dates-with-ranges, run-monte-carlo-simulation, write-forecast-commentary]

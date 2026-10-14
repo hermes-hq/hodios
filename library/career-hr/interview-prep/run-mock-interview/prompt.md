@@ -19,7 +19,8 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
-tags: [practice-interviews, behavioral-interview, case-interview, scoring-rubric]
+depth: basic
+tags: [practice-interviews, behavioral-interview, case-interview, scoring-rubric, job-interview, interview-practice]
 pairs_with:
   prompts: [prepare-star-stories, practice-coding-interview]
   personas: [interview-coach]

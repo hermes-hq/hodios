@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [international-research, localisation, cross-cultural, back-translation, multi-market]
 pairs_with:
   prompts: [write-usability-test-plan, set-research-data-handling-rules, write-research-screener]

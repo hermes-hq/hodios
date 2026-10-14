@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dismissal, termination-for-cause, hard-conversations, offboarding, process-check]
 pairs_with:
   prompts: [write-termination-letter, write-performance-improvement-plan, plan-employee-offboarding]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [site-architecture, subdomains, domain-strategy, url-structure, decision-making-framework]
 pairs_with:
   prompts: [design-site-structure-for-search, plan-international-seo, plan-site-migration-seo]

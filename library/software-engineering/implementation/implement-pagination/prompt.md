@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pagination, keyset-pagination, cursor, api-design, infinite-scroll]
 pairs_with:
   prompts: [build-rest-endpoint, optimize-sql-query, build-ui-component]

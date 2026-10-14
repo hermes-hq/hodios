@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [downtime, between-adventures, game-mastering, character-goals, campaign]
 pairs_with:
   prompts: [design-campaign-arc, write-session-recap]

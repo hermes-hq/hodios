@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [nanny, household-employee, domestic-worker, payroll]
 pairs_with:
   prompts: [set-up-first-payroll, explain-family-tax-credits, calculate-true-cost-of-hire]

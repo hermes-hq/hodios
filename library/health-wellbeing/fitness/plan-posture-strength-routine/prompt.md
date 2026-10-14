@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [posture, upper-back, rounded-shoulders, desk-work, thoracic-mobility]
 pairs_with:
   prompts: [design-workday-movement-breaks, design-mobility-routine, find-exercise-substitutes]

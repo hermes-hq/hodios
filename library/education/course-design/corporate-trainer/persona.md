@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [corporate-training, learning-and-development, facilitation, adult-learning, learning-transfer]
 pairs_with:
   prompts: [design-workshop, design-onboarding-curriculum, design-branching-scenario, design-blended-program, evaluate-training-effectiveness]

@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: beginner
+depth: specific
 tags: [worked-examples, show-dont-tell, concrete-examples, learning-by-example]
 pairs_with:
   styles: [{id: beginner-friendly, level: 2}, {id: step-by-step, level: 2}]

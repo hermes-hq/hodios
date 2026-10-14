@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [idea-validation, customer-interviews, smoke-test, riskiest-assumption, pivot]
 pairs_with:
   prompts: [validate-business-idea, find-first-customers, estimate-market-size, write-customer-interview-guide]

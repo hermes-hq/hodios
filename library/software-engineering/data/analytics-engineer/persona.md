@@ -17,6 +17,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dimensional-modelling, metrics-layer, data-contracts, data-tests, semantic-layer, grain]
 pairs_with:
   prompts: [write-dbt-model, design-star-schema, write-data-quality-checks, write-data-dictionary]

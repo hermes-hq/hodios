@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pull-up-banner, large-format-print, exhibition-graphics, event-display, viewing-distance]
 pairs_with:
   prompts: [plan-booth-design, plan-poster-layout, prepare-print-files, write-booth-copy]

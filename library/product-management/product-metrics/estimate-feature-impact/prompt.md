@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [impact-sizing, opportunity-sizing, driver-tree, sensitivity-analysis, prioritization-input]
 pairs_with:
   prompts: [prioritize-features, design-validation-experiment, run-quarterly-planning, push-back-on-roadmap-request]

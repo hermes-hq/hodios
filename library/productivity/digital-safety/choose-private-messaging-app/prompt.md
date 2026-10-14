@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [encrypted-messaging, end-to-end-encryption, chat-apps, message-privacy, disappearing-messages]
 pairs_with:
   prompts: [secure-personal-accounts, lock-down-social-privacy, secure-devices-for-travel]

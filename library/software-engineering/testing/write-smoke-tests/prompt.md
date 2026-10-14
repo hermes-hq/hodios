@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [smoke-tests, deployment, release-gate, rollback]
 pairs_with:
   prompts: [design-synthetic-checks, write-e2e-test, select-regression-tests-for-release]

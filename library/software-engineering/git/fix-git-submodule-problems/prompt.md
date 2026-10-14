@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [submodules, detached-head, nested-repositories, submodule-removal]
 pairs_with:
   prompts: [choose-submodule-or-subtree, fix-git-in-ci-pipelines, grant-ci-access-to-private-repos]

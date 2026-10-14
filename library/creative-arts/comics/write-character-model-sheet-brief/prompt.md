@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [character-design, model-sheet, turnaround, expression-sheet, visual-consistency]
 pairs_with:
   prompts: [write-comic-script, plan-comic-colour-script, write-character-consistency-prompts]

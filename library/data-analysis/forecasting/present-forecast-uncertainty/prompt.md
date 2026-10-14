@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prediction-intervals, fan-chart, risk-communication, stakeholder-communication]
 pairs_with:
   prompts: [write-forecast-commentary, forecast-time-series, critique-chart]

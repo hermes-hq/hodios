@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [continuous-delivery, deployment, rollback, release-engineering]
 pairs_with:
   prompts: [write-github-actions-workflow, write-gitlab-ci-pipeline, design-deployment-strategy, speed-up-ci-pipeline]

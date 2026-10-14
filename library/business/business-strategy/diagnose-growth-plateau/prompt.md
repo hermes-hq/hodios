@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [growth-stall, revenue-decomposition, root-cause, retention, growth-constraints]
 pairs_with:
   prompts: [build-issue-tree, map-growth-options, build-kpi-tree, find-pricing-leakage]

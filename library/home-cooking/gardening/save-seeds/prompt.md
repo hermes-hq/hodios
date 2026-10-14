@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [seed-saving, heirloom, open-pollinated, seed-storage, germination-test, self-sufficiency]
 pairs_with:
   prompts: [plan-vegetable-garden, plan-seed-starting, build-garden-calendar]

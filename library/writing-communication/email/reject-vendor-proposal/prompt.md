@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [procurement, tender, rfp, unsuccessful-bidder, vendor-management, debrief]
 pairs_with:
   prompts: [decline-request-gracefully, write-bad-news-email, write-negotiation-email]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [one-rep-max, rpe, reps-in-reserve, percentage-based, strength-training, load-calculation]
 pairs_with:
   prompts: [build-training-plan, break-lift-plateau, track-fitness-progress]

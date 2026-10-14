@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [handoff, context-window, multi-agent]
 pairs_with:
   prompts: [write-subagent-brief]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [works-on-my-machine, environment-drift, production-debugging, hypotheses]
 pairs_with:
   prompts: [instrument-service-observability, find-root-cause, debug-race-condition, triage-production-alert]

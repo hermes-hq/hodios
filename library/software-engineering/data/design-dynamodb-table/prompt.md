@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dynamodb, single-table-design, partition-keys, global-secondary-indexes, access-patterns, nosql-modelling]
 pairs_with:
   prompts: [write-aws-lambda-function, test-code-using-aws-services, choose-database-for-workload]

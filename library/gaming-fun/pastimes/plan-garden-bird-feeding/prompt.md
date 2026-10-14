@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bird-feeding, garden-birds, bird-feeders, wildlife-garden, feeder-hygiene, backyard-birds]
 pairs_with:
   prompts: [identify-bird-from-description, plan-birdwatching-outing]

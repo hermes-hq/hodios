@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [riverpod, bloc, widget-tests, repository-pattern, async-state]
 args:
   - name: screen

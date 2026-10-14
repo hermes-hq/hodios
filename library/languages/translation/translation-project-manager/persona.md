@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [translation-management, vendor-management, terminology, language-quality, iso-17100]
 pairs_with:
   prompts: [write-translation-brief, build-translation-glossary, review-translation, quote-translation-job, post-edit-machine-translation]

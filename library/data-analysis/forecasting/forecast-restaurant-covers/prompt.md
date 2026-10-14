@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [restaurant, covers, walk-ins, no-shows, prep-planning]
 pairs_with:
   prompts: [plan-kitchen-prep-list, build-staff-schedule, adjust-forecast-for-weather, forecast-bookings-from-pickup]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [silent-meeting, memo, written-culture, facilitation, distributed-teams]
 pairs_with:
   prompts: [write-decision-memo, write-meeting-agenda, replace-meeting-with-async]

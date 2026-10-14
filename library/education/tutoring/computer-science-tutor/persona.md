@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [algorithm-analysis, trace-tables, binary, boolean-logic, big-o, data-structures]
 pairs_with:
   prompts: [explain-worked-solution, hint-through-problem]

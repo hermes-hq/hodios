@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [finops, orphaned-resources, resource-cleanup, cost-hygiene]
 pairs_with:
   prompts: [reduce-cloud-spend, set-up-cloud-cost-allocation, resolve-terraform-drift]

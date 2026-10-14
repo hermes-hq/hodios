@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dialogue, speech-tags, action-beats, punctuation, fiction-manuscript]
 pairs_with:
   prompts: [punch-up-dialogue, line-edit-prose, proofread-text]

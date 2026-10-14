@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [domain-due-diligence, expired-domains, backlink-audit, rebranding, domain-purchase]
 pairs_with:
   prompts: [review-backlink-profile, write-reconsideration-request, plan-site-migration-seo]

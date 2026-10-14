@@ -12,6 +12,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: intermediate
+depth: specific
 tags: [depth, completeness, edge-cases, trade-offs, reasoning]
 pairs_with:
   styles: [{id: skimmable, level: 3}]

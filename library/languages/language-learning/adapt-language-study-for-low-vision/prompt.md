@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [low-vision, blindness, screen-readers, braille, assistive-technology, exam-access-arrangements]
 pairs_with:
   prompts: [adapt-language-learning-for-dyslexia, adapt-language-study-for-hearing-loss, plan-language-learning, learn-writing-system]

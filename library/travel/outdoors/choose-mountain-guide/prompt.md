@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mountain-guides, guide-qualifications, client-ratios, vetting, alpine-climbing, trekking-guides]
 pairs_with:
   prompts: [plan-first-scramble, plan-via-ferrata-day, plan-winter-hill-day]

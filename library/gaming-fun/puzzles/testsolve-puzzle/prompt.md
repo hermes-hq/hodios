@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [testsolving, puzzle-construction, fairness-check, unique-solution, puzzle-editing]
 pairs_with:
   prompts: [make-logic-puzzle, write-riddles, design-puzzle-hunt, write-crossword-clues]

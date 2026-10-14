@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [flash-fiction, micro-fiction, writing-contest, compression]
 pairs_with:
   prompts: [write-short-story, critique-fiction-draft]

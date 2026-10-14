@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [narrative-nonfiction, reported-scene, literary-journalism, attribution, source-verification]
 pairs_with:
   prompts: [draft-nonfiction-chapter, draft-memoir-scene]

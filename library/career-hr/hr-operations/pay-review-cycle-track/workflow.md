@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pay-review, merit-cycle, compensation-planning, calibration, salary-increases]
 pairs_with:
   prompts: [build-merit-increase-matrix, allocate-merit-increases, analyze-pay-equity, write-pay-review-letters, design-salary-bands]

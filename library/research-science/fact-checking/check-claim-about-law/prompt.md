@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 advice_risk: [legal]
 tags: [legislation, policy-claims, viral-claims, primary-sources]
 pairs_with:

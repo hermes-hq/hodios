@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [medical-interpreting, terminology, lay-register, false-friends]
 pairs_with:
   prompts: [translate-medical-information, practise-sight-translation, prepare-interpreting-assignment]

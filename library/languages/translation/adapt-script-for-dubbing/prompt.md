@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dubbing, voice-over, lip-sync, isochrony, audiovisual-translation]
 pairs_with:
   prompts: [translate-subtitles, translate-preserving-tone, transcreate-marketing-copy]

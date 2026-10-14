@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quote-checking, misquotes, journalism, accuracy]
 pairs_with:
   prompts: [trace-quote-origin, check-paraphrase-faithfulness, write-fact-check-article]

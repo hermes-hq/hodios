@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, agent-instructions, context-engineering]
 pairs_with:
   prompts: [write-agents-md, fix-ignored-agent-instruction, write-scoped-agent-rules]

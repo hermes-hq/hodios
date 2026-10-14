@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cross-platform, native-apps, progressive-web-app, kotlin-multiplatform, team-skills, trade-offs]
 pairs_with:
   personas: [mobile-engineer, software-architect]

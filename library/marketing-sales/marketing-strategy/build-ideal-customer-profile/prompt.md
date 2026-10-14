@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [icp, buyer-personas, lead-scoring, targeting]
 pairs_with:
   prompts: [write-positioning-statement, write-cold-outreach, plan-marketing-campaign]

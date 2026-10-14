@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mistakes, accountability, managing-up, disclosure, no-surprises]
 pairs_with:
   prompts: [correct-email-mistake, write-client-apology, apologize-effectively]

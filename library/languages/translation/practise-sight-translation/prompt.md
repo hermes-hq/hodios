@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sight-translation, interpreter-training, court-interpreting, medical-interpreting]
 pairs_with:
   prompts: [practise-consecutive-note-taking, drill-court-interpreting-register, drill-medical-terms-for-interpreters]

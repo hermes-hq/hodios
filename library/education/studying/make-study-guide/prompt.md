@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [revision-notes, concept-map]
 pairs_with:
   prompts: [make-flashcards, generate-practice-exam]

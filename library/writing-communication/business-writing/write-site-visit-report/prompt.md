@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [site-visit, field-report, inspection, audit-findings, follow-ups]
 pairs_with:
   prompts: [write-workplace-incident-report, write-status-report, write-executive-summary]

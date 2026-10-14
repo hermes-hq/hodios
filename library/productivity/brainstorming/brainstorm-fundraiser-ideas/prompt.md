@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fundraiser-ideas, school-fundraising, pta, community-groups, volunteers]
 pairs_with:
   prompts: [plan-bake-sale, plan-fundraising-event, write-fundraiser-progress-posts, build-event-volunteer-rota]

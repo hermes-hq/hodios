@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [critical-path, scheduling, task-dependencies, parallel-work]
 pairs_with:
   prompts: [break-down-epic, estimate-with-ranges, map-cross-team-dependencies]

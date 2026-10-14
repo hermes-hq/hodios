@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [consultation-form, salon, patch-test, client-records, consent, beauty-treatments, data-privacy]
 pairs_with:
   prompts: [write-aftercare-instructions, set-up-appointment-booking-system, build-commercial-cleaning-rota]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [one-way-interview, asynchronous-interview, video-interview, star-method, filler-words]
 pairs_with:
   prompts: [prepare-star-stories, run-mock-interview]

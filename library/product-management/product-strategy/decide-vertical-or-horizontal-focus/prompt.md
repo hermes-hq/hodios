@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [vertical-strategy, horizontal-strategy, segment-focus, market-focus, specialisation]
 pairs_with:
   prompts: [prioritize-market-expansion, assess-product-market-fit, write-product-strategy, define-mvp-scope]

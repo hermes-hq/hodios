@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [web-components, shadow-dom, element-internals, custom-elements, focus-delegation]
 pairs_with:
   personas: [accessibility-specialist]

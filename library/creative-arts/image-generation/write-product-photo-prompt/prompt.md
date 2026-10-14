@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [product-photography, ecommerce-imagery, lifestyle-shots, brand-consistency]
 pairs_with:
   prompts: [write-image-prompt, write-image-edit-prompt, build-image-style-guide, write-product-description]

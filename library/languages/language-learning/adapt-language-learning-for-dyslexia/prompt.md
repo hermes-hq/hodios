@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dyslexia, multisensory-learning, inclusive-teaching, orthographic-depth, exam-access-arrangements, neurodiversity]
 pairs_with:
   prompts: [learn-spelling-to-sound-rules, plan-language-learning, teach-language-to-child]

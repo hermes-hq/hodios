@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stand-up, crowd-work, hecklers, live-comedy, stage-presence]
 pairs_with:
   prompts: [structure-stand-up-set, review-stand-up-set-recording, plan-open-mic-debut]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [release-candidate, beta-testing, prerelease, user-testing, bug-reports]
 pairs_with:
   prompts: [write-release-announcement-kit, plan-breaking-major-release, write-changelog]

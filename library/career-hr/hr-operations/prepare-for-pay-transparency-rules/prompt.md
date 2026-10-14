@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pay-transparency, pay-ranges, gender-pay-gap, pay-criteria, compliance-readiness]
 pairs_with:
   prompts: [design-salary-bands, analyze-pay-equity, evaluate-job-for-grading, write-workplace-policy]

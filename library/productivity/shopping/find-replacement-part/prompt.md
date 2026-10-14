@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [spare-parts, model-number, compatible-parts, consumables, appliance-maintenance]
 pairs_with:
   prompts: [decide-repair-or-replace, choose-light-bulbs, clean-appliance-filters-and-seals, check-product-safety-marks]

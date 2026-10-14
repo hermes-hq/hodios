@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [white-paper, sponsored-research, survey-method, sample-size, vendor-claims]
 pairs_with:
   prompts: [extract-key-numbers, summarize-long-document, synthesize-sources-into-brief]

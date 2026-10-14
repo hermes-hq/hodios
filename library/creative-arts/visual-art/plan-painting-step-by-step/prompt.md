@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [painting-process, watercolour, oil-painting, acrylic-painting, gouache]
 pairs_with:
   prompts: [choose-art-supplies, critique-artwork, teach-drawing-fundamental]

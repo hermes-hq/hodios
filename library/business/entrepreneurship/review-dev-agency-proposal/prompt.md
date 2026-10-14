@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [vendor-proposal, software-quote, code-ownership, milestone-payments, scope-gaps]
 pairs_with:
   prompts: [spec-app-idea-for-developers, choose-mvp-build-approach, compare-freelancer-proposals, review-software-development-agreement]

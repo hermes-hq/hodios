@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-consistency, lore-review, logic-check, setting-design, story-craft]
 pairs_with:
   prompts: [build-series-bible, build-magic-system, design-fictional-technology]

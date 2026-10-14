@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [type-safety, discriminated-unions, strict-mode, runtime-validation]
 pairs_with:
   personas: [typescript-engineer]

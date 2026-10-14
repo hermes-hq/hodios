@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rent-arrears, repayment-plan, housing-debt, tenant-rights, eviction-prevention]
 pairs_with:
   prompts: [respond-to-eviction-notice, apply-for-housing-assistance, negotiate-with-creditor]

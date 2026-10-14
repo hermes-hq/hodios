@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [jobs-to-be-done, job-map, outcome-statements, outcome-driven-innovation, unmet-needs]
 pairs_with:
   prompts: [define-jobs-to-be-done, run-opportunity-scoring, map-current-alternatives, build-user-journey-map]

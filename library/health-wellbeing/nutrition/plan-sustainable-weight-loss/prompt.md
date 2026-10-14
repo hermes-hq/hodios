@@ -20,7 +20,8 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [weight-management, habit-change, protein, fibre, disordered-eating-screen, behaviour-change]
+depth: specific
+tags: [weight-management, habit-change, protein, fibre, disordered-eating-screen, behaviour-change, lose-weight, diet-plan]
 pairs_with:
   prompts: [plan-nutrition-targets, analyze-diet-log, start-walking-program, increase-fiber-gradually]
   personas: [nutrition-educator, fitness-coach]

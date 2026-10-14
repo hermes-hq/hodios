@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [people-pleasing, saying-no, assertiveness, self-worth, behavioural-experiments]
 pairs_with:
   prompts: [practice-assertive-responses, set-boundary, build-self-confidence, practice-self-compassion]

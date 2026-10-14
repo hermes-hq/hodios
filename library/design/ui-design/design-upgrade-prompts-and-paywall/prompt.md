@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [saas]
 tags: [paywall, upgrade-prompts, freemium, free-trial, usage-limits, monetisation]
 pairs_with:

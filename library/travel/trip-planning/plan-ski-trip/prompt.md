@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [skiing, snowboarding, ski-resort, lift-pass, winter-trip]
 pairs_with:
   prompts: [plan-trip-budget, choose-travel-insurance, build-packing-list, choose-accommodation]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [okrs, key-results, goal-alignment, orphan-work, traceability]
 pairs_with:
   prompts: [critique-roadmap, run-quarterly-planning, build-outcome-roadmap, write-roadmap-update]

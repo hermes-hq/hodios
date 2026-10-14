@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [intimacy, couples, sexual-health, body-image, partner-communication, pain]
 pairs_with:
   prompts: [cope-with-chronic-illness-emotions, write-invisible-illness-explainer, build-pain-coping-toolkit]

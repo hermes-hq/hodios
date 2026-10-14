@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cloudtrail, cloud-audit-logs, iam, privilege-escalation, cloud-incident-response]
 pairs_with:
   prompts: [review-cloud-iam-policy, respond-to-leaked-secret, build-forensic-timeline, write-siem-query]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [iron, vitamin-b12, vitamin-d, calcium, food-sources, absorption]
 pairs_with:
   prompts: [explain-lab-results, evaluate-supplement, plan-plant-based-nutrition]

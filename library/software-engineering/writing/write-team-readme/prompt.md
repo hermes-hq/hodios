@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [team-page, ownership, intake, working-with-us, internal-docs]
 pairs_with:
   prompts: [write-team-charter, design-interrupt-rotation, write-service-readme]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [free-tools, calculators, engineering-as-marketing, lead-capture, organic-acquisition]
 pairs_with:
   prompts: [create-lead-magnet, design-growth-loops, map-content-to-buyer-journey, choose-marketing-channels]

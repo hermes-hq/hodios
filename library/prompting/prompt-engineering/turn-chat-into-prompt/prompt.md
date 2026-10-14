@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [prompt-templates, reusable-prompts, conversation-mining, variables]
 pairs_with:
   prompts: [improve-prompt, create-few-shot-examples, compress-prompt]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-contract, data-ownership, schema, freshness, breaking-changes, data-quality]
 pairs_with:
   prompts: [write-data-quality-checks, write-data-dictionary, review-event-schema-change]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [book-idea, idea-validation, book-concept, market-gap, author-platform]
 pairs_with:
   prompts: [outline-nonfiction-book, write-nonfiction-book-proposal, generate-nonfiction-book-titles]

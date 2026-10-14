@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: intermediate
+depth: specific
 tags: [dependencies, licences, typosquatting, lockfiles]
 pairs_with:
   prompts: [vet-dependency, audit-dependencies]

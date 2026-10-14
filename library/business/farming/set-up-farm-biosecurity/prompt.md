@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [biosecurity, quarantine, visitor-rules, disinfection, bought-in-stock, notifiable-disease]
 pairs_with:
   prompts: [prepare-herd-health-plan-review, plan-livestock-record-keeping, write-farm-safety-induction]

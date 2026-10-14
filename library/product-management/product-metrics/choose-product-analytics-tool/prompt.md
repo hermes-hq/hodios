@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [analytics-tools, tool-selection, warehouse-native, self-hosting, data-privacy, vendor-comparison]
 pairs_with:
   prompts: [write-tracking-plan, set-up-first-product-analytics, audit-event-tracking-data, evaluate-build-vs-buy]

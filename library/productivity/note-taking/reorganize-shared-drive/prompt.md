@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shared-drive, folder-structure, file-naming, permissions, migration-plan, team-files]
 pairs_with:
   prompts: [organize-digital-files, build-team-wiki-structure, plan-notes-backup-and-export]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ratings, reviews, social-proof, user-generated-content, moderation]
 pairs_with:
   prompts: [spec-reviews-and-ratings, review-design-for-dark-patterns, design-form-experience, respond-to-online-review]

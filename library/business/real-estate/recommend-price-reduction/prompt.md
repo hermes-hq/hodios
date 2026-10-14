@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [estate-agent, asking-price, seller-communication, home-selling, portal-data]
 pairs_with:
   prompts: [summarize-viewing-feedback-for-seller, analyze-property-comparables, write-real-estate-market-update]

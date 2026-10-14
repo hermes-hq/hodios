@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-debugging, failure-analysis, regression-tests, prompt-evals]
 pairs_with:
   personas: [prompt-engineer]

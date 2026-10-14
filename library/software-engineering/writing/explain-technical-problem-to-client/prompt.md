@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [client-communication, plain-language, delays, expectation-setting, agency]
 pairs_with:
   prompts: [explain-estimate-to-stakeholders, explain-tech-to-executives, write-known-issue-brief]

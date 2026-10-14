@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [organic-conversion, organic-certification, fertility-building, conversion-period, farm-transition]
 pairs_with:
   prompts: [plan-arable-crop-rotation, plan-livestock-record-keeping, prepare-farm-assurance-audit]

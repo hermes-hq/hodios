@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tenant-rights, disrepair, deposits, eviction, housing-advice]
 pairs_with:
   prompts: [review-lease, request-landlord-repair, demand-deposit-return, respond-to-eviction-notice, prepare-rental-application]

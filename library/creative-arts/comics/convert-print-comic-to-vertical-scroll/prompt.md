@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vertical-scroll, reformatting, panel-map, scroll-pacing, phone-reading]
 pairs_with:
   prompts: [plan-webcomic-series, plan-comic-lettering, write-comic-script]

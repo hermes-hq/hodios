@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [unit-planning, backward-design, understanding-by-design, essential-questions, formative-assessment]
 pairs_with:
   prompts: [write-lesson-plan, create-rubric, write-learning-objectives, write-multiple-choice-questions]

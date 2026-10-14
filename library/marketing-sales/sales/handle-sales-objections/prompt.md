@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [objection-handling, battlecards, discovery-questions, sales-enablement]
 pairs_with:
   prompts: [prepare-discovery-call, write-sales-follow-up, analyze-competitors]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [package-insert, unboxing, thank-you-card, review-request, repeat-purchase]
 pairs_with:
   prompts: [write-packaging-copy, write-post-purchase-emails, request-customer-testimonials]

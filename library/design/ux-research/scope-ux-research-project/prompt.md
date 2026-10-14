@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-scoping, research-budget, study-timeline, research-proposal, effort-estimate]
 pairs_with:
   prompts: [size-ux-research-sample, write-usability-test-plan, plan-ux-research-roadmap]

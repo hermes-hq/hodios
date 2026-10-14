@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [source-files, working-files, deliverables, file-ownership, add-on-pricing]
 pairs_with:
   prompts: [close-out-client-project, write-statement-of-work, review-creative-rights-contract, write-scope-change-email]

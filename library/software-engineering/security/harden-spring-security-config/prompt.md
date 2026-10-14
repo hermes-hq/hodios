@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [hardening, filter-chain, actuator, access-control]
 pairs_with:
   prompts: [review-spring-boot-change, harden-jwt-validation, add-csrf-protection, write-authorization-tests]

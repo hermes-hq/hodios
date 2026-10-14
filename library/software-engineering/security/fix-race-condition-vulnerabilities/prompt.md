@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [toctou, limit-overrun, concurrency, business-logic, idempotency]
 pairs_with:
   prompts: [debug-race-condition, write-exploit-regression-test, prevent-double-booking, fix-password-reset-flaws]

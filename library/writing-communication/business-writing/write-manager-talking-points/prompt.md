@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-communication, cascade, reorg, internal-comms, faq-prep]
 pairs_with:
   prompts: [write-internal-announcement, prepare-difficult-conversation, write-faq-from-documents]

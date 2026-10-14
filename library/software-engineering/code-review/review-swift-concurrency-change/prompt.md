@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [async-await, actors, sendable, main-actor, pull-request]
 pairs_with:
   personas: [swift-ios-engineer]

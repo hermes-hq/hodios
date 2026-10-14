@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [executive-briefing, chief-of-staff, talking-points, stakeholder-meeting, meeting-prep]
 pairs_with:
   prompts: [prepare-for-meeting, write-manager-talking-points, write-briefing-note]

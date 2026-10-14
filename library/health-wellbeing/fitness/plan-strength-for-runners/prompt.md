@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [running, strength-training, injury-prevention, running-economy, plyometrics]
 pairs_with:
   prompts: [plan-running-program, design-warm-up, design-mobility-routine]

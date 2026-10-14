@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [scamper, lateral-thinking, creative-thinking, product-improvement, process-improvement, innovation]
 pairs_with:
   prompts: [brainstorm-ideas, cluster-ideas, run-reverse-brainstorm, find-ideas-from-analogies]

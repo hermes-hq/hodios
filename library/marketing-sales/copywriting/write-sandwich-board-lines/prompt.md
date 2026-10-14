@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [a-board, chalkboard, footfall, signage, shopfront]
 pairs_with:
   prompts: [write-outdoor-ad-copy, write-taglines, write-menu-descriptions, write-shelf-talkers]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [swatting, doxxing, streamer-safety, household-briefing, threat-response]
 pairs_with:
   prompts: [audit-stream-for-privacy-leaks, prepare-hate-raid-response, write-chat-mod-handbook]

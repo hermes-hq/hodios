@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [group-decision, options, default-option, async, consensus]
 pairs_with:
   prompts: [write-decision-memo, replace-meeting-with-async, request-approval-by-email]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [minicomic, zine-making, imposition, photocopy-printing, small-press]
 pairs_with:
   prompts: [write-gag-strip, thumbnail-comic-page, plan-comic-anthology]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brioche, challah, cinnamon-rolls, sweet-buns, yeasted-dough]
 pairs_with:
   prompts: [plan-bread-bake-schedule, convert-to-bakers-percentages, convert-yeast-recipe-to-sourdough]

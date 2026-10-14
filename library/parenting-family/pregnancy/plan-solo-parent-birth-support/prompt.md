@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [solo-parent, single-parent, birth-partner, support-network, household-help]
 pairs_with:
   prompts: [write-birth-partner-guide, plan-labour-day-logistics, plan-meal-train-for-friend]

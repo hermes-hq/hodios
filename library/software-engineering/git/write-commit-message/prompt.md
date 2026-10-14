@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [commit-message, conventional-commits]
 pairs_with:
   rules: [conventional-commits-rules]

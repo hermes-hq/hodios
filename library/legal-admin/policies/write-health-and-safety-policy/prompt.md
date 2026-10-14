@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [health-and-safety, statement-of-intent, safety-responsibilities, first-aid, safety-arrangements]
 pairs_with:
   prompts: [write-workplace-risk-assessment, write-emergency-procedures-for-staff, write-toolbox-talk]

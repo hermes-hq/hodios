@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [storytime, cold-open, personal-story, story-beats, privacy]
 pairs_with:
   prompts: [write-video-hooks, package-video-title-thumbnail, give-rough-cut-notes]

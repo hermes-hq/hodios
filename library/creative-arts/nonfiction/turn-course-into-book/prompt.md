@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [course-to-book, workshop-material, repurposing, prescriptive-books, restructuring]
 pairs_with:
   prompts: [outline-nonfiction-book, design-signature-framework, write-chapter-exercises]

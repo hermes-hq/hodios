@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [solicits, preorders, retailers, comic-marketing, product-copy]
 pairs_with:
   prompts: [write-graphic-novel-pitch, write-comic-cover-brief, pitch-comic-to-local-shops]

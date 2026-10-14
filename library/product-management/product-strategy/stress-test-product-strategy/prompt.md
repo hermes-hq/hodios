@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [strategy-review, red-team, assumptions, pre-mortem, strategy-critique]
 pairs_with:
   prompts: [write-product-strategy, write-product-vision, set-kill-criteria, prepare-product-review-meeting]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wedding-invitations, save-the-date, rsvp, plus-ones, dress-code, gift-wording]
 pairs_with:
   prompts: [design-invitation-suite, plan-wedding, manage-event-rsvps, write-card-message]

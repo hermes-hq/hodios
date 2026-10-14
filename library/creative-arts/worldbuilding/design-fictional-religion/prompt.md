@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fictional-religion, pantheon, mythology, setting-design]
 pairs_with:
   prompts: [design-fictional-culture, design-fictional-factions, build-world-timeline]

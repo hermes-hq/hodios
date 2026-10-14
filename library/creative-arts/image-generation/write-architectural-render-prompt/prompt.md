@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [architectural-visualisation, concept-render, materials, camera-angles, landscaping]
 pairs_with:
   prompts: [write-room-staging-prompt, write-image-prompt]

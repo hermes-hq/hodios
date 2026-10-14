@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [holidays, in-laws, blended-families, christmas, rotation-schedule, boundaries, family-traditions]
 pairs_with:
   prompts: [plan-co-parenting, create-family-tradition, coordinate-family-calendar]

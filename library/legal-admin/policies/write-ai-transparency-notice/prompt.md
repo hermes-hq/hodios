@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-transparency, ai-disclosure, ai-generated-content, chatbot-disclosure, human-oversight]
 pairs_with:
   prompts: [assess-ai-act-obligations, write-privacy-policy, write-ai-use-policy]

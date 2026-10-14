@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [focus-groups, qualitative-research, moderator-guide, questioning-route, group-interviews]
 pairs_with:
   prompts: [write-research-interview-protocol, write-informed-consent-form, build-qualitative-codebook, run-thematic-analysis]

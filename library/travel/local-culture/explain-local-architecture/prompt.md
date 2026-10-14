@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [buildings, architectural-styles, urban-heritage, sightseeing]
 pairs_with:
   prompts: [learn-destination-history, guide-me-around-the-city, explain-religious-art-and-symbols]

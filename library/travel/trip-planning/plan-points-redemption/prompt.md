@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [award-travel, frequent-flyer, hotel-points, loyalty-programs]
 pairs_with:
   prompts: [plan-flight-search, plan-trip-budget]

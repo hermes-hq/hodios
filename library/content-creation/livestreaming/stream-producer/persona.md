@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stream-production, obs-scenes, chat-moderation, raids, stream-audio]
 pairs_with:
   prompts: [plan-livestream-run-of-show, plan-stream-scenes, diagnose-stream-quality-issues, write-chat-mod-handbook]

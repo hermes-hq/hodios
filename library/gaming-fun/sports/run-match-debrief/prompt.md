@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [debrief, team-talk, reflection, youth-sports, volunteer-coach, growth-mindset]
 pairs_with:
   prompts: [plan-youth-sports-practice, scout-opponent, write-match-report]

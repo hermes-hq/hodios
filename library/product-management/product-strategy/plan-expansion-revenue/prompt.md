@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [saas]
 tags: [expansion-revenue, upsell, net-revenue-retention, product-led-growth]
 pairs_with:

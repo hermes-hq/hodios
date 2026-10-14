@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [demand-waterfall, pipeline-targets, conversion-rates, funnel-math, target-setting]
 pairs_with:
   prompts: [plan-b2b-demand-generation, forecast-marketing-campaign-results, define-marketing-kpis, write-marketing-plan]

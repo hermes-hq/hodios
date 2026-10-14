@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [translation-comparison, translation-studies, close-reading, poetry-translation, scripture-translation]
 pairs_with:
   prompts: [translate-literary-passage, review-translation, read-classical-language-text]

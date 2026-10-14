@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scoping-review, prisma-scr, pcc-framework, evidence-mapping, data-charting, jbi]
 pairs_with:
   prompts: [write-systematic-review-protocol, build-search-string, screen-studies, find-research-gaps, write-prisma-flow-report]

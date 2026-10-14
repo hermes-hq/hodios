@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [integrations, ecosystem, integration-roadmap, connectors, partner-apps]
 pairs_with:
   prompts: [plan-platform-strategy, prioritize-features, decide-which-competitor-features-to-match, evaluate-build-vs-buy]

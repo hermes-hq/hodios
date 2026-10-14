@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sleep-inertia, snooze, wake-time, morning-light, alarms]
 pairs_with:
   prompts: [reset-sleep-schedule, beat-bedtime-procrastination, improve-sleep-habits]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [talent-review, succession-planning, nine-box, flight-risk, bias-check]
 pairs_with:
   prompts: [run-calibration-session, plan-key-person-cover, write-promotion-nomination]

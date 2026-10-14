@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [science-fiction, space-stations, generation-ships, hard-sf, setting-design]
 pairs_with:
   prompts: [design-alien-planet, design-fictional-technology, design-fictional-government, design-fictional-city]

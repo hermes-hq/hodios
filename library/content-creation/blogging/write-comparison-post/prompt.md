@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [comparison-post, buyer-guide, affiliate-disclosure, versus-article]
 pairs_with:
   prompts: [write-product-review-post, refresh-old-blog-post]

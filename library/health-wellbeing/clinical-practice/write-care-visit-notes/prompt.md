@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-care, care-workers, care-records, domiciliary-care, person-centred-care, handover]
 pairs_with:
   prompts: [write-sbar-handoff, write-person-centred-care-plan, write-care-home-family-update]

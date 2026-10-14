@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [letterhead, stationery, email-signature, document-template, print-design]
 pairs_with:
   prompts: [design-business-card, build-brand-guidelines, build-diy-brand-kit, prepare-print-files]

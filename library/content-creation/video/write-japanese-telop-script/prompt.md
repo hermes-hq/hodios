@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [telop, subtitles, short-form-video, japan]
 pairs_with:
   prompts: [write-short-form-script, write-youtube-script]

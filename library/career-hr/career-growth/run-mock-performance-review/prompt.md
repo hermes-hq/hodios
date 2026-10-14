@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [performance-review, counterpart-simulation, rehearsal, receiving-feedback, self-advocacy]
 pairs_with:
   prompts: [write-self-review, write-brag-document, prepare-promotion-case, respond-to-performance-concerns]

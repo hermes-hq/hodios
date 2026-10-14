@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [domain-warm-up, ip-warm-up, sender-reputation, inbox-placement, sending-volume]
 pairs_with:
   prompts: [audit-email-deliverability, set-up-email-authentication-records, migrate-email-platform]

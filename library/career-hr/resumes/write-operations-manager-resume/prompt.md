@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [operations-kpis, team-leadership, continuous-improvement, site-management]
 pairs_with:
   prompts: [rewrite-resume-bullets, quantify-resume-achievements, tailor-resume-to-job]

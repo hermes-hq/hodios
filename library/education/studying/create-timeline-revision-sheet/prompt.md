@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [chronology, turning-points, causation, politics]
 pairs_with:
   prompts: [make-flashcards, build-concept-map, make-study-guide]

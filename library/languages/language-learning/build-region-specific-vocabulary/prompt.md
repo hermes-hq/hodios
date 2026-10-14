@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regional-varieties, everyday-vocabulary, dialect-words, newcomers, word-swaps]
 pairs_with:
   prompts: [adapt-regional-variant, explain-phrase-in-context, build-vocabulary-list, review-vocabulary-spaced]

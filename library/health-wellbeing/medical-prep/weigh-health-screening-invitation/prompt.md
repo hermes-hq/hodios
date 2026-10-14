@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cancer-screening, informed-choice, false-positives, overdiagnosis, shared-decision-making, mammogram]
 pairs_with:
   prompts: [prepare-doctor-questions, prepare-treatment-decision, organize-family-medical-history]

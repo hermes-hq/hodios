@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [composting, vermicomposting, bokashi, food-waste, soil-health]
 pairs_with:
   prompts: [plan-vegetable-garden]

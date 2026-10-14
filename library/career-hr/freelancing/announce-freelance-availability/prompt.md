@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [availability-post, client-acquisition, linkedin-post, warm-outreach, open-for-work]
 pairs_with:
   prompts: [reactivate-past-clients, write-cold-outreach, build-freelance-pipeline-routine, ask-clients-for-referrals]

@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [argument-reconstruction, thought-experiments, steelmanning, ethics, epistemology]
 pairs_with:
   prompts: [map-argument-structure, check-my-reasoning, plan-essay-argument]

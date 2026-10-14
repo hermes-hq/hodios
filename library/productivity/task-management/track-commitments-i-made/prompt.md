@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [promises, follow-through, open-loops, accountability, meeting-follow-up, reliability]
 pairs_with:
   prompts: [track-waiting-for-items, run-weekly-review, build-action-item-tracker]

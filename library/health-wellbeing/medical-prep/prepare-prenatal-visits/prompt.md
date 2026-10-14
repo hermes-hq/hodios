@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [prenatal, antenatal-care, midwife-appointment, birth-preferences, perinatal-mental-health]
 pairs_with:
   prompts: [prepare-for-new-baby, prepare-doctor-questions, organize-family-medical-history]

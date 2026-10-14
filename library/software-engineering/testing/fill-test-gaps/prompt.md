@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-coverage, risk-based-testing]
 pairs_with:
   personas: [test-engineer]

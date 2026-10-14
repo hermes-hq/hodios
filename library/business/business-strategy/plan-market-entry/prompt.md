@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [market-entry, internationalisation, entry-mode, localisation, expansion]
 pairs_with:
   prompts: [estimate-market-size, run-scenario-planning, analyze-business-model]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [evidence-based-practice, cat, pico, critical-appraisal, clinical-question]
 pairs_with:
   prompts: [appraise-study-quality, build-search-string, assess-study-applicability]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reset-day, overwhelm, brain-dump, weekend-planning, fresh-start, good-enough]
 pairs_with:
   prompts: [process-brain-dump, plan-decluttering, run-monthly-review, clear-life-admin-backlog, free-up-storage]

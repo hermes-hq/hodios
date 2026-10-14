@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-isolation, order-dependent-tests, shared-state, flaky-tests]
 pairs_with:
   prompts: [fix-flaky-test, speed-up-test-suite, refactor-test-suite]

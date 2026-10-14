@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [clear-ice, home-bar, ice, directional-freezing]
 pairs_with:
   prompts: [stock-home-bar, design-cocktail-menu]

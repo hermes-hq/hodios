@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [news-leak, broken-embargo, announcement-timing, rapid-response, internal-comms]
 pairs_with:
   prompts: [plan-press-announcement-rollout, reply-to-journalist-request, write-press-release]

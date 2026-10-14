@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quote-chasing, tradespeople, follow-up-cadence, too-expensive, close-the-file]
 pairs_with:
   prompts: [present-repair-options, write-sales-follow-up, answer-price-shopper-calls]

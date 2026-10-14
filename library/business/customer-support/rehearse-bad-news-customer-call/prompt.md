@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bad-news-call, rehearsal, delivering-bad-news, customer-calls, options-not-excuses]
 pairs_with:
   prompts: [roleplay-difficult-customer, write-bad-news-email, write-support-reply]

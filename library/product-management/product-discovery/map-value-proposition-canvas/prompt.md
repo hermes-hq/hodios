@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [value-proposition-canvas, customer-jobs, pains-and-gains, product-fit, assumption-testing]
 pairs_with:
   prompts: [define-jobs-to-be-done, synthesize-customer-interviews, map-assumptions, design-validation-experiment]

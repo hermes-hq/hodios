@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lan-party, couch-co-op, local-multiplayer, game-night, hosting]
 pairs_with:
   prompts: [recommend-games, plan-watch-party]

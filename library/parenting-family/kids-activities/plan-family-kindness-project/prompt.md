@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kindness, volunteering-with-kids, community-project, empathy, values, service-learning]
 pairs_with:
   prompts: [plan-kids-summer, plan-rainy-day-activities]

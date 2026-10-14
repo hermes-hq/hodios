@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [donation, recycling, hazardous-waste, e-waste, bulky-waste]
 pairs_with:
   prompts: [plan-decluttering, organise-garage-or-shed]

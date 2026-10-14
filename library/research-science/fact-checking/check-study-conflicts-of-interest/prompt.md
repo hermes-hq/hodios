@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conflict-of-interest, research-funding, industry-funding, disclosures, study-appraisal]
 pairs_with:
   prompts: [check-press-release-claims, verify-expert-credentials, analyze-spin-in-article]

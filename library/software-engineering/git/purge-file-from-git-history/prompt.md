@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [git-filter-repo, history-rewrite, force-push, committed-secret, large-files]
 pairs_with:
   prompts: [respond-to-leaked-secret, recover-lost-git-work, clean-up-commit-history]

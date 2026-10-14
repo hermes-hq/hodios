@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [red-meat, processed-meat, flexitarian, food-swaps, iron]
 pairs_with:
   prompts: [plan-plant-based-nutrition, reach-daily-protein-target, plan-eating-for-nutrient-gap, upgrade-usual-meals]

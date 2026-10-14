@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pet-enrichment, puzzle-feeders, bored-dog, indoor-cat, animal-welfare, scent-games]
 pairs_with:
   prompts: [teach-dog-trick, solve-cat-behavior-problem, train-dog-behavior]

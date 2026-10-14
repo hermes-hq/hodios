@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [game-mastering, solo-play, campaign, session-zero]
 pairs_with:
   prompts: [design-one-shot-adventure, balance-combat-encounter, play-text-adventure]

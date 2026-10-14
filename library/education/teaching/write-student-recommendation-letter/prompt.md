@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recommendation-letter, reference-letter, college-admissions, graduate-admissions]
 pairs_with:
   prompts: [write-report-card-comments]

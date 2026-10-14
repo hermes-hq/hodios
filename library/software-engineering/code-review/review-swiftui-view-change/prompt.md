@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [property-wrappers, view-identity, observation, state-management, pull-request]
 pairs_with:
   personas: [swift-ios-engineer]

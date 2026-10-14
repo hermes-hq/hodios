@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [older-adults, fall-prevention, balance, strength-training, healthy-ageing]
 pairs_with:
   prompts: [build-training-plan, design-mobility-routine, plan-return-to-training]

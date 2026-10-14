@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cross-cultural, international-teams, directness, politeness, high-context]
 pairs_with:
   prompts: [rewrite-for-tone, write-professional-email]

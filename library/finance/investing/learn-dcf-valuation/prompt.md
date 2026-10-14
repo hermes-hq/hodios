@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dcf, valuation, free-cash-flow, discount-rate]
 pairs_with:
   prompts: [read-company-financials, summarize-earnings-call, explain-investment-concept]

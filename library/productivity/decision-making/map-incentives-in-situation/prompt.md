@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [incentives, stakeholders, conflicts-of-interest, predicting-behaviour, game-theory]
 pairs_with:
   prompts: [weigh-conflicting-advice, run-second-order-thinking, apply-mental-models-to-problem]

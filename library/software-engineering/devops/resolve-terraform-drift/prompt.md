@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [iac, drift-detection, terraform-state, clickops]
 pairs_with:
   prompts: [import-infrastructure-into-terraform, review-iac-plan, fix-terraform-error]

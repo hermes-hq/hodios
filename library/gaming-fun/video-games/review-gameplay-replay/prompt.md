@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vod-review, competitive-gaming, match-analysis, practice-plan, ranked]
 pairs_with:
   prompts: [plan-game-strategy, plan-esports-team-practice]

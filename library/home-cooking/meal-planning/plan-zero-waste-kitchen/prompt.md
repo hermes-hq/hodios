@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [food-waste, food-storage, leftovers, scraps, date-labels, sustainability]
 pairs_with:
   prompts: [plan-weekly-meals, recipe-from-ingredients, plan-freezer-meals, start-composting]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [swift-package-manager, cocoapods, xcframework, dependency-management, xcode]
 pairs_with:
   prompts: [upgrade-major-dependency, migrate-views-to-declarative-ui]

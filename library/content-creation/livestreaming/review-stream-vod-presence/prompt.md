@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [on-camera-presence, dead-air, stream-feedback, vod-review, chat-engagement]
 pairs_with:
   prompts: [practise-talking-to-empty-chat, read-stream-analytics, pick-vod-highlight-clips]

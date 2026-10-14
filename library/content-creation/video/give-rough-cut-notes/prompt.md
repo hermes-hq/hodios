@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rough-cut, edit-notes, timecodes, review-notes, client-review]
 pairs_with:
   prompts: [analyze-video-retention, create-paper-edit]

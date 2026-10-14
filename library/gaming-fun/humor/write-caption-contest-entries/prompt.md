@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [captions, caption-contest, cartoons, one-liners, comic-angles]
 pairs_with:
   prompts: [write-puns, punch-up-with-humor]

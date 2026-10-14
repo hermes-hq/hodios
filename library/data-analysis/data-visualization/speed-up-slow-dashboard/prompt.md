@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dashboard-performance, query-optimisation, looker-studio, metabase]
 pairs_with:
   prompts: [build-power-bi-report-page, build-tableau-dashboard, design-power-bi-data-model, audit-dashboard, speed-up-power-bi-report]

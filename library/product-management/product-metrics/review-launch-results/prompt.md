@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [post-launch-review, success-criteria, signal-vs-noise, novelty-effect]
 pairs_with:
   prompts: [design-ab-test, plan-product-launch, diagnose-metric-drop]

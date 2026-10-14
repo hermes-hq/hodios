@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [public-sector]
 tags: [five-case-model, public-investment, investment-appraisal, options-appraisal, outline-business-case]
 pairs_with:

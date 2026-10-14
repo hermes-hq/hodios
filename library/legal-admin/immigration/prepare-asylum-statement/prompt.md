@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [asylum-claim, refugee-protection, personal-statement, trauma-informed, credibility]
 pairs_with:
   prompts: [find-free-legal-help, prepare-for-immigration-appointment, vet-immigration-adviser]

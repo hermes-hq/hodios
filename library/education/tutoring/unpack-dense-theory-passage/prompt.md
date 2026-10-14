@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [close-reading, critical-theory, paraphrase, academic-reading, key-terms, primary-texts]
 pairs_with:
   prompts: [read-textbook-actively, map-argument-structure, practise-summarising-a-text]

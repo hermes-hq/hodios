@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jingle, sonic-branding, audio-ads, radio-advertising]
 pairs_with:
   prompts: [write-music-prompt, write-song-lyrics]

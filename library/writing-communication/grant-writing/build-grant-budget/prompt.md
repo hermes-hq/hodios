@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grant-budget, full-cost-recovery, indirect-costs, match-funding, cost-assumptions]
 pairs_with:
   prompts: [write-grant-budget-narrative, write-grant-application]

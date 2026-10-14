@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [letter-of-intent, memorandum-of-understanding, heads-of-terms, exclusivity-period, non-binding]
 pairs_with:
   prompts: [summarize-contract, explain-contract-clause, review-business-purchase-agreement]

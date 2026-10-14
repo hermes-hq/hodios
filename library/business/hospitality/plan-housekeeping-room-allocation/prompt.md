@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hotel-housekeeping, room-attendants, room-credits, hotel-operations, early-check-in, room-inspection]
 pairs_with:
   prompts: [build-staff-schedule, plan-hotel-breakfast-service]

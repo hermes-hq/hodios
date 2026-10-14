@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [roas, cpa, campaign-optimization, funnel-diagnosis]
 pairs_with:
   prompts: [write-google-ads, write-social-ad-variations, plan-marketing-campaign]

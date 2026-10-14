@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [interview, star-method, rehearsal, story-bank, interview-day]
 pairs_with:
   prompts: [prepare-star-stories, run-mock-interview, prepare-questions-for-interviewer, write-tell-me-about-yourself, debrief-interview]

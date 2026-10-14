@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [consumer-law, distance-selling, cancellation-rights, checkout, price-display, online-shop]
 pairs_with:
   prompts: [write-refund-policy, write-shipping-policy-page, audit-website-privacy-compliance, write-online-store-terms-of-sale]

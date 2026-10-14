@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scikit-learn, feature-engineering, data-leakage, column-transformer, serialization]
 pairs_with:
   prompts: [plan-ml-experiment, review-training-data]

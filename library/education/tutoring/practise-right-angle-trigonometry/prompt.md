@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [trigonometry, sohcahtoa, right-triangles, applied-maths, apprenticeships, bearings]
 pairs_with:
   prompts: [set-up-word-problem, practise-estimation-and-sense-checking]

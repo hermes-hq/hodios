@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [git-log, standup-notes, timesheet, self-review, work-summary]
 pairs_with:
   prompts: [write-brag-document, write-shipped-this-week-update, write-pr-description]

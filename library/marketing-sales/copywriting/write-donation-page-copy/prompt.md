@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [donation-page, online-giving, impact-statements, monthly-giving, conversion-copy, fundraising-copy]
 pairs_with:
   prompts: [write-donor-appeal, write-thank-you-page-copy, audit-landing-page-conversion]

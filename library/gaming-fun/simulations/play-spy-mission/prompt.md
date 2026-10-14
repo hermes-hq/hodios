@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [espionage-game, ciphers, cold-war, interactive-story]
 pairs_with:
   prompts: [play-text-adventure]

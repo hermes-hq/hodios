@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [background-check, pre-employment-screening, employment-verification, consent, discrepancies]
 pairs_with:
   prompts: [brief-your-references, explain-career-gap, accept-job-offer-in-writing]

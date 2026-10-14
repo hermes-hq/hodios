@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-the-subject, balance-method, inverse-operations, formulae, factorising]
 pairs_with:
   prompts: [hint-through-problem, practise-dimensional-analysis]

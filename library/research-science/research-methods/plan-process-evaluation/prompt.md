@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [process-evaluation, implementation-fidelity, complex-interventions, logic-model, mixed-methods]
 pairs_with:
   prompts: [design-mixed-methods-study, plan-pilot-study, plan-realist-review, write-research-interview-protocol]

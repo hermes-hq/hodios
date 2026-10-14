@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-router, server-components, streaming, data-fetching, ttfb]
 pairs_with:
   prompts: [improve-web-vitals, reduce-bundle-size, fix-react-rerenders]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [backport, cherry-pick, release-branches, patch-release, lts]
 pairs_with:
   prompts: [resolve-merge-conflict, choose-branching-strategy]

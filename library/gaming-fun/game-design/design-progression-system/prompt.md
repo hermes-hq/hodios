@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [progression, skill-tree, xp-curve, unlock-pacing, power-curve, rpg-systems]
 pairs_with:
   prompts: [design-game-economy, design-difficulty-curve, turn-game-design-into-tech-spec]

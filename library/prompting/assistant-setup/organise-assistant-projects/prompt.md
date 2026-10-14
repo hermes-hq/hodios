@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [projects, context-boundaries, chat-clean-up, client-confidentiality]
 pairs_with:
   prompts: [build-project-instructions, write-memory-profile, write-custom-instructions]

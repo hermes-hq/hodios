@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [simulation, trade-offs, stakeholder-pressure, tech-debt, product-sense]
 pairs_with:
   prompts: [practise-pushing-back-on-stakeholders, teach-roadmap-basics, push-back-on-roadmap-request]

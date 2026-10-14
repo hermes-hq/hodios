@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ai-pricing, usage-credits, cost-to-serve, gross-margin, fair-use]
 pairs_with:
   prompts: [estimate-llm-feature-cost, design-pricing, evaluate-ai-feature-opportunity, define-ai-feature-metrics]

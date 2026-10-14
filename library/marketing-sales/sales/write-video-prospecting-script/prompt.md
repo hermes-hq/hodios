@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [video-prospecting, personalization, outbound, meeting-booking]
 pairs_with:
   prompts: [write-cold-outreach, write-outbound-sequence, research-prospect-account]

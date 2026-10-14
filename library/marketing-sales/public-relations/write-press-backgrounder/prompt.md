@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [backgrounder, fact-sheet, press-kit, spokesperson-bio, newsroom]
 pairs_with:
   prompts: [write-press-release, pitch-journalist]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [failover, multi-region, disaster-recovery, rpo, failback]
 pairs_with:
   prompts: [design-multi-region-architecture, plan-disaster-recovery, write-incident-update]

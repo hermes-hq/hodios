@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [bundling, suite-strategy, unbundling, packaging, cross-sell, product-portfolio]
 pairs_with:
   prompts: [plan-expansion-revenue, design-free-tier, rationalize-product-line, write-product-strategy]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [homework, retrieval-practice, spaced-practice, pre-learning, equity]
 pairs_with:
   prompts: [write-retrieval-practice-starters, create-knowledge-organiser, design-unit-plan]

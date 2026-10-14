@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-router, revalidation, server-components, isr]
 pairs_with:
   prompts: [fix-stale-cache-bug, fix-hydration-mismatch]

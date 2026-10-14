@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [technical-review, product-claims, launch-copy, claim-checking, marketing-review]
 pairs_with:
   prompts: [critique-marketing-copy, review-tech-article-draft, write-api-launch-announcement]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, debugging-loop, course-correction, root-cause]
 pairs_with:
   prompts: [recover-from-bad-agent-session, review-agent-transcript, write-agent-handoff]

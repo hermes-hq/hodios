@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [audition-prep, scene-study, objectives, actioning, rehearsal]
 pairs_with:
   prompts: [break-down-scene-for-actor, build-role-from-script, plan-self-tape-audition, learn-lines]

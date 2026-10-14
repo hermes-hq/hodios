@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [llm-as-judge, inter-rater-agreement, eval-reliability, cohens-kappa]
 pairs_with:
   prompts: [write-judge-prompt, grade-response-with-rubric, judge-pairwise-responses, write-llm-eval-suite]

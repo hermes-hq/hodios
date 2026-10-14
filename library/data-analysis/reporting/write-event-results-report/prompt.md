@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [event-evaluation, attendance-rate, cost-per-attendee, attendee-feedback, post-event]
 pairs_with:
   prompts: [forecast-event-attendance, plan-fundraising-event, write-campaign-results-report]

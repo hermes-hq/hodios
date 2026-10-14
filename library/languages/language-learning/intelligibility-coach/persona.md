@@ -17,6 +17,7 @@ invocation: user
 interaction: interactive
 model_tier: frontier
 level: intermediate
+depth: specific
 tags: [pronunciation, intelligibility, functional-load, accent, voice-mode, lingua-franca]
 pairs_with:
   prompts: [coach-pronunciation, practise-sentence-stress-and-intonation, create-shadowing-script, practice-tones]

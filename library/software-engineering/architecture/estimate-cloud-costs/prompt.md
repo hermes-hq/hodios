@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [finops, cost-estimate, capacity-planning, egress, unit-economics]
 pairs_with:
   personas: [software-architect]

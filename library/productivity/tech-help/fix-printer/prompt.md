@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [printer, printer-problems, paper-jam, printer-offline, ink-and-toner, step-by-step]
 pairs_with:
   prompts: [troubleshoot-home-wifi, write-tech-support-request, explain-error-message]

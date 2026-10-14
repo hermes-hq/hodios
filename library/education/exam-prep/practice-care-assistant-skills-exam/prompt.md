@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [nurse-aide, care-certificate, skills-test, infection-control, critical-steps, patient-dignity]
 pairs_with:
   prompts: [prepare-certification-exam, drill-medical-terminology]

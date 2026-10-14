@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jobs-to-be-done, forces-of-progress, switch-interviews, customer-motivation]
 pairs_with:
   prompts: [synthesize-customer-interviews, write-customer-interview-guide, map-opportunity-solution-tree]

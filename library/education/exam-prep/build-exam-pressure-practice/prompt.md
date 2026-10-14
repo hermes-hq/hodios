@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [exam-nerves, blanking, pressure-practice, mock-conditions, retrieval-practice, arousal-reappraisal]
 pairs_with:
   prompts: [manage-event-anxiety, plan-exam-day-strategy, generate-practice-exam]

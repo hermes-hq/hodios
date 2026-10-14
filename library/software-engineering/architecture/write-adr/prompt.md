@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [decision-record, trade-offs, madr]
 pairs_with:
   personas: [software-architect]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [infrastructure-inventory, network-diagram, environments, cloud-access, cost-drivers]
 pairs_with:
   prompts: [write-architecture-overview, import-infrastructure-into-terraform, write-ownership-handover-doc]

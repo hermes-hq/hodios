@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [reformat, codemod, git-blame, open-branches, formatter-adoption]
 pairs_with:
   prompts: [review-large-mechanical-change, fix-lint-violations-repo-wide, update-feature-branch-from-main, fix-line-ending-churn]

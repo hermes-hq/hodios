@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [script-to-slides, slide-cues, visual-support, keynote-style, minimal-slides]
 pairs_with:
   prompts: [plan-slide-visuals, write-speech, plan-slide-builds-and-reveals]

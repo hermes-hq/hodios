@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [delivered-not-received, proof-of-delivery, parcel-theft, carrier-claim, reship]
 pairs_with:
   prompts: [write-support-reply, respond-to-chargeback-as-merchant, write-delivery-exception-texts]

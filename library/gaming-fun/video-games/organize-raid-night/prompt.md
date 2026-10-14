@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mmo-raiding, guild-leadership, loot-rules, group-content, time-zones]
 pairs_with:
   prompts: [plan-game-strategy, plan-esports-team-practice]

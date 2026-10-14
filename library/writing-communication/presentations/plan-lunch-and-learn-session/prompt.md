@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lunch-and-learn, brown-bag, knowledge-sharing, internal-talk, show-and-tell]
 pairs_with:
   prompts: [write-lightning-talk, outline-presentation]

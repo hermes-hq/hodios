@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [oral-history, family-stories, interview-questions, recording-tips]
 pairs_with:
   prompts: [write-family-history, shape-memoir-story, write-legacy-letter]

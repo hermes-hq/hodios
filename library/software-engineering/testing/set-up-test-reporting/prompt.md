@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [junit-xml, ci-reporting, test-results, test-trends, annotations]
 pairs_with:
   prompts: [set-up-flaky-test-quarantine, speed-up-test-suite, write-github-actions-workflow, write-gitlab-ci-pipeline]

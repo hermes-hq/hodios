@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [early-years, play-based-learning, preschool, provocations, child-development, observation]
 pairs_with:
   prompts: [write-learning-story, design-kids-science-experiment, create-kids-craft]

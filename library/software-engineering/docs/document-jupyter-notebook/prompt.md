@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [markdown-cells, analysis-narrative, rerunnable]
 pairs_with:
   prompts: [convert-notebook-to-pipeline, write-reproducibility-readme]

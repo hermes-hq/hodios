@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fixed-price, value-pricing, pricing-model, billing-change, client-conversation]
 pairs_with:
   prompts: [price-services, pitch-retainer-to-client, prepare-price-increase-conversation, write-statement-of-work]

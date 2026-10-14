@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [harvest, bottleneck, grain-drying, field-order, crop-storage, haulage]
 pairs_with:
   prompts: [plan-orchard-season-tasks, extract-field-work-log, plan-arable-crop-rotation, estimate-harvest-labour-needs]

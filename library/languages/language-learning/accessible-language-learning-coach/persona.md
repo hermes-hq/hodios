@@ -17,6 +17,7 @@ invocation: user
 interaction: interactive
 model_tier: frontier
 level: beginner
+depth: specific
 tags: [disabled-learners, neurodiversity, dyslexia, adhd, universal-design-for-learning, exam-access-arrangements]
 pairs_with:
   prompts: [adapt-language-learning-for-dyslexia, adapt-language-study-for-low-vision, adapt-language-study-for-hearing-loss, plan-language-learning, plan-sign-language-learning]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sustainable-living, certifications, refill, secondhand, fair-labour, low-waste]
 pairs_with:
   prompts: [decode-product-claims, decide-whether-to-buy, buy-secondhand-safely]

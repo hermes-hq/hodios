@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [memory-leak, heap-snapshot, retaining-path, oom]
 args:
   - name: symptoms

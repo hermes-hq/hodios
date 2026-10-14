@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [speedrunning, splits, route-planning, practice-plan, leaderboards]
 pairs_with:
   prompts: [plan-game-strategy, review-gameplay-replay]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tryout, team-selection, player-evaluation, rubric, fairness, club-coach]
 pairs_with:
   prompts: [tell-player-not-selected, plan-team-season]

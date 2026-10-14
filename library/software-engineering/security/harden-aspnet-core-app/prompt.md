@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardening, aspnet-core, authorization, data-protection, owasp]
 pairs_with:
   prompts: [harden-web-app-config, harden-jwt-validation, fix-idor-vulnerabilities, review-api-security]

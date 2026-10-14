@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [personalisation, merge-tags, conditional-content, template-logic, data-fallbacks]
 pairs_with:
   prompts: [plan-email-segmentation, write-promo-email, code-html-email]

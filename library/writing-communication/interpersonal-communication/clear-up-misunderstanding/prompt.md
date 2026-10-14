@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [miscommunication, repair, clarification, workplace-relationships]
 pairs_with:
   prompts: [apologize-effectively, decode-message-tone, reply-to-tricky-message]

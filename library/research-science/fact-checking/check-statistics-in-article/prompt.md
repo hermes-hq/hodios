@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [statistical-literacy, base-rates, misleading-statistics]
 pairs_with:
   prompts: [fact-check-claims, explain-research-to-public]

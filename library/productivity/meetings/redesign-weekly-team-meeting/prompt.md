@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [team-meeting, team-rituals, async-updates, rotating-roles, facilitation]
 pairs_with:
   prompts: [design-meeting-cadence, fix-daily-standup, reduce-meeting-load, write-meeting-ground-rules]

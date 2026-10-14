@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [welfare-benefits, mandatory-reconsideration, disability-benefits, appeals]
 pairs_with:
   prompts: [explain-legal-letter, prepare-government-form, appeal-insurance-denial]

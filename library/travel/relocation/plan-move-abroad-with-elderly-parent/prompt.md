@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ageing-parent, family-move, eldercare, moving-abroad, intergenerational]
 pairs_with:
   prompts: [plan-move-abroad-with-health-condition, access-healthcare-abroad, prepare-for-parent-moving-in, plan-staggered-family-move]

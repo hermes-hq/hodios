@@ -7,6 +7,7 @@ description: Explains a concept at a chosen level, from child to expert, with an
 category: tutoring
 version: 1.0.0
 status: incubating
+depth: basic
 stage: [learn]
 role: [student, teacher, individual]
 requires: [none]
@@ -18,7 +19,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 reasoning: optional
-tags: [analogies, worked-examples, eli5]
+tags: [analogies, worked-examples, eli5, explain-like-im-five, simple-explanation, explain-simply]
 pairs_with:
   prompts: [check-my-reasoning, make-flashcards]
 args:

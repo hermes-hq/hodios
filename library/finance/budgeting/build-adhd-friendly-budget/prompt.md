@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [adhd, executive-function, neurodivergent, low-friction-system]
 pairs_with:
   prompts: [set-up-money-accounts-system, fix-failing-budget, curb-impulse-spending, plan-bill-payment-calendar]

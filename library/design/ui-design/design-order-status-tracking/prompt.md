@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [status-tracking, order-tracking, progress-stages, delays, where-is-my-order]
 pairs_with:
   prompts: [spec-record-status-lifecycle, spec-order-cancellation-and-refunds, design-notification-strategy, write-ux-microcopy]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-tables, aria-sort, table-headers, screen-reader, wcag, admin-panels]
 pairs_with:
   personas: [accessibility-specialist]

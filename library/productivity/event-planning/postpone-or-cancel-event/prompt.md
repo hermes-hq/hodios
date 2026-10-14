@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 advice_risk: [legal]
 tags: [event-cancellation, postponement, refunds, force-majeure, crisis-communication]
 pairs_with:

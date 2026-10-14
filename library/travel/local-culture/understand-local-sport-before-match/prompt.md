@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [spectator-sports, fan-culture, crowd-etiquette, sports-rules]
 pairs_with:
   prompts: [explain-sport-to-newcomer, plan-trip-for-sporting-event, learn-local-etiquette]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [estrangement, reconciliation, family-dynamics, reaching-out]
 pairs_with:
   prompts: [apologize-effectively, reconnect-with-old-contact, write-personal-letter]

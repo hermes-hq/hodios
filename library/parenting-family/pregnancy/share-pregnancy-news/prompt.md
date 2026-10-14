@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pregnancy-announcement, family-news, telling-people, sensitive-conversations, online-sharing]
 pairs_with:
   prompts: [tell-employer-about-pregnancy, prepare-child-for-new-sibling, write-birth-announcement]

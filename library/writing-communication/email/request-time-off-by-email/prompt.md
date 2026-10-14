@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [annual-leave, time-off, leave-request, workplace]
 pairs_with:
   prompts: [write-handover-document, write-out-of-office-message, write-unplanned-absence-email]

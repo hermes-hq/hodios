@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [meeting-notes, note-taker, summary-template, action-items, decision-log]
 pairs_with:
   prompts: [set-up-ai-meeting-notes, write-meeting-recap-email, write-summarization-prompt]

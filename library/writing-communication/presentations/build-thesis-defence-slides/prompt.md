@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thesis-defence, viva, phd, masters-thesis, examiners, academic-presentation]
 pairs_with:
   prompts: [plan-backup-slides, drill-presentation-qa, outline-presentation]

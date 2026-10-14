@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employment-status, misclassification, self-employment, contractors]
 pairs_with:
   prompts: [plan-first-hire, review-contractor-agreement, plan-freelance-tax-set-aside]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [guardrails, structured-output, prompt-injection, content-moderation, llm-monitoring]
 pairs_with:
   personas: [ml-engineer]

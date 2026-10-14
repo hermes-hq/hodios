@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [uncertainty, confidence-intervals, error-bars, chart-design]
 pairs_with:
   prompts: [present-forecast-uncertainty, compute-survey-margin-of-error, choose-chart-type, write-plotting-code]

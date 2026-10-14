@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sewing, dressmaking, fabric, cutting-layout, garment-fitting]
 pairs_with:
   prompts: [plan-knitting-project, plan-woodworking-project]

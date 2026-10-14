@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [book-report, reading-response, primary-school, middle-school, summarising, theme]
 pairs_with:
   prompts: [practise-summarising-a-text, give-essay-feedback]

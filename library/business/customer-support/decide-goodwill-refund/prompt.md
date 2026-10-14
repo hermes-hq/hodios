@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [goodwill-gesture, refund-decision, store-credit, policy-exception, precedent]
 pairs_with:
   prompts: [write-support-reply, build-service-recovery-playbook, resolve-cancellation-fee-dispute]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [synthetic-presenter, training-video, ai-disclosure, captions]
 pairs_with:
   prompts: [write-tts-voiceover-script, write-explainer-animation-prompts, write-audio-description-script]

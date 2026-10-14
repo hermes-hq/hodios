@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-buy-in, stakeholder-persuasion, research-advocacy, cost-of-delay, research-proposal]
 pairs_with:
   prompts: [scope-ux-research-project, plan-ux-research-roadmap, map-assumptions]

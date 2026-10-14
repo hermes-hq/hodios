@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [filler-words, pacing, speech-feedback, rehearsal, delivery]
 pairs_with:
   prompts: [write-speech, practice-impromptu-speaking, write-speaker-notes]

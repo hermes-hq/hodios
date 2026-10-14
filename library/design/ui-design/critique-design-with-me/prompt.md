@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-critique, solo-designer, design-feedback, design-rationale, coaching]
 pairs_with:
   prompts: [critique-ui-screen, run-design-critique-session, run-heuristic-evaluation, write-design-principles]

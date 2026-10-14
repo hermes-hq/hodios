@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cottage-food, home-bakery, food-labelling, food-safety, product-costing]
 pairs_with:
   prompts: [plan-market-stall, price-services, find-first-customers, plan-side-business]

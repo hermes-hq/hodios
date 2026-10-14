@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [product-reviews, listing-improvement, customer-questions, return-reasons, expectation-gaps, product-faq]
 pairs_with:
   prompts: [write-product-description, build-size-and-fit-guide, respond-to-online-review]

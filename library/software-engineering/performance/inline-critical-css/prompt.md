@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [render-blocking, critical-path, unused-css, first-contentful-paint, lcp]
 pairs_with:
   prompts: [improve-web-vitals, reduce-bundle-size, optimize-web-fonts, configure-cdn-caching]

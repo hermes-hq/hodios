@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [advance-care-planning, end-of-life, healthcare-proxy, living-will, values, family-conversations]
 pairs_with:
   prompts: [plan-first-weeks-after-diagnosis, prepare-treatment-decision, prepare-emergency-medical-summary]

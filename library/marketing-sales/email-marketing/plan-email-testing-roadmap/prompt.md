@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ab-testing, test-roadmap, conversion-optimisation, sample-size, test-log]
 pairs_with:
   prompts: [plan-subject-line-ab-test, analyze-email-campaign-report, audit-email-program]

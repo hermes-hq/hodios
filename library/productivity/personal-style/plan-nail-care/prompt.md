@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [nail-care, manicure, pedicure, gel-polish, cuticles, brittle-nails]
 pairs_with:
   prompts: [build-skincare-routine, learn-everyday-makeup]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [memorisation, rehearsal-plan, speech-structure, going-blank, spaced-practice]
 pairs_with:
   prompts: [turn-script-into-cue-cards, rehearse-speech-with-feedback, mark-up-script-for-delivery]

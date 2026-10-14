@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [entity-framework-core, orm, change-tracking, dbcontext, concurrency]
 pairs_with:
   prompts: [explain-stack-trace, fix-n-plus-one-queries]

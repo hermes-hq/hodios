@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bereavement, grief-at-work, compassionate-leave, return-to-work, employee-wellbeing]
 pairs_with:
   prompts: [plan-return-from-leave, plan-workplace-adjustments-as-manager]

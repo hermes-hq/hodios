@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [food-waste, waste-audit, spoilage, plate-waste, overproduction, kitchen-costs]
 pairs_with:
   prompts: [plan-kitchen-prep-list, cost-menu-dish]

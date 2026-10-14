@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mail-merge, certificates, form-letters, address-labels, batch-documents, pdf-generation]
 pairs_with:
   prompts: [generate-docx-report-from-template]

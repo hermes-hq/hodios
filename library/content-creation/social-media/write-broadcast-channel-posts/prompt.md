@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [broadcast-channel, whatsapp-channels, telegram, direct-audience]
 pairs_with:
   prompts: [write-newsletter-issue, plan-sustainable-posting-schedule, write-community-guidelines]

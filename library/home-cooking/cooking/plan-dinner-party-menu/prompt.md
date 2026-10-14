@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hosting, menu, make-ahead, entertaining]
 pairs_with:
   prompts: [adapt-recipe, plan-meal-prep-session]

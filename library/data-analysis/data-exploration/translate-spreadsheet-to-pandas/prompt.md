@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spreadsheet-to-code, vlookup-to-merge, pivot-table, reconciliation, automation]
 pairs_with:
   prompts: [write-dataframe-transformation, automate-recurring-report, reconcile-datasets]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-injection, adversarial-testing, ai-safety, jailbreak-resistance, guardrails]
 pairs_with:
   prompts: [write-system-prompt, diagnose-prompt-failures, improve-prompt]

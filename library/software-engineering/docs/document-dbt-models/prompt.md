@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [schema-yml, doc-blocks, data-catalog, column-descriptions, model-grain]
 pairs_with:
   prompts: [write-dbt-model, write-dataset-documentation]

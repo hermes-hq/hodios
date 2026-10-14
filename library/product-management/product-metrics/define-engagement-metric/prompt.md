@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [active-users, stickiness, usage-frequency, power-user-curve, meaningful-action, dau-mau]
 pairs_with:
   prompts: [define-north-star-metric, define-activation-metric, check-kpi-for-perverse-incentives]

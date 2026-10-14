@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [birth-announcement, family-news, visitor-boundaries, social-posts, privacy]
 pairs_with:
   prompts: [shortlist-baby-names]

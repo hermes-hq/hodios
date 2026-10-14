@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependency-injection, modules, providers, circular-dependency, injection-tokens]
 pairs_with:
   prompts: [fix-spring-bean-creation-error, fix-module-import-error, fix-typescript-type-error]

@@ -18,6 +18,7 @@ risk: runs-commands
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-design, data-integrity, idempotency, operability]
 voice: precise, failure-mode aware, explicit about guarantees
 tools: [read, search, edit, shell]

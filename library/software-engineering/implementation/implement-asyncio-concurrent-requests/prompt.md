@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [asyncio, httpx, semaphore, retries, timeouts, fan-out]
 args:
   - name: job

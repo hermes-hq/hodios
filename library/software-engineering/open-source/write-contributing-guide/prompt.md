@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contributing-md, good-first-issue, developer-experience, pull-request]
 pairs_with:
   personas: [technical-writer]

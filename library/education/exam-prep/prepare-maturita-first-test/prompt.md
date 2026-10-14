@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maturita, prima-prova, argumentative-essay, text-analysis, italy]
 pairs_with:
   prompts: [write-model-exam-answer, plan-exam-day-strategy, analyze-past-papers]

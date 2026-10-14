@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [adhd, executive-function, task-initiation, time-blindness, body-doubling, neurodivergent]
 pairs_with:
   prompts: [plan-tasks-with-adhd, run-focus-session, break-down-big-task, beat-procrastination, prepare-for-adhd-assessment]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [airflow, dag, orchestration, idempotency, backfill, scheduling]
 pairs_with:
   prompts: [design-data-pipeline, convert-notebook-to-pipeline, move-cron-jobs-to-orchestrator]

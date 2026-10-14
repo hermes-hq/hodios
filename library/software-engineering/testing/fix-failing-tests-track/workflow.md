@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [failing-tests, root-cause, test-triage, upgrade-fallout]
 pairs_with:
   prompts: [fix-flaky-test, upgrade-major-dependency]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [label-noise, data-leakage, deduplication, class-imbalance]
 pairs_with:
   prompts: [plan-ml-experiment, plan-fine-tuning]

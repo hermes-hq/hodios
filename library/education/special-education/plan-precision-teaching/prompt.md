@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [precision-teaching, fluency, progress-monitoring, intervention, data-based-decisions]
 pairs_with:
   prompts: [plan-one-to-one-support-session, write-iep-goals, write-iep-progress-report]

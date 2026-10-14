@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [registered-report, open-science, preregistration, study-protocol, journal-submission]
 pairs_with:
   prompts: [write-preregistration, plan-replication-study, calculate-sample-size, write-introduction-section]

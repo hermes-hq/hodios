@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [setup, ssh-keys, credentials, git-config, new-laptop]
 pairs_with:
   prompts: [set-up-commit-signing, explain-git-error]

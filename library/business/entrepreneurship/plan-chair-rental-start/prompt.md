@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [chair-rental, salon, barber, self-employment, break-even, client-retention]
 pairs_with:
   prompts: [price-services, set-up-appointment-booking-system, write-salon-client-consultation, track-business-expenses]

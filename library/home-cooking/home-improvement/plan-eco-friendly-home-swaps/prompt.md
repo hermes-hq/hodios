@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sustainability, low-waste, carbon-footprint, green-living, energy-bills]
 pairs_with:
   prompts: [plan-energy-efficiency-upgrades, cut-household-water-use, plan-zero-waste-kitchen, start-composting]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [food-counters, listening-speed, quantities, cefr]
 pairs_with:
   prompts: [drill-numbers-and-dates, learn-survival-phrases, explain-food-allergy-aloud]

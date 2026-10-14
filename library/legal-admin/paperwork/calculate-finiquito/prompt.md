@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [finiquito, liquidacion, ley-federal-del-trabajo, profedet, mexico]
 pairs_with:
   prompts: [claim-unpaid-wages, calculate-clt-severance]

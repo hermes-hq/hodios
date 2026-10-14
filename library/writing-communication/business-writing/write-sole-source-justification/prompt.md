@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [procurement, sole-source, single-source, waiver, price-reasonableness]
 pairs_with:
   prompts: [write-rfp, compare-vendors]

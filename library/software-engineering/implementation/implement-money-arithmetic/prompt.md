@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [money, currency, rounding, decimal-arithmetic, value-objects]
 pairs_with:
   prompts: [review-diff-for-money-handling-bugs, introduce-value-objects, integrate-payments]

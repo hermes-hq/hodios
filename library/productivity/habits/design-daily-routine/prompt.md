@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [morning-routine, evening-routine, habit-stacking, minimum-viable-routine]
 pairs_with:
   prompts: [design-habit-plan, run-energy-audit, plan-my-week]

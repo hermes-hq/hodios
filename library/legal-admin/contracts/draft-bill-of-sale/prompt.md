@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bill-of-sale, private-sale, sale-receipt, sold-as-seen, transfer-of-ownership, second-hand]
 pairs_with:
   prompts: [sell-car-privately, draft-simple-agreement, check-contract-execution]

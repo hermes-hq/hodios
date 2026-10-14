@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-features, responsible-ai, staged-access, cost-controls]
 pairs_with:
   prompts: [define-ai-feature-metrics, write-ai-feature-requirements, plan-product-launch, plan-staged-feature-rollout]

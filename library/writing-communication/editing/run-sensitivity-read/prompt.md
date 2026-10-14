@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sensitivity-reading, representation, stereotypes, authentic-portrayal, harm-review]
 pairs_with:
   prompts: [line-edit-prose, rewrite-for-tone]

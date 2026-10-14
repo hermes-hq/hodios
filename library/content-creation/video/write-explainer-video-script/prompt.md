@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [explainer-video, motion-graphics, voiceover, product-video, storyboard]
 pairs_with:
   prompts: [write-video-hooks, write-short-form-script, plan-video-shoot]

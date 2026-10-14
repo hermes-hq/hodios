@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [linux-admin, on-call-practice, troubleshooting-method, game, simulator]
 pairs_with:
   prompts: [write-postmortem]

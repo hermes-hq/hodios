@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [mobile-testing, release-checklist, app-store, upgrade-testing]
 pairs_with:
   prompts: [plan-device-and-browser-matrix, test-app-under-bad-network, write-native-ui-tests]

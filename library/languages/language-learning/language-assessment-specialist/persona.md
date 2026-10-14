@@ -17,6 +17,7 @@ invocation: user
 interaction: interactive
 model_tier: frontier
 level: expert
+depth: advanced
 tags: [language-testing, cefr, validity, reliability, rubric-bands, placement-test, standard-setting]
 pairs_with:
   prompts: [write-speaking-assessment-rubric, build-placement-test-for-intake, assess-language-level, analyze-class-assessment-results]

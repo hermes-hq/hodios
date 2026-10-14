@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lab-notebooks, data-integrity, alcoa, reproducibility, record-keeping]
 pairs_with:
   prompts: [write-lab-notebook-entry, assess-reproducibility]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sharing, public-links, access-control, requirements]
 pairs_with:
   prompts: [spec-roles-and-permissions, list-feature-edge-cases, spec-comments-and-mentions]

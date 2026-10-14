@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [decodable-text, phonics, early-literacy, decoding, science-of-reading]
 pairs_with:
   prompts: [plan-phonics-lesson, plan-guided-reading-group, create-spelling-pattern-list]

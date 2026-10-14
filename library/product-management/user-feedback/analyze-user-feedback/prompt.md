@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thematic-analysis, nps-comments, app-reviews, voice-of-the-customer]
 pairs_with:
   prompts: [synthesize-customer-interviews, prioritize-features]

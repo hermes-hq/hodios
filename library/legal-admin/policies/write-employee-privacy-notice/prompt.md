@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employee-privacy, applicant-privacy, hr-data, workplace-monitoring, data-subject-rights]
 pairs_with:
   prompts: [write-privacy-policy, write-data-retention-schedule, write-employee-handbook]

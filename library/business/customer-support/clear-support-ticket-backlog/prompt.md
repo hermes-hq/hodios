@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ticket-backlog, queue-recovery, triage, bulk-replies, capacity-planning]
 pairs_with:
   prompts: [plan-support-staffing, write-service-disruption-notices, classify-incoming-customer-messages, analyze-support-tickets]

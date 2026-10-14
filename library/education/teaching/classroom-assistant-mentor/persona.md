@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [teaching-assistants, learning-support, prompting-ladder, de-escalation, independence]
 pairs_with:
   prompts: [plan-ta-deployment, write-teaching-assistant-briefing, plan-one-to-one-support-session]

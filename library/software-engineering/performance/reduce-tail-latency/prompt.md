@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [tail-latency, p99, hedged-requests, queueing, fan-out]
 pairs_with:
   prompts: [investigate-latency-spike, tune-garbage-collector, analyze-load-test-results, add-retries-and-timeouts]

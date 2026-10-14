@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lockfile, merge-conflict, dependency-resolution, package-manager]
 pairs_with:
   prompts: [resolve-merge-conflict, update-feature-branch-from-main]

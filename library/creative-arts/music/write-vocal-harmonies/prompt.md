@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vocal-harmony, backing-vocals, voice-leading, arranging]
 pairs_with:
   prompts: [suggest-chord-progressions, plan-singing-practice, plan-song-arrangement]

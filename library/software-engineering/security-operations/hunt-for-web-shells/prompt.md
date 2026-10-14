@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [web-shell, threat-hunting, file-integrity, iis, process-tree]
 pairs_with:
   prompts: [analyze-web-attack-logs, respond-to-critical-cve, write-yara-rule, write-threat-hunt-plan]

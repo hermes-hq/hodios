@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-hire, welcome-email, first-day, onboarding-logistics, pre-boarding]
 pairs_with:
   prompts: [plan-new-hire-onboarding, announce-new-hire-to-team, write-meeting-invite]

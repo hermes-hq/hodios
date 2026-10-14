@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fixes, forums, issue-threads, workarounds, community-support]
 pairs_with:
   prompts: [summarize-discussion-positions, interrogate-a-document, write-tech-support-request]

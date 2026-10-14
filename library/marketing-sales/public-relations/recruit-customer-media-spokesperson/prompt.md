@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-story, media-reference, case-study, consent, spokesperson-prep]
 pairs_with:
   prompts: [pitch-journalist, prepare-media-interview, request-customer-reference]

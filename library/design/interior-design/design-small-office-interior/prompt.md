@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workplace-design, commercial-interiors, acoustics, hybrid-work, space-planning]
 pairs_with:
   prompts: [write-interior-design-brief, plan-lighting-scheme]

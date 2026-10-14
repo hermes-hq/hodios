@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [private-label, unit-price, grocery-savings, ingredient-lists, blind-taste-test]
 pairs_with:
   prompts: [cut-monthly-costs, plan-budget-meals, decide-whether-to-buy-in-bulk, decode-product-claims]

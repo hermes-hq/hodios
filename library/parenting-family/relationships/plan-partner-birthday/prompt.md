@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [birthdays, couples, celebration, romantic-gestures, day-planning]
 pairs_with:
   prompts: [choose-meaningful-gift, plan-surprise-party, plan-anniversary]

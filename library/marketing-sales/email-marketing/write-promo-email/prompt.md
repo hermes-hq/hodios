@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [promo-email, subject-lines, email-campaign, offer]
 pairs_with:
   prompts: [write-email-sequence, write-headline-variations]

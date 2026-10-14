@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [world-religions, religious-literacy, misconceptions, beliefs-explained, new-neighbours]
 pairs_with:
   prompts: [compare-religious-perspectives, prepare-to-attend-religious-ceremony, explain-religious-art-and-symbols]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cost-of-problem, business-case, sizing, assumptions, sensitivity]
 pairs_with:
   prompts: [write-opportunity-assessment, map-internal-tool-workarounds, write-problem-statement]

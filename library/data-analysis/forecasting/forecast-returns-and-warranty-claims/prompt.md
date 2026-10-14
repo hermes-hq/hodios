@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [returns-forecast, warranty-claims, lag-distribution, sales-cohorts]
 pairs_with:
   prompts: [forecast-time-series, forecast-intermittent-demand, present-forecast-uncertainty]

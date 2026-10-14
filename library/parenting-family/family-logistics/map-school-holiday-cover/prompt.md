@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [school-holidays, annual-leave, working-parents, holiday-camps, childcare-gaps, school-year]
 pairs_with:
   prompts: [plan-school-holiday-childcare-swap, plan-kids-summer, coordinate-family-calendar]

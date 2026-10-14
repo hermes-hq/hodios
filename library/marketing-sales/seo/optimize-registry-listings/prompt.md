@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [open-source-project, package-registry, npm, homebrew, marketplace-listing, package-metadata]
 pairs_with:
   prompts: [plan-directory-submissions, audit-readme-conversion, sharpen-project-pitch]

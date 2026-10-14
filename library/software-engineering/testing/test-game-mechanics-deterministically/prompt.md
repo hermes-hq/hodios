@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fixed-timestep, seeded-rng, input-replay, golden-snapshots, game-logic]
 pairs_with:
   prompts: [prototype-browser-game, decouple-for-testability]

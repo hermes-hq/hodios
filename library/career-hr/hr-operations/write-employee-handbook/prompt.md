@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hr-policy, first-hires, leave-policy, grievance]
 pairs_with:
   prompts: [write-workplace-policy, write-ai-use-policy]

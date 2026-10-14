@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [performing-traditions, live-music, stage-traditions, audience-etiquette]
 pairs_with:
   prompts: [learn-destination-history, guide-me-around-the-city]

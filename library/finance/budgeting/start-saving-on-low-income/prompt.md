@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [low-income, savings-habit, emergency-fund, money-buffer]
 pairs_with:
   prompts: [build-tight-budget, build-emergency-fund-plan, set-up-money-accounts-system]

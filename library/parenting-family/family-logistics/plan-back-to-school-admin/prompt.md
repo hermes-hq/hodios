@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-school-year, school-uniform, school-forms, deadlines, school-supplies, working-parents]
 pairs_with:
   prompts: [prepare-child-for-school, extract-actions-from-school-messages, plan-school-lunches]

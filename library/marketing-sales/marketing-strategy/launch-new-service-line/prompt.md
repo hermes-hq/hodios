@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-launch, existing-customers, early-adopters, cross-sell, staff-scripts]
 pairs_with:
   prompts: [evaluate-new-service-line, write-service-packages-page, plan-promotional-offer, ask-clients-for-referrals]

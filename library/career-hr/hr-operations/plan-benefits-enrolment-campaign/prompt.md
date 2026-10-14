@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-enrolment, benefits-renewal, employee-communications, benefits-choices, enrolment-deadline]
 pairs_with:
   prompts: [design-benefits-package, write-total-rewards-statement, plan-hr-annual-calendar, answer-employee-hr-question]

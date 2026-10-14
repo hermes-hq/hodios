@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-kickoff, project-brief, non-goals, ways-of-working, alignment]
 pairs_with:
   prompts: [write-project-raci, build-project-risk-register, plan-project-milestones]

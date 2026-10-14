@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [parenting-with-illness, low-energy-play, young-carers, family-routines, backup-care, guilt]
 pairs_with:
   prompts: [explain-hard-topic-to-child, plan-flare-day-logistics, adapt-household-tasks-for-fatigue]

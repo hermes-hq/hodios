@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [re-permission, reconfirm-consent, list-hygiene, opt-in, suppression-list]
 pairs_with:
   prompts: [check-email-marketing-compliance, write-win-back-campaign, audit-email-deliverability]

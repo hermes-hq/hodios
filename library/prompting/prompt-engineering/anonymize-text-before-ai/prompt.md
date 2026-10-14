@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pseudonymisation, confidential-data, data-minimisation, safe-ai-use, restore-key]
 pairs_with:
   prompts: [build-ai-output-review-checklist, write-office-copilot-prompts]

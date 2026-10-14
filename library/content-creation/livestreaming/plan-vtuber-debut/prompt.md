@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vtuber, avatar-model, live2d, face-tracking, debut-stream]
 pairs_with:
   prompts: [audit-stream-for-privacy-leaks, plan-stream-scenes, write-go-live-announcements]

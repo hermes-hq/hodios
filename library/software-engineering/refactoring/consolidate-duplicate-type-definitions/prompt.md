@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [type-definitions, utility-types, single-source-of-truth, type-drift]
 pairs_with:
   prompts: [replace-loose-types, simplify-typescript-types, share-types-across-client-and-server]

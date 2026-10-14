@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weakness-question, self-awareness, development-areas, classic-questions]
 pairs_with:
   prompts: [drill-star-answers, write-tell-me-about-yourself, run-mock-interview]

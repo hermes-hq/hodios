@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [landlord, rental-property, record-keeping, deductible-expenses]
 pairs_with:
   prompts: [analyze-rental-property, track-business-expenses, organize-tax-documents]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [crucial-conversations, rehearsal, conflict-resolution, follow-up, de-escalation]
 pairs_with:
   prompts: [prepare-difficult-conversation, rehearse-difficult-conversation, give-feedback-sbi, set-boundary, apologize-effectively]

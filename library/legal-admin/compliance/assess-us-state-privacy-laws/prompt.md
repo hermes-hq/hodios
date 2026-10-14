@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [us-privacy-law, state-privacy-laws, ccpa, opt-out-rights, targeted-advertising, sensitive-data]
 pairs_with:
   prompts: [audit-website-privacy-compliance, handle-data-subject-request, write-privacy-policy, map-personal-data-processing]

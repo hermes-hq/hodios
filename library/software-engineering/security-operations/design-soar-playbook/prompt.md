@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [soar, security-automation, enrichment, containment, alert-triage]
 pairs_with:
   prompts: [write-ir-playbook, triage-soc-alert, investigate-reported-phishing]

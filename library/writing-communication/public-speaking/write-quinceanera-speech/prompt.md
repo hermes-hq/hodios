@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [quinceanera, xv-anos, toast, family-speech, celebration, mexican-traditions]
 pairs_with:
   prompts: [write-speech, rehearse-speech-with-feedback, mark-up-script-for-delivery]

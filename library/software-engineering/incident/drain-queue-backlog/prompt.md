@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [consumer-lag, message-queue, poison-message, dead-letter-queue, backpressure]
 pairs_with:
   prompts: [triage-production-alert, collect-incident-evidence, write-incident-update, write-runbook]

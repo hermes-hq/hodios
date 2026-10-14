@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [identity-theft, credit-freeze, fraud-report, credit-report, fraud-alert]
 pairs_with:
   prompts: [recover-hacked-account, check-suspicious-message, dispute-credit-report-error, secure-personal-accounts]

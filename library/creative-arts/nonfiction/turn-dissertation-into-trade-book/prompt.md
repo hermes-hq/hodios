@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dissertation, trade-book, popular-nonfiction, restructuring, general-readers]
 pairs_with:
   prompts: [outline-nonfiction-book, write-nonfiction-book-proposal, validate-nonfiction-book-idea]

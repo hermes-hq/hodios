@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [body-doubling, deep-work, pomodoro, accountability, single-tasking]
 pairs_with:
   prompts: [beat-procrastination, break-down-big-task, plan-my-week]

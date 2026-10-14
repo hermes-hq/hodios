@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [concision, line-editing, word-count]
 pairs_with:
   prompts: [proofread-text, rewrite-for-tone, simplify-to-plain-language]

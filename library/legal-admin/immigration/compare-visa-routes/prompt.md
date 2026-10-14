@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [visa-routes, eligibility-factors, work-permit, family-route, study-route]
 pairs_with:
   prompts: [prepare-visa-application, ask-employer-for-visa-sponsorship, vet-immigration-adviser]

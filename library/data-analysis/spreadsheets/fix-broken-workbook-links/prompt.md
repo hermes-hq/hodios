@@ -19,6 +19,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [external-links, ref-errors, importrange, workbook-links, link-repair]
 pairs_with:
   prompts: [debug-spreadsheet-formula, audit-spreadsheet-model, explain-inherited-spreadsheet]

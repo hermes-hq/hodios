@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-interview, working-abroad, register, interview-phrases]
 pairs_with:
   prompts: [roleplay-real-situation, review-speaking-transcript, explain-politeness-register]

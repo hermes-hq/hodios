@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [router-security, home-network, wifi, smart-home, firmware-updates, guest-network]
 pairs_with:
   prompts: [troubleshoot-home-wifi, plan-smart-home, secure-personal-accounts]

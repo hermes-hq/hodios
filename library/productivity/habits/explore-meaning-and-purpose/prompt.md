@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [meaning, purpose, life-direction, experiments, self-knowledge]
 pairs_with:
   prompts: [clarify-personal-values, write-personal-vision, find-volunteering-match, discover-my-strengths]

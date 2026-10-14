@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [memberships, patreon, paid-newsletter, pricing-tiers, creator-revenue]
 pairs_with:
   prompts: [plan-creator-monetization, plan-online-community-launch, write-newsletter-welcome-email]

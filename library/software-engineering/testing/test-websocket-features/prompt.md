@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [websockets, server-sent-events, real-time, reconnection, multi-client]
 pairs_with:
   prompts: [implement-realtime-updates, write-e2e-test, fix-flaky-test]

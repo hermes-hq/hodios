@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [concurso-publico, edital, ciclo-de-estudos, public-sector-exams, brazil]
 pairs_with:
   prompts: [coach-enem-essay, analyze-past-papers, analyze-exam-mistakes]

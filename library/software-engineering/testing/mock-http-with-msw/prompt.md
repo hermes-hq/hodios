@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [msw, network-mocking, jest, vitest, storybook]
 pairs_with:
   prompts: [write-component-tests, mock-modules-in-jest-or-vitest, build-fake-for-external-api]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [finishing, last-mile, definition-of-done, scope-cuts, daily-targets, thesis]
 pairs_with:
   prompts: [work-backward-from-deadline, break-down-big-task, plan-crunch-period]

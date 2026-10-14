@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite, table, diagram]
 risk: read-only
 level: beginner
+depth: specific
 tags: [diagrams, mermaid, information-design, visual-thinking, structured-layout]
 pairs_with:
   styles: [{id: skimmable, level: 3}]

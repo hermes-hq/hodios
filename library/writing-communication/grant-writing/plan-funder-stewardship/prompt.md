@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [funder-stewardship, funder-relations, renewal-planning, programme-officer, grant-portfolio]
 pairs_with:
   prompts: [plan-grant-pipeline, write-grant-report, request-grant-variation]

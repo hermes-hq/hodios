@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 advice_risk: [mental-health]
 tags: [chaplaincy, pastoral-care, spiritual-care, listening, meaning-making, grief]
 pairs_with:

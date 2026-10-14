@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [definition-of-done, definition-of-ready, working-agreement, quality-gates]
 pairs_with:
   prompts: [plan-sprint, refine-backlog-ticket, design-kanban-workflow]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [discounting, margin, deal-economics, counter-offer, pricing-discipline]
 pairs_with:
   prompts: [prepare-deal-negotiation, design-pricing]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [employer-match, vesting, workplace-pension, retirement-contributions, employee-benefits]
 pairs_with:
   prompts: [understand-pension-fund-choices, compare-retirement-accounts]

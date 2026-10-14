@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [conditional-formatting, custom-formula, highlight-rows, mixed-references]
 pairs_with:
   prompts: [write-spreadsheet-formula, build-tracker-spreadsheet, set-up-data-validation]

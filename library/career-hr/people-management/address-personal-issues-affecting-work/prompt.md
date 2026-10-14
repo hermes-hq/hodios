@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [personal-circumstances, compassionate-management, flexible-support, employee-wellbeing, privacy]
 pairs_with:
   prompts: [support-grieving-employee, plan-workplace-adjustments-as-manager, address-underperformance-early]

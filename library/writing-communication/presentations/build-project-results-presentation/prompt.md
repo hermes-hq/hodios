@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-closure, benefits-realisation, lessons-learned, handover, stakeholders]
 pairs_with:
   prompts: [write-project-closeout-report, build-project-kickoff-deck, build-steering-committee-update, write-project-retrospective-writeup]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sonic-branding, audio-logo, sound-design, ui-sounds, hold-music, creative-brief]
 pairs_with:
   prompts: [build-brand-platform, write-brand-voice-guide, write-design-brief, build-brand-guidelines]

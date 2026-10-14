@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [go-to-market-plan, launch-readiness, positioning-statement, launch-retro]
 pairs_with:
   prompts: [plan-product-launch, write-launch-announcement, write-sales-enablement-brief, review-launch-results]

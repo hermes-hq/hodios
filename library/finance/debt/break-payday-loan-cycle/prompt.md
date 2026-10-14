@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [payday-loans, high-cost-credit, rollover, repayment-plan]
 pairs_with:
   prompts: [find-alternatives-to-payday-loans, build-tight-budget, negotiate-with-creditor]

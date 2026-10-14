@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stock, broth, food-waste, scraps, batch-cooking]
 pairs_with:
   prompts: [recipe-from-ingredients, preserve-food-safely, teach-cooking-technique]

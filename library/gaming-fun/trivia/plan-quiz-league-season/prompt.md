@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quiz-league, weekly-quiz, standings, round-rotation, pub-quiz, regulars]
 pairs_with:
   prompts: [host-trivia-night, design-quiz-scoring-rules]

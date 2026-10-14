@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [decision-letter, journal-editor, editorial-decision, revise-and-resubmit, desk-editor]
 pairs_with:
   prompts: [write-meta-review, write-peer-review, check-manuscript-reporting]

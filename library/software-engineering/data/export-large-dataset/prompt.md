@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-export, parquet, csv, streaming, snapshot-consistency, checksums]
 pairs_with:
   prompts: [implement-large-data-export, plan-data-archival, bulk-load-data-into-database]

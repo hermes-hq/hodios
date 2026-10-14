@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketing-hiring, team-design, in-house-vs-agency, first-marketing-hire, freelancers]
 pairs_with:
   prompts: [write-marketing-agency-brief, choose-marketing-tech-stack, define-marketing-kpis, decide-in-house-or-outsource]

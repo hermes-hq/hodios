@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cross-cultural, intercultural-communication, travel-encounters]
 pairs_with:
   prompts: [apologise-for-cultural-faux-pas, learn-local-etiquette, prepare-for-culture-shock]

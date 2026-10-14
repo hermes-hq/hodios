@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [application-tracker, job-pipeline, follow-ups, conversion-rates, weekly-review]
 pairs_with:
   prompts: [plan-job-search, write-follow-up-email, analyze-job-posting]

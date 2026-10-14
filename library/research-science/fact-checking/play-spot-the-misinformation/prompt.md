@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [media-literacy, misinformation, game, lateral-reading]
 pairs_with:
   prompts: [label-fact-vs-opinion, plan-media-literacy-lesson, respond-to-misinformation]

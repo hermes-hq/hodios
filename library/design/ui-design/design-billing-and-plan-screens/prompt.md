@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [saas]
 tags: [billing, subscriptions, invoice-history, plan-changes, failed-payments, dunning]
 pairs_with:

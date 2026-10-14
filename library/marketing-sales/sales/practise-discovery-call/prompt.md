@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [discovery-questions, buyer-role-play, sdr-training, active-listening, qualification]
 pairs_with:
   prompts: [prepare-discovery-call, score-discovery-call, practise-cold-call]

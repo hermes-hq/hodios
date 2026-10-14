@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bulk-buying, warehouse-club, multibuy-offers, unit-price, food-waste]
 pairs_with:
   prompts: [choose-store-brand-or-name-brand, set-up-pantry-restock-system, cut-monthly-costs, plan-budget-meals]

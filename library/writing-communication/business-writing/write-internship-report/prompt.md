@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [internship-report, placement-report, work-placement, reflective-writing, academic-assessment]
 pairs_with:
   prompts: [prepare-for-work-placement, write-internship-report-france, build-internship-final-presentation]

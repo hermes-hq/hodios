@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [incident-response, playbook, containment, raci, business-email-compromise]
 pairs_with:
   prompts: [plan-security-incident-response, plan-security-tabletop, triage-soc-alert]

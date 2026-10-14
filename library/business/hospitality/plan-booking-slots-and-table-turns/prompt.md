@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [table-turns, booking-intervals, covers-per-hour, kitchen-pacing, table-mix, dining-room-layout]
 pairs_with:
   prompts: [write-host-stand-booking-script, build-staff-schedule]

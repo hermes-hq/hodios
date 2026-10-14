@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reading-comprehension, literacy, text-dependent-questions, answer-key]
 pairs_with:
   prompts: [adapt-text-reading-level, plan-vocabulary-instruction, write-multiple-choice-questions]

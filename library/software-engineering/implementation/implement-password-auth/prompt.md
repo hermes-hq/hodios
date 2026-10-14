@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [authentication, password-hashing, argon2, sessions, password-reset, owasp]
 pairs_with:
   prompts: [implement-oauth-login, add-rate-limiting, implement-transactional-email, review-pr-for-security]

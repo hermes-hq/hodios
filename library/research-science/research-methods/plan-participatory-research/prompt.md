@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cbpr, participatory-research, community-partnership, data-governance, co-production]
 pairs_with:
   prompts: [design-citizen-science-project, write-ethics-application, write-informed-consent-form, write-focus-group-guide]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [matplotlib, plotly, ggplot2, code-translation]
 pairs_with:
   prompts: [write-plotting-code, debug-plotting-code, create-chart-style-guide]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [helpful-content, first-hand-experience, thin-content, eeat]
 pairs_with:
   prompts: [audit-on-page-seo, refresh-decaying-content]

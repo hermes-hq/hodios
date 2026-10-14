@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [loot, drop-rates, rarity-tiers, bad-luck-protection, reward-design, expected-value]
 pairs_with:
   prompts: [calculate-game-probabilities, design-game-economy, design-progression-system]

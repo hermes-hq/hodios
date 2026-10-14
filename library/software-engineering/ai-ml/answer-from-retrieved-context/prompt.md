@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [grounded-generation, citations, abstention, hallucination-control, retrieval]
 pairs_with:
   prompts: [rerank-retrieved-passages, rewrite-search-query, check-answer-faithfulness, design-rag-pipeline]

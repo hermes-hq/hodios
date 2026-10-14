@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [student-budget, student-finance, university, weekly-allowance]
 pairs_with:
   prompts: [compare-student-loan-repayment, build-monthly-budget, plan-first-job-finances]

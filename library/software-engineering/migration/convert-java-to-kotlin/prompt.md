@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [java-interop, nullability, j2k, jvm-annotations, incremental-conversion]
 pairs_with:
   prompts: [port-code-to-another-language, make-kotlin-code-idiomatic, migrate-gradle-to-kotlin-dsl]

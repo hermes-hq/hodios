@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [automation, scripting, dry-run, excel-automation, file-management]
 pairs_with:
   prompts: [write-shell-script, write-web-scraper, write-cli-tool]

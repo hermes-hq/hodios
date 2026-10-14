@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [public-services, user-needs, policy-intent, assisted-digital, equity, service-standards]
 pairs_with:
   prompts: [find-gaps-in-research-sample, translate-request-into-problem, plan-service-pilot, write-discovery-readout, interview-frontline-staff]

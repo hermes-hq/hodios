@@ -7,6 +7,7 @@ description: Shapes any answer for skimming, from bolded key sentences and short
 category: output-styles
 version: 1.0.0
 status: incubating
+depth: specific
 output: [rewrite]
 risk: read-only
 tags: [scannability, formatting, readability, information-design]

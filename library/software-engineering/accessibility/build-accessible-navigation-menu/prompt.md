@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [navigation, mega-menu, disclosure, mobile-menu, keyboard]
 pairs_with:
   personas: [accessibility-specialist]

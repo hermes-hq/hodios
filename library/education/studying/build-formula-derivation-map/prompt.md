@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [formula-sheet, derivations, assumptions, memorisation]
 pairs_with:
   prompts: [build-concept-map, create-cheat-sheet, create-faded-worked-examples]

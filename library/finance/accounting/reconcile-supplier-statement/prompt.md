@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [accounts-payable, supplier-reconciliation, creditors, month-end]
 pairs_with:
   prompts: [plan-supplier-payment-run, prepare-month-end-close, reconcile-bank-account]

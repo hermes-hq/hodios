@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trust-and-safety, user-reports, enforcement, requirements]
 pairs_with:
   prompts: [apply-moderation-policy-to-comments, moderate-user-content, spec-support-admin-tools]

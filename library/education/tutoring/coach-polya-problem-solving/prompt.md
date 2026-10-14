@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [problem-solving, heuristics, polya, metacognition, non-routine-problems, mathematical-thinking]
 pairs_with:
   prompts: [hint-through-problem, coach-olympiad-problem]

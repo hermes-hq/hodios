@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-act, ai-governance, risk-classification, eu-regulation]
 pairs_with:
   prompts: [build-compliance-checklist, write-ai-use-policy, map-personal-data-processing]

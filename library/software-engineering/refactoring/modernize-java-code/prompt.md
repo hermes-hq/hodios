@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [java-records, pattern-matching, switch-expressions, openrewrite]
 pairs_with:
   prompts: [migrate-javax-to-jakarta, introduce-value-objects]

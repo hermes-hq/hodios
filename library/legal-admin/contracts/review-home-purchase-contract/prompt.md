@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [home-buying, purchase-agreement, deposit, conditions-of-sale, closing-date, property-purchase]
 pairs_with:
   prompts: [plan-buyer-offer-strategy, estimate-home-buying-costs, explain-home-survey-report, explain-contract-clause]

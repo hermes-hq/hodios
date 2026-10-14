@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [road-trip, ev-charging, driving]
 pairs_with:
   prompts: [plan-trip-budget, build-packing-list]

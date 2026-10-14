@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [referee-report, editorial-process, confidential-comments, reviewer-recommendation]
 pairs_with:
   prompts: [write-peer-review, choose-review-recommendation, write-misconduct-concern-to-editor]

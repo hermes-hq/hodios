@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [chess, game-analysis, pgn, chess-improvement]
 pairs_with:
   personas: [chess-coach]

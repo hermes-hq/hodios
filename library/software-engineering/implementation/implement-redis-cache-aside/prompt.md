@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [caching, cache-aside, cache-invalidation, cache-stampede, ttl]
 pairs_with:
   prompts: [plan-caching-strategy, fix-stale-cache-bug]

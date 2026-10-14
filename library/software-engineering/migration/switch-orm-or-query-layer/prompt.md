@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [orm, query-builder, repository-pattern, n-plus-one, transactions, strangler-fig]
 pairs_with:
   prompts: [plan-incremental-migration, migrate-database-engine]

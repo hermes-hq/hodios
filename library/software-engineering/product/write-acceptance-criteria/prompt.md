@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gherkin, bdd, given-when-then, definition-of-done]
 pairs_with:
   personas: [product-manager]

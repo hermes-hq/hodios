@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-review, year-in-review, team-report, goals-review, department-report]
 pairs_with:
   prompts: [write-status-report, write-executive-summary, write-year-end-work-summary]

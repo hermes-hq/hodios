@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-boundaries, fallback-ui, error-reporting, resilience, nextjs-app-router]
 pairs_with:
   prompts: [set-up-error-tracking, implement-tanstack-query-data-layer]

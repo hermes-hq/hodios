@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subscription-box, recurring-revenue, churn, lifetime-value, fulfilment]
 pairs_with:
   prompts: [model-unit-economics, validate-business-idea, find-first-customers, plan-online-store]

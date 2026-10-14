@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [auto-update, code-signing, release-channels, staged-rollout, desktop-app]
 pairs_with:
   prompts: [structure-desktop-app, harden-electron-app]

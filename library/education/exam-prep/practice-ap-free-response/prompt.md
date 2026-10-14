@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ap-exams, free-response, point-rubric, scoring-guidelines, timed-writing, college-board]
 pairs_with:
   prompts: [write-model-exam-answer, grade-practice-answers, analyze-exam-mistakes]

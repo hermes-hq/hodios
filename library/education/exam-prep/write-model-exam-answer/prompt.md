@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mark-scheme, model-answer, past-papers, examiner-expectations, command-words]
 pairs_with:
   prompts: [grade-practice-answers, analyze-exam-mistakes, generate-practice-exam]

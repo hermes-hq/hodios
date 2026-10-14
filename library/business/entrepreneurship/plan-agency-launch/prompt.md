@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-agency, productised-service, contractor-bench, delivery-margin, niche-positioning]
 pairs_with:
   prompts: [start-freelance-business, price-services, brief-freelance-subcontractor, write-statement-of-work, find-first-customers]

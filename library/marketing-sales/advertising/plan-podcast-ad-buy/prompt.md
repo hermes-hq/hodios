@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [podcast-ads, media-buying, host-read, cpm, attribution]
 pairs_with:
   prompts: [write-podcast-ad-read, write-radio-ad, plan-media-budget, plan-ad-creative-tests]

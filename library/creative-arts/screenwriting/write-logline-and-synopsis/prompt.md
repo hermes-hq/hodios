@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [logline, synopsis, pitching, query-letter]
 pairs_with:
   prompts: [format-screenplay-scene, outline-story]

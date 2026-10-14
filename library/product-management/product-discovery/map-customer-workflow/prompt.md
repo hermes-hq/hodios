@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workflow-mapping, b2b-research, handoffs, process-pain-points, as-is-process]
 pairs_with:
   prompts: [map-buying-committee, map-internal-tool-workarounds, estimate-problem-cost, plan-contextual-inquiry]

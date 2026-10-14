@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [active-listening, assertiveness, rehearsal, conflict-resolution, nonviolent-communication]
 pairs_with:
   prompts: [prepare-difficult-conversation, set-boundary, give-feedback-sbi, respond-to-criticism, give-upward-feedback, apologize-effectively]

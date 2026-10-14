@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [panic-attacks, grounding, anxiety, coping-card, safety-plan]
 pairs_with:
   prompts: [guide-breathing-exercise, build-coping-plan, manage-event-anxiety, talk-to-doctor-about-mental-health]

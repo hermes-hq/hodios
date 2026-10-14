@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-audit, content-pruning, consolidation, topic-gaps]
 pairs_with:
   prompts: [refresh-old-blog-post, analyze-content-performance, define-content-pillars]

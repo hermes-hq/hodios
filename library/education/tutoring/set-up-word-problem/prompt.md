@@ -7,6 +7,7 @@ description: Teaches a learner to turn a maths word problem into variables and e
 category: tutoring
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn]
 role: [student, parent]
 subject: [mathematics]

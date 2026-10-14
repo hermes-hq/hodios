@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [real-estate]
 tags: [first-time-buyer, home-buying, mortgage-affordability, house-deposit, making-an-offer]
 pairs_with:

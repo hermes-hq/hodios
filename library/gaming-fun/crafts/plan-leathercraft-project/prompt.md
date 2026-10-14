@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [leathercraft, saddle-stitch, vegetable-tanned, edge-finishing, pattern-making]
 args:
   - name: item

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [logo-files, file-formats, design-handover, asset-management, visual-identity]
 pairs_with:
   prompts: [build-brand-guidelines, design-logo-concepts, prepare-print-files]

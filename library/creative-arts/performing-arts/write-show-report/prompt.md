@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stage-management, show-report, running-times, production-communication, incident-log]
 pairs_with:
   prompts: [write-rehearsal-report, write-cue-sheet, write-director-notes]

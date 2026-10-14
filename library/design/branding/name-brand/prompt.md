@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [brand-naming, product-naming, trademark-screening, name-ideas]
 pairs_with:
   prompts: [write-brand-voice-guide, write-design-brief]

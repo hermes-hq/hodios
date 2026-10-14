@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [3d-printing, fdm, calibration, slicer-settings, filament-profiles, temperature-tower]
 pairs_with:
   prompts: [troubleshoot-3d-print, design-printable-part]

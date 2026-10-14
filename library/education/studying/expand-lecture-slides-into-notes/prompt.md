@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lecture-slides, lecture-notes, missed-lecture, self-explanation]
 pairs_with:
   prompts: [prime-for-next-lecture, turn-lecture-transcript-into-notes, make-study-guide, review-notes-for-gaps]

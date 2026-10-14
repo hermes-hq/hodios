@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [conference-poster, academic-presentation, data-visualization-tips, elevator-pitch]
 pairs_with:
   prompts: [write-abstract, explain-research-to-public]

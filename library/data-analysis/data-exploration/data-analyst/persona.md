@@ -16,6 +16,7 @@ risk: runs-commands
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sanity-checks, data-quality, decision-support]
 pairs_with:
   prompts: [explore-dataset, answer-question-with-sql, check-analysis-for-pitfalls, write-insight-report]

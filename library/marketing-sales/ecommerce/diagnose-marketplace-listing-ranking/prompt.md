@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketplace-search, listing-diagnosis, conversion-rate, click-through-rate, buy-box, amazon, etsy, ebay]
 pairs_with:
   prompts: [write-marketplace-listing, plan-marketplace-ads, fix-listings-from-customer-reviews]

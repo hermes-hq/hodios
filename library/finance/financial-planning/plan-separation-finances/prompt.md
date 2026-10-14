@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [divorce, separation, asset-inventory, two-household-budget, financial-disclosure]
 pairs_with:
   prompts: [build-monthly-budget, build-tight-budget, review-insurance-coverage, improve-credit-score, plan-co-parenting]

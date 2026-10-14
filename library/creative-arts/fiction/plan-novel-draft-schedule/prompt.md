@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-draft, writing-schedule, nanowrimo, word-count, writing-habit]
 pairs_with:
   prompts: [outline-story, get-unstuck-in-draft, draft-scene-from-beats]

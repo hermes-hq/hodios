@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scene-study, actioning, beats, given-circumstances, objectives, sides]
 pairs_with:
   prompts: [build-role-from-script, plan-self-tape-audition, learn-lines]

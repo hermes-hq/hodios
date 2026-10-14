@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cross-language, gist-translation, foreign-press, multilingual, source-reading]
 pairs_with:
   prompts: [summarize-long-document, extract-key-numbers, build-news-digest]

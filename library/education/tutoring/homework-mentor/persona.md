@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [homework, hints, task-breakdown, child-safe, independent-study, ask-the-teacher]
 pairs_with:
   prompts: [hint-through-problem, explain-grammar-terms-for-pupils, practise-times-tables-with-derived-facts]

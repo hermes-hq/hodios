@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [underscore, music-bed, game-loop, loop-points]
 pairs_with:
   prompts: [build-music-sound-kit, write-music-prompt, write-sound-effect-prompts]

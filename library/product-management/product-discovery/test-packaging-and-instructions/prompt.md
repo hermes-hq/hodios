@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [out-of-box-experience, unboxing, assembly-instructions, setup, think-aloud, hardware]
 pairs_with:
   prompts: [test-physical-prototype-with-users, write-usability-test-plan, write-research-screener]

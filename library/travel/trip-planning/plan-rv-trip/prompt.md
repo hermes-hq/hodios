@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rv-trip, campervan, motorhome, campsites, road-trip]
 pairs_with:
   prompts: [plan-road-trip, plan-camping-trip, plan-trip-budget, build-packing-list]

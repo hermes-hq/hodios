@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [suits, tailoring, interview-outfit, alterations, menswear, womenswear]
 pairs_with:
   prompts: [decode-dress-code, check-clothing-fit, plan-clothing-care-and-repair]

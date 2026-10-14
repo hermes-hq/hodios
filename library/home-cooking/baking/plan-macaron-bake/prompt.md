@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [macarons, meringue, macaronage, almond-flour, patisserie]
 pairs_with:
   prompts: [calibrate-home-oven, plan-choux-pastry]

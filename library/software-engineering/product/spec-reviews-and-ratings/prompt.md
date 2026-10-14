@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [ecommerce]
 tags: [reviews, ratings, marketplace, requirements]
 pairs_with:

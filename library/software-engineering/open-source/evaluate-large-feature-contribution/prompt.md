@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pull-request, project-scope, maintenance-cost, feature-requests, saying-no]
 pairs_with:
   prompts: [reply-to-first-contribution, triage-stale-pull-requests, design-plugin-extension-system, draft-maintainer-issue-replies]

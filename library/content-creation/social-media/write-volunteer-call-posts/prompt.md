@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [volunteer-recruitment, call-to-action, community-groups, inclusive-language]
 pairs_with:
   prompts: [plan-nonprofit-social-media, write-short-social-posts]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [newsletter-routine, editorial-process, subject-lines, test-send, issue-review]
 pairs_with:
   prompts: [write-newsletter-issue, curate-link-roundup, audit-newsletter-performance]

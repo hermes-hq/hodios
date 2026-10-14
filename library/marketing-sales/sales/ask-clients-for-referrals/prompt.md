@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [referrals, word-of-mouth, client-relationships, service-business, introductions]
 pairs_with:
   prompts: [design-referral-program, request-customer-reference, write-sales-follow-up]

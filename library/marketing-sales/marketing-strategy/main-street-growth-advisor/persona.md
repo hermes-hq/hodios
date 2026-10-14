@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [local-marketing, independent-business, footfall, word-of-mouth, cost-per-customer]
 pairs_with:
   prompts: [plan-weekly-promotion-routine, set-promotion-budget-for-small-business, plan-word-of-mouth-triggers, plan-cross-promotion-with-neighbours, design-attribution-survey, plan-local-seo]

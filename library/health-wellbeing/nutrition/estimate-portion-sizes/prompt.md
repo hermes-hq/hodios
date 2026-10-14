@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [portion-sizes, hand-portions, plate-model, serving-sizes, food-awareness]
 pairs_with:
   prompts: [plan-nutrition-targets, read-nutrition-label, analyze-diet-log]

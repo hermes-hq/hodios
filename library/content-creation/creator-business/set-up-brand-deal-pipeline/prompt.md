@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [deal-tracker, spreadsheet, deal-pipeline, invoice-tracking, exclusivity-calendar]
 pairs_with:
   prompts: [plan-sponsorship-inventory, build-tracker-spreadsheet, chase-late-payment]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [employment-verification, payslips, tax-forms, former-employer, proof-of-income, hr-request]
 pairs_with:
   prompts: [request-reference, explain-payslip, write-follow-up-email]

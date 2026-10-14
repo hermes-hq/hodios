@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [video-sales-letter, direct-response, sales-script, offer-design, claims-check]
 pairs_with:
   prompts: [write-sales-page, write-video-ad-script, write-guarantee-wording, write-webinar-script, write-sales-faq]

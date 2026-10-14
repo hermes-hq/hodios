@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lower-apr, late-fee-refund, card-issuer, call-script, retention-offer]
 pairs_with:
   prompts: [negotiate-with-creditor, explain-credit-card-statement, plan-debt-payoff]

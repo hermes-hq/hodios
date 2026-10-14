@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [residence-permit, required-documents]
 pairs_with:
   prompts: [prepare-government-form, explain-legal-letter, translate-personal-document]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [interview-feedback, self-reflection, star-method, next-round]
 pairs_with:
   prompts: [write-interview-thank-you, prepare-star-stories, run-mock-interview]

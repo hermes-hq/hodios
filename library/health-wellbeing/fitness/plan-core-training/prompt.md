@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [core-strength, anti-rotation, plank, loaded-carries, abs]
 pairs_with:
   prompts: [plan-calisthenics-program, check-exercise-form, choose-training-split]

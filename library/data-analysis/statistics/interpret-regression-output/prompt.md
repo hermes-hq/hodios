@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regression, p-values, causal-inference, coefficients]
 pairs_with:
   prompts: [check-analysis-for-pitfalls, choose-statistical-test]

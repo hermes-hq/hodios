@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [settling-in, moving-abroad, life-review, expat-life]
 pairs_with:
   prompts: [prepare-for-culture-shock, handle-homesickness, build-connection-plan, plan-moving-back-home]

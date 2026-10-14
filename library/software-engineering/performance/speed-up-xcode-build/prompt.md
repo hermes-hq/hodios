@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [xcode, build-timeline, swift-type-checking, build-settings, script-phases]
 pairs_with:
   prompts: [structure-mobile-app-modules, speed-up-ci-pipeline, fix-mobile-build-failure]

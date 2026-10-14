@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vale, markdownlint, link-checking, prose-linting, docs-ci]
 pairs_with:
   prompts: [write-documentation-standards, fix-broken-docs-links, test-code-in-docs]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [investigation, clue-design, node-based-design, game-mastering, adventure-design]
 pairs_with:
   prompts: [create-npc, create-player-handouts, design-one-shot-adventure]

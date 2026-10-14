@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tiktok-shop, social-commerce, affiliate-creators, live-shopping, creator-samples]
 pairs_with:
   prompts: [plan-multichannel-inventory-sync, plan-tiktok-ads-campaign, check-product-listing-compliance]

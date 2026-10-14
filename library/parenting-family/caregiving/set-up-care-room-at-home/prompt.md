@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-adaptations, care-equipment, hospital-bed, home-setup, carers]
 pairs_with:
   prompts: [reduce-falls-risk-at-home, plan-end-of-life-care-at-home, prepare-for-parent-moving-in]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [home-inspection, house-buying, building-survey, renegotiation, defects]
 pairs_with:
   prompts: [extract-recommendations-from-report, interrogate-a-document, summarize-building-pack-before-buying]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sustainability-plan, exit-strategy, income-diversification, funder-criteria, continuation-funding]
 pairs_with:
   prompts: [write-grant-application, plan-grant-match-funding, write-grant-evaluation-plan]

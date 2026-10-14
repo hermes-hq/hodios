@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [saying-no, mlm, sales-pressure, friendship-maintenance, refusal]
 pairs_with:
   prompts: [decline-request-gracefully, set-boundary, decline-to-lend-money]

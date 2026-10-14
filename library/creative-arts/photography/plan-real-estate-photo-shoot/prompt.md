@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [real-estate-photography, interior-photography, holiday-rental, hdr-bracketing, wide-angle]
 pairs_with:
   prompts: [choose-camera-settings, match-edits-across-photo-set, edit-photo-step-by-step]

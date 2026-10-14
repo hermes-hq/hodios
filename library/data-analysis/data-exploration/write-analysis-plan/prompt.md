@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [analysis-plan, scoping, pre-registration, stakeholder-requests]
 pairs_with:
   prompts: [write-data-request-brief, define-metric, check-analysis-for-pitfalls]

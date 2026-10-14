@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mixed-methods, integration, joint-display, explanatory-sequential, convergent-design, gramms]
 pairs_with:
   prompts: [design-research-study, design-sampling-plan, write-research-interview-protocol, write-survey-questionnaire, run-thematic-analysis]

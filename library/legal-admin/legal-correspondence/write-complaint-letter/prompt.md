@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [demand-letter, consumer-rights, refund, escalation]
 pairs_with:
   prompts: [prepare-small-claims-case, explain-legal-letter]

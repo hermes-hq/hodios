@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [environment-variables, configuration, precedence, dotenv, twelve-factor]
 pairs_with:
   prompts: [extract-configuration-from-code, debug-production-only-bug]

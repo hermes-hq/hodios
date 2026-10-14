@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [resource-requests, right-sizing, oomkilled, cpu-throttling, vpa]
 pairs_with:
   prompts: [set-up-kubernetes-autoscaling, diagnose-crashlooping-pod, reduce-cloud-spend]

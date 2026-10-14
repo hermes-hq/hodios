@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [room-block, group-booking, attrition, cut-off-date, rooming-list, displacement]
 pairs_with:
   prompts: [plan-hotel-room-rate-calendar, write-event-function-sheet]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [co-hosting, on-air-chemistry, show-agreement, workload-split, team-roles]
 pairs_with:
   prompts: [plan-podcast-episode, critique-episode-from-transcript, plan-podcast-season]

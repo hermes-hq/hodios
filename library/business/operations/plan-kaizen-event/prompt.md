@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kaizen, lean, continuous-improvement, rapid-improvement-event, waste-reduction, process-improvement]
 pairs_with:
   prompts: [map-business-process, run-five-whys, run-5s-organisation, write-sop]

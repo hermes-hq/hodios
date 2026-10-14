@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sick-leave, annual-leave, shift-swap, manager-conversations, shift-work]
 pairs_with:
   prompts: [practice-phone-call-in-language, practise-polite-disagreement, practise-first-week-at-work]

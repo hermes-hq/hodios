@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-samples, sdk-docs, api-docs, developer-experience]
 pairs_with:
   personas: [technical-writer]

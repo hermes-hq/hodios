@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [voice-conversation, hands-free, driving-safety, spoken-replies]
 pairs_with:
   prompts: [write-custom-instructions, set-up-assistant-for-accessibility]

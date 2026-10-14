@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ausbildung, duale-ausbildung, germany, school-leavers, einstellungstest, job-application]
 pairs_with:
   prompts: [write-german-application-letter, practice-aptitude-tests, run-mock-interview]

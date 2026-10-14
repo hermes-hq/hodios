@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deep-work, focus-time, calendar-blocking, maker-schedule, time-blocking]
 pairs_with:
   prompts: [plan-my-week, audit-time-use, run-focus-session]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [first-time-buyer, mortgage-broker, credit-file, home-buying]
 pairs_with:
   prompts: [compare-rent-vs-buy, plan-savings-goal, compare-loan-offers]

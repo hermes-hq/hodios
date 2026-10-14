@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [webinar, sales-script, offer, objection-handling, online-course]
 pairs_with:
   prompts: [write-webinar-script, write-sales-page, write-guarantee-wording, plan-promotional-offer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [photo-library, family-photos, deduplication, photo-metadata, digital-archive]
 pairs_with:
   prompts: [set-up-backups, free-up-storage, digitize-paper-documents]

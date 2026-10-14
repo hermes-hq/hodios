@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [irregular-income, freelancers, gig-economy, income-buffer]
 pairs_with:
   prompts: [plan-freelance-tax-set-aside, build-emergency-fund-plan, set-up-sinking-funds, build-monthly-budget]

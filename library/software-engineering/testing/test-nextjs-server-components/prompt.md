@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-router, server-components, server-actions, route-handlers, playwright]
 pairs_with:
   prompts: [write-component-tests, write-e2e-test, test-react-hooks]

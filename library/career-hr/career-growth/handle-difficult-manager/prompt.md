@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [managing-up, micromanagement, workplace-conflict, escalation, grievance]
 pairs_with:
   prompts: [plan-one-on-one, plan-career-path, write-workplace-grievance]

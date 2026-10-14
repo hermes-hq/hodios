@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [google-ads, keyword-list, match-types, search-intent, ad-groups, negative-keywords]
 pairs_with:
   prompts: [write-google-ads, triage-search-terms-report, audit-search-ads-account, decide-brand-keyword-bidding]

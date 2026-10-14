@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [blocking, directing, sightlines, stage-picture, staging]
 pairs_with:
   prompts: [plan-rehearsal-schedule, break-down-scene-for-actor, write-director-notes]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [show-format, trailer, launch-week, podcast-gear]
 pairs_with:
   prompts: [plan-podcast-episode, write-podcast-guest-pitch, write-show-notes]

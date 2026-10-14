@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [screen-time, family-media-plan, parental-controls, digital-wellbeing, family-agreement]
 pairs_with:
   prompts: [talk-to-teen-about-online-safety, create-chore-chart]

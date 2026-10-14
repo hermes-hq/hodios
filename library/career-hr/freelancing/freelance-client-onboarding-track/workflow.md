@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [client-onboarding, kickoff-call, deposits, project-setup, client-communication]
 pairs_with:
   prompts: [write-statement-of-work, write-client-welcome-pack, negotiate-client-payment-terms, review-freelance-contract]

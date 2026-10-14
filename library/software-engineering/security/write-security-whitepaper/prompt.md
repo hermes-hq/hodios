@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [security-whitepaper, trust, customer-facing]
 pairs_with:
   prompts: [answer-security-questionnaire, write-security-policy, audit-compliance-controls, plan-data-encryption]

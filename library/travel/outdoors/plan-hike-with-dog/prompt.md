@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hiking-with-dogs, dog-fitness, livestock, heatstroke-in-dogs, leash-rules, ticks]
 pairs_with:
   prompts: [plan-trail-water, build-pet-emergency-plan, plan-hot-weather-hike]

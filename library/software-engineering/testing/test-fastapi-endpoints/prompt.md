@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pytest, dependency-overrides, httpx, api-tests, sqlalchemy]
 pairs_with:
   prompts: [write-api-endpoint-tests, write-pytest-tests, write-integration-tests]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [plain-text-email, founder-voice, personal-note, template-vs-letter, split-testing]
 pairs_with:
   prompts: [write-promo-email, plan-subject-line-ab-test]

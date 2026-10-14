@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sampling, sample-size, sampling-frame, participant-recruitment, selection-bias, nonresponse]
 pairs_with:
   prompts: [design-research-study, write-survey-questionnaire, plan-pilot-study, write-preregistration]

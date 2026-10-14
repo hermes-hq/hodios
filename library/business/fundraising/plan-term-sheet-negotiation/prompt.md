@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [term-sheet, deal-negotiation, venture-capital, deal-terms, founder-leverage]
 pairs_with:
   prompts: [explain-term-sheet, compare-term-sheets, model-round-dilution]

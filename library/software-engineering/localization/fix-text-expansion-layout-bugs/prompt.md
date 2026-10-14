@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [text-expansion, responsive-layout, truncation]
 pairs_with:
   prompts: [pseudo-localize-ui, plan-rtl-support]

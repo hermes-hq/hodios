@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dashboard-launch, user-adoption, change-management, report-retirement]
 pairs_with:
   prompts: [prune-report-inventory, write-data-methodology-note, announce-metric-definition-change]

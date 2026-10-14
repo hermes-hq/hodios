@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [attribution, marketing-mix, incrementality, roas, customer-journey]
 pairs_with:
   prompts: [analyze-web-analytics, estimate-causal-effect]

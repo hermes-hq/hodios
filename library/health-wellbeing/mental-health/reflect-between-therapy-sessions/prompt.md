@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [therapy, counselling, therapy-homework, session-notes, reflection]
 pairs_with:
   prompts: [prepare-for-therapy, guided-journaling, build-mood-tracker, build-coping-plan]

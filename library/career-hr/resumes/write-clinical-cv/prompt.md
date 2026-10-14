@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [healthcare, medicine]
 tags: [clinical-posts, professional-registration, quality-improvement, healthcare-careers]
 pairs_with:

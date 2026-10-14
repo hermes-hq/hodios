@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [logframe, results-framework, indicators, means-of-verification, assumptions, international-development]
 pairs_with:
   prompts: [build-theory-of-change, write-grant-evaluation-plan, build-grant-work-plan]

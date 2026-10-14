@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [skills-list, keywords, proficiency-levels, technical-skills]
 pairs_with:
   prompts: [check-resume-ats-readiness, tailor-resume-to-job, write-resume-projects-section]

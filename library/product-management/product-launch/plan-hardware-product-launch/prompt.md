@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardware, consumer-electronics, pre-orders, manufacturing, certification, fulfilment]
 pairs_with:
   prompts: [plan-product-launch, plan-retail-shelf-launch, plan-product-review-seeding, build-launch-press-kit]

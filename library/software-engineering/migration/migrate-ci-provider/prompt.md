@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pipelines, ci-migration, secrets-management, build-cache, oidc]
 pairs_with:
   prompts: [plan-incremental-migration]

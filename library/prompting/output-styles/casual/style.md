@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: beginner
+depth: specific
 tags: [conversational, informal-tone, relaxed-voice, friendly-voice]
 pairs_with:
   styles: [{id: plain, level: 2}, {id: concise, level: 2}]

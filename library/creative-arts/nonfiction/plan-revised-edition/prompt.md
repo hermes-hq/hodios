@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [new-edition, book-update, revision-plan, preface, backlist]
 pairs_with:
   prompts: [plan-book-research, outline-nonfiction-book]

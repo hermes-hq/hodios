@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [synchronous-vs-asynchronous, async-messaging, service-coupling, integration-patterns, microservices]
 pairs_with:
   personas: [software-architect]

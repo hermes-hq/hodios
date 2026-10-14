@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [log-analysis, root-cause, error-signatures, causal-chain, triage]
 pairs_with:
   prompts: [collect-incident-evidence, build-incident-timeline, write-observability-queries, triage-production-alert]

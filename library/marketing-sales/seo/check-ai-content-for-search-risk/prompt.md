@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-generated-content, scaled-content, content-quality, content-pruning, spam-policies]
 pairs_with:
   prompts: [assess-page-helpfulness, refresh-decaying-content, resolve-keyword-cannibalization]

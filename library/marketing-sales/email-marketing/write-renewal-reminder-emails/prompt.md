@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [annual-renewal, membership-renewal, auto-renewal, retention, price-change-notice]
 pairs_with:
   prompts: [write-dunning-emails, write-win-back-campaign, write-loyalty-points-emails]

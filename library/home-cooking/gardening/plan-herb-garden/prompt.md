@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [herbs, culinary-herbs, kitchen-garden, mediterranean-herbs, windowsill-growing, harvesting]
 pairs_with:
   prompts: [plan-container-garden, propagate-plants, plan-companion-planting, plan-houseplant-care]

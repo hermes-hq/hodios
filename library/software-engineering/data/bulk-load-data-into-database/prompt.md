@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bulk-insert, copy-command, staging-table, resumable-load, throughput]
 pairs_with:
   prompts: [implement-csv-import, speed-up-batch-job, migrate-database-engine]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [owasp, api-security, bola, mass-assignment, rate-limiting]
 pairs_with:
   prompts: [review-auth-flow, threat-model-feature, review-pr-for-security, design-api-contract]

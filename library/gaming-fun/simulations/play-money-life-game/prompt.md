@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [financial-literacy, compounding, life-simulation, emergency-fund, rent-vs-buy]
 pairs_with:
   prompts: [play-paper-trading-game, build-monthly-budget]

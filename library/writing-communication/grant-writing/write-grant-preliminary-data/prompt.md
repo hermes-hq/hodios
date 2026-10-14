@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [preliminary-data, feasibility, pilot-study, research-funding, figures]
 pairs_with:
   prompts: [write-specific-aims-page, write-research-proposal, write-grant-resubmission-response]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [few-shot, in-context-learning, edge-cases, label-balance]
 pairs_with:
   personas: [prompt-engineer]

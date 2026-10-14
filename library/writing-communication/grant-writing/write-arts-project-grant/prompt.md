@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [arts-funding, artist-fees, audience-development, creative-project, project-budget]
 pairs_with:
   prompts: [write-artist-statement, write-open-call-application, build-grant-budget]

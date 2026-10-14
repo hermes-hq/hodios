@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sketch-comedy, game-of-the-scene, heightening, comedy-writing]
 pairs_with:
   prompts: [write-comedy-bit, format-screenplay-scene]

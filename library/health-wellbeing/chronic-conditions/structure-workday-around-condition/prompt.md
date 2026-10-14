@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [work-schedule, energy-management, fatigue, remote-work, time-blocking, fluctuating-conditions]
 pairs_with:
   prompts: [plan-activity-pacing, work-around-brain-fog, decide-whether-to-disclose-condition]

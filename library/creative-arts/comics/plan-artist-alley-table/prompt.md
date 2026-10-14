@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [comic-conventions, small-press, merchandise, table-display, event-sales]
 pairs_with:
   prompts: [make-one-sheet-minicomic, pitch-comic-to-local-shops, plan-comic-anthology]

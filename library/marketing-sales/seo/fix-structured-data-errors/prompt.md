@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [structured-data, json-ld, rich-results, schema-org, validation-errors]
 pairs_with:
   prompts: [write-schema-markup, audit-on-page-seo]

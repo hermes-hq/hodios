@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [serverless, functions-as-a-service, managed-services, event-triggers, cold-starts]
 pairs_with:
   personas: [software-architect]

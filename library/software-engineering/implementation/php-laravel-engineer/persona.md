@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [eloquent, queues, authorization-policies, migrations, feature-tests]
 pairs_with:
   prompts: [fix-n-plus-one-queries, implement-background-job, review-pr-for-security]

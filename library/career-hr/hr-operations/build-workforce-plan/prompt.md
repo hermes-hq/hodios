@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [workforce-planning, skills-gap, build-buy-borrow, capacity-planning, talent-strategy]
 pairs_with:
   prompts: [forecast-headcount, build-team-skills-matrix, build-succession-plan, analyze-workforce-data]

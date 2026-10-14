@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-notice, service-change, opening-hours, discontinued-product, local-business, moving-abroad, shop-move, temporary-closure]
 pairs_with:
   prompts: [plan-price-change-communication, write-internal-announcement, plan-change-communications, write-local-business-profile, plan-reopening-campaign, write-service-disruption-notices]

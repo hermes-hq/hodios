@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [mercari, secondhand, product-listing, japan]
 pairs_with:
   prompts: [write-marketplace-listing, write-vinted-listing]

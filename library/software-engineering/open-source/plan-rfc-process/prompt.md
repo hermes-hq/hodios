@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rfc, enhancement-proposals, consensus, design-review, community-process]
 pairs_with:
   prompts: [write-project-governance, write-design-doc, summarize-discussion-positions, write-versioning-policy]

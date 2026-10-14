@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [peer-feedback, 360-feedback, performance-cycle, constructive-feedback]
 pairs_with:
   prompts: [write-self-review, write-brag-document]

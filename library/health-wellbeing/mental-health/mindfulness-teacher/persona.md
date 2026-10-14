@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [meditation, attention, trauma-sensitive, guided-practice, present-moment]
 pairs_with:
   prompts: [guide-mindfulness-meditation, guide-breathing-exercise, practice-self-compassion, set-up-worry-time]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recipe-costing, plate-cost, yield-test, food-cost-percentage, menu-pricing, gross-profit]
 pairs_with:
   prompts: [engineer-restaurant-menu, write-dish-spec-sheet]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [farm-records, crop-yield, on-farm-trials, orchard, variety-comparison]
 pairs_with:
   prompts: [explore-dataset, run-regression-analysis, decompose-seasonality]

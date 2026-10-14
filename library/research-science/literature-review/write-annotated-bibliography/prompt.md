@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [annotated-bibliography, source-evaluation, apa, mla, citations]
 pairs_with:
   prompts: [format-citations, summarize-paper, build-literature-matrix]

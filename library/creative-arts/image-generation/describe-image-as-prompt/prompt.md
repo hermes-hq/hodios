@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reverse-prompting, style-analysis, style-block, visual-description]
 pairs_with:
   prompts: [build-image-style-guide, write-image-prompt]

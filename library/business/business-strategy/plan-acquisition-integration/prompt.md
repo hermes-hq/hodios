@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [post-merger-integration, day-one, hundred-day-plan, synergies, integration-management]
 pairs_with:
   prompts: [screen-acquisition-targets, harmonise-terms-after-acquisition, plan-brand-merger, build-strategy-presentation]

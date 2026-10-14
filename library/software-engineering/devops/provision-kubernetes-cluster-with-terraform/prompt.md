@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [eks, gke, aks, node-pools, workload-identity]
 pairs_with:
   prompts: [upgrade-kubernetes-cluster, design-vpc-network, set-up-gitops-delivery]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [arduino, esp32, rp2040, firmware, iot, sensors]
 pairs_with:
   personas: [embedded-engineer]

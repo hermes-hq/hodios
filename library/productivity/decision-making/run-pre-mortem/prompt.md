@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pre-mortem, risk, mitigation, tripwires, assumptions]
 pairs_with:
   prompts: [compare-options-matrix, run-retrospective]

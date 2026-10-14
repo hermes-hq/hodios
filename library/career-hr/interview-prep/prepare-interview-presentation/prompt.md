@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [presentation-task, assessment-centre, panel-interview, pyramid-principle, storyline]
 pairs_with:
   prompts: [prepare-case-interview, research-company, prepare-questions-for-interviewer]

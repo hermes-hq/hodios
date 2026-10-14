@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [reproducible-analysis, traceable-numbers, report-export, analysis-script]
 pairs_with:
   prompts: [build-report-deck-from-analysis, generate-docx-report-from-template, write-insight-report, write-data-methodology-note]

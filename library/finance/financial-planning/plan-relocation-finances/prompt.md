@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [moving-abroad, cost-of-living, expat-finances, currency-transfer]
 pairs_with:
   prompts: [plan-tax-move-abroad, build-monthly-budget, build-emergency-fund-plan]

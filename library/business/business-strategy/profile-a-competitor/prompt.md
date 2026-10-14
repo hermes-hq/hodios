@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitor-profile, competitive-analysis, market-intelligence, rival-strategy]
 pairs_with:
   prompts: [analyze-competitors, analyze-competitor-financials, wargame-competitor-response, set-up-competitor-monitoring]

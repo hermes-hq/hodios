@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [irb, research-ethics, informed-consent, data-protection, vulnerable-participants]
 pairs_with:
   prompts: [write-research-interview-protocol, write-data-management-plan, design-research-study]

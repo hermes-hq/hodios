@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [orm, n-plus-one, migrations, querysets, csrf]
 applies_to: ["**/*.py", "**/templates/**/*.html"]
 pairs_with:

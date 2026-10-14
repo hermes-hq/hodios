@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [citizenship-test, civics, memory-aids, official-study-guide]
 pairs_with:
   prompts: [quiz-me-interactively, create-memory-aids, make-flashcards]

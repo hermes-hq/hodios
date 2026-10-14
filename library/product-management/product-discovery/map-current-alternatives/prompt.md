@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [current-alternatives, competitive-alternatives, switching-costs, non-consumption, workarounds]
 pairs_with:
   prompts: [interview-non-customers, analyze-competitor-reviews, write-opportunity-assessment, define-jobs-to-be-done]

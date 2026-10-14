@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [choosing-a-major, university-choice, decision-matrix, careers]
 pairs_with:
   prompts: [plan-university-application, coach-personal-statement, practice-admissions-interview]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [web-attacks, access-logs, web-shell, sql-injection, log-analysis]
 pairs_with:
   prompts: [build-forensic-timeline, write-siem-query, respond-to-critical-cve, analyze-suspicious-script]

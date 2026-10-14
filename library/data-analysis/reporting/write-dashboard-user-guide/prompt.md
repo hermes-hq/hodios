@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [user-guide, dashboard-documentation, metric-definitions, self-help]
 pairs_with:
   prompts: [write-data-methodology-note, build-metrics-glossary, announce-new-dashboard]

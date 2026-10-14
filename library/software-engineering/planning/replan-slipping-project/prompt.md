@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [schedule-slip, replanning, scope-cut, stakeholder-communication, delivery-risk]
 pairs_with:
   prompts: [estimate-with-ranges, forecast-roadmap-dates-with-ranges, write-status-report]

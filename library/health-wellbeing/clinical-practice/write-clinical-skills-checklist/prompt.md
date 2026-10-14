@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: expert
+depth: advanced
 tags: [competency-assessment, clinical-skills, osce, practice-development, staff-training, skills-sign-off]
 pairs_with:
   prompts: [plan-clinical-in-service, prepare-for-clinical-placement]

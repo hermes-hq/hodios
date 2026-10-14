@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [spec-driven, task-breakdown, rollout]
 pairs_with:
   workflows: [feature-track]

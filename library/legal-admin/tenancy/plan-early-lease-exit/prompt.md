@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [break-clause, lease-surrender, replacement-tenant, moving-out, tenant-rights]
 pairs_with:
   prompts: [review-lease, demand-deposit-return, write-tenant-notice-to-leave]

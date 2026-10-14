@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [storyline, assertion-evidence, slide-design, chart-choice, slide-titles]
 pairs_with:
   prompts: [outline-presentation, critique-slide-deck, plan-slide-visuals, turn-document-into-slides, convert-slides-to-handout, shorten-presentation-for-time, make-presentation-accessible]

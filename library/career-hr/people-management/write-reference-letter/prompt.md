@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [recommendation-letter, reference-letter, letter-of-recommendation, referee]
 pairs_with:
   prompts: [write-performance-review, brief-your-references]

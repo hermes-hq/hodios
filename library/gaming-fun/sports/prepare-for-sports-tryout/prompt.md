@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tryout, team-selection, sports-trial, coachability, rejection-resilience]
 pairs_with:
   prompts: [plan-youth-athlete-training, design-warm-up, plan-sports-nutrition]

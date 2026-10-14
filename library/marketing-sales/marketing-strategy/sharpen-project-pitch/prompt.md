@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-source-project, project-pitch, one-line-pitch, repo-description, github-topics]
 pairs_with:
   prompts: [audit-readme-conversion, write-positioning-statement, plan-open-source-launch]

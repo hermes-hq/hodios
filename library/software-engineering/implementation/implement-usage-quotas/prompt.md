@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [saas]
 tags: [quotas, metering, usage-limits, entitlements]
 pairs_with:

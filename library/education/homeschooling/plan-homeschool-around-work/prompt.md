@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [working-parents, scheduling, supervision, solo-study, childcare]
 pairs_with:
   prompts: [plan-multi-age-homeschool-week, set-up-independent-work-system]

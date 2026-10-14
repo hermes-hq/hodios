@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [supporter-care, regular-giving, gift-cancellation, contact-preferences, fundraiser-complaints]
 pairs_with:
   prompts: [write-donor-thank-you, write-support-reply, analyze-donor-data]

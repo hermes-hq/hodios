@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lease-vs-buy, equipment-finance, capital-expenditure, net-present-value]
 pairs_with:
   prompts: [compare-loan-offers, calculate-cash-runway, forecast-cash-flow]

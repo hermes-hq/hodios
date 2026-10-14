@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [house-training, toilet-training, puppy, rescue-dog, reward-based-training, daily-schedule]
 pairs_with:
   prompts: [plan-puppy-socialisation, crate-train-dog, plan-new-pet-care, train-dog-behavior]

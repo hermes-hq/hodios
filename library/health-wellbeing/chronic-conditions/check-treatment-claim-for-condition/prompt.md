@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [health-claims, evidence, misinformation, alternative-treatments, hype]
 pairs_with:
   prompts: [choose-condition-support-community, plan-chronic-condition-self-management, cope-with-chronic-illness-emotions]

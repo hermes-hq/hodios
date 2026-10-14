@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [redux-toolkit, zustand, pinia, selectors, async-actions]
 pairs_with:
   prompts: [write-component-tests, mock-http-with-msw, test-react-hooks]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [later-rounds, interview-strategy, hiring-manager-round, story-bank]
 pairs_with:
   prompts: [debrief-interview, prepare-star-stories, prepare-questions-for-interviewer, close-interview-strongly]

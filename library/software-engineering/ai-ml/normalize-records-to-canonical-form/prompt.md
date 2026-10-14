@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [data-normalization, data-cleaning, entity-standardization, address-parsing, master-data]
 pairs_with:
   prompts: [deduplicate-records, build-structured-extraction, redact-personal-data]

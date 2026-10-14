@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [songs, listening-skills, gap-fill, connected-speech, lesson-plan, pre-listening]
 pairs_with:
   prompts: [gloss-authentic-text, plan-pronunciation-class-segment, create-shadowing-script]

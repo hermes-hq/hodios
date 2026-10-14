@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [home-use-test, consumer-testing, just-about-right, penalty-analysis, novelty-effect, usage-diary]
 pairs_with:
   prompts: [check-feedback-sampling-bias, define-physical-product-kpis]

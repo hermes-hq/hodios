@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [astrophotography, milky-way, star-trails, night-photography, image-stacking]
 pairs_with:
   prompts: [choose-camera-settings, edit-photo-step-by-step]

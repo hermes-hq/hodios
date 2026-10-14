@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [common-cold, influenza, self-care, red-flags, sick-day, respiratory-virus]
 pairs_with:
   prompts: [choose-right-care-service, disinfect-after-illness, prepare-pharmacist-consultation]

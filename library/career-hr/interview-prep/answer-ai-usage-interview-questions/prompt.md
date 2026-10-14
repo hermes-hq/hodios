@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ai-tools, ai-at-work, judgement, classic-questions]
 pairs_with:
   prompts: [prepare-star-stories, answer-greatest-strength, prepare-questions-for-interviewer]

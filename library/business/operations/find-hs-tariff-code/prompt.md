@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hs-code, tariff-classification, customs, importing, exporting, duty]
 pairs_with:
   prompts: [calculate-landed-cost, prepare-shipping-documents-checklist]

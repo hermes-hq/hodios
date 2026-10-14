@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plan-of-action, seller-account, account-suspension, listing-removal, seller-performance, appeal-letter]
 pairs_with:
   prompts: [appeal-rejected-ad, plan-multichannel-inventory-sync]

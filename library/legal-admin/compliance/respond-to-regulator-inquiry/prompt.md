@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regulator-correspondence, complaint-investigation, regulatory-response, remediation, data-protection-authority]
 pairs_with:
   prompts: [handle-data-subject-request, plan-data-breach-response, audit-data-protection-compliance]

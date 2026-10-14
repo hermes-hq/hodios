@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [number-talks, problem-strings, mental-math, number-sense, math-discourse]
 pairs_with:
   prompts: [design-formative-assessment, generate-discussion-questions]

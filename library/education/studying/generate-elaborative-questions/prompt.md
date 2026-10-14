@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [elaborative-interrogation, self-explanation, deep-understanding, active-recall]
 pairs_with:
   prompts: [run-feynman-check, build-concept-map, make-flashcards]

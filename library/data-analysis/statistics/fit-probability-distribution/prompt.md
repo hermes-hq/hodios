@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [distribution-fitting, maximum-likelihood, qq-plot, lognormal, weibull, tail-risk]
 pairs_with:
   prompts: [run-monte-carlo-simulation, calculate-process-capability, check-normality-assumption]

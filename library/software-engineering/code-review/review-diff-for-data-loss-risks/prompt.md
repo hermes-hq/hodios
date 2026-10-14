@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-integrity, deletes, pull-request, upserts]
 pairs_with:
   personas: [code-reviewer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [synthesis, multi-source, briefing, cited-answers]
 pairs_with:
   prompts: [build-news-digest, compare-documents, extract-open-questions]

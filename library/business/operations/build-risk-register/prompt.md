@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [risk-register, risk-assessment, risk-management, operational-risk, controls]
 pairs_with:
   prompts: [plan-business-continuity, map-supply-risk, run-fmea]

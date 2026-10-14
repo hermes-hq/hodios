@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [networking-event, mixers, icebreakers, host-script, professional-community]
 pairs_with:
   prompts: [plan-recurring-meetup, write-run-of-show, follow-up-event-leads]

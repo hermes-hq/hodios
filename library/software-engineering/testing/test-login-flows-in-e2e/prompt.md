@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [e2e, authentication, sso, mfa, oauth]
 pairs_with:
   prompts: [set-up-playwright-in-ci, write-e2e-test, seed-and-clean-e2e-test-data]

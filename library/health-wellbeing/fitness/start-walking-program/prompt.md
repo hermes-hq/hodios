@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [walking, step-count, beginner, habit-building, low-impact]
 pairs_with:
   prompts: [assess-fitness-baseline, plan-strength-for-older-adults, track-fitness-progress, prepare-for-long-hike]

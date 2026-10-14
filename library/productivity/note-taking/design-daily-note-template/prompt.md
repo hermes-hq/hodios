@@ -19,6 +19,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [daily-notes, templates, day-log, end-of-day-review, logseq]
 pairs_with:
   prompts: [write-note-templates, set-up-work-logbook, design-second-brain]

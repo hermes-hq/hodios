@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retainer, recurring-revenue, account-expansion, scope-limits, client-relationship]
 pairs_with:
   prompts: [write-sales-proposal, prepare-price-increase-conversation, prepare-renewal-conversation]

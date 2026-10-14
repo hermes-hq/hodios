@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sick-child, working-parents, backup-childcare, school-closure, rota, contingency]
 pairs_with:
   prompts: [coordinate-family-calendar, split-mental-load-fairly, write-babysitter-handbook]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [site-safety, cscs-card, citb-test, working-at-height, hazard-awareness, site-induction]
 pairs_with:
   prompts: [prepare-trade-licensing-exam, analyze-exam-mistakes]

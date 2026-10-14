@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [progressive-overload, baseline, check-in, habit-building, programme-design]
 pairs_with:
   prompts: [assess-fitness-baseline, build-training-plan, track-fitness-progress, plan-nutrition-targets]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [habit-maintenance, travel-routines, life-transitions, minimum-viable-habit, planned-pause]
 pairs_with:
   prompts: [restart-lapsed-habit, design-habit-plan, design-daily-routine]

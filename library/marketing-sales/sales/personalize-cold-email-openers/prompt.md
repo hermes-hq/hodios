@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cold-email, personalization, first-lines, outbound, prospect-list]
 pairs_with:
   prompts: [write-cold-outreach, write-outbound-sequence, audit-cold-email-sequence]

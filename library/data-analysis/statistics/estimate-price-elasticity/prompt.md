@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [price-setting, elasticity, demand-modelling, log-log-regression, price-test]
 pairs_with:
   prompts: [estimate-causal-effect, run-regression-analysis, analyze-ab-test-results]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-caching, llm-cost, latency, llm-api, prompt-layout]
 pairs_with:
   prompts: [compress-prompt, choose-sampling-settings, reduce-llm-costs]

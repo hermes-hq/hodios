@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [surprise-party, party-planning, birthdays, celebrations, cover-story, guest-coordination]
 pairs_with:
   prompts: [plan-anniversary, choose-meaningful-gift, plan-baby-shower]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [account-relaunch, content-pillars, posting-rhythm, profile-refresh, starter-posts]
 pairs_with:
   prompts: [run-social-media-audit, write-social-bio, plan-sustainable-posting-schedule, write-monthly-social-report]

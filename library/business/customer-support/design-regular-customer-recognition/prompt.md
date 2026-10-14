@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [regulars, customer-recognition, personal-service, guest-notes, small-gestures]
 pairs_with:
   prompts: [design-loyalty-program, build-service-recovery-playbook]

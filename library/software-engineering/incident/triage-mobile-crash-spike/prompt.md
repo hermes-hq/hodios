@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crash-free-rate, staged-rollout, kill-switch, hotfix, app-store-release]
 pairs_with:
   prompts: [debug-mobile-crash, write-incident-update, triage-production-alert]

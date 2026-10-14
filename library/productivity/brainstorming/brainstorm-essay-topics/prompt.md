@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [essay-topics, research-questions, coursework, topic-selection, essay-planning]
 pairs_with:
   prompts: [plan-essay-argument, choose-dissertation-topic, refine-research-question]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-reviews, star-ratings, mobile-app, release-quality, review-replies, ios-and-android]
 pairs_with:
   prompts: [analyze-user-feedback, define-mobile-app-kpis, detect-emerging-feedback-issue, plan-mobile-app-launch]

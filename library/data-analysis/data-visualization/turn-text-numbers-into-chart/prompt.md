@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [data-extraction, chart-selection, tidy-data, data-journalism]
 pairs_with:
   prompts: [choose-chart-type, write-plotting-code, extract-tables-from-pdf]

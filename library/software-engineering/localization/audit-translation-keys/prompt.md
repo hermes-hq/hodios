@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [translation-keys, message-catalog, dead-code]
 pairs_with:
   prompts: [extract-ui-strings, automate-translation-file-sync]

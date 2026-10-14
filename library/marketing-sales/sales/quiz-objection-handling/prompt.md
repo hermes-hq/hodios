@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [objection-drill, quick-fire-quiz, rep-training, weak-spot-tracking, practice-game]
 pairs_with:
   prompts: [handle-sales-objections, practise-cold-call, practise-shop-floor-selling]

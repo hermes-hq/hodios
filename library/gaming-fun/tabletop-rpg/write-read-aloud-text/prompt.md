@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [boxed-text, scene-description, game-mastering, session-prep]
 pairs_with:
   prompts: [design-one-shot-adventure, create-npc]

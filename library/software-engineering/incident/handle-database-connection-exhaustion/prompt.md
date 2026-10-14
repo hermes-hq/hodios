@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [too-many-connections, connection-pool, idle-in-transaction, pgbouncer, max-connections]
 pairs_with:
   prompts: [tune-connection-pool, investigate-latency-spike, collect-incident-evidence]

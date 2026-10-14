@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [character-creation, player-character, backstory, character-build, roleplay]
 pairs_with:
   prompts: [create-npc]

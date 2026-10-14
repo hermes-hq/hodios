@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [choreography, dance-counts, formations, recital, routine, dance-teaching]
 pairs_with:
   prompts: [plan-dance-class]

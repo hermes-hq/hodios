@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [til, learning-log, snippets, searchable-notes]
 pairs_with:
   prompts: [write-note-for-future-self, set-up-work-logbook]

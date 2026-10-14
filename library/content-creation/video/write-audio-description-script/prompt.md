@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audio-description, described-video, blind-and-low-vision, timed-text]
 pairs_with:
   prompts: [write-video-chapters, write-tts-voiceover-script, plan-ai-presenter-video]

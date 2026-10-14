@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [computer-vision, embeddings, vector-search, deduplication, perceptual-hash]
 pairs_with:
   prompts: [design-rag-pipeline, cluster-text-with-embeddings]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [pec, formal-email, lei-form, public-administration, university, closing-formulas]
 pairs_with:
   prompts: [write-email-to-professor, write-french-formal-email, check-tone-before-sending]

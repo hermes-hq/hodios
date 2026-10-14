@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-corruption, point-in-time-recovery, data-repair, backups, blast-radius]
 pairs_with:
   prompts: [decide-rollback-or-fix-forward, review-one-off-production-script, write-incident-update, write-postmortem]

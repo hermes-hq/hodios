@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-migration, platform-team, deadlines, adoption, stakeholder-communication]
 pairs_with:
   prompts: [write-migration-guide, write-api-deprecation-notice]

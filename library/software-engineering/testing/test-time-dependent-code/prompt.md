@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fake-clock, fake-timers, time-zones, daylight-saving, deterministic-tests]
 pairs_with:
   prompts: [fix-date-time-bug, decouple-for-testability, fix-flaky-test]

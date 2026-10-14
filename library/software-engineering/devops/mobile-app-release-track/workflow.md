@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-store-release, phased-release, crash-free-rate, store-review, beta-testing, hotfix]
 pairs_with:
   prompts: [automate-mobile-app-signing, triage-mobile-crash-spike, debug-mobile-crash]

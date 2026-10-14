@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [travel-emergency, lost-passport, consular-help, theft-abroad]
 pairs_with:
   prompts: [handle-travel-disruption, check-destination-safety, access-healthcare-abroad]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [homesickness, moving-abroad, international-students, expats, newcomers, refugees]
 pairs_with:
   prompts: [build-connection-plan, navigate-life-transition, find-volunteering-match]

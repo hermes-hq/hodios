@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [embeddings, semantic-search, model-selection, benchmarking]
 pairs_with:
   prompts: [design-rag-pipeline, choose-llm-for-feature]

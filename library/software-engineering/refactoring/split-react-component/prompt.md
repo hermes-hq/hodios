@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [react-components, custom-hooks, component-design, prop-drilling]
 pairs_with:
   prompts: [write-component-tests, fix-react-rerenders]

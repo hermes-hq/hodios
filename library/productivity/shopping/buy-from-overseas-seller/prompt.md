@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cross-border-shopping, import-duty, customs, landed-price, international-returns]
 pairs_with:
   prompts: [check-online-shop-legitimacy, check-product-safety-marks, decode-product-claims, time-a-purchase]

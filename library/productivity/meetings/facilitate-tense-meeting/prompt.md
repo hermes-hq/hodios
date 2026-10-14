@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [heated-discussion, difficult-meetings, de-escalation, decision-rules, facilitation]
 pairs_with:
   prompts: [write-meeting-agenda, prepare-for-meeting, prepare-to-chair-meeting]

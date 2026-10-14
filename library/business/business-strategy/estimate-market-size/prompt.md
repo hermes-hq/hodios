@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tam-sam-som, market-sizing, bottom-up, sensitivity-analysis]
 pairs_with:
   prompts: [write-pitch-deck-outline, write-business-plan, run-swot-analysis]

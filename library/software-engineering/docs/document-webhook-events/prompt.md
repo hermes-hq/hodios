@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [webhooks, event-catalog, api-reference, signature-verification]
 pairs_with:
   prompts: [document-public-api, document-error-codes, write-code-samples, write-explanation-page]

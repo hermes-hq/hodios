@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ssh, ssh-keys, remote-access, host-keys, servers]
 pairs_with:
   prompts: [fix-permission-denied-error, set-up-git-on-new-machine]

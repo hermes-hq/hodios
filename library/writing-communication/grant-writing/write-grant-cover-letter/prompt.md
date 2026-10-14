@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cover-letter, grant-submission, funder-letter, authorised-signatory]
 pairs_with:
   prompts: [write-grant-application, write-letter-of-inquiry, check-grant-application-before-submission]

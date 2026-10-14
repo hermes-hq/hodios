@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [voice-control, switch-access, target-size, gestures, label-in-name, wcag]
 pairs_with:
   personas: [accessibility-specialist]

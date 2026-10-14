@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ramadan, religious-observance, visitor-conduct, holy-days]
 pairs_with:
   prompts: [check-local-festivals-and-holidays, prepare-for-sacred-site-visit]

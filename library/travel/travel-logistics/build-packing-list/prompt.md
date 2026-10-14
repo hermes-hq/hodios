@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [carry-on, luggage, climate]
 pairs_with:
   prompts: [plan-itinerary, check-travel-requirements]

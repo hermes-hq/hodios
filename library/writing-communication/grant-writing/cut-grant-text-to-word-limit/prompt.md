@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [word-limit, character-limit, cutting, scoring-criteria, concise-writing]
 pairs_with:
   prompts: [check-grant-application-before-submission, write-grant-application, tighten-prose]

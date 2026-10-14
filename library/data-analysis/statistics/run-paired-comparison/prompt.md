@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [paired-t-test, wilcoxon-signed-rank, before-after, matched-pairs, repeated-measures]
 pairs_with:
   prompts: [run-two-group-comparison, run-ancova-for-baseline, run-bland-altman-analysis]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [energy-dip, post-lunch-slump, blood-sugar, caffeine-timing, tiredness]
 pairs_with:
   prompts: [plan-filling-snacks, plan-caffeine-reduction, improve-sleep-habits]

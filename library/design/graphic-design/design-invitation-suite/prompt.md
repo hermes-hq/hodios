@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wedding-invitations, stationery, event-design, typography, print-specs]
 pairs_with:
   prompts: [plan-wedding, pair-typefaces, create-color-palette, prepare-print-files]

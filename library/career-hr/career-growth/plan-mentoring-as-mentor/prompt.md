@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [being-a-mentor, mentee, coaching-questions, knowledge-sharing]
 pairs_with:
   prompts: [prepare-for-mentor-meeting, find-mentor]

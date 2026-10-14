@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [parental-controls, child-safety, content-filtering, in-app-purchases, family-accounts]
 pairs_with:
   prompts: [set-screen-time-plan, talk-to-teen-about-online-safety, lock-down-social-privacy]

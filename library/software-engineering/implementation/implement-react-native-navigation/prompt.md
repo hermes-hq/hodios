@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [navigation, expo-router, react-navigation, auth-flow, typed-routes]
 pairs_with:
   prompts: [implement-mobile-deep-links, implement-protected-routes]

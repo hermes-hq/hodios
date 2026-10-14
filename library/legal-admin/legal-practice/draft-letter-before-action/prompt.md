@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [letter-before-claim, demand-letter, pre-action-protocol, litigation-support, dispute-letter]
 pairs_with:
   prompts: [build-damages-schedule, draft-legal-research-memo, write-client-status-update]

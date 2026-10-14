@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [restaurant-review, hotel-review, honest-verdict, disclosure, fair-comment]
 pairs_with:
   prompts: [write-local-guide-post, write-product-review-post, write-travel-story]

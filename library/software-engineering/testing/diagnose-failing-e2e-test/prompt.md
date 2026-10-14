@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [e2e, trace-viewer, test-debugging, ci-failures]
 pairs_with:
   prompts: [fix-flaky-test, triage-failing-ci, write-e2e-test]

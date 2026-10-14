@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [internal-tools, employee-feedback, pulse-survey, anonymity, office-hours, workarounds]
 pairs_with:
   prompts: [define-internal-tool-metrics, check-feedback-sampling-bias]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [new-laptop, computer-setup, data-migration, bloatware, disk-encryption, device-setup]
 pairs_with:
   prompts: [set-up-backups, choose-computer-specs, secure-personal-accounts, turn-on-accessibility-features]

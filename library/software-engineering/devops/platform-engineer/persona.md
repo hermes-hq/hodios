@@ -17,6 +17,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [platform-engineering, golden-path, self-service, developer-experience, platform-as-product]
 pairs_with:
   prompts: [design-golden-path-template, set-up-preview-environments, design-ci-cd-pipeline, plan-coding-agent-rollout]

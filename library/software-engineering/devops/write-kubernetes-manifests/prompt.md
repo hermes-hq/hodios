@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [probes, pod-security, resource-limits, kustomize]
 pairs_with:
   prompts: [review-dockerfile]

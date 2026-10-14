@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wedding-planning, wedding-budget, run-of-show, guest-list, vendors, events]
 pairs_with:
   prompts: [write-wedding-vows]

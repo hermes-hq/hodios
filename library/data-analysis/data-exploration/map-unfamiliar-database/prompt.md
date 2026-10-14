@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [schema-discovery, information-schema, data-freshness, analytics-sql]
 pairs_with:
   prompts: [explore-dataset, check-tables-before-joining, write-data-dictionary]

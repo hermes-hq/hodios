@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [portfolio, career-change, bootcamp, side-project]
 pairs_with:
   prompts: [write-portfolio-case-study, plan-learning-path]

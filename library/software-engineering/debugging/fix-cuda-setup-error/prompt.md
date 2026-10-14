@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cuda, gpu, nvidia-drivers, out-of-memory, ml-environments]
 pairs_with:
   prompts: [fix-tensor-shape-mismatch, resolve-dependency-conflict]

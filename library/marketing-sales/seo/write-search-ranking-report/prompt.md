@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-reporting, monthly-report, organic-leads, progress-updates]
 pairs_with:
   prompts: [analyze-search-console-data, diagnose-organic-traffic-drop]

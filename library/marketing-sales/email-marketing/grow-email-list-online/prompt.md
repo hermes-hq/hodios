@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [list-growth, signup-forms, lead-magnet, popups, sign-up-incentive]
 pairs_with:
   prompts: [grow-email-list-in-store, write-double-opt-in-emails, write-welcome-series]

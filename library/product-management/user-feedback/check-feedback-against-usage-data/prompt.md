@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-analytics, behavioural-data, triangulation, evidence-weighting, reach]
 pairs_with:
   prompts: [check-feedback-sampling-bias, analyze-user-feedback, triage-feature-requests]

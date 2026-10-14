@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [joins, fan-out, join-keys, data-quality, analytics-sql]
 pairs_with:
   prompts: [review-analysis-sql, reconcile-datasets, map-unfamiliar-database]

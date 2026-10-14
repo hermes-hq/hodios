@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [obstacle-course, active-play, gross-motor-skills, garden-games, indoor-movement, screen-free]
 pairs_with:
   prompts: [plan-backyard-sports-day, plan-rainy-day-activities, plan-kids-party]

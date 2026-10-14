@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [royal-icing, cookie-decorating, cut-out-cookies, piping, edible-gifts]
 pairs_with:
   prompts: [plan-cookie-baking-day, plan-gingerbread-house, pack-baked-goods-for-shipping]

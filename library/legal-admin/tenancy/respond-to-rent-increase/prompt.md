@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rent-rise, tenant-rights, counter-offer, landlord-letters, housing-costs]
 pairs_with:
   prompts: [review-lease, set-asking-rent]

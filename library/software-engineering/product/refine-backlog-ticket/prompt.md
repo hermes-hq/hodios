@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [backlog-refinement, definition-of-ready, user-story, acceptance-criteria]
 pairs_with:
   personas: [product-manager]

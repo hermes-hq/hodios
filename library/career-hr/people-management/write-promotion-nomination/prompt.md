@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [promotion-nomination, promotion-committee, career-ladder, sponsorship, talent-review]
 pairs_with:
   prompts: [build-career-ladder, run-calibration-session, write-performance-review, prepare-promotion-case]

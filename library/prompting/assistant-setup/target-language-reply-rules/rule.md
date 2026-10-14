@@ -13,6 +13,7 @@ requires: [none]
 output: [conversation]
 risk: read-only
 level: beginner
+depth: specific
 tags: [immersion, comprehensible-input, cefr, error-correction, vocabulary-glosses]
 pairs_with:
   styles: [{id: bilingual, level: 2}]

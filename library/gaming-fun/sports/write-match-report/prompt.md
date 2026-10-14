@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [match-report, club-newsletter, sports-writing, grassroots-sport, local-news]
 pairs_with:
   prompts: [run-match-debrief]

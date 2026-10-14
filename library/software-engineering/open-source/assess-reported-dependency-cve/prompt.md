@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cve, transitive-dependencies, reachability, vulnerability-scanner, vex, version-ranges]
 pairs_with:
   prompts: [triage-vulnerability-report, coordinate-security-release, draft-maintainer-issue-replies]

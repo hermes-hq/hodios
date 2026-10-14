@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [learning-strategies, metacognition, retrieval-practice, spaced-practice, note-making, self-regulated-learning]
 pairs_with:
   prompts: [plan-media-literacy-lesson, write-lesson-plan, create-study-plan]

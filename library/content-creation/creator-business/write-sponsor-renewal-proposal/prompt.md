@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sponsor-renewal, campaign-results, long-term-partnership, sponsorship-packages, retention]
 pairs_with:
   prompts: [build-creator-rate-card, pitch-brand-sponsorship, write-media-kit]

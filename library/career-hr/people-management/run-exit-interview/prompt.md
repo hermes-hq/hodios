@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [exit-interview, attrition, retention, employee-feedback, thematic-analysis]
 pairs_with:
   prompts: [run-stay-interview]

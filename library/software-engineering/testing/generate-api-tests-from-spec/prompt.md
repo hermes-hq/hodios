@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-testing, schema-conformance, boundary-values, authorization, schemathesis]
 pairs_with:
   prompts: [write-contract-tests, write-integration-tests, write-property-based-tests]

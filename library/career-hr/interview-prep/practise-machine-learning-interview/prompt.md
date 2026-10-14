@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [computer-science, statistics]
 tags: [ml-interview, ml-system-design, model-debugging, data-leakage]
 pairs_with:

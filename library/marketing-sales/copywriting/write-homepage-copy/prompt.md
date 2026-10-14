@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [homepage, website-copy, audience-routing, hero-section, conversion]
 pairs_with:
   prompts: [write-value-proposition, write-landing-page-copy, write-about-page, write-headline-variations, critique-marketing-copy]

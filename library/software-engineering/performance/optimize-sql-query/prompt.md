@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [query-plan, indexing, sql-tuning, sargable]
 args:
   - name: query

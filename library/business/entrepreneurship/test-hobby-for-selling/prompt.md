@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hobby-to-business, true-cost-pricing, makers, demand-test, custom-orders, creative-burnout]
 pairs_with:
   prompts: [plan-side-business, plan-market-stall, price-services]

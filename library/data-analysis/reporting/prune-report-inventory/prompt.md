@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [report-sprawl, bi-governance, decommissioning, usage-analytics]
 pairs_with:
   prompts: [audit-dashboard, build-metrics-glossary, automate-recurring-report]

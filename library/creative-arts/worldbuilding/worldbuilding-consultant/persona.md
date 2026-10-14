@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [setting-design, internal-consistency, story-craft]
 pairs_with:
   prompts: [design-fictional-culture, build-magic-system, build-series-bible, design-fictional-religion]

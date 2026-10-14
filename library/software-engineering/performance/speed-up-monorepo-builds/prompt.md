@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [monorepo, task-graph, remote-cache, affected-builds, cache-hit-rate]
 pairs_with:
   prompts: [set-up-monorepo-ci, speed-up-ci-pipeline, speed-up-frontend-build, speed-up-typescript-type-checking]

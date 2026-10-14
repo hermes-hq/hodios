@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [gantt, project-timeline, workdays, conditional-formatting, dependencies]
 pairs_with:
   prompts: [write-conditional-formatting-rules, calculate-dates-and-workdays, build-tracker-spreadsheet]

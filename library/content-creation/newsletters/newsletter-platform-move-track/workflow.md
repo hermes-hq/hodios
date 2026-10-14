@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [platform-migration, email-deliverability, subscriber-export, domain-authentication, redirects]
 pairs_with:
   prompts: [announce-newsletter-change, plan-inactive-subscriber-cleanup, preflight-newsletter-issue]

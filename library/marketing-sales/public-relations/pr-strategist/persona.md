@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [earned-media, news-angle, crisis-communications]
 pairs_with:
   prompts: [pitch-journalist, write-press-release, write-messaging-framework]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [competitor-visits, mystery-shopping, field-research, local-market, store-visits]
 pairs_with:
   prompts: [analyze-competitors, run-swot-analysis, wargame-competitor-response]

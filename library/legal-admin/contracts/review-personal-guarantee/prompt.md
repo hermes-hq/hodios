@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [personal-guarantee, director-guarantee, limited-liability, all-monies, joint-and-several, business-debt]
 pairs_with:
   prompts: [review-commercial-lease, review-supplier-terms, explain-contract-clause]

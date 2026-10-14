@@ -13,6 +13,7 @@ stack: [terraform]
 requires: [none]
 risk: read-only
 level: intermediate
+depth: specific
 tags: [infrastructure-as-code, state-management, resource-tagging, least-privilege, plan-review]
 applies_to: ["**/*.tf", "**/*.tfvars", "**/*.tftest.hcl", "**/terragrunt.hcl"]
 pairs_with:

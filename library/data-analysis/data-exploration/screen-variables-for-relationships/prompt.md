@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [correlation, bivariate-analysis, confounding, multiple-comparisons, feature-screening]
 pairs_with:
   prompts: [explore-dataset, find-churn-drivers, write-analysis-plan]

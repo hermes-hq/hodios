@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-market-fit, retention-curves, sean-ellis-test, cohort-analysis, segmentation]
 pairs_with:
   prompts: [define-north-star-metric, define-activation-metric, synthesize-customer-interviews, set-kill-criteria]

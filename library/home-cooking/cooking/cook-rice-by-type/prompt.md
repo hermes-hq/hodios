@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rice, grains, water-ratio, leftovers, rice-cooker]
 pairs_with:
   prompts: [learn-cuisine-basics, troubleshoot-recipe, check-food-safety]

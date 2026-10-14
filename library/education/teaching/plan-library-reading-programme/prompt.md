@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [public-libraries, summer-reading, reading-for-pleasure, childrens-librarians, family-outreach, reading-challenge]
 pairs_with:
   prompts: [audit-school-library-collection, write-reading-volunteer-guide, plan-guided-reading-group]

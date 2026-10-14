@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [journal-submission, author-guidelines, desk-rejection, manuscript, formatting]
 pairs_with:
   prompts: [write-journal-cover-letter, cut-manuscript-to-word-limit, format-citations, write-data-availability-statement]

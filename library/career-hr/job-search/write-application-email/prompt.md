@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [application-email, cv-email, job-application, email-etiquette]
 pairs_with:
   prompts: [write-cover-letter, tailor-resume-to-job]

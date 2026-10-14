@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [art-shipping, packing-artwork, selling-art, customs]
 pairs_with:
   prompts: [write-artwork-sale-listing, price-artwork, plan-artwork-framing]

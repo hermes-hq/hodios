@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [halal, kosher, religious-diets, hosting, jain-food, dietary-needs]
 pairs_with:
   prompts: [plan-dinner-party-menu, explain-religious-tradition, find-food-for-dietary-rules-abroad]

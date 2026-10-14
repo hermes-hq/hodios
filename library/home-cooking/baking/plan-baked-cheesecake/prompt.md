@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cheesecake, water-bath, custard-bakes, desserts, make-ahead]
 pairs_with:
   prompts: [calibrate-home-oven, adapt-bake-to-different-tin, plan-celebration-cake]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [search-metrics, zero-results, click-through-position, query-reformulation, search-relevance, search-logging]
 pairs_with:
   prompts: [design-search-experience, analyze-site-search-for-demand, write-tracking-plan, design-ab-test]

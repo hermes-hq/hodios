@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [launch-plan, show-hn, launch-retro, developer-marketing]
 pairs_with:
   prompts: [plan-open-source-launch, write-show-hn-post, plan-developer-community-posts, write-launch-social-posts, review-weekly-growth-numbers]

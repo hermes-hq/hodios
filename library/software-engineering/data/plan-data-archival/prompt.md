@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-retention, archiving, partitioning, batch-deletes]
 pairs_with:
   personas: [database-administrator]

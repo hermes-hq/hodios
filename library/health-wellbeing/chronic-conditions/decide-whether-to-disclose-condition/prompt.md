@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [disclosure, invisible-illness, job-applications, new-relationships, privacy, workplace-rights]
 pairs_with:
   prompts: [request-workplace-accommodation, write-invisible-illness-explainer, request-study-adjustments]

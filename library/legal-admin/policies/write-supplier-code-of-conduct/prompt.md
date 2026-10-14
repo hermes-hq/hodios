@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [supplier-code, responsible-sourcing, modern-slavery, supply-chain-due-diligence, esg]
 pairs_with:
   prompts: [compare-vendors, prepare-supplier-negotiation, build-compliance-checklist]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [request-for-evidence, missing-documents, cover-letter, exhibit-index, response-deadline]
 pairs_with:
   prompts: [prepare-visa-application, write-immigration-status-enquiry, translate-personal-document]

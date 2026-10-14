@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [choice-board, differentiation, student-choice, learning-menu, success-criteria]
 pairs_with:
   prompts: [differentiate-lesson, design-station-rotation, create-rubric]

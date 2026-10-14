@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [anecdotes, examples, storytelling, chapter-planning, permissions]
 pairs_with:
   prompts: [outline-nonfiction-book, draft-nonfiction-chapter, write-composite-case-study]

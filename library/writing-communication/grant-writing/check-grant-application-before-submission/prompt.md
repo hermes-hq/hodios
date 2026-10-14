@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pre-submission-check, compliance-check, internal-consistency, submission-plan]
 pairs_with:
   prompts: [write-grant-application, build-grant-budget, write-grant-project-summary]

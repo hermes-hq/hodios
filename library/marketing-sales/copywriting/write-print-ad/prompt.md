@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [print-ads, magazine-ad, trade-press, long-copy, response-device]
 pairs_with:
   prompts: [write-small-print-ad, write-advertorial, write-outdoor-ad-copy, write-headline-variations]

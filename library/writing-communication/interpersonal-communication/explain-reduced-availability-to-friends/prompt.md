@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [friendships, life-changes, staying-in-touch, burnout, expectations]
 pairs_with:
   prompts: [plan-keep-in-touch-rhythm, write-message-to-cancel-plans, set-boundary]

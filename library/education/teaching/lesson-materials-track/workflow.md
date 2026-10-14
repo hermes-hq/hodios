@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lesson-design, lesson-resources, worksheet, exit-ticket, differentiation, slide-outline]
 pairs_with:
   prompts: [write-lesson-plan, differentiate-lesson, write-multiple-choice-questions, adapt-text-reading-level]

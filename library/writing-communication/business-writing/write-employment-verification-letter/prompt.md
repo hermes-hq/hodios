@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [employment-verification, salary-confirmation, proof-of-employment, mortgage-application, hr-letters]
 pairs_with:
   prompts: [write-employment-experience-letter, write-reference-letter, write-formal-letter]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [probation-review, probation-extension, employment-letters, new-hires, hr-letters]
 pairs_with:
   prompts: [design-probation-review-process, write-written-warning, write-offer-letter]

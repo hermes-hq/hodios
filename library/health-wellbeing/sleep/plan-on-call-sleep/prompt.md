@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [on-call-nights, sleep-inertia, call-outs, fragmented-sleep, recovery-sleep, drowsy-driving]
 pairs_with:
   prompts: [plan-shift-work-sleep, plan-power-naps]

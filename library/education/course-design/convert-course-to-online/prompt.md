@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [online-learning, hybrid-teaching, synchronous, asynchronous, course-redesign, digital-accessibility]
 pairs_with:
   prompts: [design-blended-program, write-course-welcome-message, review-course-for-udl]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [litigation-hold, preservation-notice, e-discovery, custodians, spoliation]
 pairs_with:
   prompts: [draft-discovery-requests, index-case-documents, draft-privilege-log]

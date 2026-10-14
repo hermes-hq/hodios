@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ageing-parents, eldercare, older-drivers, moving-house, autonomy, carers]
 pairs_with:
   prompts: [plan-family-meeting, evaluate-care-homes, prepare-advance-care-plan-questions]

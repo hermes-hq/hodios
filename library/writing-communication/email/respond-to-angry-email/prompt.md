@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [de-escalation, complaint-reply, conflict-resolution, angry-customer]
 pairs_with:
   prompts: [reply-to-email, apologize-effectively, respond-to-criticism, rewrite-for-tone]

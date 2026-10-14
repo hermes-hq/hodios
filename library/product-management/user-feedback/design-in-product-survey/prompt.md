@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [micro-survey, in-app-survey, product-market-fit-survey, survey-sampling, customer-effort-score]
 pairs_with:
   prompts: [write-survey-questionnaire, analyze-user-feedback, write-tracking-plan, analyze-survey-results]

@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [container-images, multi-stage-builds, image-size, layer-caching, non-root]
 applies_to: ["**/Dockerfile", "**/Dockerfile.*", "**/*.dockerfile", "**/.dockerignore"]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [input-validation, schema-validation, request-parsing, api-boundary]
 pairs_with:
   prompts: [extract-cross-cutting-concerns-to-middleware, introduce-value-objects]

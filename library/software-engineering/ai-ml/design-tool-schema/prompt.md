@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [function-calling, tool-use, json-schema]
 pairs_with:
   prompts: [build-mcp-server, write-llm-eval-suite]

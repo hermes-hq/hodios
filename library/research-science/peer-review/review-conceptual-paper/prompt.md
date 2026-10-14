@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [theory-building, conceptual-paper, propositions, construct-clarity, manuscript]
 pairs_with:
   prompts: [write-peer-review, review-humanities-article]

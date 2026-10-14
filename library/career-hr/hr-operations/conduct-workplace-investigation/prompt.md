@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [grievance, misconduct, complaint-handling, fair-process, investigation-report]
 pairs_with:
   prompts: [write-written-warning, write-performance-improvement-plan]

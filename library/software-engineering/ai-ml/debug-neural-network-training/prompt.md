@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [training-instability, nan-loss, overfitting, learning-rate, deep-learning]
 pairs_with:
   prompts: [write-pytorch-training-loop, review-training-data]

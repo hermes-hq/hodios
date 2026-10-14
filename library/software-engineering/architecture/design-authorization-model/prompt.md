@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [authorization, rbac, abac, rebac, permissions-model]
 pairs_with:
   personas: [software-architect]

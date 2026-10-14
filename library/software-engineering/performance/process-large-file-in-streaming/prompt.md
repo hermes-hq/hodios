@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [streaming, large-files, memory-usage, chunking, out-of-memory]
 pairs_with:
   prompts: [reduce-memory-footprint, write-file-parser, speed-up-dataframe-code]

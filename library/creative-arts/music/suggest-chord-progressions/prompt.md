@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chord-progressions, voicings, reharmonisation, voice-leading]
 pairs_with:
   prompts: [write-song-lyrics, write-music-prompt]

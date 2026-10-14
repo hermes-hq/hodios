@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [assessment-design, grading, criteria]
 pairs_with:
   prompts: [write-learning-objectives, give-essay-feedback]

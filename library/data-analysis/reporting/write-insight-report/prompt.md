@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [data-storytelling, executive-summary, recommendations]
 pairs_with:
   prompts: [check-analysis-for-pitfalls, write-weekly-metrics-update]

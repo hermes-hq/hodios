@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reverse-interview, team-health, culture-fit, due-diligence]
 pairs_with:
   prompts: [analyze-job-posting, prepare-star-stories]

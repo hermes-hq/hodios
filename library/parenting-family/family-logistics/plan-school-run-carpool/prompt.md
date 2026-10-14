@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [school-run, carpool, car-seats, rota, child-safety, working-parents]
 pairs_with:
   prompts: [streamline-school-mornings, plan-school-holiday-childcare-swap, coordinate-family-calendar]

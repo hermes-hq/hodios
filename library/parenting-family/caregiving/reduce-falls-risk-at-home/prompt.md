@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [falls, home-safety, ageing-parents, frailty, home-adaptations]
 pairs_with:
   prompts: [plan-strength-for-older-adults, choose-care-technology, prepare-medication-review]

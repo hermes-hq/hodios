@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [international-school, local-school, curriculum-choice, school-admissions, moving-abroad, children]
 pairs_with:
   prompts: [raise-child-in-new-country, learn-school-vocabulary-for-parents, plan-relocation-scouting-trip]

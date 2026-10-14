@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [haircuts, hair-texture, barber-brief, salon-consultation, low-maintenance]
 pairs_with:
   prompts: [plan-beard-and-shaving-care, choose-glasses-frames]

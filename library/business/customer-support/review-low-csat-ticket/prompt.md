@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [csat, bad-rating, root-cause, service-recovery, ticket-review]
 pairs_with:
   prompts: [build-support-qa-scorecard, write-csat-survey, critique-draft-support-reply, build-service-recovery-playbook]

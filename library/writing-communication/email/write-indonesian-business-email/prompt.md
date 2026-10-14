@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [email-kerja, sapaan-bapak-ibu, bahasa-baku, business-indonesian, eyd]
 pairs_with:
   prompts: [write-indonesian-formal-invitation, write-indonesian-job-application, write-follow-up-email]

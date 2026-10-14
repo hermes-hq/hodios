@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [team-training, workshop-plan, ai-adoption, hands-on-exercises, data-rules]
 pairs_with:
   personas: [ai-literacy-coach]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cloud-costs, finops, cost-forecast, unit-economics, cost-drivers]
 pairs_with:
   prompts: [reduce-cloud-spend, investigate-cloud-cost-spike, explain-tech-to-executives]

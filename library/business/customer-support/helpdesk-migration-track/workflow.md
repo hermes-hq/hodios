@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [helpdesk-migration, cutover, data-mapping, support-tooling, go-live]
 pairs_with:
   prompts: [audit-support-macros, design-ticket-routing-rules, design-ticket-tagging-scheme]

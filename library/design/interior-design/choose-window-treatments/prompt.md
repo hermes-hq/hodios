@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [curtains, blinds, soft-furnishings, privacy, blackout]
 args:
   - name: windows

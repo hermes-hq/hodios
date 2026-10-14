@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [course-reading, reading-notes, key-concepts, argument-mapping, university]
 pairs_with:
   prompts: [quiz-me-on-what-i-read, debate-the-author, build-document-glossary]

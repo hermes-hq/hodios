@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trademark-filing, brand-name, trademark-clearance, office-action]
 pairs_with:
   prompts: [apply-for-trademark, assess-trademark-search-results, respond-to-trademark-office-action, evaluate-trademark-opposition, plan-trademark-maintenance]

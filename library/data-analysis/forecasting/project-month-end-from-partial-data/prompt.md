@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [run-rate, nowcasting, month-to-date, landing-estimate, pacing]
 pairs_with:
   prompts: [write-forecast-commentary, forecast-time-series, explain-budget-variance]

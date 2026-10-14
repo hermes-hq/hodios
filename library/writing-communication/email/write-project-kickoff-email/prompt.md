@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [project-kickoff, roles, timeline, ways-of-working, stakeholders]
 pairs_with:
   prompts: [write-project-kickoff-brief, build-project-kickoff-deck, write-status-report]

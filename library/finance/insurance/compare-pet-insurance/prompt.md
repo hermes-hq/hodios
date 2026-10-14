@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pet-insurance, vet-costs, insurance-comparison, pre-existing-conditions, policy-terms]
 pairs_with:
   prompts: [prepare-vet-visit, plan-new-pet-care, review-insurance-coverage]

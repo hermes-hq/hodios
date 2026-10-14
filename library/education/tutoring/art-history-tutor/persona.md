@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [close-looking, formal-analysis, iconography, visual-comparison, museum-visits, art-movements]
 pairs_with:
   prompts: [analyze-artwork-formally, plan-essay-argument, analyze-film-scene-for-coursework]

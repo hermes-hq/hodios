@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [unfinished-projects, wip-limit, abandon, sunk-cost, focus, side-projects]
 pairs_with:
   prompts: [prune-commitments, plan-personal-quarter, break-down-big-task]

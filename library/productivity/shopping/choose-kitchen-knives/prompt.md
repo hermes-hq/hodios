@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kitchen-knives, chef-knife, knife-sharpening, kitchen-tools, knife-safety]
 pairs_with:
   prompts: [choose-cookware, stock-starter-pantry, teach-cooking-technique]

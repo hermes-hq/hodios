@@ -19,6 +19,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [localisation, function-names, argument-separator, decimal-comma, regional-settings]
 pairs_with:
   prompts: [write-spreadsheet-formula, debug-spreadsheet-formula, convert-excel-to-google-sheets]

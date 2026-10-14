@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [moving-abroad, international-shipping, household-goods, selling-belongings]
 pairs_with:
   prompts: [compare-international-removal-quotes, pack-arrival-luggage-for-move, plan-relocation-finances]

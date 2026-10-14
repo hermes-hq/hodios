@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [landlord, deposit-deductions, fair-wear-and-tear, inventory, end-of-tenancy]
 pairs_with:
   prompts: [write-property-inspection-report, check-landlord-obligations]

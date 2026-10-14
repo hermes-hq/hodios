@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [media-bias, framing, loaded-language, news-analysis]
 pairs_with:
   prompts: [compare-news-framing, label-fact-vs-opinion, check-statistics-in-article]

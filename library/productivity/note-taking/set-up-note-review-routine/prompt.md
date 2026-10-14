@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [note-review, spaced-resurfacing, random-note, knowledge-maintenance, routines]
 pairs_with:
   prompts: [resurface-relevant-notes, suggest-links-between-notes, apply-progressive-summarization, audit-notes-vault]

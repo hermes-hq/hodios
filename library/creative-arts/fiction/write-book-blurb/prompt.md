@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [book-marketing, back-cover-copy, self-publishing, genre-conventions]
 pairs_with:
   prompts: [write-query-letter, write-logline-and-synopsis, write-product-description]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [meat-boxes, direct-selling, carcass-yield, cut-list, cold-chain, pre-orders]
 pairs_with:
   prompts: [price-farm-gate-produce, draft-farm-produce-labels, plan-livestock-record-keeping]

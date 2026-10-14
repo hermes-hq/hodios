@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [preparatory-refactoring, small-commits, feature-work, change-design]
 pairs_with:
   prompts: [plan-large-refactor, simplify-function]

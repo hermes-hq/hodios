@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [misinformation, truth-sandwich, debunking, public-education, plain-language]
 pairs_with:
   prompts: [write-fact-check-article, write-explainer-article]

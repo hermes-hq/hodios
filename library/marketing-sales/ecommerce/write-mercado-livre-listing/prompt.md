@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mercado-livre, product-listing, marketplace-search, brazil]
 pairs_with:
   prompts: [write-marketplace-listing, write-whatsapp-business-service-scripts]

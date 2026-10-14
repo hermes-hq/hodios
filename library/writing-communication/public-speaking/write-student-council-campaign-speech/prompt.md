@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [student-council, school-election, class-representative, campaign-speech]
 pairs_with:
   prompts: [practice-impromptu-speaking, turn-script-into-cue-cards]

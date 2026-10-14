@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gift-guide, seasonal-campaign, merchandising, independent-shop]
 pairs_with:
   prompts: [write-product-description, write-promo-email, plan-promotional-offer, write-shelf-talkers]

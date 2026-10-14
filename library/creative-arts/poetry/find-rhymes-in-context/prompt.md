@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rhyme, slant-rhyme, word-choice, formal-verse]
 pairs_with:
   prompts: [write-poem-in-form, audit-poem-meter]

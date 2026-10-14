@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [key-accounts, account-management, stakeholder-map, whitespace, expansion]
 pairs_with:
   prompts: [prepare-renewal-conversation, write-mutual-action-plan, prepare-discovery-call]

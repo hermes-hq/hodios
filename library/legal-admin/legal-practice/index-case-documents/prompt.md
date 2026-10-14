@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [document-review, case-chronology, litigation-support, privilege]
 pairs_with:
   prompts: [summarize-deposition-transcript, draft-legal-research-memo, build-contract-obligations-register]

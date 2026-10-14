@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dimensional-modelling, kimball, scd, data-warehouse]
 pairs_with:
   prompts: [write-dbt-model, design-data-pipeline]

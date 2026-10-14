@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [f-commerce, facebook-page, cash-on-delivery, bangladesh]
 pairs_with:
   prompts: [write-local-business-facebook-posts, write-mobile-money-business-messages]

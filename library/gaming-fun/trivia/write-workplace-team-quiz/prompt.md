@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [team-social, offsite, company-trivia, inclusion, mixed-teams]
 pairs_with:
   prompts: [write-icebreaker-games, plan-online-quiz-night]

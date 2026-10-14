@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shift-work, night-shifts, sleep-schedule, weekly-planning, recovery, rotating-shifts]
 pairs_with:
   prompts: [plan-my-week, plan-my-day, run-energy-audit, clear-life-admin-backlog, plan-shift-work-eating]

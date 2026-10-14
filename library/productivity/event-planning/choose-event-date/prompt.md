@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [event-date, date-selection, scheduling, observances, clash-check]
 pairs_with:
   prompts: [build-event-planning-timeline, compare-event-venues, check-local-festivals-and-holidays]

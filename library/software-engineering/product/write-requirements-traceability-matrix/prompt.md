@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [traceability, test-coverage, audit-readiness, requirements]
 pairs_with:
   prompts: [write-acceptance-criteria, verify-pr-meets-acceptance-criteria, write-firmware-requirements]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-source-funding, milestones, sustainability, milestone-budget]
 pairs_with:
   prompts: [choose-oss-funding-model, set-up-oss-growth-metrics]

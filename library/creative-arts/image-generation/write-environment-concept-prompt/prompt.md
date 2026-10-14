@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [concept-art, environment-design, establishing-shots, game-art]
 pairs_with:
   prompts: [write-image-prompt, build-image-style-guide, write-isometric-scene-prompt]

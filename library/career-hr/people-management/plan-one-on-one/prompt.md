@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [one-on-one, coaching-questions, sbi-feedback, follow-ups]
 pairs_with:
   prompts: [write-performance-review, plan-new-hire-onboarding]

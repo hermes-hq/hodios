@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-types, exceptions, result-types, failure-modes]
 pairs_with:
   prompts: [review-error-handling]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tanstack-query, react-query, server-state, optimistic-updates, caching]
 args:
   - name: resources

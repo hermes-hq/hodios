@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [budget-failure, money-habits, budgeting-method, behaviour-change]
 pairs_with:
   prompts: [build-monthly-budget, review-budget-vs-actual, set-up-sinking-funds, curb-impulse-spending]

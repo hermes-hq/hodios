@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [commitment-devices, precommitment, temptation-bundling, stakes, behavioural-economics]
 pairs_with:
   prompts: [set-up-accountability-partnership, beat-procrastination, set-woop-goals]

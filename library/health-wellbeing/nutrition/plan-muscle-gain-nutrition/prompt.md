@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [muscle-gain, protein, calorie-surplus, hypertrophy, bulking, meal-ideas]
 pairs_with:
   prompts: [plan-nutrition-targets, build-training-plan, evaluate-supplement]

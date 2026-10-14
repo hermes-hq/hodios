@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [advance-directive, living-will, healthcare-proxy, end-of-life, advance-decision, medical-wishes]
 pairs_with:
   prompts: [prepare-advance-care-plan-questions, prepare-power-of-attorney-questions, prepare-will-questions, organize-important-documents]

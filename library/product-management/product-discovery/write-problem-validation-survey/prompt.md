@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [problem-validation, survey-design, problem-sizing, workarounds, sampling-bias]
 pairs_with:
   prompts: [write-customer-interview-guide, rank-customer-problems, write-research-screener, estimate-problem-cost]

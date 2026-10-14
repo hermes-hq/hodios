@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mortgage-overpayment, opportunity-cost, compounding, home-equity]
 pairs_with:
   prompts: [compare-mortgage-options, plan-retirement-scenarios, build-emergency-fund-plan, plan-debt-payoff]

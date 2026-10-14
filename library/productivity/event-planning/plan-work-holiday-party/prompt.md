@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [office-party, end-of-year-party, team-celebration, inclusive-events, alcohol-policy, duty-of-care]
 pairs_with:
   prompts: [plan-event-budget, write-event-invitation, write-event-code-of-conduct, plan-accessible-event]

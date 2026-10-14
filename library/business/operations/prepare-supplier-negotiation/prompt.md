@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [batna, procurement, purchasing, lease-renewal, price-increase, concessions]
 pairs_with:
   prompts: [compare-vendors, write-rfp, plan-inventory]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [self-hosting, install-guide, backups, version-upgrades, reverse-proxy]
 pairs_with:
   prompts: [document-configuration-options, write-troubleshooting-guide]

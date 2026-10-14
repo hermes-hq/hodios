@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [digital-skills, adult-learners, virtual-classroom, returning-learners]
 pairs_with:
   prompts: [finish-online-course, prepare-for-university-start]

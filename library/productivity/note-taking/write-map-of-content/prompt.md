@@ -19,6 +19,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [map-of-content, hub-note, index-note, wikilinks]
 pairs_with:
   prompts: [suggest-links-between-notes, split-note-into-atomic-notes, outline-draft-from-notes]

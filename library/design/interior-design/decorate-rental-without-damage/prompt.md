@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rented-home, reversible-decor, tenancy-deposit, landlord-permission, renter-friendly]
 pairs_with:
   prompts: [document-rental-move-in, deep-clean-for-move-out]

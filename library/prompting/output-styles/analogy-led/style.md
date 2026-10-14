@@ -11,6 +11,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: beginner
+depth: specific
 role: [student, individual]
 tags: [analogies, mental-models, intuition, explanation, metaphor]
 pairs_with:

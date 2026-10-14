@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [preference-centre, unsubscribe-page, email-pause, one-click-unsubscribe, ux-copy]
 pairs_with:
   prompts: [set-email-frequency, plan-email-segmentation]

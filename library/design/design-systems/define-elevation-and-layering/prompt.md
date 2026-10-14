@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [elevation, shadows, z-index, stacking-context, overlays]
 pairs_with:
   prompts: [define-design-tokens, design-dark-mode, fix-css-layout-bug]

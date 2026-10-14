@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [high-cpu, sampling-profiler, cpu-throttling, production-profiling, redos]
 pairs_with:
   prompts: [read-flame-graph, profile-hot-path, investigate-latency-spike, tune-garbage-collector]

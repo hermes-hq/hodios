@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trade-show, event-sales, booth-staff, lead-capture, qualification]
 pairs_with:
   prompts: [follow-up-event-leads, qualify-leads, write-booth-copy]

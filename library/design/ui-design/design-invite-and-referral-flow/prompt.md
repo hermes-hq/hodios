@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [invitations, referrals, viral-loops, team-invites, growth]
 pairs_with:
   prompts: [spec-team-invitation-flow, design-referral-program, write-referral-program-copy, design-sharing-and-permissions-ui, review-design-for-dark-patterns]

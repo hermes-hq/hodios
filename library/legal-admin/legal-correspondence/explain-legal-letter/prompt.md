@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [court-notice, demand-letter, deadlines, legal-aid]
 pairs_with:
   prompts: [summarize-contract, write-complaint-letter, prepare-small-claims-case]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [buyer-consultation, home-buying, buyer-agreement, needs-discovery, fair-housing]
 pairs_with:
   prompts: [write-listing-presentation, estimate-home-buying-costs, write-real-estate-market-update]

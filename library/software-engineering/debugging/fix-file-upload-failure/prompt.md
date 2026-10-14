@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [file-uploads, multipart, presigned-urls, cors, request-size-limits]
 pairs_with:
   prompts: [implement-file-upload, debug-network-request]

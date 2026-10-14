@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-reporting, agency, retainer, account-management, monthly-update]
 pairs_with:
   prompts: [write-status-report, write-monthly-business-review, write-deliverable-cover-note]

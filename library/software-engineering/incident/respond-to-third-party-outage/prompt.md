@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependency-outage, graceful-degradation, circuit-breaker, backlog-recovery, vendor-outage]
 pairs_with:
   prompts: [escalate-incident-to-vendor, write-incident-update, drain-queue-backlog]

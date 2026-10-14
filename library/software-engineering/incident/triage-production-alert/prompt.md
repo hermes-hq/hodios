@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [alerting, mitigation, triage]
 pairs_with:
   prompts: [write-incident-update, write-postmortem, write-runbook]

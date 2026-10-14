@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [coverage-model, segmentation, account-management, tech-touch, capacity-planning]
 pairs_with:
   prompts: [design-customer-health-score, write-customer-success-plan, plan-customer-onboarding]

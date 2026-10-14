@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workshop-outputs, facilitation, affinity-mapping, synthesis, next-steps]
 pairs_with:
   prompts: [summarize-meeting-transcript, write-executive-summary, write-meeting-recap-email]

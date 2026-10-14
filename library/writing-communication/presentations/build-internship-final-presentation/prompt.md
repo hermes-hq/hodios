@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [internship, early-career, impact-stories, return-offer, end-of-placement]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, drill-presentation-qa]

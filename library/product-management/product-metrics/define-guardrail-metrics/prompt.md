@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [guardrail-metrics, ab-testing, launch-safety, non-inferiority, experiment-governance]
 pairs_with:
   prompts: [design-ab-test, define-feature-success-metrics, write-experiment-readout, design-holdout-experiment]

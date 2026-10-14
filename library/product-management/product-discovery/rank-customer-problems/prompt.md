@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [problem-prioritisation, customer-interviews, pain-intensity, workarounds, evidence-quality]
 pairs_with:
   prompts: [synthesize-customer-interviews, write-problem-statement, estimate-problem-cost, map-opportunity-solution-tree]

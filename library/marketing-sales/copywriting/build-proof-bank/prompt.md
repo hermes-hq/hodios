@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [social-proof, claim-substantiation, testimonials, credibility, sales-enablement]
 pairs_with:
   prompts: [request-customer-testimonials, write-case-study, build-voice-of-customer-bank, write-landing-page-copy]

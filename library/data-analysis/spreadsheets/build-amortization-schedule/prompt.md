@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [amortization, mortgage, loan-payment, extra-payments, interest]
 pairs_with:
   prompts: [run-what-if-analysis, write-spreadsheet-formula]

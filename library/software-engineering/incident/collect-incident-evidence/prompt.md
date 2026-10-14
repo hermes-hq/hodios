@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [incident-response, evidence, read-only, timeline, triage]
 pairs_with:
   prompts: [triage-production-alert, build-incident-timeline, write-incident-update, write-postmortem]

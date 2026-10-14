@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-controls, fraud-prevention, segregation-of-duties, payment-approvals]
 pairs_with:
   prompts: [plan-supplier-payment-run, reconcile-bank-account, reconcile-daily-takings]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [preorders, deposits, minimum-order-quantity, tooling, demand-validation, hardware]
 pairs_with:
   prompts: [design-validation-experiment, run-willingness-to-pay-study, test-physical-prototype-with-users]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [prototype-pollution, deep-merge, input-validation]
 pairs_with:
   prompts: [audit-input-handling, audit-dependencies, triage-sast-findings, write-exploit-regression-test]

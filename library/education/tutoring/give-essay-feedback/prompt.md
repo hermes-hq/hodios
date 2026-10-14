@@ -7,6 +7,7 @@ description: Gives rubric-based feedback on a student essay covering thesis, evi
 category: tutoring
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [review]
 role: [student, teacher]
 requires: [none]

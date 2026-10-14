@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-due-diligence, kyc, beneficial-ownership, client-onboarding, enhanced-due-diligence]
 pairs_with:
   prompts: [write-aml-risk-assessment, set-up-sanctions-screening, write-client-intake-questionnaire]

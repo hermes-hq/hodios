@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [career-announcement, new-business, client-transition, contact-update, non-solicitation]
 pairs_with:
   prompts: [write-farewell-message, write-account-handover-email, write-professional-bio]

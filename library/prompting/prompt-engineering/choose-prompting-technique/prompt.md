@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [prompting-techniques, few-shot, task-decomposition, chain-of-thought, technique-selection]
 pairs_with:
   personas: [prompt-engineer]

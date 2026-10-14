@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [soil-analysis, soil-ph, soil-indices, lime, nutrient-management]
 pairs_with:
   prompts: [plan-soil-sampling-round, plan-grassland-reseed, triage-crop-symptoms]

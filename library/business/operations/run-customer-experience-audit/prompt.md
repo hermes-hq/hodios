@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mystery-shopper, customer-journey, service-quality, cx-audit, quick-wins]
 pairs_with:
   prompts: [write-sop, map-business-process, respond-to-online-review, plan-visual-merchandising]

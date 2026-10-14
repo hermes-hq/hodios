@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [commercial-property, property-particulars, office-space, retail-unit, industrial-unit, lettings]
 pairs_with:
   prompts: [write-real-estate-listing, abstract-property-lease, analyze-property-comparables]

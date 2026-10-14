@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tldr, bottom-line-up-front, brevity, skimmable]
 pairs_with:
   prompts: [summarize-long-document, write-executive-summary, summarize-for-several-audiences]

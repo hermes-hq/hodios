@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [manifests, probes, resource-limits, pod-security, kustomize]
 applies_to: ["**/k8s/**/*.yaml", "**/kubernetes/**/*.yaml", "**/manifests/**/*.yaml", "**/charts/**", "**/kustomization.yaml"]
 pairs_with:

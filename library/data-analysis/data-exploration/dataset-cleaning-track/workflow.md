@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-cleaning, data-profiling, reproducible-pipeline, cleaning-log, data-validation]
 pairs_with:
   prompts: [explore-dataset, clean-messy-spreadsheet, clean-survey-export, deduplicate-records, write-data-quality-checks]

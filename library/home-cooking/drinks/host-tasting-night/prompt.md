@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tasting-party, hosting, flight, pour-sizes, responsible-hosting, alcohol-free]
 pairs_with:
   prompts: [learn-wine-tasting, plan-dinner-party-menu]

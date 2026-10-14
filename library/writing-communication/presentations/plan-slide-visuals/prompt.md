@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [slide-design, chart-choice, assertion-evidence, visual-storytelling, deck-layout]
 pairs_with:
   prompts: [outline-presentation, critique-slide-deck, turn-document-into-slides, write-speaker-notes]

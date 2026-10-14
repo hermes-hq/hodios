@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [in-app-messaging, feature-adoption, ux-writing, announcement-targeting, product-tours]
 pairs_with:
   prompts: [write-launch-announcement, plan-feature-adoption-push, plan-mobile-app-launch]

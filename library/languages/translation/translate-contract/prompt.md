@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [legal-translation, terms-of-art, certified-translation, bilingual-contracts, jurisdiction]
 pairs_with:
   prompts: [summarize-contract, build-translation-glossary, review-translation]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [training-loop, mixed-precision, checkpointing, reproducibility, deep-learning]
 pairs_with:
   prompts: [plan-ml-experiment, set-up-experiment-tracking]

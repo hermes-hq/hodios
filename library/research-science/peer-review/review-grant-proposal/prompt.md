@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [grant-review, mock-review, study-section, funding, scoring]
 pairs_with:
   prompts: [write-research-proposal, write-peer-review]

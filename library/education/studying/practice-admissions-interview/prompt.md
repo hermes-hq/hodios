@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [admissions-interview, mmi, admissions, scholarship, oxbridge]
 pairs_with:
   prompts: [coach-personal-statement, plan-university-application, plan-scholarship-applications, prepare-oral-exam]

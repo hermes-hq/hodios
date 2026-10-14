@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [benefit-overpayment, recovery-rate, official-error, waiver-request, means-tested-support]
 pairs_with:
   prompts: [appeal-benefits-decision, negotiate-with-creditor, request-debt-write-off, prepare-for-debt-advice-appointment]

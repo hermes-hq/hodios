@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [input-parsing, decimal-separator, date-input, form-validation, native-digits]
 pairs_with:
   prompts: [implement-locale-formatting, design-international-address-and-name-fields, support-ime-text-input]

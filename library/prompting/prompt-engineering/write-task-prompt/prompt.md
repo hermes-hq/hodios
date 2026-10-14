@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-design, prompt-templates, variables, reusable-prompts]
 pairs_with:
   prompts: [improve-prompt, turn-chat-into-prompt, build-prompt-test-set, create-few-shot-examples]

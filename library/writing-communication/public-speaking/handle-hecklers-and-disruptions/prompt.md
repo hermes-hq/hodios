@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hecklers, disruptions, audience-management, de-escalation, event-safety]
 pairs_with:
   prompts: [prepare-for-tough-questions, write-emcee-script, moderate-panel]

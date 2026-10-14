@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [unit-circle, radians, exact-values, trig-identities, trig-equations, precalculus]
 pairs_with:
   prompts: [practise-right-angle-trigonometry, practise-function-graph-sketching, guide-math-proof]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [acting-cv, actor-resume, credits, special-skills, talent-agents, casting-profile]
 pairs_with:
   personas: [acting-coach]

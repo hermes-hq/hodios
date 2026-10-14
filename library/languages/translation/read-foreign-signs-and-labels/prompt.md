@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [signs, product-labels, appliance-controls, newcomers, travel, image-input]
 pairs_with:
   prompts: [handle-foreign-language-letter, translate-restaurant-menu, learn-survival-phrases]

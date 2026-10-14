@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [official-statistics, time-series, base-rates, cherry-picking, political-claims]
 pairs_with:
   prompts: [trace-statistic-to-source, check-statistics-in-article, assess-dataset-reliability]

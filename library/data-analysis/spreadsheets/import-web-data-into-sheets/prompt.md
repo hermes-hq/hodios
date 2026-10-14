@@ -19,6 +19,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [importxml, importhtml, web-data, exchange-rates, xpath]
 pairs_with:
   prompts: [write-power-query, write-spreadsheet-automation, clean-messy-spreadsheet]

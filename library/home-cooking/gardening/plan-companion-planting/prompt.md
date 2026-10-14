@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [companion-planting, intercropping, trap-crops, beneficial-insects, vegetable-beds, organic-gardening]
 pairs_with:
   prompts: [plan-vegetable-garden, plan-crop-rotation, plan-pollinator-garden, control-garden-pests]

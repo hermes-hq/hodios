@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: beginner
+depth: specific
 role: [language-learner, individual]
 subject: [english]
 tags: [controlled-language, machine-translation, non-native-readers, international-teams, localisation]

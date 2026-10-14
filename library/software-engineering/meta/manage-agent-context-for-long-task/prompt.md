@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [context-window, long-running-tasks, task-ledger, checkpoints, coding-agents]
 pairs_with:
   prompts: [write-agent-handoff, write-subagent-brief]

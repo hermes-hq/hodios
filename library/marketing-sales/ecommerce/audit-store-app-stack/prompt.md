@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [store-apps, plugins, tool-costs, site-speed, app-permissions, cost-cutting]
 pairs_with:
   prompts: [plan-store-replatforming, optimize-product-page-conversion]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [oversleeping, long-sleep, daytime-sleepiness, fatigue, wake-time, sleep-debt]
 pairs_with:
   prompts: [plan-easier-mornings, prepare-sleep-doctor-appointment, reset-sleep-schedule]

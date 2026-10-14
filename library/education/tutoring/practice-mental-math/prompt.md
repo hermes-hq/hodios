@@ -7,6 +7,7 @@ description: Runs adaptive mental arithmetic drills one problem at a time, teach
 category: tutoring
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn]
 role: [student, parent, individual]
 subject: [mathematics]

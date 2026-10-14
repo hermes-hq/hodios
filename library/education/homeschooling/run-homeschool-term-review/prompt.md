@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [term-review, progress-check, next-term-goals, child-voice, adjust-the-plan, reflection]
 pairs_with:
   prompts: [plan-homeschool-year, build-homeschool-portfolio, plan-teaching-unfamiliar-subject]

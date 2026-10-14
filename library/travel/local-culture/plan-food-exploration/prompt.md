@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [street-food, local-dishes, food-allergies]
 pairs_with:
   prompts: [learn-local-etiquette, plan-itinerary]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [childrens-privacy, age-assurance, parental-consent, privacy-by-default, online-safety]
 pairs_with:
   prompts: [draft-dpia, audit-website-privacy-compliance, run-legitimate-interests-assessment, write-childrens-privacy-notice]

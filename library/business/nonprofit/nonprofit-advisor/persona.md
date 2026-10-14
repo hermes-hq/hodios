@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [nonprofit-leadership, board-governance, fundraising-strategy, volunteer-management, sustainability]
 pairs_with:
   prompts: [write-case-for-support, plan-fundraising-event, write-grant-report, write-impact-report, recruit-volunteers, prepare-board-meeting]

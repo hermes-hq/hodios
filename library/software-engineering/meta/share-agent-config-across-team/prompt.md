@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, agent-config, team-setup, settings-precedence]
 pairs_with:
   prompts: [audit-agent-permissions, consolidate-agent-instruction-files, plan-coding-agent-rollout]

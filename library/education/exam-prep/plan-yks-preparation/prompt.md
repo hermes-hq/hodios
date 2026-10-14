@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [yks, tyt, ayt, mock-tests, turkey]
 pairs_with:
   prompts: [analyze-exam-mistakes, plan-last-minute-revision, plan-exam-day-strategy]

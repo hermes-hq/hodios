@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-store, staged-rollout, crash-monitoring, app-reviews, launch-checklist]
 pairs_with:
   prompts: [plan-product-launch, write-launch-announcement, plan-beta-program, write-in-app-announcement]

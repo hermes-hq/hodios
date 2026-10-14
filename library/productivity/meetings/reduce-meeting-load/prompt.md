@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [meeting-audit, async-work, calendar-cleanup, focus-time, meeting-cost]
 pairs_with:
   prompts: [audit-time-use, write-meeting-agenda]

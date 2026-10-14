@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [re-engagement, product-adoption, churn-prevention, lifecycle-emails, usage-triggers]
 pairs_with:
   prompts: [design-customer-health-score, write-customer-success-plan, design-cs-coverage-model]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-complaint, deliverable-quality, revisions, refund-request, client-relationship]
 pairs_with:
   prompts: [write-scope-change-email, untangle-conflicting-client-feedback, part-ways-with-client, write-statement-of-work]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [needs-assessment, community-engagement, service-planning, participatory-research, asset-mapping]
 pairs_with:
   prompts: [build-theory-of-change, set-programme-eligibility-criteria, evaluate-program-outcomes]

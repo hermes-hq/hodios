@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [two-households, separated-parents, handover-bag, school-kit, kids-belongings, shared-custody]
 pairs_with:
   prompts: [plan-co-parenting, plan-blended-family-transition, coordinate-family-calendar]

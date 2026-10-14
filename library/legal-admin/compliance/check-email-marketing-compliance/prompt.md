@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [consent, unsubscribe, can-spam, sms-marketing]
 pairs_with:
   prompts: [map-personal-data-processing, write-privacy-policy]

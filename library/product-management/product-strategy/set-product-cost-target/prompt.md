@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [target-costing, margin-stack, landed-cost, bill-of-materials, design-to-cost, unit-economics]
 pairs_with:
   prompts: [calculate-landed-cost, build-hardware-product-roadmap, rationalize-product-line, plan-retail-shelf-launch]

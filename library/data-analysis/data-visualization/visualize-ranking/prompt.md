@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bar-chart, bump-chart, top-n, chart-design]
 pairs_with:
   prompts: [choose-chart-type, build-performance-league-table, visualize-before-after-change, write-plotting-code]

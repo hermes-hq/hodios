@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [training-log, weekly-check-in, progressive-overload, injury-history]
 pairs_with:
   prompts: [build-project-instructions, set-up-recurring-assistant-tasks]

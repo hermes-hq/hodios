@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [realistic-pacing, travel-writing, day-by-day, trip-costs, booking-tips]
 pairs_with:
   prompts: [write-travel-story, write-local-guide-post, plan-itinerary]

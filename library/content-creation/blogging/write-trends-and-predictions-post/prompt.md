@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [predictions, year-ahead, industry-trends, confidence-levels, thought-leadership]
 pairs_with:
   prompts: [find-timely-content-angles, write-data-story-article, write-op-ed]

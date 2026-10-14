@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [agenda, facilitation, timeboxing, async]
 pairs_with:
   prompts: [summarize-meeting-transcript, run-retrospective]

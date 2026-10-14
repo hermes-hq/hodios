@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [customer-references, due-diligence, investor-diligence, customer-calls, venture-capital]
 pairs_with:
   prompts: [prepare-due-diligence-data-room, prepare-investor-qa, reference-check-investor]

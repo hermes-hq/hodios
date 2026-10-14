@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [ecommerce]
 tags: [promo-codes, discounts, checkout, requirements]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [volume-hiring, seasonal-staff, frontline-hiring, hiring-day, peak-season, hourly-workers]
 pairs_with:
   prompts: [design-work-trial-shift, write-phone-screen-script, plan-new-hire-onboarding]

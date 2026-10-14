@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lost-deal, closed-lost, loss-reasons, relationship-building, nurture]
 pairs_with:
   prompts: [run-win-loss-analysis, revive-stalled-deal, write-sales-follow-up]

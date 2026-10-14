@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [neighbours, community-notice, flyer, group-chat, building-residents, street-party]
 pairs_with:
   prompts: [write-event-invitation, check-tone-before-sending, set-boundary]

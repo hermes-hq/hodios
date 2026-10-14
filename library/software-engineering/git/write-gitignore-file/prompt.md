@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gitignore, repo-setup, untrack-files, build-artifacts]
 pairs_with:
   prompts: [audit-repo-for-secrets, set-up-git-lfs]

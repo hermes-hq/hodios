@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [speculative-application, unsolicited-application, hidden-job-market, employer-research, cold-application]
 pairs_with:
   prompts: [research-company, write-networking-message, write-hiring-manager-note]

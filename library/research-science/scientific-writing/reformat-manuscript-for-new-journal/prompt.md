@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [journal-submission, manuscript-rejection, resubmission, author-guidelines, manuscript]
 pairs_with:
   prompts: [choose-target-journal, cut-manuscript-to-word-limit, format-citations, write-journal-cover-letter, appeal-journal-rejection]

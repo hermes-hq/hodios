@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [motion, animation, easing, reduced-motion, design-tokens]
 pairs_with:
   prompts: [spec-motion-and-microinteractions, define-design-tokens, generate-platform-token-files]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [scene-writing, scene-goal, point-of-view, voice-matching]
 pairs_with:
   prompts: [outline-story, punch-up-dialogue, revise-show-dont-tell]

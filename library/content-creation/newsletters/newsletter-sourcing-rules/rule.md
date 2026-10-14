@@ -12,6 +12,7 @@ role: [writer, editor, content-creator]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [attribution, curation-ethics, sponsor-disclosure, quote-accuracy, corrections]
 pairs_with:
   prompts: [curate-link-roundup, write-newsletter-issue, write-issue-correction-note, write-local-news-morning-briefing]

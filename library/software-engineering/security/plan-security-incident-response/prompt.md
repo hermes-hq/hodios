@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [incident-response, breach, containment, forensics, nist-800-61]
 pairs_with:
   personas: [security-auditor, incident-commander]

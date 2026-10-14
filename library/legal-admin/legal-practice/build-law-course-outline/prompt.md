@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [law-student, course-outline, black-letter-law, case-synthesis, study-guide]
 pairs_with:
   prompts: [brief-court-case, practice-issue-spotting]

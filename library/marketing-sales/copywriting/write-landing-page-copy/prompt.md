@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [landing-page, conversion, direct-response, value-proposition]
 pairs_with:
   prompts: [write-headline-variations, critique-marketing-copy, write-positioning-statement]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [string-tables, font-atlas, cjk, text-expansion, subtitles, voice-over]
 pairs_with:
   prompts: [pseudo-localize-ui, write-icu-plural-messages, write-translator-context-notes, audit-game-accessibility]

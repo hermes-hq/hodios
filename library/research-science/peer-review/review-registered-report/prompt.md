@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [registered-reports, preregistration, open-science, statistical-power, manuscript]
 pairs_with:
   prompts: [write-preregistration, check-outcome-switching, review-statistical-methods]

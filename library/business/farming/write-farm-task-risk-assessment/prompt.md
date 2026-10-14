@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [risk-assessment, hierarchy-of-controls, work-at-height, livestock-handling, slurry]
 pairs_with:
   prompts: [write-workplace-risk-assessment, write-farm-safety-induction, write-toolbox-talk, set-up-farm-lone-working-checks]

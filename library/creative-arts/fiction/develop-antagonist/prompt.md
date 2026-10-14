@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [villain, opposition, character-motivation, stakes, story-conflict]
 pairs_with:
   prompts: [develop-character, outline-story]

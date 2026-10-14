@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-labeling, weak-supervision, inter-annotator-agreement, human-in-the-loop, gold-set]
 pairs_with:
   prompts: [write-annotation-guidelines, review-training-data, build-structured-extraction]

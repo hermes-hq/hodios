@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reader-feedback, search-analytics, page-ratings, docs-backlog, fix-ranking]
 pairs_with:
   prompts: [audit-documentation, write-troubleshooting-guide, reorganize-docs-by-diataxis]

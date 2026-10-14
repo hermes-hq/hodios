@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shared-decision-making, treatment-options, risks-and-benefits, patient-values, decision-aid]
 pairs_with:
   prompts: [explain-diagnosis, prepare-second-opinion, evaluate-clinical-trial-option, prepare-for-surgery]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [negotiation-game, batna, model-un, interests-vs-positions]
 pairs_with:
   personas: [negotiation-coach]

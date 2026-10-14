@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [body-composition, dexa, bioimpedance, body-fat, lean-mass, smart-scale]
 pairs_with:
   prompts: [interpret-wearable-data, track-fitness-progress, plan-exercise-for-fat-loss]

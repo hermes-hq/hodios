@@ -11,6 +11,7 @@ requires: [none]
 output: [explanation, table]
 risk: read-only
 level: intermediate
+depth: specific
 role: [software-engineer, architect, manager, founder]
 tags: [trade-offs, options-analysis, pros-and-cons, decision-support]
 pairs_with:

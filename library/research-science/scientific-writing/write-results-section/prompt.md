@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [manuscript, effect-size, reporting-guidelines, apa-style, imrad]
 pairs_with:
   prompts: [write-methods-section, write-discussion-section, design-scientific-figures, check-manuscript-reporting]

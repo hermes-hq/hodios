@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, engineering-metrics, dora-metrics]
 pairs_with:
   prompts: [plan-coding-agent-rollout, cut-coding-agent-spend, benchmark-coding-agents-on-repo]

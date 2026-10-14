@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dag, causal-inference, confounding, collider-bias, adjustment-set, epidemiology]
 pairs_with:
   prompts: [design-quasi-experimental-study, estimate-causal-effect, plan-secondary-data-analysis, run-mediation-analysis]

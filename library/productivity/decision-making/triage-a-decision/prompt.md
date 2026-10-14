@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reversibility, stakes, decision-speed, delegation, time-boxing]
 pairs_with:
   prompts: [frame-a-decision, compare-options-matrix, run-pre-mortem]

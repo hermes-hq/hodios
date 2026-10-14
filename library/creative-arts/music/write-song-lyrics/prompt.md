@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [songwriting-craft, rhyme-scheme, prosody, hooks]
 pairs_with:
   prompts: [write-music-prompt, suggest-chord-progressions]

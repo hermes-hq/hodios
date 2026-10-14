@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [phone-screen, recruiter-screen, elevator-pitch, screening-questions]
 pairs_with:
   prompts: [write-tell-me-about-yourself, answer-salary-expectations, prepare-questions-for-interviewer, analyze-job-posting]

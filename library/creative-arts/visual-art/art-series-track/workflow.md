@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [body-of-work, art-series, art-practice, art-career, creative-development]
 pairs_with:
   prompts: [write-artist-statement, plan-art-exhibition, develop-art-style]

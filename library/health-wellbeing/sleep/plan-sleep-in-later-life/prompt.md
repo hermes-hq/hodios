@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [older-adults, ageing, nocturia, falls-prevention, early-waking]
 pairs_with:
   prompts: [plan-older-adult-nutrition, plan-power-naps, plan-middle-of-night-waking]

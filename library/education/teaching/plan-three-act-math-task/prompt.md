@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [mathematics]
 tags: [three-act-task, mathematical-modelling, problem-solving, lesson-design]
 pairs_with:

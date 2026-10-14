@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [border-crossing, overland-travel, vehicle-permits, visa-on-arrival, road-trip-abroad]
 pairs_with:
   prompts: [check-travel-requirements, plan-road-trip, check-destination-safety, roleplay-border-interview]

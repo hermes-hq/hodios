@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [staycation, mini-break, local-trip, budget-travel, day-trips]
 pairs_with:
   prompts: [plan-itinerary, plan-trip-budget]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lab-duties, rota, lab-cleaning, shared-equipment, lab-culture]
 pairs_with:
   prompts: [set-up-equipment-booking-rules, set-up-reagent-inventory, write-lab-induction-checklist]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [before-and-after, portfolio, job-photos, trades, home-services]
 pairs_with:
   prompts: [request-customer-testimonials, write-case-study, write-local-business-profile]

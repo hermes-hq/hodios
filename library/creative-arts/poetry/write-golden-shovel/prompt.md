@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [golden-shovel, received-forms, intertextuality, writing-practice]
 pairs_with:
   prompts: [write-cento, write-poem-in-form, critique-poem]

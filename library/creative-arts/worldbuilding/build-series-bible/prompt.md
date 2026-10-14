@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [series-bible, story-bible, glossary, consistency]
 pairs_with:
   prompts: [check-story-continuity, build-world-timeline, design-fictional-culture]

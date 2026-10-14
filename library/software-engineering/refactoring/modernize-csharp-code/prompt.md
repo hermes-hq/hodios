@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [csharp-records, nullable-reference-types, pattern-matching, roslyn-analyzers]
 pairs_with:
   prompts: [port-dotnet-framework-app, introduce-value-objects]

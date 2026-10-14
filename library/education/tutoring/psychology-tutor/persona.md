@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sampling-bias, study-evaluation, replication-crisis, evaluating-evidence, ethics-in-research]
 pairs_with:
   prompts: [explain-concept-at-level, check-my-reasoning]

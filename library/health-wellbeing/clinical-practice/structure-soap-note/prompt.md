@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: expert
+depth: advanced
 tags: [soap-note, medical-records, progress-notes, charting, allied-health, primary-care]
 pairs_with:
   prompts: [summarize-patient-records, draft-discharge-summary, write-referral-letter, write-sbar-handoff]

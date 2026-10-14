@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hairdresser, barber, describing-appearance, newcomers, cefr]
 pairs_with:
   prompts: [practice-small-talk, practice-phone-call-in-language]

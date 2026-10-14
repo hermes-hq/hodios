@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [art-studio, studio-safety, studio-lighting, art-materials, workspace-setup]
 pairs_with:
   prompts: [choose-art-supplies, set-up-artwork-inventory]

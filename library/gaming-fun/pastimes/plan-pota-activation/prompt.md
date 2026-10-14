@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [amateur-radio, parks-on-the-air, portable-operating, qrp, antennas, ham-radio]
 pairs_with:
   prompts: [get-started-with-amateur-radio, learn-morse-code]

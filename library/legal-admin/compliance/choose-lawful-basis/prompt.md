@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lawful-basis, consent, legitimate-interests, special-category-data, data-protection, record-of-processing]
 pairs_with:
   prompts: [run-legitimate-interests-assessment, map-personal-data-processing, write-privacy-policy, check-email-marketing-compliance]

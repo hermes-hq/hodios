@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [concrete-poetry, shape-poem, visual-poetry, typography]
 pairs_with:
   prompts: [write-childrens-poem, relineate-poem]

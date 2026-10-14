@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-ops, feedback-intake, routing-rules, service-levels, feedback-form, evidence-linking]
 pairs_with:
   prompts: [design-feedback-tagging-taxonomy, triage-feature-requests, turn-sales-notes-into-product-insights, extract-feedback-fields]

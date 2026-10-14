@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [snagging, new-build, defects-list, handover, builder-warranty, final-inspection]
 pairs_with:
   prompts: [hire-contractor, assess-wall-cracks, build-house-viewing-checklist]

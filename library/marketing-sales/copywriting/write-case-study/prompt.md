@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [case-study, customer-story, social-proof, b2b]
 pairs_with:
   prompts: [write-press-release, write-sales-enablement-brief]

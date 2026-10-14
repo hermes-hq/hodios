@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-call, artist-residency, art-prize, project-proposal, artist-cv]
 pairs_with:
   prompts: [write-artist-statement, prepare-art-portfolio, write-grant-application]

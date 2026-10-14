@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [variance-analysis, budget-vs-actual, fpa, month-end]
 pairs_with:
   prompts: [decompose-revenue-change, write-monthly-business-review, reconcile-datasets]

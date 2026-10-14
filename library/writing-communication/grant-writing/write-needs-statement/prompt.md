@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [needs-statement, problem-statement, evidence-base, funder-criteria, dignity-language]
 pairs_with:
   prompts: [write-grant-application, write-letter-of-inquiry]

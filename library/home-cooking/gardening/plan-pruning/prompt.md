@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pruning, shrubs, roses, fruit-trees, hedges, seasonal-timing]
 pairs_with:
   prompts: [build-garden-calendar, plan-fruit-trees, diagnose-plant-problem]

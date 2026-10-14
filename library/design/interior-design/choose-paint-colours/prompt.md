@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [paint, colour-scheme, undertones]
 pairs_with:
   prompts: [plan-room-makeover, plan-diy-project]

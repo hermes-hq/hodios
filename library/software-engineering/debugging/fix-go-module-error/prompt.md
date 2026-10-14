@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [go-modules, go-sum, goproxy, private-modules]
 pairs_with:
   prompts: [resolve-dependency-conflict, triage-failing-ci]

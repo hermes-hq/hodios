@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [docs-home, information-architecture, navigation, reader-journeys]
 pairs_with:
   prompts: [reorganize-docs-by-diataxis, write-api-quickstart, audit-documentation, audit-readme-conversion]

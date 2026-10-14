@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [motorcycle-licence, scooter, rider-training, protective-gear, first-motorbike, new-riders]
 pairs_with:
   prompts: [plan-learner-driver-practice, prepare-for-practical-driving-test, compare-car-insurance]

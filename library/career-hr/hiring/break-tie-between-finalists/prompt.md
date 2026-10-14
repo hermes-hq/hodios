@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hiring-decision, final-candidates, evidence-based-hiring, bias-check, tie-break]
 pairs_with:
   prompts: [run-hiring-debrief, run-reference-check, nurture-runner-up-candidates, plan-offer-call]

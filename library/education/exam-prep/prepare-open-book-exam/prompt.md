@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [open-book, take-home-exam, exam-index, summary-sheets, time-management-exam]
 pairs_with:
   prompts: [create-cheat-sheet, analyze-past-papers, plan-exam-day-strategy]

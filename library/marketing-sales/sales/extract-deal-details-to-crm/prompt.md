@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [crm-hygiene, deal-fields, email-thread, field-provenance, structured-extraction]
 pairs_with:
   prompts: [summarize-sales-call, review-sales-pipeline, write-sales-follow-up]

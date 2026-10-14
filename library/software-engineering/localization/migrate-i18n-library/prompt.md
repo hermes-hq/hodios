@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [codemod, message-format-conversion, parity-check, incremental-migration, adapter-layer]
 pairs_with:
   prompts: [convert-translation-file-format, choose-i18n-library, generate-typed-translation-keys]

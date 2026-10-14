@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pregens, one-shot, convention-games, character-creation, new-players]
 pairs_with:
   prompts: [design-one-shot-adventure, teach-rpg-to-new-player]

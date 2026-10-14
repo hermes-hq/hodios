@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [personal-essay, memoir, creative-nonfiction, scene-writing, first-person]
 pairs_with:
   prompts: [write-guest-post-pitch, write-blog-post-draft]

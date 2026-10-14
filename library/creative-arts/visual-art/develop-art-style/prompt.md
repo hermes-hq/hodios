@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [artistic-voice, art-practice, creative-development, influences]
 pairs_with:
   prompts: [plan-master-study, generate-sketchbook-prompts, overcome-art-block]

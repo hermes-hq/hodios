@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [3d-printing, fdm, slicer-settings, bed-adhesion, stringing, maker-tools]
 pairs_with:
   prompts: [design-printable-part]

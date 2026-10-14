@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [buying-advice, consumer-rights, total-cost, product-research, needs-first]
 pairs_with:
   prompts: [decide-whether-to-buy, compare-purchase-options, time-a-purchase, decode-product-claims, decide-keep-or-return]

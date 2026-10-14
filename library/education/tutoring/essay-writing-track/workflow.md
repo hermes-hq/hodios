@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [essay-writing, thesis, outlining, redrafting, higher-order-concerns, academic-integrity]
 pairs_with:
   prompts: [plan-essay-argument, give-essay-feedback]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [puzzle-design, dungeon-design, game-mastering, hint-ladder, session-prep]
 pairs_with:
   prompts: [design-dungeon, create-player-handouts]

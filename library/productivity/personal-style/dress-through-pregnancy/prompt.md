@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [maternity-clothes, bump-friendly, nursing-friendly, after-birth-clothes, borrow-before-buy]
 pairs_with:
   prompts: [build-capsule-wardrobe, dress-a-changing-body, decode-dress-code]

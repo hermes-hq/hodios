@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [iac, vpc, subnetting, cidr-plan, nat-gateway]
 pairs_with:
   prompts: [design-cloud-account-structure, write-terraform-module, review-iac-plan]

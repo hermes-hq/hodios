@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [launch-retro, blameless, facilitation, lessons-learned, team-health]
 pairs_with:
   prompts: [review-launch-results, plan-product-launch, define-launch-tiers]

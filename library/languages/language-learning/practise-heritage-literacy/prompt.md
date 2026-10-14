@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [heritage-speakers, literacy, sound-to-spelling, family-language, language-experience-approach, diaspora]
 pairs_with:
   prompts: [plan-heritage-language-learning, learn-writing-system, learn-spelling-to-sound-rules, expand-heritage-register]

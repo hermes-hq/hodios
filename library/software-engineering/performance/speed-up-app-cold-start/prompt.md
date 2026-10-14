@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-startup, cold-start, time-to-first-frame, baseline-profiles, lazy-initialization]
 pairs_with:
   prompts: [reduce-mobile-battery-drain, read-flame-graph]

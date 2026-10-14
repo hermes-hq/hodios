@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [double-opt-in, confirmation-email, sign-up-flow, list-quality, consent]
 pairs_with:
   prompts: [write-welcome-series, grow-email-list-online, write-email-preference-center]

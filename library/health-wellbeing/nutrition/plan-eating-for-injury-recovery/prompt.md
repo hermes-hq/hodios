@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [injury-recovery, post-surgery, fracture-healing, protein, rehabilitation]
 pairs_with:
   prompts: [reach-daily-protein-target, plan-eating-when-appetite-is-low, increase-fiber-gradually, plan-sports-nutrition]

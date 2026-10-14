@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [site-architecture, url-structure, navigation, page-planning]
 pairs_with:
   prompts: [plan-new-site-search-launch, build-internal-linking-plan, design-information-architecture]

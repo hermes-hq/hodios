@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-side-routing, focus-management, live-regions, page-title, screen-reader]
 pairs_with:
   personas: [accessibility-specialist]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [frame-budget, game-loop, netcode, determinism, garbage-collection]
 pairs_with:
   personas: [game-developer]

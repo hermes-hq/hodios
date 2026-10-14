@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ph, acids-and-bases, weak-acids, buffers, henderson-hasselbalch, ka]
 pairs_with:
   prompts: [practise-mole-calculations, practise-equilibrium-ice-tables, practise-logarithms-and-exponents]

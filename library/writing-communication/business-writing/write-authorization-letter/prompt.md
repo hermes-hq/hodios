@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [authorisation-letter, letter-of-authority, document-collection, proxy, formal-letter]
 pairs_with:
   prompts: [write-formal-letter, write-no-objection-certificate]

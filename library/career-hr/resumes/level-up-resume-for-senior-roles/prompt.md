@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [seniority-signals, step-up, scope-and-ownership, levelling]
 pairs_with:
   prompts: [rewrite-resume-bullets, write-executive-resume, prepare-promotion-case]

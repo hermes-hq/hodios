@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [freelance-translation, quotes, cat-tools, word-count, rates]
 pairs_with:
   prompts: [write-translation-brief, build-translation-glossary, post-edit-machine-translation]

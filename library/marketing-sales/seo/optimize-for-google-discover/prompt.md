@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [google-discover, publishers, headlines, feed-traffic, images]
 pairs_with:
   prompts: [analyze-search-console-data, optimize-image-search-visibility, write-schema-markup]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-descriptor, open-data, fair-data, research-data, journal-submission]
 pairs_with:
   prompts: [write-data-availability-statement, write-software-paper, choose-target-journal]

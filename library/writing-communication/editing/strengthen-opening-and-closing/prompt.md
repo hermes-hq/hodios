@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [introductions, conclusions, hooks, essay-writing, first-paragraph]
 pairs_with:
   prompts: [critique-draft, fix-paragraph-flow, edit-for-structure]

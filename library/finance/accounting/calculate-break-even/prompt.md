@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [break-even, contribution-margin, price-setting, sensitivity-analysis, unit-economics]
 pairs_with:
   prompts: [calculate-product-margin, forecast-cash-flow, review-small-business-pnl]

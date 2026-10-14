@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [team-chat, asking-questions, remote-work, new-joiner, xy-problem, async-communication]
 pairs_with:
   prompts: [write-professional-email, write-escalation-email]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [side-project, paid-tier, freemium, first-revenue, pricing-test]
 pairs_with:
   prompts: [check-side-project-ip-ownership, plan-side-business, plan-creator-monetization, model-unit-economics]

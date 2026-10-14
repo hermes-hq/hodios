@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [advance-care-planning, serious-illness-conversations, palliative-care, goals-of-care, shared-decision-making, end-of-life]
 pairs_with:
   prompts: [plan-breaking-bad-news, prepare-advance-care-plan-questions, rehearse-conversation-with-relatives]

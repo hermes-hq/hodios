@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [health-summary, red-flag-symptoms, appointment-prep, health-privacy]
 pairs_with:
   prompts: [write-memory-profile, audit-assistant-memory]

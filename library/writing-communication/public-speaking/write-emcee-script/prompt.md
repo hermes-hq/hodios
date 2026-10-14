@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [emcee, master-of-ceremonies, event-hosting, speaker-introductions, run-of-show]
 pairs_with:
   prompts: [moderate-panel, write-speech, write-professional-bio]

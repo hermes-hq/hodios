@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [colour-palettes, colour-blindness, wcag, brand-colours]
 pairs_with:
   prompts: [choose-chart-type, write-plotting-code, critique-chart, design-dashboard]

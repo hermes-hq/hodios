@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lab-safety, risk-assessment, hazardous-substances, hierarchy-of-controls, chemical-waste]
 pairs_with:
   prompts: [write-lab-protocol, write-lab-induction-checklist, write-lab-spill-procedure]

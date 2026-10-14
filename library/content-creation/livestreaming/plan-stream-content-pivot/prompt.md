@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-pivot, variety-streaming, category-switch, audience-retention, stream-schedule]
 pairs_with:
   prompts: [grow-streaming-channel, read-stream-analytics, write-go-live-announcements]

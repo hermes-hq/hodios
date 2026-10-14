@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ringi, approval-request, budget-request, japanese-business, internal-approval]
 pairs_with:
   prompts: [write-japanese-business-email, write-decision-memo]

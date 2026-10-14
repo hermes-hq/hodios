@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [input-validation, injection, xss, path-traversal, owasp]
 pairs_with:
   personas: [security-auditor]

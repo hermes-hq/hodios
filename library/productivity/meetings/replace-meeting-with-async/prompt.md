@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [async-work, decline-meeting, decision-doc, focus-time, written-update]
 pairs_with:
   prompts: [reduce-meeting-load, write-meeting-agenda, design-meeting-cadence]

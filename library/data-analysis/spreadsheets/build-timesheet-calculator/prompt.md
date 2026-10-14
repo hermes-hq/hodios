@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [timesheet, overtime, time-arithmetic, night-shifts, payroll-prep]
 pairs_with:
   prompts: [calculate-dates-and-workdays, set-up-data-validation]

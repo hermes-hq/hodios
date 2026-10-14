@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [aria, aria-apg, keyboard, screen-reader]
 pairs_with:
   personas: [accessibility-specialist]

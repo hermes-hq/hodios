@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [conflict-resolution, honest-opinion, self-reflection, perspective-taking, arguments]
 pairs_with:
   prompts: [apologize-effectively, clear-up-misunderstanding, decode-message-tone]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coverage, diff-coverage, ci-gates, quality-gates]
 pairs_with:
   prompts: [test-coverage-campaign-track, set-up-testing-in-new-project, run-mutation-testing]

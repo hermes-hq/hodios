@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-alignment, lead-handover, lead-stages, service-level-agreement, revenue-operations]
 pairs_with:
   prompts: [build-lead-scoring-model, qualify-leads, plan-b2b-demand-generation, define-marketing-kpis]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stalled-deal, re-engagement, deal-diagnosis, ghosted-prospect, closed-lost]
 pairs_with:
   prompts: [write-sales-follow-up, review-sales-pipeline, write-mutual-action-plan]

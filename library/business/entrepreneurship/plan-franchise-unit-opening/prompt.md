@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [franchise, opening-plan, cash-calendar, critical-path, launch-marketing, staff-hiring]
 pairs_with:
   prompts: [prepare-franchisee-validation-calls, plan-soft-opening-nights, plan-shop-opening, write-opening-closing-checklist]

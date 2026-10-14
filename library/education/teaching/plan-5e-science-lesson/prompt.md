@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [physics, chemistry, biology]
 tags: [5e-model, inquiry-learning, science-lesson, lesson-design]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [personal-brand, thought-leadership, professional-networking, content-pillars]
 pairs_with:
   prompts: [write-linkedin-post, optimize-linkedin-profile, plan-employee-advocacy]

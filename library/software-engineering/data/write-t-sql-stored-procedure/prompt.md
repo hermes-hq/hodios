@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sql-server, stored-procedures, transactions, error-handling]
 pairs_with:
   prompts: [write-postgres-function-or-trigger, optimize-sql-query, write-upsert-query, resolve-database-deadlocks]

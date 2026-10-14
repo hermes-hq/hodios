@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [teen-hygiene, deodorant, first-shave, puberty-routines, independence]
 pairs_with:
   prompts: [plan-puberty-talk, build-skincare-routine, plan-beard-and-shaving-care]

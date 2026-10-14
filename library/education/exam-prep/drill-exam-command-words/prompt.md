@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [command-words, exam-technique, mark-allocation, answer-structure, revision-game]
 pairs_with:
   prompts: [analyze-past-papers, write-model-exam-answer, grade-practice-answers]

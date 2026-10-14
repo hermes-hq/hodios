@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prototype, production-readiness, hardening, proof-of-concept]
 pairs_with:
   prompts: [plan-spike, write-implementation-plan, assess-technical-debt]

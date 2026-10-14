@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [water-pressure, plumbing, aerator, pressure-reducing-valve, water-leak, stopcock]
 pairs_with:
   prompts: [diagnose-home-problem, fix-dripping-tap, cut-household-water-use]

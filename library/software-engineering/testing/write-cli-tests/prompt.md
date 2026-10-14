@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cli, golden-files, exit-codes, snapshot-output, subprocess]
 pairs_with:
   prompts: [write-cli-tool, write-unit-tests]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [business-case, options-analysis, roi, internal-proposal]
 pairs_with:
   prompts: [write-executive-summary, outline-presentation, prepare-for-tough-questions]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [self-hosted-runners, ephemeral-runners, autoscaling, runner-isolation, ci-cost]
 pairs_with:
   prompts: [speed-up-ci-pipeline, review-ci-pipeline-security, set-up-keyless-ci-deploys]

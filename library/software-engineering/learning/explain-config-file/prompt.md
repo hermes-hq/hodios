@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [configuration, defaults, build-tooling, code-reading]
 pairs_with:
   prompts: [annotate-config-file, explain-code, explain-project-dependencies, find-ignored-config-setting]

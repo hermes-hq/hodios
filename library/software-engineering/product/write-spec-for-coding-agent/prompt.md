@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spec-driven, coding-agents, ears, requirements]
 pairs_with:
   prompts: [make-issue-agent-ready, implement-feature-from-spec, write-acceptance-criteria]

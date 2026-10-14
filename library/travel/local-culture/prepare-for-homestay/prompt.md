@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [homestay, host-family, language-exchange, house-rules, gift-giving]
 pairs_with:
   prompts: [learn-local-etiquette, prepare-for-culture-shock, prepare-for-study-abroad]

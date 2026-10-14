@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [first-time-manager, new-manager, managing-former-peers, delegation, first-60-days]
 pairs_with:
   prompts: [plan-one-on-one, delegate-task, write-team-charter, plan-first-90-days]

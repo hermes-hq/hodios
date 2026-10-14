@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [local-marketing, flyers, community-sponsorship, call-tracking, catchment-area]
 pairs_with:
   prompts: [plan-local-seo, plan-media-budget, write-direct-mail-letter, write-outdoor-ad-copy]

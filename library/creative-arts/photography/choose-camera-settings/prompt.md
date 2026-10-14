@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [camera-settings, exposure-triangle, low-light-photography, autofocus]
 pairs_with:
   prompts: [plan-portrait-shoot, choose-camera-gear, plan-photography-learning]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [healthcare-abroad, travel-insurance, medical-travel, expats, emergency-numbers]
 pairs_with:
   prompts: [prepare-emergency-medical-summary, build-medication-list, prepare-telehealth-visit]

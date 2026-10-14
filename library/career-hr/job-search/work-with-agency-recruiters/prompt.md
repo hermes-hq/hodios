@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recruitment-agency, headhunters, cv-submission, double-submission, consent]
 pairs_with:
   prompts: [reply-to-recruiter, ask-recruiter-for-salary-range, set-up-job-application-tracker]

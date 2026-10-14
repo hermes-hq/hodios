@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [prompting-101, ai-literacy, before-and-after, hands-on-practice]
 pairs_with:
   prompts: [improve-prompt, write-task-prompt, turn-chat-into-prompt]

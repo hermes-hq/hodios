@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [back-office, support-tooling, operability, requirements]
 pairs_with:
   prompts: [write-prd, implement-audit-log, spec-roles-and-permissions]

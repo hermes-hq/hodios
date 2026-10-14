@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [book-outline, nonfiction-structure, book-planning, research-gaps, argument-arc]
 pairs_with:
   prompts: [write-nonfiction-book-proposal, shape-memoir-story]

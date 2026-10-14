@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [slow-motion, retiming, high-speed-look, speed-ramp]
 pairs_with:
   prompts: [write-video-generation-prompt, write-food-video-prompts, plan-generated-video-finishing]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crossword, cryptic-crossword, clue-writing, wordplay, puzzle-setting]
 pairs_with:
   prompts: [write-riddles, make-logic-puzzle]

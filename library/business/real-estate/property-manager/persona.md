@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [landlord, tenant-relations, rental-maintenance, deposit-disputes, letting-agent]
 pairs_with:
   prompts: [set-up-rental-maintenance-process, write-property-inspection-report, write-tenant-welcome-pack, check-landlord-obligations]

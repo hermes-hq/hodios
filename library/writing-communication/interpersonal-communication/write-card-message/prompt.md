@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: small
 level: beginner
+depth: specific
 tags: [greeting-cards, birthday, wedding, get-well, new-baby, personal-touch]
 pairs_with:
   prompts: [write-thank-you-note, write-condolence-message, write-personal-letter]

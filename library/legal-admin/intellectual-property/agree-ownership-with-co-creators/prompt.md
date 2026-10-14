@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [joint-authorship, split-sheet, collaboration-agreement, credits, revenue-split]
 pairs_with:
   prompts: [keep-proof-of-authorship, write-licence-for-creative-work, outline-cofounder-agreement]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [demo-lesson, teaching-interview, lesson-plan, observed-lesson]
 pairs_with:
   prompts: [write-teaching-philosophy, write-academic-cover-letter]

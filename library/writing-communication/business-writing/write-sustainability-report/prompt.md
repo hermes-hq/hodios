@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sustainability-reporting, esg, carbon-emissions, greenwashing, materiality]
 pairs_with:
   prompts: [write-impact-report, write-environmental-policy, write-executive-summary]

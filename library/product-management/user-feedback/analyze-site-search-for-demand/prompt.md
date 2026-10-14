@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [site-search, zero-results, search-analytics, unmet-demand, query-clustering]
 pairs_with:
   prompts: [mine-audience-questions, analyze-conversion-funnel, triage-feature-requests]

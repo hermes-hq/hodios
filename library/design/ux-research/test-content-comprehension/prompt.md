@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-testing, comprehension, plain-language, highlighter-test, cloze-test]
 pairs_with:
   prompts: [write-ux-microcopy, plan-five-second-test, write-usability-test-plan]

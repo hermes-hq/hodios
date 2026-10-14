@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [font-pairing, type-scale, font-licensing, web-fonts]
 pairs_with:
   prompts: [create-color-palette, define-design-tokens, critique-graphic-design]

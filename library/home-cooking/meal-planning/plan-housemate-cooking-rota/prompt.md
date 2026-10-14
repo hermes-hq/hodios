@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shared-house, cooking-rota, food-kitty, house-dinners, cost-sharing, students]
 pairs_with:
   prompts: [plan-budget-meals, split-shared-expenses, write-house-share-agreement]

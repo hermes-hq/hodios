@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [confirmation-bias, counterevidence, null-results, search-strategy]
 pairs_with:
   prompts: [reconcile-conflicting-studies, build-search-string, find-research-gaps]

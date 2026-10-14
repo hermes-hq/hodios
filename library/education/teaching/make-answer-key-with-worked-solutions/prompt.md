@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [answer-key, worked-solutions, mark-scheme, partial-credit]
 pairs_with:
   prompts: [create-practice-worksheet, mark-student-work-against-rubric, write-short-answer-questions]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [podcast-editing, edit-decision-list, running-order, pickups]
 pairs_with:
   prompts: [write-show-notes, create-paper-edit, plan-podcast-episode]

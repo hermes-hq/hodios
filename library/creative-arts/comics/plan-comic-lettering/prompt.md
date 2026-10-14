@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lettering, speech-balloons, sound-effects, comic-fonts, style-sheet]
 pairs_with:
   prompts: [thumbnail-comic-page, review-comic-script, convert-print-comic-to-vertical-scroll]

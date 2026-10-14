@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [law-student, irac, socratic-method, hypotheticals, legal-writing]
 pairs_with:
   prompts: [brief-court-case, build-law-course-outline, practice-issue-spotting, prepare-moot-court-argument]

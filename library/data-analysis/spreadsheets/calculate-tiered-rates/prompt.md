@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tiered-pricing, brackets, progressive-rates, volume-discount, rate-table]
 pairs_with:
   prompts: [write-spreadsheet-formula, build-commission-calculator, simplify-nested-formula]

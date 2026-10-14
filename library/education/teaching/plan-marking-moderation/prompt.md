@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [moderation, standardisation, marking-consistency, department-meeting]
 pairs_with:
   prompts: [create-rubric, mark-student-work-against-rubric, run-plc-data-meeting]

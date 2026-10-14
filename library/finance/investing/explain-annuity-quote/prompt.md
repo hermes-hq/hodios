@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annuities, surrender-charges, guaranteed-income, riders, inflation-protection]
 pairs_with:
   prompts: [compare-pension-lump-sum-vs-income, explain-structured-product, explain-investment-concept]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [festivals, traditions, crowd-safety, participation]
 pairs_with:
   prompts: [check-local-festivals-and-holidays, plan-festival-trip]

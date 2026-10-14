@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-levels, sla, client-reporting, service-credits]
 pairs_with:
   prompts: [write-service-level-terms-for-contract-clients, set-scorecard-status-thresholds, write-data-correction-notice]

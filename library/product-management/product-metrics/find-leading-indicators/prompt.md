@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [leading-indicators, input-metrics, early-signals, predictive-behaviours, metric-tree, retention-prediction]
 pairs_with:
   prompts: [define-activation-metric, challenge-feature-retention-correlation, define-north-star-metric, forecast-with-leading-indicators]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cohabitation-agreement, living-together, unmarried-couple, property-shares, separation-terms, joint-ownership]
 pairs_with:
   prompts: [plan-moving-in-together-finances, plan-couple-money-conversation, explain-contract-clause]

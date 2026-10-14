@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [phonics, early-literacy, blending, decodable-books, read-aloud, voice-friendly]
 pairs_with:
   prompts: [write-decodable-text, plan-phonics-lesson]

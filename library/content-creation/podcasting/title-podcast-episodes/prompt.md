@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [episode-titles, discoverability, search-phrases, podcast-apps]
 pairs_with:
   prompts: [write-show-notes, write-podcast-trailer, plan-podcast-growth]

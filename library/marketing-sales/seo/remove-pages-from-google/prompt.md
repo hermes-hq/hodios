@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [deindexing, noindex, removals-tool, content-removal, search-console]
 pairs_with:
   prompts: [diagnose-page-not-indexed, write-robots-txt, decide-discontinued-product-pages]

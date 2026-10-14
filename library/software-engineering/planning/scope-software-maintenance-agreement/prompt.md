@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maintenance-retainer, support-sla, software-agency, client-project, dependency-updates, hosting]
 pairs_with:
   prompts: [write-statement-of-work, write-bug-severity-policy, assess-technical-debt]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [leading-indicators, cross-correlation, regression-forecast, spurious-correlation, lag-analysis]
 pairs_with:
   prompts: [forecast-time-series, decompose-seasonality, estimate-causal-effect]

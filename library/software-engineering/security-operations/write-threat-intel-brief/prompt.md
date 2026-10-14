@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [threat-intelligence, cti, tlp, indicators-of-compromise, executive-briefing]
 pairs_with:
   prompts: [map-detection-coverage, write-threat-hunt-plan, write-sigma-rule]

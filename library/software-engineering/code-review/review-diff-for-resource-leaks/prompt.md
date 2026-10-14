@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [resource-leaks, connection-pools, event-listeners, caching, pull-request]
 pairs_with:
   personas: [code-reviewer]

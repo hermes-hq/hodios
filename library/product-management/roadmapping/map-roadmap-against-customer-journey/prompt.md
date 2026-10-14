@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-journey, journey-stages, coverage-gaps, funnel-drop-off, rebalancing]
 pairs_with:
   prompts: [critique-roadmap, build-outcome-roadmap, align-roadmap-to-okrs]

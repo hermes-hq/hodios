@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shift-work, rota, childcare-gaps, night-shifts, working-parents, handovers]
 pairs_with:
   prompts: [coordinate-family-calendar, plan-sick-day-childcare-cover, plan-school-run-carpool]

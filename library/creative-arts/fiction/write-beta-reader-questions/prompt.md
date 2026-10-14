@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [beta-readers, manuscript-feedback, draft-revision, questionnaire]
 pairs_with:
   prompts: [critique-fiction-draft, check-story-continuity]

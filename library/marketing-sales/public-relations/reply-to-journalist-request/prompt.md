@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [media-enquiry, on-the-record, statement, deadline, reactive]
 pairs_with:
   prompts: [write-holding-statement, prepare-media-interview]

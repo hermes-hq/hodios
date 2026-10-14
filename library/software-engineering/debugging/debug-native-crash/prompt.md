@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [segfault, core-dump, sanitizers, gdb, lldb, memory-safety]
 pairs_with:
   prompts: [explain-stack-trace, debug-race-condition, find-memory-leak]

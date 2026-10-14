@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [stallholders, craft-fair, market-organiser, pitch-allocation, trader-applications]
 pairs_with:
   prompts: [plan-event-floor-plan, write-event-risk-assessment, plan-market-stall]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reminders, notifications, alarm-fatigue, prompts-and-cues, phone-setup]
 pairs_with:
   prompts: [set-up-task-system, plan-tasks-with-adhd, set-up-life-admin-calendar]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-to-code, responsive-layout, mobile-first, semantic-html, landmarks]
 args:
   - name: mockup

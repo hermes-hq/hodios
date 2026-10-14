@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [specific-aims, funding, budget-justification, mock-review]
 pairs_with:
   prompts: [write-research-proposal, review-grant-proposal, write-data-management-plan, write-ethics-application]

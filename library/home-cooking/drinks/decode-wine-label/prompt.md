@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wine-labels, appellations, sweetness-terms, grape-varieties, buying-wine, label-terms]
 pairs_with:
   prompts: [learn-wine-tasting, pair-wine-with-food]

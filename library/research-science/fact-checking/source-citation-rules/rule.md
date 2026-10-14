@@ -12,6 +12,7 @@ role: [researcher, student, writer, editor]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [citations, hallucination, evidence, academic-integrity]
 pairs_with:
   prompts: [fact-check-claims, evaluate-source-credibility, write-literature-review-section]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [evidence-table, data-extraction, papers]
 pairs_with:
   prompts: [summarize-paper, find-research-gaps, write-literature-review-section]

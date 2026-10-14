@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [event-driven, message-queue, event-catalog, asyncapi]
 pairs_with:
   prompts: [document-webhook-events]

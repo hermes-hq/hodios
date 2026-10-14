@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reasonable-adjustments, neurodivergence, accessible-recruitment, disclosure]
 pairs_with:
   prompts: [request-workplace-accommodation, plan-career-with-neurodivergence, practise-panel-interview]

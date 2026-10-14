@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [merch, print-on-demand, preorders, unit-economics, product-drop]
 pairs_with:
   prompts: [design-merch-concepts, plan-creator-monetization]

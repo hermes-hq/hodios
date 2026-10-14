@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [surgery, anaesthesia, pre-op, recovery-planning, informed-consent, carers]
 pairs_with:
   prompts: [build-medication-list, prepare-doctor-questions, prepare-second-opinion]

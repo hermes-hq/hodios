@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [firewall-review, security-groups, network-segmentation, egress-filtering, rule-cleanup]
 pairs_with:
   prompts: [review-cloud-iam-policy, harden-linux-server, analyze-packet-capture]

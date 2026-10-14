@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [issue-tracker, saying-no, de-escalation, code-of-conduct, community]
 pairs_with:
   prompts: [triage-issue-backlog, reply-to-first-contribution, write-contributing-guide]

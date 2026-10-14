@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [growth-curves, time-to-target, compound-growth, saturation, run-rate]
 pairs_with:
   prompts: [present-forecast-uncertainty, review-forecast-assumptions, forecast-subscription-revenue]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [settings, preferences, defaults, destructive-actions, platform-conventions]
 pairs_with:
   prompts: [design-information-architecture, write-ux-microcopy, design-notification-strategy, review-design-for-dark-patterns]

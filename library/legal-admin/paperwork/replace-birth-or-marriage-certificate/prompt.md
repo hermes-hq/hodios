@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [civil-records, birth-certificate, marriage-certificate, certified-copy, civil-registry]
 pairs_with:
   prompts: [legalise-documents-for-use-abroad, organize-important-documents, renew-passport-or-id-card]

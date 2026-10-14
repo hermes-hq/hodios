@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitive-analysis, category-codes, differentiation, visual-identity, brand-strategy]
 pairs_with:
   prompts: [analyze-competitors, build-brand-platform, design-logo-concepts, run-brand-audit]

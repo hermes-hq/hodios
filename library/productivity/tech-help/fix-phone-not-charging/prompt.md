@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [phone-charging, charging-port, usb-c, wireless-charging, smartphone]
 pairs_with:
   prompts: [fix-phone-battery-drain, fix-overheating-device, choose-right-cable-or-adapter]

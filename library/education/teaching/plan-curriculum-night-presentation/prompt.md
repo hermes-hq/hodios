@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [curriculum-night, open-house, family-engagement, presentation-outline]
 pairs_with:
   prompts: [write-back-to-school-letter, plan-parent-workshop, write-classroom-newsletter]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [atar, hsc, vce, qce, wace, australia, senior-secondary]
 pairs_with:
   prompts: [create-study-plan, analyze-past-papers, plan-last-minute-revision]

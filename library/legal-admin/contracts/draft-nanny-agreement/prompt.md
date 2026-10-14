@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [nanny-contract, au-pair, home-carer, domestic-employment, household-employee, work-agreement]
 pairs_with:
   prompts: [set-up-household-employer, write-babysitter-handbook, plan-nanny-share, choose-childcare]

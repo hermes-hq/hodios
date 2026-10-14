@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [metrics-review, operating-rhythm, weekly-business-review, metric-owners, team-rituals, input-metrics]
 pairs_with:
   prompts: [write-weekly-metrics-update, define-north-star-metric, set-metric-targets-from-baseline, write-product-metrics-review]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [bot-traffic, rate-limiting, waf-rules, ddos, scraping]
 pairs_with:
   prompts: [analyze-web-attack-logs, add-rate-limiting, write-incident-update]

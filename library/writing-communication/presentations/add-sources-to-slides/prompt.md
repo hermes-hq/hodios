@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [citations, image-credits, attribution, references, academic-integrity, image-licensing]
 pairs_with:
   prompts: [critique-slide-deck, make-presentation-accessible, convert-slides-to-handout]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [edge-functions, serverless, kv, d1, r2]
 args:
   - name: worker_job

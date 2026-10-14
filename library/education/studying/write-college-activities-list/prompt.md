@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [college-admissions, activities-list, extracurriculars, common-app, character-limits, us-admissions]
 pairs_with:
   prompts: [coach-personal-statement, plan-university-application]

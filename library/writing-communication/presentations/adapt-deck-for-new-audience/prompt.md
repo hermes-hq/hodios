@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audience-analysis, deck-reuse, executive-audience, storyline, jargon]
 pairs_with:
   prompts: [critique-slide-deck, shorten-presentation-for-time, outline-presentation]

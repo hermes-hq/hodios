@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prerequisites, diagnostic-assessment, knowledge-gaps, mastery-learning, catch-up, retest]
 pairs_with:
   prompts: [hint-through-problem, find-planted-errors]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [friendship-problems, boundaries, one-sided-friendship, reciprocity, hard-conversations, self-care]
 pairs_with:
   prompts: [end-relationship-kindly, rehearse-difficult-conversation, deepen-acquaintance-into-friendship]

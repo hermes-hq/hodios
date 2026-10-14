@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dreams, dream-journal, dream-recall, self-reflection, reflective-writing]
 pairs_with:
   prompts: [reflect-with-tarot-spread, set-up-bullet-journal]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chronological-history, four-year-cycle, book-of-centuries, family-learning, classical-education]
 pairs_with:
   prompts: [design-homeschool-unit-study, plan-multi-age-homeschool-week, write-narration-prompts]

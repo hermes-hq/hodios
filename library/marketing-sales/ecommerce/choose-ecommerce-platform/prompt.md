@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [store-platform, woocommerce, bigcommerce, total-cost-of-ownership, platform-selection]
 pairs_with:
   prompts: [plan-online-store, plan-store-replatforming, choose-store-payment-methods, audit-store-app-stack]

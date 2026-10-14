@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [genealogy, family-tree, archival-records, research-log, dna-testing]
 pairs_with:
   prompts: [write-family-history, interview-relative-for-oral-history]

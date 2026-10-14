@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [system-conversion, stat-blocks, encounter-balance, homebrew, game-mastering]
 pairs_with:
   prompts: [balance-combat-encounter, design-homebrew-item]

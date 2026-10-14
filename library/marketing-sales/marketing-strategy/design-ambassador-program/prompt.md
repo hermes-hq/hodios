@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ambassador-program, brand-advocates, community-marketing, word-of-mouth, endorsement-disclosure]
 pairs_with:
   prompts: [plan-influencer-campaign, design-referral-program, plan-online-community-launch]

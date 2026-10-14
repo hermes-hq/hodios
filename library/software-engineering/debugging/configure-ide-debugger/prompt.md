@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [launch-json, breakpoints, remote-debugging, source-maps]
 pairs_with:
   prompts: [find-root-cause, debug-production-only-bug]

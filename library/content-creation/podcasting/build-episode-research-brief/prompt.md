@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [episode-research, source-notes, host-prep, pronunciation-guide, counterpoints]
 pairs_with:
   prompts: [write-guest-interview-questions, fact-check-episode-claims, plan-podcast-episode]

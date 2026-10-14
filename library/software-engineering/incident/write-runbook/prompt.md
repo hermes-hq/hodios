@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [runbook, alerting, mitigation, escalation]
 pairs_with:
   personas: [incident-commander]

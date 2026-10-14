@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lost-pet, missing-cat, missing-dog, search-plan, microchip, lost-pet-poster]
 pairs_with:
   prompts: [build-pet-emergency-plan, move-house-with-pet, prepare-pet-for-fireworks]

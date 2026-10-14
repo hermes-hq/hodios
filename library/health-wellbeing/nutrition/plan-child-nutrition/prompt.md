@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [child-nutrition, picky-eating, family-meals, toddlers, teenagers, plain-language-health]
 pairs_with:
   prompts: [handle-picky-eating, plan-starting-solids, plan-school-lunches, plan-weekly-meals, prepare-pediatric-visit]

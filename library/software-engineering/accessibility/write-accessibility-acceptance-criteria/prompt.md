@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [wcag, definition-of-done, ticket-writing, shift-left, testability]
 pairs_with:
   personas: [accessibility-specialist]

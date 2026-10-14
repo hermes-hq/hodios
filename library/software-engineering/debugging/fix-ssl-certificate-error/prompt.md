@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tls, certificates, ca-bundle, corporate-proxy, openssl]
 pairs_with:
   prompts: [debug-network-request, fix-package-install-failure, recover-from-expired-certificate]

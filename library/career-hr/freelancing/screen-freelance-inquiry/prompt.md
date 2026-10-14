@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lead-screening, red-flags, scope-clarity, client-fit, decline-politely]
 pairs_with:
   prompts: [reply-to-inbound-lead, qualify-leads, write-sales-proposal]

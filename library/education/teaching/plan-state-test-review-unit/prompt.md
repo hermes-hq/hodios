@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-review, standardised-tests, item-analysis, spiralled-practice]
 pairs_with:
   prompts: [analyze-class-assessment-results, create-review-game, write-retrieval-practice-starters]

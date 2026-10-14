@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [experiment-troubleshooting, controls, root-cause, reproducibility]
 pairs_with:
   prompts: [write-lab-notebook-entry, write-lab-protocol]

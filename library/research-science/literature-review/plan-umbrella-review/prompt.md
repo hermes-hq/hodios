@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [umbrella-review, overview-of-reviews, systematic-review, evidence-synthesis, primary-study-overlap]
 pairs_with:
   prompts: [write-systematic-review-protocol, build-search-string, appraise-study-quality, write-summary-of-findings-table]

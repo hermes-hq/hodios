@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [sole-trader, business-fact-sheet, customer-replies, brand-voice]
 pairs_with:
   prompts: [build-project-instructions, prepare-knowledge-files]

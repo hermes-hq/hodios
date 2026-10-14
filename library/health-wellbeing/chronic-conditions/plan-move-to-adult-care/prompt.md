@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [transition-to-adult-services, young-people, independence, self-advocacy, teenagers]
 pairs_with:
   prompts: [set-up-medication-routine, coordinate-care-across-specialists, request-study-adjustments]

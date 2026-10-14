@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [digital-painting, art-workflow, canvas-resolution, layers, colour-management]
 pairs_with:
   prompts: [plan-composition-thumbnails, plan-print-edition, critique-artwork]

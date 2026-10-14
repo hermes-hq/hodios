@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [latex]
 tags: [bibtex, biblatex, reference-list, citation-keys, thesis]
 pairs_with:

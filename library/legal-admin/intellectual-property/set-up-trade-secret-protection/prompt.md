@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trade-secrets, confidential-information, know-how, employee-leavers, access-control]
 pairs_with:
   prompts: [audit-small-business-ip, review-nda, choose-invention-protection-route]

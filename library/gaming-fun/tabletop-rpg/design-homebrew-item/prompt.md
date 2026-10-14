@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [homebrew, magic-items, loot, game-balance, game-mastering]
 pairs_with:
   prompts: [design-campaign-arc, balance-combat-encounter]

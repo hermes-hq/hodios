@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-altar, prayer-corner, home-shrine, puja-room, meditation-space, sacred-space]
 pairs_with:
   prompts: [plan-prayer-or-meditation-practice, write-blessing-or-prayer]

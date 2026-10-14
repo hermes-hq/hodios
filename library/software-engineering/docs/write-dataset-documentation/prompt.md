@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [datasheet, data-product, data-provenance, data-freshness, data-contract]
 pairs_with:
   prompts: [write-data-dictionary, anonymize-dataset, explore-dataset]

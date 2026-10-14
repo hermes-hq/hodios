@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [effective-hourly-rate, client-concentration, client-portfolio, year-end-review]
 pairs_with:
   prompts: [prepare-price-increase-conversation, part-ways-with-client, build-freelance-pipeline-routine, plan-freelance-tax-set-aside]

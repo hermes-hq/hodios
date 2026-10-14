@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [policy-wording, claims-process, exclusions, insurance-complaints]
 pairs_with:
   prompts: [explain-insurance-policy, review-insurance-coverage, decide-whether-to-make-claim, review-claim-settlement-offer, appeal-insurance-denial]

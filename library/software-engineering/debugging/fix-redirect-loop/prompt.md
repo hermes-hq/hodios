@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [redirects, reverse-proxy, https, middleware]
 pairs_with:
   prompts: [fix-cookie-not-being-set, debug-network-request]

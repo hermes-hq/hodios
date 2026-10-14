@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [graded-reader, extensive-reading, cefr]
 pairs_with:
   prompts: [build-vocabulary-list, explain-phrase-in-context]

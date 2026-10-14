@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [memory-usage, rss, container-limits, heap-analysis, oom]
 pairs_with:
   prompts: [find-memory-leak, tune-garbage-collector, profile-hot-path]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bug-hunt, review-practice, planted-defects, game]
 pairs_with:
   prompts: [review-pull-request]

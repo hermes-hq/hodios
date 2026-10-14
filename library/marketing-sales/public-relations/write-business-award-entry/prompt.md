@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [award-entry, industry-awards, judging-criteria, evidence, case-study, recognition]
 pairs_with:
   prompts: [write-press-release, write-coverage-report, write-press-backgrounder]

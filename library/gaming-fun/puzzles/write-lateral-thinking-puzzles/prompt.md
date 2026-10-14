@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lateral-thinking, situation-puzzles, yes-no-questions, brain-teasers, icebreakers]
 pairs_with:
   prompts: [write-riddles, make-logic-puzzle, write-icebreaker-games]

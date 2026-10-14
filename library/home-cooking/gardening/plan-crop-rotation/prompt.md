@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crop-rotation, vegetable-beds, plant-families, soil-health, clubroot, allotment]
 pairs_with:
   prompts: [plan-vegetable-garden, build-raised-bed-plan, plan-first-allotment-year, build-garden-calendar]

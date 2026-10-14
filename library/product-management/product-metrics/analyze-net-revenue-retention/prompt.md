@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [net-revenue-retention, gross-revenue-retention, expansion-revenue, contraction, revenue-cohorts, account-revenue]
 pairs_with:
   prompts: [explain-saas-metrics, plan-expansion-revenue, find-churn-drivers, build-growth-accounting]

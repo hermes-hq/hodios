@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cost-reduction, renegotiation, overheads, software-spend, energy-costs, supplier-review]
 pairs_with:
   prompts: [prepare-supplier-negotiation, compare-vendors, plan-inventory]

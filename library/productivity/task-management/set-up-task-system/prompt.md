@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [capture, trusted-system, contexts, weekly-review, inbox-processing]
 pairs_with:
   prompts: [run-weekly-review, prioritize-todo-list, design-second-brain]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [permanent-residence, settlement, indefinite-leave, qualifying-period, long-term-status]
 pairs_with:
   prompts: [calculate-absences-from-country, prepare-permit-renewal, report-change-of-circumstances, prepare-citizenship-application]

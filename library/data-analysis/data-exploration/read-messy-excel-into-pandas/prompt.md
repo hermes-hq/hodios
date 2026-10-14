@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workbooks, read-excel, tidy-data, multi-row-headers, data-loading]
 pairs_with:
   prompts: [translate-spreadsheet-to-pandas, explore-dataset, write-dataframe-transformation]

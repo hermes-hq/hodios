@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [infographic, information-design, visual-hierarchy, chart-choice, data-storytelling]
 pairs_with:
   prompts: [design-presentation-template, design-social-media-templates, create-color-palette]

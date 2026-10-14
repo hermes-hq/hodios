@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [spaced-repetition, active-recall, cloze]
 pairs_with:
   prompts: [make-study-guide, create-study-plan]

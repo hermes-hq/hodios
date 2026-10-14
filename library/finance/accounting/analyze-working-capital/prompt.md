@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [working-capital, cash-conversion-cycle, receivables, inventory, payment-terms]
 pairs_with:
   prompts: [forecast-cash-flow, chase-late-payment, review-small-business-pnl]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [redos, regex, denial-of-service]
 pairs_with:
   prompts: [review-regex-change, write-regex, triage-sast-findings, fix-event-loop-blocking]

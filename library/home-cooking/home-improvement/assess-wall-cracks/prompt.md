@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wall-cracks, subsidence, settlement, crack-monitoring, structural-survey, plaster]
 pairs_with:
   prompts: [diagnose-home-problem, repair-wall-holes, hire-contractor]

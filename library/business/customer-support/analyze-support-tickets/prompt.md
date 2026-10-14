@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contact-drivers, ticket-deflection, root-cause, voice-of-the-customer]
 pairs_with:
   prompts: [build-support-macros, write-help-center-article]

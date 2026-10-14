@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [headlines, standfirst, subediting, seo-title, social-headline]
 pairs_with:
   prompts: [write-headline-variations, write-meta-tags]

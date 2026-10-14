@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [companionship, loneliness, older-adults, conversation, reminiscence, social-connection]
 pairs_with:
   prompts: [build-connection-plan, find-volunteering-match, enjoy-doing-things-alone]

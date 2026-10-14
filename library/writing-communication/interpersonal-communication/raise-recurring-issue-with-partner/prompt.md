@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [couples, soft-start-up, housework, requests, recurring-issues]
 pairs_with:
   prompts: [repair-after-argument-with-partner, call-time-out-in-heated-argument, set-boundary]

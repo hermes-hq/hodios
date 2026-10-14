@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [surveys, weighting, raking, post-stratification, design-effect]
 pairs_with:
   prompts: [analyze-survey-results, compute-survey-margin-of-error, analyze-likert-data]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [smart-objectives, outcomes, outputs, indicators, logic-model]
 pairs_with:
   prompts: [write-grant-evaluation-plan, write-needs-statement, build-grant-work-plan]

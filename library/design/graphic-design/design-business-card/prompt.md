@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [business-cards, print-design, typography, stationery, print-specs]
 pairs_with:
   prompts: [design-logo-concepts, pair-typefaces, prepare-print-files, build-personal-brand-identity]

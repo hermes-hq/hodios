@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trade-show, conference-press, press-briefings, exhibitor, b2b-pr, event-press]
 pairs_with:
   prompts: [pitch-journalist, build-media-list, write-press-release, write-media-advisory]

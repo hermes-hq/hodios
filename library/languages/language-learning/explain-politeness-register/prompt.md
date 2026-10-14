@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [formality, honorifics, keigo, forms-of-address, register, pragmatics]
 pairs_with:
   prompts: [translate-business-email, explain-phrase-in-context, correct-my-sentences]

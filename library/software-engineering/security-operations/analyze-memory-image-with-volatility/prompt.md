@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [volatility, memory-forensics, process-injection, malfind, evidence-log]
 pairs_with:
   prompts: [plan-evidence-acquisition, build-forensic-timeline, triage-suspicious-executable, investigate-windows-persistence]

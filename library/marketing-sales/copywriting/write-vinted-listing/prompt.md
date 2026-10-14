@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [vinted, secondhand, clothing-resale, france]
 pairs_with:
   prompts: [write-mercari-listing, write-marketplace-listing]

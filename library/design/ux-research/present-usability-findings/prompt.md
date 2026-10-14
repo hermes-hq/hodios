@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-readout, findings-presentation, video-clips, objection-handling, stakeholder-communication]
 pairs_with:
   prompts: [synthesize-usability-findings, write-discovery-readout, brief-usability-test-observers]

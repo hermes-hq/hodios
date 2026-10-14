@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [closing-checklist, definitive-documents, funds-flow, board-approval, post-close]
 pairs_with:
   prompts: [prepare-due-diligence-data-room, explain-term-sheet, write-funding-announcement]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recitation, memorisation, poetry-recital, public-reading]
 pairs_with:
   prompts: [prepare-poetry-reading, analyze-poem]

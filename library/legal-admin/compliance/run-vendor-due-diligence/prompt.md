@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vendor-assessment, third-party-risk, supplier-onboarding, processor-checks, procurement]
 pairs_with:
   prompts: [review-data-processing-agreement, assess-international-data-transfer, assess-vendor-breach-impact, answer-security-questionnaire]

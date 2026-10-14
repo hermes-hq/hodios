@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [link-sharing, commentary, thought-leadership, fair-summary]
 pairs_with:
   prompts: [write-linkedin-post, turn-article-into-thread, write-thoughtful-linkedin-comments]

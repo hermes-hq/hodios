@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spec-review, ambiguity, kickoff, requirements]
 pairs_with:
   personas: [product-manager]

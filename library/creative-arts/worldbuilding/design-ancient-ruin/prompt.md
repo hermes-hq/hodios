@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ruins, lost-civilisations, environmental-storytelling, archaeology, setting-design]
 pairs_with:
   prompts: [build-world-timeline, write-in-world-document, design-fictional-writing-system, design-fictional-religion]

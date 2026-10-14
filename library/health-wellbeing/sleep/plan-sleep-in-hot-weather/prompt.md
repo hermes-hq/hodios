@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [heatwave, bedroom-temperature, cooling, heat-illness, summer-nights]
 pairs_with:
   prompts: [audit-bedroom-for-sleep]

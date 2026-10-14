@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interviewer-training, structured-interviewing, hiring-bias, scorecards, calibration]
 pairs_with:
   prompts: [design-interview-loop, run-hiring-debrief, write-phone-screen-script]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [birdwatching, bird-identification, field-marks, birdsong, nature]
 pairs_with:
   prompts: [plan-birdwatching-outing]

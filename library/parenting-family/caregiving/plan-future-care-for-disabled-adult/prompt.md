@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [learning-disability, letter-of-intent, future-planning, supported-living, guardianship, siblings]
 pairs_with:
   prompts: [write-care-profile, prepare-care-needs-assessment]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workshop-facilitation, brand-discovery, stakeholder-alignment, brand-strategy, co-creation]
 pairs_with:
   prompts: [build-brand-platform, run-brand-audit]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [reference-class-forecasting, estimation, historical-data, planning-fallacy]
 pairs_with:
   prompts: [estimate-with-ranges, forecast-roadmap-dates-with-ranges, run-pre-mortem]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [scale-modelling, plastic-kits, model-painting, weathering, decals, miniatures]
 args:
   - name: kit

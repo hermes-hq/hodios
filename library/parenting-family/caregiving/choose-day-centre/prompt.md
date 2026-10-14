@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [day-services, adult-day-care, respite-care, ageing-parents, social-connection]
 pairs_with:
   prompts: [plan-respite-break, prepare-care-needs-assessment, write-care-profile]

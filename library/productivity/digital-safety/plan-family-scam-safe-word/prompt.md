@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [voice-cloning, impostor-scams, safe-word, family-safety, scam-prevention, deepfakes]
 pairs_with:
   prompts: [protect-relative-from-scams, check-suspicious-message, secure-personal-accounts]

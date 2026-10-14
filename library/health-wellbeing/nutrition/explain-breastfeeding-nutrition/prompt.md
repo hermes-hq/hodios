@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [breastfeeding, lactation, milk-supply, nutrients, caffeine]
 pairs_with:
   prompts: [explain-pregnancy-nutrition, plan-plant-based-nutrition, evaluate-supplement]

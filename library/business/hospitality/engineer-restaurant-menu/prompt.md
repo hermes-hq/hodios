@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [menu-engineering, food-cost, contribution-margin, menu-design, menu-mix]
 pairs_with:
   prompts: [plan-inventory, find-business-cost-savings, prepare-supplier-negotiation]

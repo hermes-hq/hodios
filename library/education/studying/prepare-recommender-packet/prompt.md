@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recommendation-letters, brag-sheet, references, college-admissions, graduate-admissions]
 pairs_with:
   prompts: [plan-university-application, write-statement-of-purpose, plan-scholarship-applications, write-email-to-professor]

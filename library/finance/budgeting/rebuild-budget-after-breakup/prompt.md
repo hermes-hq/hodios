@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [separation, single-income, household-costs, life-change]
 pairs_with:
   prompts: [plan-separation-finances, split-joint-debts-after-breakup, build-tight-budget]

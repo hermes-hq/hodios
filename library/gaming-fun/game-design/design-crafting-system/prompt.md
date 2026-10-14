@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crafting, recipe-design, resource-gathering, survival-games, inventory-design, item-design]
 pairs_with:
   prompts: [design-game-economy, design-progression-system, design-loot-table]

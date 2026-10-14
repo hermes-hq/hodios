@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [meta-analysis, data-extraction, effect-size, evidence-synthesis, systematic-review]
 pairs_with:
   prompts: [plan-meta-analysis, appraise-study-quality, build-literature-matrix, write-systematic-review-protocol]

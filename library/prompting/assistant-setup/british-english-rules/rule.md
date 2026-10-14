@@ -15,6 +15,7 @@ output: [rewrite]
 risk: read-only
 invocation: user
 level: beginner
+depth: specific
 tags: [british-english, uk-spelling, localisation, house-style, date-formats]
 pairs_with:
   rules: [metric-units-rules]

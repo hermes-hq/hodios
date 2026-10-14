@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scatter-plot, bubble-chart, correlation, overplotting]
 pairs_with:
   prompts: [choose-chart-type, visualize-distribution, write-plotting-code]

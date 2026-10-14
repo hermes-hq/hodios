@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [usability-testing, synthesis, severity-rating, research-report]
 pairs_with:
   prompts: [write-usability-test-plan, build-user-journey-map]

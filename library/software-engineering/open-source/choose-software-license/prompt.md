@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-source-licensing, copyleft, license-compatibility, patent-grants]
 pairs_with:
   prompts: [audit-dependency-licenses, evaluate-open-source-strategy, write-contributing-guide]

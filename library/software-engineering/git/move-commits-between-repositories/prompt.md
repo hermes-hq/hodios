@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [format-patch, git-am, three-way-apply, patch-series, cross-repository]
 pairs_with:
   prompts: [backport-fix-to-release-branches, resolve-merge-conflict, extract-folder-into-new-repo]

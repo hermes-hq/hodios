@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [line-endings, gitattributes, crlf, renormalize, cross-platform]
 pairs_with:
   prompts: [write-gitignore-file, set-up-git-on-new-machine]

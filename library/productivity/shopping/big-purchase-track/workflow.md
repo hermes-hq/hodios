@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [major-purchase, shortlist, total-cost, return-window, delivery-checks]
 pairs_with:
   prompts: [decide-whether-to-buy, compare-purchase-options, time-a-purchase, decide-on-extended-warranty, check-online-shop-legitimacy]

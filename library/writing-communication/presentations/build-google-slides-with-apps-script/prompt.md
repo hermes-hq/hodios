@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [apps-script, google-slides, recurring-deck, template-placeholders, automation]
 pairs_with:
   prompts: [write-spreadsheet-automation, migrate-deck-to-new-template, proofread-slide-deck]

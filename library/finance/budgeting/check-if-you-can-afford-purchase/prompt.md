@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [affordability, big-purchase, opportunity-cost, buy-now-pay-later]
 pairs_with:
   prompts: [curb-impulse-spending, plan-savings-goal, build-monthly-budget]

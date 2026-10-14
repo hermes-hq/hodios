@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [small-spaces, visual-space, furniture-scale, mirrors, renter-friendly]
 pairs_with:
   prompts: [maximize-small-space-storage, choose-paint-colours]

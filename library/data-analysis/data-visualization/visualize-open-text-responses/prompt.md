@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-text, survey-comments, qualitative-data, word-cloud-alternative]
 pairs_with:
   prompts: [run-thematic-analysis, classify-text-records, analyze-survey-results, visualize-ranking]

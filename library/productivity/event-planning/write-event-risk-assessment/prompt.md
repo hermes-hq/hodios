@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [risk-assessment, event-safety, emergency-plan, crowd-safety]
 pairs_with:
   prompts: [write-run-of-show, plan-accessible-event, compare-event-venues]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-office, ergonomics, remote-work, workspace, video-calls]
 pairs_with:
   prompts: [design-workday-movement-breaks, troubleshoot-home-wifi, maximize-small-space-storage]

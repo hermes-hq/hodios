@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [career-goals-question, classic-questions, long-term-plans, retention-concerns]
 pairs_with:
   prompts: [answer-motivation-questions, answer-greatest-strength, write-tell-me-about-yourself]

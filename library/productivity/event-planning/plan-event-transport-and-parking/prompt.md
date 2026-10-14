@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [event-transport, parking, shuttle-buses, arrival-flow, accessible-arrival]
 pairs_with:
   prompts: [write-event-risk-assessment, plan-accessible-event, write-run-of-show]

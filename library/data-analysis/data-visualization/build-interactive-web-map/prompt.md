@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [leaflet, maplibre, choropleth-map, web-maps]
 pairs_with:
   prompts: [design-map-visualization, make-interactive-map-accessible, build-d3-chart]

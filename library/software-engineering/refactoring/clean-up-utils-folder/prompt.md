@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [utils-module, helpers, module-ownership, imports]
 pairs_with:
   prompts: [remove-dead-code, reduce-duplication, reorganize-project-structure]

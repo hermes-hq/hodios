@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dementia, family-gatherings, holidays, inclusion, carers]
 pairs_with:
   prompts: [plan-dementia-conversations, plan-for-sundowning, write-care-update-for-family]

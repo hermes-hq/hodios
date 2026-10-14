@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mortgage-arrears, foreclosure, repossession, payment-arrangement]
 pairs_with:
   prompts: [build-tight-budget, negotiate-with-creditor, prepare-for-debt-advice-appointment]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [speculative-biology, biomes, food-web, ecology, setting-design]
 pairs_with:
   prompts: [design-fictional-creature, design-fictional-geography, design-alien-planet, design-sapient-species]

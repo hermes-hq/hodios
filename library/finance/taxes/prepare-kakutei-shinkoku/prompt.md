@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [kakutei-shinkoku, e-tax, iryouhi-koujo, fukugyou, japan]
 pairs_with:
   prompts: [plan-furusato-nozei, understand-nenkin-statement]

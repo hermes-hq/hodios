@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [caffeine, alcohol, cut-off-time, nightcap, sleep-quality]
 pairs_with:
   prompts: [plan-caffeine-reduction, run-a-sleep-experiment, improve-sleep-habits]

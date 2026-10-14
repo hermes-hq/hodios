@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [beginners, business-websites, search-intent, hands-on-learning]
 pairs_with:
   prompts: [plan-new-site-search-launch, write-meta-tags, plan-local-seo]

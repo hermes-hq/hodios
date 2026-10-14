@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [event-driven, outbox-pattern, idempotency, dead-letter-queue, event-schema, message-broker]
 pairs_with:
   personas: [software-architect, backend-engineer]

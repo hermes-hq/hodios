@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [speed-cleaning, hosting, guest-ready, time-boxing]
 args:
   - name: time_left

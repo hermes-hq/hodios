@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [essay-planning, thesis-statement, timed-practice, argument-structure, rapid-drills]
 pairs_with:
   prompts: [write-model-exam-answer, analyze-past-papers]

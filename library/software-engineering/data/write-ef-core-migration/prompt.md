@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ef-core, entity-framework, schema-migrations, idempotent-script, migration-bundle]
 pairs_with:
   prompts: [review-database-migration, test-database-migrations, plan-zero-downtime-schema-change]

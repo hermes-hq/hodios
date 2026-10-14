@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [technique, knife-skills, food-science, sensory-cues]
 pairs_with:
   prompts: [troubleshoot-recipe]

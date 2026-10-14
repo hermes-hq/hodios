@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [disclosure-control, small-cell-suppression, privacy, data-release]
 pairs_with:
   prompts: [write-statistical-bulletin, write-data-methodology-note, check-report-figures]

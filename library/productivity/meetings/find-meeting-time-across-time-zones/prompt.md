@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [time-zones, scheduling, distributed-teams, daylight-saving, fair-rotation]
 pairs_with:
   prompts: [design-meeting-cadence, run-hybrid-meeting, write-meeting-agenda]

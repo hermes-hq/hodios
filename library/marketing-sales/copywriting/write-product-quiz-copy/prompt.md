@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-finder, quiz-funnel, guided-selling, email-capture, recommendations]
 pairs_with:
   prompts: [write-product-range-comparison, write-product-description, write-onsite-popup-copy, write-thank-you-page-copy]

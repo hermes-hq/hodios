@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [file-io, temp-directories, in-memory-filesystem, path-handling, atomic-writes]
 pairs_with:
   prompts: [write-unit-tests, write-cli-tests, decouple-for-testability]

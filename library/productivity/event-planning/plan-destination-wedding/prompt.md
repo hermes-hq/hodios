@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [destination-wedding, wedding-abroad, guest-travel, room-block, wedding-weekend]
 pairs_with:
   prompts: [plan-wedding, plan-wedding-budget, write-wedding-vows, compare-event-venues]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [spring-clean, deep-clean, seasonal-cleaning, chemical-safety]
 pairs_with:
   prompts: [plan-decluttering, deep-clean-kitchen, deep-clean-bathroom, plan-cleaning-schedule]

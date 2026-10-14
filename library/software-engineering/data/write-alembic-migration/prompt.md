@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [alembic, sqlalchemy, schema-migrations, autogenerate, multiple-heads]
 pairs_with:
   prompts: [review-database-migration, fix-failed-database-migration, write-sqlalchemy-models]

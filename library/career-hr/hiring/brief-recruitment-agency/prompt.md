@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recruitment-agency, executive-search, agency-fees, recruiter-brief, vendor-selection]
 pairs_with:
   prompts: [run-hiring-manager-intake, write-job-description, write-headcount-request]

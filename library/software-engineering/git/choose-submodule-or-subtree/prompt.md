@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [submodules, subtree, vendoring, shared-code, multi-repo]
 pairs_with:
   prompts: [extract-folder-into-new-repo, choose-branching-strategy, set-up-git-lfs]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [skin-check, moles, dermatology, skin-cancer-awareness, sun-damage]
 pairs_with:
   prompts: [prepare-doctor-questions, build-symptom-log, prepare-telehealth-visit, explain-pathology-report]

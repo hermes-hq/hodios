@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [worldschooling, family-travel, place-based-learning, offline-resources, travel-journal]
 pairs_with:
   prompts: [plan-homeschool-year, build-homeschool-portfolio]

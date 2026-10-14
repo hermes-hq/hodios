@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mileage-log, vehicle-expenses, business-expenses, deductions]
 pairs_with:
   prompts: [track-business-expenses, plan-freelance-tax-set-aside, plan-car-purchase]

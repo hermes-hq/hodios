@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [self-represented, litigant-in-person, tribunal, court-hearing, hearing-bundle, pro-se]
 pairs_with:
   prompts: [prepare-small-claims-case, index-case-documents, claim-unpaid-wages, respond-to-eviction-notice]

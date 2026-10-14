@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [last-minute-availability, waitlist, cancellations, sms-blast, frequency-cap]
 pairs_with:
   prompts: [write-sms-campaign, reduce-appointment-no-shows, write-weekly-specials-email]

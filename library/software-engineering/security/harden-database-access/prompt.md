@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [least-privilege, database-roles, network-access, tls, audit-logging]
 pairs_with:
   prompts: [write-row-level-security-policies, rotate-credentials-without-downtime, plan-secrets-management, review-cloud-iam-policy]

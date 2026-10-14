@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [patterns, textures, soft-furnishings, textiles, styling]
 pairs_with:
   prompts: [identify-interior-style, choose-window-treatments]

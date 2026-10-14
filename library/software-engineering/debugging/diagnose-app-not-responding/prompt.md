@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [anr, app-hangs, watchdog, main-thread, deadlock, responsiveness]
 pairs_with:
   personas: [mobile-engineer, debugger]

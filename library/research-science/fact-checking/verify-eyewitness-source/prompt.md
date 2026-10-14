@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [eyewitness-media, user-generated-content, osint, breaking-news, source-safety]
 pairs_with:
   prompts: [verify-image-provenance, assess-breaking-news-reports, check-social-account-authenticity]

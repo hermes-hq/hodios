@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [emergency-procedures, fire-evacuation, first-aid, robbery, severe-weather, workplace-safety, drills]
 pairs_with:
   prompts: [plan-business-continuity, write-toolbox-talk, write-opening-closing-checklist]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [perspective-article, commentary, opinion-piece, argumentation, journal-submission]
 pairs_with:
   prompts: [write-paper-title, write-letter-on-published-paper, explain-research-to-public]

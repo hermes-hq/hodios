@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [behind-the-scenes, brand-storytelling, process-story, maker-story, trust-building]
 pairs_with:
   prompts: [write-feature-article, write-profile-piece]

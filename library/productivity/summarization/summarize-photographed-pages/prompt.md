@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [phone-photos, ocr, whiteboards, handouts, paper-documents]
 pairs_with:
   prompts: [summarize-long-document, extract-deadlines, tidy-handwritten-notes-transcript]

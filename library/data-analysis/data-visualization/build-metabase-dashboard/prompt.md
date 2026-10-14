@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [metabase, sql-dashboards, dashboard-filters, self-hosted-bi]
 pairs_with:
   prompts: [design-dashboard, choose-bi-tool, speed-up-slow-dashboard, define-metric]

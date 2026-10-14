@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cost-inflation, budget-assumptions, price-indices, contract-escalators]
 pairs_with:
   prompts: [build-annual-operating-plan, explain-budget-variance, review-forecast-assumptions]

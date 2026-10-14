@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [report-pages, report-design, slicers, drill-through]
 pairs_with:
   prompts: [design-power-bi-data-model, write-dax-measure, design-dashboard, speed-up-slow-dashboard]

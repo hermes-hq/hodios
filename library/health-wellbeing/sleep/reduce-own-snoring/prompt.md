@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [snoring, sleep-position, nasal-congestion, sleep-apnoea-screen, bed-partner]
 pairs_with:
   prompts: [solve-partner-sleep-clashes, prepare-sleep-doctor-appointment, get-used-to-cpap]

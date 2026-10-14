@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [orm, schema-migrations, transactions, signals, pull-request]
 pairs_with:
   personas: [python-engineer]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [store-operations, shop-owner, unit-economics, product-pages, fulfilment, customer-experience]
 pairs_with:
   prompts: [optimize-product-page-conversion, audit-product-catalog-data, plan-multichannel-inventory-sync, plan-holiday-shipping-cutoffs]

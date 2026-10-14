@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [gradle, build-scan, configuration-cache, build-cache, kapt-to-ksp]
 pairs_with:
   prompts: [fix-gradle-or-maven-build-failure, structure-mobile-app-modules, speed-up-ci-pipeline, speed-up-monorepo-builds]

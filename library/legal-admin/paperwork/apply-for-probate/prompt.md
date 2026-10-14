@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [probate, grant-of-representation, letters-of-administration, executor, estate-valuation, inheritance]
 pairs_with:
   prompts: [settle-estate-checklist, prepare-inheritance-tax-questions, handle-debts-after-death, find-free-legal-help]

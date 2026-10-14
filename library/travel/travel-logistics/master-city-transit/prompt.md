@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [public-transport, metro, airport-transfer, transit-pass]
 pairs_with:
   prompts: [plan-itinerary, choose-accommodation, learn-local-etiquette]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [refund-claim, cancelled-event, holiday-cancellation, deposit-refund, voucher-instead-of-refund, chargeback]
 pairs_with:
   prompts: [dispute-card-charge, write-complaint-letter, prepare-travel-insurance-claim, complain-to-ombudsman]

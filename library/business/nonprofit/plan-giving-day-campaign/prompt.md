@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [giving-day, peer-to-peer, matching-gift, content-calendar, ambassador-toolkit]
 pairs_with:
   prompts: [write-donor-appeal, write-donor-thank-you, plan-fundraising-event, write-crowdfunding-campaign]

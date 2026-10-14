@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [subject-access-request, data-protection, privacy-rights, ccpa]
 pairs_with:
   prompts: [review-consumer-terms, dispute-credit-report-error, write-complaint-letter]

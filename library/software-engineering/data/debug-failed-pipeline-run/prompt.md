@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [root-cause, data-incident, rerun-plan, upstream-changes, row-counts]
 pairs_with:
   prompts: [make-pipeline-idempotent, write-data-quality-checks, data-backfill-track]

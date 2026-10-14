@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [localisation, transcreation, cross-border-selling, currency-formats, cultural-fit]
 pairs_with:
   prompts: [write-promo-email, post-edit-machine-translation, check-email-marketing-compliance]

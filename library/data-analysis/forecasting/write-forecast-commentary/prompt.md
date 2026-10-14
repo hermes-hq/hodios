@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reforecast, variance-bridge, forecast-pack, risks-and-opportunities]
 pairs_with:
   prompts: [explain-budget-variance, forecast-time-series, write-monthly-business-review]

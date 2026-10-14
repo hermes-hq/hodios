@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-smells, mocking, assertions, nondeterminism, mutation-testing]
 pairs_with:
   prompts: [fix-flaky-test, write-unit-tests, fill-test-gaps]

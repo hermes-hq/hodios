@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [script-structure, strict-mode, shellcheck, argument-parsing]
 pairs_with:
   prompts: [write-shell-script, fix-shell-script-bug]

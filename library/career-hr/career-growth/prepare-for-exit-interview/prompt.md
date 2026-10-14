@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [exit-interview, leaving-a-job, constructive-feedback, references, offboarding]
 pairs_with:
   prompts: [write-resignation-letter, write-farewell-message, brief-your-references]

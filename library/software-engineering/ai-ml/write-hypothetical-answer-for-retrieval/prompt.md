@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: intermediate
+depth: specific
 tags: [hyde, embeddings, semantic-search, query-expansion, retrieval]
 pairs_with:
   prompts: [rewrite-search-query, rerank-retrieved-passages, design-rag-pipeline]

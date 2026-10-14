@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [intermittent-fasting, time-restricted-eating, meal-timing, weight-management, self-experiment]
 pairs_with:
   prompts: [compare-diet-approaches, plan-sustainable-weight-loss, reach-daily-protein-target, plan-shift-work-eating]

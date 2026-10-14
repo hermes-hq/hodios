@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [personal-loans, money-and-friends, repayment-plan, awkward-situations]
 pairs_with:
   prompts: [set-boundary, reply-to-tricky-message, prepare-difficult-conversation]

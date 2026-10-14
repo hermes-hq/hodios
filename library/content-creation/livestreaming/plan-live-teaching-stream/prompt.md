@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [teaching-stream, live-coding, live-tutorial, screen-privacy, learn-with-me]
 pairs_with:
   prompts: [plan-livestream-run-of-show, plan-stream-scenes, audit-stream-for-privacy-leaks]

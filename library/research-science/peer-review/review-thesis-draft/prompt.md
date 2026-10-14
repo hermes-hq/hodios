@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thesis, dissertation, examiner-feedback, viva-prep, chapter-review]
 pairs_with:
   prompts: [plan-thesis-structure, write-discussion-section, write-literature-review-section, plan-phd-timeline]

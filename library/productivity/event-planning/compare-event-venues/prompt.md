@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [venues, events, site-visit, venue-hire, capacity]
 pairs_with:
   prompts: [plan-event-budget, review-event-vendor-contract, plan-accessible-event]

@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [paper-notes, scanning, archiving, notebook-index, digital-declutter]
 pairs_with:
   prompts: [tidy-handwritten-notes-transcript, organize-digital-files, plan-notes-backup-and-export]

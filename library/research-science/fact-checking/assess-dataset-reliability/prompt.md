@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-provenance, data-quality, official-statistics, metadata, data-journalism]
 pairs_with:
   prompts: [check-trend-claim-against-data, evaluate-source-credibility, trace-statistic-to-source]

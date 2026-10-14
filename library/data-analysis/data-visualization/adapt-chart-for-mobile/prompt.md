@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [responsive-design, mobile-charts, chart-design, data-journalism]
 pairs_with:
   prompts: [critique-chart, write-plotting-code, describe-chart-for-accessibility]

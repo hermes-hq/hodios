@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [faire-part, birth-announcement, wedding, death-notice, thank-you-card, french-etiquette]
 pairs_with:
   prompts: [write-thank-you-note, write-condolence-message, write-french-formal-email]

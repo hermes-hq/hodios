@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [diversification, asset-allocation, fees, concentration-risk]
 pairs_with:
   prompts: [explain-fund-document, explain-investment-concept, explain-tax-on-investments]

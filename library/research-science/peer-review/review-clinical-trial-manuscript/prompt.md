@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [randomised-trials, consort, risk-of-bias, clinical-research, manuscript]
 pairs_with:
   prompts: [check-outcome-switching, review-statistical-methods, check-manuscript-reporting]

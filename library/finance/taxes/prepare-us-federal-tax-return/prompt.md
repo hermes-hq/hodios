@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [form-1040, irs, w-2, tax-return, united-states, tax-credits]
 pairs_with:
   prompts: [organize-tax-documents, compare-standard-vs-itemized-deductions, explain-tax-form, choose-tax-filing-status]

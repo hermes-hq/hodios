@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [video-calls, webcam, microphone, echo, call-quality, remote-work]
 pairs_with:
   prompts: [troubleshoot-home-wifi, fix-bluetooth-connection, explain-error-message]

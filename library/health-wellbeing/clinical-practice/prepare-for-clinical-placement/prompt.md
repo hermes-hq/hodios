@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [clinical-placement, nursing-students, allied-health-students, practice-learning, reflective-practice, student-nurses]
 pairs_with:
   prompts: [write-clinical-skills-checklist, prepare-case-presentation]

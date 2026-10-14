@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [branded-content, organisational-podcast, editorial-value, success-measures, show-concept]
 pairs_with:
   prompts: [launch-podcast, plan-podcast-season, read-podcast-listener-stats]

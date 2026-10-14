@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [staff-briefing, release-readiness, customer-questions, escalation-path, huddle]
 pairs_with:
   prompts: [write-launch-faq, plan-internal-tool-rollout, plan-branch-by-branch-rollout]

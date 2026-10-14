@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [junior-developers, debugging-habits, teaching-code-review, pair-programming]
 pairs_with:
   prompts: [explain-concept-with-code, create-coding-exercises, explain-stack-trace, add-regression-test]

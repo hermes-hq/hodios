@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [human-in-the-loop, tool-approval, audit-log, agent-safety]
 pairs_with:
   prompts: [implement-llm-tool-calling, design-agent-architecture, run-tool-using-agent-loop]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dating-profile, online-dating, dating-apps, bio-writing, conversation-starters]
 pairs_with:
   prompts: [plan-first-date]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [guest-service, guest-complaints, allergens, service-phrases, shift-simulation]
 pairs_with:
   prompts: [roleplay-shop-floor-customers, practise-conversation-strategies, translate-restaurant-menu]

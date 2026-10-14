@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [notifications, email-delivery, push-notifications, user-preferences, digests, idempotency]
 pairs_with:
   personas: [software-architect, backend-engineer]

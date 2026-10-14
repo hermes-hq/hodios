@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multilingual, language-versions, transcreation, localisation, audience-reach]
 pairs_with:
   prompts: [localise-social-captions, assess-community-information-needs, define-content-pillars]

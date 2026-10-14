@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hospital-bag, packing-list, labour, birth-partner, going-home]
 pairs_with:
   prompts: [plan-labour-day-logistics, write-birth-preferences, write-birth-partner-guide]

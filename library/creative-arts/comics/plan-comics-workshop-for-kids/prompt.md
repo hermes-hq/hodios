@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [workshops, children, teens, minicomics, lesson-plan]
 pairs_with:
   prompts: [make-one-sheet-minicomic, write-gag-strip]

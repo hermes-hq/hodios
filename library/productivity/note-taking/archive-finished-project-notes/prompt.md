@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [project-closeout, archiving, lessons-learned, project-summary, para-method]
 pairs_with:
   prompts: [set-up-project-notebook, write-note-for-future-self, audit-notes-vault, merge-overlapping-notes]

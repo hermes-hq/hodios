@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cat-behaviour, litter-box, cat-scratching, multi-cat-home, feline-enrichment]
 pairs_with:
   prompts: [prepare-vet-visit, plan-pet-enrichment, introduce-pets]

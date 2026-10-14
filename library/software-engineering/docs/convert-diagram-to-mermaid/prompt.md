@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mermaid, plantuml, diagrams-as-code, whiteboard-photo]
 pairs_with:
   prompts: [write-c4-diagram, write-sequence-diagram, draw-database-er-diagram]

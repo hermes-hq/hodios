@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [carbon-footprint, greenhouse-gas, emissions, net-zero, scope-3, sustainability]
 pairs_with:
   prompts: [write-sustainability-report, find-business-cost-savings, write-environmental-policy]

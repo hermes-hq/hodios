@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [official-forms, bureaucracy, newcomers, abbreviations, reading-skills, mock-form]
 pairs_with:
   prompts: [handle-foreign-language-letter, learn-health-vocabulary-for-appointments, learn-school-vocabulary-for-parents, practise-spelling-out-personal-details]

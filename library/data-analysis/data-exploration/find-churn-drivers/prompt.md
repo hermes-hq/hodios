@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [churn, retention, survival-analysis, leakage]
 pairs_with:
   prompts: [build-cohort-analysis, segment-customers, choose-statistical-test]

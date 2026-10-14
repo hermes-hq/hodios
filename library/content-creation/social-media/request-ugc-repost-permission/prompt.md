@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [user-generated-content, usage-rights, consent, photo-credit, reposting]
 pairs_with:
   prompts: [write-instagram-caption, reply-to-comments]

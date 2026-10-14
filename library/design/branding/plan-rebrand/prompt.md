@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [rebrand, brand-equity, brand-refresh, distinctive-assets, rollout-plan]
 pairs_with:
   prompts: [build-brand-platform, build-brand-guidelines, design-logo-concepts, name-brand]

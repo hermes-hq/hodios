@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [crochet, amigurumi, soft-toys, magic-ring, stuffed-toys, fibre-crafts]
 pairs_with:
   prompts: [plan-knitting-project, fix-knitting-mistake]

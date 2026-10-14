@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [linting, static-analysis, ast, codemod, eslint-plugin]
 pairs_with:
   prompts: [fix-lint-violations-repo-wide, write-team-coding-standards]

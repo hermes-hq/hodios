@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [membership-cancellation, notice-period, save-offer, fair-exit, gym-membership]
 pairs_with:
   prompts: [design-churn-save-flow, analyze-cancellation-feedback, write-support-reply]

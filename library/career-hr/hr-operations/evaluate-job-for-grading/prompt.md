@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [job-evaluation, job-grading, job-levelling, benchmark-roles, factor-scoring]
 pairs_with:
   prompts: [design-salary-bands, build-career-ladder, analyze-pay-equity, write-job-description]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [product-led-growth, self-serve, product-qualified-leads, time-to-value, upgrade-paths]
 pairs_with:
   prompts: [design-free-tier, define-activation-metric, choose-sales-motion, analyze-free-to-paid-conversion]

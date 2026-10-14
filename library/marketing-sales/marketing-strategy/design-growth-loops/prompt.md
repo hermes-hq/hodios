@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [growth-loops, viral-coefficient, user-generated-content, product-led-growth, compounding-growth]
 pairs_with:
   prompts: [design-referral-program, build-experiment-backlog, analyze-conversion-funnel, plan-free-tool-marketing]

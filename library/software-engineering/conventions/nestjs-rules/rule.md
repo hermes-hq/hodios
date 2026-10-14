@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [dependency-injection, dto-validation, guards, exception-filters, modules]
 applies_to: ["src/**/*.ts", "test/**/*.ts"]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [loss-prevention, shrinkage, shoplifting, cash-controls, stock-counts]
 pairs_with:
   prompts: [plan-inventory, write-opening-closing-checklist, plan-visual-merchandising]

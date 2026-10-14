@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [quality-control, inspection, defect-classification, acceptance-criteria, final-inspection]
 pairs_with:
   prompts: [write-sop, run-five-whys, plan-acceptance-sampling]

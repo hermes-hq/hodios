@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reference-sheet, formula-sheet, open-book-exam, crib-sheet, high-yield]
 pairs_with:
   prompts: [make-study-guide, make-flashcards, generate-practice-exam]

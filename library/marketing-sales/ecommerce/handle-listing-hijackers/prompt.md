@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [listing-hijacking, counterfeits, brand-protection, unauthorised-sellers, test-buy, trade-marks]
 pairs_with:
   prompts: [write-marketplace-suspension-appeal, write-marketplace-listing]

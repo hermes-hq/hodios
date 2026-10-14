@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [callback, guarantee, trades, repeat-visit, fault-finding]
 pairs_with:
   prompts: [triage-service-call, write-job-completion-report, resolve-invoice-dispute]

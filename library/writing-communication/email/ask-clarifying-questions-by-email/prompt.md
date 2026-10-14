@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [clarifying-questions, vague-brief, assumptions, requirements]
 pairs_with:
   prompts: [acknowledge-request-and-set-timeline, request-information-by-email, reply-to-email]

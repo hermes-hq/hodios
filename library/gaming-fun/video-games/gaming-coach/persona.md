@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [game-coaching, competitive-gaming, practice-plan, tilt-control, player-improvement]
 pairs_with:
   prompts: [plan-game-strategy, review-gameplay-replay, plan-esports-team-practice]

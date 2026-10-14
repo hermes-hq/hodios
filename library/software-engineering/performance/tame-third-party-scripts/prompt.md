@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [third-party-scripts, tag-manager, inp, facades, main-thread]
 pairs_with:
   prompts: [improve-web-vitals, reduce-bundle-size, implement-cookie-consent]

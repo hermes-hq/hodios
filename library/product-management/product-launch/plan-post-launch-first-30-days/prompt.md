@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [post-launch, feedback-triage, hypercare, launch-follow-up, iteration]
 pairs_with:
   prompts: [review-launch-results, plan-feature-adoption-push, plan-launch-retrospective, write-known-issues-page]

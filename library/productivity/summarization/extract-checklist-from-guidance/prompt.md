@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [application-process, official-guidance, documents-needed, eligibility, step-by-step]
 pairs_with:
   prompts: [extract-deadlines, summarize-what-applies-to-me, interrogate-a-document]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [infrastructure-as-code, terraform-state, moved-blocks, import-blocks, module-refactoring]
 pairs_with:
   prompts: [write-terraform-module, review-iac-plan]

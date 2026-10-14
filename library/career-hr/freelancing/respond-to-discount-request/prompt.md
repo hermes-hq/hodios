@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [price-negotiation, discount, scope-trade, walk-away-point, client-communication]
 pairs_with:
   prompts: [write-freelance-proposal, prepare-price-increase-conversation, screen-freelance-inquiry]

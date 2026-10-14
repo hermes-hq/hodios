@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [loyalty-programme, rewards-points, points-expiry, programme-changes, customer-data, membership-tiers]
 pairs_with:
   prompts: [design-loyalty-program, write-loyalty-points-emails, write-gift-card-terms, write-privacy-policy]

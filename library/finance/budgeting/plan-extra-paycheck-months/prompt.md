@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [biweekly-pay, weekly-pay, windfall, cash-flow]
 pairs_with:
   prompts: [plan-bill-payment-calendar, build-monthly-budget, plan-debt-payoff]

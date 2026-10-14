@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wedding-ceremony, officiant, humanist-wedding, interfaith-wedding, readings, vows]
 pairs_with:
   prompts: [write-wedding-vows, plan-wedding, navigate-family-faith-differences, write-blessing-or-prayer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [word-count, manuscript-length, cutting, scene-cuts, querying]
 pairs_with:
   prompts: [critique-fiction-draft, check-story-continuity, write-query-letter]

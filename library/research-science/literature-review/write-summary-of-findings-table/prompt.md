@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [grade, certainty-of-evidence, summary-of-findings, systematic-review, guideline-development]
 subject: [medicine, healthcare]
 pairs_with:

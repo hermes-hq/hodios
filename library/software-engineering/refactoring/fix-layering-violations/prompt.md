@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [layered-architecture, dependency-rule, import-rules, hexagonal-architecture, module-boundaries]
 pairs_with:
   prompts: [untangle-circular-dependencies, review-codebase-architecture]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [company-research, business-model, culture-signals, due-diligence]
 pairs_with:
   prompts: [analyze-job-posting, prepare-questions-for-interviewer, write-cover-letter]

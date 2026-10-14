@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shared-reading, dialogic-reading, phonics-prompts, reading-volunteer, book-talk, home-reading]
 pairs_with:
   prompts: [build-reading-routine-with-child, tutor-reading-comprehension]

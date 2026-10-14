@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [course-withdrawal, add-drop, financial-aid, credit-load, academic-advising]
 pairs_with:
   prompts: [recover-from-failed-midterm, calculate-grade-needed-on-final, plan-courses-to-graduation, plan-semester-workload]

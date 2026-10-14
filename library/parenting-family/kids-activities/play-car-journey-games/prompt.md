@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [road-trip, travel-games, voice-mode, screen-free, spotting-games, mixed-ages]
 pairs_with:
   prompts: [plan-road-trip, plan-family-trip, play-kids-quiz]

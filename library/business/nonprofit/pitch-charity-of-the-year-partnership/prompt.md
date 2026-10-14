@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [corporate-partnerships, charity-of-the-year, employee-fundraising, cause-partnership, partnership-proposal]
 pairs_with:
   prompts: [plan-corporate-volunteering-day, write-case-for-support, write-impact-report]

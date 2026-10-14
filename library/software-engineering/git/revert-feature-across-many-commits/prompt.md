@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [revert, feature-removal, dependency-check, shared-branch]
 pairs_with:
   prompts: [revert-merged-pull-request, investigate-code-history, resolve-merge-conflict]

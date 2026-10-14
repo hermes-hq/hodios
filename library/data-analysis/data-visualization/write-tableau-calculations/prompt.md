@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lod-expressions, calculated-fields, table-calculations, bi-development]
 pairs_with:
   prompts: [write-dax-measure, define-metric, design-dashboard]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scope-change, change-control, impact-analysis, requirements]
 pairs_with:
   prompts: [write-prd, refine-backlog-ticket, write-acceptance-criteria]

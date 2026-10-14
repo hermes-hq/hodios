@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [failover, circuit-breaker, multi-provider, reliability, model-routing]
 pairs_with:
   prompts: [integrate-llm-api-with-retries, write-llm-eval-suite, choose-llm-for-feature]

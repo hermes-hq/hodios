@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 advice_risk: [medical, legal, financial]
 tags: [appointments, rehearsal, newcomers, script, cefr]
 pairs_with:

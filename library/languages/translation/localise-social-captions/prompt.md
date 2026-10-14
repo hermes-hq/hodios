@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [social-captions, hashtags, creator-voice, wordplay]
 pairs_with:
   prompts: [transcreate-marketing-copy, translate-preserving-tone, adapt-regional-variant]

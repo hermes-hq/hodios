@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [all-hands, town-hall, internal-comms, q-and-a, run-of-show]
 pairs_with:
   prompts: [write-meeting-agenda, run-hybrid-meeting, prepare-for-tough-questions, write-manager-talking-points]

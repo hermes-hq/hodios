@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [etsy, handmade, craft-business, marketplace-fees, product-pricing, shop-launch]
 pairs_with:
   prompts: [write-marketplace-listing, price-products-for-online-store, diagnose-marketplace-listing-ranking, plan-marketplace-ads]

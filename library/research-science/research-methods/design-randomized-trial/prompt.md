@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [rct, clinical-trials, randomisation, blinding, consort, spirit, intention-to-treat]
 pairs_with:
   prompts: [plan-pilot-study, calculate-sample-size, write-statistical-analysis-plan, plan-process-evaluation]

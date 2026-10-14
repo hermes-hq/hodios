@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [framework-internals, mental-models, reimplementation, under-the-hood]
 pairs_with:
   prompts: [explain-concept-with-code, learn-framework-from-known-one]

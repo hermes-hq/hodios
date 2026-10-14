@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repurposing, clips, long-form-to-short-form, short-form-video]
 pairs_with:
   prompts: [write-show-notes, turn-article-into-thread, write-short-form-script]

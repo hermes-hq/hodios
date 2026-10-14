@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [extension, deadline, more-time, expectation-setting]
 pairs_with:
   prompts: [write-delay-notification, push-back-on-deadline-by-email, write-email-to-professor]

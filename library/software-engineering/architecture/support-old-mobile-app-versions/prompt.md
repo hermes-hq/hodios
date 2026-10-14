@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mobile-backend, forced-upgrade, backward-compatibility, app-versions, kill-switch]
 pairs_with:
   personas: [software-architect]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [private-tutoring, diagnostic-assessment, intake, term-plan, progress-reports, parent-communication]
 pairs_with:
   prompts: [teach-topic-with-checks]

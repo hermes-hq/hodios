@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [source-maps, minification, error-tracking, production-errors, bundlers]
 pairs_with:
   prompts: [explain-stack-trace, debug-production-only-bug]

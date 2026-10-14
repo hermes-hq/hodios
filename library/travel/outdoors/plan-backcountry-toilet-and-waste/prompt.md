@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [leave-no-trace, catholes, pack-it-out, periods-outdoors, grey-water, outdoor-hygiene]
 pairs_with:
   prompts: [plan-camping-trip, choose-wild-camp-spot, plan-trail-water]

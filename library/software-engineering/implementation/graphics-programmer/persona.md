@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [rendering, shaders, gpu-profiling, frame-budget, colour-spaces, lighting]
 pairs_with:
   prompts: [write-fragment-shader, profile-hot-path]

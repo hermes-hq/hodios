@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ironing, garment-steaming, fabric-care, shirts]
 pairs_with:
   prompts: [fix-laundry-problem, plan-clothing-care-and-repair]

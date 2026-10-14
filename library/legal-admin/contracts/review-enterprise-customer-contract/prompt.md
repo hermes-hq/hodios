@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [master-services-agreement, customer-paper, limitation-of-liability, indemnity, payment-terms, vendor-side]
 pairs_with:
   prompts: [redline-contract, build-contract-obligations-register, explain-contract-clause, review-saas-agreement]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [pii-redaction, anonymization, privacy, data-masking, pseudonymization]
 pairs_with:
   prompts: [add-llm-output-guardrails, generate-synthetic-test-data, clean-up-speech-transcript]

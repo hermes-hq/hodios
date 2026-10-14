@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [price-testing, revenue-per-visitor, willingness-to-pay, painted-door, geo-split, price-fairness]
 pairs_with:
   prompts: [design-ab-test, design-pricing, estimate-price-elasticity, plan-experiments-with-low-traffic]

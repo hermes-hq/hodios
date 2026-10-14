@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [agentic-systems, multi-agent, tool-use, guardrails, human-in-the-loop]
 pairs_with:
   prompts: [design-tool-schema, write-llm-eval-suite, review-llm-app-security, reduce-llm-costs]

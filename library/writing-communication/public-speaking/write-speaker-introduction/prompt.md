@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [speaker-introduction, conference, host, speaker-bio]
 pairs_with:
   prompts: [write-emcee-script, give-vote-of-thanks, write-opening-or-closing-remarks]

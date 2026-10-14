@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [night-hiking, head-torch, moonlight, sunrise-hike, navigation-at-night, stargazing]
 pairs_with:
   prompts: [prepare-for-getting-lost, write-trip-intentions-plan, set-turnaround-time]

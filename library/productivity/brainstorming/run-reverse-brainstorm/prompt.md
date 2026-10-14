@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reverse-brainstorming, inversion, problem-solving, ideation-technique]
 pairs_with:
   prompts: [brainstorm-ideas, cluster-ideas, run-pre-mortem]

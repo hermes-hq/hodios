@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [first-contact-resolution, repeat-contacts, root-cause, agent-empowerment, call-centre]
 pairs_with:
   prompts: [analyze-support-tickets, build-support-qa-scorecard, design-escalation-process]

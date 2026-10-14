@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [career-transition, transferable-skills, informational-interview, skills-gap, values]
 pairs_with:
   prompts: [plan-career-path, reframe-for-career-change, write-networking-message, plan-job-search]

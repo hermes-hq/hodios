@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [offline-conversions, crm-integration, click-id, lead-quality, enhanced-conversions-for-leads, value-based-bidding]
 pairs_with:
   prompts: [plan-ad-conversion-tracking, set-up-server-side-conversions, choose-bidding-strategy, design-lead-form-ads]

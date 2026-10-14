@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [delta-debugging, test-case-reduction, minimal-reproduction, crash-triage]
 pairs_with:
   prompts: [reproduce-bug-report, add-regression-test, write-fuzz-harness]

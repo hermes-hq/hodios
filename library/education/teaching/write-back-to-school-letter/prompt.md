@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-engagement, welcome-letter, parent-communication, start-of-year]
 pairs_with:
   prompts: [plan-first-week-of-school, write-classroom-newsletter, plan-curriculum-night-presentation]

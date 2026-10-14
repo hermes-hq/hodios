@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sports-day, garden-games, team-games, active-play, birthday-games, inclusive-play]
 pairs_with:
   prompts: [design-kids-obstacle-course, plan-water-play-day, plan-kids-party]

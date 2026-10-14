@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [buyer-negotiation, walk-away-point, rejection-terms, payment-terms, roleplay-practice]
 pairs_with:
   prompts: [check-produce-supply-contract, prepare-deal-negotiation]

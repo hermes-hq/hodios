@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bundles, kits, multipacks, bundle-pricing, average-order-value, slow-stock]
 pairs_with:
   prompts: [plan-cross-sells-and-upsells, design-sku-and-variant-structure, plan-multichannel-inventory-sync]

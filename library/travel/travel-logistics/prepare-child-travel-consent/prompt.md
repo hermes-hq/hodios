@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [minors, consent-letter, single-parent-travel, border-control, family-travel]
 pairs_with:
   prompts: [check-travel-requirements, organise-travel-documents, plan-family-trip]

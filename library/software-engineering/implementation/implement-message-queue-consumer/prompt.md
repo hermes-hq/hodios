@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [message-queue, consumer-groups, sqs, rabbitmq, dead-letter-queue, idempotency]
 pairs_with:
   prompts: [implement-background-job, design-event-driven-system, implement-graceful-shutdown, drain-queue-backlog]

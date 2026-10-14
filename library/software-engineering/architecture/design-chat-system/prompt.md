@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [instant-messaging, websockets, message-ordering, presence, read-receipts, realtime]
 pairs_with:
   personas: [software-architect, backend-engineer]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [worked-examples, backward-fading, procedural-skills, self-explanation]
 pairs_with:
   prompts: [build-interleaved-practice-set, run-feynman-check]

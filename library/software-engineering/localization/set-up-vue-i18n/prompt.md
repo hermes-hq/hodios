@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vue-i18n, nuxt-i18n, composition-api, plural-rules, message-compilation]
 pairs_with:
   prompts: [extract-ui-strings, design-locale-detection-and-routing, write-icu-plural-messages]

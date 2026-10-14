@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [burndown-chart, burn-up-chart, agile, project-tracking]
 pairs_with:
   prompts: [forecast-roadmap-dates-with-ranges, plan-team-capacity, write-plotting-code]

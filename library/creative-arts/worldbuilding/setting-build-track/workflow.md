@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [setting-design, setting-brief, story-first, internal-consistency, campaign-setting]
 pairs_with:
   prompts: [design-fictional-geography, build-world-timeline, design-fictional-factions, design-fictional-culture, find-worldbuilding-plot-holes]

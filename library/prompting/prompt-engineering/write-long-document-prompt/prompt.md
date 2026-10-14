@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [long-context, document-qa, citations, chunking]
 pairs_with:
   prompts: [write-structured-output-prompt, design-prompt-chain, prepare-knowledge-files]

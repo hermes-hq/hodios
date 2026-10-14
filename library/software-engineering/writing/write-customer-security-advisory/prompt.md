@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [security-advisory, vulnerability-disclosure, cvss, customer-notice, patching]
 pairs_with:
   prompts: [coordinate-security-release, write-public-incident-report]

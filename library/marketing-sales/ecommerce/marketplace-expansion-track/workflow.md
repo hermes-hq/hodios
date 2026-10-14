@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [new-sales-channel, marketplace-selling, channel-expansion, product-selection, listing-launch, seller-metrics]
 pairs_with:
   prompts: [write-marketplace-listing, plan-marketplace-ads, plan-multichannel-inventory-sync, calculate-product-margin]

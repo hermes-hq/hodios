@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [scenario-comparison, budget-planning, headcount, trade-offs, decision-paper]
 pairs_with:
   prompts: [build-annual-product-roadmap, critique-roadmap, brief-board-on-roadmap, roadmap-reset-track]

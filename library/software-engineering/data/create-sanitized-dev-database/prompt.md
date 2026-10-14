@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-masking, subsetting, personal-data, dev-environment, pseudonymisation]
 pairs_with:
   prompts: [generate-realistic-seed-data, implement-user-data-deletion]

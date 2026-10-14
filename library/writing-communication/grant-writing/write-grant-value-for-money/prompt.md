@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [value-for-money, unit-costs, cost-effectiveness, public-funding, economy-efficiency-effectiveness]
 pairs_with:
   prompts: [build-grant-budget, write-grant-budget-narrative, calculate-programme-full-cost]

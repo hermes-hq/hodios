@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pre-reading, pretraining, lecture-preparation, advance-organiser]
 pairs_with:
   prompts: [choose-note-taking-method, convert-lecture-notes-to-cornell]

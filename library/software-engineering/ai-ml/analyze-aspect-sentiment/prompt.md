@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [aspect-based-sentiment, review-analysis, opinion-mining, feedback-analytics]
 pairs_with:
   prompts: [classify-text-records, write-classification-prompt]

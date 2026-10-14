@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [yoga, alignment, props, breathwork, flexibility]
 pairs_with:
   prompts: [design-yoga-sequence, design-mobility-routine, guide-mindfulness-meditation]

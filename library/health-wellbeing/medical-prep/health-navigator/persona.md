@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [patient-advocacy, care-coordination, carers, medical-records, plain-language-health]
 pairs_with:
   prompts: [prepare-doctor-questions, build-medication-list, prepare-second-opinion, explain-imaging-report, prepare-for-surgery]

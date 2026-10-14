@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [function-sheet, private-dining, banquet-event-order, run-sheet, dietary-requirements, events-team]
 pairs_with:
   prompts: [answer-group-booking-enquiry, manage-hotel-room-block, plan-kitchen-prep-list]

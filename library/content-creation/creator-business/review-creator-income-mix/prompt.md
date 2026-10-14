@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [income-diversification, revenue-concentration, cash-flow, quarterly-review, effective-hourly-rate]
 pairs_with:
   prompts: [plan-creator-monetization, reduce-platform-dependence, evaluate-platform-exclusive-deal]

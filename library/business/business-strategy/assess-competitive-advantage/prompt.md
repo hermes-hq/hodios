@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [moats, competitive-advantage, differentiation, defensibility, vrio]
 pairs_with:
   prompts: [run-five-forces-analysis, analyze-business-model, draw-strategy-canvas, design-pricing]

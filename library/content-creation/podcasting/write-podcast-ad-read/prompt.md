@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [host-read, sponsorship, ad-disclosure, promo-code]
 pairs_with:
   prompts: [write-media-kit, pitch-brand-sponsorship]

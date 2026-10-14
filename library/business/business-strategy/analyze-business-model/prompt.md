@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [business-model-canvas, riskiest-assumption, unit-economics, assumption-testing]
 pairs_with:
   prompts: [model-unit-economics, validate-business-idea, run-swot-analysis]

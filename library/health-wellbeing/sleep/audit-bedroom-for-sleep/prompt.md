@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sleep-environment, blackout, noise, bedroom-temperature, mattress, renter-friendly]
 pairs_with:
   prompts: [plan-sleep-in-hot-weather, solve-partner-sleep-clashes]

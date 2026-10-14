@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mcp-tools, client-config, ai-integration, readme]
 pairs_with:
   prompts: [build-mcp-server, write-readme]

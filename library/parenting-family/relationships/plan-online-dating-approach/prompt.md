@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [online-dating, dating-apps, dating-burnout, dating-safety, time-limits]
 pairs_with:
   prompts: [write-dating-profile, write-dating-app-openers, plan-first-date, assess-early-dating-warning-signs]

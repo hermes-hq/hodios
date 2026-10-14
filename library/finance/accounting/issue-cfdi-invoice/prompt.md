@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cfdi, factura-electronica, sat, resico, mexico]
 pairs_with:
   prompts: [write-invoice, track-business-expenses]

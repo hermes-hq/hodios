@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cache-stampede, cold-cache, redis-outage, request-coalescing, load-shedding]
 pairs_with:
   prompts: [plan-caching-strategy, design-load-shedding, write-incident-update]

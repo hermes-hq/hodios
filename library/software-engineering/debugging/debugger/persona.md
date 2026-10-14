@@ -7,6 +7,7 @@ description: Debugs by reproducing first, testing one hypothesis at a time and f
 category: debugging
 version: 1.0.0
 status: incubating
+depth: basic
 stage: [build, maintain]
 role: [software-engineer]
 stack: []

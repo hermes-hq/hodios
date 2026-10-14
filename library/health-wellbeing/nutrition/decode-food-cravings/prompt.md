@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cravings, sugar-cravings, appetite, sleep-and-appetite, habit-change]
 pairs_with:
   prompts: [manage-emotional-eating, reduce-added-sugar, plan-filling-snacks, practice-hunger-and-fullness-cues]

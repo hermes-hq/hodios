@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sweat-equity, startup-clients, deferred-fees, revenue-share, payment-terms]
 pairs_with:
   prompts: [negotiate-client-payment-terms, explain-equity-compensation, price-services, screen-freelance-inquiry]

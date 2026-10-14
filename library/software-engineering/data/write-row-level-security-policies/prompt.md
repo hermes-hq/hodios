@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [row-level-security, tenant-isolation, authorization, access-policies, least-privilege, supabase-auth]
 pairs_with:
   prompts: [design-multi-tenancy, design-database-schema]

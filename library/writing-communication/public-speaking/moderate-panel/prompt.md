@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [panel-moderation, run-of-show, speaker-introductions, audience-q-and-a]
 pairs_with:
   prompts: [write-emcee-script, write-professional-bio, write-webinar-script]

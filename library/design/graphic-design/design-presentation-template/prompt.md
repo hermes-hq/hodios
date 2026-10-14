@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [slide-template, presentation-design, master-layouts, chart-style, brand-application]
 pairs_with:
   prompts: [build-brand-guidelines, critique-slide-deck, outline-presentation, design-infographic]

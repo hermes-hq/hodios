@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [guest-logistics, remote-recording, release-form, recording-day, guest-experience]
 pairs_with:
   prompts: [write-guest-interview-questions, write-guest-promo-kit, build-guest-booking-tracker]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [broadcast-news, two-column-script, sound-bites, b-roll, stand-up, attribution]
 pairs_with:
   prompts: [write-news-story, write-short-form-script]

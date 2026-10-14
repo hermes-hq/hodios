@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [location-pages, doorway-pages, trades, mobile-services, local-proof]
 pairs_with:
   prompts: [plan-local-seo, write-schema-markup, write-meta-tags]

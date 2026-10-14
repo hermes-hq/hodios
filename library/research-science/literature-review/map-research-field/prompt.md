@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [field-orientation, research-landscape, key-terms, interdisciplinary]
 pairs_with:
   prompts: [build-starter-reading-list, build-search-string, find-research-gaps]

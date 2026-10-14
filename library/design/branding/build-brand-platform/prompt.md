@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-platform, brand-strategy, mission-vision-values, brand-positioning, brand-promise]
 pairs_with:
   prompts: [write-brand-story, build-brand-guidelines, write-brand-voice-guide, write-positioning-statement, design-logo-concepts]

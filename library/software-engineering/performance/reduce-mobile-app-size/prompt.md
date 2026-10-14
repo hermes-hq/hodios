@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-size, app-thinning, app-bundle, r8, asset-optimization]
 pairs_with:
   prompts: [speed-up-app-cold-start, reduce-bundle-size, structure-mobile-app-modules]

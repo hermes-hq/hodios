@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [predatory-journals, predatory-conferences, hijacked-journals, journal-selection, think-check-submit, academic-publishing]
 pairs_with:
   prompts: [choose-target-journal, evaluate-source-credibility, write-journal-cover-letter]

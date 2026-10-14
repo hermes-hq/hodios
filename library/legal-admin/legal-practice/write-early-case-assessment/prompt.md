@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [early-case-assessment, litigation-strategy, case-evaluation, decision-tree, settlement-value]
 pairs_with:
   prompts: [draft-legal-research-memo, build-damages-schedule, prepare-mediation-statement]

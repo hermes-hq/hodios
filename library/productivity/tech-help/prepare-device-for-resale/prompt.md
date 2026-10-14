@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [factory-reset, activation-lock, selling-devices, device-recycling, data-wipe, trade-in]
 pairs_with:
   prompts: [set-up-backups, switch-phones, check-used-device, plan-digital-legacy]

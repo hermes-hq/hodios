@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lookbook, garment-accuracy, fabric-motion, apparel-marketing]
 pairs_with:
   prompts: [write-product-video-prompt, write-image-to-video-motion-prompt, review-generated-video-takes]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [agenda, pre-read, facilitation, meeting-notes, action-items]
 pairs_with:
   prompts: [write-meeting-agenda, summarize-meeting-transcript, write-formal-minutes, replace-meeting-with-async, facilitate-tense-meeting]

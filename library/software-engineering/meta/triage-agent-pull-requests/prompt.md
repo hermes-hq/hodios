@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, pull-request, backlog-triage, review-load]
 pairs_with:
   prompts: [pick-best-agent-attempt, make-issue-agent-ready, mine-review-comments-for-agent-rules, verify-agent-completion-claims]

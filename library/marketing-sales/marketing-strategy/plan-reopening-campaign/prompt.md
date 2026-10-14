@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reopening, win-back, regulars, soft-launch, local-press]
 pairs_with:
   prompts: [write-customer-change-notice, plan-grand-opening-event, write-win-back-campaign, pitch-journalist]

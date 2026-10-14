@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [moving-house, neighbourhood-choice, weighted-criteria, commute, house-hunting, moving-abroad]
 pairs_with:
   prompts: [compare-options-matrix, make-life-decision, plan-relocation-finances, check-decision-for-biases]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, local-llm, open-weight-models, tool-calling, privacy]
 pairs_with:
   prompts: [choose-coding-agent-tool, cut-coding-agent-spend, self-host-open-weight-llm]

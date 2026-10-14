@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [short-film, look-bible, continuity, shot-list]
 pairs_with:
   prompts: [turn-storyboard-into-video-shots, fix-video-generation-drift, create-storyboard, write-sound-effect-prompts]

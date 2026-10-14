@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [search-intent, technical-seo, link-building, organic-growth]
 pairs_with:
   prompts: [research-keywords, audit-on-page-seo, audit-technical-seo, write-seo-content-brief, plan-local-seo, optimize-for-ai-search]

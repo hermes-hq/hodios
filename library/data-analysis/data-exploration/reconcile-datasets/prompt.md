@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reconciliation, record-matching, data-quality, month-end]
 pairs_with:
   prompts: [write-dataframe-transformation, extract-tables-from-pdf]

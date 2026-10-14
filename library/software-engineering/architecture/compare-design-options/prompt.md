@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trade-offs, decision-analysis, build-vs-buy]
 pairs_with:
   personas: [software-architect]

@@ -19,6 +19,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [atomic-notes, zettelkasten, refactoring-notes, evergreen-notes]
 pairs_with:
   prompts: [write-map-of-content, merge-overlapping-notes, make-reading-notes]

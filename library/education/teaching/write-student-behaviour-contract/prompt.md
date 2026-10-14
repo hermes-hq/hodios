@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [behaviour-contract, positive-behaviour, student-agreement, behaviour-tracking]
 pairs_with:
   prompts: [design-classroom-management-plan, plan-restorative-conversation, write-parent-email]

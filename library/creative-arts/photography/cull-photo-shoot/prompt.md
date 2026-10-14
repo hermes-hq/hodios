@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [photo-culling, photo-selection, star-ratings, editing-workflow, client-delivery]
 pairs_with:
   prompts: [match-edits-across-photo-set, edit-photo-step-by-step, critique-photograph]

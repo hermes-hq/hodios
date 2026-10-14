@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [problem-solving, root-cause, facilitation, options, action-planning]
 pairs_with:
   prompts: [run-five-whys, make-group-decision, write-meeting-agenda]

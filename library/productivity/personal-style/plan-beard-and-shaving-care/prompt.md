@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [beard-care, shaving, razor-bumps, ingrown-hairs, trimming, neckline]
 pairs_with:
   prompts: [choose-haircut, build-skincare-routine]

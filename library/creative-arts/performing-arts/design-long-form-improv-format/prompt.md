@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [improv, long-form, show-format, troupe, comedy-shows]
 pairs_with:
   prompts: [plan-improv-session, play-improv-scene-partner]

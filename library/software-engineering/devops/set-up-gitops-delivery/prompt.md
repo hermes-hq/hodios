@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [gitops, argo-cd, flux, continuous-delivery, environment-promotion, drift]
 pairs_with:
   personas: [devops-engineer, platform-engineer]

@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [line-editing, reader-first, subject-lines, voice, cutting]
 pairs_with:
   prompts: [write-newsletter-issue, plan-newsletter-format, audit-newsletter-performance, write-newsletter-interview-issue]

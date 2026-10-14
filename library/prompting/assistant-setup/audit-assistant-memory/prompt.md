@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [saved-memory, personalisation, stale-context, data-minimisation]
 pairs_with:
   prompts: [write-memory-profile, review-custom-instructions]

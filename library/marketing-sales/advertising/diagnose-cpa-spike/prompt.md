@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cpa, performance-drop, root-cause, change-history, conversion-rate, cost-decomposition]
 pairs_with:
   prompts: [analyze-ad-performance, diagnose-ad-fatigue, choose-bidding-strategy, check-ad-landing-message-match]

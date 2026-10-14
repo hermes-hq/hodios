@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conversion-tracking, call-tracking, offline-conversions, consent-mode, conversion-values, measurement-plan]
 pairs_with:
   prompts: [audit-search-ads-account, analyze-ad-performance, audit-website-privacy-compliance]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [double-booking, overselling, exclusion-constraints, conditional-updates, race-conditions, inventory-reservation]
 pairs_with:
   prompts: [implement-appointment-booking, implement-optimistic-locking, resolve-database-deadlocks]

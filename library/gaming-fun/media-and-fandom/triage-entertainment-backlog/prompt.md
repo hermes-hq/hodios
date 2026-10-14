@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [backlog, watchlist, to-be-read, pile-of-shame]
 pairs_with:
   prompts: [recommend-films-from-favorites, recommend-next-book, recommend-games]

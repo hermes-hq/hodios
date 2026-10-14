@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kubectl, crashloopbackoff, rollouts, simulator, practice-sandbox]
 args:
   - name: scenario

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [personal-projects, capstone, open-source-contributions, early-career]
 pairs_with:
   prompts: [write-resume-from-scratch, write-skills-section, write-portfolio-case-study]

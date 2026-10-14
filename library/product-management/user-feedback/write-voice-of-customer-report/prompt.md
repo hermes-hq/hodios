@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [insight-reporting, thematic-analysis, customer-insights, stakeholder-report, feedback-synthesis]
 pairs_with:
   prompts: [analyze-user-feedback, synthesize-customer-interviews, triage-feature-requests, close-feedback-loop]

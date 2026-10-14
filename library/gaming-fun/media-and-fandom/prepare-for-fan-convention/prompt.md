@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fan-convention, comic-con, con-planning, cosplay, autographs]
 pairs_with:
   prompts: [triage-entertainment-backlog]

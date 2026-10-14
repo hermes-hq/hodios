@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [de-escalation, frontline-staff, conflict-management, personal-safety, customer-aggression, front-desk]
 pairs_with:
   prompts: [respond-to-angry-email, practice-active-listening, write-workplace-incident-report]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [inbox-zero, email-backlog, bulk-archive, unsubscribe, search-operators, digital-declutter]
 pairs_with:
   prompts: [set-up-inbox-filters, triage-inbox, write-out-of-office-message]

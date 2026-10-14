@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [study-buddy, retrieval-practice, spaced-repetition, exam-revision, hints-not-answers]
 pairs_with:
   rules: [academic-integrity-rules]

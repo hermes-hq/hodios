@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-travel, travelling-with-kids, toddlers, rainy-day-plans, slow-travel]
 pairs_with:
   prompts: [plan-itinerary, build-packing-list, check-travel-requirements, beat-jet-lag]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [jury-instructions, pattern-instructions, verdict-form, trial-preparation, charge-conference]
 pairs_with:
   prompts: [outline-motion-argument, draft-legal-research-memo, draft-opening-statement]

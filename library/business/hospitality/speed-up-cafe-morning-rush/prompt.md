@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cafe-operations, queue-time, bottleneck, espresso-bar, peak-service, workflow-layout]
 pairs_with:
   prompts: [build-staff-schedule, plan-kitchen-prep-list]

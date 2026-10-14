@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [solo-activities, solitude, table-for-one, solo-travel, confidence, independence]
 pairs_with:
   prompts: [build-connection-plan, build-social-anxiety-ladder, add-more-joy-to-week]

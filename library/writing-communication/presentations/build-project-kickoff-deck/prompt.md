@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kickoff-meeting, project-start, out-of-scope, raci, ways-of-working, stakeholders]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, build-steering-committee-update]

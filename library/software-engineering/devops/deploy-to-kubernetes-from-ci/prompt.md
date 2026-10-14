@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [push-based-deploy, kubectl, continuous-deployment, rollout, cluster-credentials]
 pairs_with:
   prompts: [set-up-gitops-delivery, write-helm-chart, set-up-keyless-ci-deploys]

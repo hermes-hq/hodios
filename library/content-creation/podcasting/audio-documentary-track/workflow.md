@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [documentary, narrative-audio, tape-log, script-for-the-ear, editorial-ethics, community-radio]
 pairs_with:
   prompts: [outline-narrative-podcast, build-episode-research-brief, fact-check-episode-claims, handle-sensitive-story-episode, write-show-notes]

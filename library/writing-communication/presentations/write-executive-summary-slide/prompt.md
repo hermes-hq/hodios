@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [executive-audience, bottom-line-up-front, pyramid-principle, slide-titles, asks]
 pairs_with:
   prompts: [write-executive-summary, build-decision-request-deck, outline-presentation]

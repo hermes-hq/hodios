@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bucket-list, life-goals, experiences, saving-goals, long-term-planning]
 pairs_with:
   prompts: [write-personal-vision, prepare-for-milestone-birthday, plan-30-day-challenge]

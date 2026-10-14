@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spaceflight, orbital-mechanics, delta-v, mission-control, crisis-game]
 args:
   - name: mission

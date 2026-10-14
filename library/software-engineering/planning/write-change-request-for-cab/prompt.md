@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-management, itil, change-advisory-board, risk-assessment, rollback-plan, production-change]
 pairs_with:
   prompts: [plan-code-freeze, plan-system-go-live-cutover]

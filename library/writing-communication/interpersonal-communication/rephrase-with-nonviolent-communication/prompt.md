@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [nonviolent-communication, i-statements, requests, conflict-resolution, rewording]
 pairs_with:
   prompts: [give-feedback-sbi, check-tone-before-sending, clear-up-misunderstanding]

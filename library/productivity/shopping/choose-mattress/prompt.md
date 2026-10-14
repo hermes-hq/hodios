@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mattress, pillows, sleep-trial, firmness, bed-in-a-box]
 pairs_with:
   prompts: [choose-furniture-that-fits, decode-product-claims, time-a-purchase]

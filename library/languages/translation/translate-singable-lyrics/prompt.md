@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [singable-translation, song-adaptation, prosody, rhyme, syllable-count, choir]
 pairs_with:
   prompts: [translate-literary-passage, translate-preserving-tone, adapt-script-for-dubbing]

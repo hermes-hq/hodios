@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [performance-tuning, dax, vertipaq, performance-analyzer, dax-studio]
 pairs_with:
   prompts: [write-dax-measure, design-power-bi-data-model, write-power-query]

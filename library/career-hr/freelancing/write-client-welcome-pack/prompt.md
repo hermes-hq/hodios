@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [client-onboarding, working-hours, feedback-rounds, expectations, client-communication]
 pairs_with:
   prompts: [write-statement-of-work, write-scope-change-email]

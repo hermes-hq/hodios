@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [anti-bribery, anti-corruption, gifts-and-hospitality, third-party-due-diligence, facilitation-payments]
 pairs_with:
   prompts: [write-conflict-of-interest-policy, write-whistleblowing-policy, set-up-gifts-and-hospitality-register]

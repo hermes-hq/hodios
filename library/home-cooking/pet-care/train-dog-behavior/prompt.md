@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dog-training, positive-reinforcement, recall, leash-pulling, barking]
 pairs_with:
   prompts: [plan-new-pet-care, prepare-vet-visit]

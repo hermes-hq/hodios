@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fixup-commit, autosquash, review-round, pull-request, interactive-rebase]
 pairs_with:
   prompts: [clean-up-commit-history, write-commit-message, update-feature-branch-from-main]

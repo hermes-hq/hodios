@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [departure, resignation, people-news, transition-plan, team-announcement]
 pairs_with:
   prompts: [respond-to-resignation, plan-employee-offboarding, write-farewell-message]

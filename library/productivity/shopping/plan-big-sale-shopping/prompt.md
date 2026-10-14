@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sales-events, deal-hunting, price-tracking, fake-discounts, spending-cap]
 pairs_with:
   prompts: [time-a-purchase, decide-whether-to-buy, curb-impulse-spending, decode-product-claims]

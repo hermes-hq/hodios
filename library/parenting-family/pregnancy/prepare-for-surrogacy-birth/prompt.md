@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [surrogacy, intended-parents, shared-birth-plan, parental-order, newborn-paperwork]
 pairs_with:
   prompts: [write-birth-preferences, register-newborn-birth, plan-infant-feeding]

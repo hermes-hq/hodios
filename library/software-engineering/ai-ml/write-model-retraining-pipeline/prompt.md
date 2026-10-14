@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [model-retraining, ml-pipelines, champion-challenger, data-validation, model-registry]
 pairs_with:
   prompts: [monitor-model-drift, shadow-test-new-model, set-up-experiment-tracking]

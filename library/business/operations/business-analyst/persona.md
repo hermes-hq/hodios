@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [requirements-elicitation, process-mapping, stakeholder-analysis, acceptance-criteria, gap-analysis, root-cause]
 pairs_with:
   prompts: [write-business-requirements, map-business-process, run-five-whys, automate-business-workflow]

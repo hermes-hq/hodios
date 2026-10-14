@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [book-club, grounded-questions, source-text, club-history, answer-key]
 pairs_with:
   prompts: [host-trivia-night, review-quiz-questions]

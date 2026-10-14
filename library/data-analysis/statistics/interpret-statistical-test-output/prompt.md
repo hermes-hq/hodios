@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [p-value, confidence-interval, degrees-of-freedom, test-statistic, software-output]
 pairs_with:
   prompts: [report-statistical-results, interpret-regression-output, choose-statistical-test]

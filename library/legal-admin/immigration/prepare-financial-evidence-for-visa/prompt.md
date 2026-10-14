@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [proof-of-funds, financial-requirement, bank-statements, source-of-funds, sponsor-income]
 pairs_with:
   prompts: [prepare-visa-application, write-visitor-invitation-letter, document-genuine-relationship, write-student-visa-study-plan]

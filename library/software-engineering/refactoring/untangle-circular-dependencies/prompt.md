@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [import-cycles, dependency-inversion, modularity, coupling, architecture-tests]
 pairs_with:
   personas: [software-architect]

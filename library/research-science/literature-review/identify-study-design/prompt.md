@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-classification, critical-appraisal, causal-inference, evidence-hierarchy]
 pairs_with:
   prompts: [appraise-study-quality, summarize-paper, assess-study-applicability]

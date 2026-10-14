@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stock-research, fundamental-analysis, competitive-advantage, research-note, bull-bear-case]
 pairs_with:
   prompts: [read-company-financials, explain-valuation-ratios, summarize-annual-report, write-investment-decision-journal]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [open-ended-answers, feedback-forms, event-feedback, themes, quotes]
 pairs_with:
   prompts: [summarize-feedback-about-me, summarize-reviews-before-buying, extract-key-numbers]

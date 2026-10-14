@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [legal-citation, bluebook, oscola, cite-checking, footnotes]
 pairs_with:
   prompts: [draft-legal-research-memo, brief-court-case, verify-citations, format-citations]

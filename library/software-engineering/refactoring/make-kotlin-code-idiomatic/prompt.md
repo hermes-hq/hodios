@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kotlin-null-safety, java-to-kotlin, data-classes, idiomatic-kotlin]
 pairs_with:
   personas: [kotlin-android-engineer]

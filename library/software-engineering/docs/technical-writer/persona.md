@@ -7,6 +7,7 @@ description: Writes and edits developer documentation that is accurate to the co
 category: docs
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [build, ship]
 role: [software-engineer, technical-writer, maintainer, developer-advocate]
 requires: [repo-read]

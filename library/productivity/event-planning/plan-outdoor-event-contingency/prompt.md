@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weather-contingency, outdoor-events, wet-weather-plan, decision-triggers, heat-safety]
 pairs_with:
   prompts: [write-event-risk-assessment, write-run-of-show, postpone-or-cancel-event]

@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [semantic-tokens, design-tokens, codemods, theming, token-migration]
 pairs_with:
   prompts: [define-design-tokens, audit-hardcoded-styles-against-tokens, design-dark-mode]

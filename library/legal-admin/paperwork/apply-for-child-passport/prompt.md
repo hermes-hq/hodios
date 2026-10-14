@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [child-passport, parental-consent, travel-documents, baby-passport, separated-parents]
 pairs_with:
   prompts: [renew-passport-or-id-card, check-travel-requirements, register-newborn-birth]

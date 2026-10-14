@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [fellowship, early-career-researcher, research-independence, narrative-cv, mentoring-plan]
 pairs_with:
   prompts: [decide-whether-to-apply-for-grant, write-grant-project-summary, prepare-grant-panel-interview]

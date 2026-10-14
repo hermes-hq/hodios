@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-patterns, code-reading, architecture-overview, house-style]
 pairs_with:
   prompts: [explain-codebase, apply-design-pattern]

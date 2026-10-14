@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [alternative-uses, repurposing, reuse, functional-fixedness, waste-reduction]
 pairs_with:
   prompts: [restore-old-furniture, dispose-of-household-items, find-zero-budget-solutions]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [computer-science]
 tags: [design-interview, technical-interview, scalability, trade-offs, estimation]
 pairs_with:

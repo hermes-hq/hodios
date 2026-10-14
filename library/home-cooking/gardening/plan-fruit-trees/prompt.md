@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fruit-trees, orchard, rootstocks, pollination, soft-fruit]
 pairs_with:
   prompts: [plan-pruning, build-garden-calendar, plan-garden-irrigation]

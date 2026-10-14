@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [launch-calendar, release-planning, launch-tiering, cross-team-coordination]
 pairs_with:
   prompts: [define-launch-tiers, plan-product-launch, write-monthly-product-update]

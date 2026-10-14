@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [launch-tiers, launch-process, release-management, product-marketing, sales-enablement]
 pairs_with:
   prompts: [plan-product-launch, plan-launch-retrospective, write-launch-announcement]

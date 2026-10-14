@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [free-advice, boundaries, saying-no, coffee-chat, paid-consultation]
 pairs_with:
   prompts: [decline-request-gracefully, decline-spec-work-request, price-services]

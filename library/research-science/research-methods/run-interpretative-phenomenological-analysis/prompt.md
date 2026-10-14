@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [psychology]
 tags: [ipa, phenomenology, qualitative-analysis, lived-experience, idiographic, interview-data]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pet-owners, animal-welfare, enrichment, dog-training, cat-behaviour]
 pairs_with:
   prompts: [plan-new-pet-care, train-dog-behavior, prepare-vet-visit]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fourth-trimester, doula, postnatal-recovery, infant-feeding, household-help]
 pairs_with:
   prompts: [plan-infant-feeding, plan-caesarean-recovery-at-home, check-in-on-new-parent-wellbeing]

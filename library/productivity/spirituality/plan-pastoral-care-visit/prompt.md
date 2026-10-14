@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chaplaincy, pastoral-care, hospital-visiting, active-listening, safeguarding, clergy]
 pairs_with:
   prompts: [write-blessing-or-prayer, write-funeral-order-of-service]

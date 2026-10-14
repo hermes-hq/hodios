@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [puns, wordplay, captions, greeting-cards, one-liners]
 pairs_with:
   prompts: [punch-up-with-humor, write-limericks]

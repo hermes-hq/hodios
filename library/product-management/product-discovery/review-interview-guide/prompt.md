@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-interviews, interview-guide, leading-questions, question-wording, research-critique]
 pairs_with:
   prompts: [write-customer-interview-guide, review-interview-technique, simulate-customer-interview, write-research-screener]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reasonable-adjustments, disability-at-work, health-disclosure, accommodation-request]
 pairs_with:
   prompts: [propose-flexible-work, handle-difficult-manager, plan-return-to-work]

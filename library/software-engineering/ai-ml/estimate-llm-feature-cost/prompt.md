@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [token-costs, cost-model, forecasting-costs, budgeting-ai]
 pairs_with:
   prompts: [reduce-llm-costs, choose-llm-for-feature]

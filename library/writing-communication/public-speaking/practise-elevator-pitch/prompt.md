@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [elevator-pitch, listener-simulation, pitch-practice, networking, investor-pitch]
 pairs_with:
   prompts: [write-elevator-pitch, practise-networking-event-chat, write-tell-me-about-yourself]

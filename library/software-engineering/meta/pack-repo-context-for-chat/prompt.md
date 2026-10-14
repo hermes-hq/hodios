@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [coding-agents, context-engineering, token-budget, chat-assistant]
 pairs_with:
   prompts: [exclude-files-from-agent-context, write-agent-handoff, write-subagent-brief]

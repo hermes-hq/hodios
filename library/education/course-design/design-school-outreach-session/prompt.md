@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [school-outreach, public-engagement, stem-outreach, role-models, hands-on-activities, widening-participation]
 pairs_with:
   prompts: [design-workshop, design-summer-bridge-programme]

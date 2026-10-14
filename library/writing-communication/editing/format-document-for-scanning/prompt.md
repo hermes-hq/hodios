@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [formatting, scannability, headings, information-design, wall-of-text]
 pairs_with:
   prompts: [edit-for-structure, edit-document-for-accessibility, tighten-prose]

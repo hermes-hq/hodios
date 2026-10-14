@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [latex]
 tags: [latex-tables, booktabs, siunitx, journal-templates, thesis]
 pairs_with:

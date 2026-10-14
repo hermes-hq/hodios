@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tupping, breeding-calendar, ram-mot, bull-fertility, flushing, scanning]
 pairs_with:
   prompts: [plan-lambing-shed-rota, plan-calving-season, plan-low-stress-weaning, estimate-farm-stocking-rate]

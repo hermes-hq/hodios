@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [active-recall, new-joiner, code-reading, self-assessment]
 pairs_with:
   prompts: [explain-codebase, map-repo-and-verify-setup, explain-design-patterns-in-code]

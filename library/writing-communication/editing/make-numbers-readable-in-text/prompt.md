@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [numbers-in-prose, statistics-communication, rounding, number-formats, numeracy]
 pairs_with:
   prompts: [turn-text-numbers-into-chart, extract-key-numbers, run-readability-check]

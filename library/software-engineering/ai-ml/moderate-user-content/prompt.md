@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-moderation, trust-and-safety, policy-enforcement, user-generated-content]
 pairs_with:
   prompts: [detect-prompt-injection, decide-when-to-escalate, add-llm-output-guardrails]

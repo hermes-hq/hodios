@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [computer-vision, object-detection, yolo, map-metric, annotation-formats]
 pairs_with:
   prompts: [train-image-classifier, write-annotation-guidelines, convert-model-to-onnx]

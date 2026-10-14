@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [emt, emergency-medical-services, nremt, patient-assessment, prehospital-care, first-responder]
 pairs_with:
   prompts: [drill-medical-terminology, analyze-exam-mistakes, plan-exam-day-strategy]

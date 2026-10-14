@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cli, startup-time, import-time, lazy-loading, developer-tools]
 pairs_with:
   prompts: [profile-hot-path, reduce-serverless-cold-start, set-performance-budgets]

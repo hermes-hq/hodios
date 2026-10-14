@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [composer, breaking-changes, third-party-packages, carbon]
 pairs_with:
   prompts: [upgrade-php-version, upgrade-major-dependency, review-laravel-change]

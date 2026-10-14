@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pronunciation-teaching, minimal-pairs, word-stress, intonation, intelligibility, lesson-stage]
 pairs_with:
   prompts: [compare-native-and-target-language, analyse-target-language-for-lesson]

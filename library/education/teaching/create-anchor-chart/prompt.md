@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [anchor-chart, classroom-display, visual-supports, worked-examples, co-construction]
 pairs_with:
   prompts: [write-lesson-plan, create-graphic-organizer, plan-vocabulary-instruction]

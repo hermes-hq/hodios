@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [nursing, patient-teaching, plain-language-health, teach-back, evidence-summaries, clinical-education]
 pairs_with:
   prompts: [write-patient-education-handout, write-sbar-handoff, practice-nursing-care-plan, explain-clinical-notes]

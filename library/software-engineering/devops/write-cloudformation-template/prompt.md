@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cloudformation, infrastructure-as-code, change-sets, stack-policy, cfn-lint]
 pairs_with:
   prompts: [review-iac-plan, review-cloud-iam-policy, write-terraform-module]

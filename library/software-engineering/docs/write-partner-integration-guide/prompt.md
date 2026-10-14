@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-integration, partner-onboarding, go-live, sandbox]
 pairs_with:
   prompts: [write-api-quickstart, write-api-authentication-guide, document-webhook-events]

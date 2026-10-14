@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [student-feedback, thematic-analysis, course-review, module-evaluation, closing-the-loop]
 pairs_with:
   prompts: [design-student-voice-survey, evaluate-training-effectiveness, plan-course-pilot]

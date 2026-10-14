@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [concurrency, async-await, fan-out, latency, timeouts]
 pairs_with:
   prompts: [reduce-tail-latency, implement-asyncio-concurrent-requests, fix-event-loop-blocking]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thesis, dissertation, chapter-outline, writing-timeline, phd]
 pairs_with:
   prompts: [write-research-proposal, write-methods-section, write-discussion-section]

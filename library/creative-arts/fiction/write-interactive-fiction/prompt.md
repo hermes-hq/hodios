@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interactive-fiction, branching-narrative, twine, ink, choose-your-own-adventure]
 pairs_with:
   prompts: [develop-story-premise, outline-story]

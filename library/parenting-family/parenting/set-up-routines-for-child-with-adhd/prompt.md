@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [adhd, executive-function, visual-schedule, routines, token-economy, transitions]
 pairs_with:
   prompts: [plan-behavior-approach, streamline-school-mornings, prepare-for-iep-meeting]

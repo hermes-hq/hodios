@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [ui-component, component-states, component-api]
 pairs_with:
   personas: [accessibility-specialist]

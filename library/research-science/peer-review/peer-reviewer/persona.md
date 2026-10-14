@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [referee-report, manuscript, critical-appraisal, constructive-feedback, research-integrity]
 pairs_with:
   prompts: [write-peer-review, review-statistical-methods, assess-reproducibility, write-meta-review, review-thesis-draft]

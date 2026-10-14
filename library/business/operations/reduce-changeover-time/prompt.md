@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [smed, changeover, setup-reduction, lean, machine-setup]
 pairs_with:
   prompts: [calculate-process-capacity, run-value-stream-map, write-sop]

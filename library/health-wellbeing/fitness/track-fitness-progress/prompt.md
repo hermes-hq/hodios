@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [training-log, plateau, progressive-overload, recovery, strength-training, running]
 pairs_with:
   prompts: [build-training-plan, plan-running-program]

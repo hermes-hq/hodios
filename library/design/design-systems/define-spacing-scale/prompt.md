@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spacing, sizing, design-tokens, touch-targets, padding-and-gaps]
 pairs_with:
   prompts: [define-design-tokens, define-layout-grid-and-breakpoints, design-density-modes, audit-hardcoded-styles-against-tokens]

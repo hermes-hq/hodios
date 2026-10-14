@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [faq, objection-handling, conversion, pricing-page, proof]
 pairs_with:
   prompts: [handle-sales-objections, write-sales-page, write-landing-page-copy, critique-marketing-copy]

@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [elterngeld, elterngeldplus, elternzeit, partnerschaftsbonus, deutschland]
 pairs_with:
   prompts: [plan-parental-leave-finances, prepare-german-tax-return]

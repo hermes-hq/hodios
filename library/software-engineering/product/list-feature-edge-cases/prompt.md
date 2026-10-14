@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [edge-cases, backlog-refinement, boundary-values, product-decisions]
 pairs_with:
   prompts: [write-acceptance-criteria, refine-backlog-ticket, define-non-functional-requirements]

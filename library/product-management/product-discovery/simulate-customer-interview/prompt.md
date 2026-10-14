@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [roleplay, customer-interviews, leading-questions, mom-test, interview-practice]
 pairs_with:
   prompts: [write-customer-interview-guide, synthesize-customer-interviews, define-jobs-to-be-done]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [alcohol-free, low-and-no, sober-curious, zero-proof]
 pairs_with:
   prompts: [invent-alcohol-free-cocktail, make-cordial-or-shrub]

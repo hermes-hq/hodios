@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [proposal, pricing-options, business-case, deal-progression]
 pairs_with:
   prompts: [prepare-discovery-call, summarize-sales-call, handle-sales-objections]

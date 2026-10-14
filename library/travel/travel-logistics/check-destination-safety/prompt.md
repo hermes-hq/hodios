@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [travel-safety, scams, travel-advisory, emergency-numbers, local-laws]
 pairs_with:
   prompts: [check-travel-requirements, learn-local-etiquette, plan-solo-trip]

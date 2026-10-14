@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sus, ux-benchmark, ux-metrics, task-success, confidence-intervals]
 pairs_with:
   prompts: [write-usability-test-plan, synthesize-usability-findings]

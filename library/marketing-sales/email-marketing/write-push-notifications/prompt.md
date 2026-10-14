@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [push-notifications, mobile-app, lifecycle-messaging, notification-fatigue, re-engagement]
 pairs_with:
   prompts: [design-notification-strategy, write-sms-campaign, implement-push-notifications]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ortografia, interpunkcja, commas, spelling, grammar-rules]
 pairs_with:
   prompts: [proofread-other-language, diagnose-recurring-errors]

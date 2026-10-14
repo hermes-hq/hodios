@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rent-guarantor, guarantee-agreement, joint-tenancy, student-housing, liability]
 pairs_with:
   prompts: [review-lease, decide-on-cosigning-loan, prepare-rental-application]

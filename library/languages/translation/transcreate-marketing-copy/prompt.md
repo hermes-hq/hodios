@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [transcreation, cultural-adaptation, brand-voice]
 pairs_with:
   prompts: [translate-preserving-tone, review-translation]

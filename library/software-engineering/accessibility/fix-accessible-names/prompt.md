@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [accessible-name, aria-label, icon-buttons, link-text, label-in-name, voice-control]
 pairs_with:
   personas: [accessibility-specialist]

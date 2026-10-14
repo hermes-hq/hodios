@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [whats-on, event-listings, local-news, accessibility-info, community-calendar]
 pairs_with:
   prompts: [write-local-news-morning-briefing, write-community-digest]

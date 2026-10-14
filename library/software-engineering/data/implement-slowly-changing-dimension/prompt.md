@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [scd-type-2, dbt-snapshots, history-tracking, point-in-time, dimensional-modeling]
 pairs_with:
   prompts: [design-star-schema, write-dbt-incremental-model, write-data-quality-checks]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [intake-meeting, sourcing, structured-interview, scorecard, offer-letter, candidate-experience]
 pairs_with:
   prompts: [write-job-description, design-interview-loop, screen-resumes, write-take-home-assignment, write-candidate-rejection]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [physical-product, prototype-testing, industrial-design, hardware, user-testing]
 pairs_with:
   prompts: [design-validation-experiment, map-assumptions, write-research-screener, test-packaging-and-instructions]

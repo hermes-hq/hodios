@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [other-parents, playdates, childrens-behaviour, school-gate, co-operation]
 pairs_with:
   prompts: [support-child-being-bullied, prepare-difficult-conversation, clear-up-misunderstanding]

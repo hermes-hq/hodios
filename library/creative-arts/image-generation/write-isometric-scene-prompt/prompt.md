@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [isometric, diorama, game-art, modular-assets, illustration]
 pairs_with:
   prompts: [write-game-texture-prompt, write-icon-set-prompt, write-fantasy-map-prompt]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [statistical-review, multiplicity, missing-data, pseudoreplication, effect-size, manuscript]
 pairs_with:
   prompts: [write-peer-review, assess-reproducibility, check-manuscript-reporting, write-results-section]

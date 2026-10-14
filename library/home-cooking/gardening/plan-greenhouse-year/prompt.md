@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [greenhouse, polytunnel, season-extension, ventilation, winter-salads, undercover-growing]
 pairs_with:
   prompts: [grow-tomatoes, plan-seed-starting, protect-plants-from-frost, build-garden-calendar]

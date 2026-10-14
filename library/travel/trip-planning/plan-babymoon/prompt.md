@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pregnancy-travel, couples-trip, travel-health, flying-pregnant]
 pairs_with:
   prompts: [choose-destination, choose-travel-insurance, plan-itinerary, prepare-for-new-baby]

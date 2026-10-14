@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cornell-notes, mind-mapping, lecture-notes, note-templates]
 pairs_with:
   prompts: [convert-lecture-notes-to-cornell, review-notes-for-gaps, read-textbook-actively]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [status-update, concise-writing, stakeholders, team-meeting]
 pairs_with:
   prompts: [write-standup-update, write-status-report, prepare-for-one-on-one]

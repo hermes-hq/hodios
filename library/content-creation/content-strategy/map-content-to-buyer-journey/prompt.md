@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [buyer-journey, funnel, content-gaps, content-mapping, calls-to-action]
 pairs_with:
   prompts: [audit-content-library, define-content-pillars, plan-content-calendar, mine-audience-questions]

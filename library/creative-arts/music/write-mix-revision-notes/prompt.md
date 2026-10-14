@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mixing, mix-notes, audio-engineering, revisions]
 pairs_with:
   prompts: [plan-music-release, write-music-brief-for-composer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [project-based-learning, student-voice, safeguarding, rubric, oracy]
 pairs_with:
   prompts: [plan-podcast-episode, script-slow-language-podcast-episode]

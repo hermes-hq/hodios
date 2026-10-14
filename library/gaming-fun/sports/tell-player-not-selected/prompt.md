@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [team-selection, tryout, difficult-conversation, player-feedback, parent-communication, club-coach]
 pairs_with:
   prompts: [run-tryout-evaluations, respond-to-playing-time-complaint]

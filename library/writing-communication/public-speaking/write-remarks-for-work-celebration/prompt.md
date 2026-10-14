@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [team-celebration, year-end-party, milestone, recognition, workplace]
 pairs_with:
   prompts: [write-recognition-message, write-farewell-or-retirement-speech]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [jsx, conditional-rendering, readability, react-components]
 pairs_with:
   prompts: [split-react-component, simplify-function]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [visitors, boundaries, family-relationships, house-rules, fourth-trimester]
 pairs_with:
   prompts: [write-birth-announcement, plan-meal-train-for-friend, respond-to-unwanted-advice]

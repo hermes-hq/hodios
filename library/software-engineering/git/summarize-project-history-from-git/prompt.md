@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [git-log, project-history, codebase-onboarding, archaeology, timeline]
 pairs_with:
   prompts: [investigate-code-history, find-hotspots-in-git-history, write-architecture-overview, write-onboarding-guide]

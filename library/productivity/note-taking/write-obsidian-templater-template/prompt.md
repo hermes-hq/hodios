@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [templater, obsidian-plugins, note-automation, frontmatter, daily-notes]
 pairs_with:
   prompts: [write-note-templates, set-up-obsidian-vault, design-daily-note-template, write-obsidian-dataview-query]

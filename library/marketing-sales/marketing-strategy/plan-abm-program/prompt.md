@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [saas]
 tags: [account-based-marketing, b2b-marketing, target-accounts, sales-alignment, enterprise]
 pairs_with:

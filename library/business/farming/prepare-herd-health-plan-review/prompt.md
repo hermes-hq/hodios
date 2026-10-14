@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [herd-health-plan, flock-health, vet-meeting, farm-records, antibiotic-use, lameness]
 pairs_with:
   prompts: [plan-livestock-record-keeping, triage-unwell-livestock, set-up-farm-biosecurity]

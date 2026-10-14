@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [structured-products, autocallables, capital-protection, counterparty-risk]
 pairs_with:
   prompts: [explain-fund-document, explain-options-risks, choose-financial-advisor, spot-investment-scam]

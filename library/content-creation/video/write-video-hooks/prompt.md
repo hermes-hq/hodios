@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hooks, scroll-stopping, first-frame, short-form-video]
 pairs_with:
   prompts: [write-youtube-script, write-short-form-script, package-video-title-thumbnail]

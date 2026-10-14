@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [risk, early-warning, heads-up, managing-up, no-surprises]
 pairs_with:
   prompts: [write-escalation-email, write-delay-notification, build-project-risk-register]

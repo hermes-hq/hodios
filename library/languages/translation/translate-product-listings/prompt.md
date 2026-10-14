@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [product-listings, marketplace, unit-conversion, product-safety]
 pairs_with:
   prompts: [transcreate-marketing-copy, adapt-regional-variant, check-target-language-typography]

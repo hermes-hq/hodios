@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [roth, pre-tax-contributions, marginal-tax-rate, tax-diversification, retirement-contributions]
 pairs_with:
   prompts: [compare-retirement-accounts, understand-pension-fund-choices]

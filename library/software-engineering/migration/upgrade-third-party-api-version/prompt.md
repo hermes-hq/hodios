@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vendor-api, api-deprecation, webhooks, sdk-upgrade, sunset-date]
 pairs_with:
   prompts: [migrate-api-version, upgrade-major-dependency, migrate-payment-provider]

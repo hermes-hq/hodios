@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [end-of-support, security-updates, old-computer, operating-system, upgrade-options]
 pairs_with:
   prompts: [choose-computer-specs, set-up-new-computer, set-up-backups, plan-computer-upgrade]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [conjugation, verb-tenses, irregular-verbs, adaptive-practice, retrieval-practice]
 pairs_with:
   prompts: [generate-language-drills, explain-grammar-point, discover-grammar-rule-from-examples]

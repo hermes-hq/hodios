@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [server-components, server-actions, caching, app-router, pull-request]
 pairs_with:
   personas: [react-engineer]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jwt, jwks, token-validation, authentication, api-auth]
 pairs_with:
   prompts: [fix-oauth-login-error, review-auth-flow]

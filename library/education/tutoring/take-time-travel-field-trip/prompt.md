@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [virtual-field-trip, daily-life, immersive-learning, read-aloud, source-tagging]
 pairs_with:
   prompts: [talk-to-everyday-person-from-history, practise-chronology]

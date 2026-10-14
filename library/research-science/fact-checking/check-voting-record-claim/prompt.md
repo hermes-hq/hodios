@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [voting-records, political-claims, legislatures, attack-ads, primary-sources]
 pairs_with:
   prompts: [check-claim-about-law, verify-quotes-against-source, trace-quote-origin]

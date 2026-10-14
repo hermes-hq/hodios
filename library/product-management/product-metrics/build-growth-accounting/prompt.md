@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [growth-accounting, quick-ratio, resurrected-users, churned-users, user-flows, active-users]
 pairs_with:
   prompts: [calculate-active-users-in-sql, calculate-mrr-movements, diagnose-metric-drop, build-cohort-analysis]

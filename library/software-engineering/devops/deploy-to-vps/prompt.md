@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vps, self-hosting, systemd, deployment, rollback]
 pairs_with:
   prompts: [harden-linux-server, write-reverse-proxy-config, set-up-domain-and-https]

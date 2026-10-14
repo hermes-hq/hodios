@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pre-registration, estimands, multiplicity, missing-data]
 pairs_with:
   prompts: [design-research-study, write-preregistration, calculate-sample-size, run-multilevel-model]

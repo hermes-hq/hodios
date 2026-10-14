@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [esol, adult-literacy, leslla, newcomers, phonics, sight-words, language-experience]
 pairs_with:
   personas: [esol-volunteer-tutor]

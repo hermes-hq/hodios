@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [storm-prep, hurricane, flooding, frozen-pipes, emergency-kit, power-outage]
 pairs_with:
   prompts: [write-family-emergency-plan, build-home-inventory, plan-home-maintenance, diagnose-home-problem]

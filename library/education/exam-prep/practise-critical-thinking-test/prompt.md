@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [argument-analysis, logical-flaws, admissions-test, aptitude-test, assumptions]
 pairs_with:
   prompts: [practice-lsat-logical-reasoning, quiz-me-interactively]

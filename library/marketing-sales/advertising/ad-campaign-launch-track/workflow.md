@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [campaign-launch, paid-media, tracking-qa, launch-checklist, campaign-review]
 pairs_with:
   prompts: [define-ad-audiences, plan-ad-creative-tests, check-ad-policy-compliance, analyze-ad-performance, plan-media-budget]

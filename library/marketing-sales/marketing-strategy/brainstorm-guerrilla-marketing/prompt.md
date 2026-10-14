@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [guerrilla-marketing, low-budget-marketing, local-marketing, publicity-stunts, street-marketing]
 pairs_with:
   prompts: [plan-marketing-campaign, plan-event-marketing, pitch-journalist]

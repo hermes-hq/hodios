@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hiring-tradespeople, builder, quotes, scope-of-work, payment-schedule, homeowner]
 pairs_with:
   prompts: [plan-renovation-budget, plan-diy-project]

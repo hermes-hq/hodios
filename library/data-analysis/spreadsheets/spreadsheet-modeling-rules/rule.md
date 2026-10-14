@@ -14,6 +14,7 @@ requires: [none]
 risk: read-only
 invocation: model
 level: intermediate
+depth: specific
 tags: [financial-modelling, model-checks, auditability, named-ranges]
 pairs_with:
   prompts: [design-spreadsheet-model, audit-spreadsheet-model, write-spreadsheet-formula]

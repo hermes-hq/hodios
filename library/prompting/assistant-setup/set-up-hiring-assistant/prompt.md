@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scorecards, fair-hiring, candidate-privacy, structured-interviews, human-decision]
 pairs_with:
   prompts: [write-job-description, build-project-instructions]

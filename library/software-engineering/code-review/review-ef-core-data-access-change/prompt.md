@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [entity-framework, orm, change-tracking, schema-migrations, pull-request]
 pairs_with:
   personas: [dotnet-engineer]

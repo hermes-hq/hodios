@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dax, filter-context, time-intelligence, semantic-model]
 pairs_with:
   prompts: [define-metric, write-power-query, design-dashboard]

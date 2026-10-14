@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [smartphone, buying-guide, refurbished, software-updates, value-for-money]
 pairs_with:
   prompts: [switch-phones, check-used-device, choose-computer-specs, compare-purchase-options]

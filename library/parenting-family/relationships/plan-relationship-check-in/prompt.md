@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [couples, communication, check-in, connection]
 pairs_with:
   prompts: [choose-meaningful-gift, coordinate-family-calendar]

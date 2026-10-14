@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [resolvers, dataloader, authorization, query-complexity, pull-request]
 pairs_with:
   personas: [backend-engineer]

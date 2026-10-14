@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [backfill, batch-processing, idempotency, throttling, reconciliation, production-data]
 pairs_with:
   prompts: [plan-zero-downtime-schema-change, write-data-quality-checks]

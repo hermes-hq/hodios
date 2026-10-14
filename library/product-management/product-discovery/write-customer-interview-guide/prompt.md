@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-interviews, interview-guide, story-based-interviewing, qualitative-research]
 pairs_with:
   prompts: [synthesize-customer-interviews, define-jobs-to-be-done]

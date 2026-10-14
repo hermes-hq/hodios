@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fossil-hunting, palaeontology, geology, beachcombing, collecting-code, family-outing]
 pairs_with:
   prompts: [identify-rock-or-mineral, plan-tidal-coastal-walk]

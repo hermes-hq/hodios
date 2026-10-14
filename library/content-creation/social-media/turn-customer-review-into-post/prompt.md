@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [testimonials, social-proof, review-permission, quote-graphics]
 pairs_with:
   prompts: [request-ugc-repost-permission, request-customer-testimonials, write-instagram-caption]

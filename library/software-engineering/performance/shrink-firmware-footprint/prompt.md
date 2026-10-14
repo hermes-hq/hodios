@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [firmware, linker-map, code-size, ram-usage, microcontroller, link-time-optimization]
 pairs_with:
   prompts: [test-firmware-off-target, write-microcontroller-firmware]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-design, query-syntax, sparse-fieldsets, pagination, api-conventions]
 pairs_with:
   personas: [api-designer]

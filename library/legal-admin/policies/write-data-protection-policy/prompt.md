@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-protection, staff-policy, data-handling, personal-data-breach, subject-access-requests, privacy-by-design]
 pairs_with:
   prompts: [write-information-security-policy, write-employee-privacy-notice, plan-data-breach-response, write-data-retention-schedule]

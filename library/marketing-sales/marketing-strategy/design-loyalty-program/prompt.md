@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [loyalty-program, customer-retention, rewards, repeat-purchase, unit-economics]
 pairs_with:
   prompts: [design-referral-program, write-post-purchase-emails, write-win-back-campaign]

@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: intermediate
+depth: specific
 role: [student, researcher, teacher]
 tags: [scholarly-register, hedging, citations, academic-prose]
 pairs_with:

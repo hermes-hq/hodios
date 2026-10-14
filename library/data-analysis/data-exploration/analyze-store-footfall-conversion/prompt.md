@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [footfall, conversion-rate, average-transaction-value, store-performance, brick-and-mortar]
 pairs_with:
   prompts: [analyze-sales-data, analyze-labour-cost-vs-sales, decompose-revenue-change]

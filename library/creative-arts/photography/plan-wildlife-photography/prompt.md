@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [wildlife-photography, bird-photography, fieldcraft, nature-ethics, telephoto]
 pairs_with:
   prompts: [plan-landscape-photo-trip, choose-camera-settings, plan-macro-photography-session]

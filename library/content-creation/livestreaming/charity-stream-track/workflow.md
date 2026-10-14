@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [charity-stream, donation-drive, donation-incentives, marathon-stream, donor-thanks]
 pairs_with:
   prompts: [plan-livestream-run-of-show, plan-subathon-stream, write-fundraiser-progress-posts]

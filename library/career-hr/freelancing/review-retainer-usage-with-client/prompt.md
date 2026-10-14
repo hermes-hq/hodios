@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retainer, overage, retainer-renewal, utilisation, client-conversation]
 pairs_with:
   prompts: [pitch-retainer-to-client, move-client-from-hourly-to-fixed-price, write-scope-change-email, prepare-price-increase-conversation]

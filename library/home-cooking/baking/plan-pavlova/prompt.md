@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pavlova, meringue, egg-whites, desserts, make-ahead]
 pairs_with:
   prompts: [plan-macaron-bake, calibrate-home-oven, store-and-freeze-baked-goods]

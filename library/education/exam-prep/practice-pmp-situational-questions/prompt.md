@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pmp, capm, situational-judgement, agile-hybrid, change-control, servant-leadership]
 pairs_with:
   prompts: [prepare-certification-exam, analyze-exam-mistakes, plan-exam-day-strategy]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [elisa, immunoassay, plate-assay, coefficient-of-variation, background-signal]
 pairs_with:
   prompts: [analyze-standard-curve, design-plate-layout, troubleshoot-failed-experiment]

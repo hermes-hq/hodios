@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [multi-repo-change, bulk-pull-requests, polyrepo, change-campaign, tracking]
 pairs_with:
   prompts: [script-github-tasks-with-gh-cli, write-pr-description, plan-agent-batch-migration, configure-dependency-update-bot]

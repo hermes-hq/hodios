@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [family-assistant, weekly-menus, food-allergies, shared-account, household-admin]
 pairs_with:
   prompts: [build-project-instructions, set-up-ai-for-kids, write-household-operations-manual]

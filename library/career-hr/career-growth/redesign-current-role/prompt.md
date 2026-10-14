@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-crafting, role-design, engagement, strengths]
 pairs_with:
   prompts: [decide-whether-to-quit, build-development-plan, propose-flexible-work]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [pivot, unpivot, conditional-aggregation, crosstab, analytics-sql]
 pairs_with:
   prompts: [answer-question-with-sql, write-window-function-query]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [poetry-reading, open-mic, set-list, public-reading, book-launch]
 pairs_with:
   prompts: [write-spoken-word-piece, order-poetry-manuscript]

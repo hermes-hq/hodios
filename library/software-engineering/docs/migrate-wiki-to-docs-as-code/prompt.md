@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [confluence, docs-as-code, content-migration, link-rewriting, wiki-export]
 pairs_with:
   prompts: [reorganize-docs-by-diataxis, set-up-docs-site, fix-broken-docs-links]

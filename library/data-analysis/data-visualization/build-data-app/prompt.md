@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [streamlit, dash, shiny, data-apps]
 pairs_with:
   prompts: [design-dashboard, build-dashboard-from-csv, design-chart-interactions]

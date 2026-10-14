@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [metacognition, weekly-review, study-habits, self-testing]
 pairs_with:
   prompts: [create-study-plan, plan-semester-workload, analyze-exam-mistakes]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [packaging, value-metric, willingness-to-pay, price-tiers]
 pairs_with:
   prompts: [model-unit-economics, analyze-business-model]

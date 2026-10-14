@@ -11,6 +11,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: intermediate
+depth: specific
 role: [individual, student, founder]
 tags: [devils-advocate, stress-testing, assumption-testing, pre-mortem, anti-sycophancy]
 pairs_with:

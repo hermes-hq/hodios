@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [nonprofit]
 tags: [reserves, financial-resilience, governance, trustees, risk-based-planning]
 pairs_with:

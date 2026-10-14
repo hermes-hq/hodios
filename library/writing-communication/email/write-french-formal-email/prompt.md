@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [formule-de-politesse, vouvoiement, administration, formal-email, professional-etiquette]
 pairs_with:
   prompts: [write-faire-part, write-email-to-professor, check-tone-before-sending]

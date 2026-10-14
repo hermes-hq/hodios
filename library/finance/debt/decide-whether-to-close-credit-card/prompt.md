@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [close-account, credit-utilization, annual-fee, product-change, account-age]
 pairs_with:
   prompts: [improve-credit-score, choose-credit-card, stop-relying-on-credit-cards]

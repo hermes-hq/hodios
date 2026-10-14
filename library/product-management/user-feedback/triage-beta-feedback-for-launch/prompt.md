@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [beta-testing, launch-readiness, severity, go-no-go, early-access, release-blockers]
 pairs_with:
   prompts: [plan-beta-program, triage-feature-requests, plan-release, extract-feedback-fields]

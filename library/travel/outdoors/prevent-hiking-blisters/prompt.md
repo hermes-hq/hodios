@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [blisters, foot-care, boot-fit, hot-spots, taping, trekking]
 pairs_with:
   prompts: [prepare-for-long-hike, choose-outdoor-gear, build-outdoor-first-aid-kit]

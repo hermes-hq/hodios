@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [vignette-study, factorial-survey, survey-experiment, experimental-design, multilevel-analysis]
 subject: [social-sciences, psychology]
 pairs_with:

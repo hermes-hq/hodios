@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-doubles, stub-server, record-replay, third-party-api, contract-drift]
 pairs_with:
   prompts: [integrate-third-party-api, write-contract-tests, write-integration-tests]

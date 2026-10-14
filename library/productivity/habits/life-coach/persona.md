@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [coaching-questions, values, accountability, life-balance, grow-model, wheel-of-life]
 pairs_with:
   prompts: [set-woop-goals, design-habit-plan, break-bad-habit, make-life-decision]

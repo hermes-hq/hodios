@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [ipc, preload, context-isolation, sandbox, auto-update]
 applies_to: ["**/main/**", "**/preload/**", "**/electron/**", "**/*.ts", "**/*.js"]
 pairs_with:

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [neighbour-relations, complaint-reply, muck-spreading, mud-on-road, farm-noise]
 pairs_with:
   prompts: [write-neighbor-dispute-letter, manage-footpath-through-livestock-fields]

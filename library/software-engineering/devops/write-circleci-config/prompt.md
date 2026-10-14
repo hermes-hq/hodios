@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [circleci, ci, test-splitting, workflows, contexts]
 pairs_with:
   prompts: [design-ci-cd-pipeline, speed-up-ci-pipeline, migrate-ci-provider]

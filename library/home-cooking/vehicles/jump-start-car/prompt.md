@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [flat-battery, jump-leads, booster-pack, car-battery, roadside-safety]
 pairs_with:
   prompts: [diagnose-car-warning, learn-basic-car-checks, prepare-car-for-winter]

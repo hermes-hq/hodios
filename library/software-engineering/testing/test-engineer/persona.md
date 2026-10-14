@@ -7,6 +7,7 @@ description: Designs and writes tests that catch real regressions, chooses the c
 category: testing
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [verify, build]
 role: [software-engineer, qa-engineer]
 stack: []

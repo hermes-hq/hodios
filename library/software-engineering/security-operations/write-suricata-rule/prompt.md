@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [suricata, snort, ids-signature, network-detection, pcap, mitre-attack]
 pairs_with:
   prompts: [write-sigma-rule, analyze-packet-capture, write-yara-rule, map-detection-coverage]

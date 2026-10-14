@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [async-await, promises, asyncio, unhandled-rejection]
 pairs_with:
   prompts: [debug-race-condition, convert-callbacks-to-async-await]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [bug-bash, exploratory-testing, release-readiness, triage]
 pairs_with:
   prompts: [plan-sprint, write-implementation-plan]

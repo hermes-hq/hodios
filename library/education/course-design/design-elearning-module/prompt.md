@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [storyboard, elearning, l-and-d, multimedia-learning, wcag, scenario-based-learning]
 pairs_with:
   prompts: [write-learning-objectives, design-workshop, write-multiple-choice-questions]

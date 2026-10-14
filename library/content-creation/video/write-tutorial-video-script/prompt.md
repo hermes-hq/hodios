@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [screen-recording, how-to, on-screen-callouts, software-tutorial]
 pairs_with:
   prompts: [write-video-chapters, write-youtube-script]

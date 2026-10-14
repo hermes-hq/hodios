@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [buyers-agent, offer-negotiation, comparables, home-buying, contingencies]
 pairs_with:
   prompts: [prepare-buyer-consultation, analyze-property-comparables]

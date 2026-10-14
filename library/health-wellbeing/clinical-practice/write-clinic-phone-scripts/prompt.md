@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [medical-reception, call-scripts, care-navigation, patient-access, triage-escalation, practice-management]
 pairs_with:
   prompts: [plan-patient-deescalation, write-teach-back-script]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [change-of-circumstances, notify-insurer, unoccupied-home, home-working, policy-conditions]
 pairs_with:
   prompts: [prepare-insurance-disclosure, review-insurance-coverage, explain-insurance-policy]

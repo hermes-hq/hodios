@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [caching, cache-invalidation, cache-stampede, ttl, cdn-caching, latency]
 pairs_with:
   personas: [performance-engineer, backend-engineer]

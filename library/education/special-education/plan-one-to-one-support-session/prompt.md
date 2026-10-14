@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [teaching-assistants, special-educational-needs, one-to-one-support, prompting-hierarchy, positive-reinforcement, small-group-work]
 pairs_with:
   prompts: [write-teaching-assistant-briefing, plan-intervention-group, write-iep-goals, plan-sensory-friendly-classroom]

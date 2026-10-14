@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [spoiler-free, story-recap, controls-refresher, game-backlog, returning-player]
 pairs_with:
   prompts: [catch-up-on-series-spoiler-free, triage-entertainment-backlog]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [alt-history, counterfactuals, point-of-divergence, speculative-fiction, setting-design]
 pairs_with:
   prompts: [build-world-timeline, design-fictional-government, design-fictional-technology, find-worldbuilding-plot-holes]

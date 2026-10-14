@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, developer-experience, test-commands, feedback-loop]
 pairs_with:
   prompts: [write-agents-md, write-agent-environment-setup, design-coding-agent-hooks]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [memoir, memory-prompts, interview-prompts, sensory-recall, legacy-writing]
 pairs_with:
   prompts: [shape-memoir-story, draft-memoir-scene, write-family-history]

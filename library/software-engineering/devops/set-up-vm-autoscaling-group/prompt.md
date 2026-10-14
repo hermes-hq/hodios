@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [autoscaling-group, launch-template, instance-refresh, scaling-policy, immutable-infrastructure]
 pairs_with:
   prompts: [configure-load-balancer, write-terraform-module, harden-linux-server]

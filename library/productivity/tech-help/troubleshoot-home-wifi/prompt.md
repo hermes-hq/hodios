@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wifi, home-network, router, mesh-network, slow-internet]
 pairs_with:
   prompts: [write-tech-support-request, plan-smart-home]

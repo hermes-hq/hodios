@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [answer-key, brain-teaser, probability-puzzles, monty-hall, why-it-works]
 pairs_with:
   prompts: [give-spoiler-free-puzzle-hints, make-math-brain-teasers]

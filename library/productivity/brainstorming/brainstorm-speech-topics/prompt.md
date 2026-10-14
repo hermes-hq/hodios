@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [speech-topics, presentation-topics, persuasive-speech, informative-speech, toastmasters]
 pairs_with:
   prompts: [write-speech, develop-idea-talk, craft-personal-story, practice-impromptu-speaking]

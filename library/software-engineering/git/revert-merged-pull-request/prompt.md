@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [revert, merge-commit, squash-merge, re-land, pull-request]
 pairs_with:
   prompts: [choose-git-undo-command, revert-feature-across-many-commits, write-pr-description]

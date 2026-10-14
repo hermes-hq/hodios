@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [farm-volunteers, community-farm, care-farming, volunteer-retention, task-planning]
 pairs_with:
   prompts: [recruit-volunteers, write-volunteer-policy, write-farm-safety-induction, plan-farm-open-day]

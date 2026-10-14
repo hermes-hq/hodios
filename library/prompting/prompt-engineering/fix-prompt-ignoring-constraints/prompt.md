@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [length-limits, format-rules, banned-words, prompt-debugging, output-checks]
 pairs_with:
   personas: [prompt-engineer]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [community-newsletter, club-update, school-newsletter, volunteers, events]
 pairs_with:
   prompts: [write-newsletter-issue, curate-link-roundup]

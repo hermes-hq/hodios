@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wholesale-accounts, reorder-cycle, lapsed-accounts, account-reactivation, trade-counter]
 pairs_with:
   prompts: [pitch-to-stockists, write-account-plan, review-sales-pipeline]

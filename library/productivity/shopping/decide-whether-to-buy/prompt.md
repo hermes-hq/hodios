@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [impulse-buying, cost-per-use, mindful-spending, buy-or-wait, wishlist]
 pairs_with:
   prompts: [compare-purchase-options, time-a-purchase, find-ethical-alternative-products]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-returns, return-reasons, root-cause, listing-accuracy, packaging, size-and-fit]
 pairs_with:
   prompts: [define-physical-product-kpis, analyze-field-service-notes, analyze-in-home-use-test-results]

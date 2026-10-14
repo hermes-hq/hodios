@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [after-school-activities, extracurriculars, clubs, overscheduling, quitting, family-schedule]
 pairs_with:
   prompts: [coordinate-family-calendar, plan-school-run-carpool, help-child-make-friends]

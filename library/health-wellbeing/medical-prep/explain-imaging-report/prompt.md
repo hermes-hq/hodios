@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [radiology, imaging-report, mri, ct-scan, ultrasound, plain-language-health]
 pairs_with:
   prompts: [explain-lab-results, explain-diagnosis, prepare-doctor-questions, prepare-second-opinion]

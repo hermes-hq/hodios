@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trademark, opposition, coexistence-agreement, likelihood-of-confusion, brand-protection]
 pairs_with:
   prompts: [respond-to-trademark-office-action, respond-to-cease-and-desist, apply-for-trademark]

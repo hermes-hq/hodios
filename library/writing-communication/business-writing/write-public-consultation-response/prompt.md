@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [public-consultation, policy-response, regulator, advocacy, call-for-evidence]
 pairs_with:
   prompts: [write-white-paper, review-document-for-ambiguity, write-executive-summary]

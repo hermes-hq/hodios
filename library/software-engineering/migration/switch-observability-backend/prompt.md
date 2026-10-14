@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [opentelemetry, vendor-migration, dual-shipping, alert-parity, telemetry-cost, collector]
 pairs_with:
   prompts: [instrument-service-observability]

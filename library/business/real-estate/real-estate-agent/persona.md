@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [home-selling, home-buying, pricing-strategy, fair-housing, offer-negotiation]
 pairs_with:
   prompts: [write-listing-presentation, write-real-estate-listing, prepare-deal-negotiation]

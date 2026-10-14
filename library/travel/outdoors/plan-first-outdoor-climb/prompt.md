@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rock-climbing, gym-to-crag, bouldering, top-rope, climbing-safety, crag-etiquette]
 pairs_with:
   prompts: [plan-bouldering-progression, read-mountain-weather-forecast, build-outdoor-first-aid-kit]

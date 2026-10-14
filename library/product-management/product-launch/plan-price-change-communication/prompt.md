@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [price-increase, grandfathering, customer-communication, churn-monitoring, support-macros]
 pairs_with:
   prompts: [design-pricing, analyze-cancellation-feedback, write-launch-faq]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [naming-ceremony, baptism, aqiqah, godparents, new-baby, rites-of-passage]
 pairs_with:
   prompts: [write-blessing-or-prayer, navigate-family-faith-differences, prepare-to-attend-religious-ceremony]

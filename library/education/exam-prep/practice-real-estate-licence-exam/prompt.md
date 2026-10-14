@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [real-estate-licence, agency-law, prorations, property-ownership, fiduciary-duties, salesperson-exam]
 pairs_with:
   prompts: [prepare-certification-exam, analyze-exam-mistakes, make-flashcards]

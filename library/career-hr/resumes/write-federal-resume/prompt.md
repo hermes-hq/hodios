@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [federal-jobs, usajobs, specialized-experience, us-government]
 pairs_with:
   prompts: [address-selection-criteria, translate-military-experience, tailor-resume-to-job]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [engineering-strategy, guiding-policy, diagnosis, technical-direction, trade-offs]
 pairs_with:
   prompts: [write-technical-roadmap, write-architecture-principles, write-decision-memo]

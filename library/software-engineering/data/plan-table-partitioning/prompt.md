@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [partitioning, partition-pruning, partition-key, large-tables, online-migration]
 pairs_with:
   prompts: [plan-data-archival, plan-zero-downtime-schema-change, design-time-series-schema]

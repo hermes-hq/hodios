@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [confidentiality, data-leakage, hidden-slides, metadata, embedded-data, external-sharing]
 pairs_with:
   prompts: [proofread-slide-deck, add-sources-to-slides, redact-personal-data]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [influencer-marketing, ad-disclosure, affiliate-links, sponsored-content, consumer-protection]
 pairs_with:
   prompts: [plan-influencer-campaign, check-email-marketing-compliance]

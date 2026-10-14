@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dripping-tap, leaky-faucet, tap-washer, cartridge, plumbing, water-leak]
 pairs_with:
   prompts: [diagnose-home-problem, cut-household-water-use, fix-low-water-pressure]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [prenup, postnup, marital-agreement, separate-property, spousal-support, financial-disclosure]
 pairs_with:
   prompts: [plan-couple-money-conversation, explain-contract-clause, plan-blended-family-finances]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [practice-interviews, star-method, behavioral-interview, interview-feedback]
 pairs_with:
   prompts: [run-mock-interview, prepare-star-stories, prepare-questions-for-interviewer, practice-coding-interview]

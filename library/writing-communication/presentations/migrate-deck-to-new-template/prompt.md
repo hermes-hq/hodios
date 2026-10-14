@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [slide-template, rebranding, slide-layouts, brand-consistency, deck-reuse]
 pairs_with:
   prompts: [critique-slide-deck, proofread-slide-deck, rewrite-text-heavy-slide]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pacing-guide, school-calendar, unit-planning, priority-standards, buffer-days, test-review]
 pairs_with:
   prompts: [build-scope-and-sequence, design-unit-plan, align-lesson-to-standards]

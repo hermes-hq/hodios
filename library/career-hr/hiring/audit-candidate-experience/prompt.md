@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [candidate-experience, hiring-funnel, drop-off, offer-acceptance, time-to-hire]
 pairs_with:
   prompts: [write-interview-process-guide, write-candidate-email-templates, write-candidate-rejection]

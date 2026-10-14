@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mcat, mcat-cars, passage-mapping, author-tone, critical-reading, pre-med]
 pairs_with:
   prompts: [prepare-standardized-test, tutor-reading-comprehension]

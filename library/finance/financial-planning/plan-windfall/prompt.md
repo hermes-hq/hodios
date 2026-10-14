@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lump-sum, inheritance, bonus, emergency-fund]
 pairs_with:
   prompts: [plan-debt-payoff, plan-savings-goal, compare-retirement-accounts, review-insurance-coverage]

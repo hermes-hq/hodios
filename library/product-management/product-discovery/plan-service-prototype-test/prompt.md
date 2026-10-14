@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-design, service-prototyping, wizard-of-oz, staff-scenarios, backstage]
 pairs_with:
   prompts: [build-service-blueprint, design-validation-experiment, plan-service-pilot, map-assumptions]

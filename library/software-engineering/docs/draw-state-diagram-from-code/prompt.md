@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mermaid, state-diagram, status-lifecycle, status-enum, stuck-records]
 pairs_with:
   prompts: [implement-state-machine, review-state-transition-logic, write-sequence-diagram]

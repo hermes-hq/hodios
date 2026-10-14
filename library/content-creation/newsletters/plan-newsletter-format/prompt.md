@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [value-proposition, recurring-sections, cadence, issue-template]
 pairs_with:
   prompts: [write-newsletter-issue, write-newsletter-welcome-email, grow-newsletter, curate-link-roundup]

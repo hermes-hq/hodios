@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [team-adoption, pilot, data-rules, staff-training]
 pairs_with:
   prompts: [write-ai-use-policy, build-team-prompt-library, write-custom-gpt-instructions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, ai-adoption, pilot, permissions, developer-productivity]
 pairs_with:
   prompts: [audit-agent-permissions, write-agents-md, review-agent-transcript]

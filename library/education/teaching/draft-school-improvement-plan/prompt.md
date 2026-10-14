@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [school-improvement, school-leadership, department-planning, data-informed, monitoring-and-evaluation]
 pairs_with:
   prompts: [analyze-class-assessment-results, design-student-voice-survey, evaluate-training-effectiveness]

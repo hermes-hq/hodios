@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [xgboost, lightgbm, tabular-data, cross-validation, early-stopping]
 pairs_with:
   prompts: [plan-ml-experiment, review-training-data]

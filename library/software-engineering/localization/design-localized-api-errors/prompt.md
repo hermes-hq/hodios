@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-design, error-handling, validation-messages]
 pairs_with:
   prompts: [write-icu-plural-messages, implement-locale-formatting]

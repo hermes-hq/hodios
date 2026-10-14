@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dataframes, joins, partitioned-output, batch-processing]
 pairs_with:
   prompts: [tune-spark-job, design-lakehouse-table-layout, unit-test-data-transformations]

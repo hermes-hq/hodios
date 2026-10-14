@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coats-of-arms, sigils, banners, noble-houses, setting-design]
 pairs_with:
   prompts: [design-fictional-dynasty, design-fictional-factions, design-fictional-writing-system, design-fictional-government]

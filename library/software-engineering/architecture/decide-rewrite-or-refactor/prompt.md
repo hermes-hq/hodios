@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [legacy-code, technical-debt, strangler-fig, risk-assessment, decision-analysis, modernization]
 pairs_with:
   personas: [software-architect, staff-engineer]

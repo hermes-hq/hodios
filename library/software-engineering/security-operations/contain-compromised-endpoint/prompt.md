@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [containment, edr-isolation, reimage, token-revocation, endpoint-response]
 pairs_with:
   prompts: [plan-evidence-acquisition, triage-soc-alert, investigate-risky-sign-in, ransomware-response-track]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [firmware, microcontrollers, rtos, datasheets, device-drivers, low-power]
 pairs_with:
   prompts: [write-microcontroller-firmware, debug-native-crash, debug-race-condition]

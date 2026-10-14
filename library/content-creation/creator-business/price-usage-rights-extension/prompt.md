@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [usage-rights, content-licensing, paid-usage, perpetual-rights, rights-extension]
 pairs_with:
   prompts: [evaluate-whitelisting-request, build-creator-rate-card, review-sponsorship-contract]

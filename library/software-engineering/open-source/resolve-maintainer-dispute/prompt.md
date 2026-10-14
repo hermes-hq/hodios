@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maintainer-conflict, mediation, project-direction, consensus, community-health]
 pairs_with:
   prompts: [write-project-governance, plan-rfc-process, handle-code-of-conduct-report, summarize-discussion-positions]

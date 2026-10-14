@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [action-scenes, fight-choreography, pacing, staging, panel-layout]
 pairs_with:
   prompts: [write-comic-script, thumbnail-comic-page, review-comic-script]

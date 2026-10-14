@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trial-run, pilot, go-no-go, reversibility, ooching]
 pairs_with:
   prompts: [surface-hidden-assumptions, widen-a-narrow-choice, run-pre-mortem]

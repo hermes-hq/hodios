@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [chat-bot, chat-commands, timed-messages, channel-panels, faq]
 pairs_with:
   prompts: [write-chat-mod-handbook, design-channel-point-rewards]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [friendly-review, pre-submission, collegial-feedback, academic-drafts, manuscript]
 pairs_with:
   prompts: [write-peer-review, fix-review-tone, review-thesis-draft]

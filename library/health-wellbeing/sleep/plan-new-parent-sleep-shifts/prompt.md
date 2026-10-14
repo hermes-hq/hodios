@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [newborn-parents, newborn-nights, night-shifts, sleep-deprivation, postnatal-wellbeing]
 pairs_with:
   prompts: [plan-power-naps, plan-newborn-routine, check-in-on-new-parent-wellbeing]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [apology, forgiveness, reply, trust-repair, repair]
 pairs_with:
   prompts: [apologize-effectively, rebuild-trust-after-breaking-it, set-boundary]

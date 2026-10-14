@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [call-roleplay, call-review, discovery-questions, objection-handling]
 pairs_with:
   prompts: [prepare-discovery-call, handle-sales-objections, summarize-sales-call, write-sales-follow-up]

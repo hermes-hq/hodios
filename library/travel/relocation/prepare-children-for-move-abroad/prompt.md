@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [children, telling-kids, teenagers, family-transition, moving-abroad]
 pairs_with:
   prompts: [raise-child-in-new-country, help-child-make-friends, plan-goodbyes-before-moving, choose-school-type-abroad]

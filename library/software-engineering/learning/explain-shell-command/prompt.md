@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [command-line, pipelines, unix-tools, copy-paste-safety]
 pairs_with:
   prompts: [check-git-command-before-running, write-shell-script, fix-shell-script-bug, emulate-linux-shell]

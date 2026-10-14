@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [after-school, extracurricular, club-leader, showcase, mixed-ability, enrichment]
 pairs_with:
   prompts: [plan-day-camp-program, design-classroom-activity, create-review-game]

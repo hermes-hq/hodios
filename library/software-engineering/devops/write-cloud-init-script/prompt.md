@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cloud-init, user-data, vm-bootstrap, first-boot]
 pairs_with:
   prompts: [build-vm-image-with-packer, write-systemd-service, harden-linux-server]

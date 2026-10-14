@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-principles, design-strategy, trade-offs, design-leadership]
 pairs_with:
   prompts: [write-product-principles, plan-design-system-governance, write-brand-voice-guide]

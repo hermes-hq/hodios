@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [draft-comparison, choosing-versions, merge-drafts, redrafting, decision]
 pairs_with:
   prompts: [critique-draft, simulate-reader-reaction, revise-draft-from-feedback]

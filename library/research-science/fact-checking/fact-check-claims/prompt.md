@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [misinformation, primary-sources, claim-ratings]
 pairs_with:
   prompts: [evaluate-source-credibility, check-statistics-in-article]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [encore-career, later-life-work, older-workers, part-time-work, volunteering, freelancers]
 pairs_with:
   prompts: [plan-retirement-transition]

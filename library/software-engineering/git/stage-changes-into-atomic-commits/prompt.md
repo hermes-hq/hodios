@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [partial-staging, add-patch, atomic-commits, reviewability]
 pairs_with:
   prompts: [write-commit-message, clean-up-commit-history, split-large-pull-request]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [case-for-support, capital-campaign, major-gifts, gift-levels, theory-of-change]
 pairs_with:
   prompts: [write-donor-appeal, write-grant-application, write-impact-report]

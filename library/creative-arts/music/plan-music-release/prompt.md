@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [music-release, playlist-pitching, pre-save, music-marketing]
 pairs_with:
   prompts: [write-artist-bio, write-music-prompt]

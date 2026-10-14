@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [donor-stewardship, thank-you-letter, donor-retention, gift-acknowledgement, impact-story]
 pairs_with:
   prompts: [write-donor-appeal, write-impact-report, plan-major-donor-cultivation, plan-giving-day-campaign]

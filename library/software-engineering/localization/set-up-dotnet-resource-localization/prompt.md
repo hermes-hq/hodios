@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [resx, istringlocalizer, request-localization, data-annotations, invariant-globalization]
 pairs_with:
   prompts: [design-localized-api-errors, implement-locale-formatting, localize-server-sent-messages]

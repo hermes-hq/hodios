@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [patient-leaflet, side-effects, drug-interactions, pharmacist-questions, plain-language-health]
 pairs_with:
   prompts: [build-medication-list, explain-clinical-notes, prepare-doctor-questions]

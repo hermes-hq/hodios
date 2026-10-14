@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [synthetic-data, test-fixtures, edge-cases, fake-data, eval-datasets]
 pairs_with:
   prompts: [generate-realistic-seed-data, write-llm-eval-suite, redact-personal-data]

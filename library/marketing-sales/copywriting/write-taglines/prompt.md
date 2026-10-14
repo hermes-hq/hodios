@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [taglines, slogans, brand-voice, campaign-lines]
 pairs_with:
   prompts: [write-headline-variations, write-positioning-statement, write-messaging-framework]

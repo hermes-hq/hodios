@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mentorship, internships, newcomer-onboarding, ideas-list]
 pairs_with:
   prompts: [write-good-first-issues, audit-contributor-funnel]

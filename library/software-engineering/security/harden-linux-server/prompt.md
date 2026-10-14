@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [server-hardening, ssh, firewall, cis-benchmark, linux]
 pairs_with:
   personas: [security-auditor]

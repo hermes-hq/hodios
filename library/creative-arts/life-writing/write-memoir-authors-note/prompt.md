@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [memoir, front-matter, creative-nonfiction, memory, real-people]
 pairs_with:
   prompts: [fact-check-memoir-draft, check-memoir-for-privacy-risks, write-memoir-disclosure-letter]

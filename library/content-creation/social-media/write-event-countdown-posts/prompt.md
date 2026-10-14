@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [event-promotion, content-calendar, local-events, save-the-date]
 pairs_with:
   prompts: [plan-live-event-coverage, write-local-business-facebook-posts]

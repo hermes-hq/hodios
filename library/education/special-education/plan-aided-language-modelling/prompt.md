@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [aac, core-vocabulary, communication-support, modelling, non-speaking]
 pairs_with:

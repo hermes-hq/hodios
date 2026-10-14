@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [building-permits, planning-permission, home-extension, building-regulations, inspections, permitted-development]
 pairs_with:
   prompts: [hire-contractor, plan-renovation-budget, prepare-government-form]

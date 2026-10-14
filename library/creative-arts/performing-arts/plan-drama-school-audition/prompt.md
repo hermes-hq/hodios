@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [drama-school, audition-prep, monologues, acting-training, school-applications]
 pairs_with:
   prompts: [write-audition-monologue, format-acting-cv, manage-stage-fright]

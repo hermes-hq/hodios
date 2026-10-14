@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [check-worthiness, claim-triage, newsroom, debates]
 pairs_with:
   prompts: [fact-check-claims, write-fact-check-article, label-fact-vs-opinion]

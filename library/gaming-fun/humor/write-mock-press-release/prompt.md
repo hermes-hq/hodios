@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [announcement, mock-corporate, deadpan, family-news, parody-format]
 pairs_with:
   prompts: [write-satire-piece, write-card-message]

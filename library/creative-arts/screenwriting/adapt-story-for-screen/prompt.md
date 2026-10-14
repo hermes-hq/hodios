@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [adaptation, externalisation, story-structure, rights-check]
 pairs_with:
   prompts: [write-beat-sheet, write-film-treatment, format-screenplay-scene]

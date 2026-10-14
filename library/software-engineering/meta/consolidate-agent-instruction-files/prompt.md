@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, agent-instructions, single-source-of-truth]
 pairs_with:
   prompts: [write-agents-md, prune-agent-instructions, write-scoped-agent-rules]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [overcommitted, deadline-clash, capacity-planning, renegotiate-deadline, workload]
 pairs_with:
   prompts: [brief-freelance-subcontractor, quote-rush-job, build-freelance-pipeline-routine, plan-freelance-time-off]

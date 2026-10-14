@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [recruiter-skim, resume-score, ats]
 pairs_with:
   prompts: [rewrite-resume-bullets, tailor-resume-to-job]

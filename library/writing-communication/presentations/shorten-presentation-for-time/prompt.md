@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [timing, cut-slides, appendix, talk-length, storyline]
 pairs_with:
   prompts: [outline-presentation, critique-slide-deck, write-lightning-talk]

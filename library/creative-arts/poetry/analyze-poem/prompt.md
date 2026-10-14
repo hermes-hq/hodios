@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [close-reading, literary-analysis, scansion, imagery]
 pairs_with:
   prompts: [critique-poem, write-poem-in-form]

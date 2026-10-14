@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [security-awareness, staff-training, phishing, mfa-fatigue, microlearning]
 pairs_with:
   prompts: [investigate-reported-phishing, design-microlearning-series]

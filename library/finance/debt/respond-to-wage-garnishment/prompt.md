@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [garnishment, attachment-of-earnings, protected-income, enforcement]
 pairs_with:
   prompts: [respond-to-debt-court-claim, build-tight-budget, negotiate-with-creditor, prepare-for-debt-advice-appointment]

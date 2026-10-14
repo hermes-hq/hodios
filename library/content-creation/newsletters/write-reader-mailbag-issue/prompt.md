@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mailbag, reader-questions, reader-replies, anonymising, advice-column]
 pairs_with:
   prompts: [write-newsletter-issue, build-evergreen-issue-bank]

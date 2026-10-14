@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [auto-renewal, subscription-billing, refund-decision, chargeback-prevention, renewal-notice]
 pairs_with:
   prompts: [decide-goodwill-refund, respond-to-chargeback-as-merchant, write-renewal-reminder-emails, handle-membership-cancellation-requests]

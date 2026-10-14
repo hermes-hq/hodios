@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [breaking-news, rumours, unconfirmed-reports, crisis-events]
 pairs_with:
   prompts: [verify-image-provenance, evaluate-source-credibility, respond-to-misinformation]

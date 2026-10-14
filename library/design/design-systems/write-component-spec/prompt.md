@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [component-spec, design-documentation, usage-guidelines, aria-patterns]
 pairs_with:
   prompts: [define-design-tokens, audit-design-consistency, create-wireframe-spec]

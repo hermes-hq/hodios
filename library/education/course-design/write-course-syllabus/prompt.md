@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [syllabus, course-policies, learner-centered, assessment-weights, ai-policy]
 pairs_with:
   prompts: [design-course-outline, write-learning-objectives, create-rubric]

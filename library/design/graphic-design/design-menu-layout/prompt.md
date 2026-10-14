@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [menu-design, print-design, typography, allergens, menu-boards]
 subject: [hospitality]
 pairs_with:

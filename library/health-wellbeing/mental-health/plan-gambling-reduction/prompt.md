@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gambling, self-exclusion, betting, gambling-debt, urges, relapse-prevention]
 pairs_with:
   prompts: [plan-alcohol-reduction, build-coping-plan, plan-digital-detox]

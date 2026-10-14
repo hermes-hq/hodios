@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hud, game-ui, information-hierarchy, readability]
 pairs_with:
   prompts: [design-game-onboarding, improve-game-feel]

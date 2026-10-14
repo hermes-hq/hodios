@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [stand-in-presenter, deck-handover, short-notice, speaker-notes, rehearsal]
 pairs_with:
   prompts: [write-speaker-notes, drill-presentation-qa, shorten-presentation-for-time, summarize-slide-deck]

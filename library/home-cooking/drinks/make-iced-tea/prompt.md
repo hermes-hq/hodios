@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [iced-tea, cold-brew-tea, summer-drinks, alcohol-free]
 pairs_with:
   prompts: [brew-tea-properly, make-cordial-or-shrub]

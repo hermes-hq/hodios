@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [court-letter, adjournment, extension-of-time, reasonable-adjustments, tribunal, self-represented]
 pairs_with:
   prompts: [prepare-to-self-represent, apply-for-court-fee-help, explain-legal-letter, find-free-legal-help]

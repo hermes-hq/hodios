@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [consumer-rights, tenant-rights, ombudsman, small-claims, escalation]
 pairs_with:
   prompts: [write-complaint-letter, prepare-small-claims-case, demand-deposit-return, explain-legal-letter]

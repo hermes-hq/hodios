@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [roleplay, close-reading, character-study, spoiler-free, textual-evidence]
 pairs_with:
   prompts: [analyze-literary-work, interview-historical-figure]

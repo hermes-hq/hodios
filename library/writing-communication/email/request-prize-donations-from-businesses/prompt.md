@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [raffle, auction-lots, in-kind-donations, local-business, school-fair, charity-event]
 pairs_with:
   prompts: [brainstorm-fundraiser-ideas, write-donor-thank-you, write-follow-up-email, plan-fundraising-event]

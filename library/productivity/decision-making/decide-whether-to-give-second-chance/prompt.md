@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [trust, forgiveness, second-chances, boundaries, repair]
 pairs_with:
   prompts: [respond-to-an-apology, rebuild-trust-after-breaking-it, decide-whether-to-raise-an-issue]

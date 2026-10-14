@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bereavement, tragedy-response, crisis-communication, family-consent, comment-care]
 pairs_with:
   prompts: [write-condolence-message, handle-social-media-backlash]

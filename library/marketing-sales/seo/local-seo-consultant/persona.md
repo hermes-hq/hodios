@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [map-pack, business-profiles, reviews, citations, location-pages]
 pairs_with:
   prompts: [plan-local-seo, audit-business-citations, write-service-area-pages, plan-multi-location-search, optimize-restaurant-website-search]

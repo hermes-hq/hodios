@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [crowdfunding, backer-update, delay-communication, fulfilment, supporter-trust]
 pairs_with:
   prompts: [write-crowdfunding-campaign, write-how-we-spent-it-post]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [firestore, access-control, emulator, custom-claims, validation]
 args:
   - name: data_model

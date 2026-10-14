@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [amateur-radio, ham-radio, licence-exam, radio-equipment, emergency-communications]
 args:
   - name: country

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [coding-agents, agent-plugins, distribution, versioning, team-setup]
 pairs_with:
   prompts: [write-agent-skill, write-agent-custom-command, design-coding-agent-hooks, define-specialist-subagent]

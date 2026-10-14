@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [benefits-check, tax-credits, welfare, means-tested, household-support, unclaimed-benefits]
 pairs_with:
   prompts: [apply-for-housing-assistance, prepare-disability-benefits-application, apply-for-unemployment-benefits, find-free-legal-help]

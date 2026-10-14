@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [work-plan, project-timeline, milestones, deliverables, work-packages]
 pairs_with:
   prompts: [build-grant-budget, write-grant-risk-register, write-grant-key-personnel-section]

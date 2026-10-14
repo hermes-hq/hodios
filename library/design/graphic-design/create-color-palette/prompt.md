@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [color-palette, color-contrast, tonal-scale, brand-colors]
 pairs_with:
   prompts: [review-color-contrast, define-design-tokens, pair-typefaces]

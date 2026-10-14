@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [product-fact-sheet, ideal-customer-profile, never-promise-list, cold-outreach, discount-rules]
 pairs_with:
   prompts: [build-project-instructions, prepare-knowledge-files, write-sales-follow-up]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mtls, service-identity, certificate-rotation, private-ca, zero-trust]
 pairs_with:
   prompts: [design-service-to-service-auth, plan-secrets-management, harden-kubernetes-workload, review-cryptography-usage]

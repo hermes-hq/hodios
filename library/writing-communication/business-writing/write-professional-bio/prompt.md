@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [speaker-bio, author-bio, proposal-bio, team-page]
 pairs_with:
   prompts: [write-social-bio, write-speech, write-emcee-script, moderate-panel]

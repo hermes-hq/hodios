@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [prompt-injection, indirect-injection, instruction-hierarchy, llm-security]
 pairs_with:
   prompts: [red-team-prompt, review-llm-app-security, write-system-prompt]

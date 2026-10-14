@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-report, impact-report, editorial-layout, grid-system, accessible-pdf, chart-styling]
 pairs_with:
   prompts: [design-infographic, pair-typefaces, prepare-print-files, design-accessible-print-materials]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ninety-day-plan, founder-focus, milestones, not-to-do-list, checkpoints]
 pairs_with:
   prompts: [validate-business-idea, find-first-customers, run-founder-weekly-check-in, review-first-months-of-trading]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [progress-monitoring, progress-report, family-communication, inclusion]
 pairs_with:
   prompts: [write-iep-goals, plan-intervention-group, prepare-parent-teacher-conference]

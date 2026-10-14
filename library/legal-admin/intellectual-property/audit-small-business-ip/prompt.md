@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ip-audit, ownership-chain, trade-secrets, domain-names, due-diligence]
 pairs_with:
   prompts: [prepare-due-diligence-data-room, secure-rights-to-commissioned-work, apply-for-trademark]

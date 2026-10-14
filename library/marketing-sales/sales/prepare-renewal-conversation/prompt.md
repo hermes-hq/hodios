@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [renewals, upsell, account-retention, pricing-conversation]
 pairs_with:
   prompts: [write-account-plan, prepare-business-review, prepare-deal-negotiation, handle-sales-objections]

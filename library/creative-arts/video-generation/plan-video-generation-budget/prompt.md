@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [credit-budget, shooting-ratio, take-estimates, cost-planning]
 pairs_with:
   prompts: [turn-storyboard-into-video-shots, review-generated-video-takes]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [revenue-based-financing, non-dilutive, cost-of-capital, cash-flow, repayment-cap]
 pairs_with:
   prompts: [evaluate-venture-debt-offer, choose-funding-instrument, forecast-cash-flow]

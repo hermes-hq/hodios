@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mastery-tracking, standards-based-grading, assessment-data, progress-monitoring]
 pairs_with:
   prompts: [analyze-class-assessment-results, design-formative-assessment, plan-intervention-group]

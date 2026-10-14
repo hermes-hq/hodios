@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cash-flow-forecast, life-goals, retirement-income, scenario-planning, household-finances]
 pairs_with:
   prompts: [prioritize-financial-goals, plan-retirement-scenarios, build-net-worth-statement, prepare-financial-adviser-meeting]

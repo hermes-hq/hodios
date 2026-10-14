@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interactive-charts, tooltips, drill-down, linked-views]
 pairs_with:
   prompts: [design-dashboard, build-d3-chart, describe-chart-for-accessibility]

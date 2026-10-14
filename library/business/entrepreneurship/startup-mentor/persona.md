@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [founder-coaching, focus, default-alive, customer-evidence]
 pairs_with:
   prompts: [validate-business-idea, find-first-customers, model-unit-economics, write-business-plan, prepare-investor-qa]

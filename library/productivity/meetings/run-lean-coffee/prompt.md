@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lean-coffee, facilitation, agenda-less, community-of-practice]
 pairs_with:
   prompts: [write-meeting-agenda, run-retrospective, run-open-space-session]

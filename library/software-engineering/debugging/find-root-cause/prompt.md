@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [root-cause, hypothesis, reproduction]
 pairs_with:
   personas: [debugger]

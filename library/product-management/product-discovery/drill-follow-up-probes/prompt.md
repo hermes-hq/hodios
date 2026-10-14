@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-interviews, interviewing-skills, follow-up-questions, practice-game, deliberate-practice]
 pairs_with:
   prompts: [simulate-customer-interview, review-interview-technique, write-customer-interview-guide]

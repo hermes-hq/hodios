@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bug-triage, severity-levels, priority, fix-time-targets, quality-policy]
 pairs_with:
   prompts: [prioritize-bug-backlog, design-issue-tracker-structure, write-definition-of-done]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [upsert, on-conflict, merge-statement, unique-constraints, race-conditions, idempotent-writes]
 pairs_with:
   prompts: [design-database-schema, implement-idempotency-keys, fix-double-submit-duplicates]

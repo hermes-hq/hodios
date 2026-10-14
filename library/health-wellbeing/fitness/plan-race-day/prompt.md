@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [race-day, pacing, taper, race-fuelling, triathlon, marathon]
 pairs_with:
   prompts: [plan-running-program, plan-endurance-event-training, plan-sports-nutrition]

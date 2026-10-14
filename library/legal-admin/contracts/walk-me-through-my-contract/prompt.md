@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [plain-language, contract-walkthrough, negotiation-points, clause-by-clause, before-you-sign]
 pairs_with:
   prompts: [summarize-contract, explain-contract-clause, review-lease, review-employment-contract]

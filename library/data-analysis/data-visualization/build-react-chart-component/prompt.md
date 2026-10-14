@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recharts, chartjs, react-components, web-charts]
 pairs_with:
   prompts: [build-d3-chart, make-data-visualization-accessible, design-chart-interactions, choose-charting-library]

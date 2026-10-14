@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [realia, authentic-materials, worksheet, scanning, everyday-documents, esol]
 pairs_with:
   prompts: [plan-literacy-lesson-for-adult-newcomers, gloss-authentic-text, create-differentiated-reading-tasks]

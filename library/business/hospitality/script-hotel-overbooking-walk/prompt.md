@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [overbooking, walked-guest, front-office, service-recovery, alternative-hotel]
 pairs_with:
   prompts: [roleplay-difficult-customer, build-service-recovery-playbook]

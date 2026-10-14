@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [translation-readiness, docs-as-code, do-not-translate, machine-translation, docs-translation]
 pairs_with:
   prompts: [build-localization-glossary, reorganize-docs-by-diataxis]

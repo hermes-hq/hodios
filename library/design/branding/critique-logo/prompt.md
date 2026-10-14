@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [logo-design, design-critique, wordmark, scalability, visual-identity]
 pairs_with:
   prompts: [design-logo-concepts, vet-brand-name, critique-graphic-design, build-brand-guidelines]

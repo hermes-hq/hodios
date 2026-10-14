@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deck-assembly, storyline, consistency, contributors, slide-order]
 pairs_with:
   prompts: [proofread-slide-deck, shorten-presentation-for-time, critique-slide-deck, unify-voice-in-multi-author-document]

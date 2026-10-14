@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [name-change, deed-poll, marriage, divorce, passport, identity-documents]
 pairs_with:
   prompts: [prepare-government-form, organize-important-documents, prepare-divorce-questions]

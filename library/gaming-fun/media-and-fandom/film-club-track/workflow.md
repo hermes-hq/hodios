@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [film-club, film-society, screening-programme, discussion-questions, community-screenings]
 pairs_with:
   prompts: [explore-directors-filmography, explore-national-cinema, plan-movie-marathon, pick-movie-for-group]

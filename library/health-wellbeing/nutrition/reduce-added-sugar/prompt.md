@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [added-sugar, label-reading, cravings, sugary-drinks, habit-change]
 pairs_with:
   prompts: [read-nutrition-label, analyze-diet-log, plan-eating-for-condition]

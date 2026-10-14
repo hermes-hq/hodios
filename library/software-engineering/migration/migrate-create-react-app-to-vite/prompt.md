@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [create-react-app, vite, build-tooling, env-variables]
 pairs_with:
   prompts: [switch-build-tool, migrate-test-framework-track]

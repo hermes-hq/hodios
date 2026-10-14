@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [business-rules, rounding, worked-examples, requirements]
 pairs_with:
   prompts: [list-feature-edge-cases, write-acceptance-criteria, write-gherkin-scenarios]

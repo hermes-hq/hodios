@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fictional-law, crime-and-punishment, courts, trials, setting-design]
 pairs_with:
   prompts: [design-fictional-government, design-fictional-culture, design-fictional-religion, build-magic-system]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shared-board, group-tasks, committee, ownership, check-in-rhythm]
 pairs_with:
   prompts: [set-up-task-system, split-mental-load-fairly, write-project-plan]

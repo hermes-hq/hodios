@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [credit-cards, minimum-payment, interest-charges, statement]
 pairs_with:
   prompts: [plan-debt-payoff, dispute-card-charge]

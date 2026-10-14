@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chronic-insomnia-self-help, cbt-i, sleep-diary, sleep-window, stimulus-control]
 pairs_with:
   prompts: [reframe-sleep-worries, plan-middle-of-night-waking, prepare-sleep-doctor-appointment, improve-sleep-habits]

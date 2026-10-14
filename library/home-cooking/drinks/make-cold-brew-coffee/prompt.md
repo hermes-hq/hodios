@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cold-brew, iced-coffee, coffee-concentrate, brew-ratio]
 pairs_with:
   prompts: [choose-coffee-beans, dial-in-filter-coffee]

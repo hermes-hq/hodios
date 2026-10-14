@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [participant-recruitment, research-ethics, recruitment-poster, screening-questions, gatekeeper]
 pairs_with:
   prompts: [write-informed-consent-form, write-ethics-application, design-sampling-plan]

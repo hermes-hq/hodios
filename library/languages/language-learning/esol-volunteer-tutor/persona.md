@@ -18,6 +18,7 @@ invocation: user
 interaction: interactive
 model_tier: frontier
 level: beginner
+depth: specific
 tags: [esol, adult-literacy, newcomers, refugees, plain-english, volunteer-tutoring]
 pairs_with:
   prompts: [learn-health-vocabulary-for-appointments, learn-school-vocabulary-for-parents, learn-survival-phrases, handle-foreign-language-letter]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-insurance, insurance-quotes, excess, no-claims-discount, liability-cover, policy-exclusions]
 pairs_with:
   prompts: [cut-driving-costs, handle-car-accident-aftermath, explain-insurance-policy]

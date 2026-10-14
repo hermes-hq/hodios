@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [interpreters, staff-guide, language-access, safeguarding]
 pairs_with:
   prompts: [interpret-conversation, practise-community-interpreting, adapt-public-notice-for-many-languages]

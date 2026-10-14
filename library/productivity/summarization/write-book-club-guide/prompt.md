@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [book-club, reading-group, discussion-questions, spoiler-free, host-guide]
 pairs_with:
   prompts: [summarize-book]

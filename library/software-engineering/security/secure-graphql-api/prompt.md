@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [query-cost, depth-limiting, field-authorization, introspection, persisted-queries]
 pairs_with:
   prompts: [review-api-security, review-graphql-resolver-change, design-graphql-schema]

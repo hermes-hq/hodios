@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dotnet-framework, legacy-modernization, aspnet-core, wcf, sdk-style-projects]
 pairs_with:
   prompts: [plan-incremental-migration, inventory-deprecated-api-usage]

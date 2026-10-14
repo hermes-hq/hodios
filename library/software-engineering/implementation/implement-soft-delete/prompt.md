@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [soft-delete, orm, unique-constraints, data-retention, restore]
 pairs_with:
   prompts: [implement-user-data-deletion, spec-delete-and-restore-behaviour, implement-audit-log]

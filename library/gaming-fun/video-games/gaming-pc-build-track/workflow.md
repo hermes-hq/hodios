@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pc-building, gaming-pc, parts-list, hardware-compatibility, first-boot]
 pairs_with:
   prompts: [choose-computer-specs, speed-up-slow-computer]

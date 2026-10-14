@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [deception, honeytokens, canary-tokens, high-fidelity-alerts, intrusion-detection]
 pairs_with:
   prompts: [map-detection-coverage, write-threat-hunt-plan, write-ir-playbook]

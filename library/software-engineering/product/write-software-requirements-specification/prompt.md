@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [srs, iso-29148, testable-requirements, requirements]
 pairs_with:
   prompts: [define-non-functional-requirements, write-requirements-traceability-matrix, write-use-case-specification]

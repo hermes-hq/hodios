@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [grand-opening, launch-event, local-marketing, soft-opening, community-marketing, footfall]
 pairs_with:
   prompts: [plan-shop-opening, plan-restaurant-opening, write-press-release, plan-local-advertising, write-local-business-profile]

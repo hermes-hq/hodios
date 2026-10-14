@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [animation, storyboard-ready, visual-comedy, asset-list]
 pairs_with:
   prompts: [write-beat-sheet, write-short-film-script, format-screenplay-scene]

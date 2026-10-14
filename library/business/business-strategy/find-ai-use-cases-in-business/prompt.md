@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-adoption, use-case-portfolio, process-mapping, pilot-selection, generative-ai]
 pairs_with:
   prompts: [automate-business-workflow, plan-digital-transformation-roadmap, write-ai-use-policy, map-ai-use-cases]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [package-manifest, new-joiner, code-reading, third-party-libraries]
 pairs_with:
   prompts: [explain-codebase, vet-dependency, audit-dependencies]

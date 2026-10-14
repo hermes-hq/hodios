@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [preboarding, offer-acceptance, reneging, new-starter, day-one-readiness]
 pairs_with:
   prompts: [plan-new-hire-onboarding, plan-pre-employment-checks, write-offer-letter, handle-first-day-no-show]

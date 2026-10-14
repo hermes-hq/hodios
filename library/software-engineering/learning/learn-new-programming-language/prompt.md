@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [language-switch, idioms, false-friends, upskilling]
 args:
   - name: known_language

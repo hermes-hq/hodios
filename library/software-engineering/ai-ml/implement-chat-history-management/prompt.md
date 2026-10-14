@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chat-history, context-window, token-budget, conversation-state, data-retention]
 pairs_with:
   prompts: [compress-conversation-memory, implement-llm-streaming, reduce-llm-costs]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [supporting-others, carers, active-listening, suicide-prevention, boundaries]
 pairs_with:
   prompts: [prepare-difficult-conversation, process-grief]

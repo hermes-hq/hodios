@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [decision-tree, expected-value, sensitivity-analysis, value-of-information, uncertainty, payoffs]
 pairs_with:
   prompts: [make-calibrated-forecast, compare-options-matrix, run-cost-benefit-analysis, run-pre-mortem]

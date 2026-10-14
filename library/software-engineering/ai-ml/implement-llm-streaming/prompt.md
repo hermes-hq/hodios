@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [streaming, server-sent-events, cancellation, chat-ui]
 pairs_with:
   prompts: [implement-llm-tool-calling, add-llm-output-guardrails]

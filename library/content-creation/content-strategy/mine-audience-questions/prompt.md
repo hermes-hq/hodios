@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [audience-research, audience-language, question-mining, content-ideas]
 pairs_with:
   prompts: [define-content-pillars, plan-content-calendar, generate-blog-post-ideas]

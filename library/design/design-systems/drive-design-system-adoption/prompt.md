@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [adoption, change-management, champions-program, migration-support, stakeholder-buy-in]
 pairs_with:
   prompts: [measure-design-system-adoption, plan-design-system-governance, build-design-system-business-case, plan-design-system-roadmap]

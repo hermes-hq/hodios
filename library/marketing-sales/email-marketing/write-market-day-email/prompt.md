@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [market-stall, farmers-market, pre-orders, weekly-update, email-template]
 pairs_with:
   prompts: [write-weekly-specials-email, grow-email-list-in-store, write-sms-campaign]

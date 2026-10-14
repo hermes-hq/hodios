@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dismissal-appeal, unfair-dismissal, employment-rights, disciplinary-outcome, appeal-hearing, job-loss]
 pairs_with:
   prompts: [respond-to-disciplinary-allegations, write-workplace-grievance, write-labour-arbitration-application, rebuild-after-being-fired]

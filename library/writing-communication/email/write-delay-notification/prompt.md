@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [delay, missed-deadline, bad-news, client-communication, expectation-setting]
 pairs_with:
   prompts: [write-status-report, write-escalation-email, apologize-effectively]

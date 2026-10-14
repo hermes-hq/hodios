@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [soc-2, hipaa, audit-logging, encryption, data-retention, right-to-erasure]
 pairs_with:
   personas: [security-auditor, compliance-officer]

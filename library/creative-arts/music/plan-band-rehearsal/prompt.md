@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rehearsal, band, gig-preparation, ensemble-playing]
 pairs_with:
   prompts: [plan-live-set, plan-song-arrangement]

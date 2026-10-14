@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [year-end, reconciliations, accountant-handoff, fixed-assets, accruals]
 pairs_with:
   prompts: [prepare-month-end-close, set-up-chart-of-accounts, track-business-expenses, review-small-business-pnl]

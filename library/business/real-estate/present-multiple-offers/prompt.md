@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [offer-comparison, multiple-offers, estate-agent, chain-position, best-and-final, conflict-of-interest]
 pairs_with:
   prompts: [summarize-viewing-feedback-for-seller, prepare-deal-negotiation, write-listing-presentation]

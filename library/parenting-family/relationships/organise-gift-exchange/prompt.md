@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [secret-santa, gift-exchange, white-elephant, holiday-traditions, group-games]
 pairs_with:
   prompts: [choose-meaningful-gift, create-family-tradition, budget-for-holidays-and-gifts]

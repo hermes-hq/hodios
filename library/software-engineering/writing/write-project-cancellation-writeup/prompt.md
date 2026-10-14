@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-closure, lessons-learned, decommissioning, blameless]
 pairs_with:
   prompts: [write-postmortem, explain-tech-to-executives]

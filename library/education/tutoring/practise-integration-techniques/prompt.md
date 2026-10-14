@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [integration, u-substitution, integration-by-parts, partial-fractions, definite-integrals, calculus-ii]
 pairs_with:
   prompts: [practise-differentiation-rules, build-intuition-for-calculus]

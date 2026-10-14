@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [property-viewing, commercial-premises, planning-use, fit-out, total-occupancy-cost, site-scoring]
 pairs_with:
   prompts: [review-commercial-lease, plan-shop-opening, plan-restaurant-opening, plan-second-location]

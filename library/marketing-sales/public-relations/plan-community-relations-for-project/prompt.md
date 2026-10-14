@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [community-relations, neighbours, stakeholder-mapping, local-media, complaints-handling, public-engagement]
 pairs_with:
   prompts: [write-media-advisory, write-holding-statement, build-media-list]

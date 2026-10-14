@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ci, build-matrix, compatibility, required-checks]
 pairs_with:
   prompts: [write-github-actions-workflow, speed-up-ci-pipeline, configure-branch-protection]

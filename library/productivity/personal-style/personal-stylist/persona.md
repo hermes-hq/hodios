@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [styling, outfit-formulas, shop-your-closet, body-neutral, capsule-wardrobe]
 pairs_with:
   prompts: [discover-personal-style, decode-dress-code, find-flattering-colours, choose-haircut, find-adaptive-clothing]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [theme-days, day-theming, batching, context-switching, weekly-rhythm]
 pairs_with:
   prompts: [plan-my-week, protect-deep-work-blocks, run-weekly-review]

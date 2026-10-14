@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [business-awards, award-strategy, award-scams, entry-calendar, credibility]
 pairs_with:
   prompts: [write-business-award-entry, write-pr-plan, write-coverage-report]

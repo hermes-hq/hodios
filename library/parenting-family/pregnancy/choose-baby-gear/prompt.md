@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [baby-gear, car-seats, safe-sleep, prams, baby-carriers]
 pairs_with:
   prompts: [prepare-for-new-baby, buy-secondhand-safely, plan-flying-with-baby]

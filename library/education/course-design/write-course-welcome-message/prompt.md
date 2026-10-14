@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [online-learning, course-announcements, instructor-presence, week-one, student-support]
 pairs_with:
   prompts: [convert-course-to-online, write-course-syllabus, plan-paid-online-course]

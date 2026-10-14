@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [diagnostic-assessment, retrieval-practice, spaced-repetition, mock-exam, weighted-plan]
 pairs_with:
   prompts: [create-study-plan, generate-practice-exam, grade-practice-answers, analyze-exam-mistakes]

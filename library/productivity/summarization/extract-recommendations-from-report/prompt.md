@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [action-tracker, audit-findings, inspection, management-response, follow-up]
 pairs_with:
   prompts: [extract-open-questions, extract-deadlines, turn-content-into-actions]

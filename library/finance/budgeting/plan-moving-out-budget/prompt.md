@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [moving-out, first-home, young-adults, upfront-costs]
 pairs_with:
   prompts: [check-rent-affordability, plan-first-job-finances, build-emergency-fund-plan]

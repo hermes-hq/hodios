@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-subject-access, data-portability, right-of-access, account-data, privacy-engineering]
 pairs_with:
   prompts: [implement-user-data-deletion, implement-large-data-export, review-diff-for-personal-data]

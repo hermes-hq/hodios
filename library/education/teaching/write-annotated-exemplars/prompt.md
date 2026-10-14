@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [exemplars, success-criteria, worked-examples, assessment-for-learning, improvement]
 pairs_with:
   prompts: [create-rubric, design-self-and-peer-assessment, plan-live-writing-model]

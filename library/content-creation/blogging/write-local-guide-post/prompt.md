@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [local-guide, newcomers, neighbourhood, community-website, step-free-access]
 pairs_with:
   prompts: [write-local-history-article, write-travel-story]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sweeteners, additives, diet-drinks, food-safety, evidence-check]
 pairs_with:
   prompts: [read-nutrition-label, reduce-added-sugar, check-health-claim, cut-back-ultra-processed-food]

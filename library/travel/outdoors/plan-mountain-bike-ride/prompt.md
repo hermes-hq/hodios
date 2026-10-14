@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mountain-biking, trail-grades, bike-check, trailside-repair, trail-etiquette, trail-centre]
 pairs_with:
   prompts: [plan-cycling-tour, write-trip-intentions-plan, build-outdoor-first-aid-kit]

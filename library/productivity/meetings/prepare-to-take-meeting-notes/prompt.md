@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [notetaker, scribe, action-items, secretary]
 pairs_with:
   prompts: [write-formal-minutes, write-meeting-recap-email, summarize-meeting-transcript]

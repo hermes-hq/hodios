@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [game-development, game-feel, frame-budget, prototyping, gameplay-programming, scope-control]
 pairs_with:
   prompts: [prototype-browser-game, design-game-mechanic, profile-hot-path]

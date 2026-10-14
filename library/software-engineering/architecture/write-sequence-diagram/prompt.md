@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sequence-diagrams, mermaid, plantuml, request-flow, system-documentation, error-paths]
 pairs_with:
   personas: [software-architect]

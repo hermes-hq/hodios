@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [marketing-funnel, customer-path, conversion-path, follow-up, lead-nurture]
 pairs_with:
   prompts: [map-content-to-buyer-journey, analyze-conversion-funnel, create-lead-magnet, build-reverse-funnel-model]

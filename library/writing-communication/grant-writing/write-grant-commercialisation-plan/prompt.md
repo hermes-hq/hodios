@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [commercialisation, innovation-grant, market-sizing, route-to-market, ip-position]
 pairs_with:
   prompts: [write-grant-application, plan-consortium-grant-bid, write-grant-risk-register]

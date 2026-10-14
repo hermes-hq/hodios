@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audience-retention, analytics, drop-off, editing-notes]
 pairs_with:
   prompts: [write-youtube-script, write-video-hooks, package-video-title-thumbnail]

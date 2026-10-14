@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bakers-percentage, dough-hydration, bread-formula, recipe-scaling, preferment]
 pairs_with:
   prompts: [convert-baking-recipe-to-grams, convert-yeast-recipe-to-sourdough, plan-bread-bake-schedule]

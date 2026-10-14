@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-signing, provisioning-profiles, keystore, play-app-signing, testflight, fastlane]
 pairs_with:
   prompts: [design-ci-cd-pipeline, write-github-actions-workflow, triage-mobile-crash-spike]

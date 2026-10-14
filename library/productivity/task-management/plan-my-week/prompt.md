@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [time-blocking, weekly-planning, deep-work, energy, calendar]
 pairs_with:
   prompts: [prioritize-todo-list]

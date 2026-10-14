@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pet-costs, vet-bills, dogs, cats]
 pairs_with:
   prompts: [compare-pet-insurance, set-up-sinking-funds, build-monthly-budget]

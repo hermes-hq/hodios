@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-extraction, pagination, rate-limiting, schema-drift, raw-layer, extract-load]
 pairs_with:
   prompts: [implement-incremental-extract, design-data-pipeline, integrate-third-party-api]

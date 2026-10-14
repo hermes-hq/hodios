@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [company-description, press-boilerplate, about-us, directory-listing, brand-consistency]
 pairs_with:
   prompts: [write-about-page, write-press-release, write-value-proposition, write-elevator-pitch, write-trade-directory-profile]

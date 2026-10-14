@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [poc, pilot, success-criteria, sales-engineering, technical-evaluation, b2b]
 pairs_with:
   prompts: [plan-spike, plan-prototype-to-production]

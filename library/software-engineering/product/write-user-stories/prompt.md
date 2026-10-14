@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [requirements, invest, backlog, story-splitting]
 pairs_with:
   personas: [product-manager]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [experimental-design, controls, replicates, reagent-planning, pseudoreplication]
 pairs_with:
   prompts: [design-plate-layout, calculate-sample-size, write-lab-protocol, calculate-solution-dilutions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [vegetables, planting-calendar, raised-beds, companion-planting, crop-rotation]
 pairs_with:
   prompts: [diagnose-plant-problem]

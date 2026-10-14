@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cause-marketing, purpose-marketing, charity-partnership, corporate-giving, impact-reporting]
 pairs_with:
   prompts: [plan-marketing-campaign, write-partnership-proposal, write-holding-statement]

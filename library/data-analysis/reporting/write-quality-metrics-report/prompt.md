@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quality-management, cost-of-poor-quality, first-pass-yield, capa, management-review]
 pairs_with:
   prompts: [build-control-chart, write-8d-report, write-supplier-nonconformance-report, set-scorecard-status-thresholds]

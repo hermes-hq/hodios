@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [peak-season, holiday-rush, capacity-planning, seasonal-staffing, stock-planning, debrief]
 pairs_with:
   prompts: [build-staff-schedule, plan-inventory, plan-order-fulfilment, plan-support-staffing]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [metric-definitions, kpi, semantic-layer, data-governance]
 pairs_with:
   prompts: [design-dashboard, answer-question-with-sql]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [nonprofit]
 tags: [gifts-in-wills, planned-giving, donor-stewardship, bequests, long-term-income]
 pairs_with:

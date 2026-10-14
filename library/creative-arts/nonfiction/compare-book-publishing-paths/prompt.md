@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [publishing-options, traditional-publishing, hybrid-publishing, self-publishing, vanity-press]
 pairs_with:
   prompts: [validate-nonfiction-book-idea, write-nonfiction-query-letter, plan-self-publishing]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bagels, boiled-dough, cold-retard, yeasted-dough, breakfast-baking]
 pairs_with:
   prompts: [plan-bread-bake-schedule, convert-to-bakers-percentages, plan-enriched-dough]

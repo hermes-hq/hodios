@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mbr, business-review, plan-vs-actual, executive-summary]
 pairs_with:
   prompts: [write-weekly-metrics-update, build-kpi-tree, explain-budget-variance, decompose-revenue-change]

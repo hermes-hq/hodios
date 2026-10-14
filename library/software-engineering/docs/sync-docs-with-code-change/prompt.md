@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [docs-as-code, stale-docs, code-snippets, doc-tests]
 pairs_with:
   prompts: [audit-documentation, write-changelog, write-migration-guide]

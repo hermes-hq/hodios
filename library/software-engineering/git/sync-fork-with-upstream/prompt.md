@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fork, upstream-remote, carried-patches, rebase, open-source-contribution]
 pairs_with:
   prompts: [resolve-merge-conflict, rebase-stacked-branches, recover-lost-git-work, explain-git-error]

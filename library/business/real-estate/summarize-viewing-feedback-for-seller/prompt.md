@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [viewing-feedback, seller-update, estate-agent, price-reduction, vendor-care]
 pairs_with:
   prompts: [present-multiple-offers, write-listing-presentation, analyze-property-comparables]

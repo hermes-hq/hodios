@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dashboard-summary, status-update, screenshot, chart-reading]
 pairs_with:
   prompts: [write-weekly-metrics-update, audit-dashboard, check-report-figures]

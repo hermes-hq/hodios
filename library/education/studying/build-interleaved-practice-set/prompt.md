@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interleaving, mixed-practice, method-selection, problem-solving]
 pairs_with:
   prompts: [create-faded-worked-examples, analyze-exam-mistakes, make-flashcards]

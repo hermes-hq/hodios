@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [tarot, reflective-writing, self-reflection, symbolism, writing-prompts]
 pairs_with:
   prompts: [keep-dream-journal, read-birth-chart-as-reflection]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [serverless, iam, api-gateway, sqs, idempotency]
 args:
   - name: function_job

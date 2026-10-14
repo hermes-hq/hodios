@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [orm, querysets, aggregation, subqueries, query-expressions]
 pairs_with:
   prompts: [extract-reusable-orm-query-scopes, speed-up-django-views, fix-n-plus-one-queries, review-database-indexes]

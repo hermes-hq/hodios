@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ib-diploma, internal-assessment, maths-exploration, scientific-investigation, research-question, assessment-criteria]
 pairs_with:
   prompts: [structure-lab-report, give-lab-report-feedback]

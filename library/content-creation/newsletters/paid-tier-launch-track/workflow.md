@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paid-subscriptions, subscription-price, founding-members, launch-sequence, paid-conversion]
 pairs_with:
   prompts: [place-newsletter-paywall-break, announce-newsletter-change, audit-newsletter-performance]

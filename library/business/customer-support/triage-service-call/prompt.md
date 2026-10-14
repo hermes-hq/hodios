@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [call-triage, trades, repair-calls, emergency-calls, job-booking, field-service, plumbing]
 pairs_with:
   prompts: [write-call-centre-script, write-customer-quote, plan-mobile-service-route, write-job-completion-report]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [walking-tour, city-walk, sightseeing, self-guided-tour, storytelling]
 pairs_with:
   prompts: [learn-destination-history, plan-itinerary, master-city-transit, plan-food-exploration]

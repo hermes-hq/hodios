@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [veterans, military-transition, transferable-skills, resume-writing]
 pairs_with:
   prompts: [reframe-for-career-change, rewrite-resume-bullets, tailor-resume-to-job]

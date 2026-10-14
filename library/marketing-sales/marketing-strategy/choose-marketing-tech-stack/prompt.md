@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [martech, marketing-tools, crm-selection, tool-consolidation, data-ownership]
 pairs_with:
   prompts: [define-marketing-kpis, plan-marketing-team-structure, write-marketing-sales-sla]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vfx-elements, compositing, chroma-key, stock-elements]
 pairs_with:
   prompts: [write-video-generation-prompt, write-b-roll-prompts, plan-generated-video-finishing]

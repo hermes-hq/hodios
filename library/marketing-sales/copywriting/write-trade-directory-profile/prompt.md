@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [quote-platforms, trade-directory, lead-replies, review-replies, home-services]
 pairs_with:
   prompts: [write-local-business-profile, reply-to-inbound-lead, write-project-showcase-captions, request-customer-testimonials]

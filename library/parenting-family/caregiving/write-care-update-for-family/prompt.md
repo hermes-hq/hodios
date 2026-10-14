@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-updates, siblings, carers, group-chat, shared-decisions]
 pairs_with:
   prompts: [build-care-rota, plan-family-meeting]

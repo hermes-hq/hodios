@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [self-experiment, sleep-log, habit-testing, caffeine-cutoff, sleep-tracking]
 pairs_with:
   prompts: [improve-sleep-habits, prepare-sleep-doctor-appointment, audit-bedroom-for-sleep]

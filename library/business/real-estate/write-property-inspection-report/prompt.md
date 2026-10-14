@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rental-inspection, landlord, condition-report, wear-and-tear]
 pairs_with:
   prompts: [set-up-rental-maintenance-process, document-rental-move-in, check-landlord-obligations]

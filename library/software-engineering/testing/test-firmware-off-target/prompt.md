@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [firmware, hal, test-doubles, hardware-in-the-loop, host-tests, microcontroller]
 pairs_with:
   prompts: [write-microcontroller-firmware, decouple-for-testability]

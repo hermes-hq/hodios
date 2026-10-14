@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [learning-science, evidence-check, study-myths, learning-styles]
 pairs_with:
   prompts: [run-feynman-check]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [brand-strategy, brand-positioning, brand-platform, visual-identity, verbal-identity]
 pairs_with:
   prompts: [build-brand-platform, write-brand-story, design-logo-concepts, build-brand-guidelines, write-brand-voice-guide, name-brand, plan-rebrand]

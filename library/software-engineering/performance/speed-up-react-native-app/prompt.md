@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [frame-rate, flatlist, re-renders, hermes, mobile-performance]
 pairs_with:
   prompts: [fix-mobile-scroll-jank, speed-up-app-cold-start, fix-react-rerenders, speed-up-long-list-rendering]

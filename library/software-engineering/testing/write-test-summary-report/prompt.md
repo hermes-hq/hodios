@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [release-testing, go-no-go, residual-risk, defects]
 pairs_with:
   prompts: [write-test-plan, select-regression-tests-for-release, plan-user-acceptance-testing]

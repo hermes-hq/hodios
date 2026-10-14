@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [use-cases, business-analysis, uml, requirements]
 pairs_with:
   prompts: [write-user-stories, write-requirements-traceability-matrix, derive-test-cases-from-requirements]

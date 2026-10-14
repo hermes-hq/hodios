@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pull-request, backlog-triage, contributor-experience, review-queue]
 pairs_with:
   prompts: [triage-issue-backlog, reply-to-first-contribution, respond-to-review-comments]

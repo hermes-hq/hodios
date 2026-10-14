@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pgbackrest, wal-g, point-in-time-recovery, wal-archiving, restore-testing, backup-retention]
 pairs_with:
   prompts: [plan-disaster-recovery, upgrade-database-major-version]

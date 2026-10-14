@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [order-of-priority, employer-match, guaranteed-return, emergency-fund, interest-rates]
 pairs_with:
   prompts: [compare-mortgage-overpay-vs-invest, check-employer-retirement-match, plan-debt-payoff, build-emergency-fund-plan]

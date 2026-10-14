@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [statutory-interpretation, statute-analysis, legislative-drafting, elements-test, regulations]
 pairs_with:
   prompts: [draft-legal-research-memo, brief-court-case, build-law-course-outline]

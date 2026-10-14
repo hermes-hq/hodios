@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [refereeing, officiating, misconduct-report, sending-off, match-official, disciplinary]
 pairs_with:
   prompts: [prepare-to-referee, handle-sideline-abuse, explain-referee-decision]

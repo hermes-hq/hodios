@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [freelance-platforms, platform-fees, channel-choice, payment-protection, experiment]
 pairs_with:
   prompts: [write-freelance-profile, write-freelance-proposal, build-freelance-pipeline-routine]

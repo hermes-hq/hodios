@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [medical-abbreviations, discharge-summary, clinic-letter, open-notes, plain-language-health]
 pairs_with:
   prompts: [explain-diagnosis, explain-lab-results, explain-imaging-report, explain-medication-leaflet]

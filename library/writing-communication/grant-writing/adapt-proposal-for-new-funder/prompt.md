@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repurpose-proposal, funder-fit, criteria-mapping, double-funding, tailoring]
 pairs_with:
   prompts: [write-grant-application, debrief-grant-rejection, build-grant-boilerplate-library]

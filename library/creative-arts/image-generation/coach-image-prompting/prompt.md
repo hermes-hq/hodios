@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [prompt-iteration, ai-literacy, hands-on-practice, composition, lighting]
 pairs_with:
   prompts: [learn-prompting-basics, fix-image-generation-problems, write-image-prompt]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [turnaround-time, route-timing, naismith-rule, summit-fever, mountain-safety, daylight]
 pairs_with:
   prompts: [write-trip-intentions-plan, read-mountain-weather-forecast, prepare-for-long-hike]

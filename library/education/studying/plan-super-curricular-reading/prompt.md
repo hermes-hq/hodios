@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wider-reading, personal-statement, admissions-interview, reading-log]
 pairs_with:
   prompts: [plan-university-application, practice-admissions-interview, coach-personal-statement]

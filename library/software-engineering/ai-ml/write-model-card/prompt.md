@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [model-card, responsible-ai, fairness]
 pairs_with:
   personas: [ml-engineer]

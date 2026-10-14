@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [air-fryer, pressure-cooker, slow-cooker, recipe-conversion]
 pairs_with:
   prompts: [adapt-recipe, troubleshoot-recipe]

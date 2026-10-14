@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [json-extraction, feedback-records, problem-vs-solution, structured-data, verbatim-quotes]
 pairs_with:
   prompts: [build-feedback-intake-process, design-feedback-tagging-taxonomy, analyze-user-feedback]

@@ -13,6 +13,7 @@ subject: [agriculture]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [pesticides, veterinary-medicines, withdrawal-periods, product-labels, spray-safety, chemical-storage]
 pairs_with:
   prompts: [triage-crop-symptoms, triage-unwell-livestock, extract-field-work-log, plan-orchard-season-tasks]

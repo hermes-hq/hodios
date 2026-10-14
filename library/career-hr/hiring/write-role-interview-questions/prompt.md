@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interview-questions-bank, behavioural-questions, situational-questions, structured-interview, follow-up-probes]
 pairs_with:
   prompts: [build-interview-scorecard, design-interview-loop, write-interview-feedback]

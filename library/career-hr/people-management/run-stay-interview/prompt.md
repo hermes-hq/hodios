@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stay-interview, retention, employee-engagement, one-on-one, attrition]
 pairs_with:
   prompts: [plan-one-on-one, run-exit-interview, build-development-plan]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-level-agreement, response-times, service-credits, priority-levels, facilities-services]
 pairs_with:
   prompts: [design-escalation-process, plan-support-staffing, prepare-business-review]

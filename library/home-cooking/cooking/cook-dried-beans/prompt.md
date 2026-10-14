@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [beans, pulses, legumes, chickpeas, pressure-cooker, batch-cooking]
 pairs_with:
   prompts: [convert-recipe-for-appliance, troubleshoot-recipe, preserve-food-safely]

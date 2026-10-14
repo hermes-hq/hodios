@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [refereeing, umpiring, officiating, match-official, dissent, referee-positioning]
 pairs_with:
   prompts: [explain-sport-to-newcomer, schedule-tournament]

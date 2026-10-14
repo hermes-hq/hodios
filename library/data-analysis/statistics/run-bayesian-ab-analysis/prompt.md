@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bayesian, ab-testing, expected-loss, credible-intervals]
 pairs_with:
   prompts: [analyze-ab-test-results, calculate-sample-size, check-analysis-for-pitfalls]

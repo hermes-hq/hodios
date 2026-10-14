@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardening, security-settings, deployment-checklist, owasp]
 pairs_with:
   prompts: [review-django-change, harden-web-app-config, fix-sql-injection, fix-xss-vulnerabilities]

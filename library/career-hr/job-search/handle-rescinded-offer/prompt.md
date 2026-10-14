@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rescinded-offer, offer-withdrawn, setback, restart-search, losses]
 pairs_with:
   prompts: [respond-to-job-rejection, plan-job-search, write-job-search-announcement-post]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [relationship-building, weak-ties, give-first, contact-tracker, introverts]
 pairs_with:
   prompts: [write-networking-message, prepare-networking-conversation, find-mentor, increase-work-visibility]

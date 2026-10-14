@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [emergency-info, wallet-card, allergies, medical-id, carers, advance-care-planning]
 pairs_with:
   prompts: [build-medication-list, organize-family-medical-history]

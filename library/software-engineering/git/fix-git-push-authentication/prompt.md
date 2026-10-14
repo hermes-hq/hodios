@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [authentication, ssh-keys, personal-access-token, credential-helper, permission-denied]
 pairs_with:
   prompts: [use-multiple-git-accounts, set-up-git-on-new-machine, explain-git-error, grant-ci-access-to-private-repos]

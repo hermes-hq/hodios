@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-options, design-decisions, trade-offs, comparison]
 pairs_with:
   prompts: [critique-ui-screen, write-design-rationale, plan-concept-test, run-design-critique-session]

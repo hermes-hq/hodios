@@ -12,6 +12,7 @@ role: [backend-engineer, software-engineer, sre]
 requires: [none]
 risk: read-only
 level: intermediate
+depth: specific
 tags: [latency, hot-path, timeouts, pagination, n-plus-one, benchmarking]
 pairs_with:
   prompts: [fix-n-plus-one-queries, profile-hot-path, plan-caching-strategy]

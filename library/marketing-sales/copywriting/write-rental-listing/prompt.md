@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rental-listing, holiday-let, fair-housing, house-rules, landlord]
 pairs_with:
   prompts: [write-real-estate-listing, write-open-house-promotion, document-rental-move-in]

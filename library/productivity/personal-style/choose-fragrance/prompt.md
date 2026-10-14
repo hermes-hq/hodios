@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fragrance, perfume, scent-families, sampling, gift-buying]
 pairs_with:
   prompts: [decode-dress-code, decide-whether-to-buy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pm-hiring, product-outcomes, shipped-features, outcome-bullets]
 pairs_with:
   prompts: [rewrite-resume-bullets, tailor-resume-to-job, level-up-resume-for-senior-roles]

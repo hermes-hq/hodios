@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: intermediate
+depth: specific
 tags: [type-safety, strict-mode]
 applies_to: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 authorship: ai-assisted

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [release-tag, retag, semantic-versioning, package-registry]
 pairs_with:
   prompts: [cut-hotfix-from-release-tag, check-semver-impact-of-diff, write-changelog]

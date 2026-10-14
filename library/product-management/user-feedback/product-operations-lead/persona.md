@@ -17,6 +17,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-ops, operating-cadence, feedback-intake, single-source-of-truth, launch-readiness, process-design]
 pairs_with:
   prompts: [build-feedback-intake-process, design-feedback-tagging-taxonomy, design-nps-program, extract-feedback-fields]

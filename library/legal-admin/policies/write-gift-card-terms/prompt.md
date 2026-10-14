@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gift-cards, gift-vouchers, voucher-expiry, stored-value, unused-balances]
 pairs_with:
   prompts: [write-refund-policy, write-gift-card-campaign-emails]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [loyalty-programme, points-balance, reward-unlocked, points-expiry, tier-change]
 pairs_with:
   prompts: [design-loyalty-program, write-milestone-emails, map-email-automation-flows]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [sick-day, absence, family-emergency, calling-in-sick, workplace]
 pairs_with:
   prompts: [request-time-off-by-email, write-out-of-office-message, write-delay-notification]

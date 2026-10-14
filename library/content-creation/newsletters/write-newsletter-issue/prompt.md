@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [subject-lines, preview-text, voice-matching, email-newsletter]
 pairs_with:
   prompts: [curate-link-roundup, write-blog-post-draft]

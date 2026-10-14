@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [primary-care, family-doctor, gp-registration, choosing-a-doctor, health-insurance, new-patient]
 pairs_with:
   prompts: [prepare-annual-checkup, request-medical-records, build-medication-list, choose-right-care-service]

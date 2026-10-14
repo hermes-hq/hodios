@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [adult-literacy, functional-skills, phonics, language-experience, adult-education]
 pairs_with:
   prompts: [tutor-reading-comprehension, tutor-spelling-and-punctuation]

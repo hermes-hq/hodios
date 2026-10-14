@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [agent-instructions, ai-coding-agents, component-usage, design-tokens, codegen-quality]
 pairs_with:
   prompts: [write-scoped-agent-rules, build-project-instructions, write-token-usage-guide]

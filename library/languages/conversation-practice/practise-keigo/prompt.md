@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [keigo, sonkeigo, kenjogo, new-employee, workplace-japanese, drills]
 pairs_with:
   prompts: [practise-japanese-business-phone, write-japanese-business-email, explain-politeness-register]

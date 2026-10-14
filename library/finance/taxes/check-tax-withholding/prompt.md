@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [withholding, tax-code, payslip, underpayment]
 pairs_with:
   prompts: [explain-payslip, estimate-annual-tax-bill, explain-family-tax-credits]

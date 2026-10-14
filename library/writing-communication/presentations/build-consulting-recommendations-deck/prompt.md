@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-deliverable, findings, recommendations, implementation-roadmap, pyramid-principle]
 pairs_with:
   prompts: [build-reading-deck, write-executive-summary-slide, build-decision-request-deck, drill-presentation-qa]

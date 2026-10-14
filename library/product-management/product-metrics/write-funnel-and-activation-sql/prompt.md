@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [funnel-sql, activation-rate, conversion-window, event-data, analytics-sql, late-events]
 pairs_with:
   prompts: [define-activation-metric, analyze-conversion-funnel, calculate-active-users-in-sql, build-cohort-analysis]

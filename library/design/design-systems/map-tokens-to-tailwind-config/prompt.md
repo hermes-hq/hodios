@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-tokens, semantic-tokens, theming, dark-mode, utility-css]
 pairs_with:
   prompts: [generate-platform-token-files, define-design-tokens, upgrade-tailwind-to-v4, audit-hardcoded-styles-against-tokens]

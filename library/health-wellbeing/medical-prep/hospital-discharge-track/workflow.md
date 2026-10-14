@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hospital-discharge, carers, care-transitions, medication-reconciliation, home-safety, follow-up]
 pairs_with:
   prompts: [build-medication-list, explain-clinical-notes, prepare-emergency-medical-summary, build-care-rota]

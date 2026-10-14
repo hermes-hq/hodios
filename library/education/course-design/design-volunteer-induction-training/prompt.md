@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [volunteer-management, induction, safeguarding, shadowing, boundaries, third-sector]
 pairs_with:
   prompts: [design-onboarding-curriculum, write-reading-volunteer-guide, design-microlearning-series]

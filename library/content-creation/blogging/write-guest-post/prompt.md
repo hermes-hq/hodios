@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [guest-posting, host-guidelines, author-bio, editor-relations, link-policy]
 pairs_with:
   prompts: [write-guest-post-pitch, write-blog-post-draft, write-article-headlines-and-standfirsts]

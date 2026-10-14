@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [auto-reply, ticket-acknowledgement, response-time, self-service, deflection]
 pairs_with:
   prompts: [plan-out-of-hours-support, write-help-center-article, build-support-macros]

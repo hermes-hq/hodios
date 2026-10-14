@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [music-play, homemade-instruments, rhythm-games, early-years, singing-games, screen-free]
 pairs_with:
   prompts: [make-toddler-busy-activities, create-kids-craft, plan-rainy-day-activities]

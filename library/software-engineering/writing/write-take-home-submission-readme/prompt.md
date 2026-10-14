@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [take-home, technical-interview, job-application, trade-offs, readme]
 pairs_with:
   prompts: [prepare-take-home-walkthrough, write-readme]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [secondary-analysis, existing-data, survey-weights, data-access, analysis-plan, codebook]
 pairs_with:
   prompts: [write-preregistration, write-data-management-plan, write-ethics-application, design-research-study]

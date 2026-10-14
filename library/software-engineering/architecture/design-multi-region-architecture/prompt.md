@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [multi-region, active-active, failover, data-residency, replication]
 pairs_with:
   personas: [software-architect]

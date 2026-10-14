@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rental-scam, fake-listing, holding-deposit, fraud-check, house-hunting]
 pairs_with:
   prompts: [compare-rental-offers, prepare-rental-application, claim-scam-reimbursement-from-bank]

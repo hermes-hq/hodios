@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [photo-retouching, colour-grading, raw-processing, lightroom, snapseed]
 pairs_with:
   prompts: [critique-photograph, choose-camera-settings]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-week, time-blocking, deadlines, workload-triage, university]
 pairs_with:
   prompts: [plan-semester-workload, create-study-plan, read-textbook-actively]

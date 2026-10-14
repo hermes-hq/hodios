@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [privacy-notice, data-protection, transparency, cookies]
 pairs_with:
   prompts: [map-personal-data-processing, build-compliance-checklist]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [simpsons-paradox, p-hacking, causal-inference, peer-check]
 pairs_with:
   prompts: [interpret-regression-output, write-insight-report]

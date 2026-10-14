@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [public-policy, policy-analysis, trade-offs, civic, neutrality]
 pairs_with:
   prompts: [steelman-opposing-view, run-second-order-thinking, compare-candidates-before-voting]

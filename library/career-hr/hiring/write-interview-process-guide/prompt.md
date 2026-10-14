@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [candidate-experience, interview-preparation-guide, hiring-transparency, careers-content]
 pairs_with:
   prompts: [design-interview-loop, plan-candidate-adjustments, write-candidate-ai-policy]

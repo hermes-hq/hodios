@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [make-or-buy, outsourcing, supplier-choice, total-cost, core-activities]
 pairs_with:
   prompts: [build-supplier-scorecard, test-capacity-before-growth, reduce-owner-dependence]

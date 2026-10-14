@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [staff-training, volunteer-training, spot-the-mistake, social-media-policy, alt-text]
 pairs_with:
   prompts: [write-community-guidelines, run-social-media-audit]

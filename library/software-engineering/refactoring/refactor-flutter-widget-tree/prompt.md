@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [widget-extraction, const-constructors, build-method, widget-tests]
 pairs_with:
   personas: [flutter-engineer]

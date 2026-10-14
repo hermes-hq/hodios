@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [case-studies, retrieval-practice, named-examples, exam-application, recall-drill]
 pairs_with:
   prompts: [create-memory-aids, write-model-exam-answer]

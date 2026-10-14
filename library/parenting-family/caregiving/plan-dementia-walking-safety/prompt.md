@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dementia, getting-lost, missing-person, home-safety, carers]
 pairs_with:
   prompts: [choose-care-technology, plan-dementia-conversations, write-care-profile]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shopper-role-play, staff-training, needs-questions, add-on-selling, customer-greeting]
 pairs_with:
   prompts: [write-retail-sales-approach, quiz-objection-handling]

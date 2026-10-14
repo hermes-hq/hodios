@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [spoiler-free, recap, tv-series, book-series]
 pairs_with:
   prompts: [discuss-book-as-reading-buddy, explain-film-ending]

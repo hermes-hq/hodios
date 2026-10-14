@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [natural-history, wildlife-recording, field-skills, species-identification, citizen-science, nature-study]
 pairs_with:
   prompts: [identify-bird-from-description, run-moth-trap-night, plan-rockpooling-visit, plan-fossil-hunting-trip]

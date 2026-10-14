@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [readability, sentence-length, nominalisation, passive-voice, reading-ease, diagnostics]
 pairs_with:
   prompts: [simplify-to-plain-language, tighten-prose, define-jargon-and-acronyms]

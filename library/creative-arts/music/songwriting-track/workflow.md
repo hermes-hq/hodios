@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [songwriting-craft, hooks, prosody, chord-sketch]
 pairs_with:
   prompts: [write-song-lyrics, suggest-chord-progressions, analyze-song-structure]

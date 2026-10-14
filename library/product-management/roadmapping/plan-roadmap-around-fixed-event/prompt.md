@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fixed-date, scope-tiers, cut-line, backward-planning, keynote, trade-show]
 pairs_with:
   prompts: [plan-release, plan-launch-event, forecast-roadmap-dates-with-ranges, fit-regulatory-deadline-into-roadmap]

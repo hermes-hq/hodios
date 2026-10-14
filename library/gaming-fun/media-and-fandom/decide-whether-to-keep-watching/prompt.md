@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [does-it-get-better, spoiler-free, tv-series, book-series, drop-or-continue]
 pairs_with:
   prompts: [triage-entertainment-backlog, catch-up-on-series-spoiler-free, recommend-films-from-favorites]

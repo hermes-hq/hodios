@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [take-home-assignment, work-sample, technical-walkthrough, follow-up-interview]
 pairs_with:
   prompts: [prepare-interview-presentation, practice-coding-interview, practise-data-science-interview]

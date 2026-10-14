@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [education-sector]
 tags: [home-school-link, family-partnership, daily-diary, communication-support, routines]
 pairs_with:

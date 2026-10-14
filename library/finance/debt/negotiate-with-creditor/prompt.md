@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hardship-plan, debt-settlement, arrears, payment-arrangement]
 pairs_with:
   prompts: [respond-to-debt-collector, build-tight-budget, plan-debt-payoff]

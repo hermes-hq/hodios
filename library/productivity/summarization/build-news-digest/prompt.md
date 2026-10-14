@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [news-briefing, multi-source, source-comparison, current-events, media-literacy]
 pairs_with:
   prompts: [summarize-long-document, compare-documents, fact-check-claims]

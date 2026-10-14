@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [anger, time-out, emotional-regulation, repair, outbursts, irritability]
 pairs_with:
   prompts: [guide-breathing-exercise, reframe-negative-thoughts, build-coping-plan]

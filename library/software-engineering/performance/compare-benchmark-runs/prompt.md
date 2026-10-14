@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [benchmarking, statistical-testing, noise, regression-detection, variance]
 pairs_with:
   prompts: [write-microbenchmark, analyze-load-test-results, set-performance-budgets]

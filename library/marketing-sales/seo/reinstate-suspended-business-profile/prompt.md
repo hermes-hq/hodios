@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [google-business-profile, local-search, profile-suspension, appeals, maps-listings]
 pairs_with:
   prompts: [plan-local-seo, audit-business-citations]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [doctest, code-samples, snippet-testing, docs-as-code, continuous-integration]
 pairs_with:
   prompts: [write-code-samples, sync-docs-with-code-change, docs-site-overhaul-track]

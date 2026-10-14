@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [promql, logql, traceql, histograms, query-traps]
 pairs_with:
   prompts: [design-service-dashboard, design-alerting-rules, define-slos]

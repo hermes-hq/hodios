@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [key-account, custom-request, deal-desk, roadmap-tradeoff, special-request]
 pairs_with:
   prompts: [decline-feature-request, plan-move-upmarket, triage-feature-requests, prioritize-features]

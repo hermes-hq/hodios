@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [co-marketing, partnership, joint-promotion, business-development, cross-promotion]
 pairs_with:
   prompts: [find-first-customers, write-elevator-pitch, write-event-sponsorship-proposal]

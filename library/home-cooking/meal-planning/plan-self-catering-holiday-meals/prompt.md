@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [holiday-rental, cottage-holiday, travel-food, packed-lunches, first-shop, small-quantities]
 pairs_with:
   prompts: [plan-weekly-meals, plan-picnic, plan-trip-budget]

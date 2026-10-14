@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [chemical-safety, cleaning-methods, home-routines, surface-care]
 pairs_with:
   prompts: [plan-cleaning-schedule, remove-stain, clean-by-surface-material]

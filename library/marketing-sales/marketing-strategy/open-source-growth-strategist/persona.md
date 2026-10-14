@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-source-project, growth, developer-marketing, launches, community, no-telemetry]
 pairs_with:
   prompts: [sharpen-project-pitch, plan-open-source-launch, set-up-oss-growth-metrics, review-weekly-growth-numbers, audit-readme-conversion]

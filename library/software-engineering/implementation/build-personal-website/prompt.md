@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [portfolio-website, static-site, web-accessibility, free-hosting, beginners]
 pairs_with:
   prompts: [build-ui-component, improve-web-vitals]

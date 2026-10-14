@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gradle, kotlin-dsl, version-catalog, convention-plugins, build-scripts]
 pairs_with:
   prompts: [switch-build-tool, fix-gradle-or-maven-build-failure]

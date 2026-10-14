@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [residence-permit, visa-conditions, work-rights, renewal-deadlines]
 pairs_with:
   prompts: [prepare-for-immigration-appointment, write-immigration-status-enquiry, explain-legal-letter, find-free-legal-help]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [qualitative-research, interview-transcripts, cross-language-research, translator-notes]
 pairs_with:
   prompts: [back-translate-to-verify, build-translation-glossary, translate-preserving-tone]

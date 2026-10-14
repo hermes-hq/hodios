@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [teenagers, family-agreement, curfew, phone-rules, teen-driving, collaborative-problem-solving]
 pairs_with:
   prompts: [set-screen-time-plan, talk-to-teen-about-online-safety, create-chore-chart]

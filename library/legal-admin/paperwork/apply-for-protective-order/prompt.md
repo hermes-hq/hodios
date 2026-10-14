@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [restraining-order, protective-order, domestic-abuse, stalking, harassment, safety-planning]
 pairs_with:
   prompts: [end-lease-to-escape-abuse, respond-to-online-harassment, find-free-legal-help]

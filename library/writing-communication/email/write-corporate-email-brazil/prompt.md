@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [corporate-email, business-etiquette, follow-up, polite-requests, workplace-brazil]
 pairs_with:
   prompts: [write-condo-meeting-minutes, write-follow-up-email, check-tone-before-sending]

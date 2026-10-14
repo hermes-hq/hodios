@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [geographic-farming, listings, direct-mail, local-expert, break-even]
 pairs_with:
   prompts: [write-real-estate-market-update, write-listing-presentation, write-open-house-promotion, write-direct-mail-letter]

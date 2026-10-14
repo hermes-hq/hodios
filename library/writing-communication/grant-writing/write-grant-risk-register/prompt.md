@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [risk-register, risk-mitigation, project-delivery, funder-criteria]
 pairs_with:
   prompts: [build-grant-work-plan, write-grant-application, build-grant-budget]

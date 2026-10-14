@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [energy-efficiency, insulation, heat-pump, solar-panels, energy-bills, retrofit]
 pairs_with:
   prompts: [plan-home-maintenance, plan-renovation-budget, hire-contractor]

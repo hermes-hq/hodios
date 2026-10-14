@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stir-fry, wok, mise-en-place, weeknight-dinners, sauces]
 pairs_with:
   prompts: [recipe-from-ingredients, learn-cuisine-basics, cook-along-assistant]

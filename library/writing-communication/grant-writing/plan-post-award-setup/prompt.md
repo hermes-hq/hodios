@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [post-award, grant-compliance, reporting-calendar, restricted-funds, grant-kickoff]
 pairs_with:
   prompts: [write-grant-report, request-grant-variation, write-grant-evaluation-plan]

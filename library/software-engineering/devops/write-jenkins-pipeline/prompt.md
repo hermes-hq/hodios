@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jenkins, jenkinsfile, ci, pipeline-as-code]
 pairs_with:
   prompts: [design-ci-cd-pipeline, migrate-ci-provider, speed-up-ci-pipeline]

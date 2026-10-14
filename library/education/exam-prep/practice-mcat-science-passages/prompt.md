@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mcat, pre-med, experimental-passages, data-interpretation, biochemistry, psych-soc]
 pairs_with:
   prompts: [practice-mcat-cars, analyze-exam-mistakes, prepare-standardized-test]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [incentives, participant-payment, research-ops, participant-recruitment, gift-cards]
 pairs_with:
   prompts: [recruit-b2b-research-participants, scope-ux-research-project, write-participant-emails]

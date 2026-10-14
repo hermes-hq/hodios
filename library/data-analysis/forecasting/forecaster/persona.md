@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [demand-forecasting, prediction-intervals, base-rates, backtesting]
 pairs_with:
   prompts: [forecast-time-series, make-calibrated-forecast, measure-forecast-accuracy, review-forecast-assumptions, present-forecast-uncertainty]

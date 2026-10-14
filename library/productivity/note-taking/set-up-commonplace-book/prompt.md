@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [commonplace-book, quotes, reading-life, index-cards]
 pairs_with:
   prompts: [make-reading-notes, set-up-bullet-journal]

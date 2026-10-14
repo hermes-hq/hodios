@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [case-sensitivity, windows-paths, symlinks, cross-platform, file-mode]
 pairs_with:
   prompts: [fix-line-ending-churn, explain-git-error, set-up-git-hooks]

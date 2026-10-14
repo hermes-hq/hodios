@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [embedded-analytics, in-app-reporting, dashboard-ux, product-design]
 pairs_with:
   prompts: [design-customer-facing-analytics, design-kpi-cards, design-chart-interactions, define-metric]

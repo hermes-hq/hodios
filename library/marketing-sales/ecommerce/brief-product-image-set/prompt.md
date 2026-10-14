@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [product-photography, listing-images, shoot-brief, main-image, image-requirements]
 pairs_with:
   prompts: [optimize-product-page-conversion, write-marketplace-listing, set-up-phone-product-photography]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [data-cleaning, deduplication, change-log]
 pairs_with:
   prompts: [explore-dataset, build-pivot-analysis]

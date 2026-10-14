@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [price-volume-mix, revenue-bridge, variance-analysis, customer-bridge]
 pairs_with:
   prompts: [build-kpi-tree, explain-budget-variance, write-monthly-business-review]

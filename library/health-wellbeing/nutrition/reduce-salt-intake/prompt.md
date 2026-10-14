@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [salt, sodium, blood-pressure, label-reading, flavour-swaps]
 pairs_with:
   prompts: [read-nutrition-label, plan-eating-for-condition, reduce-added-sugar]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [source-interviews, sources, attribution, consent, journalism-ethics]
 pairs_with:
   prompts: [plan-book-research, write-narrative-nonfiction-scene]

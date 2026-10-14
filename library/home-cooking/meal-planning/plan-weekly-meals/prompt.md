@@ -19,7 +19,8 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
-tags: [grocery-list, leftovers, budget-meals, family-meals, food-waste]
+depth: basic
+tags: [grocery-list, leftovers, budget-meals, family-meals, food-waste, meal-plan, weekly-menu, dinner-ideas]
 pairs_with:
   prompts: [plan-meal-prep-session, recipe-from-ingredients]
   personas: [chef-mentor]

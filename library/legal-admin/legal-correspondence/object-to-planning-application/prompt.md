@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [planning-objection, zoning, building-permit, neighbour-development, consultation-response]
 pairs_with:
   prompts: [write-neighbor-dispute-letter, write-letter-to-elected-official, write-public-records-request]

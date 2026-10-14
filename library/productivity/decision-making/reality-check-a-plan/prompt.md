@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [feasibility, capacity, planning-fallacy, time-budget, overcommitment]
 pairs_with:
   prompts: [surface-hidden-assumptions, run-pre-mortem, test-decision-before-committing]

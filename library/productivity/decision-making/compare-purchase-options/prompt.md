@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [buying-guide, total-cost-of-ownership, product-comparison, price-ceiling, trade-offs]
 pairs_with:
   prompts: [compare-options-matrix]

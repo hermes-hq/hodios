@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [financial-model, projections, revenue-drivers, startup-finance]
 pairs_with:
   prompts: [calculate-cash-runway, build-small-business-budget, forecast-cash-flow]

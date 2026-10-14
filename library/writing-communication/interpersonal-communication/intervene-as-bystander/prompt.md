@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bystander-intervention, harassment, allyship, bullying, workplace]
 pairs_with:
   prompts: [respond-to-microaggression, practise-de-escalation-skills, handle-gossip]

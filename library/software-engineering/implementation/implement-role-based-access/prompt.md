@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rbac, authorization, permissions, least-privilege, multi-tenancy]
 pairs_with:
   personas: [backend-engineer]

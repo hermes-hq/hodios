@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [itr, income-tax-india, form-26as, new-tax-regime, form-16, india]
 pairs_with:
   prompts: [organize-tax-documents, explain-tax-notice, explain-tax-on-investments]

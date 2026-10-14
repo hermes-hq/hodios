@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tsconfig, type-checking, compiler, typescript-eslint]
 pairs_with:
   prompts: [fix-typescript-type-error, speed-up-typescript-type-checking, upgrade-major-dependency]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [set-text, chapter-summary, character-development, themes]
 pairs_with:
   prompts: [build-set-text-quote-bank, create-timeline-revision-sheet, build-compare-contrast-table]

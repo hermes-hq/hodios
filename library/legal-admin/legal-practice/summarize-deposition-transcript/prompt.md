@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [deposition-summary, litigation-support, testimony, page-line-cites]
 pairs_with:
   prompts: [index-case-documents, draft-legal-research-memo]

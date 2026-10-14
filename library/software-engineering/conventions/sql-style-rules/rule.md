@@ -7,6 +7,7 @@ description: Standing rules for SQL an assistant writes, covering formatting, na
 category: conventions
 version: 1.0.0
 status: experimental
+depth: specific
 stage: [build]
 role: [backend-engineer, data-engineer, dba, data-analyst]
 stack: [sql]

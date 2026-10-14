@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trades, website-faq, call-out-charge, workmanship-guarantee, small-contractor]
 pairs_with:
   prompts: [triage-service-call, write-job-completion-report, resolve-invoice-dispute]

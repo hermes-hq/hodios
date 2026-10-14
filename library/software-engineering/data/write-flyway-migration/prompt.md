@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flyway, liquibase, schema-migrations, jvm, zero-downtime]
 pairs_with:
   prompts: [review-database-migration, plan-zero-downtime-schema-change, write-jpa-entity-mappings, fix-failed-database-migration]

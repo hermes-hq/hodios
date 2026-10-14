@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [voicemail, phone-calls, listening-drill, key-word-listening, newcomers, scam-awareness]
 pairs_with:
   prompts: [practice-phone-call-in-language, drill-numbers-and-dates, practise-spelling-out-personal-details, decode-transport-announcements]

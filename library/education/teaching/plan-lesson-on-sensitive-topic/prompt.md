@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [controversial-issues, classroom-discussion, ground-rules, safe-classroom]
 pairs_with:
   prompts: [plan-current-events-lesson, plan-socratic-seminar, plan-media-literacy-lesson]

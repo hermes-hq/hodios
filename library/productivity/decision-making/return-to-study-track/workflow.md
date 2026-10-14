@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [adult-learners, mature-students, career-change, part-time-study, course-choice, study-funding]
 pairs_with:
   prompts: [make-life-decision, create-study-plan, run-cost-benefit-analysis, compare-options-matrix]

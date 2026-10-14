@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [churn-risk, adoption, account-health, renewals, expansion]
 pairs_with:
   prompts: [plan-customer-onboarding, prepare-business-review, analyze-support-tickets, design-escalation-process]

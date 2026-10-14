@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [engineering]
 tags: [chartered-engineer, professional-engineer, cad-tools, engineering-projects]
 pairs_with:

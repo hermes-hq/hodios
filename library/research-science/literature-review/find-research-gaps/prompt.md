@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-gaps, research-questions, papers]
 pairs_with:
   prompts: [build-literature-matrix, design-research-study]

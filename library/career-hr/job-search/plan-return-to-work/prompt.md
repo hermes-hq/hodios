@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [career-break, returnship, employment-gap, return-to-work, skills-refresh]
 pairs_with:
   prompts: [plan-job-search, review-resume, write-networking-message]

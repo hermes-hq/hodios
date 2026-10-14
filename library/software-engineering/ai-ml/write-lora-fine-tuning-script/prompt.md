@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [lora, qlora, peft, fine-tuning, gpu-memory]
 pairs_with:
   prompts: [plan-fine-tuning, review-training-data]

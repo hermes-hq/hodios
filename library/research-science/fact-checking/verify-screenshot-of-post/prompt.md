@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fake-screenshots, web-archives, media-literacy, misinformation]
 pairs_with:
   prompts: [verify-image-provenance, check-post-before-sharing, trace-quote-origin]

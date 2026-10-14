@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [app-ideas, side-projects, portfolio-projects, mvp, problem-finding]
 pairs_with:
   prompts: [generate-business-ideas, turn-annoyances-into-ideas, scope-solo-side-project, spec-app-idea-for-developers]

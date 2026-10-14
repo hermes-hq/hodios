@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [emergency-plan, support-network, no-family-nearby, newcomers, household-safety]
 pairs_with:
   prompts: [write-family-emergency-plan, rehearse-emergency-call-in-language, access-healthcare-abroad]

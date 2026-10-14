@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [help-center, knowledge-base, self-service, ticket-deflection]
 pairs_with:
   prompts: [analyze-support-tickets, build-support-macros]

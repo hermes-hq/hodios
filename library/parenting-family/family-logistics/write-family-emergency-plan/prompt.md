@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [emergency-preparedness, go-bag, evacuation-plan, household-safety, natural-disasters, family-safety]
 pairs_with:
   prompts: [prepare-emergency-medical-summary, build-emergency-fund-plan, write-house-sitter-guide]

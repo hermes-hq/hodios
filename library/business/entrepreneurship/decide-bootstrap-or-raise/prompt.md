@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bootstrapping, venture-capital, angel-investment, founder-control, capital-needs]
 pairs_with:
   prompts: [choose-funding-instrument, size-fundraising-round, model-unit-economics, write-business-plan]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [crm-setup, pipeline-stages, exit-criteria, sales-operations, data-hygiene]
 pairs_with:
   prompts: [build-sales-playbook, build-crm-pipeline-spreadsheet, review-sales-pipeline, extract-deal-details-to-crm]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [identity-checks, social-engineering, account-security, risk-tiers, agent-scripts]
 pairs_with:
   prompts: [handle-hacked-account-report, write-call-centre-script, build-support-macros]

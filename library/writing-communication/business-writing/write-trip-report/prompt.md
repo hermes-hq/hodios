@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trip-report, trade-fair, business-travel, client-visit, travel-report]
 pairs_with:
   prompts: [write-conference-trip-report, write-site-visit-report, write-status-report]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [knowledge-transfer, offboarding, ownership-transfer, bus-factor, notice-period]
 pairs_with:
   prompts: [write-ownership-handover-doc, reduce-bus-factor, map-system-ownership]

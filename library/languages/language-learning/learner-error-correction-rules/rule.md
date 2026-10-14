@@ -12,6 +12,7 @@ role: [language-learner, teacher]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [error-correction, recasts, fluency-practice, corrective-feedback, language-varieties]
 pairs_with:
   personas: [language-teacher, language-exchange-partner, esol-volunteer-tutor]

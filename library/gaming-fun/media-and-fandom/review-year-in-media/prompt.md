@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [year-in-review, reading-log, film-diary, best-of-list, taste-patterns]
 pairs_with:
   prompts: [build-reading-challenge, triage-entertainment-backlog, recommend-next-book]

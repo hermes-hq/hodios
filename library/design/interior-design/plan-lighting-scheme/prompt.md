@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lighting, colour-temperature, dimming, layered-lighting, light-fixtures]
 pairs_with:
   prompts: [plan-room-layout, choose-paint-colours]

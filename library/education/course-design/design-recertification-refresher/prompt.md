@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [refresher-training, compliance-training, mandatory-training, pre-test, scenario-based-learning, annual-recertification]
 pairs_with:
   prompts: [design-branching-scenario, design-microlearning-series, evaluate-training-effectiveness]

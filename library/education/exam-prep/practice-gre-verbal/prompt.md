@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [gre, text-completion, sentence-equivalence, reading-comprehension, vocabulary-in-context, pacing]
 pairs_with:
   prompts: [prepare-standardized-test, make-flashcards]

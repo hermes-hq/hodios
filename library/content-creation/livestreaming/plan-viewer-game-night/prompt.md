@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [viewer-games, community-night, game-lobby, queue-rules, stream-sniping]
 pairs_with:
   prompts: [write-chat-mod-handbook, design-chat-interactive-segments, plan-livestream-run-of-show]

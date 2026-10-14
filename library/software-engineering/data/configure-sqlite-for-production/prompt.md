@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wal-mode, pragmas, busy-timeout, litestream, single-writer, database-locked]
 pairs_with:
   prompts: [choose-database-for-workload, automate-postgres-backups]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [audit-analytics, duplicate-payments, benfords-law, journal-entry-testing, internal-audit]
 pairs_with:
   prompts: [detect-anomalies, reconcile-datasets, deduplicate-records]

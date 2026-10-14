@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sensory-processing, inclusive-classrooms, special-educational-needs, classroom-environment, autism-friendly, regulation-spaces]
 pairs_with:
   prompts: [plan-one-to-one-support-session, design-classroom-management-plan, plan-trauma-informed-classroom-routines]

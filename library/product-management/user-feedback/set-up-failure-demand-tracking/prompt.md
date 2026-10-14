@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [failure-demand, value-demand, contact-reasons, systems-thinking, avoidable-contact, root-cause]
 pairs_with:
   prompts: [analyze-support-tickets, define-public-service-kpis, check-kpi-for-perverse-incentives]

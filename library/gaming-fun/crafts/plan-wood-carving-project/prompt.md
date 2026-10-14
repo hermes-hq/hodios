@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [whittling, spoon-carving, green-woodwork, knife-grips, relief-carving, woodworking]
 pairs_with:
   prompts: [sharpen-hand-tools, plan-woodworking-project]

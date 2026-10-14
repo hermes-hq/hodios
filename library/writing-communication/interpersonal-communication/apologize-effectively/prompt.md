@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [apology, accountability, repair, trust-repair]
 pairs_with:
   prompts: [prepare-difficult-conversation, rewrite-for-tone]

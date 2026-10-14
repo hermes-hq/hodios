@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [cancelling-plans, rescheduling, friends, text-message, apology]
 pairs_with:
   prompts: [apologize-effectively, decline-request-gracefully, reply-to-tricky-message]

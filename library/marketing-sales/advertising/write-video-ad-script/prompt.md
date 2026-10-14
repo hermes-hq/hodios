@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [video-ads, ad-hooks, ugc, shot-list, performance-creative]
 pairs_with:
   prompts: [write-social-ad-variations, write-creator-brief, define-ad-audiences, analyze-ad-performance]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [spreadsheet-ai, cell-prompts, row-classification, data-cleanup]
 pairs_with:
   prompts: [write-batch-processing-prompt, write-classification-prompt, clean-messy-spreadsheet]

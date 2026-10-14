@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardening, brakeman, strong-parameters, csrf, credentials]
 pairs_with:
   prompts: [triage-sast-findings, audit-app-security, fix-sql-injection]

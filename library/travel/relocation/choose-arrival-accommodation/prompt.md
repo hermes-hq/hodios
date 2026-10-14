@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [temporary-housing, moving-abroad, serviced-apartment, short-let]
 pairs_with:
   prompts: [find-rental-from-abroad, pack-arrival-luggage-for-move]

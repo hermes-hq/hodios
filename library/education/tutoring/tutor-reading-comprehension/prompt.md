@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reciprocal-teaching, reading-strategies, inference, summarising, gradual-release]
 pairs_with:
   prompts: [read-textbook-actively, build-subject-glossary]

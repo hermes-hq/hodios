@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [eye-tracking, gaze-data, areas-of-interest, visual-attention, heatmaps]
 pairs_with:
   prompts: [write-usability-test-plan, plan-first-click-test, analyze-session-recordings]

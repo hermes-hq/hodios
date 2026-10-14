@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [effect-sizes, confidence-intervals, p-values, critical-appraisal]
 pairs_with:
   prompts: [summarize-paper, explain-paper-method, interpret-forest-plot]

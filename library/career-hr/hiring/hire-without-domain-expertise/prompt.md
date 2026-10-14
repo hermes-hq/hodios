@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [non-specialist-hiring, work-sample, expert-panel, first-specialist-hire, interview-design]
 pairs_with:
   prompts: [plan-first-hire, write-take-home-assignment, run-reference-check, build-interview-scorecard]

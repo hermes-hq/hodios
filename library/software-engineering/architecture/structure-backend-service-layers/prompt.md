@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hexagonal-architecture, vertical-slices, layered-architecture, package-structure, dependency-rule]
 pairs_with:
   personas: [software-architect, backend-engineer]

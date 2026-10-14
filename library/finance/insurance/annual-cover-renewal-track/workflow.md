@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [insurance-renewal, switching-insurer, renewal-premium, like-for-like, policy-calendar]
 pairs_with:
   prompts: [review-insurance-coverage, check-insurance-after-life-change, compare-home-insurance-quotes, compare-car-insurance, choose-insurance-deductible, check-home-sum-insured]

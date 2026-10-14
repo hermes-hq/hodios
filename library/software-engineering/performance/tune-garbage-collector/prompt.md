@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [garbage-collection, gc-pauses, heap-sizing, allocation-rate, tail-latency, jvm]
 pairs_with:
   prompts: [find-memory-leak, profile-hot-path]

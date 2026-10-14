@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [blended-family, stepfamily, stepparent, step-siblings, moving-in-together, loyalty-conflict]
 pairs_with:
   prompts: [plan-co-parenting, handle-sibling-conflict, plan-family-meeting]

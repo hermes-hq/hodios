@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trademark-policy, brand-use, nominative-use, partner-guidelines, open-source-trademarks]
 pairs_with:
   prompts: [apply-for-trademark, build-brand-guidelines, write-trademark-infringement-letter]

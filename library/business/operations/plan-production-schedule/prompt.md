@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [production-planning, scheduling, capacity, changeover, manufacturing, due-dates, bottleneck]
 pairs_with:
   prompts: [plan-inventory, plan-equipment-maintenance, build-bill-of-materials, run-sales-and-operations-planning]

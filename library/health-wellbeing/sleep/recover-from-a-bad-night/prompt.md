@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [short-sleep, next-day-plan, caffeine-timing, drowsy-driving, sleep-pressure]
 pairs_with:
   prompts: [plan-power-naps, plan-sleep-before-big-day, reframe-sleep-worries]

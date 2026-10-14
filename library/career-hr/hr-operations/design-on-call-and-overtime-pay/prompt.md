@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [on-call-pay, overtime, standby-allowance, time-off-in-lieu, working-time]
 pairs_with:
   prompts: [design-on-call-rotation, write-workplace-policy, design-salary-bands, design-benefits-package]

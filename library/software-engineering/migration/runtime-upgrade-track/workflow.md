@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [runtime-upgrade, end-of-life, deprecations, version-pinning, lockfile]
 pairs_with:
   prompts: [upgrade-major-dependency, review-dockerfile]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dual-nationality, renunciation, naturalisation-decision, loss-of-citizenship, passport-planning]
 pairs_with:
   prompts: [prepare-citizenship-application, trace-citizenship-by-descent, renew-passport-or-id-card]

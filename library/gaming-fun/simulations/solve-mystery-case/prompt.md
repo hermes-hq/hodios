@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [detective-game, fair-play-mystery, whodunit, deduction]
 pairs_with:
   prompts: [plan-murder-mystery-party, play-text-adventure]

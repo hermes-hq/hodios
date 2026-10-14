@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [risk-reversal, guarantee, consumer-rights, refund-policy, offer-design]
 pairs_with:
   prompts: [plan-promotional-offer, write-sales-page, write-sales-faq, write-service-packages-page]

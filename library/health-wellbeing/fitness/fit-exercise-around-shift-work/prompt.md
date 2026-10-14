@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shift-work, night-shifts, sleep-protection, nurses, short-workouts, rotating-rota]
 pairs_with:
   prompts: [plan-shift-work-eating, design-quick-home-workout, build-training-plan]

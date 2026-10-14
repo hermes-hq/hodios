@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [media-training, journalist-simulation, key-messages, bridging, spokesperson, press-interview]
 pairs_with:
   prompts: [prepare-media-interview, prepare-for-tough-questions]

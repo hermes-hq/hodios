@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [crazy-eights, rough-sketches, design-sprint, rapid-ideation, visual-thinking]
 pairs_with:
   prompts: [plan-design-sprint, facilitate-group-brainstorm, write-how-might-we-questions]

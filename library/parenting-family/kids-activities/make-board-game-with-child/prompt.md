@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [homemade-board-game, game-making, child-led, playtesting, creative-play, maths-through-play]
 pairs_with:
   prompts: [invent-learning-game, plan-family-game-night, create-kids-craft]

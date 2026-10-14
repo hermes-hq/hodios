@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conways-law, team-topologies, code-ownership, cognitive-load, org-design, service-ownership]
 pairs_with:
   personas: [software-architect, staff-engineer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-principles, decision-making-frameworks, trade-offs, team-alignment]
 pairs_with:
   prompts: [write-product-strategy, write-product-vision, prioritize-features]

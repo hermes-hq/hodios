@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [eyeglasses, frame-size, lens-options, optician, face-shape]
 pairs_with:
   prompts: [find-flattering-colours, choose-haircut]

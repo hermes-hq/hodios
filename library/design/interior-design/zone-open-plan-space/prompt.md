@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-plan, zoning, furniture-layout, circulation, broken-plan]
 pairs_with:
   prompts: [plan-room-layout, plan-lighting-scheme]

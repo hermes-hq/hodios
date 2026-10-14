@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [school-attendance, persistent-absence, safeguarding, pupil-data, interventions]
 pairs_with:
   prompts: [anonymize-dataset, explore-dataset, evaluate-program-outcomes, write-data-methodology-note]

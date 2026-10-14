@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [background-work, workmanager, bgtaskscheduler, foreground-service, battery]
 pairs_with:
   personas: [mobile-engineer]

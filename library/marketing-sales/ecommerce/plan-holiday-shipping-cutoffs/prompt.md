@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [last-order-dates, peak-season, gift-delivery, carrier-transit, delivery-messaging, holiday-trading]
 pairs_with:
   prompts: [plan-order-fulfilment, write-shipping-policy-page, plan-holiday-sale-campaign]

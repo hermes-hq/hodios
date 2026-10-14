@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-relationships, criticism, boundaries, grandparents, socialisation]
 pairs_with:
   prompts: [plan-homeschool-socialisation]

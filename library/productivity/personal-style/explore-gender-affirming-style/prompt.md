@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gender-affirming, transgender, nonbinary, binding-safety, clothing-fit, privacy]
 pairs_with:
   prompts: [discover-personal-style, choose-haircut, measure-for-online-clothes]

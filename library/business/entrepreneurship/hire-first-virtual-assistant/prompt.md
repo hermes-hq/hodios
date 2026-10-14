@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [virtual-assistant, delegation, task-audit, paid-trial, access-control]
 pairs_with:
   prompts: [plan-first-hire, delegate-task, write-sop, calculate-true-cost-of-hire]

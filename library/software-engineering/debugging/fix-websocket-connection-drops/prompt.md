@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [websockets, reverse-proxy, idle-timeout, heartbeats, realtime]
 pairs_with:
   prompts: [implement-realtime-updates, fix-502-or-504-gateway-error]

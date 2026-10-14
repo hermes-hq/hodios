@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [human-handoff, escalation, human-in-the-loop, support-automation, confidence-gating]
 pairs_with:
   prompts: [route-user-request, moderate-user-content, design-escalation-process, check-answer-faithfulness]

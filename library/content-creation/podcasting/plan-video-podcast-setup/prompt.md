@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [video-podcast, camera-setup, lighting, multicam-editing, clips]
 pairs_with:
   prompts: [choose-podcast-setup, repurpose-video-into-posts]

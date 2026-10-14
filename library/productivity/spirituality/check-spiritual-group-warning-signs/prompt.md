@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 advice_risk: [mental-health]
 tags: [high-control-groups, coercive-control, cults, spiritual-abuse, safeguarding, due-diligence]
 pairs_with:

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [state-pension, social-security, deferral, breakeven-age, retirement-income]
 pairs_with:
   prompts: [understand-pension-statement, plan-retirement-drawdown, compare-pension-lump-sum-vs-income, plan-early-retirement-bridge]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [header-files, opaque-types, global-state, encapsulation]
 pairs_with:
   prompts: [restructure-firmware-superloop, untangle-circular-dependencies]

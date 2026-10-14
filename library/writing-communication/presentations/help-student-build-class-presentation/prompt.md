@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [assignment, marking-rubric, citations, rehearsal, presentation-nerves]
 pairs_with:
   prompts: [plan-group-class-presentation, write-speaker-notes, add-sources-to-slides, outline-presentation]

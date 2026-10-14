@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [windows-security-log, sysmon, lateral-movement, logon-events, event-ids]
 pairs_with:
   prompts: [build-forensic-timeline, triage-soc-alert, write-siem-query, investigate-windows-persistence]

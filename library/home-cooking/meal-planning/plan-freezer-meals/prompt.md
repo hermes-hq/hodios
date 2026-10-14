@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [freezer-meals, batch-cooking, early-parenthood, carers, food-storage]
 pairs_with:
   prompts: [plan-meal-prep-session, plan-weekly-meals, check-food-safety]

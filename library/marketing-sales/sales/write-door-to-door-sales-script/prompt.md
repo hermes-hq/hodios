@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [door-to-door, canvassing, residential-sales, cooling-off, field-sales, objection-handling]
 pairs_with:
   prompts: [canvass-neighbours-after-job, handle-sales-objections, write-cold-call-script]

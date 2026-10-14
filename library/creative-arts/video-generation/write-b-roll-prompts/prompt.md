@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [b-roll, footage-matching, colour-grade, cutaways]
 pairs_with:
   prompts: [write-youtube-script, create-paper-edit, write-video-generation-prompt]

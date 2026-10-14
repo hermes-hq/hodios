@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [print-production, prepress, self-publishing, bleed-and-trim, colour-management]
 pairs_with:
   prompts: [plan-comic-production-schedule, plan-comic-lettering, make-one-sheet-minicomic]

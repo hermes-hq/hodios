@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [offer-design, discount-strategy, margin, sales-promotion, break-even]
 pairs_with:
   prompts: [analyze-discount-effectiveness, plan-holiday-sale-campaign, write-promo-email, design-loyalty-program]

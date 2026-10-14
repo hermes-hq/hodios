@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [worksheet, independent-practice, worked-example, answer-key, printable]
 pairs_with:
   prompts: [write-lesson-plan, differentiate-lesson, create-review-game]

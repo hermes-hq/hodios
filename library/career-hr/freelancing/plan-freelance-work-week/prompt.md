@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weekly-schedule, billable-hours, utilisation, time-blocking, freelance-admin]
 pairs_with:
   prompts: [price-services, build-freelance-pipeline-routine, triage-overbooked-client-schedule, reset-client-communication-boundaries]

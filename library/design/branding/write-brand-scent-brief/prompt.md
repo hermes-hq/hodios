@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scent-branding, sensory-branding, brand-experience, retail-experience, hotel-experience]
 pairs_with:
   prompts: [write-sonic-branding-brief, build-brand-platform, plan-visual-merchandising]

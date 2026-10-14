@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [property-tax, council-tax, tax-assessment, valuation-appeal, comparable-sales, homeowners]
 pairs_with:
   prompts: [analyze-property-comparables, explain-legal-letter, complain-to-ombudsman]

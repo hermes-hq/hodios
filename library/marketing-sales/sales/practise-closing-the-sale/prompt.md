@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [closing-skills, trial-close, asking-for-the-order, buyer-hesitation, sales-roleplay]
 pairs_with:
   prompts: [practise-sales-negotiation, handle-sales-objections, practise-discovery-call]

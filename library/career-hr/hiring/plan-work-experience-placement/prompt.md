@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [work-experience, young-workers, school-placement, safeguarding, early-careers, host-employer]
 pairs_with:
   prompts: [plan-internship-program, plan-new-hire-onboarding, write-reference-letter]

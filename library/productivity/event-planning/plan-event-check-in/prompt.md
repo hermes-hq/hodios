@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [event-check-in, registration-desk, badges, arrival-peak, queue-management]
 pairs_with:
   prompts: [manage-event-rsvps, build-event-volunteer-rota, plan-event-floor-plan]

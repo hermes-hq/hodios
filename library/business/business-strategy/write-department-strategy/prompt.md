@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [functional-strategy, department-plan, support-functions, service-levels, resource-planning]
 pairs_with:
   prompts: [cascade-strategy-to-team-goals, write-three-year-strategic-plan, prioritize-strategic-initiatives, write-engineering-strategy]

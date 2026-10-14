@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [style-consistency, prompt-template, negative-prompts, character-sheet]
 pairs_with:
   prompts: [write-image-prompt, create-storyboard]

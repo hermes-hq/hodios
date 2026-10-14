@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bond-ladder, certificates-of-deposit, government-bonds, yield-to-maturity, fixed-income]
 pairs_with:
   prompts: [explain-bonds-and-interest-rates, compare-cash-vs-money-market-funds]

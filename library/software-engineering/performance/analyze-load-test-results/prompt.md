@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [load-testing, capacity, saturation, latency-percentiles, k6, jmeter]
 pairs_with:
   prompts: [plan-load-test, write-k6-load-test, profile-hot-path]

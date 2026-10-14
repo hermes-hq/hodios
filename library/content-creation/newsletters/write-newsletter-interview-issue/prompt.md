@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [interview, q-and-a, pull-quotes, guest-feature, interview-series]
 pairs_with:
   prompts: [write-newsletter-issue, write-guest-interview-questions, edit-transcript-into-article]

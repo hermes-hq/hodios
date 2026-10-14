@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [personalisation, segmentation, verticals, personas, account-based-marketing]
 pairs_with:
   prompts: [write-messaging-framework, build-voice-of-customer-bank, critique-marketing-copy]

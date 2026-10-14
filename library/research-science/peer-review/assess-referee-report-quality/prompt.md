@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [referee-report, editorial-process, reviewer-feedback, review-quality]
 pairs_with:
   prompts: [write-meta-review, write-editor-decision-letter, fix-review-tone]

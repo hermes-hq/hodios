@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [keyboard-shortcuts, hotkeys, wcag-2-1-4, aria-keyshortcuts, power-users]
 pairs_with:
   personas: [accessibility-specialist]

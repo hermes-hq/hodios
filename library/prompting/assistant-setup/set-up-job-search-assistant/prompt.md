@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [career-record, truthful-applications, tailored-applications, application-materials]
 pairs_with:
   prompts: [build-master-resume, plan-job-search, set-up-job-application-tracker, build-project-instructions]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [storybook, component-docs, ui-components, prop-docs, usage-guidelines]
 pairs_with:
   prompts: [build-ui-component, write-storybook-interaction-tests, write-component-spec]

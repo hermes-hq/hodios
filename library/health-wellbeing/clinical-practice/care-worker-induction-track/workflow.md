@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [care-workers, staff-induction, new-starters, competency-assessment, shadowing]
 pairs_with:
   prompts: [write-care-visit-notes, write-clinical-skills-checklist, write-safeguarding-concern-record]

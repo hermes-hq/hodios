@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [jq, awk, sed, grep, command-line, log-parsing]
 args:
   - name: transformation

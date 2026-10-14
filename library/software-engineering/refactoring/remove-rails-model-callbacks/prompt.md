@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [activerecord-callbacks, service-objects, side-effects, transactions]
 pairs_with:
   prompts: [move-logic-out-of-controllers, decouple-for-testability]

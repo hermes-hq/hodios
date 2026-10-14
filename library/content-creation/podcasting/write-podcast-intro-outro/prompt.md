@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cold-open, show-intro, outro, call-to-action, read-aloud]
 pairs_with:
   prompts: [plan-podcast-episode, write-show-notes, write-podcast-ad-read]

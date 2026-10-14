@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [non-disclosure, confidentiality, residuals-clause, trade-secrets]
 pairs_with:
   prompts: [redline-contract, summarize-contract, explain-contract-clause]

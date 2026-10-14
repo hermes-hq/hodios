@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [billboard, out-of-home, transit-ads, headline, visual-direction]
 pairs_with:
   prompts: [write-taglines, write-headline-variations, plan-local-advertising, critique-marketing-copy]

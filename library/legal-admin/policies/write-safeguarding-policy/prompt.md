@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [safeguarding, child-protection, adults-at-risk, designated-safeguarding-lead, safe-recruitment]
 pairs_with:
   prompts: [write-whistleblowing-policy, write-workplace-risk-assessment]

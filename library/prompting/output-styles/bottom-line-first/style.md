@@ -11,6 +11,7 @@ requires: [none]
 output: [summary]
 risk: read-only
 level: beginner
+depth: specific
 role: [executive, manager, consultant, individual]
 tags: [bluf, answer-first, decision-memo, executive-summary]
 pairs_with:

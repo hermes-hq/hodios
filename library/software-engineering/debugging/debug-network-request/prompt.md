@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [http, cors, tls, dns, curl]
 pairs_with:
   prompts: [explain-stack-trace, integrate-third-party-api, harden-web-app-config]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [used-cars, car-repair, car-buying, car-maintenance, mechanic, road-safety]
 pairs_with:
   prompts: [diagnose-car-warning, prepare-for-car-service, inspect-used-car, plan-car-maintenance]

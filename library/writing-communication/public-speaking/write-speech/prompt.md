@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [toast, eulogy, keynote, writing-for-the-ear]
 pairs_with:
   prompts: [prepare-for-tough-questions]

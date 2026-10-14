@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [apprenticeship, school-leaver, first-job, personal-statement, transferable-skills, application-form]
 pairs_with:
   prompts: [write-tell-me-about-yourself, prepare-star-stories]

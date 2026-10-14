@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employee-monitoring, workplace-privacy, bossware, proportionality, staff-transparency]
 pairs_with:
   prompts: [draft-dpia, run-legitimate-interests-assessment, plan-cctv-data-compliance, write-employee-handbook]

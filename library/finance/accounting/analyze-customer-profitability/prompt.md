@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-profitability, cost-to-serve, activity-based-costing, whale-curve]
 pairs_with:
   prompts: [set-up-job-costing, calculate-product-margin, review-small-business-pnl]

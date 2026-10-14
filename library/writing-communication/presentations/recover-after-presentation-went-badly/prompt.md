@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [debrief, credibility, follow-up, second-attempt, setback]
 pairs_with:
   prompts: [write-meeting-recap-email, critique-slide-deck, drill-presentation-qa, review-talk-feedback]

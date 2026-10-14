@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dummy-coding, effect-coding, reference-level, factor-variables, contrasts, regression]
 pairs_with:
   prompts: [run-regression-analysis, interpret-regression-output, interpret-interaction-effect]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weekly-budget, spending-allowance, cash-flow, money-routine]
 pairs_with:
   prompts: [build-monthly-budget, plan-bill-payment-calendar, set-up-money-accounts-system]

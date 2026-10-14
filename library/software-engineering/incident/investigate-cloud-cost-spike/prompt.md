@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cloud-costs, cost-anomaly, finops, runaway-resources, compromised-account]
 pairs_with:
   prompts: [reduce-cloud-spend, reduce-observability-costs, write-incident-update]

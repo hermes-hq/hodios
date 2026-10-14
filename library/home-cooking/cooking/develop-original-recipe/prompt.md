@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recipe-development, recipe-testing, recipe-writing, food-blog, cookbook]
 pairs_with:
   prompts: [recreate-restaurant-dish, troubleshoot-recipe, compile-family-cookbook]

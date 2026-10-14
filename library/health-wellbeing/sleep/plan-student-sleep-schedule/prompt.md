@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [students, university, all-nighters, social-jet-lag, deadlines]
 pairs_with:
   prompts: [plan-eating-for-exam-season, plan-sleep-before-big-day, beat-bedtime-procrastination]

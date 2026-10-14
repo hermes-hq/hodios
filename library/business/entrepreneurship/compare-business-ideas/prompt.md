@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [idea-selection, decision-matrix, founder-fit, demand-evidence, opportunity-cost]
 pairs_with:
   prompts: [generate-business-ideas, validate-business-idea, assess-founder-fit, model-unit-economics]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [guest-etiquette, guest-guide, weddings, funerals, cultural-awareness, what-to-wear]
 pairs_with:
   prompts: [explain-religious-tradition, explain-religious-art-and-symbols]

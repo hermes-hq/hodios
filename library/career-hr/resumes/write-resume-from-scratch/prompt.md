@@ -19,7 +19,8 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [first-resume, entry-level, ats, achievements, school-leaver]
+depth: specific
+tags: [first-resume, entry-level, ats, achievements, school-leaver, write-cv, first-cv]
 pairs_with:
   prompts: [tailor-resume-to-job, review-resume, write-cover-letter]
   personas: [resume-writer]

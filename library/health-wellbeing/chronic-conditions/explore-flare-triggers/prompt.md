@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flare-triggers, symptom-diary, pattern-finding, correlation, self-tracking, migraine]
 pairs_with:
   prompts: [build-symptom-log, plan-flare-day-logistics, prepare-doctor-questions]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [local-development, kind, tilt, skaffold, inner-loop]
 pairs_with:
   prompts: [write-docker-compose, convert-compose-to-kubernetes, write-devcontainer-config]

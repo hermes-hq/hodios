@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reflective-practice, post-lesson-reflection, teacher-talk-time, error-correction, professional-development]
 pairs_with:
   personas: [language-teacher-trainer]

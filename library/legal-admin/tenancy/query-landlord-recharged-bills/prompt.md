@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [utility-bills, service-charges, bill-splitting, tenant-rights, overcharging]
 pairs_with:
   prompts: [review-lease, split-rent-between-flatmates, check-nebenkostenabrechnung]

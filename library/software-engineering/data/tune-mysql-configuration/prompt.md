@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [my-cnf, innodb, buffer-pool, redo-log, database-tuning]
 pairs_with:
   prompts: [tune-postgres-configuration, find-worst-queries-in-workload, tune-connection-pool]

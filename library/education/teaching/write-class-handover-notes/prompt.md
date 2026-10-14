@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [handover, end-of-year, transition, record-keeping, pupil-support]
 pairs_with:
   prompts: [write-one-page-pupil-profile, analyze-class-assessment-results, plan-transition-to-secondary]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [group-leadership, walking-group, safety-briefing, pacing, headcount, hiking-club]
 pairs_with:
   prompts: [set-turnaround-time, write-trip-intentions-plan, build-outdoor-first-aid-kit]

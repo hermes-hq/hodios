@@ -17,6 +17,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [owasp, threat-model]
 pairs_with:
   prompts: [review-pr-for-security, threat-model-feature, vet-dependency, respond-to-leaked-secret]

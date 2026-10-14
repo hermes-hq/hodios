@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [self-editing, revision-passes, structural-edit, line-edit, consistency-check]
 pairs_with:
   prompts: [edit-for-structure, tighten-prose, proofread-text, build-style-sheet]

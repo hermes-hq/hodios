@@ -7,6 +7,7 @@ description: Guides a weekly review - clears inboxes and open loops, checks ever
 category: task-management
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [review, plan]
 role: [individual, manager, founder, project-manager]
 inputs: [notes, text]

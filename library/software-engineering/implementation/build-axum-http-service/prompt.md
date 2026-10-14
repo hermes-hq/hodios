@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [axum, tokio, sqlx, rest-api, async-rust]
 pairs_with:
   prompts: [build-rest-endpoint, implement-graceful-shutdown]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [capability-statement, government-contracting, past-performance, supplier-registration, b2b]
 pairs_with:
   prompts: [write-company-profile, respond-to-rfp]

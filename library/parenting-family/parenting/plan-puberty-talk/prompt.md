@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [puberty, periods, body-changes, sex-education, body-safety, tween]
 pairs_with:
   prompts: [explain-hard-topic-to-child, talk-to-teen-about-online-safety, write-family-agreement-with-teen]

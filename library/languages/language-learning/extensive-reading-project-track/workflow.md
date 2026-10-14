@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [extensive-reading, graded-readers, vocabulary-coverage, reading-fluency, first-novel, book-project]
 pairs_with:
   prompts: [write-graded-reader, gloss-authentic-text, mine-sentences-for-flashcards, review-vocabulary-spaced, level-down-text-for-learner]

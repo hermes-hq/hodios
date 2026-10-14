@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [online-stores, duplicate-urls, theme-audit, collections, store-apps]
 pairs_with:
   prompts: [optimize-product-pages-for-search, optimize-category-pages, audit-technical-seo]

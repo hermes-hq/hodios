@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [systematic-review, deduplication, reference-management, prisma]
 pairs_with:
   prompts: [write-search-log, screen-studies, write-prisma-flow-report]

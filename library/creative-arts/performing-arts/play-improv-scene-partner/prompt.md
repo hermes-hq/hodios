@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [improv, yes-and, scene-work, game-of-the-scene, performance-practice]
 pairs_with:
   prompts: [plan-improv-session, write-comedy-bit]

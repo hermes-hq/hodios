@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [visa-cover-letter, document-index, application-bundle, exhibit-list, requirements-map]
 pairs_with:
   prompts: [prepare-visa-application, write-letter-of-explanation-for-visa, prepare-financial-evidence-for-visa]

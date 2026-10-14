@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [consecutive-interpreting, interpreting-notes, interpreter-training, symbols]
 pairs_with:
   prompts: [practise-community-interpreting, practise-sight-translation, prepare-interpreting-assignment]

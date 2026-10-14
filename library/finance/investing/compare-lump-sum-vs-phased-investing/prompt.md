@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lump-sum, pound-cost-averaging, dollar-cost-averaging, market-timing]
 pairs_with:
   prompts: [plan-windfall, write-investment-policy-statement, explain-investment-concept, make-sense-of-market-drop]

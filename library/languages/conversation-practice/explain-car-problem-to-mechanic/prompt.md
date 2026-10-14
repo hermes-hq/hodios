@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [car-repair, garage, describing-noises, drivers, cefr]
 pairs_with:
   prompts: [report-home-repair-in-language, rehearse-traffic-stop-in-language, practise-conversation-strategies]

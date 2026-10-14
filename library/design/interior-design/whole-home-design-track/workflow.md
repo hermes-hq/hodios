@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [whole-home, design-direction, phasing, furnishing-plan, moving-in]
 pairs_with:
   prompts: [plan-room-layout, plan-colour-flow-between-rooms, plan-lighting-scheme, identify-interior-style]

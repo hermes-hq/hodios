@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [translation-files, plural-forms, placeholders, xliff]
 pairs_with:
   prompts: [review-translated-strings, build-localization-glossary]

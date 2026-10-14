@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cover-versions, reinterpretation, genre-flip, licensing]
 pairs_with:
   prompts: [plan-song-arrangement, suggest-chord-progressions, plan-live-set]

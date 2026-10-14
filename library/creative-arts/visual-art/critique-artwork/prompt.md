@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [art-critique, composition, value-structure, colour-theory, drawing-fundamentals]
 pairs_with:
   prompts: [plan-drawing-practice]

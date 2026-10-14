@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [new-relationship, warning-signs, controlling-behaviour, love-bombing, dating-safety, healthy-relationships]
 pairs_with:
   prompts: [plan-first-date, end-relationship-kindly, set-boundary]

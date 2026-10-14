@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stock-variance, bar-stocktake, wet-stock, shrinkage, over-pouring, till-reconciliation]
 pairs_with:
   prompts: [plan-stock-take, price-bar-drinks-list]

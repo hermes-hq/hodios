@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [spelling, word-study, orthography, phonics, morphology, dictation]
 pairs_with:
   prompts: [plan-phonics-lesson, write-decodable-text, plan-vocabulary-instruction]

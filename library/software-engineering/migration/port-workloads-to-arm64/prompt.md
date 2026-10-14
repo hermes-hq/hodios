@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [arm64, multi-arch-images, native-dependencies, price-performance, canary-rollout]
 pairs_with:
   prompts: [plan-cloud-migration, review-dockerfile, analyze-load-test-results]

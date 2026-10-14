@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paid-development, bounties, maintainer-income, scope-control, client-communication]
 pairs_with:
   prompts: [evaluate-large-feature-contribution, choose-oss-funding-model, write-sponsorship-ask]

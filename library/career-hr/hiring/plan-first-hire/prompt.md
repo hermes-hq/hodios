@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [first-employee, micro-business, contractor-vs-employee, employer-setup, solo-founder]
 pairs_with:
   prompts: [write-job-description, write-headcount-request, plan-new-hire-onboarding, write-offer-letter]

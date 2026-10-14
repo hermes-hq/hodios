@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subject-lines, split-testing, preheader, sample-size, open-rate-inflation]
 pairs_with:
   prompts: [write-promo-email, analyze-email-campaign-report, calculate-sample-size]

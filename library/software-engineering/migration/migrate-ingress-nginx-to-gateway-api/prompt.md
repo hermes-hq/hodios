@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ingress-nginx, gateway-api, httproute, annotations, traffic-cutover]
 pairs_with:
   prompts: [configure-kubernetes-ingress, upgrade-kubernetes-cluster, plan-incremental-migration]

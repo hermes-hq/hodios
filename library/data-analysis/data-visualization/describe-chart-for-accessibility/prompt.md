@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [alt-text, screen-readers, wcag, chart-accessibility]
 pairs_with:
   prompts: [write-alt-text, critique-chart, choose-chart-colors]

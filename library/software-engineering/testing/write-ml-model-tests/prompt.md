@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ml-code, model-tests, behavioral-testing, reproducibility, training-sanity-checks]
 pairs_with:
   prompts: [unit-test-data-transformations, test-numerical-code, write-property-based-tests]

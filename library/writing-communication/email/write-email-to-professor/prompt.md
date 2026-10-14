@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [academic-email, extension-request, grade-appeal, recommendation-request, research-opportunity, email-etiquette]
 pairs_with:
   prompts: [write-follow-up-email, request-reference, write-professional-email]

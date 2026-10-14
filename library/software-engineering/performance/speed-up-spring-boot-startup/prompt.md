@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jvm, startup-time, class-data-sharing, graalvm, auto-configuration]
 pairs_with:
   prompts: [reduce-serverless-cold-start, speed-up-cli-startup, tune-garbage-collector]

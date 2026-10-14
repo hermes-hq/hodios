@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [til, learning-in-public, dev-blog, short-form]
 args:
   - name: learned

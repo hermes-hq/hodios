@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [todo-comments, tech-debt, code-comments, ticket-drafts]
 pairs_with:
   prompts: [remove-dead-code, remove-stale-feature-flags]

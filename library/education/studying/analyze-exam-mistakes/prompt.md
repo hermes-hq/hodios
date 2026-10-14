@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [error-analysis, exam-wrapper, metacognition, mistake-log]
 pairs_with:
   prompts: [create-study-plan, grade-practice-answers, generate-practice-exam]

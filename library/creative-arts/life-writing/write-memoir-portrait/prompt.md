@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [memoir, character-portrait, creative-nonfiction, real-people, family-stories]
 pairs_with:
   prompts: [draft-memoir-scene, shape-memoir-story, critique-memoir-chapter]

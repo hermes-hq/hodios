@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [power-tools, cordless-tools, battery-platform, drill-driver, tool-kit]
 pairs_with:
   prompts: [plan-diy-project, decide-rent-borrow-or-buy, buy-secondhand-safely, time-a-purchase]

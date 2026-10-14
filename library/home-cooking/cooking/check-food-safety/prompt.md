@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [food-safety, leftovers, reheating, food-storage, power-cut]
 pairs_with:
   prompts: [preserve-food-safely, troubleshoot-recipe, plan-meal-prep-session]

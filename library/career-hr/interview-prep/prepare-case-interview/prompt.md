@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [economics]
 tags: [case-interview, consulting, market-sizing, structured-thinking, mental-math]
 pairs_with:

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [relocation-policy, relocation-package, mobility, repayment-clause, moving-allowance]
 pairs_with:
   prompts: [plan-international-assignment, design-benefits-package, write-workplace-policy, harmonise-terms-after-acquisition]

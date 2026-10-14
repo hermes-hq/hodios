@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [customer-lifetime-value, bg-nbd, gamma-gamma, rfm, holdout-validation]
 pairs_with:
   prompts: [calculate-customer-lifetime-value, analyze-repeat-purchase-behaviour, model-unit-economics]

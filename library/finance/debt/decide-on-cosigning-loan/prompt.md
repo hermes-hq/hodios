@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [co-signing, guarantor, family-money, liability]
 pairs_with:
   prompts: [compare-loan-offers, plan-couple-money-conversation]

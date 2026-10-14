@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [holiday-cooking, oven-schedule, make-ahead, roast-turkey, hosting, food-safety]
 pairs_with:
   prompts: [plan-dinner-party-menu, scale-recipe-for-crowd, check-food-safety, plan-hosting-weekend-meals]

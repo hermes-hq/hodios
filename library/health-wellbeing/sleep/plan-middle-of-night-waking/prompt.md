@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [night-waking, early-waking, back-to-sleep, stimulus-control, clock-watching]
 pairs_with:
   prompts: [reframe-sleep-worries, improve-sleep-habits, prepare-sleep-doctor-appointment]

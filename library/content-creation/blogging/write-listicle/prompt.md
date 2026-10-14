@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [list-post, numbered-list, article-structure, skimmable-writing]
 pairs_with:
   prompts: [write-article-headlines-and-standfirsts, write-blog-post-draft, generate-blog-post-ideas]

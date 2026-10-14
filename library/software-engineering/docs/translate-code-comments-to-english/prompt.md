@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [code-comments, docstrings, comment-translation, codebase-handover]
 args:
   - name: scope

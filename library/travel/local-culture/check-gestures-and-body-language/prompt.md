@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gestures, nonverbal-communication, personal-space, cross-cultural]
 pairs_with:
   prompts: [learn-local-etiquette, explain-cultural-misunderstanding]

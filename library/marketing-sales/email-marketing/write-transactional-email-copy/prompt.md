@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [transactional-email, order-confirmation, shipping-notification, password-reset, receipts]
 pairs_with:
   prompts: [implement-transactional-email, write-post-purchase-emails, write-dynamic-email-content]

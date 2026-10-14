@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [notes-sync, markdown-vault, auto-commit, mobile-git, personal-knowledge]
 pairs_with:
   prompts: [set-up-obsidian-vault, write-gitignore-file, set-up-git-on-new-machine]

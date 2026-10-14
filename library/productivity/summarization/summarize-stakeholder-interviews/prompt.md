@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stakeholder-interviews, project-discovery, conflicting-requirements, alignment, project-kickoff]
 pairs_with:
   prompts: [summarize-discussion-positions, extract-open-questions, synthesize-sources-into-brief]

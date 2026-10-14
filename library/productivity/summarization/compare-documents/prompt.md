@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [version-comparison, redline, consistency-check, change-summary]
 pairs_with:
   prompts: [summarize-long-document, build-news-digest]

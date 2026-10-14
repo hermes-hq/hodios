@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [duty-rota, fairness, availability, swaps, cover, shared-duties]
 pairs_with:
   prompts: [set-up-shared-task-board, build-reusable-checklist]

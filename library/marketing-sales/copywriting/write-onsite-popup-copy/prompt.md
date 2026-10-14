@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [popup, exit-intent, announcement-bar, email-capture, list-growth]
 pairs_with:
   prompts: [create-lead-magnet, write-newsletter-signup-page, write-thank-you-page-copy, grow-email-list-in-store]

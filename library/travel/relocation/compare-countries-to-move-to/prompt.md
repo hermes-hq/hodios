@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [choosing-a-country, moving-abroad, quality-of-life, decision-matrix, long-term-move]
 pairs_with:
   prompts: [decide-where-to-live, plan-relocation-scouting-trip, plan-relocation-finances, plan-digital-nomad-base]

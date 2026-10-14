@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [podcast-analytics, downloads, audience-retention, consumption-data]
 pairs_with:
   prompts: [plan-podcast-growth, revive-dormant-podcast, price-podcast-ad-inventory]

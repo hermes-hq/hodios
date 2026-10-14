@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [grounded-answers, document-qa, citations, handbooks]
 pairs_with:
   prompts: [summarize-long-document, check-internal-consistency]

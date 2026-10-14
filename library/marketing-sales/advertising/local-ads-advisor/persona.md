@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [local-business, cost-per-job, call-tracking, small-budget, plain-language]
 pairs_with:
   prompts: [decide-post-boost, evaluate-lead-platform-ads, target-slow-day-ads, schedule-ads-around-phone-hours, question-agency-ad-report, vet-paid-ads-agency]

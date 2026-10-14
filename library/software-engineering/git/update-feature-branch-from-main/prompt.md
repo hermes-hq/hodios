@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rebase, merge-main, force-with-lease, rerere, feature-branch]
 pairs_with:
   prompts: [resolve-merge-conflict, rebase-stacked-branches, recover-lost-git-work, explain-git-error]

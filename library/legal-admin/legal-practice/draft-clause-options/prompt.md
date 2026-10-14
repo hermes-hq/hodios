@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [contract-drafting, clause-alternatives, negotiation-positions, fallback-positions]
 pairs_with:
   prompts: [check-defined-terms, redline-contract, explain-contract-clause]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [roles-and-permissions, rbac, admin-docs, authorization, access-reference]
 pairs_with:
   prompts: [spec-roles-and-permissions, write-support-enablement-doc, document-undocumented-module]

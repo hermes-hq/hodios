@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iac, terraform-plan, drift, blast-radius]
 pairs_with:
   prompts: [write-terraform-module]

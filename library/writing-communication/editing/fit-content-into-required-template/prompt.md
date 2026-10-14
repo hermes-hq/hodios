@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [templates, application-forms, repurposing, word-limits, content-mapping]
 pairs_with:
   prompts: [cut-text-to-length-limit, format-document-for-scanning, expand-notes-into-prose]

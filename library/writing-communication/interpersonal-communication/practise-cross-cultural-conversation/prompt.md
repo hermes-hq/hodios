@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cross-cultural-communication, international-teams, indirect-communication, high-context, global-work]
 pairs_with:
   prompts: [adapt-message-for-culture, decode-message-tone, clear-up-misunderstanding]

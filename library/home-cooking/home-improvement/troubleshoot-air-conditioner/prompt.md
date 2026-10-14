@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [air-conditioning, heat-pump, hvac, air-filter, mini-split, frozen-coil]
 pairs_with:
   prompts: [diagnose-home-problem, plan-home-maintenance, plan-energy-efficiency-upgrades]

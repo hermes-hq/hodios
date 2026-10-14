@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [run-sheet, cue-sheet, events, show-calling, timings]
 pairs_with:
   prompts: [write-emcee-script, plan-event-budget, write-event-risk-assessment]

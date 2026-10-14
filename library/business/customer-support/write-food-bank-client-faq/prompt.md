@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [food-bank, plain-language, dignity, community-pantry, faq]
 pairs_with:
   prompts: [write-help-center-article, design-accessible-customer-service]

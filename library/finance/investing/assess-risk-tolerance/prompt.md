@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [risk-tolerance, risk-capacity, risk-profile, loss-aversion]
 pairs_with:
   prompts: [write-investment-policy-statement, explain-investment-concept, make-sense-of-market-drop, choose-financial-advisor]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [priority-bills, financial-hardship, cost-of-living, arrears]
 pairs_with:
   prompts: [negotiate-with-creditor, cut-monthly-costs, plan-debt-payoff, build-monthly-budget]

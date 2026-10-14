@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [habit-change, food-log, small-steps, check-in, behaviour-change]
 pairs_with:
   prompts: [analyze-diet-log, plan-filling-snacks, reduce-added-sugar, increase-fiber-gradually]

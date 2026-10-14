@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [regular-expressions, pattern-matching, backtracking, code-reading]
 pairs_with:
   prompts: [write-regex, fix-regex-not-matching, make-regex-readable, emulate-regex-tester]

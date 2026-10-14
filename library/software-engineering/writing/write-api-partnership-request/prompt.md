@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [api-access, integrations, partner-program, business-development, scopes]
 pairs_with:
   prompts: [write-vendor-support-case, write-partnership-proposal]

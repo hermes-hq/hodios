@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-generated-code, contribution-policy, low-effort-pull-requests, provenance, community-health]
 pairs_with:
   prompts: [write-contributing-guide, design-issue-intake, triage-vulnerability-report]

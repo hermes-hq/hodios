@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [confidential-search, discretion, interview-scheduling, references, search-time-budget]
 pairs_with:
   prompts: [plan-job-search, reply-to-recruiter, brief-your-references]

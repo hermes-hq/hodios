@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [adult-numeracy, maths-anxiety, functional-skills, everyday-maths, adult-education, community-learning]
 pairs_with:
   prompts: [tutor-adult-numeracy, tutor-number-sense-for-dyscalculia, practice-mental-math]

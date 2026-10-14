@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [book-review, technical-books, learning-resources, team-wiki]
 args:
   - name: book

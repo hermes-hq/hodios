@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [urgent, time-pressure, satisficing, incomplete-information, no-regret-moves]
 pairs_with:
   prompts: [triage-a-decision, decide-when-to-escalate, run-decision-journal]

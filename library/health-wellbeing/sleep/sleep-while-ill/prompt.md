@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cold-and-flu, cough, fever, congestion, rest]
 pairs_with:
   prompts: [plan-eating-after-stomach-bug, plan-power-naps, recover-from-a-bad-night]

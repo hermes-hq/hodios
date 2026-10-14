@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cart-abandonment, checkout-funnel, checkout-errors, shipping-costs, guest-checkout, conversion-rate]
 pairs_with:
   prompts: [design-checkout-flow, write-abandoned-cart-emails, optimize-product-page-conversion, set-free-shipping-threshold]

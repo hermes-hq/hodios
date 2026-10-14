@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maps, store-locator, markers, list-alternative, keyboard, screen-reader]
 pairs_with:
   personas: [accessibility-specialist]

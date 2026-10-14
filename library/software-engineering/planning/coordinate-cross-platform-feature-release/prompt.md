@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mobile-release, app-store-review, feature-flags, api-versioning, launch-coordination, release-train]
 pairs_with:
   prompts: [plan-cross-service-change, find-critical-path, plan-project-milestones]

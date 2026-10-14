@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [process-mapping, lean, bottleneck, value-stream]
 pairs_with:
   prompts: [write-sop, automate-business-workflow]

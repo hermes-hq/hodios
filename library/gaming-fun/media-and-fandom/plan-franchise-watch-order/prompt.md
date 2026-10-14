@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [watch-order, reading-order, release-order, chronological-order, cinematic-universe, spoiler-free]
 pairs_with:
   prompts: [catch-up-on-series-spoiler-free, plan-movie-marathon, triage-entertainment-backlog]

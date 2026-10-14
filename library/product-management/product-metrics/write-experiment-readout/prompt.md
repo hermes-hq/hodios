@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [statistics]
 tags: [ab-test-results, experiment-readout, confidence-intervals, sample-ratio-mismatch, decision-memo]
 pairs_with:

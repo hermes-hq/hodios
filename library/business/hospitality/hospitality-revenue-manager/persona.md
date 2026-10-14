@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [revenue-management, revpar, revpash, rate-fences, distribution-channels, demand-forecasting]
 pairs_with:
   prompts: [plan-hotel-room-rate-calendar, decide-restaurant-delivery-channels, design-pricing, test-capacity-before-growth]

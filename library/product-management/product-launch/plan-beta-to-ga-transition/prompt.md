@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [general-availability, beta, exit-criteria, beta-users, sla]
 pairs_with:
   prompts: [plan-beta-program, plan-product-launch, run-launch-go-no-go-review, write-launch-announcement]

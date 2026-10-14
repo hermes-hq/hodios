@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [custom-assistant, knowledge-files, assistant-testing, onboarding-interview]
 pairs_with:
   prompts: [write-custom-instructions, write-custom-gpt-instructions, prepare-knowledge-files, review-custom-instructions]

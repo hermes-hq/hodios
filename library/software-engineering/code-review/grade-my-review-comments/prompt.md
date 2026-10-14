@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [review-practice, review-comments, coaching, feedback-skills]
 pairs_with:
   prompts: [play-code-review-bug-hunt, reword-review-comments, review-pull-request]

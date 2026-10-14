@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [creative-problem-solving, divergent-convergent, idea-to-test, ideation-process]
 pairs_with:
   prompts: [write-how-might-we-questions, cluster-ideas, develop-idea-with-ppco, validate-business-idea]

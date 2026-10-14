@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-management, rate-setting, scope-control, workload, solo-business]
 pairs_with:
   prompts: [prepare-price-increase-conversation, respond-to-discount-request, write-statement-of-work, review-freelance-business-year, screen-freelance-inquiry]

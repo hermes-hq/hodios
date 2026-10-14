@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [systematic-review, meta-analysis, grade, evidence-synthesis]
 pairs_with:
   prompts: [interpret-forest-plot, summarize-paper, write-critically-appraised-topic]

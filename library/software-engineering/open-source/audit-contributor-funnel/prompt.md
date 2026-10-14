@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contributor-funnel, chaoss, time-to-first-response, newcomers, bus-factor]
 pairs_with:
   prompts: [write-good-first-issues, reply-to-first-contribution, write-contributing-guide, triage-issue-backlog]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-notice, policy-updates, version-changes, terms-update, communication]
 pairs_with:
   prompts: [compare-documents, check-summary-matches-document, write-internal-announcement]

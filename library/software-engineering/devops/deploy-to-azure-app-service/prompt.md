@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-service, deployment-slots, key-vault, managed-identity, slot-swap]
 pairs_with:
   prompts: [write-azure-devops-pipeline, set-up-keyless-ci-deploys, choose-app-hosting]

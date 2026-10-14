@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retirement-income, pension, compounding, withdrawal-rate]
 pairs_with:
   prompts: [explain-investment-concept, plan-savings-goal]

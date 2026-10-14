@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [academic-integrity, plagiarism, ai-use, student-meeting, due-process, fairness]
 pairs_with:
   prompts: [design-ai-resistant-assignment, respond-to-grade-appeal]

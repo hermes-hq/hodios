@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [errands, route-planning, batching, opening-hours, weekend-chores]
 pairs_with:
   prompts: [plan-my-day, clear-life-admin-backlog, build-reusable-checklist]

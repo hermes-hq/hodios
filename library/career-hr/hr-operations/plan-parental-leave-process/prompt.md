@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [parental-leave, maternity-leave, adoption-leave, keeping-in-touch, return-to-work]
 pairs_with:
   prompts: [plan-return-from-leave, assess-flexible-working-request, write-workplace-policy, plan-workplace-adjustments-as-manager]

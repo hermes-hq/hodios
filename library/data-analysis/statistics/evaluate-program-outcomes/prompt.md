@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [program-evaluation, effect-size, pre-post-design, impact-measurement]
 pairs_with:
   prompts: [estimate-causal-effect, evaluate-training-effectiveness, write-insight-report]

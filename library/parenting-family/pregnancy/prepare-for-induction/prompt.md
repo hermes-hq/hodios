@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [induction, labour, informed-decision, maternity-unit, birth-preferences]
 pairs_with:
   prompts: [write-birth-preferences, pack-hospital-bag, prepare-prenatal-visits]

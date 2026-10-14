@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [aggregation-pipeline, nosql, document-queries, simulator, practice-sandbox]
 pairs_with:
   prompts: [write-mongodb-aggregation]

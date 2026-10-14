@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-analytics, experiments, vanity-metrics, engagement-rate]
 pairs_with:
   prompts: [plan-content-calendar, define-content-pillars]

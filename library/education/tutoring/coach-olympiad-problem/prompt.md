@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [olympiad, competition-maths, problem-solving-heuristics, proof-writing, hint-ladder, imo]
 pairs_with:
   prompts: [guide-math-proof, check-my-reasoning, hint-through-problem]

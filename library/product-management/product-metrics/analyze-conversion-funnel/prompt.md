@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conversion-funnel, drop-off, segmentation, growth-experiments, activation]
 pairs_with:
   prompts: [diagnose-metric-drop, design-ab-test, write-tracking-plan, estimate-feature-impact]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hypothesis-testing, p-values, confidence-intervals, sampling-bias, effect-sizes, test-assumptions]
 pairs_with:
   prompts: [build-probability-intuition, choose-statistical-test, check-my-reasoning]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [book-chapter, first-draft, source-tracking, author-voice, narrative-evidence]
 pairs_with:
   prompts: [outline-nonfiction-book, write-narrative-nonfiction-scene, build-book-index]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [uncertainty, base-rates, calibration, reference-class, superforecasting]
 pairs_with:
   prompts: [build-decision-tree, run-pre-mortem, run-decision-journal, check-decision-for-biases]

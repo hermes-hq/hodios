@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [healthier-cooking, cultural-food, small-changes, food-swaps, home-cooking]
 pairs_with:
   prompts: [cut-back-ultra-processed-food, reduce-salt-intake, increase-fiber-gradually, cut-down-on-red-meat]

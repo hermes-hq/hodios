@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [speeding, traffic-offence, driving-licence, penalty-points, fixed-penalty, speed-camera]
 pairs_with:
   prompts: [explain-legal-letter, find-free-legal-help, prepare-to-self-represent]

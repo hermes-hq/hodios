@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [workshop-design, brainwriting, dot-voting, how-might-we, facilitation]
 pairs_with:
   prompts: [brainstorm-ideas, write-meeting-agenda]

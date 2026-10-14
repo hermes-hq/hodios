@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fireside-chat, on-stage-interview, run-of-show, conversation-design]
 pairs_with:
   prompts: [moderate-panel, prepare-as-panelist, craft-personal-story]

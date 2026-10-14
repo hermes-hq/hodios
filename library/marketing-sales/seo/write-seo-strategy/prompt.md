@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [strategy-document, annual-plan, organic-growth, roadmap-planning, stakeholder-alignment]
 pairs_with:
   prompts: [forecast-seo-traffic, prioritize-seo-audit-findings, research-keywords]

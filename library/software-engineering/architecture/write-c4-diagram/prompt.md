@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [c4-model, architecture-diagram, mermaid, plantuml, structurizr, diagrams-as-code]
 pairs_with:
   personas: [software-architect, technical-writer]

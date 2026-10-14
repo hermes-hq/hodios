@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [self-directed-learning, strewing, interest-led, curiosity, observation]
 pairs_with:
   prompts: [choose-homeschool-approach, design-homeschool-unit-study]

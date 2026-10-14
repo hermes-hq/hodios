@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-router, server-actions, authorization, input-validation, server-only]
 pairs_with:
   prompts: [implement-nextjs-server-actions, review-nextjs-server-components-change, review-auth-flow]

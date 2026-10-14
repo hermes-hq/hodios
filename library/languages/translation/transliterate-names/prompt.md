@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [transliteration, romanization, icao-9303, pinyin, hepburn, bgn-pcgn, name-spelling]
 pairs_with:
   prompts: [translate-personal-document, learn-writing-system]

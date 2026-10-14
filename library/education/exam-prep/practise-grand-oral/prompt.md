@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [grand-oral, baccalaureat, oral-exam, mock-exam, france]
 pairs_with:
   prompts: [prepare-oral-exam, prepare-bac-philosophy-dissertation]

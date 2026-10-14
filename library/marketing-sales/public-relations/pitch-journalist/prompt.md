@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [media-pitch, earned-media, press-kit, news-angle]
 pairs_with:
   prompts: [write-press-release, write-messaging-framework]

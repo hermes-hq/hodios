@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [unsafe-code, soundness, ffi, miri, undefined-behavior]
 pairs_with:
   prompts: [review-rust-code-change, write-fuzz-harness, review-c-code-for-memory-safety]

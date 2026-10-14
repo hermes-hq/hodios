@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ubuntu, linux, do-release-upgrade, server-maintenance, end-of-life]
 pairs_with:
   prompts: [upgrade-database-major-version, plan-maintenance-window, write-cloud-init-script]

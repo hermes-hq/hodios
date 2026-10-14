@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [report-template, recurring-report, status-report, missing-information, reusable-prompt]
 pairs_with:
   prompts: [write-task-prompt, turn-chat-into-prompt, write-summarization-prompt]

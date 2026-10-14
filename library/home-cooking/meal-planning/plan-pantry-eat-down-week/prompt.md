@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pantry-challenge, freezer-inventory, use-first, top-up-shop, food-waste, moving-house]
 pairs_with:
   prompts: [recipe-from-ingredients, plan-zero-waste-kitchen, check-food-safety]

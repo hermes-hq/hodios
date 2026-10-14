@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-pilot, multi-site, comparison-site, harm-criteria, scale-decision]
 pairs_with:
   prompts: [plan-service-prototype-test, write-discovery-readout, write-experiment-readout]

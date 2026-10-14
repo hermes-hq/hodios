@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [unit-study, cross-curricular, multi-age, living-books, themed-learning, hands-on-projects]
 pairs_with:
   prompts: [plan-multi-age-homeschool-week, plan-homeschool-year, build-homeschool-portfolio]

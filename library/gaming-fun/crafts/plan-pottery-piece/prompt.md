@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pottery, ceramics, clay, glazing, kiln-firing, shrinkage]
 args:
   - name: form

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [coding-agents, large-scale-changes, codemods, batching]
 pairs_with:
   prompts: [plan-parallel-agent-worktrees, manage-agent-context-for-long-task, fix-lint-violations-repo-wide]

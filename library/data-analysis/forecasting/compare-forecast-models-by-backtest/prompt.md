@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [backtesting, model-selection, rolling-origin, mase, bias]
 pairs_with:
   prompts: [choose-forecasting-method, measure-forecast-accuracy, forecast-time-series]

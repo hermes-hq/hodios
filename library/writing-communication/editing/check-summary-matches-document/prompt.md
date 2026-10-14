@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [executive-summary, abstract, accuracy-check, version-drift, reports]
 pairs_with:
   prompts: [write-executive-summary, remove-repeated-points, check-internal-consistency]

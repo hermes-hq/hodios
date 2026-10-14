@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pivot, lean-startup, product-market-fit, persevere-or-stop, kill-criteria]
 pairs_with:
   prompts: [validate-business-idea, model-unit-economics, find-first-customers]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [growth-rate, cagr, percentage-points, year-over-year, kpi]
 pairs_with:
   prompts: [compare-period-performance, calculate-running-totals-and-ytd, write-spreadsheet-formula]

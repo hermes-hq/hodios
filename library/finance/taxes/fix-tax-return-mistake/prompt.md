@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [amended-return, tax-correction, penalties, voluntary-disclosure]
 pairs_with:
   prompts: [explain-tax-notice, prepare-for-tax-audit, organize-tax-documents]

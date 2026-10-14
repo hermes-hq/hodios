@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [plane-spotting, aviation, airports, flight-tracking, aircraft-registrations, day-out]
 args:
   - name: airport

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [model-railways, track-planning, dcc, benchwork, layout-design, scale-modelling]
 args:
   - name: space

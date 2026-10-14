@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fishing, angling, fly-fishing, tackle, catch-and-release, fishing-licence]
 args:
   - name: water

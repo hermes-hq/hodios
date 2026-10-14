@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [picture-framing, varnishing, art-presentation, conservation-framing]
 pairs_with:
   prompts: [price-artwork, plan-art-exhibition, plan-artwork-shipping]

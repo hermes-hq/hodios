@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [estate-agent, home-selling, sales-progression, listing-launch, offer-management]
 pairs_with:
   prompts: [write-listing-presentation, write-real-estate-listing, analyze-property-comparables, summarize-viewing-feedback-for-seller, present-multiple-offers]

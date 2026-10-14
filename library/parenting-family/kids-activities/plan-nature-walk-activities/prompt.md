@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [nature-walk, outdoor-play, nature-bingo, outdoor-learning, screen-free, leave-no-trace]
 pairs_with:
   prompts: [design-kids-science-experiment, plan-rainy-day-activities, create-scavenger-hunt]

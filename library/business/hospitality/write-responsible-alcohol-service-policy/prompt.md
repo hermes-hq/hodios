@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [responsible-service, age-verification, refusal-of-service, licensing, staff-training, incident-log]
 pairs_with:
   prompts: [prepare-for-food-safety-inspection, write-frontline-service-standards]

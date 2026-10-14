@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [cold-email, b2b-outreach, follow-up, germany]
 pairs_with:
   prompts: [write-cold-outreach, write-outbound-sequence]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sports-analytics, player-performance, small-samples, regression-to-the-mean, per-90]
 pairs_with:
   prompts: [explore-dataset, check-analysis-for-pitfalls, write-plotting-code]

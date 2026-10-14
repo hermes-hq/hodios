@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [enforcement-agents, bailiffs, protected-goods, payment-arrangement]
 pairs_with:
   prompts: [respond-to-debt-court-claim, respond-to-wage-garnishment, negotiate-with-creditor, prepare-for-debt-advice-appointment]

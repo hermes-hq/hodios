@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [email-campaign, segmentation, pre-send-qa, campaign-review]
 pairs_with:
   prompts: [write-promo-email, write-email-sequence, audit-email-deliverability, write-win-back-campaign]

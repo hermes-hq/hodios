@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-communication, document-checklist, client-onboarding, law-firm, plain-language]
 pairs_with:
   prompts: [write-client-intake-questionnaire, draft-engagement-letter, write-client-status-update]

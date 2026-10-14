@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [user-agreement, acceptable-use, subscriptions, startup-legal]
 pairs_with:
   prompts: [write-privacy-policy, write-refund-policy, review-consumer-terms]

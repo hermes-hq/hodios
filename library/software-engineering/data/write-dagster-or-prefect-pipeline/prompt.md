@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dagster, prefect, orchestration, software-defined-assets, scheduling]
 pairs_with:
   prompts: [write-airflow-dag, design-data-pipeline, move-cron-jobs-to-orchestrator]

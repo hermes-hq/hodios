@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weight-gain, underweight, energy-dense-foods, appetite, recovery]
 pairs_with:
   prompts: [plan-eating-when-appetite-is-low, plan-muscle-gain-nutrition, reach-daily-protein-target, plan-nutrition-targets]

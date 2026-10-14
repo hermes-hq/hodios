@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-point-detection, structural-break, time-series, level-shift, pelt]
 pairs_with:
   prompts: [test-for-trend-in-series, detect-anomalies, build-control-chart]

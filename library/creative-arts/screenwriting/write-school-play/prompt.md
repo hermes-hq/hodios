@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [school-play, youth-theatre, class-assembly, ensemble-cast, drama-education]
 pairs_with:
   prompts: [write-comedy-sketch, write-childrens-story]

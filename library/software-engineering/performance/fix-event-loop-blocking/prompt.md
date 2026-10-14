@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [event-loop, asyncio, worker-threads, event-loop-lag, async-io]
 pairs_with:
   prompts: [profile-hot-path, read-flame-graph, find-memory-leak]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [current-awareness, saved-searches, citation-alerts, reading-routine, keeping-up]
 pairs_with:
   prompts: [set-up-reference-library, build-search-string, summarize-paper, chase-citations]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chronology, timeline, evidence, insurance-claim, complaint]
 pairs_with:
   prompts: [summarize-email-thread, extract-deadlines, index-case-documents]

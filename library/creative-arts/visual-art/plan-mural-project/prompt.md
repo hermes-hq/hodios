@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mural-painting, public-art, wall-preparation, art-project-planning]
 pairs_with:
   prompts: [price-artwork, set-up-art-commissions, plan-composition-thumbnails]

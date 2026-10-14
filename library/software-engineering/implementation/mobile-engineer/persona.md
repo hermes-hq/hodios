@@ -17,6 +17,7 @@ risk: runs-commands
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [offline-first, app-store, battery, mobile-release]
 voice: platform-savvy, user-first, plans for the version that cannot be recalled
 tools: [read, search, edit, shell]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [sso, saml, oidc, multi-tenant, authentication, b2b]
 pairs_with:
   prompts: [implement-oauth-login, implement-role-based-access, implement-audit-log, implement-user-invitations]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [incremental-delivery, strangler-fig, expand-contract]
 pairs_with:
   prompts: [add-characterization-tests, extract-module]

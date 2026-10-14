@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [education-savings, college-fund, university-costs, children, sinking-funds]
 pairs_with:
   prompts: [plan-savings-goal, compare-retirement-accounts, teach-kids-about-money, plan-financial-independence]

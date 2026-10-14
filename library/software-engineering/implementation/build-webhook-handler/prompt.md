@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [webhooks, hmac-signature, idempotency, replay-protection, payments-integration]
 pairs_with:
   personas: [backend-engineer]

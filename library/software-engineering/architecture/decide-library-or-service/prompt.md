@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shared-code, service-design, sidecar, versioning, deploy-coupling, trade-offs]
 pairs_with:
   personas: [software-architect, backend-engineer]

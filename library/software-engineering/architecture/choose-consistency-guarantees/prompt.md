@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [consistency, eventual-consistency, read-your-writes, replication-lag, distributed-systems]
 pairs_with:
   personas: [software-architect]

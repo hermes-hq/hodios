@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [agency-pitch, rfp, agency-selection, pr-budget, scope-of-work]
 pairs_with:
   prompts: [write-pr-plan, write-coverage-report]

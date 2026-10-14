@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [written-methods, primary-maths, grid-method, bus-stop-division, part-whole-model, home-support]
 pairs_with:
   prompts: [help-with-homework, explain-fractions-with-models, practise-times-tables-with-derived-facts]

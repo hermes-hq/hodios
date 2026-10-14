@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [srm, chi-square, experiment-validity, assignment-bugs, trustworthy-experiments, a-b-testing]
 pairs_with:
   prompts: [design-ab-test, write-experiment-readout, define-guardrail-metrics]

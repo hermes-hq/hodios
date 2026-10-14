@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-analysis, failure-taxonomy, open-coding, eval-results]
 pairs_with:
   prompts: [write-llm-eval-suite, check-answer-faithfulness, diagnose-prompt-failures]

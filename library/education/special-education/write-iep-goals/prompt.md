@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [smart-goals, progress-monitoring, accommodations, inclusion]
 pairs_with:
   prompts: [differentiate-lesson, plan-student-behavior-support]

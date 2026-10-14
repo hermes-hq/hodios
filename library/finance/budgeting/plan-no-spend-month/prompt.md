@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [no-spend-challenge, spending-habits, frugal-living, money-challenge]
 pairs_with:
   prompts: [categorize-expenses, cut-monthly-costs, build-monthly-budget, build-tight-budget]

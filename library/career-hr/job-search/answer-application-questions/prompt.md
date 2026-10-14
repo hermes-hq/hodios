@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [application-form, competency-questions, star-method, word-limit, graduate-schemes]
 pairs_with:
   prompts: [prepare-star-stories, write-cover-letter, analyze-job-posting]

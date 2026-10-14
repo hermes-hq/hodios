@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [media-policy, spokesperson, press-enquiries, staff-guidance, governance]
 pairs_with:
   prompts: [build-crisis-comms-plan, reply-to-journalist-request]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-router, metadata-api, sitemaps, canonical-urls, open-graph, json-ld]
 pairs_with:
   prompts: [write-meta-tags, write-schema-markup, audit-javascript-seo]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [invoice-dispute, billing-dispute, customer-complaint, variations, remedies, trades, freelancers]
 pairs_with:
   prompts: [chase-late-payment, write-customer-quote, write-support-reply, write-job-completion-report]

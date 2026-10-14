@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [personal-letter, milestone, gratitude, family]
 pairs_with:
   prompts: [write-condolence-message, write-thank-you-note, apologize-effectively, write-speech]

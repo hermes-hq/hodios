@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [prescription-costs, generic-medicines, pharmacy, health-insurance, medicine-affordability]
 pairs_with:
   prompts: [budget-for-ongoing-health-costs, prepare-medication-review, prepare-pharmacist-consultation, build-medication-list]

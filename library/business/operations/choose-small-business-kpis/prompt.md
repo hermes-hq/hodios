@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [traffic-light-rule, scorecard, weekly-review, leading-indicators, targets, business-dashboard]
 pairs_with:
   prompts: [build-kpi-tree, write-weekly-metrics-update, define-metric]

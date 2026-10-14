@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [moving-abroad, expat, residence-permit, international-shipping]
 pairs_with:
   prompts: [plan-relocation-finances, plan-tax-move-abroad, prepare-for-culture-shock, plan-travel-with-pet, check-travel-requirements]

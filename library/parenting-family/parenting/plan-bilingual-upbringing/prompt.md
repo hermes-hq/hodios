@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bilingual-children, heritage-language, one-parent-one-language, minority-language, language-exposure, multilingual-family]
 pairs_with:
   prompts: [teach-language-to-child, build-reading-routine-with-child, plan-child-bedtime-routine]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [qualification-recognition, regulated-professions, apostille, certified-translation, credential-evaluation, newcomers]
 pairs_with:
   prompts: [translate-personal-document, convert-cv-to-country-format, prepare-government-form]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [multi-currency, exchange-rates, presentment-currency, iso-4217, price-lists]
 pairs_with:
   prompts: [implement-money-arithmetic, implement-locale-formatting, integrate-payments]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [owasp, pull-request, cwe]
 pairs_with:
   personas: [security-auditor]

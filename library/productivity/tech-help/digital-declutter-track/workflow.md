@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [digital-declutter, subscriptions, inbox-cleanup, notifications, file-organisation, digital-wellbeing]
 pairs_with:
   prompts: [free-up-storage, organize-photo-library, organize-digital-files, set-up-backups, reduce-online-footprint]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tokopedia, shopee, product-listing, indonesia]
 pairs_with:
   prompts: [write-marketplace-listing, write-whatsapp-business-service-scripts]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cognates, sound-correspondences, word-families, loanwords, vocabulary-growth, guessing-strategies]
 pairs_with:
   prompts: [list-false-friends, compare-native-and-target-language, explain-word-origin, build-vocabulary-list]

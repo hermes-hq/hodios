@@ -19,6 +19,7 @@ invocation: user
 interaction: interactive
 model_tier: frontier
 level: expert
+depth: advanced
 tags: [clinical-communication, lay-language, consent, breaking-bad-news, international-clinicians, osce]
 pairs_with:
   prompts: [roleplay-patient-conversations-for-nurses, practise-shift-handover-in-language, practise-osce-station, write-teach-back-script]

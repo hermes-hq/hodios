@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [new-role, handover, roadmap-audit, commitments, first-30-days]
 pairs_with:
   prompts: [audit-customer-commitments, critique-roadmap, plan-stakeholder-alignment, roadmap-reset-track]

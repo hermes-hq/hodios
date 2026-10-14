@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [funnel, conversion, no-replies, job-search-strategy, diagnosis]
 pairs_with:
   prompts: [plan-job-search, analyze-job-posting, set-up-job-application-tracker]

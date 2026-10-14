@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sat, digital-sat, adaptive-modules, answer-traps, pacing, error-log]
 pairs_with:
   prompts: [prepare-standardized-test, analyze-exam-mistakes]

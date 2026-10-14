@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [runes, load-functions, form-actions, progressive-enhancement]
 applies_to: ["**/*.svelte", "src/**/*.ts", "src/**/*.js", "svelte.config.js"]
 pairs_with:

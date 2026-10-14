@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quarterly-review, okr-review, team-update, executive-audience, asks]
 pairs_with:
   prompts: [present-missed-target, build-year-in-review-deck, write-okr-progress-report, plan-backup-slides]

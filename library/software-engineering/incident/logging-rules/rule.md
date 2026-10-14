@@ -15,6 +15,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: intermediate
+depth: specific
 tags: [structured-logging, log-levels, correlation-id, pii, log-injection]
 pairs_with:
   prompts: [instrument-service-observability, triage-production-alert]

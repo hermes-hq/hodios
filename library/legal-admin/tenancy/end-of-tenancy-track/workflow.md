@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [moving-out, deposit, notice-period, check-out-inspection, tenant-rights]
 pairs_with:
   prompts: [write-tenant-notice-to-leave, prepare-for-tenancy-check-out, deep-clean-for-move-out, demand-deposit-return]

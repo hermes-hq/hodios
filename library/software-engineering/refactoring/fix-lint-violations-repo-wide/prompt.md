@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [linting, code-formatting, codemod, git-blame-ignore-revs, mechanical-change]
 pairs_with:
   prompts: [reduce-duplication, remove-dead-code]

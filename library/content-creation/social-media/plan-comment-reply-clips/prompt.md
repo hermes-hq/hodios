@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [short-form-video, comment-replies, video-hooks, content-series]
 pairs_with:
   prompts: [reply-to-comments, repurpose-video-into-posts]

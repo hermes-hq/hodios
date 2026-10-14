@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [end-of-season, team-awards, presentation-night, recognition, youth-sports, club-celebration]
 pairs_with:
   prompts: [write-player-season-feedback, run-match-debrief]

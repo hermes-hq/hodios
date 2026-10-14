@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reverse-engineering, implicit-rules, prompt-design, generalisation, holdout]
 pairs_with:
   prompts: [create-few-shot-examples, build-prompt-test-set, improve-prompt, write-task-prompt]

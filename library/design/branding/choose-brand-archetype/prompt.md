@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [brand-archetypes, brand-personality, brand-strategy, team-alignment]
 pairs_with:
   prompts: [build-brand-platform, write-brand-voice-guide, analyze-competitors]

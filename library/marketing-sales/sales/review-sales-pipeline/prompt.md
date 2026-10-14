@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-forecast, pipeline-review, deal-review, crm-hygiene, revenue-operations]
 pairs_with:
   prompts: [prepare-deal-negotiation, write-mutual-action-plan, summarize-sales-call]

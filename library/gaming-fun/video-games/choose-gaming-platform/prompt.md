@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [console-choice, gaming-handheld, cloud-gaming, pc-gaming, buying-decision]
 pairs_with:
   prompts: [recommend-games, choose-computer-specs, choose-television]

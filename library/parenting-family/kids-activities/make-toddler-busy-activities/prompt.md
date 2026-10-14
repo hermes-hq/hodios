@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [toddler-activities, busy-bags, sensory-play, fine-motor, household-items, choking-safety]
 pairs_with:
   prompts: [plan-early-years-activity, childproof-home, plan-rainy-day-activities]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ad-disapproval, account-suspension, policy-appeal, compliant-rewrite, ad-review]
 pairs_with:
   prompts: [check-ad-policy-compliance, check-ad-landing-message-match]

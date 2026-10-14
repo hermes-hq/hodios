@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [memoir, family-book, book-printing, photo-layout, keepsake]
 pairs_with:
   prompts: [caption-family-photos, write-memoir-authors-note, write-family-history]

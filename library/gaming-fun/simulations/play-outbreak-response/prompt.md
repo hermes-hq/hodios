@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [epidemiology, public-health, sir-model, decision-game, classroom-game]
 pairs_with:
   prompts: [play-city-mayor-game, play-ecosystem-keeper]

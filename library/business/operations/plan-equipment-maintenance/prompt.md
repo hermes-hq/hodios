@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [preventive-maintenance, equipment, maintenance-schedule, asset-register, downtime, service-log]
 pairs_with:
   prompts: [plan-business-continuity, compare-equipment-lease-vs-buy, write-opening-closing-checklist]

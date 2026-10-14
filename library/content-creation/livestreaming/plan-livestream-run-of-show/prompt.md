@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [livestream, webinar, run-of-show, contingency-planning, audience-interaction]
 pairs_with:
   prompts: [write-video-hooks, repurpose-video-into-posts]

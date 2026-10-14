@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [functional-skills, adult-numeracy, apprenticeship-maths, everyday-maths, problem-solving, show-your-working]
 pairs_with:
   prompts: [plan-ged-preparation, practice-gcse-maths-questions, analyze-exam-mistakes]

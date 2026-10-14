@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [savings-accounts, interest-rates, deposit-protection, fixed-term, aer-apy]
 pairs_with:
   prompts: [build-emergency-fund-plan, plan-savings-goal, set-up-sinking-funds]

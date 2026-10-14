@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [foundations, fiscal-hosting, vendor-neutrality, trademark-holding, project-governance]
 pairs_with:
   prompts: [choose-oss-funding-model, write-project-governance]

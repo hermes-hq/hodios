@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-refresh, search-intent, internal-links, change-log]
 pairs_with:
   prompts: [audit-content-library, write-blog-post-draft, audit-on-page-seo]

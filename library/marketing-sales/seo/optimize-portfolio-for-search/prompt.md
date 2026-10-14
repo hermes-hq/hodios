@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [portfolio-site, freelancers, project-write-ups, creative-business]
 pairs_with:
   prompts: [write-portfolio-site-copy, write-portfolio-case-study, optimize-image-search-visibility]

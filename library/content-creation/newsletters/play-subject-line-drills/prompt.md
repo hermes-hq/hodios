@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [subject-lines, practice-game, writing-drills, scoring-rubric, open-rates]
 pairs_with:
   prompts: [write-newsletter-issue, preflight-newsletter-issue]

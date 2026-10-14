@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [counterpart-simulation, rehearsal, conflict-resolution, de-escalation, debrief]
 pairs_with:
   prompts: [prepare-difficult-conversation, set-boundary, give-feedback-sbi]

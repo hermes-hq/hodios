@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [briefing-note, civil-service, ministerial-briefing, board-paper, policy-options]
 pairs_with:
   prompts: [write-decision-memo, write-executive-summary, write-public-consultation-response, write-policy-brief]

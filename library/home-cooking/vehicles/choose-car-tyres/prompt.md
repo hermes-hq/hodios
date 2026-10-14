@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tyres, tyre-size, all-season-tyres, winter-tyres, tyre-labels, buying-guide]
 pairs_with:
   prompts: [prepare-car-for-winter, plan-car-maintenance, cut-driving-costs]

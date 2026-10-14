@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [notice-period, moving-out, end-of-tenancy, landlord-letters, deposit]
 pairs_with:
   prompts: [demand-deposit-return, deep-clean-for-move-out, prepare-for-tenancy-check-out]

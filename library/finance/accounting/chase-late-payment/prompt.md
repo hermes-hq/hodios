@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [overdue-invoice, payment-reminder, cash-collection, getting-paid]
 pairs_with:
   prompts: [write-invoice, forecast-cash-flow]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cost-benefit, npv, opportunity-cost, sensitivity-analysis, trade-offs]
 pairs_with:
   prompts: [compare-options-matrix, run-second-order-thinking, run-pre-mortem]

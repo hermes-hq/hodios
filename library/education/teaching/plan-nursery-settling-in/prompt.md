@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [early-years, settling-in, key-person, nursery, separation-anxiety, parent-partnership]
 pairs_with:
   prompts: [plan-early-years-activity, write-learning-story, welcome-newly-arrived-student]

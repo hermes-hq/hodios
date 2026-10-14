@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [trades, niche, specialisation, certification, job-mix, margin-per-day]
 pairs_with:
   prompts: [evaluate-new-service-line, price-services, test-capacity-before-growth]

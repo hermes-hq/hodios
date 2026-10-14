@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [geshui-huisuan, zhuanxiang-fujia-kouchu, tuishui, china]
 pairs_with:
   prompts: [write-labour-arbitration-application, organize-tax-documents]

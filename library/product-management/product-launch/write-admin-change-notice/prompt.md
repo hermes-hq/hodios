@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [admin-notice, change-management, enterprise-customers, advance-notice, release-communication]
 pairs_with:
   prompts: [write-launch-faq, plan-staged-feature-rollout, write-in-app-announcement]

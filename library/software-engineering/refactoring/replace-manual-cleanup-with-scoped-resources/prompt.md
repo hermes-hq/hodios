@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [resource-management, context-managers, try-with-resources, leaks]
 pairs_with:
   prompts: [find-memory-leak, simplify-function]

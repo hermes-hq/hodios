@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [pay-review, salary-increase-letter, compensation-letters, merge-fields, pay-communication]
 pairs_with:
   prompts: [allocate-merit-increases, write-total-rewards-statement, design-salary-bands]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [representation, cultural-sensitivity, tropes, lore-review, setting-design]
 pairs_with:
   prompts: [run-sensitivity-read, design-fictional-culture, design-sapient-species, design-fictional-religion]

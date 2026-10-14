@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-interview, answer-bank, chunking, working-abroad, spoken-recall]
 pairs_with:
   prompts: [practice-interview-in-language, review-speaking-transcript, build-personal-phrasebook]

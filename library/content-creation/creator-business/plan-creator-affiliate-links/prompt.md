@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [affiliate-marketing, affiliate-disclosure, link-placement, gear-lists, passive-income]
 pairs_with:
   prompts: [plan-creator-monetization, write-comparison-post]

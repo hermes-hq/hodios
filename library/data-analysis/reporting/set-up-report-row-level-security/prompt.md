@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [row-level-security, access-control, data-access, bi-governance]
 pairs_with:
   prompts: [design-power-bi-data-model, plan-self-service-reporting, write-dax-measure]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cryptic-crosswords, wordplay, clue-parsing, anagrams, hint-ladder]
 pairs_with:
   prompts: [write-crossword-clues, make-word-puzzles]

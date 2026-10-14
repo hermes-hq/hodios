@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sbar, clinical-handover, nursing, patient-safety, shift-handoff, care-homes]
 pairs_with:
   prompts: [write-patient-education-handout, practice-nursing-care-plan]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [buttercream, frosting, swiss-meringue, ganache, cake-decorating]
 pairs_with:
   prompts: [plan-celebration-cake, plan-royal-icing-cookies]

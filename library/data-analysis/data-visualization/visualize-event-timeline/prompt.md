@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [timeline, milestones, gantt-style, chart-design]
 pairs_with:
   prompts: [build-timeline-from-documents, build-gantt-chart-in-sheets, write-plotting-code]

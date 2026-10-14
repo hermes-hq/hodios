@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [odour-removal, drains, smell-diagnosis, home-safety]
 pairs_with:
   prompts: [clean-appliance-filters-and-seals, deal-with-household-pests]

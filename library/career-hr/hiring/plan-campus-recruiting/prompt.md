@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [graduate-recruitment, early-careers, university-relations, entry-level-hiring, offer-acceptance]
 pairs_with:
   prompts: [plan-internship-program, design-assessment-center, write-job-description, plan-preboarding-period]

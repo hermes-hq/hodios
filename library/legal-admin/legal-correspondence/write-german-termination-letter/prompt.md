@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kuendigung, kuendigungsfrist, verbraucherrecht, deutschland]
 pairs_with:
   prompts: [cancel-contract-or-subscription, write-widerspruch]

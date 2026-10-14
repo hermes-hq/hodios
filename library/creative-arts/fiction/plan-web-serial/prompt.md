@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [web-serial, serialized-fiction, chapter-hooks, release-schedule]
 pairs_with:
   prompts: [outline-story, develop-story-premise, plan-self-publishing]

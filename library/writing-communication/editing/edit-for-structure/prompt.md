@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [developmental-editing, reverse-outline, structural-edit, argument]
 pairs_with:
   prompts: [tighten-prose, proofread-text, build-style-sheet, write-executive-summary]

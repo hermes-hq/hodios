@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cofounder-exit, vesting, equity-buyback, handover, founder-conflict]
 pairs_with:
   prompts: [outline-cofounder-agreement, find-cofounder, write-investor-update, announce-employee-departure]

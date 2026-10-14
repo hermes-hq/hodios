@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [http-client, api-client, error-handling, fetch]
 pairs_with:
   prompts: [share-types-across-client-and-server, reduce-duplication, extract-module]

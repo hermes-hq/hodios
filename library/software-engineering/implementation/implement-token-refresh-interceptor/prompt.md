@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [jwt, refresh-token, axios, fetch-wrapper, auth, race-conditions]
 args:
   - name: client

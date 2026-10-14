@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [voicemail, callback-rate, call-attempts, prospecting-touches, missed-calls]
 pairs_with:
   prompts: [write-cold-call-script, write-outbound-sequence, practise-cold-call]

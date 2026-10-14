@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [translation-brief, localisation-project, vendor-management, translator-instructions, terminology]
 pairs_with:
   prompts: [build-translation-glossary, review-translation, transcreate-marketing-copy]

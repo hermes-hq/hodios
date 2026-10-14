@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [requirements, prd, success-metrics]
 pairs_with:
   personas: [product-manager]

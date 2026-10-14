@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [conjoint-analysis, choice-modelling, pricing-research, willingness-to-pay]
 pairs_with:
   prompts: [run-willingness-to-pay-study, estimate-price-elasticity, write-survey-questionnaire, calculate-sample-size]

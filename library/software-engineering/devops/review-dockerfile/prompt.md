@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [image-hardening, multi-stage-build, image-size, build-cache]
 pairs_with:
   prompts: [write-kubernetes-manifests]

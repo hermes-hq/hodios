@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [call-review, discovery-questions, talk-ratio, meddicc, spin-selling, call-coaching]
 pairs_with:
   prompts: [prepare-discovery-call, summarize-sales-call, practise-cold-call]

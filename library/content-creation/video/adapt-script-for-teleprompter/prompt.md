@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [teleprompter, autocue, script-formatting, delivery-cues, read-aloud]
 pairs_with:
   prompts: [write-youtube-script, write-explainer-video-script]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [hangman, word-guessing, spelling-practice, vocabulary-game, family-games]
 pairs_with:
   prompts: [play-hidden-word-game, play-ghost-word-game, play-twenty-questions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [food-photography, food-styling, natural-light, restaurant-menu, recipe-blog]
 pairs_with:
   prompts: [set-up-phone-product-photography, match-edits-across-photo-set, choose-camera-settings]

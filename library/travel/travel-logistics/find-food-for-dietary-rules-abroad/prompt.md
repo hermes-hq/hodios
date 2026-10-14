@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [halal, kosher, vegetarian, vegan, dietary-rules, eating-abroad]
 pairs_with:
   prompts: [plan-travel-with-food-allergy, decode-foreign-menu, plan-food-exploration]

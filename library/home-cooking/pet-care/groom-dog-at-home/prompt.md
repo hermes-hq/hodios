@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dog-grooming, coat-care, nail-trimming, dog-bath, tooth-brushing, cooperative-care]
 pairs_with:
   prompts: [plan-new-pet-care, prepare-vet-visit, care-for-senior-pet]

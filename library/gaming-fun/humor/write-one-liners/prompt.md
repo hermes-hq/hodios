@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [one-liners, stand-up, misdirection, joke-writing, open-mic]
 pairs_with:
   prompts: [write-comedy-bit, write-puns]

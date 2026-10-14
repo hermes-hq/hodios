@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [epitaph, memorial-plaque, bereavement, remembrance, engraving]
 pairs_with:
   prompts: [write-obituary, write-pet-memorial]

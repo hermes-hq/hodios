@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [html-email, email-coding, mjml, outlook-fixes, dark-mode]
 pairs_with:
   prompts: [design-email-template, fix-email-rendering-issues, audit-html-email-accessibility]

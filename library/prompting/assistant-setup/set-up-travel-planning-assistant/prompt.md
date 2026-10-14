@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [travel-profile, living-itinerary, entry-requirements, accessible-travel]
 pairs_with:
   prompts: [build-project-instructions, plan-itinerary, check-travel-requirements]

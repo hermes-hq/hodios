@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gardening-with-kids, growing-food, seed-sowing, outdoor-learning, nature-play, screen-free]
 pairs_with:
   prompts: [plan-nature-walk-activities, design-kids-science-experiment, plan-container-garden]

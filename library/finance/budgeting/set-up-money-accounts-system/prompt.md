@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [money-automation, bank-account-structure, savings-pots, pay-yourself-first]
 pairs_with:
   prompts: [build-monthly-budget, set-up-sinking-funds, plan-bill-payment-calendar, compare-savings-accounts]

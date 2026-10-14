@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wildfire, incident-command, emergency-management, decision-game, fire-behaviour]
 pairs_with:
   prompts: [play-survival-scenario, play-city-mayor-game]

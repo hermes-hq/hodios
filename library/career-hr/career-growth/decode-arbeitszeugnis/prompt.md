@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [arbeitszeugnis, zeugnissprache, germany, employment-reference]
 pairs_with:
   prompts: [request-arbeitszeugnis-correction, write-german-application-letter, convert-cv-to-country-format]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [public-right-of-way, cattle-and-walkers, dogs-and-livestock, farm-signage, temporary-fencing]
 pairs_with:
   prompts: [write-farm-task-risk-assessment, answer-neighbour-farm-complaint]

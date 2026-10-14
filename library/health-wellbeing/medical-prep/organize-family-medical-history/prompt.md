@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-history, genetics, pedigree, hereditary-conditions, preventive-care]
 pairs_with:
   prompts: [prepare-doctor-questions, prepare-emergency-medical-summary, prepare-prenatal-visits]

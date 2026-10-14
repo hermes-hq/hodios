@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-redirect, url-validation, oauth, owasp]
 pairs_with:
   prompts: [audit-input-handling, implement-protected-routes, review-auth-flow, write-exploit-regression-test]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-template, series-look, reusable-prompts, brand-consistency]
 pairs_with:
   prompts: [write-video-generation-prompt, review-generated-video-takes, build-image-style-guide]

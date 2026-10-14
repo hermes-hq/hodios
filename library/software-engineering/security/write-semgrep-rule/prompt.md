@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [semgrep, static-analysis, sast, custom-rules, guardrails-as-code]
 pairs_with:
   prompts: [review-pr-for-security, audit-dependencies]

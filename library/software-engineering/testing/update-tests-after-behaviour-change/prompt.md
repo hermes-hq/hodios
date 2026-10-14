@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-maintenance, regression, failing-tests, snapshots]
 pairs_with:
   prompts: [fix-failing-tests-track, write-tests-for-diff, review-test-quality]

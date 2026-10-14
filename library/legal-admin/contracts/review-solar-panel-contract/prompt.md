@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [solar-panels, power-purchase-agreement, home-energy, cooling-off, consumer-finance]
 pairs_with:
   prompts: [plan-energy-efficiency-upgrades, review-consumer-terms, explain-contract-clause]

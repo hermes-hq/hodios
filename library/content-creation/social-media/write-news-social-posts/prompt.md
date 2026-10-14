@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [journalism, local-news, student-media, attribution, corrections]
 pairs_with:
   prompts: [write-news-story, turn-article-into-thread]

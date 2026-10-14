@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [co-design, participatory-design, workshop-facilitation, customer-workshop, research-synthesis]
 pairs_with:
   prompts: [write-interview-outreach-messages, map-opportunity-solution-tree, synthesize-customer-interviews, plan-design-sprint]

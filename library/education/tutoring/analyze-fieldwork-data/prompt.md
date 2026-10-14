@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fieldwork, spearmans-rank, chi-squared, data-presentation, hypothesis-testing, coursework]
 pairs_with:
   personas: [geography-tutor]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [local-partnerships, co-marketing, cross-promotion, guest-takeover, partnership-agreement, community-building]
 pairs_with:
   prompts: [pitch-creator-collaboration, plan-content-calendar, define-content-pillars]

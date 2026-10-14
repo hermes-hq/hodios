@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [after-trauma, acute-stress, psychological-first-aid, car-accident, recovery]
 pairs_with:
   prompts: [make-panic-attack-plan, guide-breathing-exercise, talk-to-doctor-about-mental-health, prepare-for-therapy]

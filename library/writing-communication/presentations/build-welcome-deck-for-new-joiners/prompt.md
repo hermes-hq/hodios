@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-joiners, welcome-deck, ways-of-working, first-week, team-norms]
 pairs_with:
   prompts: [plan-new-hire-onboarding, build-company-overview-deck, convert-slides-to-handout]

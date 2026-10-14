@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pre-send-check, email-accessibility, merge-tags, alt-text, sponsor-disclosure]
 pairs_with:
   prompts: [write-newsletter-issue, write-issue-correction-note]

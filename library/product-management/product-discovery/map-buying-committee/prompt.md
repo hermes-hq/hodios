@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [b2b, buying-committee, stakeholder-map, economic-buyer, champion, procurement]
 pairs_with:
   prompts: [write-customer-interview-guide, interview-non-customers, write-research-screener]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [money-market-funds, cash-management, treasury-bills, deposit-protection]
 pairs_with:
   prompts: [compare-savings-accounts, explain-bonds-and-interest-rates, explain-fund-document, build-emergency-fund-plan]

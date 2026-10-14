@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rural-living, village-life, countryside-property, off-season, moving-abroad]
 pairs_with:
   prompts: [plan-relocation-scouting-trip, build-house-viewing-checklist, learn-unwritten-rules-of-new-country]

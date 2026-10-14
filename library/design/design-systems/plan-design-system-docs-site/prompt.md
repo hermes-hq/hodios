@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [documentation-site, information-architecture, page-templates, docs-as-code, design-documentation]
 pairs_with:
   prompts: [write-component-spec, write-token-usage-guide, write-design-system-onboarding-guide]

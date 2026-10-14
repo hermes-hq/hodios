@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [team-decisions, bikeshedding, linting, consistency, decision-record]
 pairs_with:
   prompts: [write-team-coding-standards, write-adr, fix-lint-violations-repo-wide]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ticks, tick-checks, lyme-disease, repellent, tick-removal, tick-borne-illness]
 pairs_with:
   prompts: [plan-family-hike, plan-hike-with-dog, build-outdoor-first-aid-kit]

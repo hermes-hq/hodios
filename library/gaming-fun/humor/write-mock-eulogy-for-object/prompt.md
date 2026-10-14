@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mock-eulogy, farewell, deadpan, office-fun, sentimental-objects]
 pairs_with:
   prompts: [write-mock-press-release, write-limericks]

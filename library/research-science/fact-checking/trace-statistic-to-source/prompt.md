@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [number-laundering, primary-sources, source-trail, misleading-statistics]
 pairs_with:
   prompts: [trace-quote-origin, check-statistics-in-article, fact-check-claims]

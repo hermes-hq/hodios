@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [table-driven-tests, subtests, golden-files, race-detector, httptest]
 pairs_with:
   prompts: [write-unit-tests, write-fuzz-harness, write-property-based-tests]

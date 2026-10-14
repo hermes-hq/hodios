@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [post-production, upscaling, frame-rate-conform, colour-grade]
 pairs_with:
   prompts: [review-generated-video-takes, write-vfx-element-prompts, write-slow-motion-shot-prompt]

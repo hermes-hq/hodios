@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [leftovers, holiday-feast, roast-leftovers, freeze-or-eat, party-food, food-waste]
 pairs_with:
   prompts: [plan-holiday-feast-schedule, check-food-safety, recipe-from-ingredients]

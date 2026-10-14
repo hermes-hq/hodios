@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [speaking-test, mock-exam, ielts, goethe, dele, delf]
 pairs_with:
   prompts: [plan-language-learning, roleplay-real-situation]

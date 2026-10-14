@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lead-generation, lead-magnet, landing-page, nurture-sequence]
 pairs_with:
   personas: [growth-marketer]

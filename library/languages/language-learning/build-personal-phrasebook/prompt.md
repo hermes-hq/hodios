@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [phrasebook, personalised-learning, chunks, self-introduction, speaking-prep]
 pairs_with:
   prompts: [learn-survival-phrases, build-vocabulary-list, mine-sentences-for-flashcards]

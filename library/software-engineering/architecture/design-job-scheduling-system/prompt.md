@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [scheduler, delayed-jobs, recurring-jobs, time-zones, exactly-once]
 pairs_with:
   prompts: [design-workflow-orchestration, build-postgres-job-queue, spec-recurring-schedule-rules, implement-background-job, design-notification-system]

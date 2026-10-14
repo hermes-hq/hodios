@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [path-to-regexp, routing, middleware, breaking-changes]
 pairs_with:
   prompts: [review-express-handler-change, upgrade-node-version, upgrade-major-dependency]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [camera-gear, lenses, buying-guide, used-gear]
 pairs_with:
   prompts: [choose-camera-settings, plan-photography-learning]

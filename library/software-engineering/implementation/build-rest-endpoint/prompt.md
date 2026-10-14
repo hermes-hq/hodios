@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rest-api, http, input-validation, authorization]
 args:
   - name: endpoint_spec

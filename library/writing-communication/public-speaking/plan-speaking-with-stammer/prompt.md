@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [stammering, stuttering, disclosure, reasonable-adjustments, speaking-confidence]
 pairs_with:
   prompts: [prepare-virtual-presentation, prepare-for-tough-questions]

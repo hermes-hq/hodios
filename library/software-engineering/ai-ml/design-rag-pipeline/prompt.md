@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retrieval, embeddings, reranking, citations]
 pairs_with:
   prompts: [write-llm-eval-suite, choose-ml-approach]

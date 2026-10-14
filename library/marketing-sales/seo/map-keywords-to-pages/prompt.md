@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [keyword-mapping, site-inventory, search-intent, content-gaps]
 pairs_with:
   prompts: [research-keywords, resolve-keyword-cannibalization, build-internal-linking-plan, analyze-search-console-data]

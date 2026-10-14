@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [key-personnel, project-team, staff-bios, time-commitment, organisational-capacity]
 pairs_with:
   prompts: [build-grant-work-plan, build-grant-budget, build-grant-boilerplate-library]

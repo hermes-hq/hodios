@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [child-support, child-maintenance, separation, maintenance-enforcement, single-parent]
 pairs_with:
   prompts: [plan-separation-finances, rebuild-budget-after-breakup, prepare-divorce-questions, plan-co-parenting]

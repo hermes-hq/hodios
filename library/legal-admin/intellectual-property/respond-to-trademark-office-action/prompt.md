@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trademark, office-action, examiner-objection, likelihood-of-confusion, descriptiveness]
 pairs_with:
   prompts: [apply-for-trademark, evaluate-trademark-opposition]

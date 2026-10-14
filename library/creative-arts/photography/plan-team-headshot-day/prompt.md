@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [headshots, corporate-photography, studio-lighting, portrait-lighting, photo-consistency]
 pairs_with:
   prompts: [plan-portrait-shoot, write-session-prep-guide, match-edits-across-photo-set]

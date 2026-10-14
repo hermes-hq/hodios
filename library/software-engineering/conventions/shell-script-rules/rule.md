@@ -13,6 +13,7 @@ stack: [bash]
 requires: [none]
 risk: read-only
 level: intermediate
+depth: specific
 tags: [shellcheck, strict-mode, quoting, posix-sh, scripting]
 applies_to: ["**/*.sh", "**/*.bash", "**/bin/*"]
 pairs_with:

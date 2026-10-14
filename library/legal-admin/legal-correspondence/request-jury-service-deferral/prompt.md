@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [jury-service, jury-summons, deferral, excusal, court-letter]
 pairs_with:
   prompts: [explain-legal-letter, prepare-government-form]

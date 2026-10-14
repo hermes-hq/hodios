@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [frontline-staff, shift-work, huddle-script, noticeboard, read-and-confirm, action-items]
 pairs_with:
   prompts: [write-team-newsletter, write-internal-announcement, write-bilingual-newsletter-issue]

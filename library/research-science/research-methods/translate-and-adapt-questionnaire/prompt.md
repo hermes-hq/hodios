@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cross-cultural-adaptation, questionnaire-translation, back-translation, measurement-invariance, cognitive-debriefing]
 pairs_with:
   prompts: [find-validated-scale, validate-measurement-instrument, plan-cognitive-interviews]

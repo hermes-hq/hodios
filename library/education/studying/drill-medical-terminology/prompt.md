@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [medical-terminology, word-roots, prefixes-and-suffixes, nursing-school, allied-health, spaced-repetition]
 pairs_with:
   prompts: [make-flashcards, practice-nclex-questions]

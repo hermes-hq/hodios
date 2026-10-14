@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [acrostic, mesostic, name-poem, gift-poem]
 pairs_with:
   prompts: [write-occasion-poem, write-childrens-poem]

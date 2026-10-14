@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [academic-integrity, plagiarism, ai-detection, integrity-hearing, student-advocacy]
 pairs_with:
   prompts: [write-ai-use-disclosure, appeal-university-decision, write-email-to-professor]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [strangler-fig, microservices, service-extraction, data-ownership]
 pairs_with:
   prompts: [plan-incremental-migration]

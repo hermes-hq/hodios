@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [user-feedback-capture, eval-cases, triage, continuous-improvement]
 pairs_with:
   prompts: [write-llm-eval-suite, instrument-llm-app-tracing]

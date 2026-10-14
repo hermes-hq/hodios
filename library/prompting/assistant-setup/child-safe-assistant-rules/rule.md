@@ -14,6 +14,7 @@ output: [conversation]
 risk: read-only
 invocation: user
 level: beginner
+depth: specific
 tags: [kids-and-ai, child-safety, age-appropriate, online-safety, safeguarding]
 pairs_with:
   prompts: [set-up-ai-for-kids]

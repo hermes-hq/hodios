@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [large-file, push-rejected, unpushed-commits, file-size-limit]
 pairs_with:
   prompts: [set-up-git-lfs, purge-file-from-git-history, write-gitignore-file]

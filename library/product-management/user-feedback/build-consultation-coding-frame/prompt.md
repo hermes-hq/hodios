@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [public-consultation, coding-frame, qualitative-coding, campaign-responses, inter-coder-agreement, community-engagement]
 pairs_with:
   prompts: [check-feedback-sampling-bias, design-feedback-tagging-taxonomy]

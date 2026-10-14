@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [irrigation-scheduling, water-balance, evapotranspiration, soil-moisture, water-licence]
 pairs_with:
   prompts: [plan-orchard-season-tasks, triage-crop-symptoms, plan-harvest-logistics]

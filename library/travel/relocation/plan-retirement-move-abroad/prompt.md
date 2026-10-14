@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [retiring-abroad, older-adults, ageing-in-place, trial-stay, moving-abroad]
 pairs_with:
   prompts: [plan-relocation-finances, access-healthcare-abroad, plan-retirement-transition, plan-long-distance-connection]

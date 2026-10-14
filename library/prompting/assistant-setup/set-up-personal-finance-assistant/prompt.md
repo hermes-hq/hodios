@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [household-budget, monthly-money-review, redaction, money-goals]
 pairs_with:
   prompts: [write-memory-profile, set-up-household-assistant]

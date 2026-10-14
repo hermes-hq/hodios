@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [etl, idempotency, backfill, data-quality, schema-drift, reconciliation]
 pairs_with:
   prompts: [review-pull-request, design-data-pipeline, write-dbt-model]

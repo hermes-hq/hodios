@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [eloquent, form-requests, authorization, queues, n-plus-one]
 applies_to: ["app/**/*.php", "routes/**/*.php", "config/**/*.php", "database/**/*.php", "tests/**/*.php", "resources/views/**"]
 authorship: ai-assisted

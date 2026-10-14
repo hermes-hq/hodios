@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [nonogram, picross, griddler, line-solving, hint-ladder]
 pairs_with:
   prompts: [coach-sudoku-solving, learn-pencil-puzzle-genre]

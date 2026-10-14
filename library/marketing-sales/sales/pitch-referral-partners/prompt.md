@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [referral-partners, partnerships, word-of-mouth, channel-sales]
 pairs_with:
   prompts: [ask-clients-for-referrals, recruit-resellers, ask-for-introduction-by-email]

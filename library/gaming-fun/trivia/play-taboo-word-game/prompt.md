@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [forbidden-words, describing-game, circumlocution, word-cards, party-play]
 pairs_with:
   prompts: [play-category-letter-game, play-hidden-word-game]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ransomware, incident-response, containment, backup-recovery, lessons-learned]
 pairs_with:
   prompts: [plan-security-incident-response, build-forensic-timeline, write-ir-playbook, plan-security-tabletop]

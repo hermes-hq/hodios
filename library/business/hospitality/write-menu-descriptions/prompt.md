@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [menu-writing, allergens, food-copy, cafe]
 pairs_with:
   prompts: [write-product-description, write-brochure-copy]

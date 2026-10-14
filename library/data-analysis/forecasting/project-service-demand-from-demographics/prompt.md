@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [demographic-projection, needs-assessment, usage-rates, service-planning]
 pairs_with:
   prompts: [forecast-school-enrollment, review-forecast-assumptions, present-forecast-uncertainty]

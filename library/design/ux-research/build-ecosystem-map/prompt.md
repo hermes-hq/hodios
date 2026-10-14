@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ecosystem-map, actor-map, service-design, stakeholder-relationships, systems-thinking]
 pairs_with:
   prompts: [build-service-blueprint, build-user-journey-map, map-customer-workflow]

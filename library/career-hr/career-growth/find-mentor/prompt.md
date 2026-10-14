@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [mentorship, sponsorship, cold-outreach, networking, informational-interview]
 pairs_with:
   prompts: [write-networking-message, build-development-plan, plan-career-path]

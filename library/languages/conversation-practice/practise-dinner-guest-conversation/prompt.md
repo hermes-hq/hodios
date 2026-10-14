@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [dinner-guest, table-manners, hospitality-customs, in-laws, cefr]
 pairs_with:
   prompts: [practise-condolences-and-congratulations, practise-making-plans-with-new-friends, explain-food-allergy-aloud]

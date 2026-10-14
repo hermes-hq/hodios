@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [overseas-voting, voter-registration, postal-vote, proxy-vote, citizens-abroad]
 pairs_with:
   prompts: [check-dual-citizenship-impact, renew-passport-or-id-card, organize-important-documents]

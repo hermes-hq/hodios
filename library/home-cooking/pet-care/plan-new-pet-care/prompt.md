@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [new-pet, puppy, kitten, pet-supplies, pet-costs, animal-welfare]
 pairs_with:
   prompts: [train-dog-behavior, prepare-vet-visit]

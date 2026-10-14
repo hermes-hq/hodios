@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [microdrama, vertical-video, serialized-drama, cliffhanger, short-drama]
 pairs_with:
   prompts: [write-beat-sheet, write-logline-and-synopsis, format-screenplay-scene]

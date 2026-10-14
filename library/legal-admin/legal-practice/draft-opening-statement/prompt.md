@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [opening-statement, trial-advocacy, case-theme, storytelling, mock-trial]
 pairs_with:
   prompts: [prepare-cross-examination-outline, draft-jury-instructions, prepare-moot-court-argument]

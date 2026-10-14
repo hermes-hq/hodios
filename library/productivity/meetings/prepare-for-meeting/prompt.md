@@ -7,6 +7,7 @@ description: Writes a one-page pre-meeting brief with your goal and fallback, ea
 category: meetings
 version: 1.0.0
 status: incubating
+depth: basic
 stage: [plan]
 role: [manager, individual, founder, consultant]
 inputs: [text, notes]

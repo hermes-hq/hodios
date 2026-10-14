@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [travel-claim, trip-cancellation, medical-abroad, lost-luggage, flight-delay]
 pairs_with:
   prompts: [choose-travel-insurance, appeal-insurance-denial, price-contents-claim-list]

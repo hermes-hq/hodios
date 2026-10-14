@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [social-enterprise, community-business, mission-drift, impact-evidence, blended-funding, theory-of-change]
 pairs_with:
   prompts: [design-social-enterprise-model, write-impact-report, write-grant-application, model-unit-economics]

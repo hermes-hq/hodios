@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [directing, shot-design, continuity, generated-footage]
 pairs_with:
   prompts: [write-video-generation-prompt, turn-storyboard-into-video-shots, fix-video-generation-drift, review-generated-video-takes]

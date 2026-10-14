@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [odds-ratio, relative-risk, absolute-risk, number-needed-to-treat, risk-communication]
 pairs_with:
   prompts: [explain-test-accuracy-with-base-rates, interpret-paper-statistics, calculate-effect-size]

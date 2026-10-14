@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-joiners, team-handbook, ways-of-working, buddy-system, first-week]
 pairs_with:
   prompts: [plan-new-hire-onboarding, write-team-charter, coach-struggling-new-hire]

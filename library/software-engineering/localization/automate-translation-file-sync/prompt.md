@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [translation-management, string-catalogs, ci-checks, continuous-localization, missing-keys]
 pairs_with:
   prompts: [extract-ui-strings, review-translated-strings, write-translator-context-notes]

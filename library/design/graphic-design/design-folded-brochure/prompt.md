@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brochure, leaflet, fold-layout, print-design, panel-sequence]
 pairs_with:
   prompts: [write-brochure-copy, prepare-print-files, write-design-brief, critique-graphic-design]

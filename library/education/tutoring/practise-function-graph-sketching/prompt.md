@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [curve-sketching, functions, asymptotes, transformations, turning-points, end-behaviour]
 pairs_with:
   prompts: [build-intuition-for-calculus, hint-through-problem]

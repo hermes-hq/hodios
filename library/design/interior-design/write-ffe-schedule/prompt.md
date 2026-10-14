@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ffe, specification, procurement, project-tracking, commercial-interiors]
 pairs_with:
   prompts: [write-interior-design-brief]

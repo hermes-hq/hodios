@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [domestic-abuse, safety-planning, early-lease-exit, joint-tenancy, housing-help]
 pairs_with:
   prompts: [plan-early-lease-exit, apply-for-housing-assistance, find-free-legal-help]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pit, twoj-e-pit, ulga-na-dzieci, urzad-skarbowy, polska]
 pairs_with:
   prompts: [explain-tax-notice, organize-tax-documents]

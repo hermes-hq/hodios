@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iso-9001, quality-management-system, certification-audit, internal-audit, management-review]
 pairs_with:
   prompts: [write-sop, set-up-document-control, audit-sop-library, write-capa-report, build-risk-register]

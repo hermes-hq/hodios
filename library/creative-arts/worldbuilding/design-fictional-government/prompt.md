@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [political-systems, statecraft, legitimacy, setting-design, political-intrigue]
 pairs_with:
   prompts: [design-fictional-factions, design-fictional-legal-system, design-fictional-dynasty, design-fictional-economy]

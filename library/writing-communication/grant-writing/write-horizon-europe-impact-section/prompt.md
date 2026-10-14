@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [horizon-europe, eu-funding, dissemination, exploitation, pathways-to-impact, consortium]
 pairs_with:
   prompts: [write-impact-statement, plan-consortium-grant-bid, write-grant-commercialisation-plan]

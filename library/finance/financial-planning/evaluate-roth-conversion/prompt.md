@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [roth-conversion, retirement-accounts, tax-brackets, ira, usa]
 pairs_with:
   prompts: [compare-roth-vs-traditional, plan-required-minimum-distributions, plan-retirement-scenarios]

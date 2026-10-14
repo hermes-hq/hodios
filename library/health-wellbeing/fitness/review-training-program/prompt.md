@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [program-review, training-volume, progressive-overload, recovery, strength-training]
 pairs_with:
   prompts: [build-training-plan, track-fitness-progress]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [execution-interview, metric-definition, metric-drop, north-star-metric]
 pairs_with:
   prompts: [practice-product-sense-interview, practise-data-science-interview, prepare-case-interview]

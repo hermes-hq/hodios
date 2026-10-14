@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-tools, time-on-task, rework-rate, capacity-planning, baseline-measurement, process-change]
 pairs_with:
   prompts: [run-internal-tool-feedback-pulse, define-feature-success-metrics, check-kpi-for-perverse-incentives]

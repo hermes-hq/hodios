@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-voting, upvotes, feature-requests, weighted-demand, community-board, vote-inflation]
 pairs_with:
   prompts: [triage-feature-requests, check-feedback-sampling-bias, close-feedback-loop]

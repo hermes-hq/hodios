@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [command-injection, injection, argument-injection, owasp]
 pairs_with:
   prompts: [audit-input-handling, triage-sast-findings, write-exploit-regression-test, write-semgrep-rule]

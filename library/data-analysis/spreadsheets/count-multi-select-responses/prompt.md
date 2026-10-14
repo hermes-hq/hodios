@@ -19,6 +19,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [checkbox-questions, multi-select, survey-tables, denominators, cross-tab]
 pairs_with:
   prompts: [analyze-survey-results, process-google-form-responses, build-pivot-analysis]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [order-cancellation, dispatch-intercept, made-to-order, cooling-off, returns]
 pairs_with:
   prompts: [design-returns-process, handle-missing-refund-enquiry, write-support-reply]

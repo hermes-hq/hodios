@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interview-scorecard, behavioural-anchors, structured-interview, evidence-based-hiring]
 pairs_with:
   prompts: [design-interview-loop, write-interview-feedback, run-hiring-debrief]

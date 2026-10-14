@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [saas]
 tags: [subscriptions, customer-lifecycle, trial-conversion, renewals, churn]
 pairs_with:

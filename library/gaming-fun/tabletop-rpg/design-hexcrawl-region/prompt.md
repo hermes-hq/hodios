@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hexcrawl, wilderness-travel, sandbox, game-mastering, exploration]
 pairs_with:
   prompts: [design-random-tables, design-dungeon, design-campaign-arc]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mvvm, use-cases, state-holders, ui-state]
 pairs_with:
   personas: [kotlin-android-engineer, swift-ios-engineer]

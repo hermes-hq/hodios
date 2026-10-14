@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [analysis-table, data-grain, data-leakage, feature-table, joins]
 pairs_with:
   prompts: [check-tables-before-joining, write-analysis-plan, find-churn-drivers]

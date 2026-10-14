@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [board-minutes, governance, motions, quorum, committee, secretary]
 pairs_with:
   prompts: [summarize-meeting-transcript, write-meeting-agenda]

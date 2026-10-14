@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [online-reviews, local-business, customer-complaints, service-improvement, star-ratings]
 pairs_with:
   prompts: [summarize-reviews-before-buying, respond-to-online-review, summarize-survey-comments]

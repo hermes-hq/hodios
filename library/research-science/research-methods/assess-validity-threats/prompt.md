@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [validity, internal-validity, external-validity, construct-validity, bias, limitations]
 pairs_with:
   prompts: [design-research-study, check-research-alignment, write-methods-section, write-discussion-section]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [narrative-review, review-paper, journal-submission, synthesis]
 pairs_with:
   prompts: [outline-literature-review, build-literature-matrix, choose-target-journal]

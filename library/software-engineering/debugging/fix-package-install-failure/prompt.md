@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [npm, pip, node-gyp, native-extensions, proxies]
 pairs_with:
   prompts: [resolve-dependency-conflict, fix-module-import-error]

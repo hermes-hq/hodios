@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [baby-names, family-traditions, shortlist, bilingual-families]
 pairs_with:
   prompts: [write-birth-announcement]

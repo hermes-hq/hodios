@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [line-sheet, wholesale, stockists, trade-catalogue, makers]
 pairs_with:
   prompts: [write-product-description, write-packaging-copy, plan-promotional-offer, write-about-page]

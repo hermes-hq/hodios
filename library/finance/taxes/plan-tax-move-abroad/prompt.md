@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tax-residency, double-taxation, expat, moving-abroad]
 pairs_with:
   prompts: [organize-tax-documents, explain-tax-on-investments, compare-retirement-accounts]

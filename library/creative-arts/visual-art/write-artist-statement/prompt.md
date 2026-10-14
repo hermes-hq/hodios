@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [artist-statement, art-practice, residency-application, exhibition-text]
 pairs_with:
   prompts: [critique-artwork, write-artist-bio]

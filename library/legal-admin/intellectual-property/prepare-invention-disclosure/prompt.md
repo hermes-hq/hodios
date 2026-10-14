@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [invention-disclosure, patent-attorney-prep, novelty, public-disclosure, inventorship]
 pairs_with:
   prompts: [plan-prior-art-search, choose-invention-protection-route]

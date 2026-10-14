@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [subletting, lodger, flatmate-change, landlord-consent, tenant-requests]
 pairs_with:
   prompts: [review-lease, write-house-share-agreement]

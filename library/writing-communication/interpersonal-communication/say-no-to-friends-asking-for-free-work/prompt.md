@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [saying-no, friends-and-family, free-favours, mates-rates, scope-creep]
 pairs_with:
   prompts: [decline-spec-work-request, decline-request-gracefully, set-boundary]

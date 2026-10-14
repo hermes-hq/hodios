@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [backyard-chickens, hens, chicken-coop, poultry-care, predator-proofing, fresh-eggs]
 pairs_with:
   prompts: [plan-new-pet-care, build-pet-emergency-plan, start-composting]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [information-request, document-request, data-collection, vendor-communication, checklist-email]
 pairs_with:
   prompts: [write-follow-up-email, request-approval-by-email, write-professional-email]

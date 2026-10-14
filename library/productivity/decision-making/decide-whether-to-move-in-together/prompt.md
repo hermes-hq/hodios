@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cohabiting, couples, readiness, shared-home, expectations]
 pairs_with:
   prompts: [plan-moving-in-together-finances, make-joint-decision-with-partner, test-decision-before-committing]

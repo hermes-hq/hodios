@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [photo-restoration, colourisation, family-history, image-editing, authenticity]
 pairs_with:
   prompts: [write-image-edit-prompt]

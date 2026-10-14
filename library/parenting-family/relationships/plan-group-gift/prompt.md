@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [group-gifts, gift-ideas, collecting-money, cards, colleagues]
 pairs_with:
   prompts: [choose-meaningful-gift, write-card-message]

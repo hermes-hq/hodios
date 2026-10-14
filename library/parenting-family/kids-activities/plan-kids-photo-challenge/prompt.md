@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kids-photography, photo-challenge, creative-play, observation-skills, composition-basics, family-project]
 pairs_with:
   prompts: [plan-nature-walk-activities, create-kids-craft, plan-kids-summer]

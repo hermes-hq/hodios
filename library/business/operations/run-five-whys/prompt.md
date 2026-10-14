@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [root-cause-analysis, five-whys, fishbone, ishikawa, countermeasures, lean]
 pairs_with:
   prompts: [map-business-process, write-sop]

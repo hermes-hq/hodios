@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [business-culture, cross-cultural, register, email-adaptation, workplace-communication]
 pairs_with:
   prompts: [explain-politeness-register, translate-preserving-tone, review-translation]

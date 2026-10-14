@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [methodological-coherence, thesis-proposal, research-design, dissertation, alignment-matrix]
 pairs_with:
   prompts: [design-research-study, write-research-proposal, write-methods-section]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sequence-diagram, authentication, networking, web-protocols]
 pairs_with:
   prompts: [implement-oauth-login, fix-oauth-login-error, explain-concept-with-code]

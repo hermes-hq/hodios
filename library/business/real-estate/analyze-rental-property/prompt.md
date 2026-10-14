@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [real-estate]
 tags: [rental-yield, buy-to-let, cash-flow, cap-rate, landlord]
 pairs_with:

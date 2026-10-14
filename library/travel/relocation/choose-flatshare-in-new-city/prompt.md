@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [flatshare, room-rental, co-living, rental-scams, newcomers]
 pairs_with:
   prompts: [practise-flat-viewing-questions, split-rent-between-flatmates, review-lease, find-rental-from-abroad]

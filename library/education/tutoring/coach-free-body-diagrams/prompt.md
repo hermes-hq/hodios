@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [free-body-diagrams, newtons-laws, mechanics, resolving-forces, inclined-planes, misconceptions]
 pairs_with:
   prompts: [hint-through-problem, practise-dimensional-analysis]

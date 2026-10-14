@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [figures, data-extraction, reports, numbers-table]
 pairs_with:
   prompts: [check-statistics-in-article, summarize-long-document]

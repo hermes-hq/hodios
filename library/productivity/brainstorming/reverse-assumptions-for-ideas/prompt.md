@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [assumption-reversal, rule-breaking, innovation, ideation-technique]
 pairs_with:
   prompts: [surface-hidden-assumptions, use-provocations-for-ideas, validate-business-idea]

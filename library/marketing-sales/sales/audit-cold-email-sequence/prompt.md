@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [cold-email, sequence-review, reply-rate, deliverability, outbound]
 pairs_with:
   prompts: [write-outbound-sequence, personalize-cold-email-openers, write-cold-outreach]

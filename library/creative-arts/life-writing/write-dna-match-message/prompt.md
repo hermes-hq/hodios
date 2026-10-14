@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [genealogy, dna-testing, family-tree, first-contact, research-collaboration]
 pairs_with:
   prompts: [plan-genealogy-research, break-genealogy-brick-wall]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [long-term-memory, personalization, consent, privacy, memory-extraction]
 pairs_with:
   prompts: [compress-conversation-memory, write-memory-profile, redact-personal-data]

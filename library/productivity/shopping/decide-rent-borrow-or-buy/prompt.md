@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [equipment-rental, borrowing, library-of-things, sharing-economy, cost-comparison]
 pairs_with:
   prompts: [decide-whether-to-buy, buy-secondhand-safely, choose-cordless-tool-system, find-ethical-alternative-products]

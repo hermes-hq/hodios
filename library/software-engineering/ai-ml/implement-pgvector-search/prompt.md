@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pgvector, hnsw, vector-search, semantic-search, embeddings]
 pairs_with:
   prompts: [design-rag-pipeline, choose-vector-database]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [state-machine, finite-state-machine, status-flags, business-rules, optimistic-locking]
 pairs_with:
   personas: [backend-engineer]

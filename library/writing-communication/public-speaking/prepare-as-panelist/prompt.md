@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [panel-discussion, conference, key-messages, bridging, soundbites]
 pairs_with:
   prompts: [moderate-panel, prepare-for-tough-questions, craft-personal-story, prepare-media-interview]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [graded-text, simplification, authentic-materials, reading-comprehension, cefr]
 pairs_with:
   prompts: [gloss-authentic-text, write-graded-reader, discuss-article-in-language]

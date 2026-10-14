@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [script-notes, story-structure, character-arc, coverage]
 pairs_with:
   prompts: [write-beat-sheet, write-film-treatment, adapt-story-for-screen, write-logline-and-synopsis, format-screenplay-scene]

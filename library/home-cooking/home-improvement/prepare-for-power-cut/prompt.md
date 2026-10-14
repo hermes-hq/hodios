@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [power-outage, blackout, emergency-kit, medical-devices, food-safety, home-preparedness]
 pairs_with:
   prompts: [prepare-home-for-storm, build-pet-emergency-plan, write-family-emergency-plan]

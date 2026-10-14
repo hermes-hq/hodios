@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-resume, ux-resume, portfolio-companion, design-outcomes]
 pairs_with:
   prompts: [write-portfolio-case-study, write-portfolio-site-copy, tailor-resume-to-job]

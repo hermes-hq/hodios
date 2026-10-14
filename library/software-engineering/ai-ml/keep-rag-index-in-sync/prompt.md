@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [incremental-indexing, data-freshness, embeddings, reindexing]
 pairs_with:
   prompts: [design-rag-pipeline, design-change-data-capture]

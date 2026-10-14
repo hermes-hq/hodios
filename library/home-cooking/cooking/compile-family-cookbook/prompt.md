@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-recipes, cookbook, recipe-formatting, heirloom, measurement-conversion]
 pairs_with:
   prompts: [adapt-recipe]

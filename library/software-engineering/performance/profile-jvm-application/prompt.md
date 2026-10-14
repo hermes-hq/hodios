@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [jfr, async-profiler, jvm, allocation-profiling, hotspots]
 pairs_with:
   prompts: [read-flame-graph, tune-garbage-collector, find-lock-contention, tune-jpa-hibernate-performance, write-microbenchmark]

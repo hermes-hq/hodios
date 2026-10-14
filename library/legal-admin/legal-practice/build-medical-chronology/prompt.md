@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [medical-chronology, personal-injury, medical-records-review, treatment-gaps, causation]
 pairs_with:
   prompts: [build-damages-schedule, index-case-documents, write-early-case-assessment]

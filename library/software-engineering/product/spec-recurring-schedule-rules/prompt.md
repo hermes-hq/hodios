@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recurrence, time-zones, daylight-saving, scheduling, requirements]
 pairs_with:
   prompts: [list-feature-edge-cases, write-acceptance-criteria, spec-calculation-rules]

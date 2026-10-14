@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [drawing-fundamentals, deliberate-practice, art-study, practice-plan]
 pairs_with:
   prompts: [critique-artwork]

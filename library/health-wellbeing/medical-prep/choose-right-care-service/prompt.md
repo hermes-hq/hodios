@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [care-navigation, urgent-care, pharmacist, out-of-hours, red-flags, carers]
 pairs_with:
   prompts: [prepare-doctor-questions, access-healthcare-abroad, prepare-telehealth-visit]

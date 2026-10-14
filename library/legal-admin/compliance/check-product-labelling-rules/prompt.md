@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-labelling, packaging, allergen-labelling, cosmetics-labelling, mandatory-information, importers]
 pairs_with:
   prompts: [plan-product-conformity-marking, draft-farm-produce-labels, build-allergen-matrix, check-advertising-claims]

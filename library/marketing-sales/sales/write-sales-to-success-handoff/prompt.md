@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-handoff, customer-onboarding, account-transition, expectation-setting, kickoff]
 pairs_with:
   prompts: [plan-customer-onboarding, write-mutual-action-plan, summarize-sales-call]

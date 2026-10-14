@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-care, consent, dementia-communication, person-centred, care-workers]
 pairs_with:
   prompts: [practise-shift-handover-in-language, write-care-visit-notes, learn-language-for-work-role]

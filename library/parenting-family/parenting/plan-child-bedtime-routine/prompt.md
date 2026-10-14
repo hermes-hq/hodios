@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bedtime, sleep-routine, night-waking, toddlers, family-routines, wind-down]
 pairs_with:
   prompts: [set-screen-time-plan, plan-behavior-approach]

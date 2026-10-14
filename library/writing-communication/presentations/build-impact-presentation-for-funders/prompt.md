@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [funder-reporting, outcomes, donor-relations, beneficiary-story, fundraising-ask]
 pairs_with:
   prompts: [write-impact-report, plan-funder-stewardship, prepare-funder-site-visit, drill-presentation-qa]

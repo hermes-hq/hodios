@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quality-assurance, scorecard, rubric, calibration, coaching, ticket-review]
 pairs_with:
   prompts: [write-support-reply, build-support-macros, analyze-support-tickets]

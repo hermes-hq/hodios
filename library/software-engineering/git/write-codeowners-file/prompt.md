@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [codeowners, code-ownership, branch-protection, review-routing]
 pairs_with:
   prompts: [write-code-review-guidelines]

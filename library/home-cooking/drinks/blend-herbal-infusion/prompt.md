@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [herbal-tea, tisane, caffeine-free, tea-blending, dried-herbs, flavour-balance]
 pairs_with:
   prompts: [brew-tea-properly, invent-alcohol-free-cocktail]

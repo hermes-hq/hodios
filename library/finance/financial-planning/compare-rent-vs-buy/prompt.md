@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rent-vs-buy, mortgage, opportunity-cost, break-even]
 pairs_with:
   prompts: [plan-savings-goal, build-monthly-budget]

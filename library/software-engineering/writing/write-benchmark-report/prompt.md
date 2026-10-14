@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [benchmarks, percentiles, latency, throughput, reproducibility]
 pairs_with:
   prompts: [analyze-load-test-results, write-tech-blog-post]

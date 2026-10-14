@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [first-contact, conlang-puzzle, decipherment, science-fiction]
 args:
   - name: species_style

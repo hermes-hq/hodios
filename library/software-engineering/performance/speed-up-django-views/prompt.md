@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [django-orm, queryset, drf, assert-num-queries, debug-toolbar]
 pairs_with:
   prompts: [fix-n-plus-one-queries, optimize-sql-query, plan-caching-strategy]

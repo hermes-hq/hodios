@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [support-readiness, macros, escalation-path, contact-forecast, product-feedback-loop]
 pairs_with:
   prompts: [write-launch-faq, plan-support-staffing, brief-frontline-staff-on-release, write-known-issues-page]

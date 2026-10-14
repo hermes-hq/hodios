@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [integration-tests, testcontainers, test-isolation, fixtures, real-dependencies]
 pairs_with:
   personas: [test-engineer]

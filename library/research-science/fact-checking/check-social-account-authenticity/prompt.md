@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bot-detection, impersonation, coordinated-inauthentic-behaviour, osint, account-verification]
 pairs_with:
   prompts: [verify-expert-credentials, verify-eyewitness-source, check-post-before-sharing]

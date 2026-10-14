@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [battery-life, smartphone, battery-health, power-saving, phone-settings]
 pairs_with:
   prompts: [free-up-storage, review-app-permissions, explain-error-message]

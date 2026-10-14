@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audit-triage, backlog, developer-tickets, impact-effort, technical-debt]
 pairs_with:
   prompts: [audit-technical-seo, audit-on-page-seo, write-search-ranking-report]

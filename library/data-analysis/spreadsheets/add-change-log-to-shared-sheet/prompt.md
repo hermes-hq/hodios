@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audit-trail, edit-history, timestamps, apps-script, on-edit-trigger]
 pairs_with:
   prompts: [write-spreadsheet-automation, set-up-data-validation, build-tracker-spreadsheet]

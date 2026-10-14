@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [seasonal-workers, worker-welfare, plain-language, translation-ready, worker-accommodation]
 pairs_with:
   prompts: [write-farm-safety-induction, estimate-harvest-labour-needs]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [expo-sdk, eas, config-plugins, ota-updates, prebuild]
 pairs_with:
   prompts: [upgrade-react-native-version, migrate-react-native-new-architecture, fix-mobile-build-failure]

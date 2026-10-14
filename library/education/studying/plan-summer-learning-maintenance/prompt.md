@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [summer-slide, reading-for-pleasure, everyday-maths, school-holidays]
 pairs_with:
   prompts: [set-up-homework-routine]

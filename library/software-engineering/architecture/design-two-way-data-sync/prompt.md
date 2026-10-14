@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [integration, data-sync, conflict-resolution, crm-integration, reconciliation]
 pairs_with:
   personas: [software-architect]

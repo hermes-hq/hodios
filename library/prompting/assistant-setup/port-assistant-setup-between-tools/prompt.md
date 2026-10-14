@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [switching-assistants, instruction-portability, memory, data-minimisation, tool-switching]
 pairs_with:
   prompts: [write-custom-instructions, write-memory-profile, review-custom-instructions, port-prompt-between-models]

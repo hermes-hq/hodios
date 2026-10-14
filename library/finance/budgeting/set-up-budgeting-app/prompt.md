@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [budgeting-apps, categories, money-routine, zero-based-budget]
 pairs_with:
   prompts: [design-budget-spreadsheet, categorize-expenses, build-monthly-budget]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [math-puzzles, number-puzzles, brain-teaser, enrichment, puzzle-of-the-week]
 pairs_with:
   prompts: [make-logic-puzzle, explain-puzzle-answer, write-riddles]

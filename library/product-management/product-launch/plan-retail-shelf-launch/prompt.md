@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sell-in, rate-of-sale, listing-fees, shelf-ready-packaging, point-of-sale, replenishment]
 pairs_with:
   prompts: [set-product-cost-target, plan-seasonal-product-calendar, brief-frontline-staff-on-release]

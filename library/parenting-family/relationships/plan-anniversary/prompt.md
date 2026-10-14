@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [anniversary, couples, celebration, gift-ideas, milestone-anniversary, romantic-gestures]
 pairs_with:
   prompts: [plan-date-night, choose-meaningful-gift, plan-relationship-check-in]

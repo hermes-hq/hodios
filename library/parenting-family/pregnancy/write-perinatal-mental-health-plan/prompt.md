@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [perinatal-mental-health, postnatal-depression, anxiety, early-warning-signs, support-plan]
 pairs_with:
   prompts: [check-in-on-new-parent-wellbeing, talk-to-doctor-about-mental-health, plan-new-parent-sleep-shifts]

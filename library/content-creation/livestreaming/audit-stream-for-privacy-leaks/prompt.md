@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [doxxing, privacy, stream-safety, opsec, screen-capture]
 pairs_with:
   prompts: [prepare-hate-raid-response, plan-irl-stream, reduce-online-footprint]

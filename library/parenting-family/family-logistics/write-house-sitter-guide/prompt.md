@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [house-sitting, pet-sitting, babysitting, emergency-plan, household-manual, handover]
 pairs_with:
   prompts: [prepare-emergency-medical-summary, coordinate-family-calendar]

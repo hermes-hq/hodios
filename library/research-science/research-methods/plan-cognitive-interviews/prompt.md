@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cognitive-interviewing, pretesting, questionnaire-design, think-aloud, survey-research]
 pairs_with:
   prompts: [write-survey-questionnaire, review-survey-questionnaire, plan-pilot-study, translate-and-adapt-questionnaire]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [smart-criteria, goal-writing, measurable-targets, checkpoints]
 pairs_with:
   prompts: [set-woop-goals, design-habit-plan, run-daily-accountability-check-in]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [site-launch, new-website, indexing, expectations]
 pairs_with:
   prompts: [design-site-structure-for-search, plan-local-seo, write-meta-tags]

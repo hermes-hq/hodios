@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [politeness, refusals, softening, formality, pragmatics, assertiveness]
 pairs_with:
   prompts: [explain-politeness-register, practice-opinion-debate, roleplay-real-situation]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [no-code-app, appsheet, power-apps, data-entry-form, mobile-app]
 pairs_with:
   prompts: [move-spreadsheet-to-database, set-up-data-validation, clean-messy-spreadsheet]

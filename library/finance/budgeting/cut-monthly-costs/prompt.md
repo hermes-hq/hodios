@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [subscriptions, bill-negotiation, cost-of-living, spending-review]
 pairs_with:
   prompts: [categorize-expenses, build-monthly-budget, build-tight-budget, review-insurance-coverage]

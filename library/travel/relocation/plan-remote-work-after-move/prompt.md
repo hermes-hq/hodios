@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [remote-work, cross-border-employment, time-zones, employer-approval, moving-abroad]
 pairs_with:
   prompts: [plan-digital-nomad-base, plan-tax-move-abroad, set-up-home-office, plan-accompanying-partner-move]

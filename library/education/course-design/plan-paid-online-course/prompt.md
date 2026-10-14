@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [online-course, cohort-based-course, course-creator, price-testing, pilot, creator-income]
 pairs_with:
   prompts: [design-course-outline, write-course-welcome-message, design-blended-program]

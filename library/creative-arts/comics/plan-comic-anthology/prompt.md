@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [anthology, call-for-submissions, contributor-agreement, spec-sheet, running-order]
 pairs_with:
   prompts: [plan-comic-production-schedule, make-one-sheet-minicomic]

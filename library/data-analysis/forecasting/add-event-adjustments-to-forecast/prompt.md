@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [promotion-uplift, judgmental-adjustment, demand-planning-overrides, holiday-effects]
 pairs_with:
   prompts: [forecast-time-series, measure-forecast-accuracy, decompose-seasonality]

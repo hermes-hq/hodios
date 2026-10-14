@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [spelling-bee, etymology, word-roots, pronunciation, spelling-patterns, word-study]
 pairs_with:
   prompts: [create-spelling-pattern-list, learn-spelling-to-sound-rules]

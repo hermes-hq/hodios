@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bullets-to-prose, first-draft, fact-preservation, paragraphing, no-padding]
 pairs_with:
   prompts: [tighten-prose, line-edit-prose, write-executive-summary]

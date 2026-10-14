@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [platform-conventions, native-patterns, dynamic-type, system-behaviours, mobile-ui]
 pairs_with:
   prompts: [critique-ui-screen, design-app-navigation, write-accessibility-annotations, design-permission-requests]

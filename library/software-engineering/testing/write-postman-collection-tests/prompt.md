@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [postman, bruno, newman, api-collections, environments]
 pairs_with:
   prompts: [generate-api-tests-from-spec, write-api-endpoint-tests, write-contract-tests]

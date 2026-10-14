@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deprecation, component-lifecycle, codemods, breaking-changes, consumer-communication]
 pairs_with:
   prompts: [plan-design-system-governance, measure-design-system-adoption, write-migration-guide]

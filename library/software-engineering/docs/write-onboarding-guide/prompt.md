@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [developer-experience, getting-started, new-hire]
 pairs_with:
   personas: [technical-writer]

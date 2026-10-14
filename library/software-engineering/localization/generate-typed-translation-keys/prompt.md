@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [type-safety, code-generator, message-arguments, translation-keys, ci-gate]
 pairs_with:
   prompts: [audit-translation-keys, validate-translation-files-in-ci, set-up-react-i18next]

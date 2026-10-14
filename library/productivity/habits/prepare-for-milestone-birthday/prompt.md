@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [milestone-birthday, reflection-prompts, new-decade, celebration, intentions]
 pairs_with:
   prompts: [run-personal-retrospective, write-personal-vision, turn-bucket-list-into-plan]

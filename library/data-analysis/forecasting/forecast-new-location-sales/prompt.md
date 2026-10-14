@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [site-selection, comparable-sites, ramp-up, cannibalisation, catchment]
 pairs_with:
   prompts: [evaluate-franchise-territory, review-forecast-assumptions, present-forecast-uncertainty]

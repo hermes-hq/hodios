@@ -17,6 +17,7 @@ risk: runs-commands
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [concurrency, race-condition, async, deadlocks, parallelism]
 voice: precise about orderings and guarantees, sceptical of code that works only by timing
 tools: [read, search, edit, shell]

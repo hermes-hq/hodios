@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [budget-submission, annual-budget, cost-justification, budget-cuts, finance-review]
 pairs_with:
   prompts: [explain-budget-variance, write-decision-memo, write-headcount-request]

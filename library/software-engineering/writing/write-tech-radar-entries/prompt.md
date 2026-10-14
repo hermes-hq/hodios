@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [tech-radar, technology-adoption, architecture-governance, experience-reports]
 pairs_with:
   prompts: [write-technical-roadmap]

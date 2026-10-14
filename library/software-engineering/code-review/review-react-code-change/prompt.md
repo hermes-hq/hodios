@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hooks, use-effect, stale-closures, re-renders, pull-request]
 pairs_with:
   personas: [react-engineer]

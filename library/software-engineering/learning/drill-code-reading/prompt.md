@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [code-reading, predict-the-output, tracing, practice-game]
 pairs_with:
   prompts: [quiz-big-o-complexity, explain-concept-with-code]

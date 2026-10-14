@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pytest, fixtures, parametrize, monkeypatch, unit-tests]
 pairs_with:
   prompts: [write-unit-tests, organize-pytest-fixtures, write-property-based-tests]

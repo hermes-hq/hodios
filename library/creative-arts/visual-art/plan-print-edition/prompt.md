@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [art-prints, limited-edition, giclee, printmaking, selling-art]
 pairs_with:
   prompts: [price-artwork, write-artwork-sale-listing, set-up-artwork-inventory]

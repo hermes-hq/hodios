@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [second-opinion, shared-decision-making, medical-records, treatment-options, patient-advocacy]
 pairs_with:
   prompts: [explain-diagnosis, explain-imaging-report, prepare-doctor-questions, prepare-for-surgery]

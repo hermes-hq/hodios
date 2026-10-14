@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sms, one-time-code, phone-numbers, sms-pumping, fraud-prevention]
 pairs_with:
   prompts: [implement-two-factor-auth, block-fake-signups, add-rate-limiting]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [non-executive-director, trustee, board-appointment, governance]
 pairs_with:
   prompts: [write-executive-resume, build-board-skills-matrix]

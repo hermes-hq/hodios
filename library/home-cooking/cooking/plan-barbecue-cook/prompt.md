@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [barbecue, grilling, two-zone-fire, smoking, food-safety, hosting]
 pairs_with:
   prompts: [check-food-safety, scale-recipe-for-crowd, organise-potluck]

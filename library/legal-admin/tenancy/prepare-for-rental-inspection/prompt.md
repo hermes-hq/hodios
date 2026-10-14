@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [routine-inspection, landlord-visit, property-condition, tenant-rights]
 pairs_with:
   prompts: [object-to-landlord-entry, request-landlord-repair, prepare-for-tenancy-check-out]

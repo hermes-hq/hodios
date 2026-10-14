@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 advice_risk: [medical]
 tags: [adhd, dyslexia, dyspraxia, neurodiversity, accommodations, assistive-technology]
 pairs_with:

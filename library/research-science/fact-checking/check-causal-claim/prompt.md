@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [correlation-causation, confounding, bradford-hill, reverse-causation, natural-experiments]
 pairs_with:
   prompts: [check-statistics-in-article, check-science-news-against-paper, check-health-claim]

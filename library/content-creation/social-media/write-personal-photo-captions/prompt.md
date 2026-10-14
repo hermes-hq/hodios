@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [personal-posting, short-captions, photo-dump, location-privacy]
 pairs_with:
   prompts: [write-life-update-post, write-instagram-caption]

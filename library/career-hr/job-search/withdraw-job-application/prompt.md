@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [withdraw-candidacy, hiring-process, professional-relationships, candidate-etiquette]
 pairs_with:
   prompts: [decline-job-offer, reply-to-recruiter, follow-up-on-job-application]

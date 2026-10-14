@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [car-maintenance, warning-lights, car-trouble, road-safety, dashboard-lights]
 pairs_with:
   prompts: [prepare-for-car-service, inspect-used-car]

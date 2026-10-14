@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [early-warning, issue-detection, feedback-monitoring, trend-break, escalation, release-regression]
 pairs_with:
   prompts: [analyze-user-feedback, compare-feedback-before-after-change, design-feedback-tagging-taxonomy, diagnose-metric-drop]

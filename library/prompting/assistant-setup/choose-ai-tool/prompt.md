@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tool-selection, ai-adoption, data-handling, trial-plan]
 pairs_with:
   prompts: [map-ai-use-cases, write-ai-use-policy]

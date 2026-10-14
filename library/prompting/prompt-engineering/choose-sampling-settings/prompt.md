@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [temperature, sampling-parameters, llm-api, output-consistency, max-tokens]
 pairs_with:
   prompts: [choose-model-tier-for-task, run-prompt-regression-tests, write-structured-output-prompt]

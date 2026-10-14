@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [asking-for-help, minimal-reproduction, rubber-ducking, xy-problem]
 pairs_with:
   prompts: [explain-stack-trace, ask-for-help-in-team-chat]

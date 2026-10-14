@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ticket-notes, call-summary, case-handover, commitments, after-call-work]
 pairs_with:
   prompts: [write-support-shift-handover, write-support-reply, design-escalation-process]

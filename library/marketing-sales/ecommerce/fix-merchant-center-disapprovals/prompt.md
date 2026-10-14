@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [google-merchant-center, product-feed, disapprovals, misrepresentation, structured-data, shopping-ads]
 pairs_with:
   prompts: [optimize-shopping-feed, audit-product-catalog-data, set-up-performance-max-campaign]

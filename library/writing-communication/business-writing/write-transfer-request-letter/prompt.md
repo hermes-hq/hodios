@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [transfer-request, relocation-request, internal-mobility, shift-change, employee-letters]
 pairs_with:
   prompts: [apply-for-internal-role, write-formal-letter, design-internal-transfer-process]

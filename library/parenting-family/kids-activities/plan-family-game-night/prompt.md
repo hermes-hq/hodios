@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-game-night, board-games, card-games, mixed-ages, cooperative-games, quality-time]
 pairs_with:
   prompts: [invent-learning-game, plan-rainy-day-activities, handle-sibling-conflict]

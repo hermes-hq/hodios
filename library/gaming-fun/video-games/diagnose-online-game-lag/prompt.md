@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [network-lag, packet-loss, nat-type, ping, online-multiplayer]
 pairs_with:
   prompts: [troubleshoot-home-wifi, secure-home-router]

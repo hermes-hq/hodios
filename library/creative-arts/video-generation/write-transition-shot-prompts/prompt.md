@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [match-cut, whip-pan, morph-transition, bridge-clip]
 pairs_with:
   prompts: [write-first-last-frame-prompts, write-clip-extension-prompt, write-music-video-shot-prompts]

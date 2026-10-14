@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pointers, memory-model, stack-and-heap, undefined-behaviour]
 pairs_with:
   prompts: [review-c-code-for-memory-safety, replace-raw-pointers-with-smart-pointers, trace-program-execution]

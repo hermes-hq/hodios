@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [statistics]
 tags: [data-journalism, chart-specs, method-notes, caveats, original-research]
 pairs_with:

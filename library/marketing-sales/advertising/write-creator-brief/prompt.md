@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [influencer-marketing, ugc, creator-brief, ad-disclosure, usage-rights]
 pairs_with:
   personas: [growth-marketer]

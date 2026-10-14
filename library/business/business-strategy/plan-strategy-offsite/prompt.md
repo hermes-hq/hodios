@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [offsite, strategy-retreat, facilitation, agenda-design, leadership-team, decision-rules]
 pairs_with:
   prompts: [prioritize-strategic-initiatives, run-swot-analysis, set-okrs, run-scenario-planning]

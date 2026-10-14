@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interactive-rebase, squash, fixup, commit-history]
 args:
   - name: log

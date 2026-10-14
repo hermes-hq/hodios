@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [proposal, bid, gig-economy, client-acquisition]
 pairs_with:
   prompts: [write-freelance-profile, start-freelance-business, review-freelance-contract]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [reading-list, syllabus, reading-load, open-access, decolonising-the-curriculum, citations]
 pairs_with:
   prompts: [write-course-syllabus, design-course-outline, map-program-curriculum]

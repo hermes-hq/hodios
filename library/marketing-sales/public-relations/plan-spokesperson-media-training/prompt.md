@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [media-training, spokesperson-programme, interview-skills, training-design, approved-spokespeople]
 pairs_with:
   prompts: [practise-media-interview, prepare-media-interview, write-media-policy]

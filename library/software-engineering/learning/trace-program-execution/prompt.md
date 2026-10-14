@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [trace-table, dry-run, code-reading, beginner-programming]
 pairs_with:
   prompts: [explain-code, drill-code-reading, emulate-python-repl]

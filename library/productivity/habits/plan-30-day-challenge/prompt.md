@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [30-day-challenge, daily-practice, progression, habit-tracker, reflection]
 pairs_with:
   prompts: [design-habit-plan, set-woop-goals, design-daily-routine]

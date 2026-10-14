@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [roadmap-format, timeline-view, now-next-later, swimlanes, audience-tailoring, slide-layout]
 pairs_with:
   prompts: [set-up-roadmap-cadence, write-public-roadmap, brief-board-on-roadmap, write-roadmap-update]

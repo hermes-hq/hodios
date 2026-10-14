@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [team-sports, injury-prevention, agility, speed, load-management, periodization]
 pairs_with:
   prompts: [build-training-plan, plan-sports-nutrition, assess-fitness-baseline, design-mobility-routine]

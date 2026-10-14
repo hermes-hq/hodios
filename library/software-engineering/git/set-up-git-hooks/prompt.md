@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [git-hooks, pre-commit, secret-scanning, commit-messages, developer-experience]
 pairs_with:
   rules: [conventional-commits-rules]

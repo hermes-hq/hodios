@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [purchase-orders, purchasing, procure-to-pay, three-way-match, spend-control]
 pairs_with:
   prompts: [write-approval-matrix, compare-vendors, set-up-internal-controls]

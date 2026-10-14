@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [inbox-zero, note-processing, filing, quick-capture, weekly-review]
 pairs_with:
   prompts: [process-brain-dump, set-up-quick-note-capture, design-second-brain, merge-overlapping-notes]

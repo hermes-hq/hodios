@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [body-change, bridge-wardrobe, body-neutral, alterations, comfort-dressing]
 pairs_with:
   prompts: [check-clothing-fit, find-adaptive-clothing, build-capsule-wardrobe]

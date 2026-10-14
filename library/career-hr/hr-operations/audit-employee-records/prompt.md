@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [personnel-files, record-keeping, data-retention, data-protection, hr-audit]
 pairs_with:
   prompts: [select-hr-system, write-employee-handbook, plan-employee-offboarding]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [garment-fit, fitting-room, alterations, returns, tailoring]
 pairs_with:
   prompts: [choose-first-suit, plan-clothing-care-and-repair, measure-for-online-clothes]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [profiling, missing-data, outliers, data-quality]
 pairs_with:
   prompts: [clean-messy-spreadsheet, check-analysis-for-pitfalls]

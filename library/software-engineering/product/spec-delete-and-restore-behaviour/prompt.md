@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [soft-delete, data-lifecycle, undo, requirements]
 pairs_with:
   prompts: [list-feature-edge-cases, spec-roles-and-permissions, write-data-retention-schedule]

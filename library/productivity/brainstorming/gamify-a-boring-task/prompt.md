@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gamification, motivation, housework, study-habits, rewards, streaks]
 pairs_with:
   prompts: [beat-procrastination, plan-tasks-with-adhd, design-course-gamification]

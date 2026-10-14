@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [new-architecture, turbomodules, fabric, jsi, bridgeless]
 pairs_with:
   prompts: [upgrade-react-native-version, fix-react-native-native-module-error]

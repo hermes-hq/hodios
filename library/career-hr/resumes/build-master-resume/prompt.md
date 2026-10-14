@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [master-document, achievement-inventory, evidence-bank, reusable-content]
 pairs_with:
   prompts: [tailor-resume-to-job, rewrite-resume-bullets, write-brag-document]

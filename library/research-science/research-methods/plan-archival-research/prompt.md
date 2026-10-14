@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [history]
 tags: [archives, primary-sources, historical-research, finding-aids, source-criticism]
 pairs_with:

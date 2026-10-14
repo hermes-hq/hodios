@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [lapsed-donors, donor-retention, reactivation, donor-segmentation, appeal-sequence]
 pairs_with:
   prompts: [analyze-donor-data, write-donor-appeal, write-donor-thank-you, plan-monthly-giving-programme]

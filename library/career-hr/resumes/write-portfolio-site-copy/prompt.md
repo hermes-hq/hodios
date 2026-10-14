@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [portfolio, personal-website, personal-brand, about-page, call-to-action]
 pairs_with:
   prompts: [write-portfolio-case-study, write-freelance-profile, optimize-linkedin-profile]

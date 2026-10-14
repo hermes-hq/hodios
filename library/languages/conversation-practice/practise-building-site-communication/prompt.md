@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [site-safety, toolbox-talk, near-miss, trades, site-slang]
 pairs_with:
   prompts: [practise-quoting-jobs-to-homeowners, learn-language-for-work-role, practise-conversation-strategies]

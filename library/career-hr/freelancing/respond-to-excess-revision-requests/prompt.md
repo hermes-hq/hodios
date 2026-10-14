@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [revision-rounds, client-feedback, scope-creep, change-pricing, client-communication]
 pairs_with:
   prompts: [write-scope-change-email, untangle-conflicting-client-feedback, write-statement-of-work, respond-to-unhappy-client]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dinner-invitation, home-visits, table-manners, guest-etiquette]
 pairs_with:
   prompts: [choose-culturally-appropriate-gift, learn-drinking-customs, practise-dinner-guest-conversation]

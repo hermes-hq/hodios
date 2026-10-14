@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 subject: [construction]
 tags: [renovation, site-meeting, variations, programme, contractors]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sat, act, gre, gmat, lsat, test-strategy, timing, error-log]
 pairs_with:
   prompts: [analyze-exam-mistakes, generate-practice-exam, quiz-me-interactively]

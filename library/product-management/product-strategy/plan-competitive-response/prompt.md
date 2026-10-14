@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitive-response, competitor-analysis, pricing-pressure, sales-enablement, churn-risk]
 pairs_with:
   prompts: [write-competitive-battlecard, analyze-competitor-reviews, plan-price-change-communication, run-product-teardown]

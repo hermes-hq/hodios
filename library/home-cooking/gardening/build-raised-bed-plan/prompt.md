@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [raised-beds, soil-mix, cut-list, vegetable-beds, garden-construction]
 pairs_with:
   prompts: [plan-vegetable-garden, plan-garden-irrigation, start-composting]

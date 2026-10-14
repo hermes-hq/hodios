@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [online-proctoring, remote-exam, system-check, exam-rules, tech-failure-plan]
 pairs_with:
   prompts: [plan-exam-day-strategy, prepare-certification-exam, prepare-open-book-exam]

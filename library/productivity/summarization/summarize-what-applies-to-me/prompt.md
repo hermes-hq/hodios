@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [handbooks, fine-print, eligibility, personalised, rules]
 pairs_with:
   prompts: [interrogate-a-document, extract-deadlines, summarize-long-document]

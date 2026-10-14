@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [bug-ticket, root-cause, fix-summary, follow-ups, knowledge-sharing]
 pairs_with:
   prompts: [find-root-cause, write-postmortem, write-pr-description]

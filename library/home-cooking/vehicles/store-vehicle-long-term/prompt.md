@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [vehicle-storage, lay-up, battery-maintainer, recommissioning, classic-car, seasonal-storage]
 pairs_with:
   prompts: [plan-car-maintenance, prepare-car-for-winter, plan-bike-maintenance]

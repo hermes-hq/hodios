@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [unit-economics, gross-margin, markup, break-even]
 pairs_with:
   prompts: [review-small-business-pnl, forecast-cash-flow]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conceptual-review, intellectual-history, theory-development, construct-definition, citation-history]
 pairs_with:
   prompts: [chase-citations, write-literature-review-section, build-literature-matrix, summarize-paper]

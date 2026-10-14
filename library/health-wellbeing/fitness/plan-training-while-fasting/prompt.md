@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ramadan, fasting, intermittent-fasting, hydration, session-timing]
 pairs_with:
   prompts: [plan-ramadan-meals, plan-maintenance-training-phase, plan-sports-nutrition]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [advisory-board, advisor-equity, vesting, advisor-agreement, founder-network]
 pairs_with:
   prompts: [find-cofounder, model-round-dilution, write-networking-message]

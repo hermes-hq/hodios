@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [model-supply-chain, pickle, safetensors, trust-remote-code, ml-security]
 pairs_with:
   prompts: [fix-insecure-deserialization, review-llm-app-security, vet-dependency]

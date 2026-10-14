@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [story-angles, news-values, earned-media, media-pitching, story-mining]
 pairs_with:
   prompts: [pitch-journalist, write-press-release, plan-data-led-pr-campaign, build-media-list]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-gym, equipment, garage-gym, buying-guide, strength-training]
 pairs_with:
   prompts: [build-training-plan, design-quick-home-workout]

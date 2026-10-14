@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [terms-update, price-increase, privacy-policy-change, subscriptions, opt-out]
 pairs_with:
   prompts: [compare-documents, summarize-what-applies-to-me, extract-deadlines]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-triage, information-diet, read-later, skim-plan]
 pairs_with:
   prompts: [extract-wisdom-from-content, summarize-video-transcript]

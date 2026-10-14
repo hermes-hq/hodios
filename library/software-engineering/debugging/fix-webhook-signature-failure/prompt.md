@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [webhooks, hmac, signature-verification, raw-body, integrations]
 pairs_with:
   prompts: [build-webhook-handler, debug-network-request]

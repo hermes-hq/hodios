@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [build-metadata, version-endpoint, git-describe, traceability]
 pairs_with:
   prompts: [fix-git-in-ci-pipelines, sign-release-artifacts, cut-hotfix-from-release-tag]

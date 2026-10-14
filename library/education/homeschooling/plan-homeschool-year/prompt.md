@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [curriculum-planning, portfolio, record-keeping]
 pairs_with:
   prompts: [build-self-study-curriculum, design-unit-plan]

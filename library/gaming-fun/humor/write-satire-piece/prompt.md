@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [satire, parody-news, comedy-writing, punching-up, op-ed]
 pairs_with:
   prompts: [write-comedy-sketch, write-comedy-bit, punch-up-with-humor]

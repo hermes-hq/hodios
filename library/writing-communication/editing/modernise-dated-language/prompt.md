@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dated-language, templates, legalese, business-letters, outdated-terms]
 pairs_with:
   prompts: [simplify-to-plain-language, inclusive-language-rules, reframe-negative-wording]

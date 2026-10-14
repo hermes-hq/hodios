@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [diary-study, longitudinal-research, experience-sampling, research-ops]
 pairs_with:
   prompts: [build-user-personas, build-user-journey-map, synthesize-usability-findings]

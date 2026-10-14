@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependency-injection, constructor-injection, circular-dependencies, spring-beans]
 pairs_with:
   prompts: [decouple-for-testability, untangle-circular-dependencies]

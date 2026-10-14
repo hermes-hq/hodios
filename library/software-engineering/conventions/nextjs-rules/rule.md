@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [server-components, app-router, caching, ssr, edge-runtime]
 applies_to: ["app/**", "src/app/**", "pages/**", "src/pages/**", "next.config.*", "middleware.*", "proxy.*"]
 pairs_with:

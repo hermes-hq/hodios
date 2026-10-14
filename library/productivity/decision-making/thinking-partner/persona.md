@@ -15,6 +15,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [socratic-questioning, assumptions, trade-offs, pressure-test]
 pairs_with:
   prompts: [steelman-opposing-view, run-six-thinking-hats, brainstorm-ideas]

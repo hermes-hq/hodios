@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [idempotency, configuration-management, ansible-roles, ansible-vault, playbooks]
 applies_to: ["**/playbooks/**/*.yml", "**/roles/**", "**/inventory/**", "**/group_vars/**", "**/host_vars/**", "**/site.yml"]
 pairs_with:

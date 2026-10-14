@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [disability-benefits, benefits-claim, medical-evidence, daily-living, welfare-rights]
 pairs_with:
   prompts: [appeal-benefits-decision, prepare-government-form, organize-important-documents, prepare-doctor-questions]

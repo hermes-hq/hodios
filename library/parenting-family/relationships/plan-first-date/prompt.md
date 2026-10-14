@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-date, getting-to-know-someone, conversation-starters, date-ideas, dating-safety]
 pairs_with:
   prompts: [write-dating-profile, plan-date-night]

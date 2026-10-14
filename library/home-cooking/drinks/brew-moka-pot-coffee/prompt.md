@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [moka-pot, stovetop-coffee, brew-technique]
 pairs_with:
   prompts: [choose-coffee-beans, troubleshoot-milk-steaming]

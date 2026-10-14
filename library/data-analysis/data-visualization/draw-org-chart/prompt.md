@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [org-chart, mermaid, reporting-lines, team-structure]
 pairs_with:
   prompts: [draw-process-diagram, plan-team-restructure]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [childhood-anxiety, brave-steps, exposure-ladder, separation-anxiety, school-refusal, child-development]
 pairs_with:
   prompts: [prepare-child-for-school, explain-hard-topic-to-child, plan-behavior-approach]

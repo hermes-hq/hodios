@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [roadworthiness-test, vehicle-inspection, test-failures, emissions-test, car-checks]
 pairs_with:
   prompts: [learn-basic-car-checks, prepare-for-car-service, plan-car-maintenance]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shearing, sheep-handling, wool, shearing-contractor, wet-weather-plan]
 pairs_with:
   prompts: [plan-lambing-shed-rota, plan-low-stress-weaning]

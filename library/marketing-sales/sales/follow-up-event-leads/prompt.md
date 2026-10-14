@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [event-leads, trade-show, lead-follow-up, lead-scoring, field-marketing]
 pairs_with:
   prompts: [plan-event-marketing, write-sales-follow-up, qualify-leads]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [logging, telemetry, metric-cardinality, tracing, pull-request]
 pairs_with:
   personas: [code-reviewer]

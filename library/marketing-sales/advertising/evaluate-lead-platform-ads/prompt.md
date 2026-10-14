@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pay-per-lead, cost-per-job, lead-quality, trade-directories, quote-marketplaces, local-services]
 pairs_with:
   prompts: [plan-local-advertising, calculate-break-even-roas, schedule-ads-around-phone-hours]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plate-map, edge-effects, randomisation, assay-layout, elisa]
 pairs_with:
   prompts: [plan-bench-experiment, calculate-solution-dilutions]

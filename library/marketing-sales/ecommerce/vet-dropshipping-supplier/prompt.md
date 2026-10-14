@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dropshipping, print-on-demand, supplier-vetting, sample-orders, delivery-times, product-sourcing]
 pairs_with:
   prompts: [calculate-product-margin, plan-cross-border-selling]

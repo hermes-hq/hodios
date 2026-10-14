@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [message-routing, urgency, sentiment, ticket-tagging, support-automation]
 pairs_with:
   prompts: [organise-shared-support-inbox, analyze-support-tickets, design-escalation-process]

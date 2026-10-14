@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [moot-court, mock-trial, oral-advocacy, bench-questions, law-student]
 pairs_with:
   prompts: [brief-court-case, outline-motion-argument, practice-issue-spotting, prepare-to-self-represent]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [franchise, franchisee, territory-rights, royalties, restrictive-covenants]
 pairs_with:
   prompts: [evaluate-buying-a-business, summarize-contract, explain-contract-clause]

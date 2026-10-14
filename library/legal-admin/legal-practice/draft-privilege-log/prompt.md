@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [privilege-log, ediscovery, attorney-client-privilege, work-product, document-review, litigation-support]
 pairs_with:
   prompts: [draft-discovery-requests, index-case-documents]

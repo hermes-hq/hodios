@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [background-jobs, job-queue, retries, idempotency, cron, dead-letter-queue]
 pairs_with:
   personas: [backend-engineer]

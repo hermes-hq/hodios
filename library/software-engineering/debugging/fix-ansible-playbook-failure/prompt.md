@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [playbooks, inventory, become, variable-precedence, idempotency]
 pairs_with:
   prompts: [write-ansible-playbook, review-ansible-playbook-change, fix-ssh-connection-error]

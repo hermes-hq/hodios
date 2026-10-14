@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rest-api, api-reference, api-spec]
 pairs_with:
   prompts: [improve-openapi-descriptions, document-api-conventions]

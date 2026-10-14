@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [children, custodial-accounts, education-savings, financial-aid, gifting]
 pairs_with:
   prompts: [plan-education-savings, compare-retirement-accounts, explain-investment-concept]

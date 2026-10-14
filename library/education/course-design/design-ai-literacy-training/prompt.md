@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-literacy, staff-training, generative-ai, responsible-ai, data-privacy, acceptable-use]
 pairs_with:
   prompts: [write-class-ai-policy, design-workshop, evaluate-training-effectiveness]

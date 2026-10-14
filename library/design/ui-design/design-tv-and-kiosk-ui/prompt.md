@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ten-foot-ui, self-service-kiosk, digital-signage, focus-navigation, reach-range, timeouts]
 pairs_with:
   prompts: [design-empty-and-error-states, write-ux-microcopy, plan-signage, design-voice-interaction]

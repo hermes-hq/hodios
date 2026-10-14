@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [devcontainer, codespaces, developer-onboarding, reproducible-environment]
 pairs_with:
   prompts: [write-docker-compose, review-dockerfile, write-onboarding-guide]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [line-breaks, enjambment, free-verse, stanza-breaks, redrafting]
 pairs_with:
   prompts: [critique-poem, workshop-poem-revision]

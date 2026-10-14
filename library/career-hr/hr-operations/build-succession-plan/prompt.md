@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [succession-planning, talent-pipeline, critical-roles, leadership-bench, talent-review]
 pairs_with:
   prompts: [plan-key-person-cover, build-career-ladder, design-mentoring-program, run-career-conversation]

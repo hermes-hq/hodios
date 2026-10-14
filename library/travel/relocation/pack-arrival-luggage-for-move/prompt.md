@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [moving-abroad, packing-list, baggage-allowance, documents-folder]
 pairs_with:
   prompts: [decide-what-to-ship-abroad, choose-arrival-accommodation]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dora, delivery-performance, deployment-frequency, lead-time, change-failure-rate, engineering-metrics]
 pairs_with:
   prompts: [assess-technical-debt, plan-team-capacity]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [debate, case-building, rebuttal, british-parliamentary, world-schools, argumentation]
 pairs_with:
   personas: [debate-coach]

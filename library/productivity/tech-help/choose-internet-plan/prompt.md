@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [broadband, fibre, home-internet, contract-terms, upload-speed]
 pairs_with:
   prompts: [troubleshoot-home-wifi, plan-wifi-coverage, write-tech-support-request]

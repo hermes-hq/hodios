@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [article-critique, critical-appraisal, coursework, assignment]
 pairs_with:
   prompts: [summarize-paper, identify-study-design, appraise-study-quality]

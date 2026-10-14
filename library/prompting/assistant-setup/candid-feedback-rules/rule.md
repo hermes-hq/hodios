@@ -7,6 +7,7 @@ description: Standing rules that make an assistant candid - no flattery, real di
 category: assistant-setup
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [review]
 output: [explanation]
 risk: read-only

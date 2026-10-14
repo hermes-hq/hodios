@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dogs, cats, pet-behaviour, baby-safety, household-prep]
 pairs_with:
   prompts: [prepare-for-new-baby, train-dog-behavior]

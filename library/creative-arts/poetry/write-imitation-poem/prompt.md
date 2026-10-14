@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [imitation, after-poem, craft-study, writing-practice]
 pairs_with:
   prompts: [analyze-poem, generate-poetry-prompts]

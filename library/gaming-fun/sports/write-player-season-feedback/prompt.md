@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [player-feedback, end-of-season, player-development, youth-sports, volunteer-coach, off-season]
 pairs_with:
   prompts: [plan-team-awards, run-match-debrief, plan-team-season]

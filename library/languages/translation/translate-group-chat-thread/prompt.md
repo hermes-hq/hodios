@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [group-chat, slang, newcomers, school-parents, action-items]
 pairs_with:
   prompts: [handle-foreign-language-letter, translate-business-email, read-foreign-signs-and-labels]

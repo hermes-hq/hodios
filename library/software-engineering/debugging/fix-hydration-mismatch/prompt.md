@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hydration, ssr, server-rendering, react-server-components]
 pairs_with:
   prompts: [fix-css-layout-bug, fix-date-time-bug]

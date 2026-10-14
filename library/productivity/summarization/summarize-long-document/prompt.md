@@ -19,7 +19,8 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [layered-summary, key-points, faithfulness, long-documents]
+depth: specific
+tags: [layered-summary, key-points, faithfulness, long-documents, tldr, summarize-article]
 pairs_with:
   prompts: [summarize-email-thread, structure-messy-notes]
 args:

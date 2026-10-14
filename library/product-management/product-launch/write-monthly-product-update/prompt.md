@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [product-update, customer-newsletter, changelog, release-notes]
 pairs_with:
   prompts: [write-launch-announcement, write-public-roadmap, write-roadmap-update]

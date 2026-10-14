@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [method-statement, rams, safe-system-of-work, trades, site-safety, permits-to-work]
 pairs_with:
   prompts: [write-workplace-risk-assessment, write-toolbox-talk, write-emergency-procedures-for-staff, write-customer-quote]

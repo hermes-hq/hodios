@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [financial-literacy, risk-and-return, fees, diversification]
 pairs_with:
   prompts: [explain-investment-concept, explain-fund-document, check-portfolio-diversification, compare-retirement-accounts, explain-tax-on-investments, spot-investment-scam]

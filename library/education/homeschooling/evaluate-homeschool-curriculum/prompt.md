@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [curriculum-review, scope-and-sequence, placement-test, homeschool-budget, parent-prep, buying-decision]
 pairs_with:
   prompts: [choose-homeschool-approach, plan-homeschool-year]

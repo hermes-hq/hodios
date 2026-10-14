@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [accessibility-audit, wcag, inclusive-design, captions, alt-text, reasonable-adjustments]
 pairs_with:
   prompts: [review-course-for-udl, convert-course-to-online, plan-course-assessment-mix]

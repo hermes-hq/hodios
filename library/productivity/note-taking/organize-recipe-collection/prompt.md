@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recipe-organising, recipe-box, family-recipes, tagging, cookbooks]
 pairs_with:
   prompts: [design-note-tagging-scheme, digitize-paper-notebooks, write-note-templates, process-screenshot-backlog]

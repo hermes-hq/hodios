@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bug-hunting, edge-cases, error-handling, failing-test-first]
 pairs_with:
   personas: [debugger, test-engineer]

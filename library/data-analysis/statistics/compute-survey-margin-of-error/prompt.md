@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [margin-of-error, confidence-interval, polling, survey-sampling]
 pairs_with:
   prompts: [analyze-survey-results, calculate-sample-size, check-statistics-in-article]

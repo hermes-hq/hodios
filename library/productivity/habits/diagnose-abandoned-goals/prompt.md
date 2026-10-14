@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [goal-abandonment, pattern-finding, self-reflection, follow-through]
 pairs_with:
   prompts: [set-woop-goals, run-personal-retrospective, set-smart-goals]

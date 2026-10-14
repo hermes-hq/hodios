@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [oficio, redacao-oficial, official-correspondence, formal-letter, public-administration]
 pairs_with:
   prompts: [write-corporate-email-brazil, write-formal-letter]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [view-updates, observation, view-identity, instruments, ui-hitches]
 pairs_with:
   prompts: [review-swiftui-view-change, fix-mobile-scroll-jank, build-swiftui-screen]

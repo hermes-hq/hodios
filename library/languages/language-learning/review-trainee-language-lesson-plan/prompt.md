@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lesson-plan-feedback, teacher-education, staging, lesson-aims, anticipated-problems]
 pairs_with:
   personas: [language-teacher-trainer]

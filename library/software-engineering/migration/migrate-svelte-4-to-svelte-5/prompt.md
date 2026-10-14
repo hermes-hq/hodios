@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [svelte-5, runes, snippets, legacy-mode, reactivity]
 pairs_with:
   prompts: [upgrade-major-dependency, replace-state-management-library]

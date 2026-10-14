@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [comic-pitch, submission-package, synopsis, sample-pages, comparable-titles]
 pairs_with:
   prompts: [write-comic-script, write-character-model-sheet-brief]

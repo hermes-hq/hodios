@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mediterranean-diet, low-carb, plant-based, intermittent-fasting, evidence-grading, eating-patterns]
 pairs_with:
   prompts: [plan-nutrition-targets, analyze-diet-log, evaluate-supplement]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hydration, fluids, water-intake, heat, habit-change]
 pairs_with:
   prompts: [plan-sports-nutrition, plan-older-adult-nutrition, plan-caffeine-reduction]

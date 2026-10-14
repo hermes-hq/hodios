@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wildflower-meadow, no-mow, lawn-conversion, yellow-rattle, native-wildflowers, biodiversity]
 pairs_with:
   prompts: [plan-pollinator-garden, plan-lawn-care, plan-wildlife-pond, design-garden-border]

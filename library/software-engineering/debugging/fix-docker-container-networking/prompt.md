@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [container-networking, port-mapping, dns, localhost, bind-address]
 pairs_with:
   prompts: [fix-docker-build-failure, fix-database-connection-failure]

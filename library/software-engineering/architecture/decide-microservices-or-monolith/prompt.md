@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [microservices, modular-monolith, service-decomposition, team-topology, conways-law]
 pairs_with:
   personas: [software-architect, staff-engineer]

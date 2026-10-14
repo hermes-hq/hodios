@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [comments, mentions, collaboration, requirements]
 pairs_with:
   prompts: [spec-roles-and-permissions, design-notification-strategy, spec-delete-and-restore-behaviour]

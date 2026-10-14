@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [poetics, mfa-application, writing-grant, residency, application-writing]
 pairs_with:
   prompts: [order-poetry-manuscript, plan-poetry-submissions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [client-boundaries, response-times, after-hours, communication-channels, client-relationship]
 pairs_with:
   prompts: [write-client-welcome-pack, part-ways-with-client, triage-overbooked-client-schedule]

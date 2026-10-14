@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [evidence-based, food-budget, cultural-foods, weight-neutral, healthy-eating]
 pairs_with:
   prompts: [compare-diet-approaches, evaluate-supplement, plan-sports-nutrition, read-nutrition-label, analyze-diet-log]

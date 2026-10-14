@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [unknowns, research-questions, open-issues, gap-analysis]
 pairs_with:
   prompts: [summarize-long-document, find-research-gaps, surface-hidden-assumptions]

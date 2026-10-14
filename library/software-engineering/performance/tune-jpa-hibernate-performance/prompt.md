@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [hibernate, jpa, fetch-strategy, entity-graph, jdbc-batching, dto-projection]
 pairs_with:
   prompts: [fix-n-plus-one-queries, fix-jpa-lazy-loading-error, optimize-sql-query]

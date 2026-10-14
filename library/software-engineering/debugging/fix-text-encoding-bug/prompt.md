@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [unicode, utf-8, mojibake, character-encoding, emoji]
 pairs_with:
   prompts: [find-root-cause, write-file-parser]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: expert
+depth: advanced
 tags: [home-safety, occupational-therapy, falls-prevention, home-adaptations, assistive-equipment, community-care]
 pairs_with:
   prompts: [write-person-centred-care-plan, write-therapy-goals, write-home-exercise-handout]

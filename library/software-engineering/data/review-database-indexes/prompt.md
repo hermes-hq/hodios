@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [indexes, query-plans, index-bloat, write-amplification]
 pairs_with:
   prompts: [optimize-sql-query, review-database-migration, fix-n-plus-one-queries]

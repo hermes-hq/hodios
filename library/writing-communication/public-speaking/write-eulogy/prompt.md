@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [eulogy, funeral, memorial-service, bereavement, tribute, writing-for-the-ear]
 pairs_with:
   prompts: [write-funeral-order-of-service, write-obituary, mark-up-script-for-delivery]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [campaign-calendar, send-schedule, seasonal-marketing, promo-mix]
 pairs_with:
   prompts: [set-email-frequency, plan-holiday-sale-campaign, plan-email-segmentation]

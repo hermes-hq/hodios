@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [remittances, international-transfer, exchange-rate, fx-margin, scam-signs, migrant-workers]
 pairs_with:
   prompts: [open-bank-account-as-newcomer, plan-supporting-family-financially, cut-monthly-costs]

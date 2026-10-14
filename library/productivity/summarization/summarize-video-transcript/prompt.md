@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [video-summary, podcast-summary, timestamps, key-quotes, watch-or-skip]
 pairs_with:
   prompts: [summarize-long-document, make-reading-notes, triage-reading-list]

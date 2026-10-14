@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dilutions, molarity, serial-dilution, buffer-recipe, bench-calculations]
 pairs_with:
   prompts: [write-lab-protocol, write-lab-notebook-entry, calculate-measurement-uncertainty]

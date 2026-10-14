@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, tool-selection, prompt-injection, least-privilege]
 pairs_with:
   prompts: [audit-agent-permissions, build-mcp-server, cut-coding-agent-spend]

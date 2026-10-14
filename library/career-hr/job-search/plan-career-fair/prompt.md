@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [career-fair, networking, elevator-pitch, follow-up, graduate-jobs]
 pairs_with:
   prompts: [research-company, write-networking-message, write-tell-me-about-yourself]

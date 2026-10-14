@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [user-manual, instructions, symptom-table, safety-notices, minimalism]
 pairs_with:
   prompts: [write-sop, simplify-to-plain-language, review-document-for-ambiguity]

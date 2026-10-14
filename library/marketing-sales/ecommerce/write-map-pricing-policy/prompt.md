@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [map-policy, minimum-advertised-price, reseller-pricing, competition-law, brand-protection, wholesale]
 pairs_with:
   prompts: [handle-listing-hijackers, respond-to-competitor-price-cuts, pitch-to-stockists]

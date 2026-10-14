@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [positionality, reflexivity, qualitative-research, insider-research, research-ethics]
 subject: [social-sciences]
 pairs_with:

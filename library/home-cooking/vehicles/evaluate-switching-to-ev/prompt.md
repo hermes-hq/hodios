@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [electric-vehicle, ev-charging, total-cost-of-ownership, ev-range, home-charger, plug-in-hybrid]
 pairs_with:
   prompts: [plan-car-purchase, cut-driving-costs, inspect-used-car]

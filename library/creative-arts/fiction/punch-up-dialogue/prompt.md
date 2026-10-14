@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [subtext, character-voice, scene-tension, exposition]
 pairs_with:
   prompts: [critique-fiction-draft, develop-character]

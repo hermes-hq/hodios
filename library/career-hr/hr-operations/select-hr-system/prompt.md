@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hris, vendor-selection, requirements-gathering, scorecard, data-migration]
 pairs_with:
   prompts: [plan-hr-annual-calendar, define-hr-metrics]

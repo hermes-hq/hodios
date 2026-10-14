@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [supporter-update, impact-reporting, dignity-in-storytelling, volunteers, charity-comms]
 pairs_with:
   prompts: [write-donor-appeal, write-donor-thank-you, write-impact-report]

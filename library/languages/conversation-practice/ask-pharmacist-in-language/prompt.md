@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 advice_risk: [medical]
 tags: [pharmacy, medicine-labels, newcomers, carers, cefr]
 pairs_with:

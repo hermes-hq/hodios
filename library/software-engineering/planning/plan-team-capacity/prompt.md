@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [capacity-planning, resourcing, team-planning, over-commitment]
 pairs_with:
   prompts: [plan-sprint, write-technical-roadmap, estimate-with-ranges]

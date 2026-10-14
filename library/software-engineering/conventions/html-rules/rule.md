@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: beginner
+depth: specific
 tags: [semantic-html, form-markup, headings, responsive-images, markup-validity]
 applies_to: ["**/*.html", "**/*.htm", "**/*.jsx", "**/*.tsx", "**/*.vue", "**/*.svelte", "**/*.astro", "**/*.erb", "**/*.njk", "**/*.twig", "**/*.blade.php"]
 pairs_with:

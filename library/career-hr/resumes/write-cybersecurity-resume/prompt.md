@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [security-resume, soc-analyst, grc, security-certifications]
 pairs_with:
   prompts: [write-skills-section, write-resume-projects-section, tailor-resume-to-job]

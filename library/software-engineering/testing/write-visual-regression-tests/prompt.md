@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [visual-regression, screenshot-testing, snapshots, ui-components]
 pairs_with:
   prompts: [write-e2e-test]

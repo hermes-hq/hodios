@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [grievance, employment-rights, workplace-complaint, hr-process]
 pairs_with:
   prompts: [review-employment-contract, explain-legal-letter]

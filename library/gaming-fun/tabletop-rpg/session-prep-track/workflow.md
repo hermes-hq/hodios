@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [session-prep, game-mastering, campaign, secrets-and-clues, cheat-sheet]
 pairs_with:
   prompts: [write-session-recap, write-read-aloud-text, balance-combat-encounter, create-npc, design-campaign-arc]

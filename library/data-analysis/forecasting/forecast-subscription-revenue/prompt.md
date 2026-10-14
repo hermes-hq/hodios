@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mrr, cohort-analysis, churn, net-revenue-retention, recurring-revenue]
 pairs_with:
   prompts: [plan-expansion-revenue, forecast-time-series, present-forecast-uncertainty]

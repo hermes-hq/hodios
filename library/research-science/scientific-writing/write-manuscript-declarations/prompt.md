@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [declarations, competing-interests, credit-taxonomy, ai-disclosure, journal-submission]
 pairs_with:
   prompts: [write-data-availability-statement, write-journal-cover-letter, check-manuscript-before-submission]

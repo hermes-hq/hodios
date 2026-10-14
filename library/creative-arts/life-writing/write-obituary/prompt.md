@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [obituary, death-notice, bereavement, funeral]
 pairs_with:
   prompts: [write-condolence-message, write-speech, write-tribute-life-story]

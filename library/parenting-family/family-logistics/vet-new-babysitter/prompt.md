@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [babysitter, childcare-safety, reference-check, sitter-interview, trial-session]
 pairs_with:
   prompts: [write-babysitter-handbook, choose-childcare, write-house-sitter-guide]

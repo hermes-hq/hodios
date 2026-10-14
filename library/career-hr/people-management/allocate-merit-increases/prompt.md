@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [merit-increase, pay-review, compa-ratio, pay-equity, compensation]
 pairs_with:
   prompts: [run-calibration-session, write-performance-review]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [community, github-discussions, discord, matrix, code-of-conduct]
 pairs_with:
   prompts: [plan-online-community-launch, write-community-guidelines, respond-to-project-criticism]

@@ -7,6 +7,7 @@ description: Standing rules for every customer support reply - acknowledge first
 category: customer-support
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [operate]
 role: [support-agent, operations-manager]
 output: [message]

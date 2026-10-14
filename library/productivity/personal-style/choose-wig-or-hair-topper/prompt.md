@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wigs, hair-toppers, chemotherapy-hair-loss, alopecia, headscarves, scalp-comfort]
 pairs_with:
   prompts: [choose-haircut, dress-a-changing-body, plan-hair-care-routine]

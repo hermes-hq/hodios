@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [unit-tests, edge-cases]
 pairs_with:
   personas: [test-engineer]

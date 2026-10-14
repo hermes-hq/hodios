@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [update-schedule, launch-buffer, story-arcs, series-planning, hiatus-planning]
 pairs_with:
   prompts: [write-comic-script, plan-comic-production-schedule, convert-print-comic-to-vertical-scroll]

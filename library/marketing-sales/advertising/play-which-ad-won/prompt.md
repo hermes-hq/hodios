@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ad-judgement, ab-testing, guessing-game, copy-principles, practice-drill]
 pairs_with:
   prompts: [plan-ad-creative-tests, check-ad-landing-message-match]

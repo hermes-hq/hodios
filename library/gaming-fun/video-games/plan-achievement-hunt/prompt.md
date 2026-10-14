@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [achievements, trophy-hunting, completionist, missables, playthrough-order]
 pairs_with:
   prompts: [plan-game-strategy, triage-entertainment-backlog]

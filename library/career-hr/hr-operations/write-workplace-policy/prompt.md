@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hr-policy, remote-work, expense-policy, leave-policy]
 pairs_with:
   prompts: [build-compliance-checklist]

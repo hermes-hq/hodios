@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [compliance-deadline, regulation, backward-planning, legal-review, fixed-date, obligation-mapping]
 pairs_with:
   prompts: [map-cross-team-dependencies, forecast-roadmap-dates-with-ranges, write-roadmap-update, push-back-on-roadmap-request]

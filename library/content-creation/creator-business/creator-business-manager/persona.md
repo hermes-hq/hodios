@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sponsorship, usage-rights, invoicing, late-payment, income-diversification, rate-setting]
 pairs_with:
   prompts: [build-creator-rate-card, pitch-brand-sponsorship, review-sponsorship-contract, plan-creator-monetization, practise-brand-deal-negotiation]

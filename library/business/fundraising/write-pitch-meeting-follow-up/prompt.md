@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [investor-meeting, follow-up-email, investor-relations, next-steps]
 pairs_with:
   prompts: [prepare-investor-qa, build-investor-pipeline, respond-to-investor-pass]

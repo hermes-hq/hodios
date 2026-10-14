@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [topic-cluster, internal-linking, long-form, content-hub]
 pairs_with:
   prompts: [write-seo-content-brief, build-internal-linking-plan, define-content-pillars]

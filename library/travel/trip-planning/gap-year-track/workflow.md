@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gap-year, working-holiday, volunteering, long-term-travel, year-out]
 pairs_with:
   prompts: [plan-trip-budget, choose-ethical-volunteer-trip, choose-travel-insurance, check-travel-requirements, coach-personal-statement, plan-language-immersion-trip]

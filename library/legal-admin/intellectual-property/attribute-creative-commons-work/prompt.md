@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [creative-commons, open-licences, attribution-line, share-alike, open-content]
 pairs_with:
   prompts: [assess-use-of-copyrighted-material, check-stock-asset-licence, add-sources-to-slides]

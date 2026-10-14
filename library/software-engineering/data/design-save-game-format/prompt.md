@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [save-system, serialisation, versioning, atomic-writes, cloud-saves, checksums]
 pairs_with:
   prompts: [upgrade-game-engine-version]

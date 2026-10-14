@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [backups, restic, borg, retention, restore-test]
 pairs_with:
   prompts: [automate-postgres-backups, run-backup-restore-drill, plan-disaster-recovery]

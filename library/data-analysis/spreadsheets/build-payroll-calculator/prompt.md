@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gross-to-net, payroll-deductions, small-employer, pay-run, payslip-figures]
 pairs_with:
   prompts: [build-timesheet-calculator, build-commission-calculator, calculate-tiered-rates]

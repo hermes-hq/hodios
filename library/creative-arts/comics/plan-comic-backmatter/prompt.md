@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [back-matter, extras, reader-community, letters-page, process-pages]
 pairs_with:
   prompts: [prepare-comic-print-files, write-comic-recap-page, plan-comic-anthology]

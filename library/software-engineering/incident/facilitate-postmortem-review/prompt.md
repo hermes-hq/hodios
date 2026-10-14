@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [blameless, postmortem-meeting, facilitation, learning-review]
 pairs_with:
   prompts: [write-postmortem, build-incident-timeline, audit-postmortem-action-items]

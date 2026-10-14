@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [knitting, stranded-colourwork, fair-isle, float-length, motif-repeat, fibre-crafts]
 pairs_with:
   prompts: [plan-knitting-project, resize-knitting-pattern]

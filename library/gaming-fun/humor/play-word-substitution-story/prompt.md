@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fill-in-the-blanks, parts-of-speech, silly-stories, family-games, classroom-games]
 pairs_with:
   prompts: [play-pun-battle, play-emoji-guessing-game]

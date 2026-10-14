@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [star-schema, data-modelling, power-query, row-level-security]
 pairs_with:
   prompts: [write-dax-measure, write-power-query, design-star-schema, automate-recurring-report]

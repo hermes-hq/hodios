@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [axe-core, ci-checks, linting, regression-testing, baseline, wcag]
 pairs_with:
   personas: [accessibility-specialist]

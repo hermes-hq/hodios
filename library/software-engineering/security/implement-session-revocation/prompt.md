@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [session-management, logout, account-security, authentication]
 pairs_with:
   prompts: [spec-sign-in-and-session-rules, implement-jwt-refresh-tokens, fix-password-reset-flaws, harden-jwt-validation]

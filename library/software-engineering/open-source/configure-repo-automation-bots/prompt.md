@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stale-bot, issue-labels, release-drafter, codeowners, workflow-permissions, automation]
 pairs_with:
   prompts: [design-issue-intake, configure-dependency-update-bot, review-ci-pipeline-security]

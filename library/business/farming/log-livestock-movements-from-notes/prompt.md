@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [livestock-movements, animal-traceability, ear-tags, holding-register, data-extraction]
 pairs_with:
   prompts: [plan-livestock-record-keeping, extract-field-work-log, set-up-farm-biosecurity]

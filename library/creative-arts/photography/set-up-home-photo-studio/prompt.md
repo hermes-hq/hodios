@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [home-studio, studio-lighting, backdrops, portrait-lighting, small-space]
 pairs_with:
   prompts: [choose-camera-gear, set-up-off-camera-flash, plan-portrait-shoot]

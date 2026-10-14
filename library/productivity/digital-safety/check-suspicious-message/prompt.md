@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [phishing, scams, fraud, smishing, impersonation, online-safety]
 pairs_with:
   prompts: [secure-personal-accounts, recover-hacked-account, protect-relative-from-scams, spot-investment-scam]

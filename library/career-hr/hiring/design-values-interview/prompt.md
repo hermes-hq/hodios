@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [values-interview, culture-add, behavioural-questions, structured-interview, bias-reduction]
 pairs_with:
   prompts: [design-interview-loop, build-interview-scorecard, train-interviewers]

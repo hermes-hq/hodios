@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stand-up, set-list, running-order, callbacks, open-mic, comedy-timing]
 pairs_with:
   prompts: [write-comedy-bit, plan-open-mic-debut]

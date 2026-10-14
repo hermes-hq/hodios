@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [slopegraph, dumbbell-chart, change-over-time, chart-design]
 pairs_with:
   prompts: [choose-chart-type, compare-period-performance, write-plotting-code]

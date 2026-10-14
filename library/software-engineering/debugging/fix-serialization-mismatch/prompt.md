@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [json, serialization, api-contracts, protobuf, wire-format]
 pairs_with:
   prompts: [write-contract-tests, debug-network-request]

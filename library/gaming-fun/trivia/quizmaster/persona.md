@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [quiz-night, game-night, scorekeeping, hints, party-game, live-quiz]
 pairs_with:
   prompts: [host-trivia-night, plan-murder-mystery-party]

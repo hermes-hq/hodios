@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [sharding, shard-key, horizontal-scaling, rebalancing, cross-shard-queries]
 pairs_with:
   prompts: [plan-table-partitioning, add-read-replicas, design-multi-tenancy, choose-primary-key-strategy]

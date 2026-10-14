@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [call-for-papers, conference-abstract, work-in-progress, academic-conferences, panel-proposal]
 pairs_with:
   prompts: [write-abstract, plan-research-talk, design-research-poster]

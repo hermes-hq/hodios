@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [screen-reader, dyslexia, low-vision, assistive-technology]
 pairs_with:
   prompts: [write-custom-instructions, review-custom-instructions]

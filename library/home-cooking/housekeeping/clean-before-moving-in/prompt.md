@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [move-in, new-home, deep-clean, chemical-safety]
 pairs_with:
   prompts: [document-rental-move-in, deep-clean-kitchen, deep-clean-bathroom]

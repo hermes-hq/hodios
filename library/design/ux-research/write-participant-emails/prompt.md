@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [participant-communication, session-scheduling, reminders, no-shows, research-ops]
 pairs_with:
   prompts: [write-interview-outreach-messages, set-participant-incentives, write-research-screener]

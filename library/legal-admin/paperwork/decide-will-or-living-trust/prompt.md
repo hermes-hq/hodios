@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [estate-planning, living-trust, probate, beneficiary-designations, wills]
 pairs_with:
   prompts: [prepare-will-questions, prepare-power-of-attorney-questions, apply-for-probate]

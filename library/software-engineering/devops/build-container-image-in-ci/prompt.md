@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [container-images, buildx, image-tagging, layer-caching, sbom, container-registry]
 pairs_with:
   prompts: [review-dockerfile, set-up-keyless-ci-deploys, scan-container-images-in-ci]

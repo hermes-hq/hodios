@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [qualitative-coding, thematic-analysis, inter-rater-reliability, open-ended-responses]
 pairs_with:
   prompts: [design-research-study]

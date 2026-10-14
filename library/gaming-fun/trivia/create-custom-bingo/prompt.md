@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bingo, party-planning, baby-shower, team-building, printables]
 pairs_with:
   prompts: [create-party-game-cards, host-trivia-night, plan-game-show-night]

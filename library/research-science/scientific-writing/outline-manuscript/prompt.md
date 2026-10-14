@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [manuscript, imrad, paper-drafting, topic-sentences, figure-order]
 pairs_with:
   prompts: [write-introduction-section, write-results-section, design-scientific-figures, choose-target-journal]

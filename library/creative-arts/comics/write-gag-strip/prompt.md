@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [comic-strip, gag-comic, yonkoma, punchline, recurring-cast]
 pairs_with:
   prompts: [plan-webcomic-series, plan-comic-lettering]

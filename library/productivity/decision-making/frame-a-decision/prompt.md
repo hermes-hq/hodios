@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [decision-framing, problem-definition, objectives, decision-hierarchy, decision-statement]
 pairs_with:
   prompts: [widen-a-narrow-choice, compare-options-matrix, triage-a-decision]

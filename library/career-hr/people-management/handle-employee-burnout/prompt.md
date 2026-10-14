@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [burnout, workload, employee-wellbeing, sustainable-pace, manager-support]
 pairs_with:
   prompts: [rebalance-team-workload, re-engage-disengaged-employee, plan-return-from-leave]

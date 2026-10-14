@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [identity-security, impossible-travel, mfa-fatigue, token-theft, alert-triage]
 pairs_with:
   prompts: [triage-soc-alert, investigate-cloud-audit-logs, write-siem-query]

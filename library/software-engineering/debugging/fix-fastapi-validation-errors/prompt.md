@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pydantic, request-validation, http-422, api-errors, request-body]
 pairs_with:
   prompts: [fix-serialization-mismatch, debug-network-request, migrate-pydantic-v1-to-v2]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-translation, language-port, equivalence-testing, idiomatic-code]
 pairs_with:
   prompts: [add-characterization-tests, write-property-based-tests, plan-incremental-migration]

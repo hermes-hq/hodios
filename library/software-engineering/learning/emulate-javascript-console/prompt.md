@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [browser-console, dom, event-loop, promises, simulator]
 pairs_with:
   prompts: [explain-concept-with-code]

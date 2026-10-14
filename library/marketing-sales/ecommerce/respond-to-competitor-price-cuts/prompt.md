@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [price-war, competitor-pricing, price-matching, break-even-volume, key-value-items, margin]
 pairs_with:
   prompts: [analyze-competitor-price-data, price-products-for-online-store, design-product-bundles]

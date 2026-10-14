@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [yearbook, graduation, leavers-book, senior-quote, school-leavers]
 pairs_with:
   prompts: [write-one-liners, write-puns]

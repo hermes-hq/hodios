@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [people-analytics, attrition, headcount, tenure, representation]
 pairs_with:
   prompts: [analyze-employee-survey, analyze-hiring-funnel, build-cohort-analysis]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [composition, lighting, negative-prompts, aspect-ratio]
 pairs_with:
   prompts: [build-image-style-guide, create-storyboard]

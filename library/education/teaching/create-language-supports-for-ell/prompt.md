@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [english-learners, multilingual-learners, language-scaffolds, sentence-frames, academic-language, translanguaging, inclusion]
 pairs_with:
   prompts: [differentiate-lesson, adapt-text-reading-level, plan-vocabulary-instruction]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [qualitative-research, phenomenology, ethnography, narrative-inquiry, grounded-theory, qualitative-description]
 pairs_with:
   prompts: [plan-grounded-theory-study, design-case-study-research, justify-qualitative-sample-size, write-research-interview-protocol]

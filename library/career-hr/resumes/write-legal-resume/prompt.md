@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [law]
 tags: [lawyer-resume, paralegal-resume, bar-admission, representative-matters]
 pairs_with:

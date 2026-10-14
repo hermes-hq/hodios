@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [portfolio-view, multi-team-planning, duplicate-work, goal-alignment, conflicts, program-roadmap]
 pairs_with:
   prompts: [map-cross-team-dependencies, run-quarterly-planning, critique-roadmap, brief-board-on-roadmap]

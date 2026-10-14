@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [law-student, issue-spotting, irac, hypotheticals, exam-practice]
 pairs_with:
   prompts: [build-law-course-outline, brief-court-case]

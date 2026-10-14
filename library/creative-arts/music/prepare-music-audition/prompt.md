@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audition, performance-anxiety, repertoire, practice-plan]
 pairs_with:
   prompts: [plan-instrument-practice, plan-live-set]

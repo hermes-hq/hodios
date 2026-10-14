@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [household-planning, school-admin, childcare-cover, fair-sharing, family-routines, working-parents]
 pairs_with:
   prompts: [coordinate-family-calendar, split-mental-load-fairly, extract-actions-from-school-messages, plan-sick-day-childcare-cover]

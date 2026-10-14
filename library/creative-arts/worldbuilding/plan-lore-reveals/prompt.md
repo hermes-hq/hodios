@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [exposition, info-dumps, pacing, story-craft, mystery-box]
 pairs_with:
   prompts: [build-series-bible, outline-story, write-in-world-document, find-worldbuilding-plot-holes]

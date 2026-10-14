@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shipping-page, delivery-times, shipping-rates, store-policies, customer-expectations, faq]
 pairs_with:
   prompts: [write-refund-policy, plan-order-fulfilment, reduce-where-is-my-order-contacts]

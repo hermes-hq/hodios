@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ai-product, llm-quality, thumbs-down, failure-modes, eval-cases]
 pairs_with:
   prompts: [define-ai-feature-metrics, write-ai-feature-requirements, build-llm-feedback-loop]

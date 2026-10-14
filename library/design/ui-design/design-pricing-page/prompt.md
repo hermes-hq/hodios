@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [saas]
 tags: [pricing-page, plan-comparison, conversion, subscription, page-layout]
 pairs_with:

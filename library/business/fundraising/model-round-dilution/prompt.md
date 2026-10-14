@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cap-table, dilution, pre-money, option-pool, priced-round, ownership]
 pairs_with:
   prompts: [explain-term-sheet, calculate-safe-conversion, size-option-pool]

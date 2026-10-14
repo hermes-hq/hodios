@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [production-readiness, slo-alerts, runbooks, escalation, go-live]
 pairs_with:
   prompts: [define-slos, design-alerting-rules, design-service-dashboard, write-runbook, design-on-call-rotation, write-on-call-handoff]

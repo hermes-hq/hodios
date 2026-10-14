@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [overwhelm, low-energy, home-routines, small-steps]
 args:
   - name: situation

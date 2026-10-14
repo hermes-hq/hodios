@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [business-case, funding, roi, headcount, stakeholder-buy-in]
 pairs_with:
   prompts: [measure-design-system-adoption, plan-design-system-governance, plan-design-system-roadmap]

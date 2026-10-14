@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [sickness-absence, return-to-work, absence-triggers, long-term-sickness, occupational-health]
 pairs_with:
   prompts: [plan-workplace-adjustments-as-manager, manage-staff-attendance-issues, write-workplace-policy, define-hr-metrics]

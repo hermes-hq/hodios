@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [email-templates, canned-responses, snippets, personal-voice, inbox-efficiency]
 pairs_with:
   prompts: [write-professional-email, capture-writing-voice, triage-inbox]

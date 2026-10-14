@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [coding-agents, sandbox, isolation, least-privilege, devcontainer]
 pairs_with:
   prompts: [audit-agent-permissions, write-agent-environment-setup, design-ci-agent-job]

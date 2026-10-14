@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [power-of-attorney, ageing-parents, mental-capacity, estate-planning]
 pairs_with:
   prompts: [prepare-will-questions, organize-important-documents, settle-estate-checklist]

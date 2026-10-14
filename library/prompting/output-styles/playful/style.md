@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: beginner
+depth: specific
 tags: [wit, light-tone, wordplay, fun-voice, engagement]
 pairs_with:
   styles: [{id: casual, level: 2}, {id: concise, level: 2}]

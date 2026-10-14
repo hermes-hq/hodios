@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [station-rotation, small-group-instruction, blended-learning, classroom-routines, grouping]
 pairs_with:
   prompts: [differentiate-lesson, design-classroom-activity, create-choice-board, design-formative-assessment]

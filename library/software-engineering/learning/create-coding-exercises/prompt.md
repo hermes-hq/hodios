@@ -7,6 +7,7 @@ description: Generates a graded set of coding exercises for one concept, each wi
 category: learning
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn]
 role: [teacher, developer-advocate, tech-lead, student]
 stack: []

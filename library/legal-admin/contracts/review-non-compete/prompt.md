@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [non-compete, restrictive-covenants, non-solicitation, garden-leave, employment-terms]
 pairs_with:
   prompts: [review-employment-contract, explain-contract-clause, negotiate-job-offer]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wizard, multi-step-form, progress-indicator, focus-management, error-handling]
 pairs_with:
   personas: [accessibility-specialist]

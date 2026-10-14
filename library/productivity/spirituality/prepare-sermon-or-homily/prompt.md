@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sermon, homily, khutbah, dvar-torah, preaching, exegesis, clergy]
 pairs_with:
   prompts: [study-sacred-passage, write-devotional-reflection, write-funeral-order-of-service]

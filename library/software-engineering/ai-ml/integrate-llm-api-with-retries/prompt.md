@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retries, timeouts, rate-limits, exponential-backoff, error-handling]
 pairs_with:
   prompts: [implement-llm-streaming, implement-llm-tool-calling, reduce-llm-costs]

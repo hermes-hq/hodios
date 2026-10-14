@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [star-method, behavioural-interview, follow-up-questions, answer-scoring, story-bank]
 pairs_with:
   prompts: [prepare-star-stories, run-mock-interview, practice-video-interview, debrief-interview]

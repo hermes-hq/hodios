@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [onboarding-plan, 30-60-90, early-wins, buddy-system]
 pairs_with:
   prompts: [plan-one-on-one, write-job-description]

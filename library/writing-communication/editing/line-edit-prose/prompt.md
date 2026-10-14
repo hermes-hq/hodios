@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [line-editing, sentence-rhythm, word-choice, voice-preservation, prose-style]
 pairs_with:
   prompts: [tighten-prose, edit-for-structure, copyedit-to-style-guide, capture-writing-voice]

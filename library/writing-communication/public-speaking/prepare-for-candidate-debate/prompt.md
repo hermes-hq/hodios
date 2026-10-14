@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [local-elections, candidate-forum, school-board, rebuttals, closing-statement, civic-engagement]
 pairs_with:
   prompts: [prepare-for-tough-questions, prepare-to-speak-at-public-meeting, write-speech]

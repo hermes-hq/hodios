@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [civic-engagement, advocacy, constituents, local-government, leave-behind]
 pairs_with:
   prompts: [write-letter-to-elected-official, plan-advocacy-campaign, prepare-for-meeting]

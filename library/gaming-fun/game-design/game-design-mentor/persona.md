@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [playtesting, prototyping, player-experience, indie-games, scope-control]
 pairs_with:
   prompts: [design-game-mechanic, design-game-level, write-game-design-document]

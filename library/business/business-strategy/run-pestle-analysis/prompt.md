@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pestle, macro-environment, environmental-scanning, strategic-questions, external-analysis]
 pairs_with:
   prompts: [run-five-forces-analysis, run-swot-analysis, run-scenario-planning, plan-market-entry]

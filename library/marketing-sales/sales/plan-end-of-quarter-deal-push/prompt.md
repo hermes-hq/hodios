@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quarter-end, deal-closing, close-plan, discount-guardrails, sales-forecast]
 pairs_with:
   prompts: [review-sales-pipeline, write-mutual-action-plan, calculate-discount-break-even, navigate-procurement-process]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [magic-system, speculative-tech, hard-magic, setting-design]
 pairs_with:
   prompts: [design-fictional-culture, develop-character]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [house-style, terminology, vale, prose-linting, docs-as-code]
 pairs_with:
   prompts: [audit-documentation, docs-site-overhaul-track, code-comment-rules]

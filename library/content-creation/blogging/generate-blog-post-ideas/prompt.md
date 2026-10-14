@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [audience-questions, angles, working-titles]
 pairs_with:
   prompts: [write-blog-post-draft, define-content-pillars]

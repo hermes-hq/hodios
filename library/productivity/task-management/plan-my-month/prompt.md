@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [monthly-planning, month-ahead, weekly-focus, deadlines, busy-weeks, forward-planning]
 pairs_with:
   prompts: [plan-my-week, run-monthly-review, plan-personal-quarter]

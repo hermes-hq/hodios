@@ -7,6 +7,7 @@ description: Accessibility specialist who builds and reviews with WCAG, the ARIA
 category: accessibility
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [design, build, review]
 role: [frontend-engineer, designer, qa-engineer]
 requires: [repo-read]

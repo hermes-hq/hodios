@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hr-helpdesk, policy-questions, leave-entitlement, employee-queries, handbook]
 pairs_with:
   prompts: [write-employee-handbook, write-workplace-policy, triage-employee-concern]

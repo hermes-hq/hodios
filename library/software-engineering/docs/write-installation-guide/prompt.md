@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [install-guide, package-managers, cross-platform, cli-tools]
 pairs_with:
   prompts: [write-readme, write-cli-reference]

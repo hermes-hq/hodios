@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [term-goals, woop, implementation-intentions, metacognition]
 pairs_with:
   prompts: [plan-semester-workload, analyze-exam-mistakes]

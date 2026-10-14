@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [money-goals, savings-priorities, monthly-allocation, trade-offs]
 pairs_with:
   prompts: [build-net-worth-statement, plan-savings-goal, build-emergency-fund-plan, plan-debt-payoff, plan-windfall]

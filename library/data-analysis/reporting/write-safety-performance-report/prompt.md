@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [health-and-safety, trir, ltifr, leading-indicators, near-miss]
 pairs_with:
   prompts: [write-workplace-incident-report, set-scorecard-status-thresholds, compare-period-performance]

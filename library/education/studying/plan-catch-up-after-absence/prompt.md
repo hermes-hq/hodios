@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [missed-lessons, catch-up-plan, extensions, return-to-school]
 pairs_with:
   prompts: [create-study-plan, plan-semester-workload]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [default-branch, branch-rename, ci-triggers, branch-protection]
 pairs_with:
   prompts: [configure-branch-protection, choose-branching-strategy, write-codeowners-file]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [astronomy, stargazing, observing-plan, night-sky, binoculars, light-pollution]
 pairs_with:
   prompts: [choose-first-telescope]

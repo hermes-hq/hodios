@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [analytics-sql, window-functions, fan-out]
 pairs_with:
   prompts: [define-metric, build-cohort-analysis]

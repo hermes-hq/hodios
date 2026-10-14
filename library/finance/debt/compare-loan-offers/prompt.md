@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [apr, total-cost-of-credit, personal-loans, amortisation]
 pairs_with:
   prompts: [plan-debt-payoff, plan-car-purchase, prepare-mortgage-application]

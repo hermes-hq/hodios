@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-transfers, cross-border-data, transfer-risk-assessment, standard-contractual-clauses, adequacy]
 pairs_with:
   prompts: [review-data-processing-agreement, map-personal-data-processing, run-vendor-due-diligence]

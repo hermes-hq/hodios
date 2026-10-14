@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [scenarios, user-goals, design-requirements, task-scenarios, storytelling]
 pairs_with:
   prompts: [build-user-personas, write-usability-test-plan, map-user-flow]

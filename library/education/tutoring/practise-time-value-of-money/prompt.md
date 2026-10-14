@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [time-value-of-money, present-value, annuities, compounding, financial-calculator, corporate-finance]
 pairs_with:
   prompts: [learn-dcf-valuation, practise-logarithms-and-exponents]

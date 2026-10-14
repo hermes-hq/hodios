@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [moving-in-together, shared-style, furniture-audit, couples, compromise]
 pairs_with:
   prompts: [identify-interior-style, plan-room-layout]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [document-modelling, embedding-vs-referencing, unbounded-arrays, schema-validation, access-patterns]
 pairs_with:
   prompts: [write-mongodb-aggregation, choose-database-for-workload]

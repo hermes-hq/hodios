@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [holidays, inclusion, religious-festivals, workplace, greetings]
 pairs_with:
   prompts: [write-card-message, adapt-message-for-culture, write-festival-greetings]

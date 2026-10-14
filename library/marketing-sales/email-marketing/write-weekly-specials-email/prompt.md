@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [restaurant, weekly-specials, menu-copy, allergens, email-template]
 pairs_with:
   prompts: [write-promo-email, write-market-day-email, announce-last-minute-openings]

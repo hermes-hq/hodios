@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-joiner-guide, getting-started, design-library, adoption]
 pairs_with:
   prompts: [plan-design-system-docs-site, write-token-usage-guide, write-onboarding-guide]

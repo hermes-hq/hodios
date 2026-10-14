@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [heatmap, colour-scales, correlation-matrix, calendar-heatmap, chart-design]
 pairs_with:
   prompts: [choose-chart-colors, build-cohort-analysis, write-plotting-code]

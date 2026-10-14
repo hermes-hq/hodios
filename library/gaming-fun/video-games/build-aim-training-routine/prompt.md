@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [aim-training, mouse-sensitivity, fps-games, practice-plan, crosshair-placement]
 pairs_with:
   prompts: [plan-game-strategy, review-gameplay-replay]

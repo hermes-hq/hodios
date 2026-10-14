@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitive-campaign, switching-costs, migration-offer, comparative-advertising, win-customers]
 pairs_with:
   prompts: [write-honest-comparison-page, write-competitive-battlecard, analyze-competitor-reviews, plan-competitive-response]

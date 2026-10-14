@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [nonlinear-structure, flashbacks, parallel-timelines, story-structure]
 pairs_with:
   prompts: [write-beat-sheet, design-plot-twist, adapt-story-for-screen]

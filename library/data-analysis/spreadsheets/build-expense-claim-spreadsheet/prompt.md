@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [expense-claims, mileage-allowance, reimbursement, currency-conversion, receipts]
 pairs_with:
   prompts: [set-up-data-validation, build-invoice-template-spreadsheet, set-up-receipts-workflow]

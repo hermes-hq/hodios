@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [account-health, health-score, churn-risk, account-management, renewals]
 pairs_with:
   prompts: [write-customer-health-report, plan-at-risk-account-save, prepare-business-review, find-churn-drivers]

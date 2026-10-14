@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [path-traversal, zip-slip, file-handling, owasp]
 pairs_with:
   prompts: [audit-input-handling, review-file-io-change, implement-file-upload, write-exploit-regression-test]

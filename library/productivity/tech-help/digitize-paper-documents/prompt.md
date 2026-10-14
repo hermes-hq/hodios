@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [go-paperless, document-scanning, ocr, file-naming, shredding]
 pairs_with:
   prompts: [organize-digital-files, set-up-backups, organize-photo-library]

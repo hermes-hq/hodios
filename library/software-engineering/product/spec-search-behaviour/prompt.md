@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [search, relevance, permissions, requirements]
 pairs_with:
   prompts: [design-search-experience, design-search-index, list-feature-edge-cases]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-detection, onpush, signals, zonejs, rxjs]
 pairs_with:
   personas: [angular-engineer]

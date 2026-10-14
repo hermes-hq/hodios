@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [nonprofit]
 tags: [charity-accounting, restricted-funds, grant-management, fund-accounting]
 pairs_with:

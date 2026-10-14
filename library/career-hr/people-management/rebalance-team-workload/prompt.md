@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workload-management, overload, work-triage, stakeholder-pushback, team-wellbeing, capacity]
 pairs_with:
   prompts: [delegate-task, plan-one-on-one, plan-key-person-cover]

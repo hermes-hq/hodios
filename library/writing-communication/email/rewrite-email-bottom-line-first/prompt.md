@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bluf, executive-communication, email-rewrite, concise-writing, senior-audience]
 pairs_with:
   prompts: [write-professional-email, tighten-prose, request-approval-by-email]

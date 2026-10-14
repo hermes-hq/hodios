@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [coaching-questions, delegation, giving-feedback, influence, self-awareness, accountability]
 pairs_with:
   prompts: [delegate-task, plan-one-on-one, write-performance-review]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [opportunity-cost, overcommitment, saying-no, capacity, requests]
 pairs_with:
   prompts: [write-personal-decision-rules, decline-request-gracefully, triage-a-decision]

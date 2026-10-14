@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [legacy-code, codebase-handover, characterization-tests, hotspots]
 pairs_with:
   personas: [legacy-code-steward, refactoring-specialist]

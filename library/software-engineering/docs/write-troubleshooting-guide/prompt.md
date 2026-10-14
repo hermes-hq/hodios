@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [troubleshooting-guide, support-deflection, error-messages, known-issues, faq]
 pairs_with:
   personas: [technical-writer]

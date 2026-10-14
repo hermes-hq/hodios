@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [bluetooth-le, gatt, iot, wireless, pairing, low-power]
 pairs_with:
   personas: [embedded-engineer]

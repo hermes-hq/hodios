@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [conversions-api, enhanced-conversions, server-side-tracking, event-deduplication, consent-mode, event-match-quality]
 pairs_with:
   prompts: [plan-ad-conversion-tracking, set-up-offline-conversion-import, audit-website-privacy-compliance]

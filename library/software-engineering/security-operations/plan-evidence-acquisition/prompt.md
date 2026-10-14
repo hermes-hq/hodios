@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [digital-forensics, evidence-preservation, chain-of-custody, memory-acquisition, incident-forensics]
 pairs_with:
   prompts: [build-forensic-timeline, plan-security-incident-response, collect-incident-evidence]

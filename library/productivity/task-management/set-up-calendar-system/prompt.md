@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [calendar, calendar-hygiene, colour-coding, buffers, time-blocking, shared-calendars]
 pairs_with:
   prompts: [set-up-task-system, protect-deep-work-blocks, set-up-life-admin-calendar]

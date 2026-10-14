@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sales-training, role-play-cards, sales-enablement, team-workshop, coaching]
 pairs_with:
   prompts: [build-sales-playbook, plan-new-rep-ramp, quiz-objection-handling]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [act, data-interpretation, graph-reading, experimental-design, conflicting-viewpoints, pacing]
 pairs_with:
   prompts: [prepare-standardized-test, analyze-exam-mistakes]

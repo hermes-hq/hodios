@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sports-photography, action-photography, autofocus-tracking, youth-sport, fast-shutter]
 pairs_with:
   prompts: [choose-camera-settings, cull-photo-shoot, critique-photograph]

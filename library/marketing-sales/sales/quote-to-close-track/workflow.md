@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tradespeople, site-visit, good-better-best, quote-follow-up, win-loss, home-services]
 pairs_with:
   prompts: [present-repair-options, triage-open-quotes, answer-price-shopper-calls, canvass-neighbours-after-job]

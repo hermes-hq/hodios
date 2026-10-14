@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [message-batching, notifications, response-times, team-chat, focus, communication-norms]
 pairs_with:
   prompts: [protect-deep-work-blocks, set-up-inbox-filters, plan-around-interruptions]

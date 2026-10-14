@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [single-sign-on, identity-aware-proxy, zero-trust, internal-tools]
 pairs_with:
   prompts: [implement-saml-sso, implement-oauth-login, write-reverse-proxy-config, review-cloud-iam-policy]

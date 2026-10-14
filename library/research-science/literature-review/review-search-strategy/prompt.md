@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [press-checklist, search-strategy, boolean-search, systematic-review, subject-headings]
 pairs_with:
   prompts: [build-search-string, write-systematic-review-protocol, chase-citations]

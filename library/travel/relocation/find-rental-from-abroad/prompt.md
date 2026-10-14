@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [house-hunting, rental-scams, moving-abroad, remote-viewing, rental-application]
 pairs_with:
   prompts: [choose-arrival-accommodation, decide-where-to-live, build-house-viewing-checklist, practise-flat-viewing-questions]

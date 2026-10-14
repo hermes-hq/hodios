@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [rbac, least-privilege, service-accounts, access-control]
 pairs_with:
   prompts: [write-kubernetes-network-policies, review-cloud-iam-policy, write-policy-as-code]

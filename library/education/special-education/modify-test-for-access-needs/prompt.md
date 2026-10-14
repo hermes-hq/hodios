@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [modified-papers, dyslexia, accessible-assessment, reading-load, special-educational-needs]
 pairs_with:
   prompts: [differentiate-lesson, adapt-text-reading-level, request-exam-access-arrangements]

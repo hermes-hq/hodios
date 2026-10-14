@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [narration, voiceover, async-video, pre-recorded-talk, timing, captions]
 pairs_with:
   prompts: [write-speaker-notes, shorten-presentation-for-time, make-presentation-accessible]

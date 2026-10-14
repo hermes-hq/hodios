@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [facilitation, consent-decision-making, dot-voting, consensus, decision-rights, advice-process]
 pairs_with:
   prompts: [facilitate-group-brainstorm, compare-options-matrix, write-meeting-agenda]

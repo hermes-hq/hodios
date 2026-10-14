@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [second-site, expansion, multi-site, site-selection, go-no-go, small-business-growth]
 pairs_with:
   prompts: [write-operations-manual, build-annual-operating-plan, map-growth-options, calculate-break-even]

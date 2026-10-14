@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [software-development, agency-contract, source-code-ownership, acceptance-testing, change-control]
 pairs_with:
   prompts: [review-saas-agreement, redline-contract, explain-contract-clause]

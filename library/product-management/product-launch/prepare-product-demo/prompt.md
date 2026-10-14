@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [demo-script, storytelling, sales-demo, launch-event, objection-handling]
 pairs_with:
   prompts: [write-sales-enablement-brief, write-launch-faq, plan-product-launch]

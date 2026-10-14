@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [translation-quality, terminology, mqm]
 pairs_with:
   prompts: [translate-preserving-tone]

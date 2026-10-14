@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cost-basis, capital-gains, reinvested-dividends, share-matching]
 pairs_with:
   prompts: [explain-tax-on-investments, organize-crypto-tax-records, explain-brokerage-statement]

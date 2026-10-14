@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [food-labelling, allergens, date-marks, small-producer, direct-selling]
 pairs_with:
   prompts: [price-farm-gate-produce, plan-freezer-meat-boxes, prepare-for-food-safety-inspection]

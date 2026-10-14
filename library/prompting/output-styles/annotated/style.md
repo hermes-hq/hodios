@@ -11,6 +11,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: beginner
+depth: specific
 role: [student, software-engineer, writer, teacher]
 tags: [commentary, worked-examples, explain-choices, learning-by-example]
 pairs_with:

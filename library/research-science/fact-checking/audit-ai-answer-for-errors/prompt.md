@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ai-hallucination, fabricated-citations, claim-verification, ai-literacy, reference-checking]
 pairs_with:
   prompts: [fact-check-claims, verify-citations, evaluate-source-credibility, check-statistics-in-article]

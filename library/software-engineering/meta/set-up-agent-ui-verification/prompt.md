@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, browser-automation, screenshots, ui-verification, frontend]
 pairs_with:
   prompts: [write-agents-md, write-agent-environment-setup, build-page-from-mockup]

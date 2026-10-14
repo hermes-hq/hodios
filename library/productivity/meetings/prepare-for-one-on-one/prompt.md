@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [one-on-one, managing-up, giving-feedback, career-conversation, agenda]
 pairs_with:
   prompts: [prepare-for-meeting, prepare-difficult-conversation, write-meeting-agenda]

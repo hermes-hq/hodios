@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [professional-development, instructional-coaching, deliberate-practice, school-improvement, teacher-learning, cpd-evaluation]
 pairs_with:
   prompts: [plan-staff-inset-session, write-lesson-observation-feedback]

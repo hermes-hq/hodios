@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mobile-sdk, sdk-installation, privacy-manifest, developer-experience]
 pairs_with:
   prompts: [write-installation-guide, write-api-quickstart]

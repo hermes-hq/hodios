@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [idp, growth-plan, stretch-assignments, 70-20-10, skill-gap]
 pairs_with:
   prompts: [plan-career-path, prepare-promotion-case, find-mentor]

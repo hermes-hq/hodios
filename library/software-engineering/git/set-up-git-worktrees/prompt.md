@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [worktrees, context-switching, parallel-branches, hotfix]
 pairs_with:
   prompts: [set-up-git-on-new-machine, explain-git-error, rebase-stacked-branches]

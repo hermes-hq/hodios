@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [care-rota, ageing-parents, siblings, shared-care, carers]
 pairs_with:
   prompts: [manage-caregiver-stress, coordinate-family-calendar, prepare-emergency-medical-summary]

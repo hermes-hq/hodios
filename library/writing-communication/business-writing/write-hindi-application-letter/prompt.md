@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [prarthana-patra, application-letter, leave-application, formal-letter, school-letters]
 pairs_with:
   prompts: [write-formal-letter, write-formal-arabic-letter]

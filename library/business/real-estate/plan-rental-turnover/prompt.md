@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [landlord, void-period, make-ready, re-letting, scheduling]
 pairs_with:
   prompts: [write-rental-listing, write-property-inspection-report, set-up-rental-maintenance-process]

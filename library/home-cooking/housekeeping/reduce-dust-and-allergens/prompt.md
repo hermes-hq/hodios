@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [allergies, dust-mites, pet-dander, indoor-air, bedroom]
 args:
   - name: allergies

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [organic-chemistry, reaction-mechanisms, curly-arrows, nucleophiles, electrophiles, a-level]
 pairs_with:
   prompts: [create-memory-aids]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [amazon, a-plus-content, enhanced-brand-content, comparison-chart, image-briefs, product-listing]
 pairs_with:
   prompts: [write-marketplace-listing, brief-product-image-set, write-product-range-comparison]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [habit-loop, behaviour-change, friction, competing-response, relapse-prevention, cue-analysis]
 pairs_with:
   prompts: [design-habit-plan, set-woop-goals, plan-30-day-challenge]

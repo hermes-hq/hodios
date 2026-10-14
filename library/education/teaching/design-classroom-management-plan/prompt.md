@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [classroom-management, behaviour, routines, pbis, restorative-practice]
 pairs_with:
   prompts: [write-parent-email, plan-substitute-lesson]

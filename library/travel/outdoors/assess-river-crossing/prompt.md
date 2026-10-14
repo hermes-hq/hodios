@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [river-crossing, fording, snowmelt, flash-flood, water-hazards, backcountry-safety]
 pairs_with:
   prompts: [plan-trail-water, read-mountain-weather-forecast, write-trip-intentions-plan]

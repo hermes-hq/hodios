@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [job-offer, decline, professional-relationships]
 pairs_with:
   prompts: [evaluate-job-offer, negotiate-job-offer, accept-job-offer-in-writing]

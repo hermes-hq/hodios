@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, agent-memory, context-engineering, knowledge-capture]
 pairs_with:
   prompts: [manage-agent-context-for-long-task, write-agent-handoff, write-agents-md, prune-agent-instructions]

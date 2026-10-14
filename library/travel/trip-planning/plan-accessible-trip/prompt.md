@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [accessible-travel, wheelchair-travel, disability, travel-assistance, mobility-aids]
 pairs_with:
   prompts: [plan-itinerary, check-travel-requirements, build-packing-list]

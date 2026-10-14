@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [case-study, anonymisation, composite-characters, confidentiality, disclosure]
 pairs_with:
   prompts: [build-story-bank, draft-nonfiction-chapter, write-note-on-sources]

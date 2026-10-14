@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [milestones, critical-path, raci, risk-register]
 pairs_with:
   prompts: [run-weekly-review, prepare-for-meeting]

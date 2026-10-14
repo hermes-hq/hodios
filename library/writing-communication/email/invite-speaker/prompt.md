@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [speaker-invitation, guest-booking, panel, podcast-guest, event-programming]
 pairs_with:
   prompts: [write-event-invitation, moderate-panel, write-emcee-script]

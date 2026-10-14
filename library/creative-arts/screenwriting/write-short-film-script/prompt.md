@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [short-film, script-format, micro-budget, film-festival]
 pairs_with:
   prompts: [write-beat-sheet, format-screenplay-scene, create-storyboard]

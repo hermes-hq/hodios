@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [debt-settlement, credit-repair, scam-check, fees]
 pairs_with:
   prompts: [compare-debt-relief-options, prepare-for-debt-advice-appointment, spot-investment-scam]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chatbot-logs, intent-analysis, unmet-needs, help-content, discoverability]
 pairs_with:
   prompts: [design-support-chatbot-flow, test-support-chatbot-answers, analyze-site-search-for-demand]

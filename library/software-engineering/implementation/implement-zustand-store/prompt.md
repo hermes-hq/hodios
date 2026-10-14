@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [zustand, client-state, selectors, persistence, re-renders]
 pairs_with:
   prompts: [implement-tanstack-query-data-layer, remove-prop-drilling]

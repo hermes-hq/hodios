@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [conference-code-of-conduct, event-safety, incident-reporting, responder-guide, inclusive-events]
 pairs_with:
   prompts: [plan-recurring-meetup, write-safeguarding-policy, write-community-guidelines]

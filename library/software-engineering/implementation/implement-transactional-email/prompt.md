@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [transactional-email, deliverability, spf-dkim-dmarc, bounces, outbox]
 pairs_with:
   personas: [backend-engineer]

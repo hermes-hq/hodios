@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-budget, irregular-expenses, cash-flow, sinking-funds]
 pairs_with:
   prompts: [set-up-sinking-funds, build-monthly-budget, plan-bill-payment-calendar]

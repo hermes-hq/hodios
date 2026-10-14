@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reference-manager, citation-management, thesis, pdf-annotation, bibtex, research-workflow]
 pairs_with:
   prompts: [build-literature-matrix, format-citations, write-annotated-bibliography, plan-thesis-structure]

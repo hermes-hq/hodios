@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [email-course, lead-magnet, lessons, exercises, subscriber-onboarding]
 pairs_with:
   prompts: [write-newsletter-welcome-email, write-newsletter-signup-page, create-lead-magnet]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [filtering, sorting, query-parameters, rest-api, sql-injection]
 pairs_with:
   prompts: [implement-pagination, build-rest-endpoint, design-search-index]

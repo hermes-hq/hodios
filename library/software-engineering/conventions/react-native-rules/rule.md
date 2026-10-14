@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [flatlist, navigation, permissions, secure-storage, native-modules]
 applies_to: ["**/*.tsx", "**/*.ts", "**/*.jsx", "app.json", "app.config.*", "ios/**", "android/**"]
 pairs_with:

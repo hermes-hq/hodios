@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [expired-listings, seller-prospecting, do-not-call, listing-diagnosis, estate-agent]
 pairs_with:
   prompts: [write-listing-presentation, write-prospect-voicemails, practise-viewing-objections]

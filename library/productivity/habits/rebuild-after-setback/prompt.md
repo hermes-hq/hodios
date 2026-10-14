@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [setbacks, comeback, post-mortem, failure, resilience, 30-day-plan]
 pairs_with:
   prompts: [run-personal-retrospective, practice-self-compassion, set-woop-goals, bounce-back-from-rejection]

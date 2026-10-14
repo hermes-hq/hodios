@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mtpe, post-editing, iso-18587, mqm, terminology]
 pairs_with:
   prompts: [review-translation, build-translation-glossary]

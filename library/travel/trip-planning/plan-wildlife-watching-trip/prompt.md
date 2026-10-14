@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wildlife, safari, whale-watching, birding, responsible-travel, animal-welfare]
 pairs_with:
   prompts: [plan-adventure-trip, plan-national-park-visit, choose-ethical-volunteer-trip, choose-travel-insurance]

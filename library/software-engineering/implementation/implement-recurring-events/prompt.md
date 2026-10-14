@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [rrule, icalendar, time-zones, dst, calendar-events]
 pairs_with:
   prompts: [implement-appointment-booking, implement-background-job]

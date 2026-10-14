@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [travel-vaccines, travel-clinic, malaria-prevention, yellow-fever, pre-travel-advice, travel-medicine]
 pairs_with:
   prompts: [travel-with-medication, access-healthcare-abroad, build-medication-list, prepare-emergency-medical-summary]

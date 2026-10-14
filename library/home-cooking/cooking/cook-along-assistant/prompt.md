@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [beginner-cooking, step-by-step, kitchen-timers, mise-en-place, kitchen-confidence]
 pairs_with:
   prompts: [rescue-dish-flavor, troubleshoot-recipe, plan-learning-to-cook]

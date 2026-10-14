@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [media-literacy, digital-citizenship, lateral-reading, misinformation, ai-literacy, online-safety]
 pairs_with:
   prompts: [write-class-ai-policy, teach-study-skills-lesson, generate-discussion-questions]

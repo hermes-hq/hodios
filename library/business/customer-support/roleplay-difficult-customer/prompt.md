@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [roleplay, de-escalation, agent-training, difficult-customers, coaching, front-desk]
 pairs_with:
   prompts: [write-support-reply, build-support-qa-scorecard, design-escalation-process, script-hotel-overbooking-walk, rehearse-bad-news-customer-call]

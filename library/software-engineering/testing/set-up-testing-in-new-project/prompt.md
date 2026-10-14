@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [test-setup, ci, test-framework, coverage]
 pairs_with:
   prompts: [write-unit-tests, set-up-coverage-gate, write-test-strategy]

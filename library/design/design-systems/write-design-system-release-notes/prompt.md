@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [release-notes, changelog, semantic-versioning, figma-library, breaking-changes]
 pairs_with:
   prompts: [write-release-notes, plan-component-deprecation, write-component-release-checklist, plan-design-system-governance]

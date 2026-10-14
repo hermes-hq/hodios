@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [back-to-school, classroom-routines, classroom-community, relationship-building, classroom-management]
 pairs_with:
   prompts: [design-classroom-management-plan, write-classroom-newsletter, write-lesson-plan]

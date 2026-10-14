@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [case-brief, judicial-opinions, irac, holding-and-dicta]
 pairs_with:
   prompts: [draft-legal-research-memo, summarize-paper]

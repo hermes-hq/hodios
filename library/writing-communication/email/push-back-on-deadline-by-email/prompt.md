@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deadline, trade-offs, scope-cut, expectation-setting]
 pairs_with:
   prompts: [ask-manager-to-prioritise-work, request-deadline-extension, explain-estimate-to-stakeholders]

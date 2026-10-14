@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [babel, flask-babel, pybabel, gettext, contextvars]
 pairs_with:
   prompts: [set-up-django-translations, localize-server-sent-messages, design-localized-api-errors]

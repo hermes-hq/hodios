@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sbi-model, constructive-criticism, recognition, one-on-one]
 pairs_with:
   prompts: [prepare-difficult-conversation, rewrite-for-tone]

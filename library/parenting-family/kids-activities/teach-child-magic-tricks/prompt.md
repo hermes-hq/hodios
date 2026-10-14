@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [magic-tricks, kids-show, confidence-building, fine-motor-skills, stage-presence, screen-free]
 pairs_with:
   prompts: [write-play-for-kids-to-perform, create-puppet-show, write-jokes-for-kids]

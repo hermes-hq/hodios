@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mock-epic, light-verse, comic-poetry, reading-aloud, celebration]
 pairs_with:
   prompts: [write-limericks, write-parody-lyrics]

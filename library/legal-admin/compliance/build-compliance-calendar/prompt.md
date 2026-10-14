@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [compliance-calendar, recurring-obligations, renewals, regulatory-deadlines, governance]
 pairs_with:
   prompts: [build-compliance-checklist, plan-business-tax-calendar, plan-hr-annual-calendar, plan-staff-compliance-training]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kids-theatre, drama-games, family-show, class-assembly, script-writing, rehearsal-plan]
 pairs_with:
   prompts: [create-puppet-show, tell-hero-story-series, play-pretend-with-young-child]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-decay, content-refresh, content-pruning, blog-maintenance]
 pairs_with:
   prompts: [analyze-search-console-data, resolve-keyword-cannibalization, write-seo-content-brief]

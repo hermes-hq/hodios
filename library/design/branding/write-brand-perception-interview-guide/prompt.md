@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-research, qualitative-research, interview-guide, brand-perception, customer-interviews]
 pairs_with:
   prompts: [run-brand-audit, plan-rebrand, build-brand-platform, measure-brand-awareness]

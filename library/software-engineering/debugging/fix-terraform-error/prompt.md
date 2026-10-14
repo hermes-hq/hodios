@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [infrastructure-as-code, state-management, providers, drift, import-blocks]
 pairs_with:
   prompts: [review-iac-plan, refactor-terraform-without-recreating]

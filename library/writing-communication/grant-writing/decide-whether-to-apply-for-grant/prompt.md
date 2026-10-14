@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bid-no-bid, funder-fit, opportunity-cost, mission-drift, grant-conditions]
 pairs_with:
   prompts: [plan-grant-pipeline, write-programme-officer-enquiry]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scheduling, time-zones, availability, double-booking, concurrency-control]
 pairs_with:
   prompts: [spec-recurring-schedule-rules, implement-state-machine, implement-transactional-email]

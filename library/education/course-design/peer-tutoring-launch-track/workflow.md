@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [peer-tutoring, cross-age-tutoring, mentoring-programme, tutor-training, safeguarding, impact-evaluation]
 pairs_with:
   prompts: [design-tutoring-session, plan-intervention-group, evaluate-training-effectiveness]

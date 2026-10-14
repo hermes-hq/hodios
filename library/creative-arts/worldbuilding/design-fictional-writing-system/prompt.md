@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conscript, conlang, alphabets, calligraphy, setting-design]
 pairs_with:
   prompts: [create-fictional-language, design-fictional-culture, write-in-world-document, design-fictional-heraldry]

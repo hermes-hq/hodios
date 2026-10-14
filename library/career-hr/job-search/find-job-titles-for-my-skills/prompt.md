@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [job-titles, keywords, transferable-skills, targeting, career-pivot]
 pairs_with:
   prompts: [write-job-board-search-queries, analyze-job-posting, plan-job-search]

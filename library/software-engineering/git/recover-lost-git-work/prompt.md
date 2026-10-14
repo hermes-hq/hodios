@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reflog, data-recovery, git-fsck, stash]
 args:
   - name: what_happened

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [first-apartment, renters, flat-hunting, rental-application, move-in, first-time-renter]
 pairs_with:
   prompts: [build-house-viewing-checklist, prepare-rental-application, review-lease, document-rental-move-in, furnish-first-apartment]

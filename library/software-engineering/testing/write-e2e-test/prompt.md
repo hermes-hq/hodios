@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [e2e, playwright, cypress, selenium, flaky-tests, locators]
 pairs_with:
   personas: [test-engineer, frontend-engineer]

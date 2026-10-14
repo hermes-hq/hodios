@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [passport-renewal, national-id, consulate, passport-validity, emergency-travel-document]
 pairs_with:
   prompts: [check-travel-requirements, handle-emergency-abroad, organize-important-documents]

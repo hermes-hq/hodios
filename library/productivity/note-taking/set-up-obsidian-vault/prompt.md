@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [vault-setup, core-plugins, templates, markdown-files, attachments]
 pairs_with:
   prompts: [design-second-brain, design-note-tagging-scheme, design-daily-note-template, plan-notes-backup-and-export]

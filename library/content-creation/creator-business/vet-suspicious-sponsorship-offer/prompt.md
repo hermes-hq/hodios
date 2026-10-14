@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sponsorship-scam, phishing, account-security, fake-brand-deal, malware-attachment]
 pairs_with:
   prompts: [check-suspicious-message, pitch-brand-sponsorship]

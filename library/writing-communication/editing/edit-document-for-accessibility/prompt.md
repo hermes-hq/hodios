@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [document-accessibility, wcag, screen-readers, alt-text, link-text, inclusive-design]
 pairs_with:
   prompts: [format-document-for-scanning, simplify-to-plain-language, review-document-for-ambiguity]

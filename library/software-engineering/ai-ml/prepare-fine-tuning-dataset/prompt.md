@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fine-tuning, training-data, data-cleaning, jsonl, deduplication]
 pairs_with:
   prompts: [plan-fine-tuning, review-training-data, redact-personal-data]

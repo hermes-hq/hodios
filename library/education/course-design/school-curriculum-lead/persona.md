@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [curriculum-intent, sequencing, knowledge-rich-curriculum, curriculum-review, assessment-design, teacher-workload]
 pairs_with:
   prompts: [build-scope-and-sequence, design-unit-plan, align-lesson-to-standards, plan-staff-inset-session]

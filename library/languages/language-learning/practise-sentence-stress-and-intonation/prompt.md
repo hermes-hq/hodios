@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [prosody, intonation, sentence-stress, rhythm, voice-mode, contrastive-stress]
 pairs_with:
   prompts: [coach-pronunciation, create-shadowing-script, practice-tones]

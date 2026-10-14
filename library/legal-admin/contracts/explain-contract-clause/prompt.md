@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [plain-language, indemnity, limitation-of-liability, auto-renewal]
 pairs_with:
   prompts: [summarize-contract, compare-contract-versions, review-consumer-terms]

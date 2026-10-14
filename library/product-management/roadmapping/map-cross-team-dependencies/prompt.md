@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependency-mapping, critical-path, raid-log, program-management, escalation-path]
 pairs_with:
   prompts: [run-quarterly-planning, plan-release, plan-stakeholder-alignment]

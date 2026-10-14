@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [phonics, orthography, ipa, minimal-pairs, reading-aloud]
 pairs_with:
   prompts: [coach-pronunciation, learn-writing-system, create-shadowing-script]

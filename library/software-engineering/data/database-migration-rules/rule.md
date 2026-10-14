@@ -15,6 +15,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: intermediate
+depth: specific
 tags: [schema-migrations, expand-contract, zero-downtime, locking]
 applies_to: ["**/migrations/**", "**/migrate/**", "**/alembic/**", "**/flyway/**", "**/liquibase/**", "**/*.sql"]
 pairs_with:

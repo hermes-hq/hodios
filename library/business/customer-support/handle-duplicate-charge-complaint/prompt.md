@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [double-charge, card-authorisation, pending-transaction, payment-reconciliation, chargeback-prevention]
 pairs_with:
   prompts: [respond-to-chargeback-as-merchant, handle-unexpected-renewal-charge, write-support-reply]

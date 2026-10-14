@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recap, story-so-far, serial-storytelling, reader-onboarding, front-matter]
 pairs_with:
   prompts: [write-comic-script, write-comic-solicitation, plan-webcomic-series]

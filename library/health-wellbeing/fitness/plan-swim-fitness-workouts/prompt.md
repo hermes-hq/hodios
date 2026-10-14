@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [swimming, pool-workouts, freestyle, swim-drills, cardio, lap-swimming]
 pairs_with:
   prompts: [assess-fitness-baseline, plan-low-impact-cardio, plan-endurance-event-training]

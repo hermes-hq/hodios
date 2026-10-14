@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [repair-decision, appliance-repair, right-to-repair, product-lifespan, waste-reduction]
 pairs_with:
   prompts: [find-replacement-part, choose-home-appliance, decide-on-extended-warranty, diagnose-home-problem]

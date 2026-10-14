@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mei, simples-nacional, das, nota-fiscal, brasil]
 pairs_with:
   prompts: [irpf-declaration-track, track-business-expenses]

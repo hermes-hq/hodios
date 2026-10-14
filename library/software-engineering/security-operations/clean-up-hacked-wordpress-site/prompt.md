@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hacked-site, malware-cleanup, backdoor, wp-cli, blocklist-removal]
 stack: [wordpress, php]
 pairs_with:

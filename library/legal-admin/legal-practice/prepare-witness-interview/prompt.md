@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [witness-interview, fact-gathering, witness-statements, litigation-support, interview-technique]
 pairs_with:
   prompts: [prepare-deposition-outline, index-case-documents]

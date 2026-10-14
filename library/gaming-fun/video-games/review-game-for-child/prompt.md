@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [age-ratings, kids-gaming, online-safety, in-game-purchases, family-gaming]
 pairs_with:
   prompts: [set-up-parental-controls, set-screen-time-plan, talk-to-teen-about-online-safety]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [note-on-sources, author-note, reconstructed-dialogue, transparency, back-matter]
 pairs_with:
   prompts: [write-narrative-nonfiction-scene, write-composite-case-study, format-book-endnotes]

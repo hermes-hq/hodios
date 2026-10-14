@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-review, team-update, retrospective, recognition, storytelling]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, shorten-presentation-for-time]

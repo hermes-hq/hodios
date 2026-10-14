@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [press-room, media-page, press-kit, image-library, media-contacts]
 pairs_with:
   prompts: [write-press-backgrounder, write-press-release, write-media-policy]

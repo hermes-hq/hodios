@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lambing, scanning-results, lambing-pens, shift-rota, colostrum, sheep-flock]
 pairs_with:
   prompts: [plan-tupping-calendar, plan-low-stress-weaning, triage-unwell-livestock]

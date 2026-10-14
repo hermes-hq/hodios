@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [event-invitations, field-events, executive-dinner, webinar-invites, trade-show-meetings, attendance]
 pairs_with:
   prompts: [follow-up-event-leads, plan-event-marketing, write-event-email-sequence]

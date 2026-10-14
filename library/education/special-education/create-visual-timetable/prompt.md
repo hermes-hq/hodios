@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [visual-schedule, now-and-next, autism, special-educational-needs, early-years, routine-change]
 pairs_with:
   prompts: [write-social-story, plan-sensory-friendly-classroom, break-down-life-skill-task]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [game-feel, juice, hit-stop, responsiveness]
 pairs_with:
   prompts: [design-game-mechanic, design-boss-fight]

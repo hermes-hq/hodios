@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cosplay, costume-making, eva-foam, prop-making, fan-conventions, sewing]
 pairs_with:
   prompts: [plan-sewing-project, design-printable-part, troubleshoot-3d-print]

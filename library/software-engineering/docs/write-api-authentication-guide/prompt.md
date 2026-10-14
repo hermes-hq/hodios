@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-auth, oauth, api-keys, developer-experience]
 pairs_with:
   prompts: [write-api-quickstart, document-api-conventions]

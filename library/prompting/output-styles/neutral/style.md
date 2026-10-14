@@ -11,6 +11,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: beginner
+depth: specific
 role: [researcher, teacher, writer, student]
 tags: [balanced-framing, impartiality, multiple-perspectives, steelman]
 pairs_with:

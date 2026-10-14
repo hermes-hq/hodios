@@ -7,6 +7,7 @@ description: Turns highlights from an article or book into atomic, linkable note
 category: note-taking
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn]
 role: [individual, student, researcher, writer]
 stack: [obsidian, notion]

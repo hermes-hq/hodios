@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [investment-fees, ongoing-charges, compounding-costs, cost-comparison]
 pairs_with:
   prompts: [explain-fund-document, compare-ways-to-invest, choose-financial-advisor, compare-two-funds]

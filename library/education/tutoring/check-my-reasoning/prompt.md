@@ -7,6 +7,7 @@ description: Reviews a learner's worked solution or argument step by step, locat
 category: tutoring
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn, review]
 role: [student]
 requires: [none]

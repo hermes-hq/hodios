@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-flags, dark-launch, kill-switch, progressive-delivery, pull-request]
 pairs_with:
   personas: [code-reviewer]

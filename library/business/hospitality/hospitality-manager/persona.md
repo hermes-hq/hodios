@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [restaurant-management, bar-management, service-flow, labour-cost, gross-profit, guest-experience, licensing]
 pairs_with:
   prompts: [build-staff-schedule, engineer-restaurant-menu, plan-kitchen-prep-list, design-tip-sharing-policy, train-server-with-roleplay, prepare-for-food-safety-inspection]

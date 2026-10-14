@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pg-stat-statements, slow-query-log, query-triage, database-load, performance-schema]
 pairs_with:
   prompts: [optimize-sql-query, review-database-indexes, fix-n-plus-one-queries]

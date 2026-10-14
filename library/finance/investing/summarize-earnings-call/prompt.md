@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [earnings-call, guidance, quarterly-results, equity-research]
 pairs_with:
   prompts: [read-company-financials, evaluate-stock-tip, explain-investment-concept]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [leaked-documents, document-forensics, source-protection, investigative-journalism, newsroom]
 pairs_with:
   prompts: [verify-image-provenance, verify-quotes-against-source, write-fact-checking-methodology]

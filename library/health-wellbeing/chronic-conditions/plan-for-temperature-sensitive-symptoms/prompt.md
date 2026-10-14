@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [heat-sensitivity, cold-sensitivity, heatwave, raynauds, multiple-sclerosis, seasonal-planning]
 pairs_with:
   prompts: [plan-flare-day-logistics, plan-activity-pacing, explore-flare-triggers]

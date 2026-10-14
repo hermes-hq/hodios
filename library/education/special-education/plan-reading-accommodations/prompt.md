@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [reading-difficulties, curriculum-access, text-to-speech, accommodations, cross-curricular]
 pairs_with:

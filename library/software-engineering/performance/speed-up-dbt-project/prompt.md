@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [run-time, incremental-models, materialization, warehouse-cost, critical-path]
 pairs_with:
   prompts: [write-dbt-incremental-model, refactor-dbt-project, reduce-bigquery-costs, reduce-snowflake-costs]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [form-1040-nr, form-8843, substantial-presence-test, tax-treaty, international-students, united-states]
 pairs_with:
   prompts: [explain-tax-form, reclaim-overpaid-tax, check-foreign-income-tax]

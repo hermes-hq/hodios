@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sponsorship, grant-report, transparency, open-collective, project-funding]
 pairs_with:
   prompts: [write-sponsorship-ask, choose-oss-funding-model, write-release-announcement-kit]

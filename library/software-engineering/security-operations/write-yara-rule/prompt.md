@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [yara, malware-analysis, file-scanning, false-positives, threat-detection]
 pairs_with:
   prompts: [write-sigma-rule, analyze-suspicious-script, write-threat-intel-brief]

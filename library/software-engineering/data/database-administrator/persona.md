@@ -18,6 +18,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [backups, query-plans, schema-changes, capacity-planning, replication]
 pairs_with:
   prompts: [review-database-migration, review-database-indexes, optimize-sql-query, plan-zero-downtime-schema-change, plan-disaster-recovery]

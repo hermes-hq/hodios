@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitor-accounts, financial-benchmarking, margin-analysis, filings, competitive-analysis]
 pairs_with:
   prompts: [profile-a-competitor, summarize-annual-report, read-company-financials, benchmark-competitor-pricing]

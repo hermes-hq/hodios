@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [livestream-selling, live-commerce, run-of-show, china]
 pairs_with:
   prompts: [plan-livestream-run-of-show, write-taobao-product-detail-page]

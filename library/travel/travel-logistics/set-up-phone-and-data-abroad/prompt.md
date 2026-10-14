@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [esim, roaming, local-sim, mobile-data, two-factor-authentication]
 pairs_with:
   prompts: [plan-first-trip-abroad, build-packing-list, master-city-transit]

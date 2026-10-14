@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [transcription, pseudonymisation, de-identification, qualitative-data, interview-data, data-protection]
 pairs_with:
   prompts: [build-qualitative-codebook, run-thematic-analysis, write-data-management-plan, translate-interview-transcript-for-research]

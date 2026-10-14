@@ -7,6 +7,7 @@ description: Standing rules for embedded C an assistant writes, covering fixed-w
 category: conventions
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [build]
 role: [embedded-engineer]
 stack: [c]

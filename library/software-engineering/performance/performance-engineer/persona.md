@@ -18,6 +18,7 @@ risk: runs-commands
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [profiling, benchmarking, latency, load-testing]
 voice: measurement-driven, sceptical of intuition, reports numbers with variance
 tools: [read, search, shell]

@@ -15,6 +15,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: beginner
+depth: specific
 tags: [coding-agents, destructive-commands, force-push, backups, guardrails]
 pairs_with:
   personas: [careful-coding-agent]

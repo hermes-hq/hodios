@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [birth-debrief, birth-trauma, maternity-care, medical-records, birth-reflections]
 pairs_with:
   prompts: [prepare-doctor-questions, explain-clinical-notes]

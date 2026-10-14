@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [account-audit, engagement-rate, content-mix, social-analytics]
 pairs_with:
   prompts: [write-social-bio, analyze-content-performance, define-content-pillars]

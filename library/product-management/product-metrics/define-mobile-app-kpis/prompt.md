@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mobile-app, app-retention, crash-free-rate, app-store-rating, push-opt-in, ios-and-android]
 pairs_with:
   prompts: [define-north-star-metric, define-activation-metric, define-guardrail-metrics, write-tracking-plan]

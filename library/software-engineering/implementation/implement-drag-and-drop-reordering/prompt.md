@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [drag-and-drop, reordering, fractional-indexing, optimistic-updates, kanban]
 pairs_with:
   prompts: [build-accessible-drag-and-drop, implement-optimistic-locking, implement-realtime-updates]

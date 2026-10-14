@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [upcycling, repurposing, reclaimed-materials, zero-waste, lead-paint, pallets]
 pairs_with:
   prompts: [restore-old-furniture, plan-woodworking-project, plan-sewing-project]

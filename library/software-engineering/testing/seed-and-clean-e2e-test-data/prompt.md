@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [e2e, test-data, test-isolation, parallel-tests]
 pairs_with:
   prompts: [write-test-data-factories, write-e2e-test, set-up-playwright-in-ci]

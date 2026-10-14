@@ -11,6 +11,7 @@ requires: [none]
 output: [checklist]
 risk: read-only
 level: beginner
+depth: specific
 role: [individual, manager]
 tags: [next-steps, action-items, priority-order, time-estimates, getting-started]
 pairs_with:

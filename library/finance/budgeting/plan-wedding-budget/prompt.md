@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wedding, event-budget, savings-plan, vendor-deposits, couples]
 pairs_with:
   prompts: [plan-wedding, plan-savings-goal, plan-couple-money-conversation]

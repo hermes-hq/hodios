@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [table-one, descriptive-statistics, standardised-mean-difference, group-comparison, covariate-balance]
 pairs_with:
   prompts: [build-manuscript-tables, report-statistical-results, estimate-causal-effect]

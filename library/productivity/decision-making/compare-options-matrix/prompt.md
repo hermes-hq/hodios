@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weighted-scoring, sensitivity-analysis, trade-offs, comparison]
 pairs_with:
   prompts: [run-pre-mortem]

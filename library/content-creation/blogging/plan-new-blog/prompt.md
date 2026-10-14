@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [niche-selection, blog-launch, posting-cadence, first-posts]
 pairs_with:
   prompts: [generate-blog-post-ideas, write-blog-post-draft, define-content-pillars]

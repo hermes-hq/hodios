@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [trip-cancellation, refunds, travel-credit, booking-changes]
 pairs_with:
   prompts: [prepare-travel-insurance-claim, understand-fare-rules, handle-travel-disruption, ask-for-money-back]

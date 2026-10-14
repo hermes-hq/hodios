@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ratio, proportional-reasoning, bar-models, double-number-lines, best-buys, scaling]
 pairs_with:
   prompts: [set-up-word-problem, practise-estimation-and-sense-checking]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pci-dss, cardholder-data, tokenization, payment-security, hosted-fields]
 pairs_with:
   prompts: [choose-pci-dss-saq, integrate-payments, secure-third-party-scripts, adopt-strict-csp, redact-secrets-from-logs]

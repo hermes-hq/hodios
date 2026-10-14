@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [statistics]
 tags: [dice-odds, card-odds, drop-rates, expected-value]
 pairs_with:

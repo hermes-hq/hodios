@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-budgets, toil, blameless, resilience, capacity-planning]
 pairs_with:
   prompts: [define-slos, design-alerting-rules, design-on-call-rotation, write-postmortem, plan-game-day, write-runbook]

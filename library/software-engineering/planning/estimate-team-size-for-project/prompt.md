@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [staffing, headcount, brooks-law, ramp-up, resourcing]
 pairs_with:
   prompts: [estimate-with-ranges, plan-team-capacity, find-critical-path]

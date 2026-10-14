@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [job-architecture, job-levels, job-families, title-conventions, career-tracks]
 pairs_with:
   prompts: [build-career-ladder, evaluate-job-for-grading, design-salary-bands, prepare-for-pay-transparency-rules]

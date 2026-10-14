@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [doctrine, autowiring, voters, messenger, form-validation]
 applies_to: ["src/**/*.php", "config/**", "templates/**/*.twig", "migrations/**"]
 pairs_with:

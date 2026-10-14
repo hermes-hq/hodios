@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [weight-conversion, measuring-cups, metric-baking, recipe-conversion, kitchen-scale]
 pairs_with:
   prompts: [convert-to-bakers-percentages, adjust-recipe-for-altitude]

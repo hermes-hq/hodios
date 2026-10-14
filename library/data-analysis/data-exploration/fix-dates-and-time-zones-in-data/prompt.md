@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dates, time-zones, daylight-saving, timestamps, data-cleaning]
 pairs_with:
   prompts: [explore-dataset, build-date-spine-for-metrics, reconcile-datasets]

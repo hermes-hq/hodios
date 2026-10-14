@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [calibration, metrology, performance-checks, quality-assurance, equipment-records]
 pairs_with:
   prompts: [calculate-measurement-uncertainty, set-up-equipment-booking-rules]

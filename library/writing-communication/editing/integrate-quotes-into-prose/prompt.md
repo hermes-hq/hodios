@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quotations, signal-phrases, quote-sandwich, citations, essays]
 pairs_with:
   prompts: [paraphrase-with-attribution, check-draft-for-patchwriting, format-citations]

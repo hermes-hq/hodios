@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [case-report, care-guideline, clinical-writing, patient-consent, de-identification]
 subject: [medicine, healthcare]
 pairs_with:

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [replatforming, platform-migration, data-migration, url-redirects, cutover-plan, store-operations]
 pairs_with:
   prompts: [plan-site-migration-seo, audit-product-catalog-data]

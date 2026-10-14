@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [approvals, routing-rules, delegation, requirements]
 pairs_with:
   prompts: [spec-record-status-lifecycle, spec-roles-and-permissions, implement-state-machine]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [exam-stress, revision-routine, teenagers, study-habits, sleep-routine, school-pressure]
 pairs_with:
   prompts: [support-anxious-child, help-with-homework, support-teen-mental-health]

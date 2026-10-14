@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [owner-equity, sole-trader, partnership, capital-account]
 pairs_with:
   prompts: [separate-personal-and-business-spending, set-up-chart-of-accounts, prepare-year-end-accounts-pack]

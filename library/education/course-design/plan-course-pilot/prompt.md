@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pilot-testing, beta-cohort, decision-rules, pre-post-test, learner-feedback, iterative-design]
 pairs_with:
   prompts: [evaluate-training-effectiveness, analyze-course-evaluations, design-course-outline]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [locale-formatting, pluralization, unicode, rtl]
 pairs_with:
   prompts: [extract-ui-strings, plan-rtl-support, write-icu-plural-messages]

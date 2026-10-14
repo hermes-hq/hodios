@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-contribution, good-first-issue, contributor-experience, portfolio]
 pairs_with:
   prompts: [open-first-pull-request-to-project, write-upstream-feature-proposal, report-bug-to-upstream-project]

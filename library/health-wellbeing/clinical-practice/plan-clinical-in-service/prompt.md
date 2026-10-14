@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [in-service-training, clinical-education, staff-training, infection-control, medical-devices, practice-development]
 pairs_with:
   prompts: [write-clinical-skills-checklist, prepare-case-presentation, plan-clinical-audit]

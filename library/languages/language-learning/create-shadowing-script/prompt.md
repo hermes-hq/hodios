@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shadowing, prosody, intonation, connected-speech, fluency, accent]
 pairs_with:
   prompts: [coach-pronunciation, create-listening-exercise, review-speaking-transcript]

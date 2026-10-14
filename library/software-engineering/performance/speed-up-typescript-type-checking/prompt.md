@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [tsc, type-checking, project-references, compiler-trace, editor-performance]
 pairs_with:
   prompts: [speed-up-frontend-build, simplify-typescript-types, speed-up-monorepo-builds, speed-up-ci-pipeline]

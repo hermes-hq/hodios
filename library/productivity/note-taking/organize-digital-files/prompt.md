@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [file-naming, folder-structure, cloud-storage, digital-declutter, backups]
 pairs_with:
   prompts: [design-second-brain, plan-decluttering]

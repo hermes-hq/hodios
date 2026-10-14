@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cohabitation, unmarried-couple, bill-splitting, joint-account, cohabitation-agreement]
 pairs_with:
   prompts: [plan-couple-money-conversation, plan-co-buying-home, update-finances-after-marriage, build-monthly-budget]

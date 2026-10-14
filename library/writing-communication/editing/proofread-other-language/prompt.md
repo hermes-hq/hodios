@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [proofreading-non-english, typography, diacritics, grammar-check, multilingual]
 pairs_with:
   prompts: [proofread-text, correct-my-sentences, translate-preserving-tone]

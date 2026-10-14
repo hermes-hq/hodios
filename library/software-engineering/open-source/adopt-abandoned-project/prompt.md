@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [unmaintained-dependency, forking, package-registry, maintainer-transfer, supply-chain-trust]
 pairs_with:
   prompts: [vet-dependency, retire-open-source-project]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [migraine, headache, attack-plan, medication-overuse, headache-diary]
 pairs_with:
   prompts: [explore-flare-triggers, plan-flare-day-logistics, set-up-medication-routine]

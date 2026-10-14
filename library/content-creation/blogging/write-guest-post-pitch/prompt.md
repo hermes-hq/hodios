@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [guest-posting, pitch-email, editor-outreach, follow-up]
 pairs_with:
   prompts: [generate-blog-post-ideas, write-blog-post-draft]

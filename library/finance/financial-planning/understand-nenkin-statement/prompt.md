@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [nenkin-teikibin, kousei-nenkin, kokumin-nenkin, nenkin-net, japan]
 pairs_with:
   prompts: [understand-pension-statement, plan-retirement-scenarios]

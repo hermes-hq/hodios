@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [invisible-illness, fluctuating-conditions, explaining-to-others, boundaries, unsolicited-advice, support-network]
 pairs_with:
   prompts: [cope-with-chronic-illness-emotions, decide-whether-to-disclose-condition, plan-social-life-around-condition]

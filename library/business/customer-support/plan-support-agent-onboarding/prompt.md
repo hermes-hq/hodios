@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [agent-onboarding, ramp-plan, shadowing, ticket-quality, support-training, nesting]
 pairs_with:
   prompts: [build-support-qa-scorecard, build-support-macros, plan-support-staffing, roleplay-difficult-customer]

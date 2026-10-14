@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kitchen-science, stem-activity, hands-on-learning, home-experiment, curiosity]
 pairs_with:
   prompts: [plan-rainy-day-activities, invent-learning-game]

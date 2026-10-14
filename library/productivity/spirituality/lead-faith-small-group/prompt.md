@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [small-group, bible-study, halaqa, facilitation, discussion-questions, group-study]
 pairs_with:
   prompts: [study-sacred-passage, plan-scripture-study, plan-religious-education-lesson]

@@ -16,6 +16,7 @@ risk: read-only
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-script, automation, plain-language, non-programmers]
 pairs_with:
   prompts: [write-python-automation-script, explain-code, draft-help-request-for-stuck-problem]

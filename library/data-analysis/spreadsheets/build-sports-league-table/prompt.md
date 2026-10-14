@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [league-standings, fixtures, round-robin, tiebreakers, club-admin]
 pairs_with:
   prompts: [write-spreadsheet-formula, write-conditional-formatting-rules]

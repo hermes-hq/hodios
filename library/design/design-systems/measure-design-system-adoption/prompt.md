@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [adoption-metrics, component-coverage, detached-instances, quarterly-report, design-system-health]
 pairs_with:
   prompts: [audit-component-duplication, plan-design-system-governance, audit-hardcoded-styles-against-tokens]

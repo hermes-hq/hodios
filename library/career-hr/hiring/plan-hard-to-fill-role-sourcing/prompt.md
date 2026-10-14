@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [talent-sourcing, scarce-skills, talent-pools, pipeline-planning, passive-candidates]
 pairs_with:
   prompts: [write-sourcing-search-strings, write-candidate-outreach, run-hiring-manager-intake, brief-recruitment-agency]

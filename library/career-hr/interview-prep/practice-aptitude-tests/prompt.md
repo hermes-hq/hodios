@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [aptitude-test, psychometric-test, numerical-reasoning, verbal-reasoning, situational-judgement]
 pairs_with:
   prompts: [prepare-assessment-center]

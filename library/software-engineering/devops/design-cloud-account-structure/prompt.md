@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [landing-zone, multi-account, organization-policies, single-sign-on, blast-radius, cost-allocation]
 pairs_with:
   personas: [platform-engineer, devops-engineer]

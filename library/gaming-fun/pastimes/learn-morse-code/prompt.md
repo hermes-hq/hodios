@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [morse-code, cw, amateur-radio, koch-method, practice-plan, ham-radio]
 pairs_with:
   prompts: [get-started-with-amateur-radio, plan-pota-activation]

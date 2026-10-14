@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [arbeitszeugnis, zeugnisberichtigung, germany, employment-reference, formal-letter]
 pairs_with:
   prompts: [decode-arbeitszeugnis, write-resignation-letter]

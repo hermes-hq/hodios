@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [online-learning, self-paced, e-learning-writing, knowledge-checks, worked-examples, chunking]
 pairs_with:
   prompts: [design-elearning-module, write-learning-objectives, structure-lms-course-site]

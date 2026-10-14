@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [claim-delay, insurance-complaint, interim-payment, claims-timeline, ombudsman]
 pairs_with:
   prompts: [appeal-insurance-denial, review-claim-settlement-offer, prepare-for-loss-adjuster-visit]

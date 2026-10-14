@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [negotiation-practice, procurement-tactics, concessions, discounting, buyer-role-play]
 pairs_with:
   prompts: [prepare-deal-negotiation, present-pricing-on-call, quiz-objection-handling]

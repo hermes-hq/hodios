@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [class-imbalance, resampling, smote, precision-recall, class-weights]
 pairs_with:
   prompts: [choose-classification-threshold, review-training-data]

@@ -12,6 +12,7 @@ role: [software-engineer, student]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [junior-developers, hints-first, pair-programming, small-diffs, code-ownership]
 pairs_with:
   personas: [coding-mentor]

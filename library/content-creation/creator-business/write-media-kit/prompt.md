@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [media-kit, rate-card, audience-demographics]
 pairs_with:
   prompts: [pitch-brand-sponsorship, plan-creator-monetization, write-podcast-ad-read]

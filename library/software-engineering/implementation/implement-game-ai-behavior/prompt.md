@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [npc, behaviour-trees, state-machines, utility-ai, pathfinding, enemy-design]
 pairs_with:
   personas: [game-developer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 subject: [english]
 tags: [writing-tasks, audience-and-purpose, success-criteria, writing-instruction]
 pairs_with:

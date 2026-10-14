@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [saas]
 tags: [pricing-strategy, packaging, value-metric, grandfathering, price-increase, revenue-modelling]
 pairs_with:

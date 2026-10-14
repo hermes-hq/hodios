@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [redux, server-state, url-state, form-state, global-store, incremental-rollout]
 pairs_with:
   prompts: [convert-class-components-to-hooks, plan-incremental-migration]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [apartment-buying, owners-association, service-charges, reserve-fund, building-rules]
 pairs_with:
   prompts: [explain-home-survey-report, extract-key-numbers, interrogate-a-document]

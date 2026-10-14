@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gunicorn, puma, php-fpm, concurrency, capacity, worker-sizing]
 pairs_with:
   prompts: [tune-connection-pool, plan-load-test, reduce-memory-footprint]

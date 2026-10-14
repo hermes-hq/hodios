@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [company-profile, tenders, distributors, credentials, b2b]
 pairs_with:
   prompts: [write-capability-statement, write-about-page, respond-to-rfp]

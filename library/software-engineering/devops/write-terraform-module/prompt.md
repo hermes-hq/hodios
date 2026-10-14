@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iac, terraform-module, least-privilege, secure-defaults]
 pairs_with:
   prompts: [review-iac-plan]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [behaviour-support, functional-behaviour-assessment, abc-data, replacement-behaviour, pbis, inclusion]
 pairs_with:
   prompts: [design-classroom-management-plan, write-iep-goals]

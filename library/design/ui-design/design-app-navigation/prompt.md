@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [navigation-patterns, tab-bar, sidebar, deep-links, back-behaviour, responsive-navigation]
 pairs_with:
   prompts: [design-information-architecture, check-ui-against-platform-conventions, adapt-design-for-mobile, plan-tree-test]

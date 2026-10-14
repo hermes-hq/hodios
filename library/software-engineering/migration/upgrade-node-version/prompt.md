@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [native-addons, openssl, engines, end-of-life, lts]
 pairs_with:
   prompts: [runtime-upgrade-track, migrate-commonjs-to-esm, fix-breakage-after-dependency-upgrade]

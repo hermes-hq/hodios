@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [signature-drink, recipe-development, drink-balance, alcohol-free, responsible-drinking]
 pairs_with:
   prompts: [fix-unbalanced-cocktail, invent-alcohol-free-cocktail, design-cocktail-menu, make-cordial-or-shrub]

@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [row-level-security, migrations, edge-functions, auth, typed-client]
 applies_to: ["supabase/**", "**/*.sql", "**/*.ts", "**/*.tsx"]
 pairs_with:

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mergetool, difftool, conflict-style, git-config, developer-tools]
 pairs_with:
   prompts: [set-up-git-on-new-machine, resolve-merge-conflict]

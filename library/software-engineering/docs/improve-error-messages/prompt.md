@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-copy, actionable-errors, developer-experience, cli-ux]
 pairs_with:
   prompts: [document-error-codes, review-error-handling, write-troubleshooting-guide, design-localized-api-errors]

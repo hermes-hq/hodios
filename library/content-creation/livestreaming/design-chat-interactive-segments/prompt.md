@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chat-engagement, stream-segments, polls-and-predictions, viewer-challenges, community-games]
 pairs_with:
   prompts: [design-channel-point-rewards, plan-livestream-run-of-show, practise-talking-to-empty-chat]

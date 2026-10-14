@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-reporting, monthly-report, results-summary, stakeholder-update, agency]
 pairs_with:
   prompts: [question-agency-ad-report, analyze-ad-performance, diagnose-cpa-spike, set-up-utm-naming-convention]

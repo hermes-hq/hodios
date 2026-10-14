@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [waitlist, pre-launch, referral-loop, nurture-emails, launch-conversion]
 pairs_with:
   prompts: [write-waitlist-page-copy, plan-waitlist-launch, write-launch-email-sequence, find-first-customers]

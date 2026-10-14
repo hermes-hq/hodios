@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [replication-lag, read-replicas, stale-reads, wal, binlog]
 pairs_with:
   prompts: [add-read-replicas, collect-incident-evidence, write-incident-update]

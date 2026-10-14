@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [club-manager, league-season, tactics, transfers, squad-rotation]
 pairs_with:
   prompts: [play-startup-founder-game, play-band-on-tour]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [stalled-project, client-delays, pause-clause, follow-up, client-communication]
 pairs_with:
   prompts: [chase-late-payment, write-scope-change-email, part-ways-with-client]

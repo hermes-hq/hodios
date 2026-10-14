@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gift-budget, sinking-funds, holiday-spending, celebrations]
 pairs_with:
   prompts: [build-monthly-budget, plan-savings-goal, cut-monthly-costs]

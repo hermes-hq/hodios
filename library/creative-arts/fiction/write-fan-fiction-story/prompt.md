@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fan-fiction, fanfic, canon-divergence, character-voice, short-fiction]
 pairs_with:
   prompts: [write-short-story, develop-character, punch-up-dialogue]

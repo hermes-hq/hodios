@@ -20,7 +20,8 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
-tags: [zero-based-budget, sinking-funds, emergency-fund, cash-flow]
+depth: specific
+tags: [zero-based-budget, sinking-funds, emergency-fund, cash-flow, personal-budget, save-money, monthly-budget]
 pairs_with:
   prompts: [categorize-expenses, plan-savings-goal, plan-debt-payoff]
   personas: [personal-finance-coach]

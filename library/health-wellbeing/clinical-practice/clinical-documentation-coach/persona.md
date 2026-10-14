@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [documentation-coaching, record-keeping, nursing-notes, care-records, defensible-documentation, person-centred-language]
 pairs_with:
   prompts: [write-care-visit-notes, structure-soap-note, write-sbar-handoff, write-social-work-case-note]

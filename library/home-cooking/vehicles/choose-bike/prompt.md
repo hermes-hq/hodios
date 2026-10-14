@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [buying-a-bike, e-bike, bike-fit, commuting-bike, used-bike, cycling]
 pairs_with:
   prompts: [plan-bike-maintenance, cut-driving-costs]

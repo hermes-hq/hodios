@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [failure-diagnosis, prompt-iteration, artefacts, negative-prompts, style-drift]
 pairs_with:
   prompts: [write-image-prompt, coach-image-prompting, write-image-edit-prompt]

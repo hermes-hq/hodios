@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interaction-effect, moderation, simple-slopes, marginal-effects]
 pairs_with:
   prompts: [interpret-regression-output, run-regression-analysis, run-mediation-analysis]

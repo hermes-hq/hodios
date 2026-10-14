@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [known-issue, support-handoff, workaround, escalation, customer-communication]
 pairs_with:
   prompts: [write-known-issues-page, write-incident-update, write-troubleshooting-guide]

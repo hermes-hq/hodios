@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [food-allergy, allergy-card, anaphylaxis, coeliac, dietary-needs]
 pairs_with:
   prompts: [plan-food-exploration, decode-foreign-menu, choose-travel-insurance, manage-food-allergy-at-home]

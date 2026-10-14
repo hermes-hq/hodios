@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [asyncio, pydantic, dependency-injection, rest-api, pull-request]
 pairs_with:
   personas: [python-engineer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [panels, debates, conferences, roundtables, speakers]
 pairs_with:
   prompts: [summarize-video-transcript, summarize-discussion-positions, extract-wisdom-from-content]

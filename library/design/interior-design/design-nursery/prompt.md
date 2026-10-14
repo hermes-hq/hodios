@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [nursery, baby, safe-sleep, kids-rooms, room-planning]
 pairs_with:
   prompts: [childproof-home, choose-window-treatments]

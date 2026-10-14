@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [patient-complaint, hospital, clinic, care-quality, patient-advocacy]
 pairs_with:
   prompts: [request-medical-records, complain-to-ombudsman, explain-legal-letter]

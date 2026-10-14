@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [habit-relapse, broken-streak, re-entry, self-compassion, never-miss-twice]
 pairs_with:
   prompts: [design-habit-plan, keep-habits-through-disruption, rebuild-after-setback]

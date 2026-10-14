@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [unaccompanied-minor, kids-travel, teen-independence, co-parenting-travel]
 pairs_with:
   prompts: [prepare-child-travel-consent, plan-departure-day, organise-travel-documents]

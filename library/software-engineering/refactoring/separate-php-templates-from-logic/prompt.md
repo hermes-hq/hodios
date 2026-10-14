@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [legacy-php, templates, separation-of-concerns, characterization-tests]
 pairs_with:
   prompts: [move-logic-out-of-controllers, decouple-for-testability]

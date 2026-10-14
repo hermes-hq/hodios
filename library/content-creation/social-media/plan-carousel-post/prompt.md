@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [carousel, hook, slide-design, educational-content]
 pairs_with:
   prompts: [write-linkedin-post, write-instagram-caption, repurpose-video-into-posts]

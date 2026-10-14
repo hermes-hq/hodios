@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [winter-driving, winter-tyres, car-emergency-kit, snow-and-ice, car-battery, road-safety]
 pairs_with:
   prompts: [plan-car-maintenance, check-car-before-road-trip, diagnose-car-warning]

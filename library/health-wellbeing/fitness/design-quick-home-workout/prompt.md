@@ -20,7 +20,8 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [home-workout, bodyweight, circuit, no-equipment, time-efficient]
+depth: specific
+tags: [home-workout, bodyweight, circuit, no-equipment, time-efficient, workout-plan, get-fit]
 pairs_with:
   prompts: [build-training-plan, design-warm-up, plan-home-gym, design-workday-movement-breaks]
   personas: [fitness-coach]

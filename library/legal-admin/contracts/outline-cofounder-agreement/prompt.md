@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cofounder-agreement, founder-equity, vesting, startup-founders, shareholders-agreement, ip-assignment]
 pairs_with:
   prompts: [choose-business-structure, draft-simple-agreement, apply-for-trademark]

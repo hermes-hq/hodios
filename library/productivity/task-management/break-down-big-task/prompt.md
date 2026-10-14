@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [next-actions, work-breakdown, overwhelm, getting-started]
 pairs_with:
   prompts: [beat-procrastination, plan-my-week, write-project-plan]

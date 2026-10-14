@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [neutrality, triangulation, friend-groups, falling-out, caught-between]
 pairs_with:
   prompts: [mediate-disagreement, navigate-family-gathering-tension, set-boundary]

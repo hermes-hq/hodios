@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [placement-test, cefr, level-check, adaptive-testing]
 pairs_with:
   prompts: [plan-language-learning, grade-language-writing-task]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [poetry-revision, workshop, draft-comparison, line-breaks, imagery]
 pairs_with:
   prompts: [critique-poem, write-poem-in-form]

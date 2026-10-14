@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [supplier-management, load-in, event-logistics, final-details, vendor-confirmation]
 pairs_with:
   prompts: [write-run-of-show, review-event-vendor-contract, write-event-function-sheet]

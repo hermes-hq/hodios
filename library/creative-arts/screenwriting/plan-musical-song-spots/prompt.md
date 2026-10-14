@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [musical-theatre, song-spotting, musical-book, i-want-song]
 pairs_with:
   prompts: [outline-full-length-play, write-beat-sheet]

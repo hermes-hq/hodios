@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [personal-values, values-statement, card-sort, self-knowledge, reflection]
 pairs_with:
   prompts: [write-personal-vision, make-life-decision, make-ethical-decision]

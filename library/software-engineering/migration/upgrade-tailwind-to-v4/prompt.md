@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tailwind-v4, css-config, breaking-changes, visual-regression]
 pairs_with:
   prompts: [upgrade-major-dependency, migrate-styles-to-utility-css, extract-tailwind-components]

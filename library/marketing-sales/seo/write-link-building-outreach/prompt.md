@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [link-building, outreach-email, digital-pr, backlinks, linkable-assets]
 pairs_with:
   prompts: [pitch-journalist, write-seo-content-brief, research-keywords]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [review-comments, giving-feedback, track-changes, colleague-review, tactful-feedback]
 pairs_with:
   prompts: [critique-draft, revise-draft-from-feedback, give-feedback-sbi]

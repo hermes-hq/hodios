@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [tipping, customs, dress-code, key-phrases]
 pairs_with:
   prompts: [plan-food-exploration, plan-itinerary]

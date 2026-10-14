@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reasonable-adjustments, accessible-recruitment, disability-inclusion, neurodiversity, candidate-accommodations]
 pairs_with:
   prompts: [design-interview-loop, write-take-home-assignment, plan-workplace-adjustments-as-manager]

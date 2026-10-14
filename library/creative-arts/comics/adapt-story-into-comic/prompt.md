@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [adaptation, page-budget, prose-to-comic, compression, visual-storytelling]
 pairs_with:
   prompts: [write-comic-script, review-comic-script, thumbnail-comic-page]

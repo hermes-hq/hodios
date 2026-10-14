@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-readout, insights, evidence-strength, stakeholders, recommendations]
 pairs_with:
   prompts: [synthesize-usability-findings, write-discovery-readout, plan-backup-slides, drill-presentation-qa]

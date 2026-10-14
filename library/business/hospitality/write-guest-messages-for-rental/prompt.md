@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [short-term-rental, vacation-rental, host-messages, check-in-instructions, house-rules, guest-communication]
 pairs_with:
   prompts: [write-appointment-reminder-messages, respond-to-online-review, build-support-macros]

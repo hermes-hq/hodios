@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [powerpoint, keynote, google-slides, fonts, file-size, embedded-video]
 pairs_with:
   prompts: [migrate-deck-to-new-template, proofread-slide-deck, make-presentation-accessible]

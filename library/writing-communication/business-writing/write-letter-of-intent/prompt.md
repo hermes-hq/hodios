@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [letter-of-intent, heads-of-terms, term-sheet, deal-terms, subject-to-contract]
 pairs_with:
   prompts: [review-letter-of-intent, write-partnership-proposal]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [allusions, easter-eggs, cultural-context, period-detail, in-jokes]
 pairs_with:
   prompts: [explain-film-ending, discuss-book-as-reading-buddy, prepare-to-read-a-classic]

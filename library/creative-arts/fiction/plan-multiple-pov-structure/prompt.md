@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [point-of-view, dual-timeline, chapter-structure, character-voice, ensemble-cast]
 pairs_with:
   prompts: [outline-story, check-story-continuity]

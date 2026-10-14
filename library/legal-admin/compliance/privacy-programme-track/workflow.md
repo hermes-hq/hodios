@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [privacy-programme, data-protection, records-of-processing, privacy-governance, small-business-privacy]
 pairs_with:
   prompts: [map-personal-data-processing, run-legitimate-interests-assessment, review-data-processing-agreement, handle-data-subject-request, plan-data-breach-response, write-data-retention-schedule]

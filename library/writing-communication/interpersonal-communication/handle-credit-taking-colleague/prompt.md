@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [credit-stealing, workplace-politics, visibility, office-conflict, career-advocacy]
 pairs_with:
   prompts: [give-feedback-sbi, give-upward-feedback, prepare-difficult-conversation, write-weekly-update-to-manager]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [participant-recruitment, screener, quotas, research-ops]
 pairs_with:
   prompts: [write-customer-interview-guide, write-usability-test-plan, plan-tree-test, run-willingness-to-pay-study]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [script-notes, rewrite-plan, note-behind-the-note, feedback-triage]
 pairs_with:
   prompts: [fix-sagging-second-act, write-script-coverage, cut-script-page-count]

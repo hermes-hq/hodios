@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sales-call, coaching-business, high-ticket, consultative-selling, discovery-questions]
 pairs_with:
   prompts: [present-pricing-on-call, handle-sales-objections, write-cold-call-script]

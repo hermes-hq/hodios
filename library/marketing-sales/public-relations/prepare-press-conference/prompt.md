@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [press-conference, run-of-show, q-and-a, press-briefing, event-logistics]
 pairs_with:
   prompts: [write-media-advisory, prepare-media-interview, write-press-release]

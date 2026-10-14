@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [media-advisory, photo-opportunity, press-event, news-desk, broadcast]
 pairs_with:
   prompts: [write-press-release, build-media-list]

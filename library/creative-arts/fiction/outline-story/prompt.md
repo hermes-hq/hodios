@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plot-structure, three-act, save-the-cat, causality]
 pairs_with:
   prompts: [develop-character, check-story-continuity]

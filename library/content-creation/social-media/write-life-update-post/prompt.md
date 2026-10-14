@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [life-news, personal-posting, privacy-choices, audience-settings]
 pairs_with:
   prompts: [write-personal-photo-captions, share-pregnancy-news, write-birth-announcement]

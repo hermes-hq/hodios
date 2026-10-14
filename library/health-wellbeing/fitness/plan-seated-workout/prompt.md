@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wheelchair-users, seated-exercise, adaptive-exercise, resistance-bands, disability, spinal-cord-injury]
 pairs_with:
   prompts: [adapt-exercise-for-condition, plan-low-impact-cardio, track-fitness-progress]

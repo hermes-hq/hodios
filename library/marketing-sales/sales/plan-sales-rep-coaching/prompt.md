@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-coaching, rep-development, sales-management, conversion-rates, one-to-one]
 pairs_with:
   prompts: [analyze-sales-rep-performance, score-discovery-call, plan-new-rep-ramp]

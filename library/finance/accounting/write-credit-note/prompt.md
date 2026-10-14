@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [credit-notes, invoice-correction, refunds, sales-tax]
 pairs_with:
   prompts: [write-invoice, chase-late-payment, write-journal-entries]

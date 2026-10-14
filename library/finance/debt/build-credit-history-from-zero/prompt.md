@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [credit-history, credit-file, thin-file, newcomer, young-adult, secured-card]
 pairs_with:
   prompts: [open-bank-account-as-newcomer, improve-credit-score, plan-first-job-finances]

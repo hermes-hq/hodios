@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mass-assignment, input-validation, privilege-escalation, owasp]
 pairs_with:
   prompts: [review-api-security, fix-idor-vulnerabilities, write-authorization-tests]

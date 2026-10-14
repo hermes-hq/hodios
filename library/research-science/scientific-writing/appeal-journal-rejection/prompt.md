@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [journal-appeal, manuscript-rejection, editor-letter, peer-review-errors, academic-publishing]
 pairs_with:
   prompts: [respond-to-reviewers, choose-target-journal, write-journal-cover-letter]

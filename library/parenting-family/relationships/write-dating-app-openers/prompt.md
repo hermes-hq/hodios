@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [online-dating, dating-apps, first-message, conversation-starters, opening-lines]
 pairs_with:
   prompts: [write-dating-profile, plan-first-date, plan-online-dating-approach]

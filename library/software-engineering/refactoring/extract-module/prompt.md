@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [modularity, separation-of-concerns]
 pairs_with:
   prompts: [add-characterization-tests, split-large-module, plan-large-refactor]

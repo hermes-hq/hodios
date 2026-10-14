@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [jasoseo, self-introduction-letter, blind-hiring, korea, job-application]
 pairs_with:
   prompts: [write-entry-sheet, run-mock-interview, research-company]

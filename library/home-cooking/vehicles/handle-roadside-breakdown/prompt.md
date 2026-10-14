@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [breakdown, roadside-safety, motorway-safety, breakdown-cover, emergencies]
 pairs_with:
   prompts: [change-flat-tyre, diagnose-car-warning, handle-car-accident-aftermath]

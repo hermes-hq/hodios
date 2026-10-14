@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-contribution, docs-as-code, plain-language, content-repo]
 pairs_with:
   prompts: [explain-git-error, set-up-git-on-new-machine]

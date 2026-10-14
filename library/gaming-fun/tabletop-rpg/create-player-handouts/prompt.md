@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [handouts, props, clue-design, in-world-documents, game-mastering]
 pairs_with:
   prompts: [design-dungeon, write-read-aloud-text, design-one-shot-adventure]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [csat, customer-feedback, survey-design, survey-timing, customer-effort-score, close-the-loop]
 pairs_with:
   prompts: [analyze-support-tickets, build-service-recovery-playbook, write-survey-questionnaire]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [decision-records, governance, project-records, traceability, audit-trail]
 pairs_with:
   prompts: [build-action-item-tracker, summarize-meeting-transcript, write-decision-memo]

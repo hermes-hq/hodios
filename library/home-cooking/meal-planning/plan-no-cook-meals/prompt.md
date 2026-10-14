@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [no-cook, heatwave, broken-oven, assembly-meals, cold-meals, low-energy]
 pairs_with:
   prompts: [plan-weekly-meals, check-food-safety, prepare-for-power-cut]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [health-plan, deductible, out-of-pocket-maximum, provider-network, open-enrollment]
 pairs_with:
   prompts: [explain-insurance-policy, choose-insurance-deductible, understand-medical-bill]

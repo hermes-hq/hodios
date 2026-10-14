@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sentence-mining, i-plus-one, cloze-deletion, spaced-repetition, comprehensible-input]
 pairs_with:
   prompts: [make-flashcards, gloss-authentic-text, build-vocabulary-list]

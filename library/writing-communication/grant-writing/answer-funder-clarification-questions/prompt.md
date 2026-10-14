@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [funder-clarification, conditional-offer, due-diligence, application-consistency, funder-relations]
 pairs_with:
   prompts: [prepare-grant-panel-interview, request-grant-variation, plan-post-award-setup]

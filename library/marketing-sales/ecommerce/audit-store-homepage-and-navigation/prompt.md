@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [store-navigation, homepage, information-architecture, collection-pages, product-filters, mobile-shopping]
 pairs_with:
   prompts: [optimize-product-page-conversion, diagnose-cart-abandonment, analyze-site-search-for-demand]

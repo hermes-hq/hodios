@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stoichiometry, moles, concentration, limiting-reagent, percentage-yield, significant-figures]
 pairs_with:
   personas: [science-tutor]

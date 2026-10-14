@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gcse, mark-scheme, method-marks, foundation-tier, higher-tier, show-your-working]
 pairs_with:
   prompts: [grade-practice-answers, analyze-past-papers, write-model-exam-answer]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-tests, http, test-client, authorization, status-codes]
 pairs_with:
   prompts: [generate-api-tests-from-spec, write-integration-tests, write-test-data-factories]

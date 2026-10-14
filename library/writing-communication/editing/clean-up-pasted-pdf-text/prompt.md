@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ocr, pdf, text-cleanup, line-breaks, hyphenation]
 pairs_with:
   prompts: [proofread-text, format-document-for-scanning]

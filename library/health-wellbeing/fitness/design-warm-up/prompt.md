@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [warm-up, raise-activate-mobilise-potentiate, injury-prevention, dynamic-stretching, ramp]
 pairs_with:
   prompts: [design-mobility-routine, plan-sport-conditioning, build-training-plan]

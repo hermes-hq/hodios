@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [motivation-questions, why-this-company, reason-for-leaving, classic-questions]
 pairs_with:
   prompts: [research-company, write-tell-me-about-yourself, explain-job-loss-in-interview]

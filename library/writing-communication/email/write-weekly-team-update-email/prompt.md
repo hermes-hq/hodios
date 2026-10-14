@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [team-update, weekly-update, managing-down, transparency, priorities]
 pairs_with:
   prompts: [write-weekly-update-to-manager, write-team-newsletter, write-status-report]

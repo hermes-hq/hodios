@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [terms-of-reference, committee, working-group, governance, mandate]
 pairs_with:
   prompts: [write-formal-minutes, write-project-proposal, write-team-charter]

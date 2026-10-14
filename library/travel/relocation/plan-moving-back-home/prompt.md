@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repatriation, reverse-culture-shock, returning-expat, moving-abroad]
 pairs_with:
   prompts: [wind-down-home-country-before-move, plan-tax-move-abroad, decide-what-to-ship-abroad]

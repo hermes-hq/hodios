@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [email-audit, flow-coverage, revenue-per-recipient, list-health, retention]
 pairs_with:
   prompts: [map-email-automation-flows, audit-email-deliverability, analyze-email-campaign-report]

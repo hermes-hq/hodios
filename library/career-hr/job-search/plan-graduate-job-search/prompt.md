@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [graduate-jobs, graduate-schemes, entry-level, early-careers, first-job]
 pairs_with:
   prompts: [plan-internship-search, plan-career-fair, write-cover-letter]

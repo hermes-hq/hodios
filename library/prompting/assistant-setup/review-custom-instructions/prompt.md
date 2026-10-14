@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [personalisation, instruction-audit, response-preferences, assistant-profile]
 pairs_with:
   prompts: [write-custom-instructions, build-project-instructions, write-memory-profile, compress-prompt]

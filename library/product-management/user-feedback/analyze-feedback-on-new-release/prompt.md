@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-aversion, release-reaction, redesign, rollback-decision, post-launch]
 pairs_with:
   prompts: [compare-feedback-before-after-change, detect-emerging-feedback-issue, triage-user-reported-bugs]

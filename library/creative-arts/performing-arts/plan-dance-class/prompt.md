@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dance-teaching, lesson-plan, technique-class, warm-up, across-the-floor]
 pairs_with:
   prompts: [choreograph-dance-routine]

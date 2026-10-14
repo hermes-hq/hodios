@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [offer-letter, job-offer, compensation, contingent-offer, candidate-experience]
 pairs_with:
   prompts: [run-hiring-debrief, run-reference-check, write-candidate-rejection]

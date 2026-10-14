@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [action-items, follow-up, accountability, nudges]
 pairs_with:
   prompts: [write-meeting-recap-email, build-action-item-tracker, write-follow-up-email]

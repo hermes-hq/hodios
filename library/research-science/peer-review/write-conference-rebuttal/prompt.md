@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [author-rebuttal, conference-review, openreview, author-response]
 pairs_with:
   prompts: [respond-to-reviewers, respond-to-author-rebuttal]

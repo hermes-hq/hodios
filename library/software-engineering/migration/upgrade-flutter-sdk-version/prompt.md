@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flutter-upgrade, dart-fix, gradle-plugin, material-3, impeller]
 pairs_with:
   prompts: [upgrade-major-dependency, fix-flutter-layout-error, speed-up-flutter-app]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [reflection, expressive-writing, self-reflection, emotions]
 pairs_with:
   prompts: [reframe-negative-thoughts, build-coping-plan]

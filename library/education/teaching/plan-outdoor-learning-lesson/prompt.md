@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [outdoor-learning, forest-school, risk-assessment, outdoor-classroom, weather-plan]
 pairs_with:
   prompts: [plan-field-trip, write-lesson-plan, differentiate-lesson]

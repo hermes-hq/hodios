@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-leakage, baselines, ablation, reproducibility]
 pairs_with:
   prompts: [review-training-data, choose-ml-approach]

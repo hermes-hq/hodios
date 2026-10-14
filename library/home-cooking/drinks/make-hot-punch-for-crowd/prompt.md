@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mulled-wine, hot-punch, batch-drinks, winter-party, responsible-drinking]
 pairs_with:
   prompts: [design-cocktail-menu, estimate-party-drinks]

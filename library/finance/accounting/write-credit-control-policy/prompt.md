@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [credit-control, accounts-receivable, payment-terms, debt-collection]
 pairs_with:
   prompts: [chase-late-payment, write-invoice, analyze-working-capital]

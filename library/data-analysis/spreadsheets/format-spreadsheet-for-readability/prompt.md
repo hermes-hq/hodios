@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [number-formats, cell-styles, freeze-panes, workbook-index, colour-coding]
 pairs_with:
   prompts: [write-conditional-formatting-rules, set-up-spreadsheet-printing, set-up-data-validation]

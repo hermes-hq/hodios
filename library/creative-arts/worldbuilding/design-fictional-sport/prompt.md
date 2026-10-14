@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fictional-sports, competitions, fan-culture, match-scenes, setting-design]
 pairs_with:
   prompts: [design-fictional-culture, design-fictional-calendar, design-fictional-economy, build-magic-system]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [side-projects, creative-goals, spare-time, online-course, consistency, minimum-version]
 pairs_with:
   prompts: [audit-time-use, plan-my-week, break-down-big-task]

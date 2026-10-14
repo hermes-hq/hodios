@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [chain-of-density, abstractive-summarization, entity-coverage, iterative-refinement]
 pairs_with:
   prompts: [check-answer-faithfulness, compress-conversation-memory]

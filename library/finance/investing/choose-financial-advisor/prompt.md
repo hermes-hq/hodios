@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [financial-adviser, fiduciary, advisory-fees, due-diligence, conflicts-of-interest]
 pairs_with:
   prompts: [spot-investment-scam, plan-windfall, plan-retirement-scenarios, write-investment-policy-statement]

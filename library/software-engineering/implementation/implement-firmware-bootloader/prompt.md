@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [bootloader, firmware-update, ota, flash-layout, secure-boot, rollback]
 pairs_with:
   personas: [embedded-engineer]

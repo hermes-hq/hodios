@@ -17,6 +17,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: basic
 tags: [personalisation, response-preferences, assistant-profile, pet-peeves]
 pairs_with:
   prompts: [build-project-instructions]

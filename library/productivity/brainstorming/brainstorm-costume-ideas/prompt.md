@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [costumes, halloween, fancy-dress, diy-costumes, group-costumes, dress-up-day]
 pairs_with:
   prompts: [cosplay-build-track, plan-kids-party]

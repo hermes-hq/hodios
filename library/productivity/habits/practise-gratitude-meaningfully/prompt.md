@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gratitude, journaling-prompts, gratitude-letter, savouring, wellbeing-habits]
 pairs_with:
   prompts: [design-habit-plan, guided-journaling, write-thank-you-note]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vscode, editor-extension, webview, extension-api, developer-tools]
 args:
   - name: extension

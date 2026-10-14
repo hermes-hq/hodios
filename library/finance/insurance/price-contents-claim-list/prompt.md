@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [contents-claim, proof-of-ownership, new-for-old, wear-and-tear, claim-schedule]
 pairs_with:
   prompts: [build-home-inventory, review-claim-settlement-offer, explain-insurance-policy]

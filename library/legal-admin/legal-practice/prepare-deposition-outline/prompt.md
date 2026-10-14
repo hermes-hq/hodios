@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [deposition, examination-outline, admissions, exhibits, litigation-support]
 pairs_with:
   prompts: [summarize-deposition-transcript, draft-discovery-requests, index-case-documents, prepare-witness-interview]

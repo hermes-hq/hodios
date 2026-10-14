@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dramatic-monologue, persona-poem, voice, dramatic-irony]
 pairs_with:
   prompts: [critique-poem, write-spoken-word-piece]

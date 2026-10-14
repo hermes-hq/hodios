@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [papers, guided-reading, critical-appraisal, comprehension-check, glossary]
 pairs_with:
   prompts: [summarize-paper, appraise-study-quality, check-science-news-against-paper]

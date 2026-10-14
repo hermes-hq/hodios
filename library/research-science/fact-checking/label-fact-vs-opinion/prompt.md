@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [media-literacy, fact-or-opinion, classroom, critical-reading]
 pairs_with:
   prompts: [analyze-spin-in-article, play-spot-the-misinformation, plan-media-literacy-lesson]

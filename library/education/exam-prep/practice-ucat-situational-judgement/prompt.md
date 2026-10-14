@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ucat, casper, situational-judgement, medical-school-admissions, professionalism, ethics]
 pairs_with:
   prompts: [practice-admissions-interview, plan-university-application]

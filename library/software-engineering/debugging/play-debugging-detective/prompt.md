@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [debugging-practice, hypothesis-testing, root-cause, game]
 pairs_with:
   prompts: [find-root-cause]

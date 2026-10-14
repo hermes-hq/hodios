@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [exam-technique, time-budget, checking-routine, exam-nerves, question-order]
 pairs_with:
   prompts: [analyze-exam-mistakes, plan-last-minute-revision, prepare-open-book-exam]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [retirement-speech, leaving-do, farewell, workplace, writing-for-the-ear]
 pairs_with:
   prompts: [write-farewell-message, turn-script-into-cue-cards]

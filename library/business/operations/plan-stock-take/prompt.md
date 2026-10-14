@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [stock-take, stock-count, physical-inventory, variance, shrinkage, reconciliation, bar-stock]
 pairs_with:
   prompts: [plan-inventory, plan-loss-prevention, set-up-job-costing]

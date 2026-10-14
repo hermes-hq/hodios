@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [opinion-polls, question-wording, margin-of-error, sampling-bias]
 pairs_with:
   prompts: [check-statistics-in-article, compute-survey-margin-of-error, analyze-spin-in-article]

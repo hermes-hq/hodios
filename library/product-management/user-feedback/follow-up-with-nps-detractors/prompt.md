@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [net-promoter-score, detractor-outreach, service-recovery, account-recovery, closed-loop]
 pairs_with:
   prompts: [design-nps-program, analyze-user-feedback, close-feedback-loop]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [website-disclaimer, affiliate-disclosure, health-information, financial-information, testimonials]
 pairs_with:
   prompts: [check-endorsement-disclosures, write-privacy-policy, write-terms-of-service]

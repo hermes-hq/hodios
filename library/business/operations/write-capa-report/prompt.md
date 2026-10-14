@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [capa, nonconformance, corrective-action, quality-management, effectiveness-check]
 pairs_with:
   prompts: [run-five-whys, write-8d-report, mistake-proof-a-process]

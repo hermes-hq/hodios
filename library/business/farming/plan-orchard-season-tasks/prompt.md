@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [orchard, fruit-trees, pruning, fruit-thinning, frost-protection, pollination]
 pairs_with:
   prompts: [plan-harvest-logistics, triage-crop-symptoms, plan-crop-irrigation-schedule]

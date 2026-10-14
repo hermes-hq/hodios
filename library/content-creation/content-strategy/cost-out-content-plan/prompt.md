@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [time-budget, content-costs, batching, capacity-planning, resourcing, trade-offs]
 pairs_with:
   prompts: [plan-content-calendar, plan-content-repurposing-system, write-content-plan-one-pager]

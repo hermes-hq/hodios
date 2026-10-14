@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ib-diploma, extended-essay, research-question, independent-research, academic-integrity, reflection]
 pairs_with:
   prompts: [plan-tok-essay, prepare-ib-internal-assessment, give-essay-feedback]

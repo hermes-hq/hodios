@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [online-reviews, customer-journey, service-design, touchpoints, review-mining, guest-experience]
 pairs_with:
   prompts: [analyze-user-feedback, respond-to-online-review, build-user-journey-map]

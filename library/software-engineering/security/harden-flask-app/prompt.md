@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardening, python-security, session-cookies, csrf, owasp]
 pairs_with:
   prompts: [harden-web-app-config, fix-server-side-template-injection, fix-path-traversal, add-csrf-protection]

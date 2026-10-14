@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [feature-rollback, customer-communication, in-app-notice, support-macros, trust-repair]
 pairs_with:
   prompts: [write-holding-statement, write-launch-announcement, plan-staged-feature-rollout, write-known-issues-page]

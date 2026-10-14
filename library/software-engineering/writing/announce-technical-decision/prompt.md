@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [decision-communication, engineering-announcement, rationale, change-management, adr]
 pairs_with:
   prompts: [write-decision-memo, write-cross-team-migration-request, write-tool-adoption-proposal]

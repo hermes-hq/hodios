@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scansion, meter, rhyme-scheme, prosody, formal-verse]
 pairs_with:
   prompts: [practise-scansion, write-poem-in-form, find-rhymes-in-context]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [black-friday, holiday-campaign, send-calendar, peak-season, sms-marketing]
 pairs_with:
   prompts: [plan-promotional-offer, write-promo-email, write-sms-campaign, check-email-marketing-compliance, analyze-discount-effectiveness]

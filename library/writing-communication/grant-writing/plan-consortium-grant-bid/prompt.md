@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [consortium-bid, collaborative-grant, partnership-agreement, work-packages, bid-management]
 pairs_with:
   prompts: [build-grant-work-plan, build-grant-budget, decide-whether-to-apply-for-grant]

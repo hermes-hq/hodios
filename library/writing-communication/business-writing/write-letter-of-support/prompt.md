@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [letter-of-support, grant-application, partnership, planning-application, community-project, endorsement]
 subject: [nonprofit]
 pairs_with:

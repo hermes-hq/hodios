@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [infrastructure-as-code, cloudformation, resource-graph, cloud-costs]
 pairs_with:
   prompts: [document-infrastructure, explain-config-file, review-kubernetes-manifest-change]

@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rich-text, tiptap, lexical, autosave, sanitization]
 pairs_with:
   prompts: [render-user-markdown-safely, make-rich-text-editor-accessible, implement-file-upload]

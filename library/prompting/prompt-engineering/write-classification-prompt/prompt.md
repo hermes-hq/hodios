@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [text-classification, labeling, taxonomy-design, confusion-matrix]
 pairs_with:
   prompts: [create-few-shot-examples, write-batch-processing-prompt, build-prompt-test-set]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hearing-loss, deaf-awareness, family, inclusion]
 pairs_with:
   prompts: [plan-dementia-conversations, practice-active-listening]

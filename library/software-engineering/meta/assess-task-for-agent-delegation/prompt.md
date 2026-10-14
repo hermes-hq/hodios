@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, delegation, triage]
 pairs_with:
   prompts: [make-issue-agent-ready, write-subagent-brief, plan-parallel-agent-worktrees]

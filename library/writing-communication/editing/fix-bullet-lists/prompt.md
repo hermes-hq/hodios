@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bullet-points, parallel-structure, lists, punctuation, consistency]
 pairs_with:
   prompts: [format-document-for-scanning, copyedit-to-style-guide, proofread-text]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cctv, video-surveillance, camera-signage, footage-requests, workplace-privacy]
 pairs_with:
   prompts: [handle-data-subject-request, write-data-retention-schedule, draft-dpia, assess-employee-monitoring-plan]

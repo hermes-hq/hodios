@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [group-work, cooperative-learning, grouping-strategy, collaborative-tasks]
 pairs_with:
   prompts: [plan-seating-chart, design-classroom-activity, design-pbl-project]

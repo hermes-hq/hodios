@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [timeboxing, triage, agenda-triage, running-late]
 pairs_with:
   prompts: [write-meeting-agenda, replace-meeting-with-async, review-meeting-i-ran]

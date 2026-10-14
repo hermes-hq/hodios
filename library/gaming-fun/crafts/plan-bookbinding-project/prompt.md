@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bookbinding, coptic-stitch, signatures, paper-grain, journals, sketchbooks]
 args:
   - name: book

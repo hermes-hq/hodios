@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [caesarean, c-section-recovery, household-help, wound-care, older-siblings]
 pairs_with:
   prompts: [plan-postpartum-exercise-return, plan-labour-day-logistics, plan-meal-train-for-friend]

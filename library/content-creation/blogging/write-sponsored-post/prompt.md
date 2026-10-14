@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sponsored-content, brand-partnership, ad-disclosure, native-advertising]
 pairs_with:
   prompts: [pitch-brand-sponsorship, write-product-review-post, write-newsletter-sponsor-spot]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [upload-checklist, metadata, captions, end-screens, video-seo]
 pairs_with:
   prompts: [package-video-title-thumbnail, write-video-chapters, repurpose-video-into-posts]

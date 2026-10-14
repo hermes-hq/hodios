@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [data-tables, rounding, slide-text, assertion-evidence, numbers-on-slides]
 pairs_with:
   prompts: [rewrite-text-heavy-slide, plan-slide-visuals, proofread-slide-deck]

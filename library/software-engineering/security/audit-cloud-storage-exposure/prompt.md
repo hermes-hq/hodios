@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [s3, object-storage, presigned-urls, public-access, cloud-security]
 pairs_with:
   prompts: [review-cloud-iam-policy, implement-file-upload, plan-data-encryption]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maintainer-burnout, sustainability, boundaries, triage-routine, scope-control]
 pairs_with:
   prompts: [draft-maintainer-issue-replies, design-issue-intake, choose-oss-funding-model]

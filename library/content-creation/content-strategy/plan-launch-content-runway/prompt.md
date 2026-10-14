@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [launch-plan, waitlist, pre-launch, launch-week, social-proof, cadence]
 pairs_with:
   prompts: [plan-content-calendar, define-content-pillars, plan-content-repurposing-system]

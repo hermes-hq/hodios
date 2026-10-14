@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-pipelines, fixtures, dbt-unit-tests, late-arriving-data, edge-cases]
 pairs_with:
   prompts: [write-dbt-model, write-dataframe-transformation, write-test-data-factories]

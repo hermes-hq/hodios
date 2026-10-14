@@ -7,6 +7,7 @@ description: Explains a worked solution to a maths or science problem step by st
 category: tutoring
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn]
 role: [student]
 subject: [mathematics, physics, chemistry]

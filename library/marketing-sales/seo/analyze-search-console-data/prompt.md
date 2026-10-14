@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [search-console, click-through-rate, keyword-cannibalization, striking-distance, quick-wins]
 pairs_with:
   prompts: [write-meta-tags, audit-on-page-seo, diagnose-organic-traffic-drop]

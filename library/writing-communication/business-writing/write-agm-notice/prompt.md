@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [agm, annual-general-meeting, notice-of-meeting, resolutions, proxy-voting]
 pairs_with:
   prompts: [run-residents-association-agm, write-meeting-agenda, write-condo-meeting-minutes]

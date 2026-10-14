@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [busy-season, peak-workload, minimum-routines, front-loading, recovery-plan]
 pairs_with:
   prompts: [plan-my-week, juggle-competing-deadlines, plan-burnout-recovery]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [anomaly-detection, outliers, seasonality, data-quality]
 pairs_with:
   prompts: [explore-dataset, write-weekly-metrics-update, forecast-time-series]

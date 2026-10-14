@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [settlement-offer, total-loss, valuation-dispute, claim-negotiation, full-and-final]
 pairs_with:
   prompts: [appeal-insurance-denial, price-contents-claim-list, explain-insurance-policy]

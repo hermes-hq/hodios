@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [former-carers, grief, rebuilding, carer-wellbeing, return-to-work]
 pairs_with:
   prompts: [process-grief, manage-caregiver-stress, plan-return-to-work]

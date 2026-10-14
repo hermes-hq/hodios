@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [specificity, buzzwords, show-dont-tell, evidence, credibility]
 pairs_with:
   prompts: [calibrate-claim-strength, tighten-prose, critique-draft]

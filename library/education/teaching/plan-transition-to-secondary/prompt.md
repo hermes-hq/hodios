@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [school-transition, enhanced-transition, special-educational-needs, wellbeing, year-7]
 pairs_with:
   prompts: [write-one-page-pupil-profile, write-social-story, write-class-handover-notes]

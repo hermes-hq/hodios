@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [market-update, housing-market, real-estate-newsletter, local-market, fair-housing]
 pairs_with:
   prompts: [write-listing-presentation, write-real-estate-listing, prepare-buyer-consultation]

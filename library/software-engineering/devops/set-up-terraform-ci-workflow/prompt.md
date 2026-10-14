@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [infrastructure-as-code, terraform-plan, plan-review, pull-request, drift-detection]
 pairs_with:
   prompts: [review-iac-plan, set-up-keyless-ci-deploys, write-terraform-module]

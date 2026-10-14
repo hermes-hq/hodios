@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recruiting-analytics, hiring-funnel, time-to-hire, source-quality, adverse-impact]
 pairs_with:
   prompts: [analyze-workforce-data, build-cohort-analysis]

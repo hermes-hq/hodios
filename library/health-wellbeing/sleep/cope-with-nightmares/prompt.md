@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [nightmares, bad-dreams, imagery-rehearsal, grounding, trauma-informed]
 pairs_with:
   prompts: [plan-middle-of-night-waking, prepare-sleep-doctor-appointment, quiet-racing-mind-at-bedtime]

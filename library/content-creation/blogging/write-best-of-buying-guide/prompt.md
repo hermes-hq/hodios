@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [ecommerce]
 tags: [buying-guide, product-roundup, affiliate-disclosure, selection-criteria]
 pairs_with:

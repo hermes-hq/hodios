@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [csrf, cookies, samesite, owasp]
 pairs_with:
   prompts: [harden-web-app-config, review-auth-flow, build-webhook-handler, fix-cookie-not-being-set]

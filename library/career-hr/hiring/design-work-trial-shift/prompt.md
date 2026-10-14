@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trial-shift, working-interview, hospitality-hiring, retail-hiring, skills-assessment, scoring-rubric]
 pairs_with:
   prompts: [write-job-description, write-phone-screen-script, write-candidate-rejection, plan-new-hire-onboarding]

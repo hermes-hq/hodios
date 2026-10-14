@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [kayaking, canoeing, paddleboarding, cold-water-shock, float-plan, buoyancy-aid]
 pairs_with:
   prompts: [write-trip-intentions-plan, read-mountain-weather-forecast, plan-camping-trip]

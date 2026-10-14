@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sponsorship, donations, community-giving, scorecard, giving-policy]
 pairs_with:
   prompts: [plan-cause-marketing-campaign, plan-local-advertising, plan-cross-promotion-with-neighbours]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [book-proposal, research-log, manuscript-revision, book-launch]
 pairs_with:
   prompts: [outline-nonfiction-book, write-nonfiction-book-proposal, draft-nonfiction-chapter, plan-nonfiction-book-launch]

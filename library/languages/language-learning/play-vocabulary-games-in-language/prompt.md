@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [category-race, vocabulary-practice, gamification, shiritori, cefr]
 pairs_with:
   prompts: [review-vocabulary-spaced, build-vocabulary-list, play-language-adventure]

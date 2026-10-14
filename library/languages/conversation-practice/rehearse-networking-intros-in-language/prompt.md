@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [networking, self-introduction, conversation-exits, follow-up-message, events]
 pairs_with:
   prompts: [practice-small-talk, practise-networking-event-chat, prepare-networking-conversation]

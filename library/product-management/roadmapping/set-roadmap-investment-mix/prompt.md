@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [capacity-allocation, tech-debt, work-types, keep-the-lights-on, guardrails]
 pairs_with:
   prompts: [balance-product-bet-portfolio, run-quarterly-planning, critique-roadmap, set-roadmap-change-rules]

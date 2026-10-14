@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [small-talk, social-skills, awkward-situations, networking, ending-conversations]
 pairs_with:
   prompts: [prepare-networking-conversation, set-boundary, decline-request-gracefully]

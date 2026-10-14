@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [allotment, community-garden, grow-your-own, first-year, crop-calendar, plot-clearing]
 pairs_with:
   prompts: [plan-vegetable-garden, build-garden-calendar, start-composting, plan-seed-starting]

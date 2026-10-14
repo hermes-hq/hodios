@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [career-ladder, competency-matrix, levelling, career-framework, promotion-criteria]
 pairs_with:
   prompts: [prepare-promotion-case, write-performance-review, write-job-description]

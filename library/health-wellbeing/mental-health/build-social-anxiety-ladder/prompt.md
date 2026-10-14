@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [social-anxiety, exposure, fear-ladder, safety-behaviours, confidence-building]
 pairs_with:
   prompts: [manage-event-anxiety, reframe-negative-thoughts, build-self-confidence, prepare-for-therapy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [project-handover, sign-off, final-invoice, client-feedback, repeat-business]
 pairs_with:
   prompts: [request-customer-testimonials, pitch-retainer-to-client, write-invoice]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [noc, no-objection-letter, visa-documents, employer-letters, formal-letter]
 pairs_with:
   prompts: [write-authorization-letter, write-employment-verification-letter, write-formal-letter]

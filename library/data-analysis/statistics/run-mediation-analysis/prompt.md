@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mediation, indirect-effect, causal-inference, bootstrap]
 pairs_with:
   prompts: [estimate-causal-effect, run-regression-analysis, interpret-interaction-effect]

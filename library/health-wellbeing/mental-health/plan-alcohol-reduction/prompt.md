@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [alcohol, cutting-down, drink-free-days, cravings, habit-change, sobriety]
 pairs_with:
   prompts: [build-coping-plan, build-mood-tracker, prepare-doctor-questions]

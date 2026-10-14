@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interpreter-ethics, codes-of-conduct, impartiality, confidentiality, scenarios]
 pairs_with:
   prompts: [practise-community-interpreting, drill-court-interpreting-register]

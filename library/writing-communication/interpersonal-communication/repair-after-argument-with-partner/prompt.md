@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [couples, argument, repair, reconnection, debrief]
 pairs_with:
   prompts: [apologize-effectively, call-time-out-in-heated-argument, raise-recurring-issue-with-partner]

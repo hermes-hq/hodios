@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [refund-abuse, return-fraud, wardrobing, item-not-received, loss-prevention]
 pairs_with:
   prompts: [screen-orders-for-fraud, decide-goodwill-refund, design-returns-process, respond-to-chargeback-as-merchant]

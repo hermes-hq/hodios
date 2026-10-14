@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [study-abroad, student-visa, exchange-semester, student-housing]
 pairs_with:
   prompts: [prepare-for-culture-shock, check-travel-requirements, build-packing-list, choose-travel-insurance]

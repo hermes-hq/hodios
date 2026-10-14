@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [border-control, immigration-interview, roleplay, entry-requirements, interview-rehearsal]
 pairs_with:
   prompts: [check-travel-requirements, prepare-visa-application, practice-interview-in-language]

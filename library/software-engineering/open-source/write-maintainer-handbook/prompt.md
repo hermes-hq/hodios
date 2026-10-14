@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maintainer-docs, review-standards, triage-rotation, release-process, bus-factor]
 pairs_with:
   prompts: [write-contributing-guide, write-project-governance, promote-contributor-to-maintainer]

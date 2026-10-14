@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [bi, metric-definitions, wireframe, dashboard-qa, adoption]
 pairs_with:
   prompts: [design-dashboard, define-metric, audit-dashboard, build-sheets-dashboard, write-dax-measure]

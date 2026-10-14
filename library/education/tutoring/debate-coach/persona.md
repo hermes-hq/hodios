@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [debate, rebuttal, argumentation, public-speaking-practice, adjudication, points-of-information]
 pairs_with:
   prompts: [prepare-debate-case]

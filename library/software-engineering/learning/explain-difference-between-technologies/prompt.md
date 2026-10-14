@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [concept-comparison, misconceptions, mental-models, side-by-side]
 pairs_with:
   prompts: [explain-concept-with-code, compare-design-options, decode-developer-jargon]

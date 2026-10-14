@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [online-reviews, review-requests, local-business, reputation, sms-copy]
 pairs_with:
   prompts: [write-post-purchase-emails, respond-to-online-review, write-sms-campaign]

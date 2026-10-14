@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [university-life, first-generation-students, international-students, mature-students]
 pairs_with:
   prompts: [prepare-for-university-start, prepare-office-hours-questions, understand-assignment-brief]

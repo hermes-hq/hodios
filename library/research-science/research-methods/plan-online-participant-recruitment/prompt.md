@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [online-studies, crowdsourcing, data-quality, attention-checks, bot-detection, participant-panels]
 pairs_with:
   prompts: [design-sampling-plan, write-participant-recruitment-materials, write-preregistration, design-behavioral-experiment]

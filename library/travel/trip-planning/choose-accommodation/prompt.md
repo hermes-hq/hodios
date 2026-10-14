@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [accommodation, neighbourhoods, where-to-stay, holiday-rentals, hostels]
 pairs_with:
   prompts: [plan-itinerary, plan-trip-budget, master-city-transit, check-destination-safety]

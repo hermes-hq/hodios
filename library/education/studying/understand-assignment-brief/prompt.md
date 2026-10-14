@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [assignment-brief, command-words, rubric, coursework, backward-planning]
 pairs_with:
   prompts: [plan-essay-argument, plan-semester-workload, create-study-plan]

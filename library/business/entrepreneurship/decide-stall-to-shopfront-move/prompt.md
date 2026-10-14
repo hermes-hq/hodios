@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shopfront, market-trader, break-even, sales-per-day, step-up-options, trigger-points]
 pairs_with:
   prompts: [plan-pop-up-shop, plan-market-stall, plan-shop-opening, inspect-commercial-unit-before-lease]

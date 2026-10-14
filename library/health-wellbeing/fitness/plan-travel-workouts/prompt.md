@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hotel-workout, business-travel, bodyweight, jet-lag, strength-training]
 pairs_with:
   prompts: [find-exercise-substitutes, plan-maintenance-training-phase, beat-jet-lag]

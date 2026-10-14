@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [counteroffer, sponsorship-rates, usage-rights, exclusivity, negotiation-email]
 pairs_with:
   prompts: [build-creator-rate-card, review-sponsorship-contract]

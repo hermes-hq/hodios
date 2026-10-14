@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [process-capability, cpk, ppk, six-sigma, quality-control, specification-limits]
 pairs_with:
   prompts: [build-control-chart, run-gauge-r-and-r-study, plan-acceptance-sampling]

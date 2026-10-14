@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [birth-registration, newborn-paperwork, parental-recognition, child-surname, child-benefits]
 pairs_with:
   prompts: [prepare-for-new-baby, plan-newborn-immigration-status, replace-birth-or-marriage-certificate]

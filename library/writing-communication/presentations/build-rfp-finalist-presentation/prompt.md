@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [tender, bid-presentation, scoring-criteria, procurement, q-and-a]
 pairs_with:
   prompts: [respond-to-rfp, drill-presentation-qa, plan-backup-slides, request-debrief-after-lost-bid]

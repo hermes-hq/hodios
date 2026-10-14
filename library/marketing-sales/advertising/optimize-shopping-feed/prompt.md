@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-feed, shopping-ads, feed-titles, custom-labels, merchant-center, product-taxonomy]
 pairs_with:
   prompts: [write-product-description, calculate-break-even-roas, plan-marketplace-ads]

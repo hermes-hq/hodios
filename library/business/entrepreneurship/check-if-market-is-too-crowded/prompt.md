@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [market-saturation, competitor-gaps, switching-costs, underserved-segment, entry-strategy]
 pairs_with:
   prompts: [validate-business-idea, analyze-competitors, check-search-demand-for-idea, analyze-competitor-reviews]

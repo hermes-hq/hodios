@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [funnel-analysis, conversion-rates, win-rate, sales-cycle, sales-analytics, crm-data]
 pairs_with:
   prompts: [analyze-sales-rep-performance, write-sales-performance-report, review-sales-pipeline, design-crm-pipeline]

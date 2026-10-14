@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [room-rates, revenue-management, occupancy, adr, revpar, direct-bookings, minimum-stay]
 pairs_with:
   personas: [hospitality-revenue-manager, hospitality-manager]

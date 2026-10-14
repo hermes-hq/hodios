@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quadrant-chart, two-by-two, scatter-plot, portfolio-analysis]
 pairs_with:
   prompts: [design-scatter-plot, prioritize-features, compare-options-matrix]

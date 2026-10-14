@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [key-insights, quotes, commonplace-book, talks, lectures]
 pairs_with:
   prompts: [extract-references-and-resources, turn-content-into-actions, summarize-video-transcript]

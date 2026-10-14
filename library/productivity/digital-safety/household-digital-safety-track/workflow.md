@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [security-checkup, family-safety, account-security, home-network, scam-prevention]
 pairs_with:
   prompts: [secure-personal-accounts, secure-home-router, set-up-parental-controls, plan-family-scam-safe-word, review-app-permissions]

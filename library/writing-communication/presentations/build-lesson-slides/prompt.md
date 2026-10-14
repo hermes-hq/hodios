@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lesson-slides, cognitive-load, worked-examples, retrieval-practice, classroom]
 pairs_with:
   prompts: [write-lesson-plan, write-retrieval-practice-starters, make-presentation-accessible]

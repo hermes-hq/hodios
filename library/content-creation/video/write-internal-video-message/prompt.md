@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [internal-communications, leadership-video, change-communication, all-hands, staff-update]
 pairs_with:
   prompts: [adapt-script-for-teleprompter, write-short-form-script]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shipping-costs, parcel-carriers, dimensional-weight, packaging, carrier-negotiation, surcharges, cost-reduction]
 pairs_with:
   prompts: [plan-order-fulfilment, set-free-shipping-threshold, find-business-cost-savings, evaluate-3pl-provider]

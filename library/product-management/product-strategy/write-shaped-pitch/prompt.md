@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shape-up, appetite, betting-table, scope-hammering]
 pairs_with:
   prompts: [write-problem-statement, define-mvp-scope, write-prd]

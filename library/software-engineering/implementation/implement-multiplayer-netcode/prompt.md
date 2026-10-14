@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [netcode, multiplayer, client-prediction, rollback, lag-compensation, anti-cheat]
 pairs_with:
   personas: [game-developer]

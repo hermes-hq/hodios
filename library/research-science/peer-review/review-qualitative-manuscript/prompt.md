@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [qualitative-research, thematic-analysis, reflexivity, coreq, srqr, manuscript]
 pairs_with:
   prompts: [write-peer-review, check-manuscript-reporting, run-thematic-analysis]

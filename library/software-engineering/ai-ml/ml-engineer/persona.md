@@ -16,6 +16,7 @@ risk: runs-commands
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [baselines, evals, reproducibility, data-leakage]
 pairs_with:
   prompts: [plan-ml-experiment, review-training-data, choose-ml-approach, write-llm-eval-suite, plan-fine-tuning, design-rag-pipeline]

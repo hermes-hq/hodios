@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stacked-bar, pie-chart, share-of-total, chart-design]
 pairs_with:
   prompts: [choose-chart-type, visualize-hierarchy, write-plotting-code]

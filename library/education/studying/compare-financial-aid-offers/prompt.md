@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [financial-aid, award-letters, net-cost, student-loans, scholarships]
 pairs_with:
   prompts: [choose-between-college-offers, plan-scholarship-applications, write-university-admissions-email]

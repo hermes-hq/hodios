@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [podcast-sponsorship, cpm, rate-sheet, host-read-ads, monetisation]
 pairs_with:
   prompts: [write-podcast-ad-read, read-podcast-listener-stats, build-creator-rate-card]

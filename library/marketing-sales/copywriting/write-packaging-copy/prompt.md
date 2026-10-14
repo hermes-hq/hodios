@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [packaging, claim-hierarchy, label-copy, retail-shelf, on-pack]
 pairs_with:
   prompts: [write-product-description, write-taglines, write-marketplace-listing, design-packaging]

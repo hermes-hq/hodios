@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [date-night, couples, quality-time, at-home-date, conversation-starters]
 pairs_with:
   prompts: [plan-relationship-check-in, choose-meaningful-gift]

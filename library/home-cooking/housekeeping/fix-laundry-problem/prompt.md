@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [washing-machine, washing-faults, detergent, dye-transfer]
 pairs_with:
   prompts: [remove-stain, set-up-laundry-system]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [customer-communication, feature-timing, expectation-setting, commitment-language, account-management]
 pairs_with:
   prompts: [decline-feature-request, write-public-roadmap, audit-customer-commitments, forecast-roadmap-dates-with-ranges]

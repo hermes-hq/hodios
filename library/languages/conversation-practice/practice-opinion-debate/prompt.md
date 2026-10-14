@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [debate, argumentation, discourse-markers, fluency, speaking-exam-practice]
 pairs_with:
   prompts: [practice-speaking-exam, practice-small-talk, review-speaking-transcript]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sampling-bias, selection-bias, survivorship-bias, non-response, loud-minority, evidence-quality]
 pairs_with:
   prompts: [analyze-user-feedback, write-voice-of-customer-report, audit-feature-voting-board]

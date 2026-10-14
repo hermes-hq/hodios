@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [writing-for-the-ear, keynote, speaker-voice, rhetoric, storytelling]
 pairs_with:
   prompts: [write-speech, write-emcee-script, moderate-panel, prepare-for-tough-questions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [grow-model, coaching-questions, manager-as-coach, development, active-listening]
 pairs_with:
   prompts: [plan-one-on-one, build-development-plan, address-underperformance-early]

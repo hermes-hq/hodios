@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [faceless-channel, voice-over, stock-footage, monetization-policy, production-workflow]
 pairs_with:
   prompts: [plan-video-series, write-explainer-video-script, package-video-title-thumbnail]

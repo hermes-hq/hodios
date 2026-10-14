@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feedback-tagging, taxonomy, support-tickets, coding-scheme, inter-rater-consistency]
 pairs_with:
   prompts: [analyze-user-feedback, triage-feature-requests, write-voice-of-customer-report]

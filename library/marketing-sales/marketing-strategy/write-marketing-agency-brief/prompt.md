@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [agency-brief, request-for-proposal, agency-selection, outsourcing, scope-of-work]
 pairs_with:
   prompts: [write-pr-agency-brief, vet-paid-ads-agency, plan-marketing-team-structure, define-marketing-kpis]

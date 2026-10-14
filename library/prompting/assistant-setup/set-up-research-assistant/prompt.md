@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [source-discipline, citations, research-log, fabricated-references]
 pairs_with:
   prompts: [build-project-instructions, prepare-knowledge-files, write-new-chat-handoff]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [good-first-issue, newcomers, contributor-experience, issue-writing]
 pairs_with:
   prompts: [triage-issue-backlog, write-contributing-guide, reply-to-first-contribution, audit-contributor-funnel]

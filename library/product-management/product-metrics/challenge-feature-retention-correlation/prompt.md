@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [correlation-vs-causation, selection-bias, retention-claims, confounding, power-users, decision-quality]
 pairs_with:
   prompts: [define-activation-metric, design-ab-test, design-holdout-experiment, estimate-feature-impact]

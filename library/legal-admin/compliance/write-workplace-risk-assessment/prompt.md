@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [health-and-safety, risk-assessment, hazard-control, workplace-safety]
 pairs_with:
   prompts: [build-compliance-checklist, write-workplace-policy]

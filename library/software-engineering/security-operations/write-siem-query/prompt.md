@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [siem, kql, spl, log-search, investigation]
 pairs_with:
   prompts: [write-threat-hunt-plan, triage-soc-alert, write-sigma-rule]

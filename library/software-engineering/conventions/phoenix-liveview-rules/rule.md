@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [liveview, contexts, ecto, pubsub, function-components]
 applies_to: ["lib/**/*.ex", "lib/**/*.heex", "test/**/*.exs", "priv/repo/migrations/**"]
 pairs_with:

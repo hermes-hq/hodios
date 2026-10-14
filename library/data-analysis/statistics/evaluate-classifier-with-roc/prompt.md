@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [roc-curve, auc, precision-recall, confusion-matrix, sensitivity-specificity, calibration]
 pairs_with:
   prompts: [choose-classification-threshold, explain-test-accuracy-with-base-rates, handle-imbalanced-classes, visualize-model-evaluation]

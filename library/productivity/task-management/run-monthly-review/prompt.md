@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [monthly-review, reflection, goal-tracking, habit-tracking, intentions]
 pairs_with:
   prompts: [run-weekly-review, plan-personal-quarter, design-habit-plan]

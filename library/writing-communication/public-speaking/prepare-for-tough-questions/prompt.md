@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [q-and-a, objection-handling, rehearsal, stakeholders]
 pairs_with:
   prompts: [outline-presentation, write-project-proposal, write-internal-announcement]

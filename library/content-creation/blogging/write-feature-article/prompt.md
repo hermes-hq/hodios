@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [journalism, long-form, nut-graf, narrative-nonfiction, magazine-writing]
 pairs_with:
   prompts: [write-profile-piece, fact-check-claims, write-article-headlines-and-standfirsts]

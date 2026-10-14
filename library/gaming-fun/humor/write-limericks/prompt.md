@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [limericks, light-verse, greeting-cards, toasts, rhyme-and-metre]
 pairs_with:
   prompts: [write-puns, write-poem-in-form]

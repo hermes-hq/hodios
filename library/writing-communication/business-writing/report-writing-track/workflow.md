@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [report-writing, answer-first, evidence-check, pyramid-principle, executive-summary]
 pairs_with:
   prompts: [write-executive-summary, write-decision-memo, review-document-for-ambiguity, edit-for-structure]

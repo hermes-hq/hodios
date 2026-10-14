@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [improvisation, game-mastering, mid-session, scene-design, player-agency]
 pairs_with:
   prompts: [create-npc, design-random-tables, write-read-aloud-text]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [year-end-review, lifestyle-creep, savings-rate, spending-trends]
 pairs_with:
   prompts: [review-budget-vs-actual, categorize-expenses, set-up-sinking-funds]

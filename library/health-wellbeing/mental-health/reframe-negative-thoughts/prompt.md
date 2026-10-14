@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cbt, thought-record, cognitive-distortions, self-help]
 pairs_with:
   prompts: [guided-journaling, build-coping-plan, prepare-for-therapy]

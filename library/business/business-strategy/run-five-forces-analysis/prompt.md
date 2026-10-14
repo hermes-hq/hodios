@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [five-forces, industry-analysis, competitive-strategy, industry-structure, porter]
 pairs_with:
   prompts: [run-swot-analysis, plan-market-entry, analyze-business-model, estimate-market-size]

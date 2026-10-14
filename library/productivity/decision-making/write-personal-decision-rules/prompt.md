@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [decision-fatigue, personal-policies, defaults, thresholds, recurring-choices]
 pairs_with:
   prompts: [decide-whether-to-say-yes, triage-a-decision, run-decision-journal]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [statistics-roundup, primary-sources, source-verification, link-building, data-caveats]
 pairs_with:
   prompts: [write-data-story-article, calibrate-claim-strength, refresh-old-blog-post]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [statute-of-limitations, old-debts, time-barred, collections]
 pairs_with:
   prompts: [respond-to-debt-collector, dispute-credit-report-error, prepare-for-debt-advice-appointment]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [activation, aha-moment, retention, onboarding-metrics, product-analytics]
 pairs_with:
   prompts: [define-north-star-metric, analyze-conversion-funnel, write-tracking-plan, design-ab-test]

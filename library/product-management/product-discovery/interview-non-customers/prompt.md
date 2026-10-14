@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [non-customers, lost-deals, switching, barriers, low-take-up, market-expansion]
 pairs_with:
   prompts: [interview-lapsed-users, write-customer-interview-guide, write-research-screener, synthesize-customer-interviews]

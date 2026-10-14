@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [outfit-ideas, cost-per-wear, styling-tricks, orphan-pieces, remixing]
 pairs_with:
   prompts: [choose-accessories, build-capsule-wardrobe, review-outfit]

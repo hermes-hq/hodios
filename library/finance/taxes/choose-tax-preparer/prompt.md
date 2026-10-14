@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tax-preparation, accountants, tax-software, scams]
 pairs_with:
   prompts: [organize-tax-documents, choose-financial-advisor, explain-tax-notice]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [graphql-queries, cursor-pagination, fragments, simulator, practice-sandbox]
 args:
   - name: schema_theme

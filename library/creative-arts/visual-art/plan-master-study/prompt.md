@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [master-study, art-practice, drawing-fundamentals, painting-process]
 pairs_with:
   prompts: [plan-drawing-practice, analyze-artwork-formally, critique-artwork]

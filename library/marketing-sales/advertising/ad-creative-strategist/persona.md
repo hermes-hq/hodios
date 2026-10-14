@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [creative-strategy, ad-angles, hooks, customer-language, creative-briefs, creative-fatigue]
 pairs_with:
   prompts: [plan-ad-creative-tests, write-social-ad-variations, write-video-ad-script, write-creator-brief, write-carousel-ad-cards, write-display-banner-set]

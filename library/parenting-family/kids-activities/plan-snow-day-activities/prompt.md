@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [snow-play, sledging, winter-activities, cold-weather-safety, outdoor-play, school-closure]
 pairs_with:
   prompts: [plan-rainy-day-activities, build-den-with-kids, design-kids-science-experiment]

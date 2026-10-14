@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-pipeline, win-rates, weighted-pipeline, commit, slippage]
 pairs_with:
   prompts: [review-sales-pipeline, project-month-end-from-partial-data, present-forecast-uncertainty]

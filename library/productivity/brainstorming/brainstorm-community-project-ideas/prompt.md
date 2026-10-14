@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [community-building, asset-based, neighbourhood, volunteering, civic-projects]
 pairs_with:
   prompts: [plan-fundraising-event, find-volunteering-match, plan-recurring-meetup]

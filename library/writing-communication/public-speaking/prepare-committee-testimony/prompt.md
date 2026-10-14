@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [public-sector]
 tags: [committee-evidence, legislative-hearing, witness-preparation, public-inquiry, testimony]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-interview, technical-interview, interview-rubric, developer-hiring]
 pairs_with:
   prompts: [design-pair-programming-interview, write-take-home-assignment, build-interview-scorecard]

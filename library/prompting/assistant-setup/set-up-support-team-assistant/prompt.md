@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [help-centre, refund-policy, escalation-rules, reply-templates, customer-data]
 pairs_with:
   prompts: [prepare-knowledge-files, roll-out-team-assistant, build-project-instructions]

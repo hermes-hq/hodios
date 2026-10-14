@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [beachhead, first-market, segment-selection, early-stage, focus]
 pairs_with:
   prompts: [assess-product-market-fit, build-customer-segmentation, define-mvp-scope, write-go-to-market-plan]

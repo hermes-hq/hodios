@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [view-model, observation, async-await, navigation-stack, xcode-previews]
 args:
   - name: screen

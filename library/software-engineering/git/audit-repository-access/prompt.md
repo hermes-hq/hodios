@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [access-review, least-privilege, outside-collaborators, offboarding, audit-log]
 pairs_with:
   prompts: [set-up-new-repository, configure-branch-protection, grant-ci-access-to-private-repos]

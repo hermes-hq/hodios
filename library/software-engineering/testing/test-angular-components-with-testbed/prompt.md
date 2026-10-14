@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [testbed, component-harness, http-testing-controller, signals, jasmine]
 pairs_with:
   prompts: [write-component-tests, write-e2e-test]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [small-claims-decision, no-claims-discount, claims-history, excess, renewal-premium]
 pairs_with:
   prompts: [choose-insurance-deductible, explain-insurance-policy]

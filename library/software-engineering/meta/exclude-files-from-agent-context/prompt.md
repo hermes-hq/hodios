@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, ignore-files, secrets, context-engineering]
 pairs_with:
   prompts: [audit-agent-permissions, write-agents-md, design-agent-sandbox]

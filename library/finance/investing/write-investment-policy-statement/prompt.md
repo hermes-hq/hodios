@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [investment-policy, asset-allocation, rebalancing, risk-tolerance, behavioural-finance]
 pairs_with:
   prompts: [check-portfolio-diversification, plan-retirement-scenarios, plan-financial-independence, explain-investment-concept]

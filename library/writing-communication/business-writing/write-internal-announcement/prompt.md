@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-management, reorg, policy-change, faq]
 pairs_with:
   prompts: [write-status-report, prepare-for-tough-questions, rewrite-for-tone]

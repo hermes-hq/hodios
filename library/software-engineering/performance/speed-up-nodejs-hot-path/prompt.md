@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cpu-profile, v8, allocations, benchmarking, hot-path]
 pairs_with:
   prompts: [profile-hot-path, fix-event-loop-blocking, write-microbenchmark, read-flame-graph]

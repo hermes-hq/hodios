@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subject-access-request, right-to-erasure, data-protection, privacy-requests, identity-check]
 pairs_with:
   prompts: [map-personal-data-processing, audit-website-privacy-compliance, plan-data-breach-response, redact-personal-data, write-support-reply]

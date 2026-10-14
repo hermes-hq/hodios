@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [application-delay, follow-up-letter, official-correspondence]
 pairs_with:
   prompts: [understand-residence-permit-conditions, prepare-for-immigration-appointment, find-free-legal-help, write-complaint-letter]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multistreaming, simulcast, restreaming, vertical-stream, upload-bandwidth]
 pairs_with:
   prompts: [diagnose-stream-quality-issues, write-chat-mod-handbook, read-stream-analytics]

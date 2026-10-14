@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [rich-text-editor, contenteditable, toolbar, wysiwyg, keyboard]
 pairs_with:
   personas: [accessibility-specialist]

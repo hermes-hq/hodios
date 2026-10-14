@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [treasure-hunt, scavenger-hunt, clue-chain, kids-party, team-building]
 pairs_with:
   prompts: [write-riddles, create-escape-room-puzzles, plan-kids-party]

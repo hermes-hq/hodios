@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [creator-voice, content-pillars, banned-phrases, ad-disclosure, repurposing]
 pairs_with:
   prompts: [build-project-instructions, write-social-bio, repurpose-video-into-posts]

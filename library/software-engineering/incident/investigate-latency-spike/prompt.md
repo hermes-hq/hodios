@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tail-latency, p99, saturation, distributed-tracing, mitigation-first]
 pairs_with:
   prompts: [triage-production-alert, collect-incident-evidence, write-incident-update, profile-hot-path]

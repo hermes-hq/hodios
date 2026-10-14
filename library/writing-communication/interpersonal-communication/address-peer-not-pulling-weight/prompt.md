@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [teamwork, group-projects, workload, peer-feedback, accountability]
 pairs_with:
   prompts: [give-feedback-sbi, give-upward-feedback, mediate-disagreement]

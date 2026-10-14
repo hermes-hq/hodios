@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [5xx-errors, exceptions, error-budget, mitigation-first, deploy-correlation]
 pairs_with:
   prompts: [triage-production-alert, collect-incident-evidence, decide-rollback-or-fix-forward, write-incident-update]

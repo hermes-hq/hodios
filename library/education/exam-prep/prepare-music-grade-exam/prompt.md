@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [graded-music-exam, scales-and-arpeggios, sight-reading, aural-tests, performance-preparation, practice-plan]
 pairs_with:
   prompts: [plan-instrument-practice, plan-exam-day-strategy]

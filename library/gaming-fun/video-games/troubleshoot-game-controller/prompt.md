@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stick-drift, gamepad, bluetooth-pairing, deadzone, hardware-repair]
 pairs_with:
   prompts: [fix-bluetooth-connection, set-up-accessible-gaming]

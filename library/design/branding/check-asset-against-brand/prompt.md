@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [brand-compliance, brand-guidelines, design-review, quality-check, brand-consistency]
 pairs_with:
   prompts: [build-brand-guidelines, run-brand-audit, critique-graphic-design, write-brand-voice-guide]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [chairing, facilitation, rehearsal, counterpart-simulation, committee-meetings, timekeeping]
 pairs_with:
   prompts: [prepare-to-chair-meeting, facilitate-tense-meeting, write-meeting-agenda, run-residents-association-agm]

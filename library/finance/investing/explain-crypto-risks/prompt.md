@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [crypto, custody, stablecoins, volatility, staking, scam-red-flags]
 pairs_with:
   prompts: [spot-investment-scam, explain-investment-concept, explain-tax-on-investments]

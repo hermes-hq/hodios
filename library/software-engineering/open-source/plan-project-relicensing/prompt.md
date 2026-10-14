@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [relicensing, copyright-holders, contributor-consent, copyleft, license-compatibility]
 pairs_with:
   prompts: [choose-software-license, audit-dependency-licenses]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [repository-settings, branch-rules, merge-methods, issue-templates, secret-scanning]
 pairs_with:
   prompts: [configure-branch-protection, write-codeowners-file, write-pull-request-template, write-gitignore-file, configure-dependency-update-bot, write-team-git-guidelines]

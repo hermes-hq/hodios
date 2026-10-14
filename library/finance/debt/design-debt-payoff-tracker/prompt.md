@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [debt-spreadsheet, payoff-dates, nper, progress-tracking, snowball-avalanche]
 pairs_with:
   prompts: [plan-debt-payoff, design-budget-spreadsheet, explain-how-loan-interest-works]

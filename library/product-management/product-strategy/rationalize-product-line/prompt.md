@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sku-rationalisation, range-review, complexity-cost, cannibalisation, long-tail]
 pairs_with:
   prompts: [plan-product-end-of-life, set-product-cost-target, plan-seasonal-product-calendar]

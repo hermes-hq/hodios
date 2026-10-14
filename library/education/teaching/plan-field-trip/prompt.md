@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [field-trip, educational-visit, risk-assessment, permission-slip, supervision]
 pairs_with:
   prompts: [write-parent-email, write-classroom-newsletter, write-lesson-plan]

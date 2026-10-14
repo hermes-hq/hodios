@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [memoir, creative-nonfiction, manuscript-critique, revision-plan, editorial-feedback]
 pairs_with:
   prompts: [draft-memoir-scene, shape-memoir-story, check-memoir-for-privacy-risks]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [geometry, two-column-proof, congruent-triangles, similar-triangles, parallel-lines, cpctc]
 pairs_with:
   prompts: [guide-math-proof, hint-through-problem]

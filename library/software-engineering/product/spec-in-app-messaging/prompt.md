@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [direct-messages, chat, trust-and-safety, requirements]
 pairs_with:
   prompts: [spec-comments-and-mentions, spec-content-reporting-and-moderation, spec-roles-and-permissions]

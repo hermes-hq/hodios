@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [statics, dynamics, circuit-analysis, mechanics-of-materials, sanity-checks, problem-setup]
 pairs_with:
   prompts: [coach-free-body-diagrams, practise-dimensional-analysis, practise-rearranging-formulas]

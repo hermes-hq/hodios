@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [leveled-texts, differentiation, readability, english-learners, academic-vocabulary]
 pairs_with:
   prompts: [differentiate-lesson, generate-discussion-questions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [blended-learning, flipped-learning, learning-transfer, corporate-training, programme-design]
 pairs_with:
   prompts: [write-learning-objectives, design-workshop, evaluate-training-effectiveness, convert-course-to-online]

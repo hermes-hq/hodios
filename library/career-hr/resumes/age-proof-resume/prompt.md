@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [age-bias, later-career, older-jobseekers, modernise]
 pairs_with:
   prompts: [update-outdated-resume, trim-resume-length, tone-down-overqualified-resume]

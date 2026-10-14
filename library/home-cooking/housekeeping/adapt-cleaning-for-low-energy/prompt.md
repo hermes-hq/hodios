@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [energy-pacing, low-effort-cleaning, fatigue, mobility-aids]
 advice_risk: [medical]
 pairs_with:

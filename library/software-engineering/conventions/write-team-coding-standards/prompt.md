@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [coding-standards-doc, linting, review-comments, team-agreements, consistency]
 pairs_with:
   prompts: [write-code-review-guidelines, write-agents-md]

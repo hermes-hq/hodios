@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-rationale, stakeholder-communication, design-decisions, trade-offs]
 pairs_with:
   prompts: [choose-between-ui-designs, respond-to-design-feedback, write-design-handoff, write-design-principles]

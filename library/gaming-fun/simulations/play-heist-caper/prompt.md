@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [heist, caper, crew-building, planning-game, interactive-fiction]
 pairs_with:
   prompts: [play-spy-mission, solve-mystery-case]

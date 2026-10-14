@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [keyframes, start-frame, end-frame, frame-interpolation]
 pairs_with:
   prompts: [write-image-to-video-motion-prompt, write-transition-shot-prompts, fix-video-generation-drift]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dual-axis, combo-chart, indexed-chart, chart-design]
 pairs_with:
   prompts: [critique-chart, visualize-time-series, design-small-multiples, write-plotting-code]

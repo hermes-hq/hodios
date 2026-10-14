@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [go-i18n, x-text, language-matcher, accept-language, message-files]
 pairs_with:
   prompts: [design-localized-api-errors, localize-server-sent-messages, propagate-locale-through-services]

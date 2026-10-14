@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [analytics-engineering, incremental-models, data-tests, grain]
 pairs_with:
   prompts: [design-star-schema, write-data-quality-checks]

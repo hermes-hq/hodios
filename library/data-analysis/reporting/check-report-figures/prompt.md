@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quality-assurance, number-check, proofing, pre-send]
 pairs_with:
   prompts: [write-insight-report, write-monthly-business-review, write-data-correction-notice]

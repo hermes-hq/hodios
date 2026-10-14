@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stream-audio, mic-setup, noise-suppression, audio-levels, obs-filters]
 pairs_with:
   prompts: [choose-first-streaming-setup, diagnose-stream-quality-issues, plan-stream-scenes]

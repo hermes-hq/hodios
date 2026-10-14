@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pull-request, pre-merge]
 pairs_with:
   prompts: [review-pull-request]

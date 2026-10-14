@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [tribute, milestone-birthday, anniversary, family-stories, celebration-speech]
 pairs_with:
   prompts: [write-speech, write-occasion-poem, write-legacy-letter, plan-family-photo-book, interview-relative-for-oral-history]

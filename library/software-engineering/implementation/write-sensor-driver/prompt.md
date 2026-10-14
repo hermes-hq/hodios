@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [i2c, spi, datasheet, device-drivers, register-map, sensors]
 pairs_with:
   personas: [embedded-engineer]

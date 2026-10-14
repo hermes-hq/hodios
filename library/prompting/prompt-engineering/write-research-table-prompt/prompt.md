@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [comparison-matrix, vendor-research, source-per-cell, web-research, reusable-prompt]
 pairs_with:
   prompts: [write-deep-research-brief, compare-vendors, build-literature-matrix]

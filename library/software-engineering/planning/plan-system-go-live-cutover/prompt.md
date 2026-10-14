@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cutover, go-live, data-migration, rollback-plan, hypercare, dress-rehearsal]
 pairs_with:
   prompts: [plan-incremental-migration, build-project-risk-register]

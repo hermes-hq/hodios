@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [infinite-scroll, cursor-pagination, virtualization, intersection-observer, feeds]
 pairs_with:
   prompts: [implement-pagination, make-infinite-scroll-accessible, speed-up-long-list-rendering]

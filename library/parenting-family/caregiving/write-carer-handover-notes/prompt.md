@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [handover, care-rota, siblings, shared-care, carers]
 pairs_with:
   prompts: [build-care-rota, write-care-profile, write-care-update-for-family]

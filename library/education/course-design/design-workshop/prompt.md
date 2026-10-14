@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workshop-design, facilitation, corporate-training, active-learning, agenda]
 pairs_with:
   prompts: [design-classroom-activity, write-learning-objectives, design-elearning-module]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [equipment-hire, rental-terms, damage-deposits, condition-reports, damage-waiver, safe-use]
 pairs_with:
   prompts: [write-liability-waiver, write-booking-terms, write-health-and-safety-policy]

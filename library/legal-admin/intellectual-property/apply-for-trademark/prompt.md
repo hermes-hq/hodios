@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trademark, brand-protection, nice-classes]
 pairs_with:
   prompts: [choose-business-structure, respond-to-cease-and-desist]

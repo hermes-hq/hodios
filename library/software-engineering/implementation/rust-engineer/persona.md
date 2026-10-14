@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ownership, lifetimes, error-handling, async-rust, unsafe-code, clippy]
 pairs_with:
   rules: [rust-style-rules]

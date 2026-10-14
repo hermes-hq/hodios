@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [car-rental, collision-damage-waiver, excess-reimbursement, rental-deposit, travel-cover]
 pairs_with:
   prompts: [choose-travel-insurance, choose-insurance-deductible]

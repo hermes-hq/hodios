@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [linting, code-formatting, pre-commit, git-blame-ignore-revs, editor-config]
 pairs_with:
   prompts: [fix-lint-violations-repo-wide, migrate-eslint-to-flat-config]

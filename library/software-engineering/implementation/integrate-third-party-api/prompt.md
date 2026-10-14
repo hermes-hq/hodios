@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-client, retries, rate-limiting, pagination]
 args:
   - name: api_docs

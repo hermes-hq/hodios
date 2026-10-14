@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [django-rest-framework, rest-api, serializers, permissions, n-plus-one]
 pairs_with:
   prompts: [build-rest-endpoint, implement-list-filtering-and-sorting, implement-pagination]

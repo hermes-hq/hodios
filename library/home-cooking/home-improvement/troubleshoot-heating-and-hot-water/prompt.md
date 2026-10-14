@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [boiler, furnace, water-heater, central-heating, gas-safety, carbon-monoxide]
 pairs_with:
   prompts: [diagnose-home-problem, plan-home-maintenance, hire-contractor]

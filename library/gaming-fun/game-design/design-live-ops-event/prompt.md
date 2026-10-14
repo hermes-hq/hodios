@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [live-ops, limited-time-event, live-service, reward-track, player-retention, seasonal-content]
 pairs_with:
   prompts: [design-game-economy, design-progression-system]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [age-of-sail, dead-reckoning, navigation, naval-history, voyage-game]
 args:
   - name: route

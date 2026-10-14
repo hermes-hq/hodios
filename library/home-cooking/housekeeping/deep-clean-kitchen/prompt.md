@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [kitchen-cleaning, oven-cleaning, food-safety, chemical-safety]
 pairs_with:
   prompts: [clean-by-surface-material, organise-kitchen-cupboards]

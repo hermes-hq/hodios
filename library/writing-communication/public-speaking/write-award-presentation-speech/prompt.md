@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [award-presentation, citation, recognition, awards-night]
 pairs_with:
   prompts: [write-award-acceptance-speech, plan-awards-ceremony]

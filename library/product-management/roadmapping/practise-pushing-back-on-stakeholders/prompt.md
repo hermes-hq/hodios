@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [roleplay, stakeholder-management, saying-no, trade-offs, executive-communication]
 pairs_with:
   prompts: [push-back-on-roadmap-request, decline-feature-request, prioritize-features, plan-stakeholder-alignment]

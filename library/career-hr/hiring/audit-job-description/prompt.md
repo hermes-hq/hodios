@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-description, inclusive-language, job-ad-review, pay-transparency, applicant-pool]
 pairs_with:
   prompts: [write-job-description, set-pay-range-for-job-posting, run-hiring-manager-intake]

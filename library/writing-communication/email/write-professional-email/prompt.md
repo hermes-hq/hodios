@@ -19,7 +19,8 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [subject-line, bluf, email-etiquette]
+depth: specific
+tags: [subject-line, bluf, email-etiquette, work-email, email-my-boss, formal-email]
 pairs_with:
   prompts: [reply-to-email, rewrite-for-tone, decline-request-gracefully]
 args:

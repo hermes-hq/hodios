@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [registration, authorship, deposit-copy, evidence-of-creation, creators]
 pairs_with:
   prompts: [request-content-takedown, assess-rights-in-ai-assisted-work]

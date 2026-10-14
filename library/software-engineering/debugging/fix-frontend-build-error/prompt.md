@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vite, webpack, bundler, build-errors, esm]
 pairs_with:
   prompts: [fix-module-import-error, triage-failing-ci]

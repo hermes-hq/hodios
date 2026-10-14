@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-parity, row-counts, checksums, cutover, data-integrity]
 pairs_with:
   prompts: [migrate-database-engine, test-database-migrations, write-data-quality-checks]

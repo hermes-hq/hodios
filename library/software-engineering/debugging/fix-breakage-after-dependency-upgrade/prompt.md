@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependency-updates, lockfiles, changelogs, renovate]
 pairs_with:
   prompts: [upgrade-major-dependency, bisect-regression, resolve-dependency-conflict]

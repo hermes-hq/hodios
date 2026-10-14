@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [professional-audience, share-post, cover-image, skimmable-format, thought-leadership]
 pairs_with:
   prompts: [write-linkedin-post, write-newsletter-issue, grow-newsletter]

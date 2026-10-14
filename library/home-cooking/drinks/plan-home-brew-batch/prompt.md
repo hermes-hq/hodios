@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [home-brewing, fermentation, beer, cider, kombucha, mead, sanitation]
 args:
   - name: drink

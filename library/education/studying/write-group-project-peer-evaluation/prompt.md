@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [peer-assessment, group-project, self-evaluation, teamwork, fair-feedback]
 pairs_with:
   prompts: [address-peer-not-pulling-weight, plan-group-project, write-reflective-account]

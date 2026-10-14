@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [real-estate]
 tags: [home-buying, closing-costs, stamp-duty, first-time-buyer, homeownership-costs]
 pairs_with:

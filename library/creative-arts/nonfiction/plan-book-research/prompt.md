@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [book-research, research-log, sources, archives, research-plan]
 pairs_with:
   prompts: [outline-nonfiction-book, plan-book-source-interviews, write-note-on-sources]

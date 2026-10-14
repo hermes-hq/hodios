@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dataframes, merges, index-alignment, dtypes, data-quality]
 pairs_with:
   prompts: [speed-up-dataframe-code, write-dataframe-transformation]

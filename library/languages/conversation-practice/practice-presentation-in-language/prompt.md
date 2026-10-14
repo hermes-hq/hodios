@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [presentation-rehearsal, signposting, q-and-a, cefr]
 pairs_with:
   prompts: [practice-interview-in-language, review-speaking-transcript, create-shadowing-script]

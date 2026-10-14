@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trauma-informed, safeguarding, classroom-routines, co-regulation, transitions, relational-practice]
 pairs_with:
   prompts: [design-classroom-management-plan, plan-student-behavior-support, plan-sel-lesson]

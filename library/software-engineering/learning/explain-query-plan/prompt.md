@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [query-plans, explain-analyze, indexes, query-performance]
 pairs_with:
   prompts: [optimize-sql-query, review-database-indexes, explain-sql-query]

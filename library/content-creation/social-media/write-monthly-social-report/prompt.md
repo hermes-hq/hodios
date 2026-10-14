@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [social-analytics, stakeholder-update, month-on-month, engagement-rate]
 pairs_with:
   prompts: [run-social-media-audit, compare-period-performance, write-monthly-business-review]

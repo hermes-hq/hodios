@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ipc, tauri-commands, desktop-app, rust-backend, capabilities]
 pairs_with:
   prompts: [structure-desktop-app]

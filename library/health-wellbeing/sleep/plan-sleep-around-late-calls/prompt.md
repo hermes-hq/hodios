@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [remote-work, time-zones, late-meetings, early-meetings, wind-down]
 pairs_with:
   prompts: [reset-sleep-schedule, plan-power-naps, recover-from-a-bad-night]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [goodbye-party, moving-away, adult-friendship, keepsakes, keeping-in-touch]
 pairs_with:
   prompts: [plan-long-distance-connection, plan-keep-in-touch-rhythm, make-memory-book]

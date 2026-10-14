@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [signals, rxjs, change-detection, reactive-forms, standalone-components]
 applies_to: ["src/**/*.ts", "src/**/*.html", "projects/**/*.ts", "projects/**/*.html"]
 pairs_with:

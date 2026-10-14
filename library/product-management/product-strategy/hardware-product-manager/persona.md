@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hardware, bill-of-materials, margin-stack, design-for-manufacture, manufacturing-gates, certification]
 pairs_with:
   prompts: [test-physical-prototype-with-users, test-preorders-before-tooling, test-packaging-and-instructions, define-mvp-scope]

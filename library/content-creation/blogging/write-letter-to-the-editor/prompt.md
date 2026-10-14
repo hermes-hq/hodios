@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [letters-page, civic-writing, rebuttal, concise-writing]
 pairs_with:
   prompts: [write-op-ed, fact-check-claims]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, completion-claims, test-integrity, merge-readiness]
 pairs_with:
   prompts: [review-agent-transcript, pick-best-agent-attempt, review-agent-plan]

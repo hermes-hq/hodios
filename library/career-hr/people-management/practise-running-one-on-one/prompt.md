@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [one-to-one, new-manager, open-questions, active-listening, simulated-report, direct-report]
 pairs_with:
   prompts: [plan-one-on-one, prepare-for-one-on-one, practice-active-listening]

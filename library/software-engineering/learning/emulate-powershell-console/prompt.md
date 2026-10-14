@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [object-pipeline, cmdlets, windows-admin, simulator, practice-sandbox]
 pairs_with:
   personas: [coding-mentor]

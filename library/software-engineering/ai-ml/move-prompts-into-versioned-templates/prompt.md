@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-management, templates, prompt-versioning, maintainability]
 pairs_with:
   prompts: [write-llm-eval-suite, reduce-llm-costs]

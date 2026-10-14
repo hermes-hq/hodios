@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [beamer, academic-talk, overlays, bibliography, equations, slides-as-code]
 pairs_with:
   prompts: [build-thesis-defence-slides, write-latex-table, write-markdown-slide-deck, outline-presentation]

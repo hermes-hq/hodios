@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-policy, academic-integrity, ai-literacy, generative-ai, classroom-policy, disclosure]
 pairs_with:
   prompts: [design-ai-resistant-assignment, plan-media-literacy-lesson, write-parent-email]

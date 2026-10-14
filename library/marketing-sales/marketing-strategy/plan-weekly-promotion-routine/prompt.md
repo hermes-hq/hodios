@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [marketing-routine, solo-owner, time-boxing, past-customers, review-requests]
 pairs_with:
   prompts: [choose-marketing-channels, write-local-business-profile, ask-clients-for-referrals, plan-local-seo, design-attribution-survey]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cold-email, personalization, outbound]
 pairs_with:
   prompts: [write-sales-follow-up, prepare-discovery-call, build-ideal-customer-profile]

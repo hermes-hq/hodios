@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [dmp, fair-data, open-data, data-sharing, data-repository, research-data]
 pairs_with:
   prompts: [write-ethics-application, write-research-proposal, write-preregistration]

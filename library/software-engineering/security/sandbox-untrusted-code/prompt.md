@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [sandboxing, code-execution, isolation, microvm, webassembly]
 pairs_with:
   prompts: [design-plugin-extension-system, threat-model-feature, harden-kubernetes-workload, fix-ssrf-vulnerability]

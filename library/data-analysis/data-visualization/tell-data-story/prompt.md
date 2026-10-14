@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [storytelling, action-titles, annotations, presentation-flow]
 pairs_with:
   prompts: [choose-chart-type, write-insight-report, critique-chart]

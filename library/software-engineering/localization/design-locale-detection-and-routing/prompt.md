@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [locale-negotiation, accept-language, hreflang, url-strategy, fallback-chain, bcp-47]
 pairs_with:
   prompts: [implement-locale-formatting, plan-rtl-support, plan-international-seo]

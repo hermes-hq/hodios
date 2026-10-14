@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [5s, lean, workplace-organisation, red-tag, visual-management, audit]
 pairs_with:
   prompts: [write-sop, run-five-whys, map-business-process]

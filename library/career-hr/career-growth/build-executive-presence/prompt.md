@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [leadership-presence, senior-stakeholders, credibility, communication-skills]
 pairs_with:
   prompts: [prepare-promotion-case, increase-work-visibility, prepare-skip-level-meeting]

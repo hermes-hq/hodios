@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [is-yazismasi, hitap, siz-dili, business-turkish, kapanis-ifadesi]
 pairs_with:
   prompts: [write-turkish-petition, write-follow-up-email, check-tone-before-sending]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [fluency, four-three-two, timed-speaking, voice-mode, automaticity]
 pairs_with:
   prompts: [practice-storytelling-in-language, review-speaking-transcript, create-shadowing-script]

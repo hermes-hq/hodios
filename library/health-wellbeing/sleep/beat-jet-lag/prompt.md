@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [jet-lag, long-haul, circadian-rhythm, light-exposure, sleep-schedule]
 pairs_with:
   prompts: [plan-itinerary, plan-family-trip]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [meetups, community-building, speaker-pipeline, code-of-conduct, volunteers]
 pairs_with:
   prompts: [manage-event-rsvps, write-event-invitation, outline-tech-talk-with-live-demo]

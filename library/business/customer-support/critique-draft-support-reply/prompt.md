@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reply-review, tone-check, over-promising, pre-send-check, coaching]
 pairs_with:
   prompts: [write-support-reply, build-support-qa-scorecard]

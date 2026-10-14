@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [youtube]
 tags: [google-ads, video-campaigns, custom-segments, brand-safety, view-through]
 pairs_with:

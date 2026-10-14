@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [substitutions, scaling, allergies, gluten-free, vegan]
 pairs_with:
   prompts: [recipe-from-ingredients, troubleshoot-recipe]

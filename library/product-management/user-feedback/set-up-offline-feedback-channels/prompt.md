@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [comment-cards, qr-codes, frontline-staff, easy-read, digital-exclusion, feedback-channels]
 pairs_with:
   prompts: [check-feedback-sampling-bias, analyze-user-feedback, set-up-failure-demand-tracking]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [backlog, bank-reconciliation, transaction-coding, tax-deadlines]
 pairs_with:
   prompts: [reconcile-bank-account, set-up-simple-bookkeeping, prepare-for-accountant-meeting, separate-personal-and-business-spending]

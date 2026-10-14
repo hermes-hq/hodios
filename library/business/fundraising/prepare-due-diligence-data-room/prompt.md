@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-room, due-diligence, deal-preparation, document-checklist, investor-readiness]
 pairs_with:
   prompts: [explain-term-sheet, prepare-investor-qa, plan-business-sale, prepare-business-loan-application]

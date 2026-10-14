@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-references, reference-calls, social-proof, late-stage-deals, customer-advocacy]
 pairs_with:
   prompts: [request-customer-reference, inspect-deal-qualification, plan-competitive-deal-strategy]

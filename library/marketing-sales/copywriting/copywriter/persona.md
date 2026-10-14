@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [direct-response, customer-language, conversion, value-proposition]
 pairs_with:
   prompts: [write-landing-page-copy, write-headline-variations, critique-marketing-copy, write-product-description]

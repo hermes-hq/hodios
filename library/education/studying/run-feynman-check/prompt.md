@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [feynman-technique, self-explanation, metacognition, illusion-of-competence]
 pairs_with:
   prompts: [build-concept-map, explain-concept-at-level, quiz-me-interactively]

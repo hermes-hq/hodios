@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [sigma, detection-as-code, mitre-attack, false-positives, siem]
 pairs_with:
   prompts: [write-siem-query, map-detection-coverage, write-threat-hunt-plan, write-yara-rule]

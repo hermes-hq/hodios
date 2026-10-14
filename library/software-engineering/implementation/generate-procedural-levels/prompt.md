@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [procedural-generation, game-levels, wave-function-collapse, noise, roguelike, seeds]
 pairs_with:
   personas: [game-developer]

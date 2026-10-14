@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [succession-planning, family-business, leadership-transition, governance, handover]
 pairs_with:
   prompts: [plan-business-sale, prepare-board-meeting]

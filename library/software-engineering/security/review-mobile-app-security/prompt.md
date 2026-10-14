@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mobile-security, owasp, masvs, secure-storage, certificate-pinning]
 pairs_with:
   personas: [security-auditor]

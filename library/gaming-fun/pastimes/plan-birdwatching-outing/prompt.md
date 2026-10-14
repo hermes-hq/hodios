@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [birdwatching, birding, field-marks, wildlife-ethics, nature-outings, citizen-science]
 pairs_with:
   prompts: [identify-bird-from-description]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [moving-abroad, layering, winter-clothing, hot-climate-clothing, rainwear, fabrics]
 pairs_with:
   prompts: [build-capsule-wardrobe, pack-arrival-luggage-for-move, plan-clothing-care-and-repair]

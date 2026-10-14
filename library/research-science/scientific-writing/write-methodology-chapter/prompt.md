@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thesis, dissertation, research-design, methodology-justification, research-ethics]
 pairs_with:
   prompts: [write-methods-section, plan-thesis-structure, write-ethics-application]

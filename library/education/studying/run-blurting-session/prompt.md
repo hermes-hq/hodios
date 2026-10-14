@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [blurting, free-recall, active-recall, revision-technique]
 pairs_with:
   prompts: [make-flashcards, review-notes-for-gaps, create-study-plan]

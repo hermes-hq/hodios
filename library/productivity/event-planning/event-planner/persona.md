@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [events, venues, suppliers, run-of-show, guest-experience]
 pairs_with:
   prompts: [plan-event-budget, compare-event-venues, write-run-of-show, write-event-risk-assessment, run-event-debrief]

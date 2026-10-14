@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [referral-terms, refer-a-friend, reward-terms, promotion-terms, referral-fraud]
 pairs_with:
   prompts: [design-referral-program, write-terms-of-service, check-endorsement-disclosures]

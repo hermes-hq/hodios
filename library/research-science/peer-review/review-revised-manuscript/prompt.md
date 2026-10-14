@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [revise-and-resubmit, second-round-review, response-letter, manuscript]
 pairs_with:
   prompts: [write-peer-review, respond-to-reviewers, write-meta-review]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [breakup, heartbreak, no-contact, separation, daily-structure]
 pairs_with:
   prompts: [process-grief, build-connection-plan, navigate-life-transition, practice-self-compassion]

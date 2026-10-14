@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [highlights, graphical-abstract, plain-language-summary, journal-submission, manuscript]
 pairs_with:
   prompts: [write-abstract, explain-research-to-public, design-scientific-figures, plan-research-dissemination]

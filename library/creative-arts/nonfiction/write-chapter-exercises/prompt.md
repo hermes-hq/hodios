@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [prescriptive-books, reflection-prompts, worksheets, workbook, application]
 pairs_with:
   prompts: [draft-nonfiction-chapter, design-signature-framework]

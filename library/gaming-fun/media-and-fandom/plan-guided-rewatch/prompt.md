@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rewatch, reread, foreshadowing, close-reading, craft]
 pairs_with:
   prompts: [explain-film-ending, test-fan-theory, discuss-book-as-reading-buddy]

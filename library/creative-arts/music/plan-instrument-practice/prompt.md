@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [practice-plan, deliberate-practice, ear-training, metronome]
 pairs_with:
   prompts: [suggest-chord-progressions, analyze-song-structure]

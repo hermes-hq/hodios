@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [common-table-expressions, query-readability, equivalence-check, subqueries]
 pairs_with:
   prompts: [optimize-sql-query, review-analysis-sql]

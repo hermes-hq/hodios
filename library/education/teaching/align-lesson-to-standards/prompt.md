@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [curriculum-alignment, standards-based, coverage-audit, constructive-alignment]
 pairs_with:
   prompts: [design-unit-plan, write-lesson-plan, write-learning-objectives]

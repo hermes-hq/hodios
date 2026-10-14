@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [domain-driven-design, aggregates, value-objects, invariants, transaction-boundaries, domain-model]
 pairs_with:
   personas: [software-architect, backend-engineer]

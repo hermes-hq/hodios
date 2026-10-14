@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [photo-book, family-yearbook, photo-curation, captions]
 pairs_with:
   prompts: [organize-photo-library, write-family-history, write-tribute-life-story]

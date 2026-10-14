@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [casting, auditions, film-production]
 pairs_with:
   prompts: [write-short-film-script, develop-character]

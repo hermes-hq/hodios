@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [colour-analysis, undertone, contrast, colour-palette, colour-seasons]
 pairs_with:
   prompts: [discover-personal-style, choose-glasses-frames]

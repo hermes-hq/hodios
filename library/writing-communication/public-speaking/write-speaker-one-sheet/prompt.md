@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [speaker-one-sheet, speaker-kit, talk-descriptions, event-organisers, speaking-business]
 pairs_with:
   prompts: [write-professional-bio, plan-conference-talk-pipeline]

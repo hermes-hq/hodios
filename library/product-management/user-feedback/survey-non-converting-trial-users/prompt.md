@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [free-trial, trial-conversion, lost-users, exit-survey, saas-growth]
 pairs_with:
   prompts: [analyze-cancellation-feedback, design-in-product-survey, write-customer-interview-guide]

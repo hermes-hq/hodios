@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [information-literacy, school-library, search-skills, lateral-reading, citation, librarians]
 pairs_with:
   prompts: [plan-media-literacy-lesson, build-course-reading-list, write-lesson-plan]

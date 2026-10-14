@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-accident, insurance-claim, road-traffic-collision, accident-report, car-repairs]
 pairs_with:
   prompts: [compare-car-insurance, appeal-insurance-denial, prepare-for-car-service]

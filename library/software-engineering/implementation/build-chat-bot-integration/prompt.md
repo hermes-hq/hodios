@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chatbot, slack-bot, discord-bot, teams-bot, slash-commands, chatops]
 pairs_with:
   prompts: [build-webhook-handler, integrate-third-party-api, implement-background-job]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [weekly-update, roll-up, leadership-update, risks, asks]
 pairs_with:
   prompts: [summarize-for-several-audiences, write-tldr-for-draft, summarize-email-thread]

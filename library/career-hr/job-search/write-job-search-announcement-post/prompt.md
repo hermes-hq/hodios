@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [open-to-work, layoff, announcement, ask-for-help]
 pairs_with:
   prompts: [map-warm-introductions, request-employee-referral, write-networking-message]

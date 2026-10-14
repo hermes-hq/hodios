@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [recommender-systems, collaborative-filtering, ranking-metrics, cold-start, personalization]
 pairs_with:
   prompts: [plan-ml-experiment, choose-ml-approach]

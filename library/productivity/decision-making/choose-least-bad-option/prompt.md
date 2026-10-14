@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [harm-reduction, dilemmas, mitigation, reversibility, hard-choices]
 pairs_with:
   prompts: [make-ethical-decision, check-worst-case-downside, widen-a-narrow-choice]

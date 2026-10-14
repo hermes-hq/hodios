@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [service-reminders, repeat-bookings, seasonal-demand, trades, merge-fields]
 pairs_with:
   prompts: [map-email-automation-flows, write-sms-campaign, write-post-purchase-emails]

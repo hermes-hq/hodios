@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [memo, staff-instructions, internal-communication, procedure, memo-format]
 pairs_with:
   prompts: [write-internal-announcement, write-sop, write-decision-memo]

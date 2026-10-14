@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ai-assisted-writing, stock-phrases, voice-matching, de-slop]
 pairs_with:
   prompts: [tighten-prose, rewrite-for-tone, proofread-text]

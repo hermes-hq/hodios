@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [experimentation-culture, pre-registration, experiment-review, results-archive, test-governance, a-b-testing]
 pairs_with:
   prompts: [design-ab-test, define-guardrail-metrics, write-experiment-readout, build-experiment-backlog]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [game-builds, build-automation, asset-cache, crash-symbols, playtest-builds, console-builds]
 pairs_with:
   prompts: [design-ci-cd-pipeline, speed-up-ci-pipeline]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [personas, research-synthesis, behavioural-segmentation, jobs-to-be-done]
 pairs_with:
   prompts: [build-user-journey-map, synthesize-usability-findings, design-diary-study]

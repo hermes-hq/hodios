@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dto-validation, guards, dependency-injection, e2e-tests, rest-api]
 pairs_with:
   prompts: [build-rest-endpoint, implement-role-based-access]

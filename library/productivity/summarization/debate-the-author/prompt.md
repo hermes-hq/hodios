@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [critical-reading, argument-testing, debate-practice, active-reading]
 pairs_with:
   prompts: [audit-argument-evidence, find-logical-fallacies, steelman-opposing-view]

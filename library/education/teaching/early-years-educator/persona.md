@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [early-years, early-childhood, play-based-learning, preschool, child-development, family-partnership]
 pairs_with:
   prompts: [plan-early-years-activity, write-learning-story, plan-sel-lesson, plan-phonics-lesson]

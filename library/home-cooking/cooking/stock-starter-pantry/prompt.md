@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pantry-staples, new-kitchen, moving-house, grocery-list, food-storage, budget-meals]
 pairs_with:
   prompts: [learn-cuisine-basics, plan-weekly-meals, plan-dorm-meals, plan-budget-meals]

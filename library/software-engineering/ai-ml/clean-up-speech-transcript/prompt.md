@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [speech-to-text, asr-post-processing, transcript-cleanup, diarization, punctuation-restoration]
 pairs_with:
   prompts: [summarize-meeting-transcript, redact-personal-data, edit-transcript-into-article]

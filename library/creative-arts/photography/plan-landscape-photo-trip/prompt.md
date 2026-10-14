@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [landscape-photography, golden-hour, location-scouting, outdoor-safety, photo-trip]
 pairs_with:
   prompts: [choose-camera-settings, plan-photo-project, edit-photo-step-by-step]

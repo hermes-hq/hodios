@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chat-ui, markdown-rendering, message-state, auto-scroll, regenerate]
 pairs_with:
   prompts: [implement-llm-streaming, implement-chat-history-management, make-chat-interface-accessible, design-chat-interface]

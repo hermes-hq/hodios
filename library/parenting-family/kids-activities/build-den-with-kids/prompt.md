@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [den-building, blanket-fort, outdoor-play, construction-play, teamwork, screen-free]
 pairs_with:
   prompts: [plan-rainy-day-activities, plan-backyard-campout, plan-nature-walk-activities]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [research-integrity, paper-mills, data-anomalies, grim-test, image-integrity, manuscript]
 pairs_with:
   prompts: [write-misconduct-concern-to-editor, review-statistical-methods, write-peer-review]

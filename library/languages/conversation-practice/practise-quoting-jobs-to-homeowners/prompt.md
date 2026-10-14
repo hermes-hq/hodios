@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trades, quoting, homeowner-visits, plain-explanations, haggling]
 pairs_with:
   prompts: [practise-building-site-communication, practise-negotiating-with-client-in-language, practise-conversation-strategies]

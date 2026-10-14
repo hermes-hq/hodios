@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [editorial-workflow, approvals, kanban, raci, standup, file-management]
 pairs_with:
   prompts: [plan-content-calendar, write-editorial-guidelines, plan-content-repurposing-system]

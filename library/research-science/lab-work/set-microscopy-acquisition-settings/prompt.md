@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fluorescence-microscopy, image-acquisition, saturation, bleed-through, image-quantification]
 pairs_with:
   prompts: [plan-bench-experiment, design-scientific-figures, write-lab-notebook-entry]

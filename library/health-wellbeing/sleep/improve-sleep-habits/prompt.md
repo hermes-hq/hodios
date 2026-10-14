@@ -20,7 +20,8 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
-tags: [cbt-i, sleep-diary, sleep-efficiency, routines]
+depth: specific
+tags: [cbt-i, sleep-diary, sleep-efficiency, routines, sleep-better, cant-sleep]
 pairs_with:
   prompts: [guide-breathing-exercise, check-burnout-signs]
   personas: [sleep-coach]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [accidental-product-owner, discovery-basics, coaching, problem-framing, learning-by-doing]
 pairs_with:
   prompts: [write-problem-statement, write-customer-interview-guide, synthesize-customer-interviews, translate-request-into-problem]

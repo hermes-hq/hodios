@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [booking-terms, deposits, cancellation-terms, no-show-fees, rescheduling]
 pairs_with:
   prompts: [set-up-appointment-booking-system, reduce-appointment-no-shows, write-refund-policy]

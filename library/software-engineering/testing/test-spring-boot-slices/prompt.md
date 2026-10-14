@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [context-caching, mockmvc, slice-tests, testcontainers, junit5]
 pairs_with:
   prompts: [write-integration-tests, write-api-endpoint-tests, speed-up-test-suite]

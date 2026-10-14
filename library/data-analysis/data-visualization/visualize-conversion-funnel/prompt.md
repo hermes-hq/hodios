@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [funnel-chart, conversion-rate, product-analytics, chart-design]
 pairs_with:
   prompts: [analyze-conversion-funnel, visualize-ranking, design-kpi-cards]

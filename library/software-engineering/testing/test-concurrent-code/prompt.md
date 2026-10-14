@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [concurrency, race-condition, thread-safety, stress-testing]
 pairs_with:
   prompts: [debug-race-condition, test-asynchronous-code, find-lock-contention]

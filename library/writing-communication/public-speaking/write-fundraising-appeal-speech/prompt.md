@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gala, live-appeal, paddle-raise, donor-ask, charity-dinner]
 pairs_with:
   prompts: [plan-fundraising-event, write-donor-appeal, script-filmed-fundraising-appeal]

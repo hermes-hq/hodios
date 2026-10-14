@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [socratic-seminar, student-discussion, fishbowl, close-reading, speaking-and-listening]
 pairs_with:
   prompts: [generate-discussion-questions, create-rubric, design-self-and-peer-assessment]

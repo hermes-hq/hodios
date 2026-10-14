@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [percentages, multipliers, reverse-percentages, percentage-change, compound-growth, discounts]
 pairs_with:
   prompts: [practise-ratio-and-proportion, set-up-word-problem, practise-estimation-and-sense-checking]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pyproject-toml, build-backend, lockfile, entry-points, src-layout, reproducibility]
 pairs_with:
   prompts: [upgrade-major-dependency]

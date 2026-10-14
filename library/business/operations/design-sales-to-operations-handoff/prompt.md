@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [order-handoff, job-intake, sales-handover, order-to-delivery, process-design]
 pairs_with:
   prompts: [write-customer-quote, map-business-process, build-raci-matrix]

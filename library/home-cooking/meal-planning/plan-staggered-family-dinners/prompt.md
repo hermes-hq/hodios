@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [after-school-activities, eating-in-shifts, reheatable-meals, keep-warm, busy-evenings, family-dinners]
 pairs_with:
   prompts: [plan-weekly-meals, coordinate-family-calendar, plan-slow-cooker-week]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iupac-naming, organic-chemistry, functional-groups, isomers, skeletal-formula, condensed-formula]
 pairs_with:
   prompts: [practise-organic-mechanism-questions, practise-lewis-structures]

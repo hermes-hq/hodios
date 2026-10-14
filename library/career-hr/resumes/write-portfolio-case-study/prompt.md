@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [portfolio, case-study, design-process, storytelling, impact]
 pairs_with:
   prompts: [prepare-star-stories, review-resume]

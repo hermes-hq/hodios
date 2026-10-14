@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [illustration, creative-brief, commissioning, usage-rights, freelance-creatives]
 pairs_with:
   prompts: [write-design-brief, create-mood-board, design-book-cover-brief, review-creative-rights-contract]

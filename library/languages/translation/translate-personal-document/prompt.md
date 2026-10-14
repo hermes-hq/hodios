@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [certified-translation, sworn-translation, official-documents, moving-abroad, transcripts]
 pairs_with:
   prompts: [review-translation, check-travel-requirements]

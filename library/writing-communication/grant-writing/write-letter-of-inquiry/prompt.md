@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [letter-of-inquiry, foundation-funding, funder-fit, concept-note]
 pairs_with:
   prompts: [write-grant-application, write-grant-budget-narrative, write-case-for-support]

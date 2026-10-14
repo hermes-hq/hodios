@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lead-scoring, marketing-qualified-lead, crm, b2b-marketing, lead-routing]
 pairs_with:
   prompts: [qualify-leads, write-marketing-sales-sla, build-ideal-customer-profile, plan-b2b-demand-generation]

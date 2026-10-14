@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-series, editorial-planning, hub-page, internal-linking, reader-retention]
 pairs_with:
   prompts: [generate-blog-post-ideas, write-pillar-page, write-blog-post-draft]

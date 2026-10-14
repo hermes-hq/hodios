@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lms, canvas, moodle, course-navigation, online-course-structure, start-here-page]
 pairs_with:
   prompts: [write-course-welcome-message, write-course-syllabus, review-course-for-udl]

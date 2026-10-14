@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maps, store-locator, location, pins-and-clusters, list-and-map]
 pairs_with:
   prompts: [design-permission-requests, make-interactive-map-accessible, design-location-based-search, design-search-experience]

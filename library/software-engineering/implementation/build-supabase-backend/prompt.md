@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [row-level-security, baas, postgres-policies, auth, migrations]
 args:
   - name: app_data

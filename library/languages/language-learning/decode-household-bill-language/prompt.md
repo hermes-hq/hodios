@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [household-bills, utilities, bill-vocabulary, newcomers, reading-skills, payment-terms]
 pairs_with:
   prompts: [handle-foreign-language-letter, learn-form-filling-vocabulary, gloss-authentic-text]

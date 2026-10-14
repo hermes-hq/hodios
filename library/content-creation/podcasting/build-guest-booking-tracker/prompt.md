@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [guest-booking, pipeline, follow-ups, csv, production-tracking]
 pairs_with:
   prompts: [write-podcast-guest-pitch, write-guest-prep-packet, plan-podcast-season]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [support-ticket, bug-report, help-desk, steps-to-reproduce, escalation]
 pairs_with:
   prompts: [explain-error-message, troubleshoot-home-wifi]

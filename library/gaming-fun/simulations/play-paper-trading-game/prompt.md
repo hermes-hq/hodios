@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [market-game, paper-portfolio, diversification, volatility, trading-fees]
 pairs_with:
   prompts: [play-money-life-game, explain-investment-concept]

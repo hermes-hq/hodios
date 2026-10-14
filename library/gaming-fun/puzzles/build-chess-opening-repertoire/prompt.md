@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chess, chess-openings, repertoire, study-plan, chess-improvement]
 pairs_with:
   prompts: [analyze-chess-game]

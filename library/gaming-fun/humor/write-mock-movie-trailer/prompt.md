@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trailer-parody, voiceover, family-video, team-video, video-editing]
 pairs_with:
   prompts: [narrate-life-as-nature-documentary, write-mock-press-release]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [buying-used, second-hand, activation-lock, battery-health, imei-check]
 pairs_with:
   prompts: [choose-computer-specs, switch-phones, check-online-shop-legitimacy]

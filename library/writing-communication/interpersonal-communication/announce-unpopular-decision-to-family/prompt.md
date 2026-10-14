@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [life-decisions, family-reactions, announcements, independence, extended-family]
 pairs_with:
   prompts: [prepare-difficult-conversation, set-boundary, navigate-family-gathering-tension]

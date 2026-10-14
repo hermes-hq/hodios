@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [self-assessment, hmrc, sole-trader, payments-on-account, united-kingdom, sa100]
 pairs_with:
   prompts: [organize-tax-documents, plan-freelance-tax-set-aside, track-business-expenses, explain-tax-notice]

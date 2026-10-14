@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iis, windows-server, aspnet-core, app-pool, release-script]
 pairs_with:
   prompts: [deploy-to-vps, set-up-domain-and-https, write-github-actions-workflow]

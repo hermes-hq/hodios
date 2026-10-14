@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [platform-migration, email-software, suppression-lists, cutover-plan, flow-rebuild]
 pairs_with:
   prompts: [choose-email-platform, warm-up-sending-domain, map-email-automation-flows]

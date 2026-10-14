@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-lifetime-value, ltv, cohorts, gross-margin, cac-payback]
 pairs_with:
   prompts: [build-cohort-analysis, segment-customers, model-unit-economics, analyze-customer-profitability]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rest-api, payload-size, compression, serialization, pagination]
 pairs_with:
   prompts: [configure-cdn-caching, fix-n-plus-one-queries, improve-web-vitals]

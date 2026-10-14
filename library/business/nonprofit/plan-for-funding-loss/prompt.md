@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [nonprofit]
 tags: [funding-cuts, scenario-planning, cash-runway, service-continuity, crisis-planning]
 pairs_with:

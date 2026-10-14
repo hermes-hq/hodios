@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [computer-vision, transfer-learning, image-classification, data-augmentation]
 pairs_with:
   prompts: [plan-ml-experiment, write-pytorch-training-loop, review-training-data]

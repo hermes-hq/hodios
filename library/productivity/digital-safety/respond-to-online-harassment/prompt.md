@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [online-harassment, cyberbullying, doxxing, evidence-log, block-and-report]
 pairs_with:
   prompts: [lock-down-social-privacy, reduce-online-footprint, check-phone-for-stalkerware]

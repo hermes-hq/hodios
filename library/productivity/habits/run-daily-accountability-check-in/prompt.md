@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [accountability, daily-check-in, goal-tracking, consistency, streaks]
 pairs_with:
   prompts: [design-habit-plan, plan-30-day-challenge, set-woop-goals]

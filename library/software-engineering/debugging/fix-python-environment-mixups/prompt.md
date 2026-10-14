@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [virtualenv, pip, conda, pyenv, interpreters]
 pairs_with:
   prompts: [fix-module-import-error, fix-package-install-failure, fix-cuda-setup-error]

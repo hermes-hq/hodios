@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [message-queues, idempotency, at-least-once, dead-letter, pull-request]
 pairs_with:
   personas: [code-reviewer]

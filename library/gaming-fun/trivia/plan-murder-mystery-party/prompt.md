@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [murder-mystery, dinner-party, party-game, whodunit, character-sheets, host-guide]
 pairs_with:
   prompts: [host-trivia-night, create-escape-room-puzzles]

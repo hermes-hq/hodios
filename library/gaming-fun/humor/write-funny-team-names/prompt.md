@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [team-names, pub-quiz, fantasy-league, fun-run, team-spirit]
 pairs_with:
   prompts: [write-puns, host-trivia-night]

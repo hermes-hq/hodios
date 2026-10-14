@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [props, stage-management, prop-tables, pre-set, production-planning]
 pairs_with:
   prompts: [build-costume-plot, write-rehearsal-report, plan-community-theatre-production]

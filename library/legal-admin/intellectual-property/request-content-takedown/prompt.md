@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [takedown-notice, dmca, content-theft, plagiarism, image-theft]
 pairs_with:
   prompts: [respond-to-copyright-claim, apply-for-trademark, write-complaint-letter]

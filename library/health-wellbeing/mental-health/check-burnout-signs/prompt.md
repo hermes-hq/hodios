@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [burnout, workload, boundaries, recovery, work-life]
 pairs_with:
   prompts: [build-coping-plan, improve-sleep-habits, prepare-for-therapy, practice-self-compassion]

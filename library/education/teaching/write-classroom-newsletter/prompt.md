@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-engagement, school-home-communication, plain-language, translation-friendly, home-learning]
 pairs_with:
   prompts: [write-parent-email, prepare-parent-teacher-conference, write-bilingual-newsletter-issue]

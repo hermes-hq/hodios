@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retractions, reference-checking, research-integrity, expression-of-concern, citations]
 pairs_with:
   prompts: [verify-citations, check-wiki-article-sources, evaluate-source-credibility]

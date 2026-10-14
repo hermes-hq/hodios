@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [legacy-letter, ethical-will, family-stories, letter-writing]
 pairs_with:
   prompts: [shape-memoir-story, write-family-history, interview-relative-for-oral-history]

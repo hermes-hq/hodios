@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bad-plot-summaries, films, books, tv-shows, pop-culture, guessing-game]
 pairs_with:
   prompts: [play-emoji-guessing-game, play-two-truths-and-a-lie]

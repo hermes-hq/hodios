@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [creative-brief, freelance-copywriter, agency-brief, briefing, review-process]
 pairs_with:
   prompts: [write-campaign-brief, build-proof-bank, write-messaging-framework, critique-marketing-copy]

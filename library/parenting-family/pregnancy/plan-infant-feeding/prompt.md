@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [breastfeeding, formula-feeding, combination-feeding, expressing, infant-feeding]
 pairs_with:
   prompts: [plan-newborn-routine, plan-pumping-for-return-to-work]

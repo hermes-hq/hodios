@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [newsletter-launch, reader-promise, welcome-email, subscriber-growth, launch-plan]
 pairs_with:
   prompts: [plan-newsletter-format, write-newsletter-welcome-email, write-newsletter-issue, grow-newsletter]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tax-loss-harvesting, capital-gains, wash-sale, cost-basis]
 pairs_with:
   prompts: [explain-tax-on-investments, explain-rebalancing, explain-marginal-tax-rates]

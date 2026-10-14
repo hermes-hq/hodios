@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [triathlon, cycling, swimming, periodization, taper, endurance]
 pairs_with:
   prompts: [plan-sports-nutrition, track-fitness-progress, assess-fitness-baseline, plan-running-program]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [macro-photography, close-up-photography, focus-stacking, depth-of-field, insect-photography]
 pairs_with:
   prompts: [plan-wildlife-photography, choose-camera-settings, choose-camera-gear]

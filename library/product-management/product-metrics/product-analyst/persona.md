@@ -16,6 +16,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-analytics, decision-support, data-quality, causal-thinking, metric-definitions, experiment-reading]
 pairs_with:
   prompts: [diagnose-metric-drop, analyze-conversion-funnel, define-feature-success-metrics, design-ab-test, challenge-feature-retention-correlation]

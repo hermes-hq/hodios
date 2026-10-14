@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [throughput, monte-carlo, probabilistic-forecast, delivery-dates, uncertainty]
 pairs_with:
   prompts: [critique-roadmap, write-roadmap-update, plan-release]

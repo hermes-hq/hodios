@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [web-forms, input-validation, schema-validation, error-messages, wcag]
 pairs_with:
   prompts: [fix-form-accessibility, design-form-experience, build-ui-component, build-rest-endpoint]

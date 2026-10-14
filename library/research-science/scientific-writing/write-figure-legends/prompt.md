@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [figure-captions, error-bars, manuscript, reproducibility, journal-submission]
 pairs_with:
   prompts: [design-scientific-figures, write-results-section, write-methods-section]

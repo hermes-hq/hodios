@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [custom-assistant, gpt-builder, knowledge-files, conversation-starters]
 pairs_with:
   prompts: [prepare-knowledge-files, build-project-instructions, write-system-prompt]

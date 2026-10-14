@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [world-cuisines, technique, flavour-balance, pantry-staples, food-culture]
 pairs_with:
   prompts: [teach-cooking-technique, stock-starter-pantry, plan-learning-to-cook, recreate-restaurant-dish]

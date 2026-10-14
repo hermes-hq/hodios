@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [openssf, scorecard, pinned-dependencies, token-permissions, software-supply-chain, security-policy]
 pairs_with:
   prompts: [harden-maintainer-accounts, review-ci-pipeline-security, configure-dependency-update-bot]

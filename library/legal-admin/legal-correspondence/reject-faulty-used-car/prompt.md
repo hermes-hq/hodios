@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-dealer, faulty-vehicle, consumer-rights, right-to-reject, car-finance]
 pairs_with:
   prompts: [review-car-purchase-contract, dispute-card-charge, complain-to-ombudsman]

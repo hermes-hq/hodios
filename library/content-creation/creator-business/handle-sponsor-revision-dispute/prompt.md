@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sponsor-revisions, scope-creep, creative-approval, payment-withheld, brand-relations]
 pairs_with:
   prompts: [build-creator-rate-card, review-sponsorship-contract]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [contingency-plan, carers, emergency-plan, carer-card, backup-carers]
 pairs_with:
   prompts: [write-care-profile, build-care-rota, prepare-emergency-medical-summary]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mixed-effects, hierarchical-model, lme4, random-effects]
 pairs_with:
   prompts: [run-regression-analysis, interpret-regression-output, write-statistical-analysis-plan]

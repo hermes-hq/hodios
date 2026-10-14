@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [feature-naming, product-naming, naming-conventions, ux-writing]
 pairs_with:
   prompts: [name-brand, vet-brand-name, write-launch-announcement, plan-product-launch]

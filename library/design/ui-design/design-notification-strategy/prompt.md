@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [notifications, push-notifications, notification-preferences, engagement, lifecycle-messaging]
 pairs_with:
   prompts: [write-ux-microcopy, design-onboarding-flow]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tax-audit, tax-inquiry, record-keeping, tax-authority, deadlines]
 pairs_with:
   prompts: [explain-tax-notice, organize-tax-documents, track-business-expenses]

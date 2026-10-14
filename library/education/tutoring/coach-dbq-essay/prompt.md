@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dbq, ap-history, sourcing, contextualisation, thesis, historical-argument]
 pairs_with:
   prompts: [analyze-primary-source, practice-ap-free-response, give-essay-feedback]

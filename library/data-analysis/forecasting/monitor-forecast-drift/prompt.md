@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tracking-signal, forecast-bias, model-monitoring, exception-management]
 pairs_with:
   prompts: [measure-forecast-accuracy, forecast-cycle-track, document-forecast-model]

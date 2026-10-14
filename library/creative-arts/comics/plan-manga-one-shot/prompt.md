@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [manga-contest, one-shot, contest-entry, short-comics, story-structure]
 pairs_with:
   prompts: [thumbnail-comic-page, write-comic-script, write-character-model-sheet-brief]

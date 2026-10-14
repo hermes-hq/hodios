@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [joint-decision, interests, deal-breakers, compromise, couples]
 pairs_with:
   prompts: [widen-a-narrow-choice, make-life-decision, make-group-decision]

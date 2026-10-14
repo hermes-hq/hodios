@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [account-health, seller-performance, order-defect-rate, late-shipment, policy-compliance, amazon, ebay]
 pairs_with:
   prompts: [write-marketplace-suspension-appeal, handle-listing-hijackers, check-product-listing-compliance]

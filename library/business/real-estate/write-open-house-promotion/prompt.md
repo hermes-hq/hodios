@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [open-house, property-viewing, fair-housing, neighbour-invite, flyer]
 pairs_with:
   prompts: [write-real-estate-listing, write-listing-presentation, write-rental-listing, write-event-promo-copy]

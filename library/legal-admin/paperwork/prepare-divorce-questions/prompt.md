@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [divorce, separation, child-arrangements, financial-disclosure, mediation, family-law]
 pairs_with:
   prompts: [prepare-name-change, organize-important-documents, prepare-will-questions, plan-separation-finances, plan-co-parenting]

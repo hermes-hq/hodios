@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-budget, total-cost-of-ownership, cost-estimation, contingency, business-case, maintenance-cost]
 pairs_with:
   prompts: [estimate-with-ranges, estimate-team-size-for-project, estimate-from-past-projects]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [podcast-growth, feed-swap, podcast-clips, discoverability, cross-promotion]
 pairs_with:
   prompts: [write-podcast-guest-pitch, write-guest-promo-kit, analyze-content-performance]

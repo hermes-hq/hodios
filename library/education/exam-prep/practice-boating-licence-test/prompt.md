@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [boating-licence, colregs, navigation-lights, buoyage, water-safety, sailing]
 pairs_with:
   prompts: [prepare-certification-exam, create-memory-aids]

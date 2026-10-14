@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [team-topologies, team-structure, conways-law, ownership-boundaries, org-design, scaling-teams]
 pairs_with:
   prompts: [map-system-ownership, reduce-bus-factor]

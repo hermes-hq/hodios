@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [headless-cms, content-modeling, editorial-workflow, content-preview, jamstack, trade-offs]
 pairs_with:
   personas: [software-architect, frontend-engineer]

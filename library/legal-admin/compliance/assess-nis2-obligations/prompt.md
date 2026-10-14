@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [nis2, cybersecurity-regulation, incident-reporting, essential-entities, supply-chain-security, eu-law]
 pairs_with:
   prompts: [assess-ai-act-obligations, plan-data-breach-response, write-information-security-policy, prepare-iso-27001-readiness]

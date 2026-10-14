@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [houseplants, indoor-plants, watering, plant-care, pet-safe-plants]
 pairs_with:
   prompts: [diagnose-plant-problem]

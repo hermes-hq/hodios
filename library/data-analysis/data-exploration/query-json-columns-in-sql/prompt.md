@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [json, semi-structured-data, unnest, flatten, analytics-sql]
 pairs_with:
   prompts: [answer-question-with-sql, explore-dataset]

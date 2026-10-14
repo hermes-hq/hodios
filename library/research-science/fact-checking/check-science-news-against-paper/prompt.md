@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [science-journalism, spin, relative-risk, causal-language, anti-hype]
 pairs_with:
   prompts: [fact-check-claims, check-statistics-in-article, read-paper-with-me, explain-research-to-public]

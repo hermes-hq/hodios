@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wall-paint, primer, paint-quantities, surface-prep, sheen, lead-paint]
 pairs_with:
   prompts: [choose-paint-colours, plan-diy-project, repair-wall-holes]

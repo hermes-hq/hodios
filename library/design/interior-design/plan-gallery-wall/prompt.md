@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wall-art, picture-hanging, gallery-wall, styling]
 args:
   - name: wall

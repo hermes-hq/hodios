@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [self-employment, niche, portfolio, client-acquisition, first-90-days]
 pairs_with:
   prompts: [price-services, find-first-customers, write-elevator-pitch, plan-freelance-tax-set-aside]

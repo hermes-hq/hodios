@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [university-application, admissions-enquiry, financial-aid, student-visa, applicant-id]
 pairs_with:
   prompts: [write-email-to-professor, appeal-university-decision, request-information-by-email]

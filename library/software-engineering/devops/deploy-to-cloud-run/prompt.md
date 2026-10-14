@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cloud-run, serverless-containers, secret-manager, traffic-splitting, service-identity]
 pairs_with:
   prompts: [build-container-image-in-ci, set-up-keyless-ci-deploys, choose-app-hosting]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rate-card, usage-rights, deal-negotiation, sponsorship-pricing]
 pairs_with:
   prompts: [write-media-kit, pitch-brand-sponsorship, plan-creator-monetization]

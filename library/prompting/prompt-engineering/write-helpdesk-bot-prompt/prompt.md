@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-helpdesk, hr-policy, it-support, policy-citations, human-handoff]
 pairs_with:
   prompts: [write-system-prompt, reduce-hallucinations-in-prompt, write-conversation-test-scripts]

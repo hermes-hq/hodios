@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [financial-modelling, named-ranges, model-checks, scenarios]
 pairs_with:
   prompts: [write-spreadsheet-formula, define-metric]

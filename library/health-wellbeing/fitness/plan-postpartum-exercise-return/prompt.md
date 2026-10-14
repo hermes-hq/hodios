@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [after-birth, pelvic-floor, diastasis-recti, return-to-running, postnatal]
 pairs_with:
   prompts: [plan-return-to-training, design-pilates-session, start-walking-program]

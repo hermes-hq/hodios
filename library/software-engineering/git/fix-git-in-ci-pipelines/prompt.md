@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shallow-clone, fetch-depth, detached-head, safe-directory, submodules]
 pairs_with:
   prompts: [triage-failing-ci, explain-git-error, grant-ci-access-to-private-repos]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [form-fields, validation-rules, error-messages, requirements]
 pairs_with:
   prompts: [implement-form-validation, design-international-address-and-name-fields, write-acceptance-criteria]

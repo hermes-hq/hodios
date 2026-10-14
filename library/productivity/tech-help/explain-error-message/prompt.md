@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [error-message, plain-language, fix-steps, scam-popup, troubleshooting-steps]
 pairs_with:
   prompts: [write-tech-support-request, speed-up-slow-computer]

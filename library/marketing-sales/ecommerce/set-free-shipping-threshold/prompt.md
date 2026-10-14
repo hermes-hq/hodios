@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [free-shipping, average-order-value, shipping-costs, margin, basket-size, ab-testing]
 pairs_with:
   prompts: [write-shipping-policy-page, plan-order-fulfilment, plan-cross-sells-and-upsells]

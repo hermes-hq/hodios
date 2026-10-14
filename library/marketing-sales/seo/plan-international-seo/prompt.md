@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [international-seo, hreflang, geo-targeting, multilingual-sites, market-expansion]
 pairs_with:
   prompts: [research-keywords, build-localization-glossary, plan-site-migration-seo, audit-technical-seo]

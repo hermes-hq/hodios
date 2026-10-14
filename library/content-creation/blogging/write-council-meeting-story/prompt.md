@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [local-news, civic-reporting, public-meetings, roll-call-vote, attribution]
 pairs_with:
   prompts: [write-news-story, write-article-headlines-and-standfirsts, prepare-to-speak-at-public-meeting]

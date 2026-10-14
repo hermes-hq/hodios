@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [travel-grant, conference-funding, research-visit, early-career, small-grant]
 pairs_with:
   prompts: [write-fellowship-application, write-grant-budget-narrative]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependencies, outdated-packages, semver, lockfile, update-automation, vulnerabilities]
 pairs_with:
   prompts: [upgrade-major-dependency, inventory-deprecated-api-usage]

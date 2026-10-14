@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sbom, software-supply-chain, cyclonedx, spdx, ci]
 pairs_with:
   prompts: [sign-release-artifacts, audit-dependencies, add-security-scanning-to-ci, audit-dependency-licenses]

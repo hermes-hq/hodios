@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [release-tracking, cherry-pick, patch-id, tag-contains, support-questions]
 pairs_with:
   prompts: [backport-fix-to-release-branches, investigate-code-history, cut-hotfix-from-release-tag]

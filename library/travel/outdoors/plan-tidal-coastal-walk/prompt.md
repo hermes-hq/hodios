@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [tides, tidal-causeway, coastal-walking, cut-off-risk, quicksand, estuary-sands]
 pairs_with:
   prompts: [write-trip-intentions-plan, set-turnaround-time, plan-family-hike]

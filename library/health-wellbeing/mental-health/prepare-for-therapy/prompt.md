@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [therapy, finding-a-therapist, first-session, counselling]
 pairs_with:
   prompts: [build-coping-plan, prepare-doctor-questions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multi-perspective, plan-critique, devils-advocate, sycophancy, reusable-prompt]
 pairs_with:
   prompts: [run-six-thinking-hats, write-judge-prompt, red-team-prompt]

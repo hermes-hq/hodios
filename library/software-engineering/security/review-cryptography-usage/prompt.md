@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cryptography, crypto-misuse, password-hashing, randomness, tls-verification]
 pairs_with:
   prompts: [plan-data-encryption, review-auth-flow, review-pr-for-security]

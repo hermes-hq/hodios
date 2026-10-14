@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [skip-level, manager-of-managers, organisational-health, listening-sessions, leadership-communication]
 pairs_with:
   prompts: [plan-one-on-one, run-stay-interview, plan-engagement-survey-actions]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-players, learn-to-play, practice-scene, game-mastering]
 pairs_with:
   prompts: [build-rpg-character, run-session-zero]

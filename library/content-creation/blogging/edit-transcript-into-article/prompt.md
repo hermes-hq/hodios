@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [transcript-editing, interview-article, q-and-a, quote-accuracy, repurposing]
 pairs_with:
   prompts: [write-show-notes, repurpose-video-into-posts, write-blog-post-draft]

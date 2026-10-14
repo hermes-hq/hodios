@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [moth-trapping, moths, insects, wildlife-recording, garden-wildlife, nature-study]
 pairs_with:
   prompts: [plan-birdwatching-outing]

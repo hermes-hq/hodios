@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [strangler-fig, contract-tests, asgi, api-compatibility]
 pairs_with:
   prompts: [migrate-pydantic-v1-to-v2, plan-incremental-migration, review-fastapi-change]

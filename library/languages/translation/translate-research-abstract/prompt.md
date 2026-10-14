@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [academic-translation, abstracts, keywords, scholarly-publishing]
 pairs_with:
   prompts: [build-translation-glossary, review-translation, back-translate-to-verify]

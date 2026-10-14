@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [overdue-replies, catch-up, owed-replies, response-backlog, guilt-pile, correspondence]
 pairs_with:
   prompts: [reply-after-long-delay, triage-inbox, track-waiting-for-items]

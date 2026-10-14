@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [personalised-story, story-series, read-aloud, continuity, story-bible, milestones]
 pairs_with:
   personas: [bedtime-storyteller]

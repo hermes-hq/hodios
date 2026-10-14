@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [buildkit, build-errors, multi-stage-builds, image-builds]
 pairs_with:
   prompts: [review-dockerfile, triage-failing-ci]

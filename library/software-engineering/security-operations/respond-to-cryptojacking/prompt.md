@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cryptomining, cloud-incident, iam-keys, billing-anomaly, persistence-removal]
 stack: [aws, gcp, azure, kubernetes]
 pairs_with:

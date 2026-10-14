@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [survival-game, wilderness, resource-management, outdoor-skills]
 args:
   - name: environment

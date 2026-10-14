@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [agent-evaluation, benchmark-design, hidden-tests, cost-tracking, tool-selection]
 pairs_with:
   prompts: [plan-coding-agent-rollout, review-agent-transcript, make-issue-agent-ready]

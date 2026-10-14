@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [discount-policy, deal-approval, price-discipline, margin-protection, sales-governance]
 pairs_with:
   prompts: [calculate-discount-break-even, analyze-price-realisation, find-pricing-leakage, design-pricing]

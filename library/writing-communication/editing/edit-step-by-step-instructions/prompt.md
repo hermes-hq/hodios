@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [instructions, how-to, followability, procedures, clarity]
 pairs_with:
   prompts: [review-document-for-ambiguity, write-how-to-guide, simplify-to-plain-language]

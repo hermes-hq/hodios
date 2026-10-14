@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [magic-tricks, close-up-magic, running-order, patter, magic-performance, stage-presence]
 pairs_with:
   prompts: [learn-close-up-magic]

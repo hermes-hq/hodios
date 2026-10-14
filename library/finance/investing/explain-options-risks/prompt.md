@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [options-trading, derivatives, leverage, cfds, payoff-diagram]
 pairs_with:
   prompts: [explain-investment-concept, explain-equity-compensation, spot-investment-scam, evaluate-stock-tip]

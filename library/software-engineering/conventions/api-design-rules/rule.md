@@ -7,6 +7,7 @@ description: Rules for HTTP APIs covering resource naming, status codes, problem
 category: conventions
 version: 1.0.0
 status: experimental
+depth: specific
 stage: [design, build]
 role: [backend-engineer, fullstack-engineer, architect, software-engineer]
 requires: [none]

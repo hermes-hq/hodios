@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [batch-processing, bulk-insert, incremental-processing, throughput, job-runtime]
 pairs_with:
   prompts: [fix-n-plus-one-queries, optimize-sql-query, speed-up-dataframe-code, move-cron-jobs-to-orchestrator]

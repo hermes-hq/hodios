@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [fat-models, service-objects, domain-logic, active-record-pattern, transactions]
 pairs_with:
   prompts: [move-logic-out-of-controllers, remove-rails-model-callbacks, move-behaviour-to-its-data, decouple-for-testability]

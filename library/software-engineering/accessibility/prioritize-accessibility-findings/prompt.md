@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audit-remediation, triage, design-system-fixes, root-cause, wcag]
 pairs_with:
   personas: [accessibility-specialist]

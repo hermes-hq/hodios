@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [iam, least-privilege, privilege-escalation, cloud-security]
 pairs_with:
   prompts: [review-iac-plan, threat-model-feature]

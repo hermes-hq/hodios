@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [menu-change, seasonal-menu, recipe-costing, menu-launch, staff-tasting, allergens]
 pairs_with:
   prompts: [engineer-restaurant-menu, cost-menu-dish, write-dish-spec-sheet, build-allergen-matrix, write-menu-descriptions]

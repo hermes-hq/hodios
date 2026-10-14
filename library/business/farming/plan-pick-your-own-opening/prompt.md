@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [pick-your-own, farm-visitors, visitor-flow, farm-diversification, signage]
 pairs_with:
   prompts: [price-farm-gate-produce, plan-farm-open-day, plan-signage, write-farm-safety-induction]

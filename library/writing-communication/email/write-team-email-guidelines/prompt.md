@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [communication-norms, response-times, reply-all, after-hours, team-agreement]
 pairs_with:
   prompts: [write-team-charter, write-meeting-ground-rules, triage-inbox]

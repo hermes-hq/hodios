@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [woocommerce, page-cache, object-cache, plugin-audit, ttfb]
 pairs_with:
   prompts: [improve-web-vitals, optimize-images-for-web, tame-third-party-scripts]

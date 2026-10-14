@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wedding-vows, wedding, personal-vows, speech-writing, read-aloud]
 pairs_with:
   prompts: [plan-wedding]

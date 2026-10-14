@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [page-speed, web-vitals, site-builders, plain-language]
 pairs_with:
   prompts: [improve-web-vitals, audit-technical-seo]

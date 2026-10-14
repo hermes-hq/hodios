@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [launch-plan, offer-design, business-setup, launch-marketing, first-90-days]
 pairs_with:
   prompts: [price-services, find-first-customers, write-business-plan, plan-online-store, plan-market-stall]

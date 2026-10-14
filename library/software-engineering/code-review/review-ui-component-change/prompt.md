@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ui-components, ui-states, re-renders, design-tokens, responsive]
 pairs_with:
   prompts: [review-pull-request, build-ui-component, audit-web-accessibility]

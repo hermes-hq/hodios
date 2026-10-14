@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [forage-budget, winter-feeding, silage, dry-matter, feed-shortfall, housing]
 pairs_with:
   prompts: [estimate-farm-stocking-rate, plan-paddock-grazing-rotation, plan-calving-season]

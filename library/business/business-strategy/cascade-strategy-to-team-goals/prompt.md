@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [goal-cascade, alignment, team-goals, cross-team-dependencies, strategy-execution]
 pairs_with:
   prompts: [set-okrs, build-strategy-map, build-strategy-presentation, build-annual-operating-plan]

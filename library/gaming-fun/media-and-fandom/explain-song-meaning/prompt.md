@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [song-meaning, lyrics-interpretation, concept-albums, music-history, slang]
 pairs_with:
   prompts: [discover-new-music, take-genre-listening-tour, explain-cultural-references]

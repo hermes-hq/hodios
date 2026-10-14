@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [progress-report, cefr, can-do-statements, report-comments, parent-communication]
 pairs_with:
   prompts: [write-speaking-assessment-rubric, write-report-card-comments]

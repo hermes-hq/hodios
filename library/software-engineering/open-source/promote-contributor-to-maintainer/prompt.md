@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contributor-ladder, maintainer-onboarding, access-control, succession, community-health]
 pairs_with:
   prompts: [audit-contributor-funnel, write-project-governance]

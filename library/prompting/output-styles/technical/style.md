@@ -12,6 +12,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: expert
+depth: advanced
 tags: [precision, expert-audience, terminology, information-density]
 pairs_with:
   styles: [{id: concise, level: 2}, {id: thorough, level: 3}]

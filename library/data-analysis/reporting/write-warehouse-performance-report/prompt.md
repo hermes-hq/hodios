@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [warehouse-kpis, otif, order-accuracy, fulfilment, inventory-accuracy]
 pairs_with:
   prompts: [plan-order-fulfilment, analyze-inventory-data, set-scorecard-status-thresholds, write-sla-performance-report]

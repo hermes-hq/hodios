@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [second-income, side-work, effective-hourly-rate, burnout, employment-contract]
 pairs_with:
   prompts: [check-side-income-tax-rules, decide-whether-to-say-yes, plan-side-business]

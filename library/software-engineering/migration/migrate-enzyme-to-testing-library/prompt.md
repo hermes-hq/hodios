@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [enzyme, testing-library, component-tests, user-events]
 pairs_with:
   prompts: [migrate-test-framework-track, upgrade-react-major-version]

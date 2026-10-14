@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [comic-translation, manga-localisation, relettering, sound-effects, glossary]
 pairs_with:
   prompts: [plan-comic-lettering, convert-print-comic-to-vertical-scroll, prepare-comic-print-files]

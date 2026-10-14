@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [welcome-remarks, closing-remarks, conference, ceremony, chairperson]
 pairs_with:
   prompts: [write-emcee-script, write-speaker-introduction, give-vote-of-thanks]

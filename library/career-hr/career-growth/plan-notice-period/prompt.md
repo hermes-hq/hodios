@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [resignation, handover, leaving-well, last-day]
 pairs_with:
   prompts: [write-resignation-letter, write-handover-document, prepare-for-exit-interview]

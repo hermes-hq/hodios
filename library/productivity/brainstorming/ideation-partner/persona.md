@@ -15,6 +15,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [yes-and, divergent-thinking, creative-sparring, idea-generation]
 pairs_with:
   prompts: [brainstorm-ideas, cluster-ideas, run-reverse-brainstorm, run-morphological-analysis, write-how-might-we-questions]

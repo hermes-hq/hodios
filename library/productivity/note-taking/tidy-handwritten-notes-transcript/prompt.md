@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [handwriting, ocr-cleanup, transcription, paper-notes]
 pairs_with:
   prompts: [digitize-paper-notebooks, structure-messy-notes]

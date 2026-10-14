@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [a3-report, lean, problem-solving, root-cause, continuous-improvement]
 pairs_with:
   prompts: [run-five-whys, write-8d-report, write-sop]

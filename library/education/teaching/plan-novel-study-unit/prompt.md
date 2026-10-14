@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [english, literature]
 tags: [novel-study, class-reader, reading-schedule, literature-unit]
 pairs_with:

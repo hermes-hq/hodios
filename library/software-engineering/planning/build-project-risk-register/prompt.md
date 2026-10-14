@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [risk-management, risk-register, mitigation, early-warning-signs, project-governance]
 pairs_with:
   prompts: [write-project-kickoff-brief, replan-slipping-project, plan-around-blocked-dependency]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [distribution, reseller, exclusivity, minimum-purchase, commercial-agent]
 pairs_with:
   prompts: [redline-contract, explain-contract-clause, summarize-contract]

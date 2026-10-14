@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [serious-illness, income-protection, sick-pay, benefits]
 pairs_with:
   prompts: [plan-finances-after-job-loss, build-financial-emergency-file, build-tight-budget, negotiate-with-creditor]

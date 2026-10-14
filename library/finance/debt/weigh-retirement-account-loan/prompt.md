@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [401k-loan, hardship-withdrawal, early-pension-access, retirement-savings, lost-growth]
 pairs_with:
   prompts: [find-alternatives-to-payday-loans, evaluate-debt-consolidation, estimate-tax-on-retirement-withdrawals, compare-debt-relief-options]

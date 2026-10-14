@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [school-run, active-travel, walking-bus, bike-train, road-safety, volunteer-rota]
 pairs_with:
   prompts: [plan-school-run-carpool, streamline-school-mornings, plan-child-independence-ladder]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [resolvers, dataloader, n-plus-one, authorization, api]
 pairs_with:
   prompts: [design-graphql-schema, speed-up-graphql-api, review-graphql-resolver-change]

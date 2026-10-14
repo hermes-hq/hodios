@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [focus-visible, keyboard-navigation, wcag, contrast, focus-ring]
 pairs_with:
   prompts: [fix-keyboard-navigation, support-forced-colors-mode, review-color-contrast]

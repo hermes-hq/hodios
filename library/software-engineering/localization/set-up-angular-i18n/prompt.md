@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [angular-localize, xliff, extract-i18n, per-locale-builds, message-ids]
 pairs_with:
   prompts: [extract-ui-strings, write-icu-plural-messages, choose-i18n-library]

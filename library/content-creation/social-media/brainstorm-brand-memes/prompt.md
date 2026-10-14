@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [memes, trend-jacking, brand-voice, internet-culture, risk-check]
 pairs_with:
   prompts: [adapt-trend-format, deconstruct-viral-post, handle-social-media-backlash]

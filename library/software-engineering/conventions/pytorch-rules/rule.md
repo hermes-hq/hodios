@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [deep-learning, training-loop, reproducibility, checkpoints, gpu]
 applies_to: ["**/*.py", "**/*.ipynb"]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [headlines, ab-testing, angles, conversion]
 pairs_with:
   prompts: [write-landing-page-copy, critique-marketing-copy, write-social-ad-variations]

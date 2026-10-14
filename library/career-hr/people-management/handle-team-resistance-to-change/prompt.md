@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-resistance, change-adoption, team-concerns, involvement, follow-through]
 pairs_with:
   prompts: [plan-change-communications, address-negative-attitude, write-team-charter]

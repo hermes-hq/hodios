@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fever, children, temperature, red-flags, dehydration, febrile-seizure]
 pairs_with:
   prompts: [choose-right-care-service, prepare-pediatric-visit, refresh-first-aid-knowledge]

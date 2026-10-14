@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependencies, api-usage, deprecations, pull-request]
 pairs_with:
   personas: [code-reviewer]

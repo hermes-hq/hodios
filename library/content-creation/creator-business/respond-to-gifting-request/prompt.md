@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gifted-products, pr-packages, seeding, sponsorship-disclosure, unpaid-collaboration]
 pairs_with:
   prompts: [write-sponsorship-policy-page, build-creator-rate-card, pitch-brand-sponsorship]

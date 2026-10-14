@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-blueprint, service-design, frontstage-backstage, pain-points, process-mapping]
 pairs_with:
   prompts: [build-user-journey-map, design-escalation-process, design-returns-process]

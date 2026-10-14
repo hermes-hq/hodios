@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [awareness-days, holiday-calendar, cultural-sensitivity, brand-voice]
 pairs_with:
   prompts: [brainstorm-brand-memes, plan-content-calendar, write-sale-announcement-posts]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [history, literature, philosophy, art-history]
 tags: [humanities, close-reading, thesis-statement, primary-sources, argumentation]
 pairs_with:

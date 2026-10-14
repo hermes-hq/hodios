@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [computer-science]
 tags: [low-level-design, class-design, design-patterns, machine-coding]
 pairs_with:

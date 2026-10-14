@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [review-units, embargo, product-reviews, reviewer-guide, consumer-pr, product-seeding]
 pairs_with:
   prompts: [pitch-journalist, plan-press-announcement-rollout, build-media-list, pitch-product-for-gift-guides]

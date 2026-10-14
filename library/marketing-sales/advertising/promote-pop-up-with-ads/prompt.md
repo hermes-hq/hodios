@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pop-up-shop, market-stall, event-promotion, geo-targeting, countdown, footfall]
 pairs_with:
   prompts: [plan-pop-up-shop, plan-market-stall, decide-post-boost, target-slow-day-ads]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [gyeongjosa, condolences, congratulations, kakaotalk, honorifics, envelope-wording]
 pairs_with:
   prompts: [write-condolence-message, write-card-message, write-korean-business-email]

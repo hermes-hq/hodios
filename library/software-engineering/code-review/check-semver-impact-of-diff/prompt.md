@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [semver, versioning, public-api, libraries]
 pairs_with:
   personas: [code-reviewer]

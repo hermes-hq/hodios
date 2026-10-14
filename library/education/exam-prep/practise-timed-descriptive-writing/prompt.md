@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [descriptive-writing, narrative-writing, timed-writing, spag, gcse]
 pairs_with:
   prompts: [grade-practice-answers]

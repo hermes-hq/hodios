@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [probation-review, new-hire, evidence-based, fair-process, extension]
 pairs_with:
   prompts: [coach-struggling-new-hire, write-probation-outcome-letter, design-probation-review-process]

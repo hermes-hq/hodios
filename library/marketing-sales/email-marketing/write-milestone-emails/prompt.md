@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [milestone-emails, birthday-email, customer-anniversary, lifecycle-email, personalisation]
 pairs_with:
   prompts: [write-post-purchase-emails, design-loyalty-program, write-email-sequence, plan-email-segmentation]

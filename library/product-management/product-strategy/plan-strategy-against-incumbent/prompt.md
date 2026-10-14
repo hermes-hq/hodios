@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [challenger-strategy, incumbent, wedge, switching-costs, counter-positioning]
 pairs_with:
   prompts: [choose-beachhead-segment, assess-competitive-advantage, plan-competitor-switching-campaign, write-product-strategy]

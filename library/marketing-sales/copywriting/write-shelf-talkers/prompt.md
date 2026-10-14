@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shelf-talker, staff-picks, point-of-sale, independent-shop, merchandising]
 pairs_with:
   prompts: [write-product-description, write-gift-guide, write-sandwich-board-lines, write-retail-sales-approach]

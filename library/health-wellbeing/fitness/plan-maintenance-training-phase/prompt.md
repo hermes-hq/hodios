@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [maintenance, minimum-effective-dose, busy-schedule, strength-training, detraining]
 pairs_with:
   prompts: [adjust-week-after-missed-workouts, plan-return-to-training, plan-travel-workouts]

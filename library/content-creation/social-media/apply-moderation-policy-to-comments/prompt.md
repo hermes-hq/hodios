@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-moderation, community-guidelines, comment-triage, escalation, trust-and-safety]
 pairs_with:
   prompts: [write-community-guidelines, reply-to-comments, handle-social-media-backlash]

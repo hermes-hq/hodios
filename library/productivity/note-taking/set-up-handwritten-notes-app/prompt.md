@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [goodnotes, notability, stylus, tablet-notes, handwriting-search, pdf-annotation]
 pairs_with:
   prompts: [tidy-handwritten-notes-transcript, plan-notes-backup-and-export, write-note-templates, choose-notes-app]

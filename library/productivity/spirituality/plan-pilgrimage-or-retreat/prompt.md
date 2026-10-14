@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pilgrimage, retreat, sacred-sites, silent-retreat, umrah, spiritual-journey]
 pairs_with:
   prompts: [plan-long-distance-walk, plan-prayer-or-meditation-practice, write-blessing-or-prayer]

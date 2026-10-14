@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [channel-trailer, value-proposition, subscriber-conversion, clip-selection]
 pairs_with:
   prompts: [write-video-hooks, organize-channel-playlists]

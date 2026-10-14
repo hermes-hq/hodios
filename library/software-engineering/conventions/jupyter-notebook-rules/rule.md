@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: beginner
+depth: specific
 tags: [notebook-hygiene, reproducibility, hidden-state, nbstripout, parameters-cell]
 applies_to: ["**/*.ipynb"]
 pairs_with:

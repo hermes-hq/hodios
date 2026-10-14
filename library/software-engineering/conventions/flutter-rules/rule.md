@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [widgets, state-management, theming, widget-tests, buildcontext]
 applies_to: ["lib/**/*.dart", "test/**/*.dart", "integration_test/**/*.dart"]
 authorship: ai-assisted

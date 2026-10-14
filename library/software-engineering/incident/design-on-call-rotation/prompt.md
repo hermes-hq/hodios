@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pager-rotation, escalation, handoff, burnout, follow-the-sun]
 pairs_with:
   personas: [site-reliability-engineer, incident-commander]

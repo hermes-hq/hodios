@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [error-handling, goroutines, context-propagation, standard-library, table-driven-tests]
 pairs_with:
   rules: [go-style-rules]

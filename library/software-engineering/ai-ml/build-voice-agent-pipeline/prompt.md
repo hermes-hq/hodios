@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [voice-ai, speech-to-text, text-to-speech, barge-in, latency-budget]
 pairs_with:
   prompts: [implement-llm-streaming, implement-llm-tool-calling]

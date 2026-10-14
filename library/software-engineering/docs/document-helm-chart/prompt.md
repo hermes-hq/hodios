@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [values-yaml, helm-docs, chart-readme, upgrade-notes, crds]
 pairs_with:
   prompts: [write-helm-chart, document-configuration-options, write-readme]

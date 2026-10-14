@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [spare-parts, croston, lumpy-demand, safety-stock, slow-movers]
 pairs_with:
   prompts: [plan-inventory, measure-forecast-accuracy, forecast-time-series]

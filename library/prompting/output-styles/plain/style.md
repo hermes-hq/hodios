@@ -7,6 +7,7 @@ description: Lowers the reading effort of any answer, from swapping jargon for e
 category: output-styles
 version: 1.0.0
 status: incubating
+depth: specific
 output: [rewrite]
 risk: read-only
 tags: [plain-english, readability, accessibility-writing, jargon-free]

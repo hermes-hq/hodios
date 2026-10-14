@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gtm-plan, sales-motion, launch-strategy, pricing-model]
 pairs_with:
   prompts: [build-ideal-customer-profile, write-positioning-statement, plan-product-launch, plan-market-entry]

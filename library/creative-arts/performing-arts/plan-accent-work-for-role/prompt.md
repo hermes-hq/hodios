@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [accents, dialect-coaching, voice-work, character-voice, role-preparation]
 pairs_with:
   prompts: [build-role-from-script, learn-lines]

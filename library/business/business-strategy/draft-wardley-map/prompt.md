@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [wardley-mapping, value-chain, situational-awareness, build-vs-buy, evolution]
 pairs_with:
   prompts: [run-scenario-planning, assess-competitive-advantage, analyze-business-model]

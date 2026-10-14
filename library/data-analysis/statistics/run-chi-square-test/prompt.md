@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [chi-square, fishers-exact, mcnemar, cramers-v, crosstab, categorical-data]
 pairs_with:
   prompts: [choose-statistical-test, explain-odds-ratios-and-relative-risk, compute-survey-margin-of-error]

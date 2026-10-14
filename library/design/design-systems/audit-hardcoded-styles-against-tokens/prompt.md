@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-tokens, hardcoded-values, token-migration, css-variables, style-drift]
 pairs_with:
   prompts: [define-design-tokens, audit-design-consistency, measure-design-system-adoption, generate-platform-token-files]

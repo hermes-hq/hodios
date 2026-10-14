@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contract-termination, notice-period, break-clause, exit-costs, negotiated-exit]
 pairs_with:
   prompts: [build-contract-obligations-register, explain-contract-clause, summarize-contract]

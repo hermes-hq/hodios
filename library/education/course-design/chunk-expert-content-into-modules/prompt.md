@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-audit, need-to-know, job-aids, module-structure, learning-and-development, cognitive-load]
 pairs_with:
   prompts: [design-course-outline, write-learning-objectives, interview-subject-matter-expert]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [churn-prevention, account-rescue, renewals, stakeholder-mapping, account-management]
 pairs_with:
   prompts: [design-customer-health-score, prepare-business-review, write-customer-success-plan]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mushroom-growing, oyster-mushrooms, log-inoculation, grow-kits, fungi, indoor-growing]
 pairs_with:
   prompts: [set-up-hydroponics, start-composting, plan-houseplant-care]

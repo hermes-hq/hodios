@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [state-management, data-fetching, component-tree, re-renders]
 pairs_with:
   prompts: [explain-codebase, fix-react-state-and-effect-bug, replace-usestate-tangle-with-reducer]

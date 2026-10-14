@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-journalism, open-data, per-capita, provenance, headline-testing]
 pairs_with:
   prompts: [explore-dataset, check-analysis-for-pitfalls, tell-data-story]

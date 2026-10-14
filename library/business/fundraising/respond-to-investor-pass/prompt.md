@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [investor-rejection, investor-feedback, investor-relations, follow-up-email, fundraise-learning]
 pairs_with:
   prompts: [write-pitch-meeting-follow-up, build-investor-pipeline, prepare-investor-qa]

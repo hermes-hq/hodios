@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [technique, coaching-cues, skill-acquisition, fault-correction, drill-progression, volunteer-coach]
 pairs_with:
   prompts: [plan-youth-sports-practice, learn-new-sport-as-adult]

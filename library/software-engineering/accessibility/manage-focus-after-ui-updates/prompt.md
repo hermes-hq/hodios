@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [focus-management, keyboard, screen-reader, dynamic-content, wcag]
 pairs_with:
   personas: [accessibility-specialist]

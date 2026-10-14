@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, audit-trail, agent-telemetry, security-monitoring]
 pairs_with:
   prompts: [audit-agent-permissions, design-coding-agent-hooks, design-ci-agent-job, assess-coding-agent-impact]

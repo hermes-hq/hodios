@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mensetsu, keigo, practice-interviews, japan, business-etiquette]
 pairs_with:
   prompts: [write-entry-sheet, write-rirekisho-and-shokumukeirekisho, run-mock-interview]

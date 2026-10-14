@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [devtools, css-debugging, cors, network-panel, simulator]
 args:
   - name: bug

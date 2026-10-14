@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flexible-working, part-time-request, hybrid-work, trial-period, outcome-letter]
 pairs_with:
   prompts: [write-workplace-policy, plan-workplace-adjustments-as-manager, answer-employee-hr-question]

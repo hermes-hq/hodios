@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [file-naming, folder-structure, raw-data, research-data, backups]
 pairs_with:
   prompts: [write-data-management-plan, set-up-sample-tracking, audit-lab-notebooks]

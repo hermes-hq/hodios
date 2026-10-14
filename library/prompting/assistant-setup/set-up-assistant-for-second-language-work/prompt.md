@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [non-native-speakers, workplace-writing, register, idioms, minimal-edits]
 pairs_with:
   prompts: [edit-non-native-english, write-custom-instructions]

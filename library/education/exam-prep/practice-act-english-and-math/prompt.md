@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [act, grammar-rules, punctuation, act-math, pacing, college-admissions]
 pairs_with:
   prompts: [practice-act-science, prepare-standardized-test, analyze-exam-mistakes]

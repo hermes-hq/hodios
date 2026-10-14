@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [dunning, failed-payments, involuntary-churn, card-update, subscription-billing]
 pairs_with:
   prompts: [write-renewal-reminder-emails, write-trial-expiry-emails, write-win-back-campaign]

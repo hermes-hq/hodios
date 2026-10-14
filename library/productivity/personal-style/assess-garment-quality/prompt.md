@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fabric-composition, construction-quality, cost-per-wear, slow-fashion, thrifting]
 pairs_with:
   prompts: [plan-clothing-care-and-repair, buy-secondhand-safely, find-ethical-alternative-products]

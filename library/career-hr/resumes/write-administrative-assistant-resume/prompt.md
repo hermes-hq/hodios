@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [executive-assistant, office-administration, support-roles, admin-systems]
 pairs_with:
   prompts: [quantify-resume-achievements, write-skills-section, tailor-resume-to-job]

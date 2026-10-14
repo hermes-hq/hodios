@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tcc, abnt, monografia, thesis-planning, brazil]
 pairs_with:
   prompts: [understand-assignment-brief, plan-semester-workload, write-internship-report-france]

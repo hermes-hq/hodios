@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [feature-engineering, data-leakage, gradient-boosting, global-models, backtesting]
 pairs_with:
   prompts: [forecast-time-series, measure-forecast-accuracy, clean-demand-history]

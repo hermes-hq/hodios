@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-business, couples-in-business, family-charter, decision-rights, exit-terms, work-life-boundaries]
 pairs_with:
   prompts: [outline-cofounder-agreement, find-cofounder, write-business-plan]

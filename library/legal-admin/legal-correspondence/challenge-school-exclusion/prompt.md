@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [school-exclusion, suspension, expulsion, disciplinary-hearing, parent-advocacy, school-discipline]
 pairs_with:
   prompts: [request-special-education-assessment, complain-to-school-about-bullying, complain-to-ombudsman]

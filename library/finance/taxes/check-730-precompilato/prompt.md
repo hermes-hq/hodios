@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [modello-730, precompilata, detrazioni, agenzia-delle-entrate, italia]
 pairs_with:
   prompts: [explain-tax-notice, organize-tax-documents]

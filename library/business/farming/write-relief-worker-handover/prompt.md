@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [relief-milker, farm-handover, time-off, stockperson, contingency-plan]
 pairs_with:
   prompts: [write-farm-safety-induction, plan-livestock-record-keeping, set-up-farm-lone-working-checks]

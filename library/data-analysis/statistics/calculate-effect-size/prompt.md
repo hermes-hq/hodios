@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [effect-size, cohens-d, hedges-g, eta-squared, meta-analysis, practical-significance]
 pairs_with:
   prompts: [calculate-sample-size, run-two-group-comparison, explain-odds-ratios-and-relative-risk]

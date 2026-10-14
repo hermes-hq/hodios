@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hotel-breakfast, buffet-planning, occupancy-forecast, replenishment, breakfast-staffing, food-waste]
 pairs_with:
   prompts: [plan-housekeeping-room-allocation, run-kitchen-waste-audit, build-allergen-matrix]

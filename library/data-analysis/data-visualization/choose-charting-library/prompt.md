@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [charting-libraries, tool-selection, web-charts, frontend]
 pairs_with:
   prompts: [build-react-chart-component, build-d3-chart, write-plotting-code, choose-bi-tool]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [landlord, rent-review, market-rent, tenant-communication, letting]
 pairs_with:
   prompts: [check-landlord-obligations, analyze-property-comparables]

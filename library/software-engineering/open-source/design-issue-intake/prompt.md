@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [issue-templates, labels, triage-routine, bug-reports, pull-request]
 pairs_with:
   prompts: [triage-issue-backlog, write-security-policy, write-good-first-issues]

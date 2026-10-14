@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [landlord, maintenance-requests, repair-triage, contractors, tenant-communication]
 pairs_with:
   prompts: [check-landlord-obligations, plan-equipment-maintenance, compare-vendors, write-sop]

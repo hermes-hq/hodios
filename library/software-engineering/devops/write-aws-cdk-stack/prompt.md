@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iac, aws-cdk, cloudformation, snapshot-tests]
 pairs_with:
   prompts: [review-iac-plan, write-least-privilege-iam-policy, design-cloud-account-structure]

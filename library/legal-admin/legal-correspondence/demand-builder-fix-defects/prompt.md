@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [builder-dispute, defective-work, snagging-list, home-renovation, tradesperson]
 pairs_with:
   prompts: [hire-contractor, write-complaint-letter, prepare-small-claims-case]

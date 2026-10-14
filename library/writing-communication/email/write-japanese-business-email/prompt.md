@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [keigo, business-email, cushion-words, apology-email, follow-up]
 pairs_with:
   prompts: [practise-keigo, check-tone-before-sending, write-follow-up-email]

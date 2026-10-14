@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [online-quiz, video-call, remote-teams, breakout-rooms, run-sheet, cheating-prevention]
 pairs_with:
   prompts: [host-trivia-night, design-quiz-scoring-rules]

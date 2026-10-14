@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lost-property, lost-and-found, valuables, item-log, returns-by-post]
 pairs_with:
   prompts: [write-support-reply, write-opening-closing-checklist]

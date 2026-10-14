@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [promotion-packet, career-ladder, brag-document, sponsorship]
 pairs_with:
   prompts: [write-self-review, plan-career-path]

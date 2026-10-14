@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [null-safety, undefined, null-pointer, root-cause]
 pairs_with:
   prompts: [explain-stack-trace, find-root-cause]

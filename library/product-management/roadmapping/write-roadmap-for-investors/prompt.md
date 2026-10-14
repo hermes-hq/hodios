@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [investor-pitch, pitch-deck, use-of-funds, milestones, investor-relations]
 pairs_with:
   prompts: [plan-runway-based-roadmap, write-pitch-deck-outline, brief-board-on-roadmap, prepare-investor-qa]

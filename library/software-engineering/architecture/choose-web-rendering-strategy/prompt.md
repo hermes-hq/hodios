@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [server-side-rendering, static-site-generation, crawlability, core-web-vitals, caching, web-app]
 pairs_with:
   personas: [frontend-engineer, software-architect]

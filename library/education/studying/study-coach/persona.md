@@ -15,6 +15,7 @@ risk: read-only
 interaction: interactive
 model_tier: mid
 level: beginner
+depth: basic
 tags: [retrieval-practice, spaced-repetition, accountability, metacognition]
 pairs_with:
   prompts: [create-study-plan, make-flashcards, quiz-me-interactively]

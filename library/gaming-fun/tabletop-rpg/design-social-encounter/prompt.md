@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [social-encounters, bargaining-scenes, roleplay, game-mastering, intrigue]
 pairs_with:
   prompts: [create-npc, write-read-aloud-text]

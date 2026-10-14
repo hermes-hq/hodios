@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [engagement-survey, pulse-survey, survey-design, anonymity-threshold, employee-voice]
 pairs_with:
   prompts: [analyze-employee-survey, plan-engagement-survey-actions, write-survey-questionnaire]

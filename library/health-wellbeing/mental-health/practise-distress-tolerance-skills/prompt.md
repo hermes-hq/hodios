@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [distress-tolerance, dbt-skills, emotional-regulation, urges, coping-skills]
 pairs_with:
   prompts: [build-coping-plan, make-panic-attack-plan, guide-breathing-exercise, manage-anger]

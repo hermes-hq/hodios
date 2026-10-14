@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [renters, flat-viewing, housing, newcomers, cefr]
 pairs_with:
   prompts: [report-home-repair-in-language, drill-numbers-and-dates, roleplay-real-situation]

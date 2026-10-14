@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [labour, birth-logistics, older-siblings, contingency-plan, maternity-care]
 pairs_with:
   prompts: [write-birth-partner-guide, write-birth-preferences, prepare-for-new-baby]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [highlights, kindle, e-readers, read-later, pdf-annotation, reading-notes]
 pairs_with:
   prompts: [make-reading-notes, apply-progressive-summarization, triage-reading-list, set-up-commonplace-book]

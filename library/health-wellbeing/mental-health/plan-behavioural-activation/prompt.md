@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [behavioural-activation, low-mood, depression-self-help, activity-scheduling, motivation]
 pairs_with:
   prompts: [build-mood-tracker, plan-for-winter-low-mood, talk-to-doctor-about-mental-health, build-connection-plan]

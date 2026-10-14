@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mockups, print-on-demand, merch, product-listings, compositing]
 pairs_with:
   prompts: [write-product-photo-prompt, write-sticker-sheet-prompt, write-seamless-pattern-prompt]

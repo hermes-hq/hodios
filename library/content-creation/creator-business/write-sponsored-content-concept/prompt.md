@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [creative-concept, brand-brief, sponsored-integration, treatment, content-ideas]
 pairs_with:
   prompts: [write-video-sponsor-segment, write-sponsored-post, write-podcast-ad-read]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [code-of-conduct, workplace-ethics, employee-conduct, speak-up, conflicts-of-interest, company-values]
 pairs_with:
   prompts: [write-employee-handbook, write-whistleblowing-policy, write-conflict-of-interest-policy, write-anti-bribery-policy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [workplace-conflict, coworker, difficult-conversation, escalation]
 pairs_with:
   prompts: [handle-workplace-bullying, address-peer-not-pulling-weight, handle-credit-taking-colleague, repair-damaged-work-relationship]

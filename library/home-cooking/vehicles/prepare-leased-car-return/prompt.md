@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-lease, lease-return, fair-wear-and-tear, end-of-lease-charges, damage-assessment]
 pairs_with:
   prompts: [clean-car-at-home, inspect-rental-car, prepare-for-car-service]

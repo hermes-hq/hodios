@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [scenario, cefr, rehearsal]
 pairs_with:
   personas: [language-exchange-partner]

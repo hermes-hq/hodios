@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [buyer-role-play, viewing-objections, estate-agent, new-agent-training, fair-housing]
 pairs_with:
   prompts: [handle-sales-objections, prepare-buyer-consultation, summarize-viewing-feedback-for-seller]

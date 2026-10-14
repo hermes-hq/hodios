@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [style-statement, style-words, outfit-formulas, mood-board, self-expression]
 pairs_with:
   prompts: [find-flattering-colours, decide-whether-to-buy]

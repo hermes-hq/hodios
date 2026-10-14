@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iteration-zero, walking-skeleton, project-kickoff, delivery-pipeline]
 pairs_with:
   prompts: [scaffold-new-service, write-definition-of-done, plan-project-milestones]

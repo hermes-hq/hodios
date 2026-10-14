@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [in-app-purchases, subscriptions, storekit, play-billing, entitlements, receipts]
 pairs_with:
   personas: [mobile-engineer]

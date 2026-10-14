@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [thumbnails, click-through, composition, text-space]
 pairs_with:
   prompts: [package-video-title-thumbnail, write-image-prompt]

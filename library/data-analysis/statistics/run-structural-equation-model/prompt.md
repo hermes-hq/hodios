@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [sem, path-analysis, latent-variables, lavaan, model-fit, cfa]
 pairs_with:
   prompts: [run-factor-analysis, run-mediation-analysis, interpret-regression-output]

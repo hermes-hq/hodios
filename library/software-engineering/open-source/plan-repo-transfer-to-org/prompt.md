@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repository-transfer, github-organization, package-ownership, access-control, redirects]
 pairs_with:
   prompts: [maintainer-handover-track, evaluate-foundation-membership, write-maintainer-handbook]

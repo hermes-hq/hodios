@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [text-domain, pot-file, wp-i18n, translation-functions, wp-cli]
 pairs_with:
   prompts: [build-wordpress-plugin, extract-ui-strings, write-translator-context-notes]

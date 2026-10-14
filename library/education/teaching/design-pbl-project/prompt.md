@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-based-learning, driving-question, inquiry, collaboration, authentic-assessment]
 pairs_with:
   prompts: [design-unit-plan, create-rubric, align-lesson-to-standards]

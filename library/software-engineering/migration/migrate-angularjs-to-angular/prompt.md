@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ngupgrade, legacy-code, hybrid-app, strangler-fig, end-of-life]
 pairs_with:
   prompts: [plan-incremental-migration, upgrade-angular-major-version]

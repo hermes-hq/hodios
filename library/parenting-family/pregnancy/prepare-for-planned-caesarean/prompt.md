@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [caesarean, c-section, surgery-prep, theatre-preferences, skin-to-skin]
 pairs_with:
   prompts: [plan-caesarean-recovery-at-home, write-birth-preferences, pack-hospital-bag]

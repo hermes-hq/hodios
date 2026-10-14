@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subresource-integrity, tag-manager, client-side-supply-chain, csp, script-inventory]
 pairs_with:
   prompts: [adopt-strict-csp, harden-web-app-config, vet-dependency]

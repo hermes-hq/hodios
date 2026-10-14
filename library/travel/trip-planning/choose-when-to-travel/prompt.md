@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [travel-timing, shoulder-season, weather, crowds, peak-season]
 pairs_with:
   prompts: [choose-destination, plan-itinerary, plan-flight-search, check-local-festivals-and-holidays]

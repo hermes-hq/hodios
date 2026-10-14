@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dentist, dental-anxiety, treatment-options, cost-questions, pain-control, oral-health]
 pairs_with:
   prompts: [prepare-doctor-questions, understand-medical-bill, prepare-treatment-decision]

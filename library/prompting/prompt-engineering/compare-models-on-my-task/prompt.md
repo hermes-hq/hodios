@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [model-comparison, blind-grading, side-by-side-test, ai-tool-choice, evaluation-rubric]
 pairs_with:
   prompts: [choose-ai-tool, build-prompt-test-set, choose-model-tier-for-task]

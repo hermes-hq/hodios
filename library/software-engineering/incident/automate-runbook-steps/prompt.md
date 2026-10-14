@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [toil-reduction, runbook-automation, dry-run, human-in-the-loop, idempotency]
 pairs_with:
   prompts: [write-runbook, audit-runbook-library, review-one-off-production-script]

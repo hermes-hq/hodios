@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [file-upload, file-download, multipart, content-type, size-limits]
 pairs_with:
   prompts: [write-e2e-test, write-api-endpoint-tests, write-integration-tests]

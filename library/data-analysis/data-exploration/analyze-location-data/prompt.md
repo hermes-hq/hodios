@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [geospatial, catchment-area, store-network, hexagonal-binning, distance]
 pairs_with:
   prompts: [design-map-visualization, segment-customers, anonymize-dataset]

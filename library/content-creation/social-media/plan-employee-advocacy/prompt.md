@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employee-advocacy, employer-brand, social-media-policy, b2b-social]
 pairs_with:
   prompts: [plan-linkedin-personal-brand, write-linkedin-post, write-editorial-guidelines]

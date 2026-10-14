@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, agents-md, session-review, failure-analysis]
 pairs_with:
   prompts: [write-agents-md, write-subagent-brief, write-agent-skill]

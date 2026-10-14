@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [film-studies, media-studies, micro-elements, mise-en-scene, cinematography, textual-analysis]
 pairs_with:
   prompts: [analyze-artwork-formally, plan-essay-argument]

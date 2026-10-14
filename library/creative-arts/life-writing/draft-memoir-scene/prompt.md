@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [memoir, creative-nonfiction, scene-writing, sensory-detail]
 pairs_with:
   prompts: [shape-memoir-story, write-personal-essay, interview-relative-for-oral-history]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [youth-sports, volunteer-coach, player-development, safeguarding, parent-communication]
 pairs_with:
   prompts: [plan-youth-sports-practice, plan-team-season, plan-match-lineup, run-match-debrief]

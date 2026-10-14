@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [channel-launch, niche, channel-positioning, content-pillars, packaging, publishing-schedule]
 pairs_with:
   prompts: [define-content-pillars, package-video-title-thumbnail, write-video-hooks, plan-video-series]

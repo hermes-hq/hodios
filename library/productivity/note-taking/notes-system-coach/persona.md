@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [knowledge-management, zettelkasten, para, note-habits, retrieval]
 pairs_with:
   prompts: [design-second-brain, audit-notes-vault, design-note-tagging-scheme, choose-notes-app, suggest-links-between-notes]

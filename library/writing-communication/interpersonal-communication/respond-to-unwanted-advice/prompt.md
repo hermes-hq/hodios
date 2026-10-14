@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [unsolicited-advice, family-comments, body-comments, parenting-advice, deflection, boundaries]
 pairs_with:
   prompts: [set-boundary, navigate-family-gathering-tension, practice-assertive-responses]

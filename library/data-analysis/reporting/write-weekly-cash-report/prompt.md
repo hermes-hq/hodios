@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cash-management, treasury, debtor-ageing, liquidity, weekly-report]
 pairs_with:
   prompts: [forecast-cash-flow, calculate-cash-runway, write-management-accounts-commentary]

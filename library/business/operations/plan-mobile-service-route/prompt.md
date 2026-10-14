@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [route-planning, mobile-business, zoning, appointment-scheduling, travel-time, sole-trader]
 pairs_with:
   prompts: [reduce-appointment-no-shows, set-up-appointment-booking-system, write-appointment-reminder-messages, price-services]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [commercial-intent, alternatives-pages, versus-pages, use-case-pages, conversion]
 subject: [saas]
 pairs_with:

@@ -7,6 +7,7 @@ description: Standing rules for marketing copy - no claim without proof, no fake
 category: copywriting
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [build, review]
 role: [marketer, copywriter, founder, content-creator]
 output: [copy, rewrite]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [backtesting, overfitting, look-ahead-bias, trading-costs, drawdown]
 pairs_with:
   prompts: [evaluate-stock-tip, explain-margin-and-leverage, explain-options-risks]

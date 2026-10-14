@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [normality, assumption-checks, qq-plot, shapiro-wilk, transformations, robust-methods]
 pairs_with:
   prompts: [choose-statistical-test, run-regression-analysis, bootstrap-confidence-interval]

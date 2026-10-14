@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [franchise, due-diligence, franchise-agreement, territory, unit-economics, buyer-journey]
 pairs_with:
   prompts: [prepare-franchisee-validation-calls, plan-franchise-unit-opening, evaluate-buying-a-business, evaluate-franchise-territory, review-commercial-lease]

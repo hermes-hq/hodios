@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [payments, checkout, decline-codes, 3d-secure, webhooks]
 pairs_with:
   prompts: [respond-to-third-party-outage, integrate-payments, write-incident-update]

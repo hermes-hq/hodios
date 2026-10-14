@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [malware, virus-removal, browser-hijack, scareware, ransomware, pop-ups]
 pairs_with:
   prompts: [speed-up-slow-computer, recover-from-remote-access-scam, set-up-backups, secure-personal-accounts]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [first-clients, warm-outreach, offer-design, discovery-call, weekly-review]
 pairs_with:
   prompts: [screen-freelance-inquiry, write-cold-outreach, write-sales-proposal, ask-clients-for-referrals]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wedding, toast, best-man, maid-of-honour, father-of-the-bride, writing-for-the-ear]
 pairs_with:
   prompts: [mark-up-script-for-delivery, rehearse-speech-with-feedback, turn-script-into-cue-cards]

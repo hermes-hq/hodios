@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [private-pilot, aviation, knowledge-test, flight-planning, aviation-weather, wind-triangle]
 pairs_with:
   prompts: [prepare-certification-exam, create-memory-aids]

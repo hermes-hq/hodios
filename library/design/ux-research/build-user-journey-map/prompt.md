@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [journey-mapping, customer-experience, pain-points, how-might-we]
 pairs_with:
   prompts: [synthesize-usability-findings, design-onboarding-flow]

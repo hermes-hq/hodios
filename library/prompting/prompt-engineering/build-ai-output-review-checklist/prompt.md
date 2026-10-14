@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ai-review, human-in-the-loop, quality-assurance, ai-governance]
 pairs_with:
   prompts: [audit-ai-answer-for-errors, write-ai-use-policy, build-team-prompt-library]

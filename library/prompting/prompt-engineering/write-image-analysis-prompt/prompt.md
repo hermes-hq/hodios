@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vision-prompt, multimodal, ocr, chart-reading, hallucination-guard]
 pairs_with:
   prompts: [write-structured-output-prompt, build-prompt-test-set, write-batch-processing-prompt]

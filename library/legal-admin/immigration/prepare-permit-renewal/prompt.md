@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [permit-renewal, visa-extension, continuous-status, application-window, change-of-employer]
 pairs_with:
   prompts: [understand-residence-permit-conditions, report-change-of-circumstances, write-immigration-status-enquiry, prepare-for-immigration-appointment]

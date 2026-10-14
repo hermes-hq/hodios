@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [food-science, bakers-percentage]
 pairs_with:
   prompts: [plan-bread-bake-schedule, troubleshoot-recipe, adapt-recipe]

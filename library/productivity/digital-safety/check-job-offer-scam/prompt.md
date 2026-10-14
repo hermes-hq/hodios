@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [job-scams, fake-recruiters, money-mule, task-scam, employment-fraud, phishing]
 pairs_with:
   prompts: [check-suspicious-message, evaluate-job-offer, respond-to-identity-theft]

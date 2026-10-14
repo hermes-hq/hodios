@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [first-draft, voice-matching, structure, examples]
 pairs_with:
   prompts: [generate-blog-post-ideas, write-newsletter-issue, turn-article-into-thread]

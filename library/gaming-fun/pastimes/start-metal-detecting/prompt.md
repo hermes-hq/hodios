@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [metal-detecting, detectorists, treasure-law, finds-reporting, beachcombing, outdoor-hobby]
 args:
   - name: country

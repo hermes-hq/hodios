@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [package-publishing, trusted-publishing, npm, pypi, release-automation]
 pairs_with:
   prompts: [automate-release-versioning, sign-release-artifacts, write-github-actions-workflow]

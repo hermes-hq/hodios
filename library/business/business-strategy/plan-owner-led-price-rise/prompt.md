@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [price-increase, cost-inflation, gross-margin, price-rounding, menu-prices]
 pairs_with:
   prompts: [design-pricing, price-services, calculate-break-even]

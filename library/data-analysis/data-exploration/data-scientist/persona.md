@@ -16,6 +16,7 @@ risk: runs-commands
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [predictive-modelling, validation, data-leakage, baselines, model-evaluation]
 pairs_with:
   prompts: [write-analysis-plan, find-churn-drivers, run-survival-analysis, estimate-price-elasticity, check-analysis-for-pitfalls]

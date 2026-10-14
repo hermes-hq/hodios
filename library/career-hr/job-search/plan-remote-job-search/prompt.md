@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [remote-work, time-zones, eligibility, job-scams, async-work, distributed-teams]
 pairs_with:
   prompts: [plan-job-search, analyze-job-posting, write-cover-letter]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [house-style, chart-theme, brand-guidelines, chart-design]
 pairs_with:
   prompts: [choose-chart-colors, critique-chart, write-plotting-code]

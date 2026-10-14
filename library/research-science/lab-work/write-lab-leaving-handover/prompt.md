@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [handover, leaving-the-lab, sample-inventory, data-handover, offboarding]
 pairs_with:
   prompts: [set-up-sample-tracking, write-lab-notebook-entry, write-lab-protocol]

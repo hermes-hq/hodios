@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [newcomers, survival-language, needs-analysis, phrase-bank, appointment-rehearsal, study-routine]
 pairs_with:
   prompts: [learn-survival-phrases, practise-spelling-out-personal-details, learn-form-filling-vocabulary, assess-language-level, plan-language-learning]

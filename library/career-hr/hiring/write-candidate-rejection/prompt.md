@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [candidate-experience, rejection-email, interview-feedback, employer-brand]
 pairs_with:
   prompts: [screen-resumes, design-interview-loop]

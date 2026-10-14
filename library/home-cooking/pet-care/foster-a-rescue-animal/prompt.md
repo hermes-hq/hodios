@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pet-fostering, rescue-dog, rescue-cat, decompression, animal-shelter, rehoming]
 pairs_with:
   prompts: [introduce-pets, plan-new-pet-care, choose-pet-for-lifestyle]

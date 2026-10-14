@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [goal-metrics, utm-tracking, attribution, vanity-metrics, review-cadence, baseline]
 pairs_with:
   prompts: [analyze-content-performance, define-content-pillars, plan-content-calendar]

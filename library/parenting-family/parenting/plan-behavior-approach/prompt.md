@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [positive-discipline, tantrums, child-development, consistency]
 pairs_with:
   prompts: [explain-hard-topic-to-child, create-chore-chart]

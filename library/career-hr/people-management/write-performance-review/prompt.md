@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [review-cycle, sbi-feedback, rater-bias, growth-goals]
 pairs_with:
   prompts: [plan-one-on-one, write-self-review]

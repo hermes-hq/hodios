@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [network-meta-analysis, indirect-comparison, transitivity, cinema, evidence-synthesis]
 subject: [statistics, medicine]
 pairs_with:

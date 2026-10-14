@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [teaching-assistants, support-staff, independence, interventions, weekly-timetable]
 pairs_with:
   prompts: [write-teaching-assistant-briefing, plan-intervention-group, plan-one-to-one-support-session]

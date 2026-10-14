@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [call-for-proposals, cfp, speaker-selection, review-rubric, speaker-diversity]
 pairs_with:
   prompts: [build-conference-programme, plan-conference, score-conference-abstracts, write-speaker-briefing-pack]

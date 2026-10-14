@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [parent-support, home-learning, multi-age-teaching, problem-solving-for-parents, parent-confidence, record-keeping]
 pairs_with:
   prompts: [choose-homeschool-approach, plan-homeschool-year, run-homeschool-term-review, plan-deschooling-period]

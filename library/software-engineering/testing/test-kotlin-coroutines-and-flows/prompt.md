@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coroutines, kotlin-flow, run-test, turbine, viewmodel]
 pairs_with:
   prompts: [write-unit-tests, write-native-ui-tests, test-time-dependent-code]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [oracy, speaking-and-listening, sentence-stems, talk-roles, debate]
 pairs_with:
   prompts: [plan-socratic-seminar, generate-discussion-questions, design-classroom-activity]

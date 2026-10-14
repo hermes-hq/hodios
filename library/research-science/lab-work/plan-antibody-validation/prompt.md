@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [antibody-validation, reproducibility, western-blot, immunostaining, rrid]
 pairs_with:
   prompts: [plan-bench-experiment, troubleshoot-failed-experiment, write-methods-section]

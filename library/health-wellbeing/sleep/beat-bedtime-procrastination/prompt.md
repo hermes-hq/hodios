@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bedtime-procrastination, screen-time, evening-routine, me-time, habit-change]
 pairs_with:
   prompts: [reset-sleep-schedule, improve-sleep-habits]

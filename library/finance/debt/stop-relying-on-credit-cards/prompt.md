@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [credit-card-cycle, cash-flow-gap, spending-buffer, card-rules, paydown]
 pairs_with:
   prompts: [plan-debt-payoff, plan-bill-payment-calendar, build-emergency-fund-plan, curb-impulse-spending]

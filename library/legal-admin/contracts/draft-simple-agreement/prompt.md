@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [agreement-template, freelance-contract, roommate-agreement, personal-loan]
 pairs_with:
   prompts: [summarize-contract]

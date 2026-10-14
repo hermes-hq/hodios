@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [review-mining, customer-language, copy-research, message-mining]
 pairs_with:
   prompts: [write-headline-variations, write-landing-page-copy, write-sales-page, write-sales-faq, write-voice-of-customer-report]

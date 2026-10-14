@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [passive-aggression, indirect-conflict, directness, awkward-situations, workplace]
 pairs_with:
   prompts: [decode-message-tone, reply-to-tricky-message, clear-up-misunderstanding]

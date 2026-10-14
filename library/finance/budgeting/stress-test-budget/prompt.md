@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scenario-testing, financial-resilience, rate-rise, cost-of-living]
 pairs_with:
   prompts: [build-monthly-budget, build-emergency-fund-plan, cut-monthly-costs, plan-finances-after-job-loss]

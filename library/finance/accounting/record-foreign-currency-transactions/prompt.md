@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [foreign-exchange, fx-gains-losses, multi-currency, revaluation]
 pairs_with:
   prompts: [write-journal-entries, reconcile-payment-processor-payouts, review-balance-sheet]

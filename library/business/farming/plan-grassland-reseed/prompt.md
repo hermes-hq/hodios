@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reseeding, overseeding, grassland, seed-mix, sward-assessment, soil-compaction]
 pairs_with:
   prompts: [explain-soil-analysis-report, plan-paddock-grazing-rotation, plan-soil-sampling-round]

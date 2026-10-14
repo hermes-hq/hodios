@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [websockets, server-sent-events, reconnection, pull-request]
 pairs_with:
   personas: [code-reviewer]

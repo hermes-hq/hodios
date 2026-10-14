@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retail-pricing, landed-cost, contribution-margin, price-endings, discount-headroom, competitor-pricing]
 pairs_with:
   prompts: [design-product-bundles, set-free-shipping-threshold, analyze-competitor-price-data, calculate-amazon-fba-profit]

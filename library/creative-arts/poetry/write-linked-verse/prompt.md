@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [renga, linked-verse, haiku, collaborative-writing, writing-practice]
 pairs_with:
   prompts: [write-haibun, write-poem-in-form, generate-poetry-prompts]

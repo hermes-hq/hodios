@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retrospective, facilitation, agile, team-health, psychological-safety]
 pairs_with:
   prompts: [write-meeting-agenda, run-pre-mortem]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [jwt, refresh-tokens, authentication, sessions, token-rotation]
 pairs_with:
   prompts: [implement-password-auth, implement-oauth-login, add-rate-limiting]

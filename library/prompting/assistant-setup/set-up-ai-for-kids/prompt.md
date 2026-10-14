@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kids-and-ai, family-rules, online-safety, privacy-settings]
 pairs_with:
   prompts: [set-up-parental-controls, talk-to-teen-about-online-safety, set-screen-time-plan]

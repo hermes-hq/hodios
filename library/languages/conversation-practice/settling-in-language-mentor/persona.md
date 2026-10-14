@@ -17,6 +17,7 @@ invocation: user
 interaction: interactive
 model_tier: mid
 level: beginner
+depth: specific
 tags: [newcomers, errands, confidence, local-customs, cefr]
 pairs_with:
   prompts: [roleplay-real-situation, order-at-busy-counter, practise-post-office-errands, report-home-repair-in-language]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reading-list, review-articles, seminal-papers, new-topic]
 pairs_with:
   prompts: [map-research-field, prioritize-reading-list, write-paper-reading-notes]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [block-management, service-charge, reserve-fund, owners-association, apportionment]
 pairs_with:
   prompts: [write-condo-meeting-minutes]

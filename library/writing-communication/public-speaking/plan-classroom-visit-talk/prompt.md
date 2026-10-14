@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [careers-day, school-visit, parent-volunteer, stem-outreach, children]
 pairs_with:
   prompts: [practise-explaining-work-simply, plan-school-assembly-talk]

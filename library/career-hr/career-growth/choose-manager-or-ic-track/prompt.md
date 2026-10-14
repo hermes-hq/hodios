@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [individual-contributor, management-track, career-ladder, career-decision]
 pairs_with:
   prompts: [plan-transition-to-manager, plan-career-path, prepare-promotion-case]

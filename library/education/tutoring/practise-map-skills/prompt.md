@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [grid-references, contours, bearings, map-scale, ordnance-survey, fieldwork]
 pairs_with:
   personas: [geography-tutor]

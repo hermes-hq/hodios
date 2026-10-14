@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [subscriber-communication, price-increase, hiatus, closing-down, notice-period]
 pairs_with:
   prompts: [write-newsletter-welcome-email, plan-inactive-subscriber-cleanup]

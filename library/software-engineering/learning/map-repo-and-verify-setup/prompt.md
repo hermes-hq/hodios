@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [developer-setup, setup-verification, getting-started, docs-gaps, codebase-map]
 pairs_with:
   prompts: [explain-codebase, write-onboarding-guide, write-agents-md, write-contributing-guide]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [content-pillars, idea-bank, hooks, audience-questions]
 pairs_with:
   prompts: [define-content-pillars, plan-sustainable-posting-schedule, plan-carousel-post]

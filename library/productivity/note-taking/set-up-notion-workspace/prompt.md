@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [workspace-design, notion-databases, relations, templates, information-architecture]
 pairs_with:
   prompts: [design-second-brain, set-up-task-system, build-team-wiki-structure, build-personal-crm]

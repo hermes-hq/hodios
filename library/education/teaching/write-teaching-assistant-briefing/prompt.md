@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [teaching-assistant, support-staff, deployment, independence, lesson-briefing]
 pairs_with:
   prompts: [write-lesson-plan, plan-intervention-group, differentiate-lesson]

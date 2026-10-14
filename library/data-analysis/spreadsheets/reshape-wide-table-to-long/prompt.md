@@ -19,6 +19,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [unpivot, tidy-data, crosstab, tocol, data-prep]
 pairs_with:
   prompts: [write-power-query, build-pivot-analysis, clean-messy-spreadsheet]

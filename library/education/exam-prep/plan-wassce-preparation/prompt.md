@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wassce, waec, west-africa, past-questions, credit-pass, senior-secondary]
 pairs_with:
   prompts: [create-study-plan, analyze-past-papers, plan-last-minute-revision]

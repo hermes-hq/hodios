@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [policy-as-code, opa, rego, kyverno, conftest, guardrails]
 pairs_with:
   prompts: [review-iac-plan, test-terraform-modules, configure-kubernetes-rbac]

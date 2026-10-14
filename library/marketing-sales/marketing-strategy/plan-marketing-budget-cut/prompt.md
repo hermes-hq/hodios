@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [budget-cuts, cost-reduction, spend-prioritisation, downturn-planning, marketing-spend]
 pairs_with:
   prompts: [analyze-channel-performance, set-promotion-budget-for-small-business, plan-media-budget, define-marketing-kpis]

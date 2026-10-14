@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prompt-library, team-enablement, prompt-governance, templates]
 pairs_with:
   prompts: [write-task-prompt, build-prompt-test-set, build-ai-output-review-checklist]

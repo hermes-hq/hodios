@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [staff-coaching, service-training, shift-huddles, observation-feedback, skills-practice]
 pairs_with:
   prompts: [write-frontline-service-standards, train-server-with-roleplay, practise-de-escalation-skills, build-service-recovery-playbook]

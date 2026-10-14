@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [exclusivity, non-compete, retainer-terms, niche-clients, client-negotiation]
 pairs_with:
   prompts: [pitch-retainer-to-client, review-freelance-contract, price-services, negotiate-client-payment-terms]

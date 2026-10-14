@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cron, systemd-timers, cronjob, scheduled-jobs, time-zones]
 pairs_with:
   prompts: [move-cron-jobs-to-orchestrator, implement-background-job]

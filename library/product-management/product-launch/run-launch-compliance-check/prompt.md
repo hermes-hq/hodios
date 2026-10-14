@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketing-claims, privacy-review, claims-substantiation, legal-sign-off]
 advice_risk: [legal]
 pairs_with:

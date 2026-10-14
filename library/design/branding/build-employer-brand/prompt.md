@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employer-branding, employee-value-proposition, careers-page, recruitment-marketing, talent-attraction]
 pairs_with:
   prompts: [build-brand-platform, write-brand-voice-guide, write-brand-story, plan-employee-advocacy]

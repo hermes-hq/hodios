@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [academic-job-market, faculty-application, postdoc, research-agenda, teaching-statement]
 pairs_with:
   prompts: [write-academic-cv, research-company]

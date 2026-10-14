@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [eloquent, form-requests, authorization-policies, api-resources, pest]
 pairs_with:
   prompts: [build-rest-endpoint, write-laravel-feature-tests]

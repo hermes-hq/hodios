@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [flare-ups, flare-box, minimum-day, support-network, batch-cooking, fluctuating-conditions]
 pairs_with:
   prompts: [plan-activity-pacing, plan-chronic-condition-self-management, explore-flare-triggers]

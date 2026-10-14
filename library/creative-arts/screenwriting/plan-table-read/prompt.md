@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [table-read, staged-reading, script-feedback, run-sheet]
 pairs_with:
   prompts: [plan-rewrite-from-notes, write-casting-breakdown]

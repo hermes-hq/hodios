@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dog-tricks, clicker-training, positive-reinforcement, dog-training, shaping]
 pairs_with:
   prompts: [train-dog-behavior, plan-pet-enrichment]

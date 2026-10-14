@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-costs, cost-tracking, commitments, contingency, change-control]
 pairs_with:
   prompts: [forecast-project-cost-at-completion, build-gantt-chart-in-sheets, set-up-job-costing]

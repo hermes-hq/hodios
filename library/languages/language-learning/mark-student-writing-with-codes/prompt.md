@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [correction-codes, self-correction, written-feedback, homework-marking, error-patterns]
 pairs_with:
   prompts: [diagnose-recurring-errors, grade-language-writing-task]

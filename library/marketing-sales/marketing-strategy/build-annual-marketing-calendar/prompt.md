@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketing-calendar, annual-planning, seasonal-marketing, campaign-planning, marketing-budget]
 pairs_with:
   prompts: [write-marketing-plan, plan-content-calendar, plan-marketing-campaign, write-campaign-brief]

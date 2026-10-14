@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crisis-communication, holding-statement, reputation, community-management]
 pairs_with:
   prompts: [reply-to-comments, write-community-guidelines]

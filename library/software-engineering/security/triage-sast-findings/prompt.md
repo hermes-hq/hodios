@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sast, static-analysis, false-positives, data-flow, security-backlog]
 pairs_with:
   prompts: [write-semgrep-rule, audit-dependencies, audit-input-handling]

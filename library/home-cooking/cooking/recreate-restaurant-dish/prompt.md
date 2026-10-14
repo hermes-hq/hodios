@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [copycat-recipe, reverse-engineering, takeaway, flavour-building, recipe-testing]
 pairs_with:
   prompts: [adapt-recipe, troubleshoot-recipe, teach-cooking-technique]

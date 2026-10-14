@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rota, shift-planning, workforce-planning, labour-cost, coverage]
 pairs_with:
   prompts: [plan-inventory, write-sop]

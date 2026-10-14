@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pour-cost, bar-pricing, drinks-margin, wine-by-the-glass, draught-beer, low-and-no]
 pairs_with:
   prompts: [investigate-bar-stock-variance, build-restaurant-wine-list]

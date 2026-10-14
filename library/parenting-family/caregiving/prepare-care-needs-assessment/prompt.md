@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [needs-assessment, carers-assessment, care-package, advocacy]
 pairs_with:
   prompts: [build-care-rota, plan-parent-care-conversation, prepare-disability-benefits-application]

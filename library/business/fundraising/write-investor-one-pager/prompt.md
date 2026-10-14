@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [one-pager, executive-summary, investor-materials, teaser, forwardable]
 pairs_with:
   prompts: [write-pitch-deck-outline, write-investor-intro-request, write-investor-cold-email]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [search-ux, autocomplete, faceted-search, zero-results, relevance]
 pairs_with:
   prompts: [design-information-architecture, plan-tree-test, write-ux-microcopy, critique-ui-screen]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [soc-metrics, mttd, mttr, alert-quality, security-reporting]
 pairs_with:
   prompts: [map-detection-coverage, prune-noisy-alerts, write-threat-intel-brief]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [product-photography, small-shop, phone-photography, diy-lighting, online-shop]
 pairs_with:
   prompts: [edit-photo-step-by-step, choose-camera-settings]

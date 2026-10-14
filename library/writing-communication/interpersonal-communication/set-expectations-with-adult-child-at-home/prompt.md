@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [adult-children, living-at-home, household-agreement, family-meeting, expectations]
 pairs_with:
   prompts: [set-rent-for-adult-child-at-home, write-house-share-agreement, set-boundary]

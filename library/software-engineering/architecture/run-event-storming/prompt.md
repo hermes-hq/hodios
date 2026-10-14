@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [event-storming, domain-events, domain-discovery, domain-driven-design, process-modeling, workshops]
 pairs_with:
   personas: [software-architect]

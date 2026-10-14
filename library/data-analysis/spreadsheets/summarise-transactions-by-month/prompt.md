@@ -19,6 +19,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [monthly-summary, sumifs, dynamic-arrays, expense-tracking, category-totals]
 pairs_with:
   prompts: [build-pivot-analysis, clean-messy-spreadsheet, build-sheets-dashboard]

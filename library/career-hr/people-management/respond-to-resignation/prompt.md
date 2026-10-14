@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [resignation, retention-counteroffer, handover-plan, team-communication, alumni]
 pairs_with:
   prompts: [run-exit-interview, run-stay-interview, write-reference-letter]

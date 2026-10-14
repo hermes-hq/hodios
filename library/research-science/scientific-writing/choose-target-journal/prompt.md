@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [journal-selection, open-access, predatory-journals, submission-strategy, manuscript]
 pairs_with:
   prompts: [write-journal-cover-letter, write-abstract, check-manuscript-reporting]

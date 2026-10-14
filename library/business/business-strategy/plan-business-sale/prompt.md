@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [exit-planning, sell-a-business, value-drivers, owner-dependence, deal-preparation]
 pairs_with:
   prompts: [plan-business-succession, prepare-due-diligence-data-room, evaluate-buying-a-business]

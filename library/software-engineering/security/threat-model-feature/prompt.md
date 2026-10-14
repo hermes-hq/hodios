@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [threat-model, stride, design-review]
 pairs_with:
   personas: [security-auditor]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [reading-discussion, authentic-materials, reading-comprehension, opinion-phrases, cefr]
 pairs_with:
   prompts: [gloss-authentic-text, practice-opinion-debate, level-down-text-for-learner, review-speaking-transcript]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [causation, historiography, source-analysis, timeline, interpretations]
 pairs_with:
   prompts: [plan-essay-argument, write-model-exam-answer, make-study-guide]

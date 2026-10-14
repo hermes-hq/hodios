@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [psychology]
 tags: [experimental-design, counterbalancing, manipulation-check, within-subjects, between-subjects, experimental-psychology]
 pairs_with:

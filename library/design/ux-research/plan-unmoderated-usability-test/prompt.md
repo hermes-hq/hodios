@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [unmoderated-testing, remote-usability, task-design, participant-quality, think-aloud]
 pairs_with:
   prompts: [write-usability-test-plan, synthesize-usability-findings, write-research-screener]

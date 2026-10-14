@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [standup, daily-update, async-update, blockers, status-update]
 pairs_with:
   prompts: [summarize-my-git-activity, fix-daily-standup, write-shipped-this-week-update]

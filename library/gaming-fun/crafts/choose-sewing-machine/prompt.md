@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sewing, sewing-machine, overlocker, buying-guide, second-hand, garment-sewing]
 pairs_with:
   prompts: [plan-sewing-project]

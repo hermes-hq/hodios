@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [interrupt-rotation, team-process, focus-time, support-escalations, request-intake]
 pairs_with:
   prompts: [plan-team-capacity, design-on-call-rotation, design-kanban-workflow]

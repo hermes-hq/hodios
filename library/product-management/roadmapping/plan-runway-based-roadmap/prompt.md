@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [runway, burn-rate, fundraising-milestones, cut-list, decision-checkpoints]
 pairs_with:
   prompts: [build-outcome-roadmap, define-mvp-scope, set-kill-criteria, brief-board-on-roadmap]

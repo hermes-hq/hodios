@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [editorial-review, engineering-blog, technical-accuracy, disclosure-risk]
 pairs_with:
   prompts: [write-tech-blog-post, rewrite-for-clarity]

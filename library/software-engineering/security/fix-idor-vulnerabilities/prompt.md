@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [idor, broken-access-control, authorization, owasp]
 pairs_with:
   prompts: [review-api-security, audit-tenant-isolation, write-authorization-tests, implement-role-based-access]

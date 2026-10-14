@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [negative-prompt, artefacts, flicker, positive-phrasing]
 pairs_with:
   prompts: [fix-video-generation-drift, write-video-generation-prompt]

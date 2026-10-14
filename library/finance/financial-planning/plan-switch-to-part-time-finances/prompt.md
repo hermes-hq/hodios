@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reduced-hours, work-life-balance, caring-responsibilities, pension-impact]
 pairs_with:
   prompts: [propose-flexible-work, build-monthly-budget, plan-parental-leave-finances, prioritize-financial-goals]

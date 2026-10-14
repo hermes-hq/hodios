@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [classroom-language, behaviour-management, instructions, parent-conversations, teaching-abroad]
 pairs_with:
   prompts: [practise-first-week-at-work, learn-school-vocabulary-for-parents, practise-polite-disagreement]

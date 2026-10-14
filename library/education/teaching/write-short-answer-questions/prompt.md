@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [constructed-response, mark-scheme, command-words, test-writing]
 pairs_with:
   prompts: [write-multiple-choice-questions, make-answer-key-with-worked-solutions, create-rubric]

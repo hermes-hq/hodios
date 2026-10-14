@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [co-ownership, joint-mortgage, unequal-deposits, exit-terms, home-buying]
 pairs_with:
   prompts: [estimate-home-buying-costs, prepare-mortgage-application, plan-couple-money-conversation, plan-separation-finances]

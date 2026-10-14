@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [licence-attribution, notice-file, open-source-licenses, release-artifacts]
 pairs_with:
   prompts: [audit-dependency-licenses, choose-software-license, write-release-process-doc]

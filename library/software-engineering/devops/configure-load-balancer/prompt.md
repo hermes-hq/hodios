@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [load-balancing, health-checks, connection-draining, idle-timeout, tls-termination]
 pairs_with:
   prompts: [implement-health-checks, fix-502-or-504-gateway-error, write-reverse-proxy-config]

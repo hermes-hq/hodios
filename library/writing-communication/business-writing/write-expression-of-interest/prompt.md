@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [expression-of-interest, pre-qualification, bid-writing, partnership-call, capability-statement]
 pairs_with:
   prompts: [respond-to-rfp, write-professional-bio, write-letter-of-support]

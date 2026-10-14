@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [change-employer, sponsored-worker, job-switch, work-permit-conditions, notice-period]
 pairs_with:
   prompts: [understand-residence-permit-conditions, report-change-of-circumstances, ask-employer-for-visa-sponsorship, calculate-absences-from-country]

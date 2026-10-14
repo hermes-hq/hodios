@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pay-rise, compensation, pay-equity, retention, manager-response]
 pairs_with:
   prompts: [allocate-merit-increases, run-career-conversation, respond-to-resignation]

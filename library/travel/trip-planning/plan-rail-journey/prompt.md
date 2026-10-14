@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [train-travel, rail-pass, night-trains, slow-travel]
 pairs_with:
   prompts: [plan-multi-city-route, plan-trip-budget, plan-itinerary]

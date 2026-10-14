@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [workwear, business-casual, first-day, office-dress, uniform-rules]
 pairs_with:
   prompts: [decode-dress-code, build-capsule-wardrobe, prepare-teen-for-first-job]

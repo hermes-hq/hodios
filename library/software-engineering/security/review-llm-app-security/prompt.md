@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [prompt-injection, owasp-llm, excessive-agency, ai-security, threat-model]
 pairs_with:
   personas: [security-auditor]

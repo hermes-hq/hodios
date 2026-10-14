@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [couples, shared-hobbies, quality-time, new-activities, connection]
 pairs_with:
   prompts: [plan-date-night, build-couple-bucket-list]

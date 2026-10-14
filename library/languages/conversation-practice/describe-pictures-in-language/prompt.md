@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [picture-description, speaking-exam-practice, speculation-language, spatial-language, cefr]
 pairs_with:
   prompts: [practice-speaking-exam, review-speaking-transcript, practise-exam-writing-task]

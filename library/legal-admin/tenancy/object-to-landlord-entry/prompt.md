@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [quiet-enjoyment, landlord-access, privacy, tenant-rights, landlord-letters]
 pairs_with:
   prompts: [respond-to-landlord-harassment, review-lease]

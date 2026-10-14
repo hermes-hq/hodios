@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [research-question, finer, pico, scoping, feasibility]
 pairs_with:
   prompts: [design-research-study, build-search-string, write-research-proposal, plan-phd-timeline]

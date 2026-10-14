@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [flat-tyre, spare-wheel, roadside-safety, tyre-repair-kit, breakdown, space-saver]
 pairs_with:
   prompts: [learn-basic-car-checks, check-car-before-road-trip, handle-car-accident-aftermath]

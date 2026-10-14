@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [review-update, living-review, systematic-review, evidence-synthesis, search-update]
 pairs_with:
   prompts: [build-search-string, write-systematic-review-protocol, write-prisma-flow-report, plan-meta-analysis]

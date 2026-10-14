@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [drag-and-drop, sortable-list, kanban, live-regions, dragging-movements, keyboard]
 pairs_with:
   personas: [accessibility-specialist]

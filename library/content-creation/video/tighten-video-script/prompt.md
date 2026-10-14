@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [script-editing, runtime, pacing, cut-list, intro-length]
 pairs_with:
   prompts: [adapt-script-for-teleprompter, analyze-video-retention, write-video-hooks]

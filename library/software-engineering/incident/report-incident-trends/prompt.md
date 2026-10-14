@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [reliability-review, mttr, incident-analysis, quarterly-review, systemic-themes]
 pairs_with:
   prompts: [audit-postmortem-action-items, define-slos, write-postmortem, prune-noisy-alerts]

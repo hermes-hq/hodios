@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [siblings, sibling-rivalry, conflict-resolution, child-development, positive-discipline]
 pairs_with:
   prompts: [plan-behavior-approach, prepare-child-for-new-sibling, create-chore-chart]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [journal-entries, self-reflection, recurring-themes, triggers, personal-review]
 pairs_with:
   prompts: [summarize-feedback-about-me, extract-open-questions, turn-content-into-actions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [resurfacing, retrieval, knowledge-reuse, project-start]
 pairs_with:
   prompts: [suggest-links-between-notes, write-map-of-content, outline-draft-from-notes]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fba, third-party-logistics, fulfilment-model, shipping-costs, multichannel, inventory-risk]
 pairs_with:
   prompts: [calculate-amazon-fba-profit, plan-order-fulfilment, plan-multichannel-inventory-sync]

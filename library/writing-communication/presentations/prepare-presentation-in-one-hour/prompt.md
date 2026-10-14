@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [short-notice, time-boxed, five-slides, rehearsal, last-minute]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, drill-presentation-qa]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [buy-now-pay-later, instalments, checkout-payments, merchant-fees, conversion, payment-methods]
 pairs_with:
   prompts: [optimize-product-page-conversion, screen-orders-for-fraud]

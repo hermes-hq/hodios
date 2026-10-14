@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-volunteers, volunteer-training, listening-to-readers, safeguarding-basics, reading-for-pleasure, pause-prompt-praise]
 pairs_with:
   prompts: [plan-library-reading-programme, write-safeguarding-concern-record, plan-guided-reading-group]

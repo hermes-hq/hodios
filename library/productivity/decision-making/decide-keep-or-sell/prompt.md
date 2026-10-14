@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [endowment-effect, sunk-cost, holding-costs, resale, possessions]
 pairs_with:
   prompts: [compare-sell-vs-rent-out-home, sell-car-privately, check-decision-for-biases]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jetpack-compose, recomposition, stateflow, viewmodel]
 pairs_with:
   prompts: [debug-mobile-crash, fix-mobile-build-failure]

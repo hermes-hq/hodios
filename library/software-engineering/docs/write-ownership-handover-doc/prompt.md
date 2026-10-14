@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [handover, knowledge-transfer, service-ownership, bus-factor, offboarding]
 pairs_with:
   prompts: [write-runbook, write-onboarding-guide]

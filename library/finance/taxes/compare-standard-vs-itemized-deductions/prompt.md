@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [united-states, itemized-deductions, bunching, charitable-giving]
 pairs_with:
   prompts: [organize-tax-documents, estimate-annual-tax-bill, plan-giving-budget]

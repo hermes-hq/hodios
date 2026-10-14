@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trends, short-form-video, trending-audio, brand-safety]
 pairs_with:
   prompts: [write-short-form-script, write-video-hooks]

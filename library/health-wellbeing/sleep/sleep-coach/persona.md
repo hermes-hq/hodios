@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [cbt-i, sleep-diary, circadian-rhythm, routines]
 pairs_with:
   prompts: [improve-sleep-habits, guide-breathing-exercise, check-burnout-signs]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [supplier-vetting, sourcing, procurement, fraud-red-flags, supplier-qualification, first-order]
 pairs_with:
   prompts: [compare-vendors, audit-supplier-factory, write-supplier-onboarding-pack, map-supply-risk]

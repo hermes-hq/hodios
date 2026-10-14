@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cognitive-walkthrough, learnability, expert-review, first-time-use, inspection-method]
 pairs_with:
   prompts: [run-heuristic-evaluation, map-user-flow, write-usability-test-plan]

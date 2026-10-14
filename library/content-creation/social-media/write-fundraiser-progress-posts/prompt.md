@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fundraising-campaign, donor-thanks, milestones, appeal-posts, transparency]
 pairs_with:
   prompts: [plan-nonprofit-social-media, plan-capital-campaign]

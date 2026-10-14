@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [personal-statement, college-essay, admissions, scholarship-essay, ucas, authentic-voice]
 pairs_with:
   prompts: [plan-university-application, plan-scholarship-applications, give-essay-feedback]

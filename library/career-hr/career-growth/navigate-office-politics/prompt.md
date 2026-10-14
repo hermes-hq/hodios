@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [influence, stakeholders, organisational-politics, buy-in]
 pairs_with:
   prompts: [increase-work-visibility, handle-difficult-manager]

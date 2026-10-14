@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [polymer-clay, clay-earrings, millefiori-canes, baking-temperature, charms, miniatures]
 pairs_with:
   prompts: [plan-jewellery-piece, plan-pottery-piece]

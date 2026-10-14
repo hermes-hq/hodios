@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [protocol-review, reproducibility, sop-review, method-gaps, bench-protocol]
 pairs_with:
   prompts: [write-lab-protocol, troubleshoot-failed-experiment, write-methods-section]

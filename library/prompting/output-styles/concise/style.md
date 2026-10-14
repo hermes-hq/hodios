@@ -10,6 +10,7 @@ status: incubating
 requires: [none]
 risk: read-only
 level: beginner
+depth: basic
 tags: [brevity, answer-first]
 levels:
   - label: Trimmed

@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [caf, apl, aide-au-logement, prestations-sociales, france]
 pairs_with:
   prompts: [apply-for-housing-assistance, write-french-termination-letter]

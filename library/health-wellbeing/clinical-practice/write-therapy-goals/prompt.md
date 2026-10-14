@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [smart-goals, plan-of-care, speech-therapy, occupational-therapy, physiotherapy, rehabilitation]
 pairs_with:
   prompts: [write-home-exercise-handout, write-home-safety-assessment-summary, write-letter-of-medical-necessity, structure-soap-note]

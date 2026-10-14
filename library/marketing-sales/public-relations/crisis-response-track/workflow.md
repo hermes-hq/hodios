@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crisis-communications, incident-response, holding-statement, stakeholder-updates, after-action-review]
 pairs_with:
   prompts: [write-holding-statement, write-public-apology-statement, reply-to-journalist-request, build-crisis-comms-plan]

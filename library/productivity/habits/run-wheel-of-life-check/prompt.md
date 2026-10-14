@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wheel-of-life, life-balance, self-assessment, priorities, check-in]
 pairs_with:
   prompts: [run-personal-retrospective, write-personal-vision, run-energy-audit]

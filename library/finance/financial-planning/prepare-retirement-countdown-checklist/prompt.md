@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [retirement-date, pension-claim, workplace-benefits, cash-buffer, retirement-admin]
 pairs_with:
   prompts: [plan-retirement-transition, plan-retirement-drawdown, understand-pension-statement, compare-pension-lump-sum-vs-income]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [3d-printing, post-processing, sanding, filler-primer, prop-painting, resin-printing]
 pairs_with:
   prompts: [troubleshoot-3d-print, calibrate-3d-printer]

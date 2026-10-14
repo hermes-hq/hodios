@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [markdown-conversion, pdf-text, word-documents, web-clipping, formatting-cleanup]
 pairs_with:
   prompts: [structure-messy-notes, split-note-into-atomic-notes, set-up-obsidian-vault, migrate-notes-between-apps]

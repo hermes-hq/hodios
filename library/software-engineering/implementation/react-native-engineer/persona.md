@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [native-modules, list-performance, startup-time, ota-updates, cross-platform]
 pairs_with:
   personas: [mobile-engineer, react-engineer]

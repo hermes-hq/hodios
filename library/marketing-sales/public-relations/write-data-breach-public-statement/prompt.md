@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-breach, cyber-incident, breach-notification, customer-notice, crisis-communications, media-qa]
 pairs_with:
   prompts: [plan-data-breach-response, write-holding-statement, write-public-apology-statement]

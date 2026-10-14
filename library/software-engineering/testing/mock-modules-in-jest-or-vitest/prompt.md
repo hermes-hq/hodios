@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mocking, jest, vitest, esm, test-doubles]
 pairs_with:
   prompts: [write-unit-tests, build-fake-for-external-api, find-test-pollution]

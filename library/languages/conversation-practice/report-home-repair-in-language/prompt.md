@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-repairs, renters, circumlocution, housing, newcomers, cefr]
 pairs_with:
   prompts: [practise-flat-viewing-questions, help-me-write-in-language, practise-conversation-strategies]

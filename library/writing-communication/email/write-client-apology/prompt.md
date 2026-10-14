@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-apology, service-failure, service-recovery, accountability, client-retention]
 pairs_with:
   prompts: [apologize-effectively, respond-to-angry-email, write-delay-notification]

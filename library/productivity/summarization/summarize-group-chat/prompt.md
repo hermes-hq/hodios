@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [group-chat, catch-up, whatsapp, unread-messages, mentions]
 pairs_with:
   prompts: [summarize-email-thread, catch-up-after-leave, extract-deadlines]

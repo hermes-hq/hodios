@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [alerting, burn-rate, slo-alerts, alert-fatigue, prometheus]
 pairs_with:
   personas: [site-reliability-engineer]

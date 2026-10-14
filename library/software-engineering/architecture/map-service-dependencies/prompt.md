@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dependency-map, service-catalog, critical-path, coupling, system-inventory]
 pairs_with:
   personas: [software-architect]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pricing-research, packaging, willingness-to-pay, churn-reasons, sales-objections]
 pairs_with:
   prompts: [analyze-cancellation-feedback, turn-sales-notes-into-product-insights, check-feedback-against-usage-data]

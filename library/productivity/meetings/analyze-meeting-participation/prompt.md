@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [participation, inclusion, facilitation, team-dynamics, transcripts]
 pairs_with:
   prompts: [summarize-meeting-transcript, review-meeting-i-ran, practise-chairing-meeting]

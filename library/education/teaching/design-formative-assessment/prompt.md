@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [formative-assessment, hinge-question, exit-ticket, misconceptions, responsive-teaching]
 pairs_with:
   prompts: [write-lesson-plan, write-multiple-choice-questions, analyze-class-assessment-results]

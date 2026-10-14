@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gift-idea, user-manual-parody, birthday, anniversary, leaving-card]
 pairs_with:
   prompts: [write-roast, write-mock-press-release]

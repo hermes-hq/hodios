@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [image-to-video, camera-movement, motion-control, animate-still]
 pairs_with:
   prompts: [write-video-generation-prompt, write-looping-video-prompt, fix-video-generation-drift]

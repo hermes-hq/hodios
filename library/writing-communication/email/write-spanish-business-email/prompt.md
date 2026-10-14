@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [correo-profesional, tuteo-ustedeo, saludo-y-despedida, business-spanish, latam-espana]
 pairs_with:
   prompts: [correct-spanish-accents-and-spelling, write-corporate-email-brazil, write-follow-up-email]

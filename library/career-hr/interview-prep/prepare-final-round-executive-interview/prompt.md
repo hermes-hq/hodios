@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [final-round, senior-leader, founder-interview, business-acumen]
 pairs_with:
   prompts: [research-company, prepare-questions-for-interviewer, close-interview-strongly]

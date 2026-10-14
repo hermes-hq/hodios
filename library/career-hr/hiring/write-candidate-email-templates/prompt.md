@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [candidate-communication, email-templates, candidate-experience, hiring-process]
 pairs_with:
   prompts: [invite-candidate-to-interview, write-candidate-rejection, audit-candidate-experience, write-interview-process-guide]

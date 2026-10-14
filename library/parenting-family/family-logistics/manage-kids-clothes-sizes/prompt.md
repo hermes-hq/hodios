@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kids-clothes, hand-me-downs, sizing, seasonal-switch, second-hand, family-budget]
 pairs_with:
   prompts: [store-seasonal-items, organise-kids-toys, plan-back-to-school-admin]

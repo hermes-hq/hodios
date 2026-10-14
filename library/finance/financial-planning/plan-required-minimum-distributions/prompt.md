@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rmd, retirement-accounts, ira, 401k, qualified-charitable-distribution, usa]
 pairs_with:
   prompts: [plan-retirement-drawdown, prepare-financial-adviser-meeting, plan-retirement-scenarios]

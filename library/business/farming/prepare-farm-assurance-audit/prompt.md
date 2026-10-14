@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [farm-assurance, audit-preparation, non-conformance, farm-records, self-assessment]
 pairs_with:
   prompts: [answer-farm-audit-findings, plan-livestock-record-keeping, prepare-for-food-safety-inspection]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hr-metrics, people-analytics, turnover-rate, absence-rate, kpi-definitions]
 pairs_with:
   prompts: [select-hr-system, plan-hr-annual-calendar, analyze-pay-equity]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [integrative-review, evidence-synthesis, mixed-evidence, nursing-research]
 pairs_with:
   prompts: [build-search-string, appraise-study-quality, build-literature-matrix]

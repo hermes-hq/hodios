@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [menopause, perimenopause, night-sweats, hot-flushes, bedding, cooling]
 pairs_with:
   prompts: [plan-middle-of-night-waking, audit-bedroom-for-sleep, solve-partner-sleep-clashes]

@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [async-await, promises, callbacks, modernization, concurrency]
 pairs_with:
   prompts: [add-characterization-tests, simplify-function]

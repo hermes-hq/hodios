@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mdt, multidisciplinary-team, case-discussion, care-coordination, case-summary, team-meetings]
 pairs_with:
   prompts: [prepare-case-presentation, write-social-work-case-note, summarize-patient-records]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [two-factor-auth, totp, mfa, recovery-codes, authentication]
 pairs_with:
   prompts: [implement-password-auth, implement-audit-log, add-rate-limiting]

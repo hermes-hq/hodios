@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [performance-management, review-cycle, rating-scale, calibration, review-form]
 pairs_with:
   prompts: [run-calibration-session, write-performance-review, build-merit-increase-matrix, plan-hr-annual-calendar]

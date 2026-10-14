@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [correction, errata, wrong-recipient, wrong-attachment, misdirected-email]
 pairs_with:
   prompts: [apologize-effectively, write-client-apology, reply-to-email]

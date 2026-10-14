@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fermentation, cold-retard, timeline]
 pairs_with:
   prompts: [troubleshoot-recipe]

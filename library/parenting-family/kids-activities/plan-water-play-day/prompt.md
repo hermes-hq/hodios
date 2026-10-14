@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [water-play, summer-games, garden-games, hot-weather, drowning-prevention, outdoor-play]
 pairs_with:
   prompts: [design-kids-obstacle-course, plan-backyard-sports-day, plan-kids-summer]

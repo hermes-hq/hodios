@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [oee, downtime, mtbf, mttr, manufacturing, maintenance]
 pairs_with:
   prompts: [run-pareto-analysis, build-control-chart, analyze-process-cycle-times]

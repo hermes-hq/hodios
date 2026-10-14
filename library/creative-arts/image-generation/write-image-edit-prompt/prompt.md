@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [inpainting, image-editing, background-replacement, style-transfer]
 pairs_with:
   prompts: [write-image-prompt, write-product-photo-prompt, build-image-style-guide]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [word-limit, character-limit, concision, application-forms, content-triage]
 pairs_with:
   prompts: [tighten-prose, write-professional-bio, critique-draft]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [supplemental-essay, college-admissions, why-us-essay, school-research, word-limit]
 pairs_with:
   prompts: [coach-personal-statement, plan-university-application, write-college-activities-list]

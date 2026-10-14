@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [league-table, funnel-plot, ranking, small-numbers, unit-comparison]
 pairs_with:
   prompts: [set-scorecard-status-thresholds, build-composite-index, compare-period-performance]

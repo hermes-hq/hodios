@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [team-morale, losing-streak, process-goals, team-meeting, amateur-coach, team-culture]
 pairs_with:
   prompts: [run-match-debrief, choose-team-formation, plan-team-season]

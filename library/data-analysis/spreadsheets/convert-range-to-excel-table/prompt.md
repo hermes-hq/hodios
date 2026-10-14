@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [excel-tables, structured-references, dynamic-ranges, workbook-cleanup, listobject]
 pairs_with:
   prompts: [speed-up-slow-workbook, write-spreadsheet-formula, audit-spreadsheet-model]

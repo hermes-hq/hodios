@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [school-mornings, family-routines, visual-checklist, getting-out-the-door, morning-rush]
 pairs_with:
   prompts: [set-up-routines-for-child-with-adhd, create-chore-chart, coordinate-family-calendar]

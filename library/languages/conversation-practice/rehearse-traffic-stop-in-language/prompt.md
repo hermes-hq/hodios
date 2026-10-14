@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 advice_risk: [legal]
 tags: [police-check, drivers, documents, staying-calm, newcomers]
 pairs_with:

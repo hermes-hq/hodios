@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [transactions, subscriptions, bank-fees, spending-review]
 pairs_with:
   prompts: [build-monthly-budget, plan-savings-goal]

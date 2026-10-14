@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [fitness-functions, evolutionary-architecture, dependency-rules, architecture-tests, ci-checks]
 pairs_with:
   personas: [software-architect]

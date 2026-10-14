@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [haccp, critical-control-points, food-safety-management, temperature-control, corrective-actions, due-diligence]
 pairs_with:
   prompts: [prepare-for-food-safety-inspection, build-allergen-matrix, write-dish-spec-sheet]

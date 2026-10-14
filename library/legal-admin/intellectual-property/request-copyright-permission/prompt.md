@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [permissions-request, rights-clearance, licence-scope, attribution, rights-holder]
 pairs_with:
   prompts: [assess-use-of-copyrighted-material, write-licence-for-creative-work]

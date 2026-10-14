@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [active-record, callbacks, background-jobs, safe-migrations, system-tests]
 pairs_with:
   prompts: [fix-n-plus-one-queries, plan-zero-downtime-schema-change, implement-background-job]

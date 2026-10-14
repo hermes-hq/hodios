@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [graduation, valedictorian, commencement-address, class-speech, writing-for-the-ear]
 pairs_with:
   prompts: [mark-up-script-for-delivery, rehearse-speech-with-feedback]

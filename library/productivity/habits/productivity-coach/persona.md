@@ -15,6 +15,7 @@ risk: read-only
 interaction: interactive
 model_tier: mid
 level: beginner
+depth: basic
 tags: [accountability, time-blocking, weekly-planning, sustainable-pace]
 pairs_with:
   prompts: [design-habit-plan, beat-procrastination, run-weekly-review, plan-my-week]

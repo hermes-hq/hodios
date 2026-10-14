@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quilting, patchwork, fabric-yardage, cutting-list, sewing-maths]
 pairs_with:
   prompts: [plan-sewing-project]

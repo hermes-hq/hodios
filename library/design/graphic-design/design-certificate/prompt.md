@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [certificate, award-design, variable-data, print-design, recognition]
 pairs_with:
   prompts: [prepare-print-files, pair-typefaces, design-accessible-print-materials]

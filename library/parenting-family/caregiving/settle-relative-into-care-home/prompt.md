@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [care-homes, moving-in, transition, ageing-parents, carer-guilt]
 pairs_with:
   prompts: [evaluate-care-homes, write-care-profile, raise-concern-about-care, write-life-story-profile-for-care]

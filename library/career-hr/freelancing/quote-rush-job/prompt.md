@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rush-fee, tight-deadline, quoting, capacity, client-expectations]
 pairs_with:
   prompts: [price-services, write-scope-change-email, triage-overbooked-client-schedule, write-statement-of-work]

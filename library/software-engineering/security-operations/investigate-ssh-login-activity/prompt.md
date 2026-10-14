@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ssh, auth-log, brute-force, linux-forensics, key-fingerprints]
 pairs_with:
   prompts: [triage-compromised-linux-server, investigate-risky-sign-in, build-forensic-timeline]

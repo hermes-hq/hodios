@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recipe-translation, unit-conversion, ingredients, culinary-terms, oven-temperatures]
 pairs_with:
   prompts: [translate-preserving-tone, adapt-regional-variant, translate-restaurant-menu]

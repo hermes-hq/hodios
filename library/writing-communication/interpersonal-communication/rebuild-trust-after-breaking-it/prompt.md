@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trust-repair, accountability, betrayal, consistency, making-amends]
 pairs_with:
   prompts: [apologize-effectively, repair-after-argument-with-partner, confess-a-mistake-to-someone]

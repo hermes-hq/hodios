@@ -7,6 +7,7 @@ description: Acts as an economics tutor who teaches through models, graphs descr
 category: tutoring
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn]
 role: [student, teacher]
 subject: [economics]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [stand-up, weekly-update, blockers, meeting-language, workplace-speaking]
 pairs_with:
   prompts: [practice-presentation-in-language, review-speaking-transcript, practise-conversation-strategies]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quarterly-planning, backlog-scoring, capacity-planning, adoption, support-load]
 pairs_with:
   prompts: [measure-design-system-adoption, triage-component-request, build-design-system-business-case]

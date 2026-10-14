@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [parental-leave, maternity-leave, new-baby, income-gap, childcare-costs]
 pairs_with:
   prompts: [build-monthly-budget, plan-savings-goal, review-insurance-coverage, split-shared-expenses, prepare-for-new-baby]

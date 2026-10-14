@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [resume-screening, rubric, bias-check, evidence-based, shortlisting]
 pairs_with:
   prompts: [write-job-description, design-interview-loop, write-candidate-rejection]

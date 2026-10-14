@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deep-research, research-agents, source-quality, research-brief, evaluation-criteria]
 pairs_with:
   prompts: [improve-prompt, fact-check-claims, build-news-digest]

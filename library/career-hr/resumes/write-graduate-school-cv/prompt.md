@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [graduate-admissions, phd-applications, research-experience, masters-applications]
 pairs_with:
   prompts: [plan-phd-application, coach-personal-statement, write-academic-cv]

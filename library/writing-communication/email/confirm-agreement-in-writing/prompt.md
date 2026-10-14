@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [paper-trail, verbal-agreement, confirmation, record-keeping, follow-up]
 pairs_with:
   prompts: [write-meeting-recap-email, write-negotiation-email, write-escalation-email]

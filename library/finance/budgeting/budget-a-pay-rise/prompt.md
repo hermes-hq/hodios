@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pay-rise, lifestyle-creep, savings-rate, salary-increase]
 pairs_with:
   prompts: [build-monthly-budget, plan-savings-goal, build-emergency-fund-plan, plan-windfall]

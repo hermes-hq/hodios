@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [multi-tenancy, data-isolation, authorization, cross-tenant-access, row-level-security]
 pairs_with:
   prompts: [design-multi-tenancy, review-api-security, implement-role-based-access]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [care-homes, assisted-living, nursing-homes, eldercare, care-costs, care-contracts]
 pairs_with:
   prompts: [plan-parent-care-conversation, plan-long-term-care-costs, plan-family-meeting]

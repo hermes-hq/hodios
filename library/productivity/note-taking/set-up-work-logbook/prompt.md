@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [work-log, daybook, decision-records, self-review-evidence]
 pairs_with:
   prompts: [write-brag-document, design-daily-note-template, write-til-note]

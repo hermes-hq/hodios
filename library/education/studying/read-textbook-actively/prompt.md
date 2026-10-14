@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [active-reading, sq3r, retrieval-practice, reading-guide]
 pairs_with:
   prompts: [make-study-guide, make-flashcards, build-concept-map]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-education, partner-enablement, certification, learning-paths, product-adoption, academy]
 pairs_with:
   prompts: [plan-customer-onboarding, design-elearning-module, design-microlearning-series, evaluate-training-effectiveness]

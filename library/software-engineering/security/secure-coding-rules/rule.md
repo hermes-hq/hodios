@@ -15,6 +15,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: intermediate
+depth: specific
 tags: [owasp, secure-by-default]
 pairs_with:
   personas: [security-auditor]

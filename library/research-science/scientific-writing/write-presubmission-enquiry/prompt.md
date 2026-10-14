@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [presubmission-enquiry, journal-fit, editor-letter, desk-rejection, journal-submission]
 pairs_with:
   prompts: [choose-target-journal, write-journal-cover-letter, write-abstract]

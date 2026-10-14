@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [postal-addresses, personal-names, phone-numbers, e164, form-design, data-model]
 pairs_with:
   prompts: [implement-form-validation, fix-form-accessibility, review-i18n-readiness, implement-locale-formatting]

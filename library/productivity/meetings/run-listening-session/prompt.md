@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-management, psychological-safety, employee-voice, town-hall, follow-up]
 pairs_with:
   prompts: [handle-team-resistance-to-change, facilitate-tense-meeting, plan-all-hands-meeting]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [abandoned-cart, cart-recovery, lifecycle-marketing, email-automation]
 pairs_with:
   prompts: [write-email-sequence, write-promo-email, write-win-back-campaign]

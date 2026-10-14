@@ -13,6 +13,7 @@ stack: []
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [code-comments, docstrings, todo-comments, self-documenting-code]
 pairs_with:
   prompts: [document-public-api, write-documentation-standards]

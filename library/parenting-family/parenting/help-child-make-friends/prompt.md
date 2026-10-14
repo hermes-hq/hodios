@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [friendships, social-skills, shyness, playdates, new-school, child-development]
 pairs_with:
   prompts: [support-child-being-bullied, support-anxious-child, write-email-to-teacher]

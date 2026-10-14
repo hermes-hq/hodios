@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [moving-abroad, settling-in, newcomers, expat-life]
 pairs_with:
   prompts: [decide-what-to-ship-abroad, choose-arrival-accommodation, find-rental-from-abroad, set-up-home-utilities-abroad, review-move-at-six-months]

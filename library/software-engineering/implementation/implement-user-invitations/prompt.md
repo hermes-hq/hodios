@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [invitations, multi-tenant, onboarding-flow, roles, b2b]
 pairs_with:
   prompts: [spec-team-invitation-flow, implement-role-based-access, implement-transactional-email, implement-saml-sso]

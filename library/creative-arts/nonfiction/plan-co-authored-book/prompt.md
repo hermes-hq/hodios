@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [co-authoring, collaboration, book-voice, writing-process, deadlock-rules]
 pairs_with:
   prompts: [outline-nonfiction-book, write-nonfiction-book-proposal]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [structured-outputs, json-schema, document-extraction, validation]
 pairs_with:
   prompts: [write-llm-eval-suite, design-tool-schema, reduce-llm-costs]

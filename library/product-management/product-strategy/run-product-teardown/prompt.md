@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-teardown, competitive-analysis, time-to-value, packaging, retention-loops]
 pairs_with:
   prompts: [write-product-strategy, define-north-star-metric]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [community-posts, polls, audience-engagement, upload-teasers]
 pairs_with:
   prompts: [plan-video-series, package-video-title-thumbnail, reply-to-comments]

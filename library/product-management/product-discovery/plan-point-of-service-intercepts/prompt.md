@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [intercept-interviews, in-context-research, sampling, field-research, service-moments]
 pairs_with:
   prompts: [plan-guerrilla-usability-test, plan-contextual-inquiry, synthesize-customer-interviews]

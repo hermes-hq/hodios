@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [concept-note, international-development, humanitarian, donor-funding, theory-of-change, localisation]
 pairs_with:
   prompts: [build-theory-of-change, write-grant-risk-register, plan-consortium-grant-bid]

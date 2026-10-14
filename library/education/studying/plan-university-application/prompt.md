@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [admissions, college-applications, application-timeline, references, ucas, common-app]
 pairs_with:
   prompts: [coach-personal-statement, plan-scholarship-applications, plan-language-exam-prep]

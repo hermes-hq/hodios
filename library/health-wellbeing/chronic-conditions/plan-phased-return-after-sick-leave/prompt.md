@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [return-to-work, sick-leave, occupational-health, graded-return, workplace-meetings]
 pairs_with:
   prompts: [structure-workday-around-condition, plan-activity-pacing, decide-whether-to-disclose-condition]

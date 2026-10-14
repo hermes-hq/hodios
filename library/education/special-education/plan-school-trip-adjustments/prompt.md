@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [school-trips, reasonable-adjustments, inclusion, risk-assessment, sensory-needs]
 pairs_with:
   prompts: [plan-field-trip, write-social-story, create-visual-timetable, write-intimate-care-plan]

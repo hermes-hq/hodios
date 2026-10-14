@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [layoffs, redundancy, notification-day, run-of-show, restructuring]
 pairs_with:
   prompts: [plan-layoff-conversation, write-layoff-announcement, write-redundancy-letters, lead-team-after-layoffs]

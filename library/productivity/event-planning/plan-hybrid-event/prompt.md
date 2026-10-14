@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hybrid-events, remote-audience, event-av, online-host, streaming]
 pairs_with:
   prompts: [write-run-of-show, plan-livestream-run-of-show, plan-accessible-event]

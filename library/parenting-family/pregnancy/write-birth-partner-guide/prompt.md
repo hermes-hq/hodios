@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [birth-partner, labour, birth-plan, doula, support-person]
 pairs_with:
   prompts: [write-birth-preferences, plan-labour-day-logistics]

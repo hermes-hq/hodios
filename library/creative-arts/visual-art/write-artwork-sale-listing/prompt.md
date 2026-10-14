@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [selling-art, artwork-description, art-marketplace, product-copy]
 pairs_with:
   prompts: [price-artwork, write-artist-statement, plan-artwork-shipping]

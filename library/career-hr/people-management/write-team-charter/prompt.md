@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [team-charter, working-agreements, decision-rights, raci, team-norms]
 pairs_with:
   prompts: [plan-transition-to-manager, plan-one-on-one]

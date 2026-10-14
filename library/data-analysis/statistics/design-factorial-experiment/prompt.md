@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-of-experiments, doe, fractional-factorial, screening-experiment, aliasing, split-plot]
 pairs_with:
   prompts: [calculate-sample-size, interpret-interaction-effect, run-regression-analysis]

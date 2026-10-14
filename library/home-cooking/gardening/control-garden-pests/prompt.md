@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [integrated-pest-management, slugs, aphids, biological-control, barriers, organic-gardening]
 pairs_with:
   prompts: [diagnose-plant-problem, plan-companion-planting, plan-pollinator-garden, build-garden-calendar]

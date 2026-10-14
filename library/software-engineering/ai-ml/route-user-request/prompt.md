@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: intermediate
+depth: specific
 tags: [intent-routing, llm-router, intent-classification, fallback]
 pairs_with:
   prompts: [write-classification-prompt, decide-when-to-escalate, design-agent-architecture]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [online-reviews, consumer-protection, review-manipulation, incentivised-reviews]
 pairs_with:
   prompts: [check-post-before-sharing, check-social-account-authenticity]

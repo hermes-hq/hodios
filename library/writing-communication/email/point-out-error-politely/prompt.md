@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mistakes, corrections, invoice-error, tact, diplomacy]
 pairs_with:
   prompts: [correct-email-mistake, give-feedback-sbi, write-escalation-email]

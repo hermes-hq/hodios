@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [llms-txt, ai-readable-docs, docs-site, markdown-export, coding-agents]
 pairs_with:
   prompts: [write-docs-landing-page, set-up-docs-site, write-api-quickstart]

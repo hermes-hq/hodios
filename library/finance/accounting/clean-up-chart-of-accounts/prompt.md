@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chart-of-accounts, account-mapping, ledger-cleanup, management-reporting]
 pairs_with:
   prompts: [set-up-chart-of-accounts, switch-accounting-software, review-small-business-pnl]

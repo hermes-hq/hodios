@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [meat, doneness, thermometer, roasting, searing, resting]
 pairs_with:
   prompts: [plan-barbecue-cook, plan-sous-vide-cook, check-food-safety]

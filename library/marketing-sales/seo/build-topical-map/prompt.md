@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [topical-authority, content-architecture, entities, publishing-order, niche-sites]
 pairs_with:
   prompts: [research-keywords, build-internal-linking-plan, write-seo-content-brief]

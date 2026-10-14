@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [standard-operating-procedure, procedure-review, document-review, process-audit, review-schedule]
 pairs_with:
   prompts: [write-sop, set-up-document-control, map-business-process]

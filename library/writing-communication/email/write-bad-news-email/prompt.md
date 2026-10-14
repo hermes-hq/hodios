@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bad-news, cancellation, denied-request, missed-target, difficult-email]
 pairs_with:
   prompts: [write-delay-notification, decline-request-gracefully, prepare-difficult-conversation]

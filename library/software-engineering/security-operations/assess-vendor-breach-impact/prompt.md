@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [third-party-risk, supply-chain-attack, credential-rotation, breach-response, vendor-management]
 pairs_with:
   prompts: [respond-to-leaked-secret, investigate-cloud-audit-logs, plan-data-breach-response, write-incident-update]

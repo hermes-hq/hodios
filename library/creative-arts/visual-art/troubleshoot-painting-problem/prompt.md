@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [painting-problems, oil-painting, watercolour, acrylic-painting, art-materials]
 pairs_with:
   prompts: [plan-painting-step-by-step, choose-art-supplies, critique-artwork]

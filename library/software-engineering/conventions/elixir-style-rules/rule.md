@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [otp, pattern-matching, supervision-trees, exunit, credo]
 applies_to: ["**/*.ex", "**/*.exs"]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bear-safety, bear-spray, food-storage, wildlife-encounters, bear-canister, camp-layout]
 pairs_with:
   prompts: [plan-camping-trip, plan-backpacking-food, choose-wild-camp-spot]

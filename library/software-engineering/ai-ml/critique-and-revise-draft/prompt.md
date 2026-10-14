@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [self-refine, critique-revise, requirements-check, output-quality]
 pairs_with:
   prompts: [grade-response-with-rubric, check-answer-faithfulness, add-llm-output-guardrails]

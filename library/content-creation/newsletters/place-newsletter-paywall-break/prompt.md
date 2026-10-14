@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paywall, paid-subscriptions, free-preview, upgrade-copy, conversion]
 pairs_with:
   prompts: [write-newsletter-issue, audit-newsletter-performance]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cognitive-biases, debiasing, sunk-cost, anchoring, confirmation-bias, judgement]
 pairs_with:
   prompts: [run-pre-mortem, steelman-opposing-view, find-logical-fallacies, run-decision-journal]

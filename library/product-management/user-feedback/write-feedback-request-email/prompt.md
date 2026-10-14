@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [customer-email, reply-rate, lifecycle-email, customer-outreach, feedback-request]
 pairs_with:
   prompts: [design-in-product-survey, close-feedback-loop]

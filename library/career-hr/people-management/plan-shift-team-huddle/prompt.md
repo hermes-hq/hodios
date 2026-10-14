@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [shift-briefing, team-huddle, frontline-teams, recognition, safety-briefing]
 pairs_with:
   prompts: [plan-one-on-one, write-recognition-message, write-job-aid]

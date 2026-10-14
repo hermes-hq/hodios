@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [colour-palette, lighting, renter-friendly]
 pairs_with:
   prompts: [plan-room-makeover, plan-room-layout, plan-decluttering, prepare-home-for-sale]

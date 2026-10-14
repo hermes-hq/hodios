@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [structured-data, json-ld, schema-org, rich-results]
 pairs_with:
   prompts: [audit-on-page-seo, audit-technical-seo, plan-local-seo]

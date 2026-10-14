@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [long-term-illness, arthritis, back-pain, diabetes, exercise-as-medicine, clinician-guidance]
 pairs_with:
   prompts: [plan-chronic-condition-self-management, plan-return-to-training, prepare-doctor-questions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [power-analysis, ab-testing, minimum-detectable-effect]
 pairs_with:
   prompts: [choose-statistical-test, analyze-survey-results, design-ab-test]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gastroenteritis, rehydration, diarrhoea, vomiting, recovery]
 pairs_with:
   prompts: [plan-eating-when-appetite-is-low, plan-hydration]

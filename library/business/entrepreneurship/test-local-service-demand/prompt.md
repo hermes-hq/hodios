@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [demand-test, local-business, leaflets, community-groups, go-no-go, enquiries]
 pairs_with:
   prompts: [plan-service-business-launch, price-services, plan-local-advertising, validate-business-idea]

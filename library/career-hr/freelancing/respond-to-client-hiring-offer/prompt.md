@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-offer, client-relationship, going-in-house, employment-status, conversion-fee, career-decision]
 pairs_with:
   prompts: [evaluate-job-offer, negotiate-job-offer, pitch-retainer-to-client, part-ways-with-client]

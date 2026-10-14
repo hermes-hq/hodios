@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [primary-keys, uuidv7, ulid, identity-columns, surrogate-keys, public-ids]
 pairs_with:
   prompts: [design-database-schema, plan-zero-downtime-schema-change]

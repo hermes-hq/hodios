@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [lean-plan, financial-projections, cash-flow, bank-loan]
 pairs_with:
   prompts: [estimate-market-size, model-unit-economics, write-pitch-deck-outline]

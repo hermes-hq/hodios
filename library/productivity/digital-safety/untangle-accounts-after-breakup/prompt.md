@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [breakup, shared-accounts, location-sharing, password-reset, separation, tech-abuse]
 pairs_with:
   prompts: [check-phone-for-stalkerware, secure-personal-accounts, lock-down-social-privacy, plan-separation-finances]

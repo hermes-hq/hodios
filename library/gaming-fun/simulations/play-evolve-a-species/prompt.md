@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [natural-selection, evolution, genetic-drift, science-game, classroom-game]
 pairs_with:
   prompts: [play-ecosystem-keeper, play-first-contact-game]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [disagreement, politics, values, curiosity, family-dynamics]
 pairs_with:
   prompts: [navigate-family-gathering-tension, practice-active-listening, plan-persuasive-argument]

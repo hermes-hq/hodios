@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bereavement, death-in-service, grief-at-work, team-support, sensitive-communication]
 pairs_with:
   prompts: [write-condolence-message, plan-employee-offboarding, answer-employee-hr-question]

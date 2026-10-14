@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [conference-agenda, session-scheduling, tracks, programme-grid, speakers]
 pairs_with:
   prompts: [plan-conference, run-call-for-speakers, write-run-of-show]

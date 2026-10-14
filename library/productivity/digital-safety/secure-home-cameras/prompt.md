@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [security-cameras, baby-monitor, video-doorbell, smart-home-security, camera-privacy]
 pairs_with:
   prompts: [secure-home-router, plan-smart-home, secure-personal-accounts]

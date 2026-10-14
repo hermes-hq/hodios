@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 subject: [healthcare]
 tags: [values-based-recruitment, nursing-interview, care-work, allied-health, raising-concerns, scenario-questions]
 pairs_with:

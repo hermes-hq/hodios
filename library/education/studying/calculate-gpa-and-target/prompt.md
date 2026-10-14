@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gpa, credit-hours, grade-calculation, target-grade, transcript]
 pairs_with:
   prompts: [calculate-grade-needed-on-final, plan-courses-to-graduation, plan-scholarship-applications]

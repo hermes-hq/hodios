@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hr-casework, case-intake, grievance-route, case-log, interim-measures]
 pairs_with:
   prompts: [conduct-workplace-investigation, write-workplace-grievance, plan-employee-offboarding]

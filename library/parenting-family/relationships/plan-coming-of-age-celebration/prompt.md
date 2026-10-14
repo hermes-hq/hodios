@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [coming-of-age, quinceanera, bar-mitzvah, bat-mitzvah, confirmation, milestone-birthday, rites-of-passage]
 pairs_with:
   prompts: [plan-kids-party, create-family-tradition, write-family-agreement-with-teen]

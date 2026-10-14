@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bug-bounty, vulnerability-disclosure, cvss, responsible-disclosure, security-research]
 pairs_with:
   prompts: [triage-vulnerability-report, review-api-security]

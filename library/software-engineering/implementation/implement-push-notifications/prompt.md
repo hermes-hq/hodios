@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [push-notifications, apns, fcm, device-tokens, permissions]
 pairs_with:
   personas: [mobile-engineer]

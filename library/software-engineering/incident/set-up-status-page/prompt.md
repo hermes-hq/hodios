@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [status-page, customer-communication, uptime, incident-comms, transparency]
 pairs_with:
   prompts: [write-incident-update, write-incident-response-plan, design-synthetic-checks, plan-maintenance-window]

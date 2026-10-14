@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [memorisation, off-book, cue-lines, rehearsal, retrieval-practice]
 pairs_with:
   prompts: [break-down-scene-for-actor, build-role-from-script]

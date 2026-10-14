@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [oral-history, transcript-editing, family-stories, as-told-to, voice]
 pairs_with:
   prompts: [interview-relative-for-oral-history, write-family-history, caption-family-photos]

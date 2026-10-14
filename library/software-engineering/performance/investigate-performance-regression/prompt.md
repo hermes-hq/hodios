@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [regression, profiling, benchmarking, flame-graph, differential-profile]
 pairs_with:
   prompts: [compare-benchmark-runs, bisect-regression, read-flame-graph, set-performance-budgets]

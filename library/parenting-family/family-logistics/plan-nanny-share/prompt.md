@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [nanny-share, shared-childcare, cost-split, employment-basics, host-home, agreement]
 pairs_with:
   prompts: [choose-childcare, write-babysitter-handbook, set-up-household-employer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dashboard-build, dashboard-layout, dashboard-actions, parameters]
 pairs_with:
   prompts: [write-tableau-calculations, design-dashboard, speed-up-slow-dashboard, design-chart-interactions]

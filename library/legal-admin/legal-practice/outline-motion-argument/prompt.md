@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [motion-practice, persuasive-writing, brief-writing, point-headings, litigation-support]
 pairs_with:
   prompts: [draft-legal-research-memo, draft-discovery-requests, brief-court-case]

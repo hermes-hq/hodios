@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [volunteering, community, causes, skills-based-volunteering, connection, purpose]
 pairs_with:
   prompts: [explore-meaning-and-purpose, build-connection-plan, choose-ethical-volunteer-trip]

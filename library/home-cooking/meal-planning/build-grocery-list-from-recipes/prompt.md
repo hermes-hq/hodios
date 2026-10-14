@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [grocery-list, shopping-list, recipe-scaling, pantry-staples, unit-conversion]
 pairs_with:
   prompts: [plan-weekly-meals, plan-meals-from-grocery-deals, scale-recipe-for-crowd]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [transfer-student, credit-transfer, community-college, articulation, admissions]
 pairs_with:
   prompts: [plan-courses-to-graduation, plan-university-application, calculate-gpa-and-target]

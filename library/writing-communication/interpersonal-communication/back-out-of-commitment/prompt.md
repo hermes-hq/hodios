@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [saying-no, stepping-down, handover, volunteering, obligations]
 pairs_with:
   prompts: [write-message-to-cancel-plans, prune-commitments, apologize-effectively]

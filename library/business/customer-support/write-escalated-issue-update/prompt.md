@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [escalation-update, key-accounts, status-update, expectation-setting, account-management]
 pairs_with:
   prompts: [plan-customer-escalation-response, write-incident-update, summarize-support-conversation]

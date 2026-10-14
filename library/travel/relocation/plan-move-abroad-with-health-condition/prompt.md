@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [continuity-of-care, long-term-health, accessible-housing, medicines-abroad, moving-abroad]
 pairs_with:
   prompts: [access-healthcare-abroad, build-medication-list, prepare-emergency-medical-summary, learn-health-vocabulary-for-appointments]

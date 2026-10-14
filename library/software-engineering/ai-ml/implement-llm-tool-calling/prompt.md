@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [function-calling, tool-use, agent-loop, json-schema, prompt-injection]
 pairs_with:
   personas: [ml-engineer]

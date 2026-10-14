@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [decision-memo, options-analysis, recommendation, approval]
 pairs_with:
   prompts: [write-executive-summary, write-project-proposal, write-escalation-email]

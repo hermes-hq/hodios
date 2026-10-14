@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [posters, event-promotion, key-art, print-design, social-formats]
 pairs_with:
   prompts: [plan-poster-layout, write-image-prompt]

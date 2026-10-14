@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [teaching-diagrams, science-visuals, cutaways, colour-coding, misconceptions]
 pairs_with:
   prompts: [write-infographic-visual-prompt, write-botanical-illustration-prompt]

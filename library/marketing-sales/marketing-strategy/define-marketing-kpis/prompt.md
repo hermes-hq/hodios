@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketing-metrics, kpi-definitions, scorecard, funnel-metrics, review-cadence]
 pairs_with:
   prompts: [build-kpi-tree, write-marketing-performance-report, build-reverse-funnel-model, analyze-marketing-attribution]

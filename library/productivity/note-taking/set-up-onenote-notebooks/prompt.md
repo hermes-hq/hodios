@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [onenote, microsoft-365, section-groups, sections, page-templates, note-structure]
 pairs_with:
   prompts: [write-note-templates, design-note-tagging-scheme, migrate-notes-between-apps, choose-notes-app]

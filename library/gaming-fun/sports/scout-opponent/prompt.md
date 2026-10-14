@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scouting, game-plan, tactics, opposition-analysis, amateur-coach]
 pairs_with:
   prompts: [run-match-debrief, plan-match-lineup]

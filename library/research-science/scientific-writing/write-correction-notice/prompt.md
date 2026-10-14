@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [erratum, corrigendum, publication-ethics, research-integrity, journal-correspondence]
 pairs_with:
   prompts: [respond-to-reviewers, write-results-section]

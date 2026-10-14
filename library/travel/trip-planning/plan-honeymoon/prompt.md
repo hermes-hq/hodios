@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [honeymoon, couples-travel, romantic-trip, booking-timeline]
 pairs_with:
   prompts: [choose-destination, plan-trip-budget, check-travel-requirements, choose-accommodation]

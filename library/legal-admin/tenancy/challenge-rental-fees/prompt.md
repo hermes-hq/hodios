@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [letting-agent-fees, holding-deposit, refund-request, junk-fees]
 pairs_with:
   prompts: [review-lease, prepare-rental-application, demand-deposit-return]

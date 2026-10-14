@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [staff-guidance, regulation-change, plain-language, dos-and-donts, rule-change]
 pairs_with:
   prompts: [write-workplace-policy, write-job-aid, write-internal-announcement]

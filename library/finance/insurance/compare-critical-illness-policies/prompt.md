@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [critical-illness, condition-definitions, severity-based-cover, lump-sum-cover, protection-insurance]
 pairs_with:
   prompts: [compare-income-protection-policies, compare-life-insurance-quotes, prepare-insurance-disclosure]

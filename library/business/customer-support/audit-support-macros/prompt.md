@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [macros, canned-responses, saved-replies, tone-of-voice, knowledge-maintenance]
 pairs_with:
   prompts: [build-support-macros, critique-draft-support-reply, write-support-reply]

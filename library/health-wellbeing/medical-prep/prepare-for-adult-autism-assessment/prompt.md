@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [autism, adult-assessment, neurodivergence, masking, evidence-gathering, late-diagnosis]
 pairs_with:
   prompts: [prepare-for-adhd-assessment, prepare-doctor-questions, request-medical-records, talk-to-doctor-about-mental-health]

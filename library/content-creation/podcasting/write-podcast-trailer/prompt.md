@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [podcast-trailer, season-launch, audio-script, tape-selection]
 pairs_with:
   prompts: [launch-podcast, write-podcast-intro-outro, plan-podcast-season]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [schema-migrations, migration-history, alembic, prisma, flyway]
 pairs_with:
   prompts: [review-database-migration, decide-rollback-or-fix-forward]

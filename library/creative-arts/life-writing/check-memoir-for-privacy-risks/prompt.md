@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [memoir, pre-publication-review, privacy-risk, real-people, creative-nonfiction]
 pairs_with:
   prompts: [critique-memoir-chapter, write-memoir-disclosure-letter, write-memoir-authors-note]

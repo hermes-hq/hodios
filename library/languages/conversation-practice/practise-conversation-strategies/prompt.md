@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [communication-strategies, circumlocution, repair-strategies, speaking-confidence, cefr]
 pairs_with:
   prompts: [roleplay-real-situation, practice-small-talk, learn-survival-phrases]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [equity-partner, buy-in, partnership-terms, valuation, shareholder-agreement]
 pairs_with:
   prompts: [outline-cofounder-agreement, decide-bootstrap-or-raise, evaluate-buying-a-business, reference-check-investor]

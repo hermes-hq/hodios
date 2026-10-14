@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [insider-threat, data-exfiltration, departing-employee, chain-of-custody, hr-legal]
 pairs_with:
   prompts: [triage-dlp-alert, build-forensic-timeline, plan-evidence-acquisition, investigate-compromised-mailbox]

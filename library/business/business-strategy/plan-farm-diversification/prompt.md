@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [farm-diversification, agritourism, farm-shop, rural-business, pilot-test]
 pairs_with:
   prompts: [plan-csa-veg-box-scheme, validate-business-idea, model-unit-economics]

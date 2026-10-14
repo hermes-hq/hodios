@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [personal-narrative, narrative-writing, show-dont-tell, reflection, english-class, student-voice]
 pairs_with:
   prompts: [give-essay-feedback, coach-personal-statement]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [downside, asymmetric-risk, ruin, hedging, fear-setting]
 pairs_with:
   prompts: [run-pre-mortem, test-decision-before-committing, build-decision-tree]

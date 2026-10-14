@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [downmarket, smb, self-serve, cannibalisation, unit-economics]
 pairs_with:
   prompts: [design-free-tier, design-product-led-growth-motion, choose-sales-motion, design-pricing]

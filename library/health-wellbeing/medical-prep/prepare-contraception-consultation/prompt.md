@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [contraception, birth-control, long-acting-contraception, sexual-health, womens-health]
 pairs_with:
   prompts: [prepare-doctor-questions, build-medication-list, explain-medication-leaflet]

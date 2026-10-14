@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [channel-analysis, budget-reallocation, customer-acquisition-cost, payback-period, marginal-returns]
 pairs_with:
   prompts: [analyze-marketing-attribution, plan-media-budget, choose-marketing-channels, design-holdout-experiment]

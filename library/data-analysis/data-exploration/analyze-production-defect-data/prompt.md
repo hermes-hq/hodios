@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quality-control, defect-rate, first-pass-yield, scrap, cost-of-poor-quality, manufacturing]
 pairs_with:
   prompts: [run-pareto-analysis, build-control-chart, analyze-machine-downtime]

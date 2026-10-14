@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pet-hair, pet-odour, pet-safe-cleaning, litter-tray]
 pairs_with:
   prompts: [remove-stain, clean-upholstered-furniture]

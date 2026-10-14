@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [data-collection, form-design, data-quality, validation, data-minimization]
 pairs_with:
   prompts: [set-up-data-validation, write-survey-questionnaire, clean-messy-spreadsheet]

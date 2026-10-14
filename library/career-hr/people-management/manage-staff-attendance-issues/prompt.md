@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [attendance, absence-management, lateness, no-call-no-show, return-to-work-interview, shift-work]
 pairs_with:
   prompts: [address-underperformance-early, write-written-warning, plan-one-on-one]

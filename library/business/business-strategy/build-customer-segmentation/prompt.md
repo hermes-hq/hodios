@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [market-segmentation, targeting, needs-based, segment-sizing, segment-targeting]
 pairs_with:
   prompts: [build-ideal-customer-profile, segment-customers, estimate-market-size, choose-distribution-channels]

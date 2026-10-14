@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-packaging, hour-budgets, scope-creep, value-metric, add-ons, delivery-cost, client-migration]
 pairs_with:
   prompts: [write-service-packages-page, design-pricing, run-willingness-to-pay-study, rationalize-product-line, test-capacity-before-growth]

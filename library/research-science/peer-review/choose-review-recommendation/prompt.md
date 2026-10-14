@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reviewer-recommendation, referee-report, editorial-decisions, revise-and-resubmit]
 pairs_with:
   prompts: [write-peer-review, write-confidential-comments-to-editor, review-revised-manuscript]

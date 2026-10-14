@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [entry-requirements, passport, transit]
 pairs_with:
   prompts: [build-packing-list, plan-itinerary]

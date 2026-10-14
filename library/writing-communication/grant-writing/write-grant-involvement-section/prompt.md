@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lived-experience, co-production, community-involvement, public-involvement, participation]
 pairs_with:
   prompts: [write-needs-statement, write-grant-equity-statement, write-grant-evaluation-plan]

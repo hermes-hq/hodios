@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [how-now-wow, idea-selection, convergence, prioritisation-matrix]
 pairs_with:
   prompts: [cluster-ideas, develop-idea-with-ppco, facilitate-group-brainstorm]

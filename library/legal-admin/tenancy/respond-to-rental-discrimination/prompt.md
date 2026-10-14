@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [housing-discrimination, fair-housing, equal-treatment, equality-complaint, evidence]
 pairs_with:
   prompts: [write-discrimination-complaint, prepare-rental-application, find-free-legal-help]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [malware-analysis, sandbox, dynamic-analysis, indicators-of-compromise, sandbox-evasion]
 pairs_with:
   prompts: [analyze-suspicious-script, write-yara-rule, write-threat-intel-brief, investigate-reported-phishing]

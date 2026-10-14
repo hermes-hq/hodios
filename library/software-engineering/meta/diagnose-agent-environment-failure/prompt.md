@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, cloud-agents, container-builds, network-egress, build-failures]
 pairs_with:
   prompts: [write-agent-environment-setup, design-agent-sandbox, debug-mcp-server-connection]

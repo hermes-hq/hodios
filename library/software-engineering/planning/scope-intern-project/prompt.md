@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internship, intern-project, intern-mentor, early-careers, project-scoping]
 pairs_with:
   prompts: [pick-starter-tasks-for-new-engineer, plan-spike]

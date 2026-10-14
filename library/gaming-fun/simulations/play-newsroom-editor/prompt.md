@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [journalism, news-judgement, right-of-reply, media-ethics, deadline-game]
 args:
   - name: outlet

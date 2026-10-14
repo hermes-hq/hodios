@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [landed-cost, importing, incoterms, customs-duty, freight, margin]
 pairs_with:
   prompts: [prepare-shipping-documents-checklist, model-unit-economics, design-pricing]

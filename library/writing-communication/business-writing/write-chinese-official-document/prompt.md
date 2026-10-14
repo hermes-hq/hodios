@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [gongwen, official-documents, notice-writing, request-for-instructions, workplace-chinese]
 pairs_with:
   prompts: [write-year-end-work-summary, write-workplace-wechat-message]

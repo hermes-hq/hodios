@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [vote-of-thanks, acknowledgements, seminar, school-function, formal-event]
 pairs_with:
   prompts: [write-speaker-introduction, write-opening-or-closing-remarks]

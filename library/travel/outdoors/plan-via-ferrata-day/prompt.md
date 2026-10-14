@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [via-ferrata, klettersteig, energy-absorber, fixed-cables, alpine-day, climbing-helmet]
 pairs_with:
   prompts: [plan-for-lightning-on-trail, choose-mountain-guide, set-turnaround-time]

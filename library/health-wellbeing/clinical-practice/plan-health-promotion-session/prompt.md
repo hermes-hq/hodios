@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [health-promotion, public-health, health-education, community-groups, plain-language-health, behaviour-change]
 pairs_with:
   prompts: [write-community-health-outreach-script, write-patient-education-handout, plan-clinical-in-service]

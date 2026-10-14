@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [school-holidays, childcare-swap, care-rota, working-parents, summer-holidays, shared-care]
 pairs_with:
   prompts: [plan-kids-summer, coordinate-family-calendar, plan-school-run-carpool]

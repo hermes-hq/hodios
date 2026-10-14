@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [single-list, deduplication, task-capture, scattered-lists, inbox-sources, list-merge]
 pairs_with:
   prompts: [process-brain-dump, set-up-task-system, migrate-task-app]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [product-safety, safety-marks, counterfeit-goods, product-recalls, electrical-safety]
 pairs_with:
   prompts: [decode-product-claims, buy-from-overseas-seller, check-online-shop-legitimacy, buy-secondhand-safely]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rxjs, observables, subscriptions, ngrx, pull-request]
 pairs_with:
   personas: [angular-engineer]

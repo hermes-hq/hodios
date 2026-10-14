@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [savings-goal, emergency-fund, sinking-funds, house-deposit]
 pairs_with:
   prompts: [build-monthly-budget, categorize-expenses, plan-debt-payoff]

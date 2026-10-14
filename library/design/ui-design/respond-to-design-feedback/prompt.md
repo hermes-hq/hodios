@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-feedback, stakeholders, design-review, conflicting-feedback]
 pairs_with:
   prompts: [write-design-rationale, run-design-critique-session, untangle-conflicting-client-feedback, critique-design-with-me]

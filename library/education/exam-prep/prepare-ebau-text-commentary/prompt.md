@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ebau, selectividad, comentario-de-texto, text-analysis, spain]
 pairs_with:
   prompts: [prepare-oposiciones-topic, analyze-past-papers, grade-practice-answers]

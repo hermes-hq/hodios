@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [synthetic-users, customer-simulation, early-feedback, research-grounding, reusable-prompt]
 pairs_with:
   prompts: [build-user-personas, write-expert-panel-prompt, write-character-roleplay-prompt]

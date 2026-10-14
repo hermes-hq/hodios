@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [end-point-assessment, apprenticeship, gateway, portfolio-evidence, professional-discussion, ksbs]
 pairs_with:
   prompts: [prepare-oral-exam, plan-exam-day-strategy, design-apprenticeship-plan]

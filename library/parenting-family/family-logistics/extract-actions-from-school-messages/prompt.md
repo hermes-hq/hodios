@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [school-communications, deadlines, permission-slips, school-letters, inbox-triage, working-parents]
 pairs_with:
   prompts: [coordinate-family-calendar, split-mental-load-fairly, write-email-to-teacher]

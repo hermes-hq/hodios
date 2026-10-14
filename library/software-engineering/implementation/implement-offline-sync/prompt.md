@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [offline-first, data-sync, conflict-resolution, crdt, local-first, outbox]
 pairs_with:
   prompts: [implement-realtime-updates, implement-background-job]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [product-review, disclosure, verdict, tech-review]
 pairs_with:
   prompts: [write-product-review-post, package-video-title-thumbnail, write-video-sponsor-segment]

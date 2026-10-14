@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [health-costs, prescriptions, out-of-pocket, medical-expenses]
 pairs_with:
   prompts: [compare-health-insurance-plans, set-up-sinking-funds, build-monthly-budget]

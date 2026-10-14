@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grey-literature, search-strategy, trial-registries, preprints, publication-bias, systematic-review]
 pairs_with:
   prompts: [build-search-string, chase-citations, write-systematic-review-protocol, write-prisma-flow-report]

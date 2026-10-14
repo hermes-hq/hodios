@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [platform-changes, api-deprecation, app-store-policy, os-releases, compliance-work, yearly-calendar]
 pairs_with:
   prompts: [assess-platform-dependency-risk, fit-regulatory-deadline-into-roadmap, set-roadmap-investment-mix]

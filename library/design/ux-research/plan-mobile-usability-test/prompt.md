@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mobile-testing, device-setup, session-recording, mobile-app, field-testing]
 pairs_with:
   prompts: [write-usability-test-plan, prepare-prototype-for-usability-test, adapt-design-for-mobile]

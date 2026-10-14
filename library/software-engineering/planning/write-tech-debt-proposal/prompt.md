@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tech-debt, business-case, cost-of-delay, refactoring-budget, stakeholder-buy-in]
 pairs_with:
   personas: [staff-engineer]

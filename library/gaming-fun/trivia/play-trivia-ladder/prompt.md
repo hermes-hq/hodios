@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [question-ladder, lifelines, multiple-choice, solo-game, general-knowledge, game-show-format]
 pairs_with:
   prompts: [play-higher-or-lower, write-multiple-choice-trivia]

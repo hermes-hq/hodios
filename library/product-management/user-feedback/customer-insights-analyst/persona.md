@@ -16,6 +16,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-evidence, mixed-methods, triangulation, verbatim-quotes, evidence-quality, customer-research]
 pairs_with:
   prompts: [analyze-user-feedback, write-voice-of-customer-report, check-feedback-sampling-bias, compare-feedback-before-after-change, map-reviews-to-service-touchpoints]

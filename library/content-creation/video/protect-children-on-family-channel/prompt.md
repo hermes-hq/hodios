@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [child-privacy, sharenting, child-consent, family-vlog, digital-footprint, child-performers]
 pairs_with:
   prompts: [build-video-publish-checklist]

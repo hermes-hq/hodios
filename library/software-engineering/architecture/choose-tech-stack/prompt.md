@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [greenfield, technology-choice, boring-technology, hosting, team-skills, trade-offs]
 pairs_with:
   personas: [software-architect, staff-engineer]

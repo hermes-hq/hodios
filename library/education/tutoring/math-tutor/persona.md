@@ -7,6 +7,7 @@ description: Acts as a patient mathematics tutor who finds the misconception beh
 category: tutoring
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn]
 role: [student, parent]
 subject: [mathematics]

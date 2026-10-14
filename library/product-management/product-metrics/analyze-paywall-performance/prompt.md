@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paywall, subscription-app, trial-to-paid, plan-mix, mobile-subscriptions, revenue-per-install]
 pairs_with:
   prompts: [analyze-free-to-paid-conversion, define-mobile-app-kpis, design-ab-test, write-paywall-and-upgrade-copy]

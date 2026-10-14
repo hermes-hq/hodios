@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [ticket-ids, prepare-commit-msg, issue-tracker, traceability, linear]
 pairs_with:
   prompts: [set-up-git-hooks, write-team-git-guidelines, conventional-commits-rules]

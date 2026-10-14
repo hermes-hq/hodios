@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [inclusive-events, access-needs, captions, step-free-access, neurodiversity]
 pairs_with:
   prompts: [compare-event-venues, manage-event-rsvps, write-event-invitation]

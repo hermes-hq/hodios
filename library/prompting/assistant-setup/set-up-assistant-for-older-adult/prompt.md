@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [older-adults, scam-awareness, digital-inclusion, family-tech-support, voice-assistant]
 pairs_with:
   prompts: [teach-older-relative-smartphone, set-up-assistant-for-accessibility, write-custom-instructions]

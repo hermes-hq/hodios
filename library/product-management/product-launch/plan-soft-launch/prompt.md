@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-markets, mobile-games, retention, monetisation, kpi-gates, user-acquisition]
 pairs_with:
   prompts: [plan-mobile-app-launch, plan-product-launch, review-launch-results]

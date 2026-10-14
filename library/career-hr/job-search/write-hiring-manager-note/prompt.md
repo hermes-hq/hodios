@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hiring-manager, direct-outreach, cold-message, job-application]
 pairs_with:
   prompts: [write-networking-message, write-cover-letter, research-company]

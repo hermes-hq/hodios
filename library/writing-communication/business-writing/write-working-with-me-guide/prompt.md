@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [manager-readme, user-manual-for-me, working-styles, new-team, feedback-preferences]
 pairs_with:
   prompts: [write-team-charter, plan-one-on-one, write-professional-bio]

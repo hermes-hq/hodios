@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [benchmarking, measurement, jit-warmup, dead-code-elimination, benchmark-harness]
 pairs_with:
   prompts: [compare-benchmark-runs, profile-hot-path, improve-algorithmic-complexity]

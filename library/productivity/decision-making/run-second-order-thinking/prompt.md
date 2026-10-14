@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [second-order-effects, consequences, unintended-consequences, reversibility, systems-thinking]
 pairs_with:
   prompts: [run-pre-mortem, compare-options-matrix, make-life-decision]

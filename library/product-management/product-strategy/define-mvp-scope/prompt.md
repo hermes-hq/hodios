@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mvp, scope-cutting, hypotheses, riskiest-assumption]
 pairs_with:
   prompts: [prioritize-features, map-opportunity-solution-tree, plan-beta-program]

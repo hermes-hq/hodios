@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [online-safety, sextortion, teenagers, scams, digital-privacy, open-door]
 pairs_with:
   prompts: [set-screen-time-plan, explain-hard-topic-to-child]

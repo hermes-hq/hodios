@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [sharing, access-control-ui, share-dialog, roles, collaboration]
 pairs_with:
   prompts: [design-settings-screen, map-user-flow, write-ux-microcopy, spec-roles-and-permissions]

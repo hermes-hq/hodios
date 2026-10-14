@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [split-data, distribute-reports, vba, apps-script, data-leak-prevention]
 pairs_with:
   prompts: [write-spreadsheet-automation, combine-files-into-one-sheet, generate-documents-by-mail-merge]

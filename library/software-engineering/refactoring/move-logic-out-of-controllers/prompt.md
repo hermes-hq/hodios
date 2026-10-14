@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fat-controllers, service-layer, separation-of-concerns, http-handlers]
 pairs_with:
   prompts: [extract-module, decouple-for-testability]

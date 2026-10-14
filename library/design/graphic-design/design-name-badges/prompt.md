@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [name-badges, conference-design, variable-data, inclusive-design, event-design]
 pairs_with:
   prompts: [plan-signage, plan-event-budget, prepare-print-files]

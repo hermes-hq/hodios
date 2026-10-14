@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [personal-learning-checklist, rag-rating, revision-priorities, exam-specification]
 pairs_with:
   prompts: [create-study-plan, analyze-past-papers, analyze-exam-mistakes]

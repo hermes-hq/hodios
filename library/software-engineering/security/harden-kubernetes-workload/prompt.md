@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pod-security-standards, security-context, network-policy, rbac, least-privilege]
 pairs_with:
   prompts: [write-kubernetes-manifests, review-kubernetes-manifest-change, scan-container-images-in-ci, plan-secrets-management]

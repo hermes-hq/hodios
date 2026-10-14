@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [notary, notarisation, deed-signing, signature-certification, civil-law-notary]
 pairs_with:
   prompts: [prepare-power-of-attorney-questions, legalise-documents-for-use-abroad, explain-legal-letter]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [game-recommendations, taste-profile, board-games, what-to-play]
 pairs_with:
   prompts: [plan-family-game-night, teach-board-game-rules]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stabilization, reliability, quality-recovery, feature-freeze, bug-triage]
 pairs_with:
   prompts: [plan-bug-bash, assess-technical-debt, audit-postmortem-action-items]

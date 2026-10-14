@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [side-hustle, time-budget, minimum-viable-offer, moonlighting, conflict-of-interest, quit-criteria]
 pairs_with:
   prompts: [validate-business-idea, find-first-customers, price-services, start-freelance-business]

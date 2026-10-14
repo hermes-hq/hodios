@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [case-study, qualitative-research, case-selection, triangulation, replication-logic, yin]
 pairs_with:
   prompts: [design-research-study, write-field-observation-protocol, write-research-interview-protocol, build-qualitative-codebook]

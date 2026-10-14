@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [image-search, image-metadata, alt-text, image-licensing, project-photos]
 pairs_with:
   prompts: [write-alt-text, optimize-portfolio-for-search, optimize-product-pages-for-search]

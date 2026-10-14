@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [payments, webhooks, test-mode, subscriptions, refunds]
 pairs_with:
   prompts: [integrate-payments, build-webhook-handler, build-fake-for-external-api]

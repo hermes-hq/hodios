@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [destination-ideas, seasonality, shoulder-season, travel-inspiration]
 pairs_with:
   prompts: [plan-itinerary, plan-trip-budget, check-travel-requirements]

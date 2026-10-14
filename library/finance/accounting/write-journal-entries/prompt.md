@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [double-entry, journals, accruals, reclassification, adjustments]
 pairs_with:
   prompts: [prepare-month-end-close, set-up-chart-of-accounts, explain-accounting-concept]

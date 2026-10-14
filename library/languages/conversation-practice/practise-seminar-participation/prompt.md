@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [academic-speaking, turn-taking, office-hours, international-students, seminar-discussion]
 pairs_with:
   prompts: [practise-polite-disagreement, practice-summarizing-in-language, discuss-article-in-language]

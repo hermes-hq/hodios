@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dlp, data-classification, false-positives, user-coaching, escalation]
 pairs_with:
   prompts: [investigate-insider-data-exfiltration, tune-noisy-detection, triage-soc-alert]

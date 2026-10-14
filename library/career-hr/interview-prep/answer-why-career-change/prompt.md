@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [career-switch, transferable-skills, pivot-story, credibility-gap]
 pairs_with:
   prompts: [reframe-for-career-change, write-tell-me-about-yourself, answer-motivation-questions]

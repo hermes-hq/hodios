@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [package-holiday, tour-operator, consumer-protection, all-inclusive, booking-decisions]
 pairs_with:
   prompts: [plan-trip-budget, plan-flight-search, choose-accommodation, choose-travel-insurance]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [volunteers, community-group, volunteer-expenses, nonprofit-governance]
 pairs_with:
   prompts: [write-safeguarding-policy, write-photo-consent-form, write-conflict-of-interest-policy]

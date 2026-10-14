@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-ops, participant-privacy, session-recordings, data-retention, consent-scope]
 pairs_with:
   prompts: [build-research-repository, set-up-research-panel, write-informed-consent-form]

@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [book-coaching, writing-habit, reader-promise, author-voice, book-proposal]
 pairs_with:
   prompts: [outline-nonfiction-book, write-nonfiction-book-proposal, draft-nonfiction-chapter, plan-nonfiction-book-launch]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [traffic-projection, business-case, click-through-rate, scenario-modeling, roi]
 pairs_with:
   prompts: [research-keywords, pick-winnable-keywords, analyze-search-console-data]

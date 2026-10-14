@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [canning, fermentation, pickling, freezing, food-safety, botulism]
 pairs_with:
   prompts: [check-food-safety, plan-vegetable-garden]

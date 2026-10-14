@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [soap-making, cold-process, melt-and-pour, saponification, lye-safety, superfat]
 args:
   - name: method

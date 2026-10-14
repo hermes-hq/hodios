@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [analogical-thinking, biomimicry, cross-industry, lateral-thinking, innovation]
 pairs_with:
   prompts: [brainstorm-ideas, cluster-ideas, run-reverse-brainstorm]

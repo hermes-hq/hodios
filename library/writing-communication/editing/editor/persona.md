@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [developmental-editing, line-editing, author-voice, editorial-queries]
 pairs_with:
   prompts: [tighten-prose, proofread-text, rewrite-for-tone, simplify-to-plain-language]

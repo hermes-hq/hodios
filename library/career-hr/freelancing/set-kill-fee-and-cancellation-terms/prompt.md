@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kill-fee, cancellation-policy, postponement, deposit, terms-of-business]
 pairs_with:
   prompts: [write-statement-of-work, negotiate-client-payment-terms, review-freelance-contract, write-client-welcome-pack]

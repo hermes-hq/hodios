@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [react-hooks, use-effect, derived-state, render-loops]
 pairs_with:
   prompts: [split-react-component, fix-react-rerenders]

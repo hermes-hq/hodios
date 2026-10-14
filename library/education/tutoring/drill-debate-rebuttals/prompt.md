@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [debate, rebuttal, refutation, clash, weighing, competitive-debating]
 pairs_with:
   prompts: [prepare-debate-case, map-argument-structure]

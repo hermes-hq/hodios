@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fibre, gut-health, wholegrains, food-swaps, constipation, habit-change]
 pairs_with:
   prompts: [analyze-diet-log, plan-weekly-meals, plan-eating-for-condition]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-detection, signals, dependency-injection, onpush, pull-request]
 pairs_with:
   personas: [angular-engineer]

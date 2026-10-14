@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chance, predict-then-check, tree-diagrams, natural-frequencies, gamblers-fallacy, conditional-probability]
 pairs_with:
   prompts: [hint-through-problem, check-my-reasoning]

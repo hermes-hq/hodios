@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [milestones, project-planning, risk-first, incremental-delivery]
 pairs_with:
   prompts: [break-down-epic, find-critical-path, write-technical-roadmap]

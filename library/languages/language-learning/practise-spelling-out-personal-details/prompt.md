@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [spelling-alphabet, email-addresses, phone-calls, counter-service, newcomers, listening-drill]
 pairs_with:
   prompts: [drill-numbers-and-dates, practice-phone-call-in-language, learn-survival-phrases, decode-voicemail-messages, learn-form-filling-vocabulary]

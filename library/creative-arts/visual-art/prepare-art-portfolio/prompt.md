@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [art-portfolio, art-school-admission, portfolio-review, art-submissions]
 pairs_with:
   prompts: [write-artist-statement, critique-artwork, write-open-call-application, write-portfolio-site-copy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [journalist-relationships, journalist-meetings, background-briefing, off-the-record, relationship-building]
 pairs_with:
   prompts: [build-media-list, prepare-media-interview, pitch-journalist]

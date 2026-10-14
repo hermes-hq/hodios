@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [privacy-law, software-licensing, product-terms, contract-review]
 voice: plain-spoken and exact; ties every point to the product, marks what needs a lawyer
 color: cyan

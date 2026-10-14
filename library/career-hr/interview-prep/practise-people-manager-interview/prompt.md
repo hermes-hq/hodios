@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [management-interview, leadership-questions, underperformance, first-time-manager]
 pairs_with:
   prompts: [prepare-star-stories, drill-star-answers, plan-transition-to-manager]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [workplace-bullying, harassment, incident-log, grievance, employee-rights]
 pairs_with:
   prompts: [handle-difficult-manager, write-workplace-incident-report, request-workplace-accommodation]

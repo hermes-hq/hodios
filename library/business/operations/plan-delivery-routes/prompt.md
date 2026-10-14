@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [route-planning, last-mile-delivery, delivery-van, time-windows, driver-hours, small-fleet]
 pairs_with:
   prompts: [plan-order-fulfilment, plan-csa-veg-box-scheme, build-staff-schedule]

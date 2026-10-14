@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [punch-up, joke-alts, sitcom, comedy-writing]
 pairs_with:
   prompts: [write-comedy-sketch, format-screenplay-scene, plan-table-read]

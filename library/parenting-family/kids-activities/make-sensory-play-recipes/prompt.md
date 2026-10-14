@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sensory-play, play-dough, messy-play, early-years, homemade-materials, allergy-aware]
 pairs_with:
   prompts: [make-toddler-busy-activities, create-kids-craft, plan-rainy-day-activities]

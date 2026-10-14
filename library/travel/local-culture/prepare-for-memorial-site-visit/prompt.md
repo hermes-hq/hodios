@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [memorials, remembrance, dark-tourism, visitor-conduct]
 pairs_with:
   prompts: [learn-destination-history, plan-respectful-travel-photography]

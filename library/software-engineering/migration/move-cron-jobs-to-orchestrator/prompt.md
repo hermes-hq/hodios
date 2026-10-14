@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cron, scheduling, workflow-orchestration, idempotency, retries, time-zones]
 pairs_with:
   prompts: [implement-background-job, design-data-pipeline]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flaky-tests, race-condition]
 pairs_with:
   personas: [test-engineer]

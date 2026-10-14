@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [programme-bio, theatre-programme, performer-bio, credits, house-style]
 pairs_with:
   prompts: [format-acting-cv, plan-community-theatre-production]

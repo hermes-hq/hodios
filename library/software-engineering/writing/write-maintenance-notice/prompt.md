@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [maintenance-window, status-page, downtime, customer-communication]
 pairs_with:
   prompts: [plan-maintenance-window, write-incident-update, write-public-incident-report]

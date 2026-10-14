@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [preview-environments, ephemeral-environments, pull-request-deploys, seed-data, teardown]
 pairs_with:
   prompts: [design-ci-cd-pipeline, write-github-actions-workflow, write-docker-compose, reduce-cloud-spend]

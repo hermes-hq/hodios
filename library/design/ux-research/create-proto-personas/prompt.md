@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [proto-personas, assumption-mapping, team-workshop, hypotheses, alignment]
 pairs_with:
   prompts: [build-user-personas, map-assumptions, write-customer-interview-guide]

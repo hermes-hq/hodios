@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [overhead-allocation, cost-drivers, recharges, step-down-method, shared-services]
 pairs_with:
   prompts: [analyze-customer-profitability, calculate-programme-full-cost, calculate-product-margin, design-spreadsheet-model]

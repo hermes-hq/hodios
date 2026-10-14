@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [title-tags, meta-descriptions, serp-snippets, click-through-rate]
 pairs_with:
   prompts: [audit-on-page-seo, write-seo-content-brief, research-keywords]

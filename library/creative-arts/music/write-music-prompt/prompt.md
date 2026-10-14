@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [text-to-music, style-prompt, structure-tags, ai-music]
 pairs_with:
   prompts: [write-song-lyrics, suggest-chord-progressions]

@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [memoir, creative-nonfiction, writing-habit, personal-essay]
 pairs_with:
   prompts: [shape-memoir-story, draft-memoir-scene, write-family-history, interview-relative-for-oral-history, write-legacy-letter]

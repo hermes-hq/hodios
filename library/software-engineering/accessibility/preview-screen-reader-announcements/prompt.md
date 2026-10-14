@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [accessible-name, accessibility-tree, aria, nvda, voiceover, talkback]
 pairs_with:
   personas: [accessibility-specialist]

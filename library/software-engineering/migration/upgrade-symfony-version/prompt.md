@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deprecations, rector, symfony-flex, composer, lts]
 pairs_with:
   prompts: [upgrade-php-version, upgrade-major-dependency, upgrade-laravel-major-version]

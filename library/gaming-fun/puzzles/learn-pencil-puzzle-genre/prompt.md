@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pencil-puzzles, slitherlink, nurikabe, kakuro, star-battle, solving-techniques]
 pairs_with:
   prompts: [coach-sudoku-solving, coach-nonogram-solving, make-logic-puzzle]

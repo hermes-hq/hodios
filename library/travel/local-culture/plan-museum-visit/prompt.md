@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [museums, art-galleries, sightseeing, family-activities, museum-route]
 pairs_with:
   prompts: [plan-itinerary, learn-destination-history]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [picky-eating, family-meals, build-your-own, food-exposure, grocery-list]
 pairs_with:
   prompts: [handle-picky-eating, plan-weekly-meals, plan-school-lunches, plan-cooking-with-kids]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [coding-agents, custom-commands, reusable-prompts]
 pairs_with:
   prompts: [write-agent-skill, write-subagent-brief, define-specialist-subagent]

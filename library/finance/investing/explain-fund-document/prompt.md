@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [factsheet, key-information-document, fund-fees, risk-rating]
 pairs_with:
   prompts: [check-portfolio-diversification, explain-investment-concept, spot-investment-scam]

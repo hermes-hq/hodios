@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [property-sale, viewings, new-landlord, tenant-rights, notice]
 pairs_with:
   prompts: [object-to-landlord-entry, respond-to-eviction-notice, write-tenant-notice-to-leave]

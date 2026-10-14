@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [escalation, severity-levels, sla, tiered-support, handover, runbook]
 pairs_with:
   prompts: [build-support-macros, analyze-support-tickets, write-sop]

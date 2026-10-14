@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [haibun, haiku, travel-writing, prose-and-verse]
 pairs_with:
   prompts: [write-poem-in-form, write-linked-verse, write-prose-poem]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [food-bank, community-pantry, low-income, stretch-meals, store-cupboard, minimal-equipment]
 pairs_with:
   prompts: [plan-budget-meals, recipe-from-ingredients, check-food-safety]

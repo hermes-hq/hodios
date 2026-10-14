@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [glossary, acronyms, new-joiners, internal-jargon, knowledge-base]
 pairs_with:
   prompts: [plan-new-hire-onboarding, write-project-glossary, write-faq-from-documents]

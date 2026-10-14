@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [runway, burn-rate, startup-finance, scenario-analysis]
 pairs_with:
   prompts: [forecast-cash-flow, build-three-year-projections, calculate-true-cost-of-hire]

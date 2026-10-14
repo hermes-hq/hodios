@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [community, contributor-experience, maintainer-burnout, semver]
 pairs_with:
   prompts: [triage-issue-backlog, write-contributing-guide, write-security-policy, write-release-notes, review-pull-request]

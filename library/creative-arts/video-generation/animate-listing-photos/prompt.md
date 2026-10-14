@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [listing-video, property-marketing, virtual-staging, truthful-advertising]
 pairs_with:
   prompts: [write-image-to-video-motion-prompt, write-room-staging-prompt, script-property-walkthrough]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [complaints-handling, ombudsman, alternative-dispute-resolution, final-response, customer-redress]
 pairs_with:
   prompts: [build-service-recovery-playbook, log-customer-complaint-fields, write-refund-policy]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [weekend-ideas, things-to-do, day-trips, local-adventures, rainy-day, low-budget]
 pairs_with:
   prompts: [brainstorm-ideas]

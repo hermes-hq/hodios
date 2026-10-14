@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [batch-cocktails, party-drinks, hosting, shopping-list]
 pairs_with:
   prompts: [plan-dinner-party-menu, pair-wine-with-food, plan-hosting-weekend-meals]

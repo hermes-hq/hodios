@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [contrapuntal, two-voice-poem, received-forms, visual-poetry]
 pairs_with:
   prompts: [write-golden-shovel, write-concrete-poem, critique-poem]

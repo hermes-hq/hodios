@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dissertation, research-question, feasibility, proposal]
 pairs_with:
   prompts: [refine-research-question, understand-assignment-brief]

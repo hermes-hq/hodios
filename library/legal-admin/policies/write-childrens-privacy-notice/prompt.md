@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [child-privacy, age-appropriate-design, parental-consent, edtech, kids-apps]
 pairs_with:
   prompts: [assess-childrens-privacy-obligations, write-privacy-policy, write-safeguarding-policy]

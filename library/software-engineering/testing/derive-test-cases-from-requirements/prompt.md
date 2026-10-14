@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-design, boundary-values, equivalence-partitioning, decision-tables, requirements]
 pairs_with:
   prompts: [write-manual-test-cases, write-gherkin-scenarios, write-unit-tests]

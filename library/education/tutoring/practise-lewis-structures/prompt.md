@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lewis-structures, vsepr, formal-charge, resonance, molecular-geometry, polarity]
 pairs_with:
   prompts: [practise-mole-calculations, drill-chemical-equation-balancing]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [spam, interaction-limits, low-effort-contributions, saved-replies, moderation, pull-request]
 pairs_with:
   prompts: [write-ai-contribution-policy, design-issue-intake, triage-stale-pull-requests]

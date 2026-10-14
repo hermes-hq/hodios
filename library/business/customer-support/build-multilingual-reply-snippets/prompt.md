@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [localisation, glossary, canned-responses, multilingual]
 pairs_with:
   prompts: [build-support-macros, write-chat-quick-replies-for-shop]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [product-copy, catalogue, bulk-content, brand-voice, csv-import]
 pairs_with:
   prompts: [write-product-description, audit-product-catalog-data, design-sku-and-variant-structure]

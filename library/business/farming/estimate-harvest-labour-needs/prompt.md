@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [harvest-crew, pick-rates, labour-planning, seasonal-workers, pack-house]
 pairs_with:
   prompts: [build-staff-schedule, plan-peak-season-operations]

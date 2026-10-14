@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [esports, team-practice, scrims, vod-review, school-esports]
 pairs_with:
   prompts: [review-gameplay-replay, plan-game-strategy]

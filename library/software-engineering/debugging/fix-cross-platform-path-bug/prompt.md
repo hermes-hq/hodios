@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [portability, windows, file-paths, case-sensitivity, line-endings]
 pairs_with:
   prompts: [fix-line-ending-churn, fix-text-encoding-bug]

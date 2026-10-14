@@ -12,6 +12,7 @@ role: [writer, copywriter, content-creator, marketer]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [web-copy, search-intent, spam-policies, structured-data, honest-content]
 pairs_with:
   prompts: [write-seo-content-brief, write-seo-landing-page-copy, write-meta-tags, assess-page-helpfulness]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [game-feel, platformer, character-controller, coyote-time, jump-buffering, movement]
 pairs_with:
   personas: [game-developer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [event-promotion, registration, poster-copy, multichannel]
 pairs_with:
   prompts: [plan-event-marketing, write-event-email-sequence, write-booth-copy, write-headline-variations]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [error-correction, cefr, writing-practice]
 pairs_with:
   prompts: [explain-grammar-point, generate-language-drills]

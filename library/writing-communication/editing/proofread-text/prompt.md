@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [spelling, punctuation, house-style, typos]
 pairs_with:
   prompts: [tighten-prose, rewrite-for-tone]

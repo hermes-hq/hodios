@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [beer-game, bullwhip-effect, systems-thinking, inventory, operations-class]
 args:
   - name: role

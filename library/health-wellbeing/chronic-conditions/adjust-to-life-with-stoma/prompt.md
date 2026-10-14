@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stoma, ostomy, ileostomy, colostomy, urostomy, body-confidence]
 pairs_with:
   prompts: [plan-chronic-condition-self-management, cope-with-chronic-illness-emotions, decide-whether-to-disclose-condition]

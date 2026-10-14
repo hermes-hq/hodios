@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dinner-rotation, theme-nights, decision-fatigue, staples-list, family-favourites, repeatable-menu]
 pairs_with:
   prompts: [plan-weekly-meals, build-grocery-list-from-recipes]

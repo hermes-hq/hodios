@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [research-integrity, cope, confidential-comments, image-integrity, plagiarism]
 pairs_with:
   prompts: [screen-manuscript-for-integrity-issues, write-peer-review]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [accidental-landlord, rental-yield, home-sale, property-decision]
 pairs_with:
   prompts: [compare-rent-vs-buy, estimate-home-buying-costs, compare-mortgage-options, plan-relocation-finances]

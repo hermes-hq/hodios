@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [life-skills, independence, task-analysis, backward-chaining, child-development, practice-games]
 pairs_with:
   prompts: [create-chore-chart, plan-child-independence-ladder, set-up-routines-for-child-with-adhd]

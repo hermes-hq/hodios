@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [media-pipeline, transcoding, image-processing, object-storage, cdn, background-jobs]
 pairs_with:
   personas: [software-architect, backend-engineer]

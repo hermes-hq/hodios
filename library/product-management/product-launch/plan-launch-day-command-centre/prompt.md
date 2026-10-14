@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [launch-day, run-sheet, escalation-path, halt-criteria, status-updates]
 pairs_with:
   prompts: [run-launch-go-no-go-review, plan-product-launch, plan-launch-support-readiness]

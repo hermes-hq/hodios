@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [suspense, pacing, thriller, horror, scene-revision]
 pairs_with:
   prompts: [critique-fiction-draft, revise-show-dont-tell, punch-up-dialogue]

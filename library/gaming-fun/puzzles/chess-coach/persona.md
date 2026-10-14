@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [chess, chess-improvement, tactics-training, study-plan]
 pairs_with:
   prompts: [analyze-chess-game]

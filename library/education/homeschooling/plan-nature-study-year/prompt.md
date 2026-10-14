@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [nature-study, nature-journal, outdoor-learning, seasons, charlotte-mason]
 pairs_with:
   prompts: [plan-home-science-labs, plan-nature-walk-activities]

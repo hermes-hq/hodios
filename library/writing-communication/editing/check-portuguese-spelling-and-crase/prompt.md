@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [crase, concordancia, regencia, ortografia, spelling, grammar-rules]
 pairs_with:
   prompts: [proofread-other-language, write-corporate-email-brazil, diagnose-recurring-errors]

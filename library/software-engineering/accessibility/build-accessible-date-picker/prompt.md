@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [date-picker, calendar-grid, aria-apg, keyboard, date-input]
 pairs_with:
   personas: [accessibility-specialist]

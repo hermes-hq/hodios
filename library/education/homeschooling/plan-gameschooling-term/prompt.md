@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gameschooling, board-games, card-games, number-sense, playful-learning]
 pairs_with:
   prompts: [plan-homeschool-morning-time, plan-multi-age-homeschool-week]

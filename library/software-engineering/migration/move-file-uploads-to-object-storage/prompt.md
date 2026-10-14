@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [object-storage, s3-compatible, signed-urls, file-migration, blob-storage]
 pairs_with:
   prompts: [implement-file-upload, set-up-storage-bucket, test-file-uploads-and-downloads]

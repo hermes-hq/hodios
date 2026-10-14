@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rag-debugging, retrieval, root-cause, hallucination]
 pairs_with:
   prompts: [design-rag-pipeline, check-answer-faithfulness, rerank-retrieved-passages]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [typography, web-fonts, cjk]
 pairs_with:
   prompts: [plan-rtl-support, fix-text-expansion-layout-bugs]

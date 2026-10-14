@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [phd-application, research-funding, research-proposal, academic-references]
 pairs_with:
   prompts: [email-prospective-supervisor, refine-research-question, plan-phd-timeline, plan-scholarship-applications]

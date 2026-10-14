@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bilingual, code-switching, multicultural-wedding, mixed-family, toast]
 pairs_with:
   prompts: [write-wedding-toast, mark-up-script-for-delivery]

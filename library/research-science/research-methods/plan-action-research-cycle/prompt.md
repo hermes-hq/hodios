@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [action-research, practitioner-inquiry, teacher-research, reflective-practice, improvement-cycle]
 pairs_with:
   prompts: [refine-research-question, write-ethics-application, write-positionality-statement, plan-participatory-research]

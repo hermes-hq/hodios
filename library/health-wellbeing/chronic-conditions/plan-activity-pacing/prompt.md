@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pacing, chronic-pain, fatigue, energy-envelope, flare-plan, long-covid]
 pairs_with:
   prompts: [plan-chronic-condition-self-management, build-symptom-log, prepare-doctor-questions]

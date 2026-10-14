@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [interview-nerves, blanking-recovery, pre-interview-routine, confidence]
 pairs_with:
   prompts: [pep-talk-before-big-moment, manage-event-anxiety, run-mock-interview, request-interview-adjustments]

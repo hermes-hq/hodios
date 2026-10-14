@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-access, proxy-research, gatekeepers, support-data, sales-call-recordings]
 pairs_with:
   prompts: [interview-internal-stakeholders, run-desk-research-scan, analyze-competitor-reviews, write-discovery-research-plan]

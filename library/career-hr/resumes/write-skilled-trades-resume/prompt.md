@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 subject: [construction]
 tags: [trades, licences-and-tickets, apprenticeship, safety-record]
 pairs_with:

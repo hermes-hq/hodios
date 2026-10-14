@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 advice_risk: [mental-health]
 tags: [refusal, motivation, power-struggles, meltdowns, behaviour]
 pairs_with:

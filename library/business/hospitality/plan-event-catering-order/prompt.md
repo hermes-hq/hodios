@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [catering, event-catering, quantities-per-guest, dietary-labels, run-sheet, buffet, canapes]
 pairs_with:
   prompts: [build-allergen-matrix, write-customer-quote, scale-recipe-for-crowd, plan-kitchen-prep-list]

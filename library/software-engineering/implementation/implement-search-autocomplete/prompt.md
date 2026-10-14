@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [autocomplete, typeahead, combobox, aria, debouncing]
 pairs_with:
   prompts: [design-search-index, build-ui-component, implement-list-filtering-and-sorting]

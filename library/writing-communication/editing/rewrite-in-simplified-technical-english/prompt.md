@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [controlled-language, asd-ste100, procedures, maintenance-manuals, translation-ready]
 pairs_with:
   prompts: [edit-step-by-step-instructions, simplify-to-plain-language, review-document-for-ambiguity]

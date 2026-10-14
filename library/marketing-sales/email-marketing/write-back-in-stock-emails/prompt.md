@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [back-in-stock, waitlist, restock-alert, staggered-send, honest-scarcity]
 pairs_with:
   prompts: [write-collection-drop-emails, write-browse-abandonment-emails, map-email-automation-flows]

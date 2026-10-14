@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [data-request, data-sharing, open-science, reproducibility, meta-analysis, author-correspondence]
 pairs_with:
   prompts: [extract-data-for-meta-analysis, assess-reproducibility, write-data-management-plan]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [size-charts, body-measurements, online-shopping, international-sizes, returns]
 pairs_with:
   prompts: [check-clothing-fit, buy-secondhand-safely]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [warm-introductions, target-companies, referrals, contacts, outreach-order]
 pairs_with:
   prompts: [request-employee-referral, write-networking-message, prepare-informational-interview]

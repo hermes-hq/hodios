@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [salon, colour-correction, redo-policy, client-record, lash-and-nails]
 pairs_with:
   prompts: [write-salon-client-consultation, write-aftercare-instructions, respond-to-online-review]

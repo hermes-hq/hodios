@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quality-improvement, model-for-improvement, pdsa, run-charts, driver-diagrams, clinical-governance]
 pairs_with:
   prompts: [plan-pdsa-cycle, plan-clinical-audit, write-patient-safety-incident-report]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [court-interpreting, police-interpreting, register, testimony, interpreter-training]
 pairs_with:
   prompts: [practise-sight-translation, work-through-interpreter-ethics-dilemmas, practise-community-interpreting]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [profiling, cprofile, py-spy, python-speed, benchmarks]
 pairs_with:
   prompts: [parallelize-python-workload, speed-up-dataframe-code, vectorize-numpy-code, read-flame-graph, improve-algorithmic-complexity]

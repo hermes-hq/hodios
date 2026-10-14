@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dictation, listening, spelling, sound-to-spelling, cefr]
 pairs_with:
   prompts: [create-listening-exercise, learn-spelling-to-sound-rules, create-shadowing-script]

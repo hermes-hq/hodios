@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [web-fonts, font-display, preload, subsetting, cls]
 pairs_with:
   prompts: [improve-web-vitals, check-font-licence, optimize-images-for-web]

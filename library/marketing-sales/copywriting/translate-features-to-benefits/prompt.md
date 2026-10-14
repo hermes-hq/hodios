@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [features-benefits, so-what, plain-language, jargon, value-proposition]
 pairs_with:
   prompts: [write-product-description, write-landing-page-copy, write-headline-variations, write-sales-faq]

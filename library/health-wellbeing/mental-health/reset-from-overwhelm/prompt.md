@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [overwhelm, freeze, neurodivergent, adhd, autism, brain-dump, sensory-overload]
 pairs_with:
   prompts: [guide-breathing-exercise, beat-procrastination, check-burnout-signs]

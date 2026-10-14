@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [public-apology, crisis-communications, accountability, remedy, reputation]
 pairs_with:
   prompts: [write-holding-statement]

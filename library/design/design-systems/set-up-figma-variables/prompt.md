@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [figma-variables, design-tokens, theming, modes, design-code-parity]
 pairs_with:
   prompts: [structure-figma-component-library, define-design-tokens, generate-platform-token-files, audit-design-code-parity]

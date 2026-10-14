@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [git-lfs, pointer-files, smudge-filter, storage-quota, binary-assets]
 pairs_with:
   prompts: [set-up-git-lfs, fix-git-in-ci-pipelines, purge-file-from-git-history, fix-push-blocked-by-large-file]

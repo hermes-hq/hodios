@@ -7,6 +7,7 @@ description: Generates a practice exam from course material with mixed question 
 category: exam-prep
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [verify]
 role: [student, teacher]
 requires: [none]

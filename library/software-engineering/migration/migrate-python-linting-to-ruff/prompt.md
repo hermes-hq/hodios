@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ruff, flake8, linting, formatting, python-tooling]
 pairs_with:
   prompts: [fix-lint-violations-repo-wide, switch-python-project-to-uv]

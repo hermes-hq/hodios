@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [demand-signals, search-volume, search-trends, customer-language, desk-research]
 pairs_with:
   prompts: [validate-business-idea, research-keywords, check-if-market-is-too-crowded, forecast-new-product-demand]

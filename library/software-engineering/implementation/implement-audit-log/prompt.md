@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audit-trail, append-only, tamper-evidence, data-retention, privacy-by-design]
 pairs_with:
   personas: [backend-engineer]

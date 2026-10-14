@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [guerrilla-testing, usability-testing, lean-research, intercept-testing, quick-research]
 pairs_with:
   prompts: [write-usability-test-plan, synthesize-usability-findings, critique-ui-screen]

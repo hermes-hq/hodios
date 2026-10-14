@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [integration-tests, service-containers, testcontainers, ci]
 pairs_with:
   prompts: [write-integration-tests, fix-flaky-test, write-github-actions-workflow]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [coverage-check, syllabus, revision-notes, accuracy]
 pairs_with:
   prompts: [convert-lecture-notes-to-cornell, make-study-guide, make-flashcards]

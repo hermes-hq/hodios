@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [surat-lamaran, indonesia, job-application, formal-letter, fresh-graduate]
 pairs_with:
   prompts: [analyze-job-posting, write-application-email, prepare-star-stories]

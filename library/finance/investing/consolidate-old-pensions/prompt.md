@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pension-transfer, rollover, defined-benefit, exit-fees, pension-scams]
 pairs_with:
   prompts: [compare-retirement-accounts, calculate-fee-drag, spot-investment-scam]

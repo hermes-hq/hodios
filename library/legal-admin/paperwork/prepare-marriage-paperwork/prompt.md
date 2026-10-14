@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [marriage-paperwork, notice-of-marriage, certificate-of-no-impediment, civil-partnership, destination-wedding]
 pairs_with:
   prompts: [plan-wedding, legalise-documents-for-use-abroad, prepare-name-change]

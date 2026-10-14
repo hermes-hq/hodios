@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [priority-debts, debt-plan, creditor-letters, money-worries]
 pairs_with:
   prompts: [plan-debt-payoff, negotiate-with-creditor, build-tight-budget, compare-debt-relief-options, prepare-for-debt-advice-appointment]

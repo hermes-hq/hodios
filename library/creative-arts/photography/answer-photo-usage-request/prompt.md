@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [photo-licensing, usage-rights, exposure-requests, image-credit, licensing-fees]
 pairs_with:
   prompts: [prepare-photo-competition-entry, critique-photograph]

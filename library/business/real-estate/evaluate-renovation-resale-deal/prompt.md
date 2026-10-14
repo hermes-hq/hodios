@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [property-investing, refurbishment, house-flipping, deal-analysis, renovation-costs]
 pairs_with:
   prompts: [analyze-property-comparables, plan-renovation-budget, analyze-rental-property]

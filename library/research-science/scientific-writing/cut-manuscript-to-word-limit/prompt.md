@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [word-limit, manuscript-editing, concise-writing, journal-submission, supplementary-material]
 pairs_with:
   prompts: [write-methods-section, write-discussion-section, write-abstract, turn-thesis-chapter-into-paper]

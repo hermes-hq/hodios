@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [supplements, evidence-grading, drug-interactions, vitamins, consumer-health]
 pairs_with:
   prompts: [build-medication-list, read-nutrition-label, compare-diet-approaches]

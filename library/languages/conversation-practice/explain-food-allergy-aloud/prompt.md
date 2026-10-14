@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 advice_risk: [medical]
 tags: [food-allergy, coeliac, dietary-needs, eating-out, assertiveness]
 pairs_with:

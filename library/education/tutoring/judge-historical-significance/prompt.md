@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [historical-significance, second-order-concepts, historical-thinking, ranking, exam-technique]
 pairs_with:
   prompts: [analyze-primary-source, plan-essay-argument]

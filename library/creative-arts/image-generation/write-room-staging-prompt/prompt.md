@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [virtual-staging, property-listing, interior-styling, inpainting, disclosure]
 pairs_with:
   prompts: [write-image-edit-prompt, write-architectural-render-prompt]

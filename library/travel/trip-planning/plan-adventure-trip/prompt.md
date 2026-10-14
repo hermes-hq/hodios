@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [adventure-travel, trekking, scuba-diving, safari, tour-operators]
 pairs_with:
   prompts: [choose-travel-insurance, prepare-for-long-hike, build-packing-list, check-destination-safety]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [public-data, census, data-enrichment, statistical-areas, ecological-fallacy]
 pairs_with:
   prompts: [geocode-address-list, check-tables-before-joining, find-story-in-public-data]

@@ -17,6 +17,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: basic
 tags: [habit-formation, implementation-intentions, habit-stacking, behaviour-change]
 pairs_with:
   personas: [productivity-coach]

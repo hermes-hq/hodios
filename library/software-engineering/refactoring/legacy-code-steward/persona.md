@@ -16,6 +16,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [legacy-code, characterization-tests, seams, strangler-fig]
 pairs_with:
   prompts: [add-characterization-tests, decouple-for-testability, plan-large-refactor, explain-codebase]

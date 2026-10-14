@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitive-analysis, battlecards, differentiation, win-loss]
 pairs_with:
   prompts: [write-positioning-statement, handle-sales-objections, build-ideal-customer-profile]

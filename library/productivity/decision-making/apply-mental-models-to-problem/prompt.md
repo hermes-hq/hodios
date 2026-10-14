@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mental-models, inversion, opportunity-cost, margin-of-safety, frameworks]
 pairs_with:
   prompts: [run-second-order-thinking, reason-from-first-principles, map-incentives-in-situation]

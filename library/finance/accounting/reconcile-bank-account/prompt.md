@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bank-reconciliation, ledger, timing-differences, month-end]
 pairs_with:
   prompts: [set-up-simple-bookkeeping, prepare-month-end-close, categorize-expenses]

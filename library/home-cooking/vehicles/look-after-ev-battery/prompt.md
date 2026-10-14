@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [electric-cars, battery-health, charging-habits, rapid-charging, range-loss]
 pairs_with:
   prompts: [evaluate-switching-to-ev, plan-car-maintenance, cut-driving-costs]

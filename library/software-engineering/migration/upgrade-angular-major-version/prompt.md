@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ng-update, breaking-changes, peer-dependencies, angular-material]
 pairs_with:
   prompts: [upgrade-major-dependency, migrate-angular-to-standalone-and-signals]

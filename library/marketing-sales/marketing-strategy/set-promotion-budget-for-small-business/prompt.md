@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketing-budget, customer-acquisition-cost, lifetime-value, kill-rules, unit-economics]
 pairs_with:
   prompts: [plan-media-budget, write-marketing-plan, choose-marketing-channels, build-annual-marketing-calendar]

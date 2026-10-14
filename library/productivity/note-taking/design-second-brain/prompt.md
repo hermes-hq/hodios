@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [para, zettelkasten, knowledge-management, templates, weekly-review]
 pairs_with:
   prompts: [structure-messy-notes, organize-digital-files]

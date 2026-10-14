@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [current-events, news-in-class, curriculum-links, discussion-task]
 pairs_with:
   prompts: [plan-lesson-on-sensitive-topic, plan-media-literacy-lesson, generate-discussion-questions]

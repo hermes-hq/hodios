@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pilot-study, feasibility-study, progression-criteria, participant-recruitment, consort-pilot]
 pairs_with:
   prompts: [design-research-study, design-sampling-plan, write-preregistration, write-research-proposal]

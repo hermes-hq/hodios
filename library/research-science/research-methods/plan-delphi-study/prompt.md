@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [delphi-method, expert-consensus, consensus-methods, expert-panel, guideline-development, core-outcome-set]
 pairs_with:
   prompts: [design-research-study, design-sampling-plan, write-survey-questionnaire, write-ethics-application]

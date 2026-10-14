@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [local-news, community-listening, news-deserts, coverage-planning, survey-design, underserved-communities]
 pairs_with:
   prompts: [write-news-story, write-local-history-article, plan-audience-interviews]

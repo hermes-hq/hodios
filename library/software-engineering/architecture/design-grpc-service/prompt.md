@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [grpc, protobuf, schema-evolution, streaming, deadlines]
 pairs_with:
   personas: [api-designer]

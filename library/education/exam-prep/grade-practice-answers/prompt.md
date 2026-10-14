@@ -7,6 +7,7 @@ description: Marks practice answers against a mark scheme or rubric, giving per-
 category: exam-prep
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [verify, review]
 role: [student, teacher]
 requires: [none]

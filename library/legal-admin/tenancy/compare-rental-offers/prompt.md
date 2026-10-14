@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [flat-hunting, total-cost, lease-terms, rental-scams, decision]
 pairs_with:
   prompts: [build-house-viewing-checklist, review-lease, prepare-rental-application]

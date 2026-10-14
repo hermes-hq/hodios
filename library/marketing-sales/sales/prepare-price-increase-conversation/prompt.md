@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [price-rise, existing-clients, grandfathering, notice-period, pushback-replies, account-management]
 pairs_with:
   prompts: [prepare-renewal-conversation, prepare-deal-negotiation, pitch-retainer-to-client]

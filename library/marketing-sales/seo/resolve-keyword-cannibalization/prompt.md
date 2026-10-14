@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cannibalisation, redirects, content-merge, search-intent]
 pairs_with:
   prompts: [analyze-search-console-data, refresh-decaying-content, build-internal-linking-plan]

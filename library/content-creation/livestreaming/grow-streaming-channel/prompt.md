@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [raids, stream-clips, discoverability]
 pairs_with:
   prompts: [plan-livestream-run-of-show, write-short-form-script, plan-online-community-launch]

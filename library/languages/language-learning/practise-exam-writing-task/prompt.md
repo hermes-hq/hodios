@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [exam-writing, mock-exam, ielts, dele, goethe, marking-criteria]
 pairs_with:
   prompts: [grade-language-writing-task, plan-language-exam-prep, practice-speaking-exam]

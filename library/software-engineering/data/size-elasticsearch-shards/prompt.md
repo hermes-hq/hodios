@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [sharding, index-lifecycle, rollover, capacity-planning]
 pairs_with:
   prompts: [design-search-index, estimate-system-capacity, plan-data-archival]

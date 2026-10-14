@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [external-secrets, sealed-secrets, secret-rotation, workload-identity]
 pairs_with:
   prompts: [plan-secrets-management, set-up-gitops-delivery, write-least-privilege-iam-policy]

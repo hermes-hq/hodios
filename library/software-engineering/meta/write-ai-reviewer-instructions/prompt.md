@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, ai-code-review, review-noise]
 pairs_with:
   prompts: [write-agents-md, mine-review-comments-for-agent-rules, review-ai-generated-code]

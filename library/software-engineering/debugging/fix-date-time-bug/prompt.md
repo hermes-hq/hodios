@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [time-zones, dst, datetime, timestamps, date-parsing]
 pairs_with:
   prompts: [find-root-cause, add-regression-test]

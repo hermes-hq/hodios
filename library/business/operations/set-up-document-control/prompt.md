@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [document-control, document-versioning, controlled-documents, records-management, quality-management]
 pairs_with:
   prompts: [audit-sop-library, write-sop, write-operations-manual]

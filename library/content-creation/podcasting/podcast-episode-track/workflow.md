@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [run-sheet, guest-prep, clips, episode-promotion]
 pairs_with:
   prompts: [plan-podcast-episode, write-guest-interview-questions, write-show-notes, write-podcast-ad-read]

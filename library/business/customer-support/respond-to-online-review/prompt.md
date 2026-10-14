@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [online-reviews, review-response, reputation-management, fake-reviews, service-recovery]
 pairs_with:
   prompts: [write-support-reply, run-customer-experience-audit]

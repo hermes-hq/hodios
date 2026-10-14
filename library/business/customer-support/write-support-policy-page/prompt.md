@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [support-scope, response-targets, priority-levels, support-hours, expectation-setting]
 pairs_with:
   prompts: [design-escalation-process, write-ticket-auto-acknowledgement, design-help-center-structure, plan-out-of-hours-support]

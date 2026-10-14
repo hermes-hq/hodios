@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [query-dsl, relevance-tuning, aggregations, search-after, bool-query]
 pairs_with:
   prompts: [design-search-index, implement-search-autocomplete]

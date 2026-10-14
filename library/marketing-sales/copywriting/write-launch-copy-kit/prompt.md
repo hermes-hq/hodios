@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [launch-copy, multichannel, message-consistency, announcement, copy-kit]
 pairs_with:
   prompts: [write-launch-announcement, write-landing-page-copy, write-headline-variations, write-messaging-framework]

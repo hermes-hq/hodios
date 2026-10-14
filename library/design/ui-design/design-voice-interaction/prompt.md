@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [voice-ui, conversation-design, ivr, voice-assistants, dialogue-design, error-recovery]
 pairs_with:
   prompts: [design-chat-interface, design-support-chatbot-flow, write-ux-microcopy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [file-upload, drag-and-drop, upload-progress, error-recovery, attachments]
 pairs_with:
   prompts: [design-empty-and-error-states, design-form-experience, write-ux-microcopy, implement-file-upload]

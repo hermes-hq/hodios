@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sme-interview, cognitive-task-analysis, critical-incidents, tacit-knowledge, learning-and-development, needs-gathering]
 pairs_with:
   prompts: [chunk-expert-content-into-modules, design-branching-scenario, write-learning-objectives]

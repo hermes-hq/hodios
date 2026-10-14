@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sample-management, chain-of-custody, freezer-inventory, lims, labelling, biobank]
 pairs_with:
   prompts: [write-data-management-plan, write-lab-notebook-entry, write-lab-induction-checklist]

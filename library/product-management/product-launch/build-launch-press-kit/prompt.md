@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [press-kit, fact-sheet, press-materials, embargo, boilerplate]
 pairs_with:
   prompts: [write-press-release, plan-press-announcement-rollout, pitch-journalist, prepare-media-interview]

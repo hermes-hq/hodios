@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [settlement, without-prejudice, settlement-terms, full-and-final, money-claim]
 pairs_with:
   prompts: [reply-to-letter-before-claim, write-complaint-letter, prepare-small-claims-case]

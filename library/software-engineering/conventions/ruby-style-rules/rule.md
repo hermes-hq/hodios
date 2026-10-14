@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [rubocop, rspec, metaprogramming, gems, idioms]
 applies_to: ["**/*.rb", "**/*.rake", "Gemfile", "**/*.gemspec"]
 pairs_with:

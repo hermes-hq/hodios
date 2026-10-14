@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [saying-no, boundaries, invitations]
 pairs_with:
   prompts: [reply-to-email, write-professional-email, rewrite-for-tone]

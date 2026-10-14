@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-aid, scenario-practice, refresher-training, cpr, paediatric-first-aid, workplace-safety]
 pairs_with:
   prompts: [prepare-emergency-medical-summary, choose-right-care-service]

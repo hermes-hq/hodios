@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [royalties, collecting-societies, lending-rights, secondary-rights, creator-income]
 pairs_with:
   prompts: [plan-music-release, agree-ownership-with-co-creators, prepare-copyright-registration]

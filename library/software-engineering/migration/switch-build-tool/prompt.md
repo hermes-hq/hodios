@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [build-tooling, bundler, output-parity, plugins, environment-variables, ci-dual-run]
 pairs_with:
   prompts: [plan-monorepo-migration, migrate-ci-provider]

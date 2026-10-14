@@ -18,6 +18,7 @@ invocation: user
 interaction: interactive
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [business-english, register, workplace-communication, presentation-phrases, email-tone]
 pairs_with:
   prompts: [practice-interview-in-language, translate-business-email, review-speaking-transcript, explain-politeness-register]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cdl, hgv-theory, air-brakes, combination-vehicles, truck-driving, professional-driving]
 pairs_with:
   prompts: [prepare-driving-theory-test, analyze-exam-mistakes]

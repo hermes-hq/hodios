@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [defined-terms, cross-references, contract-drafting, document-hygiene]
 pairs_with:
   prompts: [compare-contract-versions, redline-contract, draft-clause-options]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [deobfuscation, malware-analysis, indicators-of-compromise, powershell-analysis, mitre-attack]
 pairs_with:
   prompts: [write-yara-rule, write-sigma-rule, build-forensic-timeline, triage-soc-alert]

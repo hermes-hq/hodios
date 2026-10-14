@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [daily-planning, job-allocation, weather-window, farm-team, whiteboard]
 pairs_with:
   prompts: [set-up-farm-lone-working-checks, build-staff-schedule]

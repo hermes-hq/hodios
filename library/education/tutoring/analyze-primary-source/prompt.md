@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [source-analysis, provenance, reliability, historical-thinking, document-based-question]
 pairs_with:
   prompts: [explain-historical-event]

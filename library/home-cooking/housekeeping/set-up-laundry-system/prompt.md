@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [washing, drying, home-routines, family-routines]
 pairs_with:
   prompts: [fix-laundry-problem, plan-cleaning-schedule]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [price-waterfall, pocket-price, discount-leakage, b2b-pricing, price-band]
 pairs_with:
   prompts: [analyze-discount-effectiveness, decompose-revenue-change, analyze-customer-profitability, estimate-price-elasticity]

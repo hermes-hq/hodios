@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-ux, inline-suggestions, autocomplete, human-in-the-loop, undo]
 pairs_with:
   prompts: [design-chat-interface, write-ai-feature-requirements, define-ai-feature-metrics, spec-motion-and-microinteractions]

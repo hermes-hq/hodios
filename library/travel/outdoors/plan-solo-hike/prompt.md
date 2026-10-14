@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [solo-hiking, check-in-plan, satellite-messenger, go-no-go-rules, personal-safety, self-reliance]
 pairs_with:
   prompts: [write-trip-intentions-plan, prepare-for-getting-lost, set-turnaround-time]

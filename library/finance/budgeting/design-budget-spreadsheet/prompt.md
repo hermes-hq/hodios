@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [budget-spreadsheet, household-tracker, plan-vs-actual, sumifs]
 pairs_with:
   prompts: [build-monthly-budget, categorize-expenses, review-budget-vs-actual]

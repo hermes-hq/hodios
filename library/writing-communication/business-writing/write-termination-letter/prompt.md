@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dismissal, termination-of-employment, final-pay, appeal-rights, hr-letters]
 pairs_with:
   prompts: [write-written-warning, plan-employee-offboarding, conduct-workplace-investigation]

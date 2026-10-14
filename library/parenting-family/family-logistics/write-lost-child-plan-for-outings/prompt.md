@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [child-safety, crowds, getting-separated, festivals, day-trips, practice-drills]
 pairs_with:
   prompts: [write-family-emergency-plan, plan-theme-park-day, plan-family-trip]

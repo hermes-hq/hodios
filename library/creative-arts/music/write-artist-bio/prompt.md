@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [artist-bio, electronic-press-kit, music-marketing, booking]
 pairs_with:
   prompts: [plan-music-release, write-music-prompt]

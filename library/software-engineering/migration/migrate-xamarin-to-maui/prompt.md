@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [xamarin, dotnet-maui, custom-renderers, mobile-port, cross-platform]
 pairs_with:
   prompts: [port-dotnet-framework-app, plan-incremental-migration, upgrade-major-dependency]

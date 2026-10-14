@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mrr, saas-metrics, revenue-bridge, churn, subscriptions]
 pairs_with:
   prompts: [explain-saas-metrics, forecast-subscription-revenue, decompose-revenue-change]

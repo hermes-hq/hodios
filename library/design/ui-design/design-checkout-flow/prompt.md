@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [ecommerce]
 tags: [checkout, cart-abandonment, payments, error-states, guest-checkout, conversion]
 pairs_with:

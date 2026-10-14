@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [campaign, fronts, factions, game-mastering, sandbox]
 pairs_with:
   prompts: [design-one-shot-adventure, create-npc, run-session-zero]

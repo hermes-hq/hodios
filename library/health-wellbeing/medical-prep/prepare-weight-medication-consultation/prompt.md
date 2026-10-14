@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [weight-loss-medication, glp-1, obesity-care, weight-management, prescription-medicine]
 pairs_with:
   prompts: [plan-eating-on-weight-loss-medication, plan-sustainable-weight-loss, prepare-doctor-questions, build-medication-list]

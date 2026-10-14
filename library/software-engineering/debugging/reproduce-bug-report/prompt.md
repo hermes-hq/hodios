@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bug-report, reproduction, issue-triage]
 pairs_with:
   personas: [debugger]

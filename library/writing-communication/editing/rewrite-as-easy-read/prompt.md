@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [easy-read, learning-disabilities, accessible-information, inclusive-communication, picture-supported-text]
 pairs_with:
   prompts: [simplify-to-plain-language, edit-document-for-accessibility]

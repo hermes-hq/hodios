@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [statistics]
 tags: [sql-interview, ab-testing, metrics-questions, analytics-interview]
 pairs_with:

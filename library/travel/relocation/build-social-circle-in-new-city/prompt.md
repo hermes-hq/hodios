@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [making-friends, loneliness, newcomers, community, belonging]
 pairs_with:
   prompts: [deepen-acquaintance-into-friendship, handle-homesickness, learn-unwritten-rules-of-new-country]

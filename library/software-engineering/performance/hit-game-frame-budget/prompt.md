@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [frame-time, draw-calls, gpu-profiling, gc-spikes, frame-pacing, consoles]
 pairs_with:
   prompts: [test-game-mechanics-deterministically, read-flame-graph]

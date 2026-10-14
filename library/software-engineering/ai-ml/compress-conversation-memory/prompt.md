@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [context-compaction, conversation-summary, context-window, chat-state]
 pairs_with:
   prompts: [extract-durable-user-preferences, write-agent-handoff, summarize-with-increasing-density]

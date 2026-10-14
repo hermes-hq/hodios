@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [terms-update, privacy-policy-update, service-change, customer-notice, plain-language]
 pairs_with:
   prompts: [plan-price-change-communication, write-terms-of-service, write-privacy-policy, build-support-macros]

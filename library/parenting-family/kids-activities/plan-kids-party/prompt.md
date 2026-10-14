@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [birthday-party, birthday-games, shopping-list, events]
 pairs_with:
   prompts: [plan-rainy-day-activities, coordinate-family-calendar]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [reflow, zoom, text-spacing, responsive-layout, low-vision, wcag]
 pairs_with:
   personas: [accessibility-specialist]

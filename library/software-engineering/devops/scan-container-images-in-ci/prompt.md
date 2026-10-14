@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vulnerability-scanning, trivy, grype, container-images, cve]
 pairs_with:
   prompts: [build-container-image-in-ci, audit-dependencies, review-dockerfile]

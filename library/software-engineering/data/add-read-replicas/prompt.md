@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [read-replicas, replication-lag, read-your-writes, read-write-splitting, database-scaling]
 pairs_with:
   prompts: [tune-connection-pool, plan-caching-strategy, find-worst-queries-in-workload]

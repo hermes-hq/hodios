@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [random-tables, encounter-tables, loot, rumours, improvisation, game-mastering]
 pairs_with:
   prompts: [design-dungeon, run-solo-rpg, create-npc]

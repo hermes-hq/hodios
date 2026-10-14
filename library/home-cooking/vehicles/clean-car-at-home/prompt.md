@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [car-wash, car-detailing, interior-cleaning, paint-care, upholstery]
 pairs_with:
   prompts: [sell-car-privately, plan-car-maintenance]

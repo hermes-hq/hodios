@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [film-recommendations, what-to-watch, taste-profile, tv-series]
 pairs_with:
   prompts: [pick-movie-for-group, plan-movie-marathon, explain-film-ending]

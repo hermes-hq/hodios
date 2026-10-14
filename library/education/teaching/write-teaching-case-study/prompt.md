@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [case-method, teaching-note, discussion-questions, data-exhibits, professional-education]
 pairs_with:
   prompts: [generate-discussion-questions, create-rubric, design-classroom-activity]

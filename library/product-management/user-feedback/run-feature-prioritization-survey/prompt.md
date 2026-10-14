@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [maxdiff, kano-model, feature-ranking, stated-preference, survey-design]
 pairs_with:
   prompts: [prioritize-features, write-survey-questionnaire, triage-feature-requests]

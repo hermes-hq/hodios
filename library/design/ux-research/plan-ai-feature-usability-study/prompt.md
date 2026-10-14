@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ai-features, trust-calibration, error-recovery, wizard-of-oz, llm-products]
 pairs_with:
   prompts: [design-inline-ai-assistance, define-ai-feature-metrics, write-usability-test-plan]

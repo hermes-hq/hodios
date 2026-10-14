@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [schema-migrations, migration-baseline, orm, schema-diff]
 pairs_with:
   prompts: [review-database-migration, fix-failed-database-migration]

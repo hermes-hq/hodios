@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, agent-instructions, developer-experience, least-privilege]
 pairs_with:
   prompts: [write-agents-md, audit-agent-permissions, exclude-files-from-agent-context, write-agent-environment-setup, design-coding-agent-hooks]

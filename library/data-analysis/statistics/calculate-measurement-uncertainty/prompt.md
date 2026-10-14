@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [measurement-uncertainty, gum, uncertainty-budget, calibration, metrology, iso-17025]
 pairs_with:
   prompts: [build-control-chart, calculate-solution-dilutions, plan-acceptance-sampling]

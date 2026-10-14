@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [chart-formatting, action-titles, step-by-step]
 pairs_with:
   prompts: [choose-chart-type, critique-chart, choose-chart-colors]

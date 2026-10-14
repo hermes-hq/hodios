@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [merge-conflicts, conflict-hotspots, team-workflow, code-layout]
 pairs_with:
   prompts: [resolve-merge-conflict, find-hotspots-in-git-history, choose-branching-strategy, resolve-lockfile-merge-conflict]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [day-rate, retainers, value-based-pricing, utilisation, quotes, price-increase]
 pairs_with:
   prompts: [design-pricing, start-freelance-business, model-unit-economics]

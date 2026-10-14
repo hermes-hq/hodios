@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [regional-varieties, dialects, listening, newcomers, cefr]
 pairs_with:
   prompts: [explain-phrase-in-context, adapt-regional-variant, practise-conversation-strategies]

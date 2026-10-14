@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [obs-scenes, stream-overlays, stream-layout, alerts, hotkeys]
 pairs_with:
   prompts: [plan-livestream-run-of-show, choose-first-streaming-setup, audit-stream-for-privacy-leaks]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regex, pattern-matching, backtracking, redos, text-parsing]
 pairs_with:
   prompts: [write-regex, fix-text-encoding-bug]

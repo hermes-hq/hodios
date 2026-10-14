@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [house-share, flatmates, rent-split, fairness, joint-tenancy]
 pairs_with:
   prompts: [write-house-share-agreement, compare-rental-offers]

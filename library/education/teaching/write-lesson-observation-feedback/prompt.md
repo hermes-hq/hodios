@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [classroom-observation, instructional-coaching, teacher-feedback, professional-development, action-steps]
 pairs_with:
   prompts: [run-plc-data-meeting, write-lesson-plan]

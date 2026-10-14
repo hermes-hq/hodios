@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [solo-play, gm-emulator, oracle, random-events, scene-tracking]
 pairs_with:
   prompts: [play-text-adventure, design-random-tables, build-rpg-character]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ospo, contributor-agreement, employee-ip, upstream-contributions, open-sourcing]
 pairs_with:
   prompts: [write-open-source-usage-policy, choose-cla-or-dco, prepare-code-for-open-sourcing]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [likely-questions, question-forecast, interview-planning, resume-probes]
 pairs_with:
   prompts: [analyze-job-posting, prepare-star-stories, run-mock-interview]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [supplier-performance, scorecard, otif, vendor-management, supplier-review]
 pairs_with:
   prompts: [compare-vendors, prepare-supplier-negotiation, map-supply-risk]

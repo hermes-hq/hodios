@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [soc2, security-compliance, audit-readiness, trust-services-criteria, evidence-collection, type-ii-report]
 pairs_with:
   prompts: [build-project-risk-register, write-project-raci]

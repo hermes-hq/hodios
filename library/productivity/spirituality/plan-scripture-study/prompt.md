@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [scripture, reading-plan, sacred-texts, daily-reading, bible, quran]
 pairs_with:
   prompts: [study-sacred-passage, memorise-sacred-text, write-devotional-reflection]

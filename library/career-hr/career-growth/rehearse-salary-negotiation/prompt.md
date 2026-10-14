@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [salary-negotiation, counterpart-simulation, rehearsal, anchoring, compensation, debrief]
 pairs_with:
   prompts: [negotiate-job-offer, ask-for-raise, evaluate-job-offer, answer-salary-expectations]

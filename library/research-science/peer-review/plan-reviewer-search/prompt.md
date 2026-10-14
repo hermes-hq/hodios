@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [reviewer-selection, editorial-process, conflict-of-interest, reviewer-diversity]
 pairs_with:
   prompts: [write-reviewer-invitation, write-meta-review]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gamification, game-mechanics, badges, quests, motivation, self-determination-theory]
 pairs_with:
   prompts: [design-course-outline, design-microlearning-series, design-branching-scenario]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kids-and-pets, pet-chores, dog-bite-prevention, family-rota, animal-body-language, responsibility]
 pairs_with:
   prompts: [choose-pet-for-lifestyle, plan-new-pet-care, introduce-pets, care-for-rabbits, split-pet-care-among-kids]

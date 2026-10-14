@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multiplayer, matchmaking, game-servers, player-progression, live-ops, region-placement]
 pairs_with:
   personas: [software-architect, game-developer]

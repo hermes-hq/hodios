@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [payment-terms, deposits, milestone-billing, cash-flow, net-60]
 pairs_with:
   prompts: [chase-late-payment, write-invoice, review-freelance-contract]

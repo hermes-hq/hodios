@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketplace-sellers, seller-onboarding, prohibited-items, seller-performance, platform-rules]
 pairs_with:
   prompts: [write-terms-of-service, write-acceptable-use-policy, write-refund-policy]

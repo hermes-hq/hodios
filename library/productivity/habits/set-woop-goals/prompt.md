@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [woop, mental-contrasting, implementation-intentions, if-then-plans, wish-to-plan]
 pairs_with:
   prompts: [design-habit-plan, beat-procrastination, plan-30-day-challenge]

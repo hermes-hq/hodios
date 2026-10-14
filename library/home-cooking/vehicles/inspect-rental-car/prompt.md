@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [car-hire, rental-car, damage-charges, excess-insurance, pickup-checklist]
 pairs_with:
   prompts: [check-car-hire-excess-cover, check-car-before-road-trip, handle-car-accident-aftermath]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [price-index, competitor-pricing, product-matching, price-positioning, key-value-items]
 pairs_with:
   prompts: [estimate-price-elasticity, analyze-competitors, analyze-sales-data, analyze-price-realisation]

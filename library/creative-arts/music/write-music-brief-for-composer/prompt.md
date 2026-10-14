@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [music-brief, sync-points, music-licensing, commissioning]
 pairs_with:
   prompts: [write-background-music-cues, build-music-sound-kit]

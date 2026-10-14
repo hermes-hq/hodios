@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gym-beginner, strength-training, gym-etiquette, progressive-overload, first-month]
 pairs_with:
   prompts: [build-training-plan, check-exercise-form, design-warm-up, track-fitness-progress]

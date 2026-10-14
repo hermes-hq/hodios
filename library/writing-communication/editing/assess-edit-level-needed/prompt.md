@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [edit-levels, manuscript-assessment, hiring-an-editor, developmental-edit, copyedit]
 pairs_with:
   prompts: [critique-draft, write-editorial-letter, edit-for-structure, copyedit-to-style-guide]

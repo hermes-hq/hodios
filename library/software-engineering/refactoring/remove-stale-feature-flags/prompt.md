@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-flags, flag-debt, dead-code, kill-switch]
 pairs_with:
   prompts: [add-feature-flag, remove-dead-code]

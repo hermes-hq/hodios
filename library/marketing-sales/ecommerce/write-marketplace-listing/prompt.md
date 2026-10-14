@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [amazon-listing, etsy, ebay, product-listing, marketplace-search]
 pairs_with:
   prompts: [write-product-description, research-keywords]

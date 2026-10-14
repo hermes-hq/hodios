@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [session-replay, heatmaps, usability-issues, behavioural-analytics, research-synthesis]
 pairs_with:
   prompts: [synthesize-usability-findings, analyze-conversion-funnel, write-usability-test-plan]

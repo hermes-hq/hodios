@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [place-branding, destination-marketing, civic-identity, stakeholder-engagement, tourism]
 pairs_with:
   prompts: [build-brand-platform, design-brand-architecture, build-brand-guidelines, run-brand-audit]

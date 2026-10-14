@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scqa, pyramid-principle, assertion-evidence, storyline]
 pairs_with:
   prompts: [write-speaker-notes, critique-slide-deck, prepare-for-tough-questions]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [peel, paragraph-structure, analytical-writing, evidence, explanation, ks3]
 pairs_with:
   prompts: [plan-essay-argument, give-essay-feedback, analyze-literary-work]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [access-arrangements, reasonable-adjustments, extra-time, disability, learning-differences]
 pairs_with:
   prompts: [adapt-study-for-learning-difference, plan-exam-day-strategy]

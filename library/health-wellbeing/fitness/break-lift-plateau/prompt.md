@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plateau, strength-training, sticking-point, bench-press, squat, deadlift]
 pairs_with:
   prompts: [calculate-training-loads, track-fitness-progress, check-exercise-form]

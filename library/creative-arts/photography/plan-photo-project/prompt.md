@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [photo-series, documentary-photography, photo-sequencing, photo-zine]
 pairs_with:
   prompts: [critique-photograph, plan-photography-learning, write-artist-statement]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [path-analysis, event-data, user-flows, sessions, sequence-analysis]
 pairs_with:
   prompts: [analyze-conversion-funnel, analyze-web-analytics, analyze-feature-adoption, build-cohort-analysis]

@@ -15,6 +15,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: intermediate
+depth: specific
 tags: [string-catalogs, icu-messageformat, locale-formatting, logical-properties, translatable-code]
 pairs_with:
   prompts: [review-i18n-readiness, extract-ui-strings, write-icu-plural-messages, implement-locale-formatting]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [capital-gains, home-sale, main-residence-relief, property-tax]
 pairs_with:
   prompts: [explain-tax-on-investments, plan-windfall, organize-tax-documents]

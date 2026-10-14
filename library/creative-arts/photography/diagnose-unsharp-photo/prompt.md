@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sharpness, autofocus, camera-shake, motion-blur, photo-troubleshooting]
 pairs_with:
   prompts: [choose-camera-settings, critique-photograph, choose-camera-gear]

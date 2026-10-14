@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 subject: [biology, medicine]
 tags: [specific-aims, grant-application, central-hypothesis, research-funding, biomedical-research]
 pairs_with:

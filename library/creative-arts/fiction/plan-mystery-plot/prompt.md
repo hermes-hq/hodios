@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mystery-plotting, fair-play, clue-trail, red-herrings, whodunit]
 pairs_with:
   prompts: [outline-story, design-plot-twist, check-story-continuity]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [blessing, grace-before-meals, house-blessing, intention, occasions]
 pairs_with:
   prompts: [write-devotional-reflection, plan-prayer-or-meditation-practice, write-funeral-order-of-service]

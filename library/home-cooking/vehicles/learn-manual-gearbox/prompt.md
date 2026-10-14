@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [manual-transmission, clutch-control, hill-starts, gear-changes, driving-skills]
 pairs_with:
   prompts: [plan-learner-driver-practice, prepare-for-practical-driving-test]

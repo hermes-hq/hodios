@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [link-roundup, curation, editorial-judgement]
 pairs_with:
   prompts: [write-newsletter-issue]

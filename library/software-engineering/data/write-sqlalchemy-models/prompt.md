@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sqlalchemy, orm, typed-models, orm-relationships, eager-loading, async]
 pairs_with:
   prompts: [write-alembic-migration, fix-n-plus-one-queries, design-database-schema]

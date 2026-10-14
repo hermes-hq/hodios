@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [vegan, vegetarian, flexitarian, vitamin-b12, iron, protein]
 pairs_with:
   prompts: [analyze-diet-log, evaluate-supplement, plan-nutrition-targets]

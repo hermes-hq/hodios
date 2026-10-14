@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [test-data, data-masking, data-subsetting, privacy]
 pairs_with:
   prompts: [generate-realistic-seed-data, anonymize-dataset, write-test-data-factories]

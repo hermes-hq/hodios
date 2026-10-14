@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-leakage, hidden-data, document-inspector, file-sharing, metadata]
 pairs_with:
   prompts: [explain-inherited-spreadsheet, audit-spreadsheet-model, set-up-data-validation]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reactive-dog, leash-reactivity, counter-conditioning, dog-body-language, walk-management, threshold-training]
 pairs_with:
   prompts: [train-dog-behavior, plan-pet-enrichment, prepare-vet-visit, plan-hike-with-dog]

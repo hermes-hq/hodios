@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [oauth, oidc, single-sign-on, authentication, redirect-uri]
 pairs_with:
   prompts: [implement-oauth-login, review-auth-flow]

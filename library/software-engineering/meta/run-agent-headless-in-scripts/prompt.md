@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [coding-agents, headless-mode, automation, structured-output, scripting]
 pairs_with:
   prompts: [design-ci-agent-job, write-subagent-brief, plan-agent-batch-migration, audit-agent-permissions]

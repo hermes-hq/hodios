@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [referee-report, manuscript, review-invitation, conflict-of-interest]
 pairs_with:
   prompts: [decide-review-invitation, write-peer-review, review-statistical-methods, check-manuscript-reporting, fix-review-tone]

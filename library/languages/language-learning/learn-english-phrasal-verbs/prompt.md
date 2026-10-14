@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [phrasal-verbs, particles, collocations, cefr]
 pairs_with:
   prompts: [distinguish-confusing-words, generate-language-drills, correct-my-sentences]

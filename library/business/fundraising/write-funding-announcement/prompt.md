@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [funding-announcement, press-release, launch-communications, investor-relations, startup-news]
 pairs_with:
   prompts: [write-investor-update, pitch-journalist]

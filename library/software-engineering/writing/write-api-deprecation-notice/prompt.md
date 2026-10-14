@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [deprecation, breaking-change, public-api, developer-communication, sunset]
 pairs_with:
   prompts: [review-api-breaking-changes, migrate-api-version, write-migration-guide, write-changelog]

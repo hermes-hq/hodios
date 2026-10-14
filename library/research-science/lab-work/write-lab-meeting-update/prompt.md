@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lab-meeting, progress-update, research-update, slides-outline, supervisor-meeting]
 pairs_with:
   prompts: [write-lab-notebook-entry, troubleshoot-failed-experiment, plan-research-talk]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [line-official-account, broadcast-messages, coupons, japan]
 pairs_with:
   prompts: [write-shop-pop-signage, write-whatsapp-business-service-scripts]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [collation, unicode-normalization, case-folding, icu, accent-insensitive, full-text-search]
 pairs_with:
   prompts: [review-i18n-readiness, implement-locale-formatting]

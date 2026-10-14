@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [release-management, staged-rollout, changelog, go-no-go, rollback]
 pairs_with:
   personas: [devops-engineer, site-reliability-engineer, open-source-maintainer]

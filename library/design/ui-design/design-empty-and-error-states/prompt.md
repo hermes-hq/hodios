@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [empty-states, error-states, loading-states, edge-cases, ux-copy]
 pairs_with:
   prompts: [write-ux-microcopy, create-wireframe-spec, write-design-handoff, explain-error-message]

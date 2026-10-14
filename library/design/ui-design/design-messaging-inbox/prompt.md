@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [direct-messages, message-inbox, conversation-list, read-receipts, blocking]
 pairs_with:
   prompts: [spec-in-app-messaging, spec-content-reporting-and-moderation, design-notification-strategy, design-file-upload-experience]

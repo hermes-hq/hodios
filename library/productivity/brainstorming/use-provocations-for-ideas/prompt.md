@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [provocation, lateral-thinking, movement, de-bono, ideation-technique]
 pairs_with:
   prompts: [generate-ideas-from-random-words, reverse-assumptions-for-ideas, run-scamper-session]

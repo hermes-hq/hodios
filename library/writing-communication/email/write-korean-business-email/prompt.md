@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [business-email, honorifics, workplace-korean, request-email, apology-email, follow-up]
 pairs_with:
   prompts: [write-korean-occasion-messages, check-tone-before-sending, write-follow-up-email]

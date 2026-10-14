@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [font-licensing, typography, webfonts, eula, design-assets]
 pairs_with:
   prompts: [check-stock-asset-licence, pair-typefaces, package-logo-files]

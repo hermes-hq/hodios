@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [curriculum-mapping, programme-review, accreditation, constructive-alignment, programme-outcomes]
 pairs_with:
   prompts: [write-learning-objectives, write-course-syllabus, design-capstone-project]

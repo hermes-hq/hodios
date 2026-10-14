@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [family-learning, parental-engagement, intergenerational-learning, adult-learners, take-home-activities, community-learning]
 pairs_with:
   prompts: [plan-parent-workshop, design-adult-evening-class]

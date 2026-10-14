@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [page-count, script-trimming, tightening, cut-scenes]
 pairs_with:
   prompts: [fix-sagging-second-act, review-first-ten-pages, write-script-coverage]

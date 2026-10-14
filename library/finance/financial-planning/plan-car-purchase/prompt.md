@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [total-cost-of-ownership, car-finance, leasing, depreciation]
 pairs_with:
   prompts: [compare-loan-offers, plan-savings-goal, build-monthly-budget]

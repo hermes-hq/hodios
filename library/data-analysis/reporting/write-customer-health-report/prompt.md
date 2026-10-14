@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [account-health, health-score, churn-risk, renewals, net-revenue-retention]
 pairs_with:
   prompts: [prepare-business-review, find-churn-drivers, build-composite-index, set-scorecard-status-thresholds]

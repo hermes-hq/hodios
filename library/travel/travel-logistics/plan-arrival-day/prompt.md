@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [arrival, airport-transfer, check-in, first-day, jet-lag]
 pairs_with:
   prompts: [plan-departure-day, master-city-transit, set-up-phone-and-data-abroad, beat-jet-lag]

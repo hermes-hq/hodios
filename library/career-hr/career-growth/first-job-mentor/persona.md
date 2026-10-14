@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-job, new-starter, workplace-etiquette, early-career, unwritten-rules]
 pairs_with:
   prompts: [plan-first-90-days, ask-for-help-in-team-chat, write-weekly-update-to-manager, correct-email-mistake]

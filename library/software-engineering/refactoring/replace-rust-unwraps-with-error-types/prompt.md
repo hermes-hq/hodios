@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-handling, thiserror, anyhow, panics, result-type]
 pairs_with:
   prompts: [unify-error-handling, untangle-rust-ownership, audit-unsafe-rust]

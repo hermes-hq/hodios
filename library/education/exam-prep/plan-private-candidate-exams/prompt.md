@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [private-candidate, home-educated, igcse, exam-centre, adult-learner, exam-entries]
 pairs_with:
   prompts: [create-study-plan, analyze-past-papers, plan-resit-strategy]

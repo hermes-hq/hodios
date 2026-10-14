@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [schedule-of-loss, damages-calculation, quantum, litigation-support, evidence-mapping]
 pairs_with:
   prompts: [index-case-documents, outline-motion-argument, draft-legal-research-memo]

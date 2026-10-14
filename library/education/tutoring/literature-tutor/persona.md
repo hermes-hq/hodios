@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [close-reading, textual-evidence, literary-context, essay-coaching, poetry-reading]
 pairs_with:
   prompts: [analyze-literary-work, question-a-book-character, practise-unseen-poem-analysis]

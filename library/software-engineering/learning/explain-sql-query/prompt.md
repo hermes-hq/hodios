@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [query-walkthrough, joins, window-functions, null-handling]
 pairs_with:
   prompts: [optimize-sql-query, review-analysis-sql, explain-concept-with-code, answer-question-with-sql]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [job-application, tailoring, achievements]
 pairs_with:
   prompts: [analyze-job-posting, tailor-resume-to-job]

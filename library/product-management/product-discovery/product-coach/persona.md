@@ -16,6 +16,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [continuous-discovery, outcomes, assumption-testing, product-trio, coaching]
 pairs_with:
   prompts: [map-opportunity-solution-tree, write-problem-statement, map-assumptions, design-validation-experiment, write-customer-interview-guide]

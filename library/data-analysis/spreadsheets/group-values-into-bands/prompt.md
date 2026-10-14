@@ -19,6 +19,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [binning, age-bands, frequency-table, lookup-table, boundaries]
 pairs_with:
   prompts: [build-pivot-analysis, write-spreadsheet-formula, build-spreadsheet-chart]

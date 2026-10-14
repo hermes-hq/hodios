@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [awareness-campaign, behaviour-change, public-interest, cause-marketing, social-marketing]
 pairs_with:
   prompts: [plan-marketing-campaign, write-event-promo-copy, write-taglines, write-outdoor-ad-copy]

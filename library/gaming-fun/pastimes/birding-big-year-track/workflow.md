@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [big-year, year-list, bird-listing, bird-migration, birding-trips, field-skills]
 pairs_with:
   prompts: [plan-birdwatching-outing, identify-bird-from-description]

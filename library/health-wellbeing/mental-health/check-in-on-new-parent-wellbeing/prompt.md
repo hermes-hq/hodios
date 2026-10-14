@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [early-parenthood, postnatal-depression, perinatal-anxiety, intrusive-thoughts, newborn-care, check-in]
 pairs_with:
   prompts: [talk-to-doctor-about-mental-health, build-connection-plan, improve-sleep-habits]

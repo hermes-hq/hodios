@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [small-spaces, storage, organising, studio-apartment, renter-friendly]
 pairs_with:
   prompts: [plan-decluttering, plan-room-layout, furnish-first-apartment]

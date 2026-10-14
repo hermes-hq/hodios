@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [taobao, product-detail-page, ecommerce-copy, china]
 pairs_with:
   prompts: [write-xiaohongshu-note, write-live-commerce-script]

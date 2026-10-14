@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [gift-guides, product-roundups, consumer-pr, commerce-editors, product-samples, affiliate-links]
 pairs_with:
   prompts: [build-media-list, pitch-journalist, write-gift-guide, plan-product-review-seeding]

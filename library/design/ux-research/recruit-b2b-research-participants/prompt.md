@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [b2b-research, participant-recruitment, account-teams, incentives, research-invitations]
 pairs_with:
   prompts: [write-research-screener, set-up-research-panel, map-buying-committee]

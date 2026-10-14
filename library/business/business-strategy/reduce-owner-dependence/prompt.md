@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [owner-dependence, key-person-risk, delegation, handover, owner-away-test, business-value]
 pairs_with:
   prompts: [write-operations-manual, delegate-task, plan-business-sale, plan-business-succession]

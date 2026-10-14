@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [appointment-prep, sleep-diary, snoring, daytime-sleepiness, cbt-i, patient-questions]
 pairs_with:
   prompts: [improve-sleep-habits, get-used-to-cpap]

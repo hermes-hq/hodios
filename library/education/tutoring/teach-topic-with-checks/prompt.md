@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [chunking, checking-for-understanding, adaptive-teaching, retrieval-practice, mastery]
 pairs_with:
   prompts: [explain-concept-at-level, make-flashcards]

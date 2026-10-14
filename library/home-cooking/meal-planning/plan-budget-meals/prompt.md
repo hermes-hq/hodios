@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [budget-meals, cost-per-portion, pantry-first, batch-cooking, food-waste, grocery-list]
 pairs_with:
   prompts: [plan-weekly-meals, plan-meal-prep-session, recipe-from-ingredients]

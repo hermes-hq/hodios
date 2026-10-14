@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [parent-communication, family-engagement, school-email, student-privacy]
 pairs_with:
   prompts: [write-report-card-comments, design-classroom-management-plan]

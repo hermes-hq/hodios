@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wrong-item, missing-item, mispick, reshipment, return-label]
 pairs_with:
   prompts: [resolve-missing-parcel-complaint, process-damaged-in-transit-claim, decide-goodwill-refund, design-returns-process]

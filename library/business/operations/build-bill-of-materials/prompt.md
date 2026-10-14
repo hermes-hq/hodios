@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bill-of-materials, bom, manufacturing, costing, components, lead-times, product-costing]
 pairs_with:
   prompts: [calculate-product-margin, set-product-cost-target, plan-production-schedule, write-manufacturing-spec-sheet]

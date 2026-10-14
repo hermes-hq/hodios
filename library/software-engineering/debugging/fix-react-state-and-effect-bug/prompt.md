@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [react-hooks, use-effect, stale-closure, state-management]
 pairs_with:
   prompts: [fix-react-rerenders, fix-hydration-mismatch]

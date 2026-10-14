@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [supply-risk, single-source, safety-stock, supplier-dependence, risk-register, resilience]
 pairs_with:
   prompts: [plan-business-continuity, build-supplier-scorecard, plan-inventory]

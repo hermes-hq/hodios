@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [awards, team-celebration, end-of-year, citations, kind-humour, party-planning]
 pairs_with:
   prompts: [write-roast, write-icebreaker-games]

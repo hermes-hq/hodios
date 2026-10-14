@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stock-licensing, royalty-free, editorial-use, model-release, design-assets]
 pairs_with:
   prompts: [check-font-licence, assess-use-of-copyrighted-material, clear-music-for-video]

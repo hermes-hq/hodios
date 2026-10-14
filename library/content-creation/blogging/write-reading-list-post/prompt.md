@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-list, curation, annotated-list, book-recommendations, resource-guide]
 pairs_with:
   prompts: [write-listicle, write-best-of-buying-guide]

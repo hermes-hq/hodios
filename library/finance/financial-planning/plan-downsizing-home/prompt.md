@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [downsizing, home-equity, retirement-income, moving-costs]
 pairs_with:
   prompts: [plan-retirement-drawdown, plan-long-term-care-costs, estimate-home-buying-costs, plan-windfall]

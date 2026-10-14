@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [sdk-design, client-library, generated-code, developer-experience, semver]
 pairs_with:
   personas: [api-designer]

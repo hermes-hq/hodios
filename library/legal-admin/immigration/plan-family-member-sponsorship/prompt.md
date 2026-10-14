@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-sponsorship, parent-visa, dependent-child, family-reunification, sponsor-obligations]
 pairs_with:
   prompts: [prepare-financial-evidence-for-visa, compare-visa-routes, prepare-visa-application, vet-immigration-adviser]

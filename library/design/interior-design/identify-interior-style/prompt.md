@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [interior-style, style-profile, mood-board, taste]
 pairs_with:
   prompts: [plan-room-makeover, write-interior-design-brief]

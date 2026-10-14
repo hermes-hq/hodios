@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [house-history, local-history, archival-records, genealogy, family-stories]
 pairs_with:
   prompts: [plan-genealogy-research, read-old-genealogy-record, write-family-history]

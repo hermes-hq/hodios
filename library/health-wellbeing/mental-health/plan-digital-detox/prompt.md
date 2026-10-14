@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [screen-time, doomscrolling, phone-use, digital-wellbeing, attention]
 pairs_with:
   prompts: [improve-sleep-habits, check-burnout-signs]

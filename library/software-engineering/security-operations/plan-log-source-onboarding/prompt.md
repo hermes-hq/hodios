@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [siem, log-collection, log-retention, telemetry, data-quality]
 pairs_with:
   prompts: [map-detection-coverage, write-siem-query, investigate-cloud-audit-logs]

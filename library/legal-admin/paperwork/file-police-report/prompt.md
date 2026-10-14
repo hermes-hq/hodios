@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [police-report, crime-reference, theft, burglary, fraud-report, insurance-claim]
 pairs_with:
   prompts: [respond-to-identity-theft, claim-scam-reimbursement-from-bank, handle-emergency-abroad]

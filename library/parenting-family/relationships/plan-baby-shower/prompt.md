@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [baby-shower, sip-and-see, party-planning, gift-registry, inclusive-games, new-baby]
 pairs_with:
   prompts: [prepare-for-new-baby, choose-meaningful-gift, plan-surprise-party]

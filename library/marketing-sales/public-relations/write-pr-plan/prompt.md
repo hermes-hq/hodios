@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [pr-plan, earned-media, story-bank, pr-calendar, measurement]
 pairs_with:
   prompts: [write-coverage-report, build-media-list, pitch-journalist]

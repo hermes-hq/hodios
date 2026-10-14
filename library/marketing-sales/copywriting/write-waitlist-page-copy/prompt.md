@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [waitlist, coming-soon, pre-launch, early-access, referral-copy]
 pairs_with:
   prompts: [plan-waitlist-launch, write-landing-page-copy, write-value-proposition, write-thank-you-page-copy]

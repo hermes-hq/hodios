@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [project-news, contributor-recognition, help-wanted, changelog-digest, project-updates]
 pairs_with:
   prompts: [write-release-announcement-kit, write-funding-impact-report, write-good-first-issues]

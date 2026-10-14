@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [creative-brief, ad-production, hooks, aspect-ratios, design-handoff]
 pairs_with:
   prompts: [plan-ad-creative-tests, analyze-creative-test-results, write-video-ad-script, write-social-ad-variations]

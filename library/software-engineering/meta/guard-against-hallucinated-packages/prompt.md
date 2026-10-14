@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, slopsquatting, typosquatting, dependency-security, package-managers]
 pairs_with:
   prompts: [vet-dependency, audit-agent-permissions, design-coding-agent-hooks]

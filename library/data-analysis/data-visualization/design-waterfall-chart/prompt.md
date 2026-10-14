@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [waterfall-chart, bridge-chart, variance-analysis, finance-reporting]
 pairs_with:
   prompts: [compare-period-performance, explain-budget-variance, build-spreadsheet-chart]

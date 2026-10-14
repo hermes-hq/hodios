@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: expert
+depth: advanced
 tags: [ems, paramedics, patient-care-report, prehospital-care, ambulance, medical-records]
 pairs_with:
   prompts: [write-sbar-handoff, write-patient-safety-incident-report, structure-soap-note]

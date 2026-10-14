@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [batch-editing, bios, descriptions, consistency, templates]
 pairs_with:
   prompts: [write-professional-bio, unify-voice-in-multi-author-document, write-house-style-guide]

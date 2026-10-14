@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [disruption-notice, door-sign, outage, status-update, staff-script]
 pairs_with:
   prompts: [plan-business-continuity, write-support-reply, build-service-recovery-playbook, write-customer-change-notice]

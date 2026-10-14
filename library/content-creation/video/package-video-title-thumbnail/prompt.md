@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [packaging, click-through-rate, thumbnails, video-titles]
 pairs_with:
   prompts: [write-youtube-script, write-video-hooks, write-video-chapters]

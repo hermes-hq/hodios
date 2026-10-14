@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [caching, cache-invalidation, http-headers, cdn, stale-data]
 pairs_with:
   prompts: [debug-network-request, plan-caching-strategy]

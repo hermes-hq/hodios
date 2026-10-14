@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pinterest, pin-descriptions, search-intent, text-overlay, alt-text]
 pairs_with:
   prompts: [write-instagram-caption, plan-carousel-post]

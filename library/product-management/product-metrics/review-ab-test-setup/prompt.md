@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [experiment-review, pre-launch-check, randomisation-unit, exposure-logging, statistical-power, a-b-testing]
 pairs_with:
   prompts: [design-ab-test, diagnose-sample-ratio-mismatch, define-guardrail-metrics, write-experiment-readout]

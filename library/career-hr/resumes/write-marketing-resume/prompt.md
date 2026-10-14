@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketing-metrics, campaign-results, channel-experience, growth-marketing]
 pairs_with:
   prompts: [rewrite-resume-bullets, write-portfolio-case-study, tailor-resume-to-job]

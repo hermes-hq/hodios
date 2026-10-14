@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [academic-appeal, university, mitigating-circumstances, academic-misconduct, student-advocacy]
 pairs_with:
   prompts: [complain-to-ombudsman, write-workplace-grievance]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [classic-literature, translations, reading-plan, editions, spoiler-free]
 pairs_with:
   prompts: [discuss-book-as-reading-buddy, explain-cultural-references, build-reading-challenge]

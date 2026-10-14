@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dining-out, coffee-shops, online-menu, restaurant-schema, dietary-labels]
 pairs_with:
   prompts: [plan-local-seo, audit-business-citations, write-schema-markup]

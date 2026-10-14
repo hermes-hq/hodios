@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [superlatives, advertising-claims, records, comparison-set]
 pairs_with:
   prompts: [fact-check-claims, trace-statistic-to-source, check-press-release-claims]

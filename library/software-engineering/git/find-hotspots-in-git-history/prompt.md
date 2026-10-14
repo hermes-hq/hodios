@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [change-frequency, change-coupling, knowledge-silos, technical-debt, code-churn]
 pairs_with:
   prompts: [investigate-code-history, write-codeowners-file, write-ownership-handover-doc]

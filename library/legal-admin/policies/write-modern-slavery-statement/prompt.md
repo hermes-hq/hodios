@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [modern-slavery, forced-labour, supply-chain-due-diligence, annual-statement, human-rights]
 pairs_with:
   prompts: [write-supplier-code-of-conduct, map-supply-risk, write-whistleblowing-policy]

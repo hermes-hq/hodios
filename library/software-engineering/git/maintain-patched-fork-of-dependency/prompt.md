@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [patch-package, vendoring, upstream-patches, dependency-fork, package-manager]
 pairs_with:
   prompts: [sync-fork-with-upstream, configure-dependency-update-bot, audit-dependencies]

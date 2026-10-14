@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ci-pipelines, reusable-workflows, composite-actions, ci-templates]
 pairs_with:
   prompts: [write-github-actions-workflow, write-gitlab-ci-pipeline, speed-up-ci-pipeline]

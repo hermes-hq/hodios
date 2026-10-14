@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [assembly, cpu-registers, computer-architecture, simulator]
 args:
   - name: isa

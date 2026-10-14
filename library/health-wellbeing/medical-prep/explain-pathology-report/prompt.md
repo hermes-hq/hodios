@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pathology-report, biopsy-results, histology, cancer-terms, plain-language-health]
 pairs_with:
   prompts: [explain-imaging-report, explain-diagnosis, prepare-treatment-decision, prepare-second-opinion]

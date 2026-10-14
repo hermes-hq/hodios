@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [research-funding, specific-aims, funding]
 pairs_with:
   prompts: [design-research-study, find-research-gaps]

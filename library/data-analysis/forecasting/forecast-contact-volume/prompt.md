@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workforce-management, call-volume, intraday-profile, contact-centre]
 pairs_with:
   prompts: [plan-support-staffing, analyze-contact-centre-data, add-event-adjustments-to-forecast]

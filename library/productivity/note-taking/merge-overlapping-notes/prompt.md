@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [duplicates, consolidation, vault-cleanup, conflicting-information]
 pairs_with:
   prompts: [audit-notes-vault, split-note-into-atomic-notes]

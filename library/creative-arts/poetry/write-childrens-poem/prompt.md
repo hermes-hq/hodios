@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [childrens-poetry, read-aloud, rhyme, nonsense-verse, early-literacy]
 pairs_with:
   prompts: [write-childrens-story, write-poem-in-form]

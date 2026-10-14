@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [organisational-capacity, track-record, governance, financial-health, due-diligence]
 pairs_with:
   prompts: [build-grant-boilerplate-library, write-grant-key-personnel-section, write-grant-application]

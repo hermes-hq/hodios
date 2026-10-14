@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [lab-safety, spill-response, emergency-procedures, biohazards, hazardous-substances]
 pairs_with:
   prompts: [assess-lab-procedure-risks, write-lab-induction-checklist]

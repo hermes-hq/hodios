@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: beginner
+depth: specific
 role: [language-learner, student]
 tags: [glossing, parallel-text, vocabulary-building, immersion]
 pairs_with:

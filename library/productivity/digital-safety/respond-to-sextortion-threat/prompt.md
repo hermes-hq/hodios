@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sextortion, image-based-abuse, online-blackmail, teen-safety, police-report, evidence]
 pairs_with:
   prompts: [respond-to-online-harassment, recover-hacked-account, lock-down-social-privacy, set-up-parental-controls]

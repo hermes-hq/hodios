@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [passwordless, magic-link, authentication, one-time-code, sessions]
 pairs_with:
   prompts: [implement-transactional-email, implement-password-auth, add-rate-limiting]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [freelancers, receipts, mileage-log, home-office]
 pairs_with:
   prompts: [plan-freelance-tax-set-aside, organize-tax-documents, set-up-chart-of-accounts, categorize-expenses]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [airflow, workflow-orchestration, provider-packages, metadata-database, dag-compatibility]
 pairs_with:
   prompts: [write-airflow-dag, upgrade-major-dependency, inventory-deprecated-api-usage]

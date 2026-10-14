@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fighting-games, frame-data, combos, training-mode, matchups]
 pairs_with:
   prompts: [review-gameplay-replay, plan-game-strategy]

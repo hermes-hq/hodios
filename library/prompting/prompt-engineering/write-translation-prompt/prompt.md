@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [machine-translation, glossary, register, do-not-translate, reusable-prompt]
 pairs_with:
   prompts: [post-edit-machine-translation, build-translation-glossary, back-translate-to-verify]

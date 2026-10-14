@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [company-values, culture-add, values-mapping, behavioural-questions]
 pairs_with:
   prompts: [prepare-star-stories, research-company, drill-star-answers]

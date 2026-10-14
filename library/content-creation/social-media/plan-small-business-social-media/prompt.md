@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [owner-run, platform-choice, posting-rhythm, first-month, local-customers]
 pairs_with:
   prompts: [write-social-bio, write-local-business-facebook-posts, plan-sustainable-posting-schedule]

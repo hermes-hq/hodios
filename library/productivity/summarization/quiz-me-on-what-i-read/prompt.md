@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [retrieval-practice, reading-comprehension, self-testing, active-recall]
 pairs_with:
   prompts: [make-flashcards, quiz-me-interactively, extract-wisdom-from-content]

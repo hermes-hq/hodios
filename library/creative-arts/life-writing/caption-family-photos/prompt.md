@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-photos, photo-album, captions, family-stories, keepsake]
 pairs_with:
   prompts: [write-family-history, interview-relative-for-oral-history, build-life-timeline]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [container-gardening, balcony-garden, herbs, small-space, planting-calendar]
 pairs_with:
   prompts: [plan-vegetable-garden, diagnose-plant-problem, start-composting]

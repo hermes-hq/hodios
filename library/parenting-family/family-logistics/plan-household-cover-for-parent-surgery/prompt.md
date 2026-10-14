@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [planned-surgery, recovery, help-rota, meal-train, school-run, lifting-limits]
 pairs_with:
   prompts: [plan-solo-parenting-stretch, coordinate-family-calendar, write-babysitter-handbook]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jank, flutter-devtools, widget-rebuilds, isolates, raster-thread]
 pairs_with:
   prompts: [fix-mobile-scroll-jank, speed-up-app-cold-start, reduce-memory-footprint]

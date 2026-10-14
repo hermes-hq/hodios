@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mental-health-day, rest, recovery, self-care, sick-day]
 pairs_with:
   prompts: [check-burnout-signs, plan-burnout-recovery, reset-from-overwhelm, plan-digital-detox]

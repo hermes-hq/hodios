@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [async, promises, event-driven, eventual-consistency]
 pairs_with:
   prompts: [test-time-dependent-code, fix-flaky-test, test-concurrent-code]

@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [research-ethics, user-interviews, research-synthesis, usability-testing]
 pairs_with:
   prompts: [write-usability-test-plan, synthesize-usability-findings, build-user-journey-map, run-heuristic-evaluation]

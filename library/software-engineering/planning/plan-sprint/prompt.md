@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scrum, sprint-planning, capacity-planning, sprint-goal, agile]
 pairs_with:
   prompts: [refine-backlog-ticket, break-down-epic, estimate-with-ranges]

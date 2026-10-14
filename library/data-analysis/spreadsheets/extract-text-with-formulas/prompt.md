@@ -19,6 +19,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [text-parsing, regex, split-text, extract-numbers, data-prep]
 pairs_with:
   prompts: [clean-messy-spreadsheet, write-spreadsheet-formula, debug-spreadsheet-formula]

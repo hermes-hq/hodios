@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 advice_risk: [financial]
 tags: [service-contracts, upselling, saying-no, newcomers, cefr]
 pairs_with:

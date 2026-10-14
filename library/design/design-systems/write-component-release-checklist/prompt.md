@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [definition-of-done, quality-gates, release-readiness, component-quality, maturity-levels]
 pairs_with:
   prompts: [write-component-spec, write-accessibility-acceptance-criteria, write-screen-reader-test-plan]

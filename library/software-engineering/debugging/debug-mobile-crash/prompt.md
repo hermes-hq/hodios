@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crash-report, symbolication, anr, exc-bad-access, main-thread]
 pairs_with:
   personas: [mobile-engineer, debugger]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pdsa, quality-improvement, model-for-improvement, run-charts, clinical-governance, change-management]
 pairs_with:
   prompts: [plan-clinical-audit, write-patient-safety-incident-report]

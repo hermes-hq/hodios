@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [podcast-recommendations, commute-listening, audio-shows, first-episode]
 pairs_with:
   prompts: [discover-new-music, triage-entertainment-backlog]

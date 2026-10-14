@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [glp-1, weight-loss-medication, protein, nausea, muscle-preservation]
 pairs_with:
   prompts: [plan-sustainable-weight-loss, plan-eating-when-appetite-is-low, increase-fiber-gradually]

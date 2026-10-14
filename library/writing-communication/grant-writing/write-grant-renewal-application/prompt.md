@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grant-renewal, continuation-funding, results-reporting, next-phase, funder-relationship]
 pairs_with:
   prompts: [write-grant-report, plan-funder-stewardship, write-grant-sustainability-plan]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [first-dates, flirting-register, boundaries, app-chat, cefr]
 pairs_with:
   prompts: [practice-texting-in-language, practise-making-plans-with-new-friends, practice-small-talk]

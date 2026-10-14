@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [high-water-mark, incremental-load, delete-detection, extract-load, replay]
 pairs_with:
   prompts: [design-change-data-capture, build-api-ingestion-job, make-pipeline-idempotent]

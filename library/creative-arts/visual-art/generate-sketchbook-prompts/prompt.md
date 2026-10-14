@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sketchbook, drawing-prompts, daily-practice, art-challenge]
 pairs_with:
   prompts: [plan-drawing-practice, teach-drawing-fundamental]

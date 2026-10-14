@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mentoring-programme, mentor-matching, employee-development, sponsorship, retention]
 pairs_with:
   prompts: [find-mentor, plan-internship-program, build-development-plan, build-career-ladder]

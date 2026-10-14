@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [setlist, live-performance, gig-planning, stage-banter]
 pairs_with:
   prompts: [analyze-song-structure, plan-music-release]

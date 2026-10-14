@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pre-submission, reviewer-objections, limitations, manuscript, revision-planning]
 pairs_with:
   prompts: [respond-to-reviewers, check-manuscript-for-overclaiming, choose-target-journal]

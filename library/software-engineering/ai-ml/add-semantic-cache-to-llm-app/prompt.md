@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [semantic-cache, embeddings, cost-reduction, similarity-threshold, cache-invalidation]
 pairs_with:
   prompts: [reduce-llm-costs, estimate-llm-feature-cost, choose-embedding-model, implement-redis-cache-aside]

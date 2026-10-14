@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wcag-2-2, gap-analysis, target-size, focus-not-obscured, accessible-authentication]
 pairs_with:
   personas: [accessibility-specialist]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [record-keeping, attendance-log, work-samples, templates, organising]
 pairs_with:
   prompts: [build-homeschool-portfolio, write-homeschool-progress-report, write-homeschool-transcript]

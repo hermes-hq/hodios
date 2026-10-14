@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [theming, ui-kit, brand-colours, component-overrides, color-contrast]
 pairs_with:
   prompts: [choose-component-library-foundation, define-design-tokens, design-dark-mode, plan-multi-brand-theming]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [stalkerware, location-tracking, tech-abuse, safety-planning, bluetooth-trackers]
 pairs_with:
   prompts: [respond-to-online-harassment, secure-personal-accounts, lock-down-social-privacy]

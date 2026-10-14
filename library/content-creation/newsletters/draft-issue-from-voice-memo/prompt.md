@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [voice-memo, dictation, thinking-out-loud, voice-preservation, first-draft]
 pairs_with:
   prompts: [write-newsletter-issue, preflight-newsletter-issue]

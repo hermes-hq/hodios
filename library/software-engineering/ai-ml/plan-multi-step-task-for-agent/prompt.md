@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [agent-planning, plan-and-execute, task-decomposition, tool-calling, human-in-the-loop]
 pairs_with:
   prompts: [run-tool-using-agent-loop, decompose-complex-question, design-agent-architecture]

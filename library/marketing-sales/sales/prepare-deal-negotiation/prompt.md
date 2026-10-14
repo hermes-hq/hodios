@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [price-negotiation, procurement, discounting, concessions, deal-desk]
 pairs_with:
   prompts: [write-mutual-action-plan, write-sales-proposal, handle-sales-objections]

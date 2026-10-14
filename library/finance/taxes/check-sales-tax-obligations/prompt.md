@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vat, sales-tax, economic-nexus, marketplace-facilitator, cross-border, digital-services]
 pairs_with:
   prompts: [write-invoice, track-business-expenses, set-up-chart-of-accounts]

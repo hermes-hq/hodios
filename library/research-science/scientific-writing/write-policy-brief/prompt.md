@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [policy-brief, evidence-to-policy, knowledge-translation, policy-options, research-uptake]
 pairs_with:
   prompts: [write-briefing-note, explain-research-to-public, plan-research-dissemination, write-impact-statement]

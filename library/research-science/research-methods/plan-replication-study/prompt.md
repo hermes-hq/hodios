@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [replication, reproducibility, open-science, preregistration, registered-report]
 pairs_with:
   prompts: [write-preregistration, calculate-sample-size, request-research-data-from-authors, design-research-study]

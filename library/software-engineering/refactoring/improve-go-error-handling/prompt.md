@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-handling, error-wrapping, sentinel-errors, logging, idiomatic-go]
 pairs_with:
   prompts: [unify-error-handling, refactor-go-package-interfaces, build-go-http-service]

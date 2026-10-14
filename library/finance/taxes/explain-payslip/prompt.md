@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [payroll, tax-withholding, social-contributions, net-pay]
 pairs_with:
   prompts: [explain-tax-notice, organize-tax-documents, build-monthly-budget]

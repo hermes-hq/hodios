@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audio-tour, walking-tour, museum-guide, wayfinding]
 pairs_with:
   prompts: [write-solo-episode-script, write-tts-voiceover-script, write-audio-description-script]

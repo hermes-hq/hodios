@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paper-edit, documentary, selects, timecode, story-structure]
 pairs_with:
   prompts: [plan-video-shoot, write-video-chapters]

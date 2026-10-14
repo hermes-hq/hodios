@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hot-reload, hmr, file-watching, dev-server, wsl]
 pairs_with:
   prompts: [find-ignored-config-setting, fix-stale-cache-bug]

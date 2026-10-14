@@ -12,6 +12,7 @@ role: [writer, editor, marketer, manager]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [bias-free-language, gender-neutral, person-first, word-choice]
 pairs_with:
   prompts: [proofread-text, rewrite-for-tone, write-internal-announcement]

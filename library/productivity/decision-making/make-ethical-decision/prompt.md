@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ethics, moral-dilemmas, stakeholders, integrity, applied-ethics, values-conflict]
 pairs_with:
   prompts: [make-life-decision, steelman-opposing-view, clarify-personal-values, run-second-order-thinking]

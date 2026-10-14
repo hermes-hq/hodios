@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [logarithms, laws-of-indices, exponential-equations, natural-log, exponential-growth, surds]
 pairs_with:
   prompts: [practise-function-graph-sketching, practise-solving-quadratics]

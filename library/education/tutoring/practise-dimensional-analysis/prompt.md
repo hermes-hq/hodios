@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [unit-conversion, factor-label, dimensional-analysis, si-units, significant-figures, estimation]
 pairs_with:
   prompts: [practise-rearranging-formulas, set-up-word-problem]

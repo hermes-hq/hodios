@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [teacher-certification, praxis, content-knowledge, pedagogy-questions, test-outline]
 pairs_with:
   prompts: [prepare-certification-exam, analyze-exam-mistakes]

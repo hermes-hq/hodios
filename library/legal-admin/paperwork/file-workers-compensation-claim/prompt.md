@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [workers-compensation, workplace-injury, injury-claim, occupational-illness, claim-denial]
 pairs_with:
   prompts: [write-personal-injury-claim-letter, request-medical-leave-from-work, find-free-legal-help]

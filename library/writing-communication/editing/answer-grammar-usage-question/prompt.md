@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [usage, grammar-rules, style-guides, word-choice, punctuation]
 pairs_with:
   prompts: [copyedit-to-style-guide, proofread-text, find-word-for-meaning]

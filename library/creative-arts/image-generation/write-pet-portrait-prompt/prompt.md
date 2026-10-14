@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pet-portraits, keepsakes, likeness, reference-images, wall-art]
 pairs_with:
   prompts: [write-image-prompt, write-character-consistency-prompts]

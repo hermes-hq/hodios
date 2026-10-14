@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [zero-downtime, expand-contract, backfill, dual-writes]
 pairs_with:
   prompts: [design-database-schema, write-data-quality-checks]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [major-release, breaking-changes, deprecation, codemods, prerelease, upgrade-path]
 pairs_with:
   prompts: [write-versioning-policy, write-migration-guide, write-release-announcement-kit]

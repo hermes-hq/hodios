@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rescue-dog, dog-adoption, decompression, homecoming, adoption-application, settling-in]
 pairs_with:
   prompts: [choose-pet-for-lifestyle, plan-new-pet-care, crate-train-dog, introduce-pets, train-dog-behavior]

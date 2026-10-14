@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [illustration, visual-language, brand-consistency, alt-text, usage-guidelines]
 pairs_with:
   prompts: [define-iconography, write-illustration-commission-brief, design-dark-mode, write-ux-pattern-guideline]

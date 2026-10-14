@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [cell-references, cell-errors, simulator, practice-sandbox]
 pairs_with:
   prompts: [learn-spreadsheet-skills, write-spreadsheet-formula, debug-spreadsheet-formula]

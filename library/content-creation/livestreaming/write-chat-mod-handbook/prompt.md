@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chat-moderation, moderators, mod-team, chat-rules, timeouts]
 pairs_with:
   prompts: [write-community-guidelines, prepare-hate-raid-response, write-chat-bot-commands]

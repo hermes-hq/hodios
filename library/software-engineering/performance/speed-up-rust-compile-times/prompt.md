@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [compile-time, cargo-timings, workspace, linker, incremental-builds]
 pairs_with:
   prompts: [speed-up-rust-code, speed-up-ci-pipeline, speed-up-monorepo-builds]

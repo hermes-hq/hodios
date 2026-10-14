@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-led-sales, free-trial, freemium, pql, usage-signals]
 pairs_with:
   prompts: [qualify-leads, reply-to-inbound-lead, write-sales-follow-up]

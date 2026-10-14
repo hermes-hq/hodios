@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [net-promoter-score, csat, customer-effort, survey-scores, quarterly-report]
 pairs_with:
   prompts: [explain-nps-change, design-nps-program, write-monthly-business-review]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hard-conversations, sbi-feedback, informal-feedback, root-cause, expectations]
 pairs_with:
   prompts: [plan-one-on-one, write-performance-improvement-plan, coach-with-grow-model]

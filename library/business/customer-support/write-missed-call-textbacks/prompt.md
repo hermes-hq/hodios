@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [missed-calls, sms-templates, lead-capture, callback-order, voicemail]
 pairs_with:
   prompts: [triage-service-call, write-delivery-exception-texts, write-call-centre-script]

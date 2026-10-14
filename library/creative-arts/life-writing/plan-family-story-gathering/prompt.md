@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [oral-history, family-reunion, family-stories, group-interview, recording-tips]
 pairs_with:
   prompts: [interview-relative-for-oral-history, edit-oral-history-transcript, caption-family-photos]

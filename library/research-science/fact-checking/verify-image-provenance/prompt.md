@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [osint, reverse-image-search, geolocation, deepfakes, content-credentials, misinformation]
 pairs_with:
   prompts: [fact-check-claims, evaluate-source-credibility, respond-to-misinformation]

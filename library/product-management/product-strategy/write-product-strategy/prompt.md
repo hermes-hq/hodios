@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [strategy-kernel, guiding-policy, non-goals, one-pager]
 pairs_with:
   prompts: [build-outcome-roadmap, define-north-star-metric, run-product-teardown]

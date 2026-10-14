@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [road-trip, car-checks, driving-abroad, breakdown-cover, towing, packing-list]
 pairs_with:
   prompts: [prepare-car-for-winter, plan-car-maintenance, diagnose-car-warning]

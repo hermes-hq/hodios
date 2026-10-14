@@ -7,6 +7,7 @@ description: Standing rules for an assistant drafting or sending support replies
 category: customer-support
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [operate]
 role: [support-agent, operations-manager, founder]
 output: [message]

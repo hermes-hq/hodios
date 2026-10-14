@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [utility-room, washing-machine, boot-room, ventilation, small-spaces]
 pairs_with:
   prompts: [set-up-laundry-system, design-kitchen-layout]

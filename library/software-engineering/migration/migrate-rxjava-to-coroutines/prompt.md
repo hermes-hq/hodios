@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rxjava, kotlin-flow, stateflow, structured-concurrency, reactive-streams]
 pairs_with:
   prompts: [convert-callbacks-to-async-await, review-kotlin-coroutines-change, test-kotlin-coroutines-and-flows]

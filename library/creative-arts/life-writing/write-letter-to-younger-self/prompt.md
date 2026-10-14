@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [letter-writing, younger-self, reflective-writing, expressive-writing, self-compassion]
 pairs_with:
   prompts: [write-letter-to-future-self, write-unsent-letter, draft-memoir-scene]

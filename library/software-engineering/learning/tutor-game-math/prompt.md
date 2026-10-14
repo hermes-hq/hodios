@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vectors, linear-algebra, quaternions, interpolation, transforms]
 pairs_with:
   personas: [game-developer]

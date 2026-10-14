@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [guest-experience, service-recovery, front-of-house, staff-coaching, personal-touches]
 pairs_with:
   prompts: [roleplay-difficult-customer, script-hotel-overbooking-walk, respond-to-online-review, build-service-recovery-playbook]

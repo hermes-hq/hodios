@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [churn, retention-plan, involuntary-churn, subscription, cohort-analysis]
 pairs_with:
   prompts: [analyze-cancellation-feedback, design-churn-save-flow, define-activation-metric, design-customer-health-score]

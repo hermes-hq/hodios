@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [unseen-poetry, gcse, a-level, close-reading, annotation, timed-writing]
 pairs_with:
   prompts: [analyze-poem, give-essay-feedback]

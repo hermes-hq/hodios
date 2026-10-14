@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [life-cover, term-life, decreasing-term, reviewable-premiums, joint-policy]
 pairs_with:
   prompts: [calculate-life-cover-need, prepare-insurance-disclosure, review-insurance-coverage]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-onboarding, time-to-value, success-plan, go-live, kickoff]
 pairs_with:
   prompts: [prepare-business-review, write-help-center-article, design-escalation-process]

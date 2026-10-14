@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [flash-fiction, first-draft, point-of-view, story-ending]
 pairs_with:
   prompts: [critique-fiction-draft, outline-story]

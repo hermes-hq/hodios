@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [affinity-mapping, synthesis, deduplication, theme-ranking, sticky-notes]
 pairs_with:
   prompts: [brainstorm-ideas, facilitate-group-brainstorm, run-reverse-brainstorm, compare-options-matrix]

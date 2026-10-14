@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [costume-design, quick-changes, costume-supervision, scene-breakdown, production-planning]
 pairs_with:
   prompts: [build-props-list, plan-rehearsal-schedule, plan-community-theatre-production]

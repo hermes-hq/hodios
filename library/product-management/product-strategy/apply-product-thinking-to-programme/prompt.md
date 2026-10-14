@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [theory-of-change, riskiest-assumptions, small-tests, funder-reporting, service-users]
 pairs_with:
   prompts: [map-assumptions, design-validation-experiment, plan-public-service-roadmap]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [booking, appointments, reservations, time-slots, time-zones, rescheduling]
 pairs_with:
   prompts: [implement-appointment-booking, set-up-appointment-booking-system, design-form-experience, design-empty-and-error-states, write-ux-microcopy]

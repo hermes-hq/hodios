@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lease-breach, warning-letter, noise-complaint, tenant-rights, tenancy-risk]
 pairs_with:
   prompts: [respond-to-eviction-notice, review-lease, ask-landlord-about-pet]

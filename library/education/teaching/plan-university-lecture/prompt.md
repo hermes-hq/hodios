@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lecture, university-teaching, peer-instruction, retrieval-practice, active-learning, slide-outline]
 pairs_with:
   prompts: [write-lesson-plan, design-classroom-activity, write-multiple-choice-questions]

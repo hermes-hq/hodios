@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [renovate, dependabot, dependency-updates, automerge, lockfiles, version-pinning]
 pairs_with:
   prompts: [review-dependency-update-pr, audit-dependencies, upgrade-major-dependency]

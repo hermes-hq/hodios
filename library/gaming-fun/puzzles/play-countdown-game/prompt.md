@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [letters-and-numbers, anagrams, mental-arithmetic, longest-word, brain-training]
 pairs_with:
   prompts: [play-ghost-word-game, play-hidden-word-game]

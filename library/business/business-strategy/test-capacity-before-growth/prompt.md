@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [capacity-planning, bottleneck, utilisation, theory-of-constraints, peak-demand, headroom]
 pairs_with:
   prompts: [evaluate-new-service-line, price-salon-menu-by-chair-time, plan-courier-fleet-growth]

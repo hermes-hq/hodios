@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [academic-job-market, faculty-position, postdoc, cover-letter, job-application]
 pairs_with:
   prompts: [write-research-statement, write-teaching-philosophy, write-academic-cv]

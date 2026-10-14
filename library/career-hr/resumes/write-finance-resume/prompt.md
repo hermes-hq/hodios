@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [accounting-resume, month-end-close, finance-qualifications, erp-systems]
 pairs_with:
   prompts: [rewrite-resume-bullets, write-skills-section, tailor-resume-to-job]

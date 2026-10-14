@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [aged-debtors, credit-control, days-sales-outstanding, bad-debt]
 pairs_with:
   prompts: [chase-late-payment, write-credit-control-policy, forecast-cash-flow, analyze-working-capital]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [private-dining, group-bookings, event-packages, minimum-spend, deposit-terms, venue-enquiries]
 pairs_with:
   prompts: [reply-to-inbound-lead, answer-price-shopper-calls]

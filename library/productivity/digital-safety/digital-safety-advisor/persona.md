@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [online-safety, everyday-security, scams, account-security, privacy, plain-language]
 pairs_with:
   prompts: [secure-personal-accounts, check-suspicious-message, review-app-permissions, secure-home-router, check-data-breach-exposure, plan-family-scam-safe-word]

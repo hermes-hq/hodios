@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [safe, convertible-note, priced-round, early-stage, deal-structure]
 pairs_with:
   prompts: [calculate-safe-conversion, size-fundraising-round, explain-term-sheet]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [segments, show-format, recurring-bits, listener-participation]
 pairs_with:
   prompts: [plan-podcast-episode, plan-listener-voicemail-episode, plan-podcast-season]

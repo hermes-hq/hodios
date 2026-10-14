@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tooltip, toggletip, wcag-1-4-13, aria-describedby, touch]
 pairs_with:
   personas: [accessibility-specialist]

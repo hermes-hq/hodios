@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [usefetch, server-routes, ssr, nitro, data-fetching]
 pairs_with:
   prompts: [write-vue-composable, implement-pagination]

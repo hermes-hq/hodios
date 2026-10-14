@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [teenagers, warning-signs, parent-child-communication, adolescent-wellbeing, getting-help]
 pairs_with:
   prompts: [support-struggling-friend, talk-to-teen-about-online-safety, prepare-for-therapy]

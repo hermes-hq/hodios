@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [vocational-qualifications, occupational-standards, apprenticeships, mapping-matrix, assessment-criteria, evidence-portfolio]
 pairs_with:
   prompts: [align-lesson-to-standards, map-program-curriculum, design-apprenticeship-plan]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audience-engagement, interaction-design, live-talk, workshop-activities, inclusive-participation]
 pairs_with:
   prompts: [prepare-virtual-presentation, write-talk-openings-and-closings, develop-idea-talk]

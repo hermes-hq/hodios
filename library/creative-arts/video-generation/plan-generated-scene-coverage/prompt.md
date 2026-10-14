@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coverage, screen-direction, eyeline-match, 180-degree-rule]
 pairs_with:
   prompts: [turn-storyboard-into-video-shots, write-dialogue-scene-video-prompts, write-action-sequence-prompts]

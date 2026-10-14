@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [corrections, sent-email, editorial-standards, reader-trust, archive-edits]
 pairs_with:
   prompts: [preflight-newsletter-issue, write-local-news-morning-briefing]

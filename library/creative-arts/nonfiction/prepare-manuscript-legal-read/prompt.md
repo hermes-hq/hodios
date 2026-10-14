@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [defamation-risk, privacy, pre-publication-check, evidence-file, real-people]
 pairs_with:
   prompts: [assess-use-of-copyrighted-material, write-composite-case-study]

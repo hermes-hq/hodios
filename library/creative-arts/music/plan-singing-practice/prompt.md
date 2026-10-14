@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [vocal-practice, warm-ups, vocal-health, choir-audition]
 pairs_with:
   prompts: [prepare-music-audition, plan-instrument-practice, analyze-song-structure]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [diataxis, information-architecture, navigation, redirects, content-types]
 pairs_with:
   prompts: [audit-documentation, docs-site-overhaul-track]

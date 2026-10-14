@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [research-dissemination, knowledge-mobilisation, science-communication, open-access, stakeholder-engagement]
 pairs_with:
   prompts: [write-policy-brief, explain-research-to-public, write-paper-highlights, write-impact-statement, plan-research-talk]

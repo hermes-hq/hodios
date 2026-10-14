@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [scorekeeping, scorebook, scoresheet, match-official, volunteer, table-official]
 pairs_with:
   prompts: [explain-sport-to-newcomer, prepare-to-referee]

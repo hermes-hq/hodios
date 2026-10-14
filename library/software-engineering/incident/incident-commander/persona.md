@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [incident-response, incident-command, blameless, mitigation]
 pairs_with:
   prompts: [triage-production-alert, write-incident-update, build-incident-timeline, write-postmortem, write-runbook]

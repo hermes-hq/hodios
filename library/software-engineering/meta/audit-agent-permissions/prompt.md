@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, least-privilege, sandbox, prompt-injection, permissions]
 pairs_with:
   personas: [security-auditor]

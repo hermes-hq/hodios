@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [scheduled-tasks, daily-briefing, weekly-review, automation, routines]
 pairs_with:
   prompts: [plan-assistant-connectors, turn-chat-into-prompt]

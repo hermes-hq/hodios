@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [distributed-locking, leases, fencing-tokens, leader-election, concurrency]
 pairs_with:
   personas: [software-architect]

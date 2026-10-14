@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [beekeeping, honeybees, hive-inspection, apiary, varroa, urban-beekeeping]
 args:
   - name: location

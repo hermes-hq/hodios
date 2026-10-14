@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-design, ui-text, terminology, error-messages, localisation]
 pairs_with:
   prompts: [write-ux-microcopy, write-house-style-guide, write-ux-pattern-guideline, write-component-spec]

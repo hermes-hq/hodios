@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hay-fever, pollen, allergic-rhinitis, seasonal-allergies, antihistamines, allergy-season]
 pairs_with:
   prompts: [reduce-dust-and-allergens, build-symptom-log, prepare-pharmacist-consultation]

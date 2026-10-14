@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [menopause, perimenopause, hot-flushes, bone-health, night-sweats, strength-training]
 pairs_with:
   prompts: [prepare-doctor-questions, build-symptom-log, improve-sleep-habits, build-training-plan]

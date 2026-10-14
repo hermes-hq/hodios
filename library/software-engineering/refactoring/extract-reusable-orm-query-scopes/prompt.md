@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [orm, query-scopes, duplicate-queries, sql-equivalence]
 pairs_with:
   prompts: [reduce-duplication, restructure-sql-query]

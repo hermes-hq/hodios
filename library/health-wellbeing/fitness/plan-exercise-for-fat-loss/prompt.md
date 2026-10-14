@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fat-loss, weight-loss, daily-steps, strength-training, cardio, calorie-burn]
 pairs_with:
   prompts: [plan-sustainable-weight-loss, design-interval-workout, start-walking-program]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-reviews, review-collection, review-moderation, incentivised-reviews, social-proof]
 pairs_with:
   prompts: [write-post-purchase-emails, fix-listings-from-customer-reviews, respond-to-online-review]

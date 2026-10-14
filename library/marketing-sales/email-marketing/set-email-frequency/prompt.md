@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [send-frequency, list-fatigue, engagement-segments, holdout-test, stop-rules]
 pairs_with:
   prompts: [analyze-email-campaign-report, plan-email-segmentation, write-email-preference-center]

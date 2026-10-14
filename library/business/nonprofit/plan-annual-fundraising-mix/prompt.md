@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [income-diversification, fundraising-strategy, income-streams, return-on-investment, annual-plan]
 pairs_with:
   prompts: [plan-for-funding-loss, write-charity-three-year-strategy, plan-major-donor-cultivation, plan-monthly-giving-programme]

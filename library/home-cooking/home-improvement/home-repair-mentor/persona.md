@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-repair, tools, safety, learn-by-doing]
 pairs_with:
   prompts: [diagnose-home-problem, plan-diy-project, hire-contractor, plan-home-maintenance]

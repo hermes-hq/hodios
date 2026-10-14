@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [interactive-fiction, gamification, comprehensible-input, reading-practice, recasting]
 pairs_with:
   prompts: [write-graded-reader, roleplay-real-situation]

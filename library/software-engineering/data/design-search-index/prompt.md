@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [full-text-search, relevance, analyzers, reindexing, bm25]
 pairs_with:
   personas: [data-engineer, backend-engineer]

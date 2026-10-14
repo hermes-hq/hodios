@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [parent-communication, complaint-handling, de-escalation, school-email]
 pairs_with:
   prompts: [write-parent-email, prepare-parent-teacher-conference, respond-to-grade-appeal]

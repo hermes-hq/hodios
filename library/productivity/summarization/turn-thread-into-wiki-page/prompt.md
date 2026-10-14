@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [knowledge-capture, team-wiki, reference-page, how-we-decided, faq]
 pairs_with:
   prompts: [summarize-email-thread, summarize-group-chat, find-fix-in-long-thread]

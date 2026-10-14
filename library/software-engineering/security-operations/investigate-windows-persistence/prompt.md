@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [autoruns, windows-persistence, scheduled-tasks, wmi, registry, endpoint-triage]
 stack: [powershell]
 pairs_with:

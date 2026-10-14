@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [file-formats, file-extensions, file-conversion, attachments, safe-downloads]
 pairs_with:
   prompts: [explain-error-message, check-suspicious-message, recover-deleted-files]

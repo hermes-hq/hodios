@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cross-promotion, local-partnerships, referral-swap, bundles, joint-events]
 pairs_with:
   prompts: [design-referral-program, design-loyalty-program, plan-cause-marketing-campaign, brainstorm-guerrilla-marketing]

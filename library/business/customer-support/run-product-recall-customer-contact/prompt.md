@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-recall, safety-notice, recall-script, traceability, small-producer]
 pairs_with:
   prompts: [plan-business-continuity, write-support-reply]

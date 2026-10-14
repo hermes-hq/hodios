@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [law-enforcement-requests, disclosure, court-orders, data-sharing, transparency-log]
 pairs_with:
   prompts: [handle-data-subject-request, map-personal-data-processing, plan-cctv-data-compliance]

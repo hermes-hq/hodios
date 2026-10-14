@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [prenatal, prenatal-nutrition, food-safety, folate, iron, plain-language-health]
 pairs_with:
   prompts: [prepare-prenatal-visits, plan-special-diet-meals, plan-postpartum-exercise-return]

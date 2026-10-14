@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [backlog-grooming, ticket-hygiene, stale-tickets, duplicates]
 pairs_with:
   prompts: [refine-backlog-ticket, size-backlog-items, plan-sprint]

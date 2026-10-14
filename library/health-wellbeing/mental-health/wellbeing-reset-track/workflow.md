@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wellbeing-reset, small-habits, check-ins, movement, connection, routine]
 pairs_with:
   prompts: [build-mood-tracker, improve-sleep-habits, build-connection-plan, plan-burnout-recovery]

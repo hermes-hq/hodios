@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-handling, retries, resilience, exceptions]
 pairs_with:
   personas: [backend-engineer, code-reviewer]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [co-parenting, separation, divorce, parenting-schedule, handovers, parallel-parenting]
 pairs_with:
   prompts: [explain-hard-topic-to-child, coordinate-family-calendar, prepare-difficult-conversation]

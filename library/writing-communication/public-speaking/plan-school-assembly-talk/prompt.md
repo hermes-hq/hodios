@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [school-assembly, head-teacher, pupils, whole-school, collective-worship]
 pairs_with:
   prompts: [plan-audience-interaction, plan-classroom-visit-talk]

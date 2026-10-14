@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [joy, enjoyment, pleasant-activities, savouring, weekly-planning, wellbeing-habits]
 pairs_with:
   prompts: [run-energy-audit, design-daily-routine, enjoy-doing-things-alone]

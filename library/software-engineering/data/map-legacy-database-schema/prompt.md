@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reverse-engineering, entity-relationship-diagram, legacy-databases, implicit-relationships, schema-discovery]
 pairs_with:
   prompts: [write-data-dictionary, add-foreign-keys-to-legacy-schema]

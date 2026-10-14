@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-lifecycle, offline-first, backward-compatibility, app-store-release, permissions]
 pairs_with:
   prompts: [review-pull-request, debug-mobile-crash, review-mobile-app-security]

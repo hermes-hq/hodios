@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [apple-notes, google-keep, samsung-notes, mobile-notes, note-cleanup, folders]
 pairs_with:
   prompts: [audit-notes-vault, choose-notes-app, process-screenshot-backlog, design-note-tagging-scheme]

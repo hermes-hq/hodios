@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [music-discovery, listening-path, artist-recommendations, playlist]
 pairs_with:
   prompts: [take-genre-listening-tour, recommend-podcasts, analyze-song-structure]

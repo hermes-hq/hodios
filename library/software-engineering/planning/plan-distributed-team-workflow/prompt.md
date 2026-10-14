@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [remote-teams, time-zones, async-work, code-review-turnaround, follow-the-sun, handoffs]
 pairs_with:
   prompts: [assign-work-across-developers, design-interrupt-rotation]

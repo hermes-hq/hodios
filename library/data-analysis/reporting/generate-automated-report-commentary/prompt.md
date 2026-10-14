@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [narrative-generation, materiality-thresholds, llm-guardrails, report-automation]
 pairs_with:
   prompts: [automate-recurring-report, write-weekly-metrics-update, write-forecast-commentary]

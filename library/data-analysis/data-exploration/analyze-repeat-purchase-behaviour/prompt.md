@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repeat-purchase, second-order, purchase-interval, retention, first-product]
 pairs_with:
   prompts: [build-cohort-analysis, run-basket-analysis, segment-customers, calculate-customer-lifetime-value]

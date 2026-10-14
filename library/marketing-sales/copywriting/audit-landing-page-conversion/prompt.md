@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [landing-page, conversion-rate-optimisation, lead-generation, form-design, cro-audit]
 pairs_with:
   prompts: [write-landing-page-copy, check-ad-landing-message-match, critique-marketing-copy, design-ab-test]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [campaign-metrics, revenue-per-recipient, open-rate-inflation, spam-complaints, next-test]
 pairs_with:
   prompts: [plan-subject-line-ab-test, set-email-frequency, audit-email-deliverability]

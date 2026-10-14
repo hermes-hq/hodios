@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [intl, date-formatting, number-formatting, currency, time-zones, cldr]
 pairs_with:
   prompts: [extract-ui-strings, review-i18n-readiness]

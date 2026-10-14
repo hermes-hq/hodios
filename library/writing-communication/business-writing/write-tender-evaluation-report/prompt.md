@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [tender-evaluation, contract-award, procurement, bid-scoring, audit-trail]
 pairs_with:
   prompts: [design-tender-evaluation-matrix, write-rfp, write-contract-award-letter, reject-vendor-proposal]

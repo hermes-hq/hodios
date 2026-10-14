@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sanctions-screening, export-controls, restricted-parties, false-positives, trade-compliance]
 pairs_with:
   prompts: [plan-customer-due-diligence, write-aml-risk-assessment, run-vendor-due-diligence]

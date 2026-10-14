@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [alert-fatigue, alert-hygiene, flapping, pager-load, symptom-based-alerting]
 pairs_with:
   prompts: [design-alerting-rules, define-slos, write-on-call-handoff, design-on-call-rotation]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [document-checklist]
 pairs_with:
   prompts: [prepare-visa-application, prepare-government-form, organize-important-documents]

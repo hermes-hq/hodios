@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [developer-tools, api, sdk, quickstart, developer-experience]
 pairs_with:
   prompts: [plan-product-launch, write-api-launch-announcement, plan-open-source-launch, define-launch-tiers]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [car-maintenance, service-schedule, oil-change, timing-belt, tyre-checks, car-ownership-costs]
 pairs_with:
   prompts: [prepare-for-car-service, diagnose-car-warning, cut-driving-costs]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prometheus, grafana, alertmanager, exporters, promql]
 pairs_with:
   prompts: [instrument-service-observability, design-alerting-rules, design-service-dashboard]

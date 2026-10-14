@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-software, software-citation, open-licence, statement-of-need, journal-submission]
 pairs_with:
   prompts: [write-data-availability-statement, choose-target-journal, write-abstract]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-interviews, affinity-mapping, research-synthesis, qualitative-research]
 pairs_with:
   prompts: [write-customer-interview-guide, define-jobs-to-be-done, map-opportunity-solution-tree]

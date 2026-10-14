@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [postmortem, retrospective, lessons-learned, indie-games, game-jam, devlog]
 pairs_with:
   prompts: [scope-indie-game, analyze-playtest-notes]

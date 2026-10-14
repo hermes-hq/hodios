@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [sponsorship, brand-vetting, counter-offer, usage-rights, ad-disclosure, invoicing]
 pairs_with:
   prompts: [build-creator-rate-card, review-sponsorship-contract, write-video-sponsor-segment, write-newsletter-sponsor-spot, practise-brand-deal-negotiation]

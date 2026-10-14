@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quality-gates, linting, type-checking, coverage, ratcheting, required-checks]
 pairs_with:
   prompts: [configure-branch-protection, write-github-actions-workflow, speed-up-ci-pipeline]

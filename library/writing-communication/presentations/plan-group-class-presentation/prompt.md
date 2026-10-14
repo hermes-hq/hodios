@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [group-project, handovers, rehearsal, team-roles, assignment]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, prepare-for-tough-questions]

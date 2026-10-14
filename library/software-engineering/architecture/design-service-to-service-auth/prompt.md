@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mtls, workload-identity, zero-trust, service-identity, token-exchange]
 pairs_with:
   personas: [software-architect]

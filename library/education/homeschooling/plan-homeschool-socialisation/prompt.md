@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [friendships, social-skills, peer-groups, clubs-and-teams, introverted-child, community-activities]
 pairs_with:
   prompts: [plan-homeschool-co-op, plan-homeschool-year]

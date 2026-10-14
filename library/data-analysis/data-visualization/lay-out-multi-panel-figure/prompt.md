@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subplots, figure-layout, matplotlib, patchwork]
 pairs_with:
   prompts: [design-scientific-figures, design-small-multiples, export-chart-for-print-and-web, write-figure-legends]

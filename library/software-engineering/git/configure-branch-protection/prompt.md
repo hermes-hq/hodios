@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [branch-protection, rulesets, required-checks, merge-queue, repo-settings]
 pairs_with:
   prompts: [choose-branching-strategy, write-codeowners-file, set-up-commit-signing]

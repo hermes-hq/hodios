@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [rapid-review, evidence-synthesis, grade, evidence-summary, decision-support]
 pairs_with:
   prompts: [write-systematic-review-protocol, build-search-string, screen-studies, appraise-study-quality, write-policy-brief]

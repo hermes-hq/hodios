@@ -12,6 +12,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: beginner
+depth: specific
 tags: [plain-language, jargon-free]
 levels:
   - label: Light glossing

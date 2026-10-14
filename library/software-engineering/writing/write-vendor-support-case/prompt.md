@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [vendor-support, support-case, quota-increase, billing-dispute, feature-gap]
 pairs_with:
   prompts: [escalate-incident-to-vendor, write-actionable-bug-report]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [tenant-lifecycle, onboarding-automation, offboarding, idempotency, data-deletion]
 pairs_with:
   personas: [software-architect]

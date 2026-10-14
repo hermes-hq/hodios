@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [neonatal-unit, nicu, premature-baby, special-care, parent-support]
 pairs_with:
   prompts: [plan-infant-feeding, write-birth-announcement]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pet-permission, landlord-letters, lease-addendum, assistance-animals, tenant-requests]
 pairs_with:
   prompts: [review-lease, choose-pet-for-lifestyle]

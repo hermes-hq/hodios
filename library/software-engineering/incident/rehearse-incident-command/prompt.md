@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [incident-commander, tabletop-exercise, roleplay, status-updates, on-call-practice]
 pairs_with:
   prompts: [write-incident-update, plan-game-day, write-incident-response-plan]

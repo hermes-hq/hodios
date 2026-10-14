@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [assistive-technology, low-vision, hearing-loss, screen-reader, captions, older-adults]
 pairs_with:
   prompts: [teach-older-relative-smartphone, set-up-new-computer, set-up-assistant-for-accessibility]

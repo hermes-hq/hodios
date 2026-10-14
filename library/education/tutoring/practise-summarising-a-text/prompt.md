@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [summary-writing, reading-strategies, main-idea, paraphrasing, condensing]
 pairs_with:
   prompts: [tutor-reading-comprehension]

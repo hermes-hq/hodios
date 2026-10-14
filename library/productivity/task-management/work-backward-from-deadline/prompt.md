@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reverse-planning, deadlines, milestones, buffers, capacity-check, backward-planning]
 pairs_with:
   prompts: [break-down-big-task, juggle-competing-deadlines, write-project-plan, plan-my-week]

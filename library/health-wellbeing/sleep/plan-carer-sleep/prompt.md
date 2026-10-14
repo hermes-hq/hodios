@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [carers, night-care, dementia-care, respite, broken-sleep]
 pairs_with:
   prompts: [plan-power-naps, recover-from-a-bad-night, plan-middle-of-night-waking]

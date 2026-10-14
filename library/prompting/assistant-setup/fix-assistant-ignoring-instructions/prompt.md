@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [instruction-debugging, instruction-conflicts, saved-memory, personalisation]
 pairs_with:
   prompts: [review-custom-instructions, audit-assistant-memory, diagnose-prompt-failures]

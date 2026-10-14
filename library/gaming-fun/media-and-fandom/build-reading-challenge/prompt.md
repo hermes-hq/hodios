@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-challenge, reading-list, translated-fiction, book-club]
 pairs_with:
   prompts: [recommend-next-book, build-reading-habit]

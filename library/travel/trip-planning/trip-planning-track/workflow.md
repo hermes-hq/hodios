@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [end-to-end, trip-budget, bookings, packing-list, travel-documents]
 pairs_with:
   prompts: [choose-destination, plan-itinerary, plan-trip-budget, check-travel-requirements, build-packing-list]

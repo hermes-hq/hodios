@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [papers, reading-triage, relevance, thesis]
 pairs_with:
   prompts: [summarize-paper, build-literature-matrix, screen-studies]

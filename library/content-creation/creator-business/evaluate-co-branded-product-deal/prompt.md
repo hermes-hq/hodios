@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [co-branded-product, licensing-deal, royalties, minimum-guarantee, creator-collab-product]
 pairs_with:
   prompts: [plan-creator-digital-product, review-sponsorship-contract]

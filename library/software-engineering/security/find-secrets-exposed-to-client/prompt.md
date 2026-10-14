@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-side-secrets, environment-variables, source-maps, api-keys, bundles]
 pairs_with:
   prompts: [audit-repo-for-secrets, respond-to-leaked-secret, plan-secrets-management, review-mobile-app-security]

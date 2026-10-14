@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stock-control, reorder-point, safety-stock, abc-analysis, cycle-counting, dead-stock]
 pairs_with:
   prompts: [plan-online-store, prepare-supplier-negotiation, write-sop]

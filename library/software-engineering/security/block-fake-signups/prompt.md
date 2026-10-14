@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [signup-abuse, bot-protection, fraud-prevention]
 pairs_with:
   prompts: [add-rate-limiting, defend-against-credential-stuffing, implement-transactional-email, implement-audit-log]

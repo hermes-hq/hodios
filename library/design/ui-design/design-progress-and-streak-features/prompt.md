@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [streaks, progress-tracking, personal-targets, motivation, habit-apps]
 pairs_with:
   prompts: [review-design-for-dark-patterns, design-notification-strategy, design-progression-system, write-ux-microcopy]

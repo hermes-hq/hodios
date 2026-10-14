@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [account-takeover, account-recovery, fraud-prevention, social-engineering, identity-checks]
 pairs_with:
   prompts: [write-support-identity-verification-policy, write-support-reply, design-escalation-process]

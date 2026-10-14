@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [structured-interview, scorecard, work-sample, calibration]
 pairs_with:
   prompts: [write-job-description, run-mock-interview]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rockpooling, tide-pools, marine-life, seashore, family-outing, nature-study]
 pairs_with:
   prompts: [plan-tidal-coastal-walk, plan-fossil-hunting-trip]

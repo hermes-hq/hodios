@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cors, preflight, http-headers, browser, credentials]
 pairs_with:
   prompts: [debug-network-request, fix-cookie-not-being-set, harden-web-app-config]

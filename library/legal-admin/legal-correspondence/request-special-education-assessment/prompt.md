@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [special-educational-needs, iep-evaluation, ehc-needs-assessment, learning-support, parent-advocacy, school-request]
 pairs_with:
   prompts: [prepare-for-iep-meeting, complain-to-school-about-bullying, appeal-school-place-decision]

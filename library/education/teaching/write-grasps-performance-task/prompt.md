@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [performance-task, authentic-assessment, grasps, summative-assessment]
 pairs_with:
   prompts: [design-unit-plan, create-rubric, design-pbl-project]

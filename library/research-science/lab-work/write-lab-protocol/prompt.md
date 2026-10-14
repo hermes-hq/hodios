@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [lab-protocol, standard-operating-procedure, reproducibility, lab-safety, fieldwork]
 pairs_with:
   prompts: [write-methods-section, write-data-management-plan]

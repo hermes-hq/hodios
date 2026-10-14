@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [personal-brand, storytelling, voice-matching, hooks]
 pairs_with:
   prompts: [turn-article-into-thread, repurpose-video-into-posts]

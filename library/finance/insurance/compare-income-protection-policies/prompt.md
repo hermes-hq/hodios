@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [income-protection, disability-insurance, own-occupation, deferred-period, sick-pay]
 pairs_with:
   prompts: [review-insurance-coverage, calculate-life-cover-need, prepare-insurance-disclosure]

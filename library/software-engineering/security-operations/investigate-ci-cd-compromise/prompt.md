@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [software-supply-chain, build-pipeline, secret-rotation, runner-security, release-integrity]
 stack: [github-actions, gitlab-ci]
 pairs_with:

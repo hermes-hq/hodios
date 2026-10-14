@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [good-better-best, repair-options, trades, honest-selling, total-cost-of-ownership, option-sheet]
 pairs_with:
   prompts: [write-customer-quote, write-job-completion-report, handle-sales-objections]

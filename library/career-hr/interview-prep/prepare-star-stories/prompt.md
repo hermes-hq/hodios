@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [star-method, behavioral-interview, competencies, story-bank]
 pairs_with:
   prompts: [run-mock-interview, prepare-questions-for-interviewer]

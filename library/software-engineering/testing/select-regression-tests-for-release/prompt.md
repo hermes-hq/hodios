@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regression, impact-analysis, release-testing, risk-based-testing]
 pairs_with:
   prompts: [write-test-plan, write-test-summary-report, write-smoke-tests]

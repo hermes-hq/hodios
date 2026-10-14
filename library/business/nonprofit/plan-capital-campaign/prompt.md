@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [capital-campaign, gift-range-chart, feasibility-study, major-gifts, campaign-planning]
 pairs_with:
   prompts: [write-case-for-support, plan-major-donor-cultivation, write-donor-thank-you]

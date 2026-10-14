@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [community-management, moderation, trolls, escalation, brand-voice]
 pairs_with:
   prompts: [write-instagram-caption]

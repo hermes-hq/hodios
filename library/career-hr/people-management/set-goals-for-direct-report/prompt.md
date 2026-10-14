@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [individual-goals, smart-goals, development-goals, alignment, performance-cycle]
 pairs_with:
   prompts: [plan-one-on-one, write-performance-review, set-okrs]

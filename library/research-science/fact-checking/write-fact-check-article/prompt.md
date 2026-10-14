@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [journalism, verdict-scale, truth-sandwich, news-writing]
 pairs_with:
   prompts: [fact-check-claims, verify-quotes-against-source, evaluate-source-credibility]

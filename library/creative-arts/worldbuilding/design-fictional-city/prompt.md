@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [city-building, settlements, campaign-setting, story-hooks, urban-fantasy]
 pairs_with:
   prompts: [design-fictional-geography, design-fictional-factions, design-fictional-culture, build-world-timeline]

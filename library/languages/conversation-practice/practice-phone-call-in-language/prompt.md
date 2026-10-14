@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [phone-calls, listening, repair-strategies, spelling-aloud, cefr]
 pairs_with:
   prompts: [roleplay-real-situation, drill-numbers-and-dates, review-speaking-transcript]

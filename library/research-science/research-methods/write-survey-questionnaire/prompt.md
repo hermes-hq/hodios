@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [survey, questionnaire, likert, skip-logic]
 pairs_with:
   prompts: [design-research-study]

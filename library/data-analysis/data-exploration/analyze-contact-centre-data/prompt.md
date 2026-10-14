@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contact-centre, call-centre, service-level, abandon-rate, failure-demand, workforce-management]
 pairs_with:
   prompts: [plan-support-staffing, run-pareto-analysis, detect-anomalies, write-monthly-business-review]

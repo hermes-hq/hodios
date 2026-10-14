@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [customer-marketing, retention, advocacy, customer-lifecycle, expansion]
 pairs_with:
   prompts: [plan-expansion-revenue, collect-adopter-stories, design-referral-program, design-ambassador-program]

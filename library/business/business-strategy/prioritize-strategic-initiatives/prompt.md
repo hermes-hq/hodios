@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [portfolio-prioritization, strategic-initiatives, scoring-model, stop-start-continue, sequencing]
 pairs_with:
   prompts: [set-okrs, build-annual-operating-plan, run-scenario-planning, plan-strategy-offsite]

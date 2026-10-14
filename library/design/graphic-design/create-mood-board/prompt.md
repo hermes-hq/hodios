@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mood-board, visual-direction, colour-palette, art-direction, creative-brief]
 pairs_with:
   prompts: [write-design-brief, create-color-palette, pair-typefaces, design-packaging, design-book-cover-brief]

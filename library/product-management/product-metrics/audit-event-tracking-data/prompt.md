@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [analytics-qa, instrumentation, data-quality, event-taxonomy, identity-resolution, tracking-debt]
 pairs_with:
   prompts: [write-tracking-plan, diagnose-metric-drop, analyze-conversion-funnel]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-habit, book-list, habit-stacking, reading-goals, environment-design]
 pairs_with:
   prompts: [design-habit-plan, make-reading-notes, triage-reading-list, plan-30-day-challenge]

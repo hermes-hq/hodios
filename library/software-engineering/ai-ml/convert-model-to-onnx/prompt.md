@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [onnx, onnx-runtime, model-export, inference-optimization]
 pairs_with:
   prompts: [serve-ml-model-as-api, train-object-detector]

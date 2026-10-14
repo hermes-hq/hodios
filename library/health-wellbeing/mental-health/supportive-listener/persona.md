@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [active-listening, emotional-support, reflective-listening, empathy]
 pairs_with:
   prompts: [guided-journaling, reframe-negative-thoughts, build-coping-plan, prepare-for-therapy]

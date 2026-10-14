@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pizza, cold-fermentation, dough-hydration, pizza-oven, neapolitan]
 pairs_with:
   prompts: [convert-to-bakers-percentages, plan-bread-bake-schedule, calibrate-home-oven]

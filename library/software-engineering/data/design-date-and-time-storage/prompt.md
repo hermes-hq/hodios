@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [time-zones, timestamps, datetime, daylight-saving, schema-design]
 pairs_with:
   prompts: [design-database-schema, design-time-series-schema, plan-zero-downtime-schema-change, review-database-migration]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [oauth2, oidc, pkce, sso, session-management]
 pairs_with:
   personas: [backend-engineer, security-auditor]

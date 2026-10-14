@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [knowledge-capture, slack-threads, decision-record, tribal-knowledge]
 pairs_with:
   prompts: [write-how-to-guide, write-explanation-page, write-adr, write-troubleshooting-guide]

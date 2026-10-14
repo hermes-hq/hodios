@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [history-rewrite, orphan-branch, git-replace, archive-repository, fresh-start]
 pairs_with:
   prompts: [purge-file-from-git-history, speed-up-large-repo, prepare-code-for-open-sourcing, extract-folder-into-new-repo]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [energy-levels, low-energy-tasks, short-gaps, decision-fatigue, context-lists]
 pairs_with:
   prompts: [prioritize-todo-list, plan-tasks-with-adhd, set-up-task-system]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gorm, orm, associations, soft-delete, schema-migrations]
 pairs_with:
   prompts: [design-database-schema, review-database-migration, fix-n-plus-one-queries, write-go-database-access-with-sqlc]

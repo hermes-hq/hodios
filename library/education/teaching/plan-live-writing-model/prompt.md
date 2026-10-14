@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [live-modelling, think-aloud, shared-writing, i-do-we-do-you-do, disciplinary-writing]
 pairs_with:
   prompts: [write-annotated-exemplars, create-rubric, design-self-and-peer-assessment]

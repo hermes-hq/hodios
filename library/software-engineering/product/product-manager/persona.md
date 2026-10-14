@@ -16,6 +16,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [requirements, scope-cutting, outcomes]
 pairs_with:
   prompts: [write-prd, write-user-stories, write-acceptance-criteria, break-down-epic]

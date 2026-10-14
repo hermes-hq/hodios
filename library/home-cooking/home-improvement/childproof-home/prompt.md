@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [childproofing, home-safety, toddlers, furniture-anchoring, poison-prevention]
 pairs_with:
   prompts: [prepare-for-new-baby, maximize-small-space-storage]

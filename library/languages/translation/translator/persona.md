@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [glossary, terminology, transcreation]
 pairs_with:
   prompts: [translate-preserving-tone, review-translation, transcreate-marketing-copy]

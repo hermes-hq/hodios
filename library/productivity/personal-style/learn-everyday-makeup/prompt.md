@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [makeup, beginner-makeup, makeup-removal, patch-test, minimal-kit]
 pairs_with:
   prompts: [build-skincare-routine, find-flattering-colours]

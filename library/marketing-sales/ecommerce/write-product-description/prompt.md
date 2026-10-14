@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [product-page, product-listing, ecommerce-copy]
 pairs_with:
   prompts: [write-meta-tags, write-headline-variations]

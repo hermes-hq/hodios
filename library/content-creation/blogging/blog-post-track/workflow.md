@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [first-draft, line-editing, meta-description, structure]
 pairs_with:
   prompts: [generate-blog-post-ideas, write-blog-post-draft, turn-article-into-thread]

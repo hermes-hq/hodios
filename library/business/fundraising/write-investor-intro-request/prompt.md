@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [warm-intro, double-opt-in, investor-outreach, forwardable-email, startup-fundraising]
 pairs_with:
   prompts: [build-investor-pipeline, write-pitch-deck-outline, write-investor-update]

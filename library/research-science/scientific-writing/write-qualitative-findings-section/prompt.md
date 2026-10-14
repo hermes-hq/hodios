@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [social-sciences]
 tags: [qualitative-research, themes, participant-quotes, coreq, manuscript]
 pairs_with:

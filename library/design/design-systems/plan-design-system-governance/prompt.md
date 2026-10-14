@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [design-ops, contribution-model, semantic-versioning, deprecation, adoption-metrics]
 pairs_with:
   prompts: [write-component-spec, define-design-tokens, audit-design-consistency]

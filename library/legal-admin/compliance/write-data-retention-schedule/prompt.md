@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-retention, records-management, storage-limitation, legal-hold, data-protection]
 pairs_with:
   prompts: [map-personal-data-processing, handle-data-subject-request, write-privacy-policy]

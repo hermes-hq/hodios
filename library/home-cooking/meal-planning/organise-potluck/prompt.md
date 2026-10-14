@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [potluck, hosting, sign-up-sheet, allergen-labels, food-safety, community-events]
 pairs_with:
   prompts: [scale-recipe-for-crowd, plan-barbecue-cook, design-cocktail-menu]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [end-point-assessment, apprenticeship, professional-discussion, ksbs, mock-assessment, portfolio-evidence]
 pairs_with:
   prompts: [prepare-oral-exam, write-reflective-account]

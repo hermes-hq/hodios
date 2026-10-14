@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [folder-structure, feature-folders, file-moves, import-paths, codebase-layout]
 pairs_with:
   prompts: [fix-layering-violations, split-large-module]

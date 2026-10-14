@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [travel-writing, narrative-nonfiction, scene-writing, sense-of-place]
 pairs_with:
   prompts: [write-personal-essay, write-article-headlines-and-standfirsts]

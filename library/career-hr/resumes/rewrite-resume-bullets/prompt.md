@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [achievement-bullets, quantify-impact, action-verbs]
 pairs_with:
   prompts: [tailor-resume-to-job, review-resume]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mastermind, bulls-and-cows, code-breaking, deduction-game, two-player]
 pairs_with:
   prompts: [play-twenty-questions, play-hidden-word-game, play-cipher-challenge]

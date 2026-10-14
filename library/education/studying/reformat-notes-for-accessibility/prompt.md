@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dyslexia-friendly, screen-reader, alt-text, readable-layout]
 pairs_with:
   prompts: [adapt-study-for-learning-difference, review-notes-for-gaps]

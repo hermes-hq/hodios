@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [email-cong-viec, xung-ho, kinh-ngu, business-vietnamese, van-phong]
 pairs_with:
   prompts: [write-professional-email, write-follow-up-email, check-tone-before-sending]

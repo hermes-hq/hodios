@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regression, model-diagnostics, linear-models, glm]
 pairs_with:
   prompts: [interpret-regression-output, choose-statistical-test, estimate-causal-effect]

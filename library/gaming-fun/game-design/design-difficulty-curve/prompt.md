@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [difficulty, pacing, flow, assist-modes]
 pairs_with:
   prompts: [design-game-level, design-game-onboarding, design-boss-fight]

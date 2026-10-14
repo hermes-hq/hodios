@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [client-guide, what-to-wear, portrait-photography, family-portraits, branding-photos]
 pairs_with:
   prompts: [plan-portrait-shoot, write-posing-prompts, plan-team-headshot-day]

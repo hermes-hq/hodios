@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [water-saving, water-bills, leak-detection, sustainability, drought]
 pairs_with:
   prompts: [plan-garden-irrigation, plan-eco-friendly-home-swaps, plan-energy-efficiency-upgrades]

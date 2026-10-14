@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [customer-wording, keyword-ideas, search-intent, customer-questions]
 pairs_with:
   prompts: [research-keywords, write-seo-content-brief, find-keyword-gaps]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [qualitative-research, trustworthiness, credibility, reflexivity, audit-trail, member-checking]
 pairs_with:
   prompts: [run-thematic-analysis, write-positionality-statement, justify-qualitative-sample-size, write-methods-section]

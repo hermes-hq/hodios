@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [general-ledger, error-detection, trial-balance, data-quality]
 pairs_with:
   prompts: [prepare-month-end-close, prepare-year-end-accounts-pack, review-balance-sheet]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [practical-work, pre-lab, risk-assessment, results-table]
 pairs_with:
   prompts: [structure-lab-report, give-lab-report-feedback]

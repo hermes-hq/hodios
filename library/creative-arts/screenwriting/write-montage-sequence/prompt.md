@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [montage, series-of-shots, time-compression, screenplay-format]
 pairs_with:
   prompts: [format-screenplay-scene, write-beat-sheet]

@@ -7,6 +7,7 @@ description: Standing rules for Godot 4 GDScript an assistant writes, covering s
 category: conventions
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [build]
 role: [game-developer]
 stack: [godot]

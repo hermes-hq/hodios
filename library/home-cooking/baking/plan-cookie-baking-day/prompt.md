@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [holiday-baking, cookie-swap, edible-gifts, make-ahead, batch-baking]
 pairs_with:
   prompts: [plan-royal-icing-cookies, pack-baked-goods-for-shipping, tune-cookie-texture]

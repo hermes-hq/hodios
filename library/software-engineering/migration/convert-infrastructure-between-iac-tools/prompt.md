@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cloudformation, cdk, pulumi, resource-import, iac-conversion]
 pairs_with:
   prompts: [import-infrastructure-into-terraform, refactor-terraform-without-recreating, review-iac-plan]

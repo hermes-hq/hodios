@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [core-web-vitals, lighthouse, lcp, inp, cls]
 args:
   - name: report

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rn-upgrade, upgrade-helper, cocoapods, gradle, native-diff]
 pairs_with:
   prompts: [migrate-react-native-new-architecture, fix-react-native-native-module-error, upgrade-major-dependency]

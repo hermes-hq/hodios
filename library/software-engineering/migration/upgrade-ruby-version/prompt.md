@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bundler, keyword-arguments, deprecations, end-of-life]
 pairs_with:
   prompts: [upgrade-rails-major-version, runtime-upgrade-track, fix-breakage-after-dependency-upgrade]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [apology, cross-cultural, repair, hosts]
 pairs_with:
   prompts: [explain-cultural-misunderstanding, learn-local-etiquette]

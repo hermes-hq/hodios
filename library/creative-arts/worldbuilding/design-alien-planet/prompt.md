@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [science-fiction, planetary-science, hard-sf, exoplanets, setting-design]
 pairs_with:
   prompts: [design-fictional-geography, design-fictional-ecosystem, design-sapient-species, design-fictional-calendar]

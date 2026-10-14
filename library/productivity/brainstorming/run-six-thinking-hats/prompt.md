@@ -7,6 +7,7 @@ description: Explores a problem through the six thinking hats in a disciplined o
 category: brainstorming
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [discover, plan]
 inputs: [text, topic]
 output: [report, plan]

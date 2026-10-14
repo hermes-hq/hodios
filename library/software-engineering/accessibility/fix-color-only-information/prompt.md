@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [use-of-color, colour-blindness, wcag-1-4-1, status-indicators, links]
 pairs_with:
   personas: [accessibility-specialist]

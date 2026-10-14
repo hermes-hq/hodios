@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [observation, ethnography, field-notes, observation-protocol, qualitative-research, fieldwork]
 pairs_with:
   prompts: [design-case-study-research, write-ethics-application, build-qualitative-codebook, write-research-interview-protocol]

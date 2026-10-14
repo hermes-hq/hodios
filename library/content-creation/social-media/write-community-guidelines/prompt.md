@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [moderation, community-rules, code-of-conduct, appeals]
 pairs_with:
   prompts: [handle-social-media-backlash, reply-to-comments]

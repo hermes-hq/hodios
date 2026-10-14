@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [modernise, long-tenure, dated-conventions]
 pairs_with:
   prompts: [rewrite-resume-bullets, trim-resume-length, check-resume-ats-readiness]

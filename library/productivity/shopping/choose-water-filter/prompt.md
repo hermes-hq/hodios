@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [water-filter, drinking-water, water-quality, limescale, filter-certification]
 pairs_with:
   prompts: [decode-product-claims, decide-on-product-subscription, find-ethical-alternative-products]

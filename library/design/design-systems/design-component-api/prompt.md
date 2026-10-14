@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [component-api, props, composition, controlled-state, api-ergonomics]
 pairs_with:
   prompts: [write-component-spec, build-ui-component, review-ui-component-change]

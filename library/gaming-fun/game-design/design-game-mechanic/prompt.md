@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [core-loop, paper-prototype, mda-framework]
 pairs_with:
   prompts: [plan-game-strategy, play-text-adventure]

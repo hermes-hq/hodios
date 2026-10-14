@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [license-compliance, ospo, sbom, dependency-policy, software-supply-chain]
 pairs_with:
   prompts: [audit-dependency-licenses, vet-dependency, write-upstream-contribution-policy]

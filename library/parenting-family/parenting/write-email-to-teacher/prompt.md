@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [parent-teacher, school-communication, email-to-school, bullying, homework, advocacy]
 pairs_with:
   prompts: [prepare-parent-teacher-conference, write-parent-email, help-with-homework]

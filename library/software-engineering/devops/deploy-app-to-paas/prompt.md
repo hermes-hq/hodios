@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [paas, deployment, release-phase, custom-domain, platform-config]
 pairs_with:
   prompts: [choose-app-hosting, set-up-domain-and-https, run-migrations-in-deploy-pipeline]

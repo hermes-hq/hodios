@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [incident-log, behaviour, record-keeping, objective-language, safeguarding]
 pairs_with:
   prompts: [plan-restorative-conversation, plan-student-behavior-support, write-parent-email]

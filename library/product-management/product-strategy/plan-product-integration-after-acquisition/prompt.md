@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [acquisition, product-merger, overlap-map, customer-migration, unified-roadmap]
 pairs_with:
   prompts: [plan-acquisition-integration, consolidate-team-roadmaps, plan-legacy-product-strategy, rationalize-product-line]

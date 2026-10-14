@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [time-off, annual-leave, coverage, handover, out-of-office, pre-leave]
 pairs_with:
   prompts: [write-out-of-office-message, write-handover-document, catch-up-after-leave]

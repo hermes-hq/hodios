@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [op-ed, opinion-writing, news-peg, editor-pitch, persuasive-writing]
 pairs_with:
   prompts: [write-guest-post-pitch, fact-check-claims]

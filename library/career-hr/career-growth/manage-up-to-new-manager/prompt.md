@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [managing-up, new-boss, working-relationship, expectations]
 pairs_with:
   prompts: [handle-difficult-manager, write-brag-document, prepare-skip-level-meeting]

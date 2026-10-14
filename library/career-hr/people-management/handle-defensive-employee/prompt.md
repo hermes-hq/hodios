@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [defensiveness, feedback-reactions, hard-conversations, accountability, de-escalation]
 pairs_with:
   prompts: [address-underperformance-early, give-feedback-sbi, plan-one-on-one]

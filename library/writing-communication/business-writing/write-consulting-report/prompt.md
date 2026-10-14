@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [consulting-deliverable, findings-and-recommendations, client-report, pyramid-principle, implementation-roadmap]
 pairs_with:
   prompts: [write-gap-analysis-report, write-executive-summary, write-deliverable-cover-note]

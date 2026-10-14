@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [copy-review, conversion, direct-response, editing-feedback]
 pairs_with:
   prompts: [write-landing-page-copy, write-headline-variations]

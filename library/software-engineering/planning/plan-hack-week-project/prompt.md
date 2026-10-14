@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hackathon, hack-week, demo, scoping, timebox]
 pairs_with:
   prompts: [plan-spike, plan-prototype-to-production, scope-solo-side-project]

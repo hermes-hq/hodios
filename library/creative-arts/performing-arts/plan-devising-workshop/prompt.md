@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [devised-theatre, ensemble, physical-theatre, drama-teaching, workshop-plan]
 pairs_with:
   prompts: [plan-improv-session, plan-rehearsal-schedule, write-director-notes]

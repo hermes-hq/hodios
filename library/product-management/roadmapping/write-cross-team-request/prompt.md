@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [dependency-request, cross-team, internal-ask, unblocking, platform-teams]
 pairs_with:
   prompts: [map-cross-team-dependencies, plan-around-blocked-dependency, push-back-on-roadmap-request]

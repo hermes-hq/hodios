@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crossword-construction, grid-fill, mini-crossword, word-puzzle, printable]
 pairs_with:
   prompts: [write-crossword-clues, make-word-puzzles, testsolve-puzzle]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [translation-qa, placeholders, terminology]
 pairs_with:
   prompts: [translate-string-catalog, build-localization-glossary]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [internships, graduate-jobs, early-careers, student-experience]
 pairs_with:
   prompts: [prepare-star-stories, write-tell-me-about-yourself, prepare-questions-for-interviewer]

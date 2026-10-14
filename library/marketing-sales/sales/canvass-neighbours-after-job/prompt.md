@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [doorstep-canvassing, neighbour-leads, customer-permission, no-cold-callers, local-leads, tradespeople]
 pairs_with:
   prompts: [write-brochure-copy, ask-clients-for-referrals, triage-open-quotes, answer-price-shopper-calls]

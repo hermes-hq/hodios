@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [strategy-summary, stakeholder-buy-in, budget-request, board-paper, client-proposal]
 pairs_with:
   prompts: [define-content-pillars, plan-content-calendar, build-content-measurement-plan]

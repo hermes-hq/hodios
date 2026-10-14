@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [figures, error-bars, data-presentation, image-integrity, manuscript]
 pairs_with:
   prompts: [write-peer-review, screen-manuscript-for-integrity-issues, review-statistical-methods]

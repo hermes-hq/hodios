@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [time-to-value, user-onboarding-speed, milestones, survival-analysis, setup-friction, first-value]
 pairs_with:
   prompts: [define-activation-metric, analyze-conversion-funnel, plan-customer-onboarding, find-leading-indicators]

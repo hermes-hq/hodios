@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [transit-damage, carrier-claims, packaging, replacement, proof-of-damage]
 pairs_with:
   prompts: [write-support-reply, escalate-customer-issue-to-supplier, analyze-support-tickets]

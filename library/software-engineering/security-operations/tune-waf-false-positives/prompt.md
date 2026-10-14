@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [waf, modsecurity, owasp-crs, false-positives, rule-exclusions]
 pairs_with:
   prompts: [tune-noisy-detection, analyze-web-attack-logs, harden-wordpress-site]

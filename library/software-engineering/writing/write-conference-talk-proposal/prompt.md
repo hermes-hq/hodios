@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [cfp, talk-abstract, conference-speaking, speaker-bio]
 pairs_with:
   prompts: [write-tech-blog-post, write-speech, prepare-for-tough-questions]

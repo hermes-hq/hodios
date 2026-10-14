@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [preprint-review, open-science, public-review, community-review]
 pairs_with:
   prompts: [write-peer-review, assess-reproducibility, check-science-news-against-paper]

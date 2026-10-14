@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rector, static-analysis, deprecations, composer]
 pairs_with:
   prompts: [runtime-upgrade-track, upgrade-laravel-major-version]

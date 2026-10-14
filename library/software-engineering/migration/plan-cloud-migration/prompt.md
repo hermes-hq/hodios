@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cloud-migration, six-rs, lift-and-shift, migration-waves, cutover, datacenter-exit]
 pairs_with:
   personas: [software-architect, devops-engineer]

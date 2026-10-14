@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iac, pulumi, component-resources, stack-config]
 pairs_with:
   prompts: [review-iac-plan, structure-terraform-environments]

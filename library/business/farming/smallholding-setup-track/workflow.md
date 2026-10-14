@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [smallholding, career-change, land-assessment, holding-registration, first-livestock, self-sufficiency]
 pairs_with:
   prompts: [plan-livestock-record-keeping, set-up-farm-biosecurity, estimate-farm-stocking-rate, plan-laying-flock-cycle, write-farm-safety-induction]

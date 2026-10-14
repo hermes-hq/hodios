@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cold-calling, prospect-role-play, gatekeeper, brush-offs, sdr-training, meeting-booking]
 pairs_with:
   prompts: [write-cold-call-script, write-prospect-voicemails, quiz-objection-handling]

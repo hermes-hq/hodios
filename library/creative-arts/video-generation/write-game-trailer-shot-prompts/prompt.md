@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [game-trailer, indie-games, cinematic-trailer, truthful-marketing]
 pairs_with:
   prompts: [turn-storyboard-into-video-shots, write-logo-sting-prompt, write-music-video-shot-prompts]

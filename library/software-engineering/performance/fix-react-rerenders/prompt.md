@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [re-renders, memoization, react-profiler, context, state-colocation]
 pairs_with:
   prompts: [improve-web-vitals, reduce-bundle-size, profile-hot-path]

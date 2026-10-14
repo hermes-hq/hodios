@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [property-enquiries, lead-response, viewings, buyer-qualification, lettings, fair-housing]
 pairs_with:
   prompts: [prepare-buyer-consultation, screen-tenant-applications, practise-viewing-objections]

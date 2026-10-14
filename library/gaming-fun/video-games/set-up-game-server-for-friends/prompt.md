@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [private-server, self-hosting, whitelist, world-backups, multiplayer]
 pairs_with:
   prompts: [secure-home-router, set-up-parental-controls]

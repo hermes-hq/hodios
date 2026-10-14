@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sleep-study, polysomnography, ahi, oxygen-saturation, home-sleep-test]
 pairs_with:
   prompts: [prepare-sleep-doctor-appointment, get-used-to-cpap, reduce-own-snoring]

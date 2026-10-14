@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [wine-label, tasting-notes, regulated-terms, italy]
 pairs_with:
   prompts: [write-packaging-copy, pair-wine-with-food]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [project-concept, funder-prospecting, one-pager, project-design, readiness]
 pairs_with:
   prompts: [plan-grant-pipeline, decide-whether-to-apply-for-grant, write-programme-officer-enquiry]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [follow-up, no-reply, nudge, polite-reminder]
 pairs_with:
   prompts: [write-professional-email, write-escalation-email, reply-to-email]

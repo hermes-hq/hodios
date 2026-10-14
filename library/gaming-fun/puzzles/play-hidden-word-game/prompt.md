@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [word-guessing, letter-feedback, vocabulary-practice, daily-puzzle, guessing-game]
 pairs_with:
   prompts: [play-ghost-word-game, play-word-grouping-puzzle]

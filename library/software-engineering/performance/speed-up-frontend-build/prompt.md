@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [webpack, vite, hot-reload, build-time, developer-experience]
 pairs_with:
   prompts: [speed-up-ci-pipeline, speed-up-typescript-type-checking, reduce-bundle-size, fix-frontend-build-error]

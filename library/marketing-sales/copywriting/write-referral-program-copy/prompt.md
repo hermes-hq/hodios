@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [referral-programme, share-messages, word-of-mouth, reward-emails, refer-a-friend]
 pairs_with:
   prompts: [design-referral-program, write-referral-programme-terms, ask-clients-for-referrals, write-landing-page-copy]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [network-visualization, graph-layout, gephi, centrality]
 pairs_with:
   prompts: [choose-chart-type, write-plotting-code]

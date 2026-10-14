@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [voice-agent, phone-bot, conversational-ai, human-handoff, speech]
 pairs_with:
   prompts: [design-voice-interaction, write-system-prompt, build-prompt-test-set, harden-prompt-against-injection]

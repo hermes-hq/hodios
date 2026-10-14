@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trpc, zod, end-to-end-types, rpc, middleware]
 pairs_with:
   prompts: [choose-api-style, implement-tanstack-query-data-layer]

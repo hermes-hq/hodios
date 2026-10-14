@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cpa, manipulatives, bar-model, mastery-maths, stem-sentences, representations]
 pairs_with:
   prompts: [plan-number-talk, diagnose-student-misconceptions, design-formative-assessment]

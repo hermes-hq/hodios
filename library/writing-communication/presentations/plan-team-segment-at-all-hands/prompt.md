@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [all-hands, team-update, plain-language, storytelling, timing]
 pairs_with:
   prompts: [plan-all-hands-meeting, write-lightning-talk, shorten-presentation-for-time]

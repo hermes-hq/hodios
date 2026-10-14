@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-compensation, commission-plan, on-target-earnings, accelerators, incentive-design]
 pairs_with:
   prompts: [set-sales-quotas, build-commission-calculator, plan-sales-territory]

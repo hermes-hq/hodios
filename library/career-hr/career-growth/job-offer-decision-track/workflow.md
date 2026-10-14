@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-offer, total-compensation, offer-negotiation, counteroffer, resignation, decision-matrix]
 pairs_with:
   prompts: [evaluate-job-offer, negotiate-job-offer, accept-job-offer-in-writing, decline-job-offer, write-resignation-letter, respond-to-candidate-counteroffer]

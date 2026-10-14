@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [win-back, re-engagement, list-hygiene, sunset-policy, churn]
 pairs_with:
   prompts: [write-abandoned-cart-emails, write-email-sequence, audit-email-deliverability]

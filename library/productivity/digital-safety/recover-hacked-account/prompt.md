@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [account-takeover, hacked-account, incident-recovery, two-factor, online-safety]
 pairs_with:
   prompts: [secure-personal-accounts, check-suspicious-message]

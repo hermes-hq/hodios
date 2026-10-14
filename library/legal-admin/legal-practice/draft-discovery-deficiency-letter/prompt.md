@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [discovery-deficiency, meet-and-confer, boilerplate-objections, motion-to-compel, document-production]
 pairs_with:
   prompts: [draft-discovery-requests, draft-privilege-log, index-case-documents]

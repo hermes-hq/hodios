@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [safe-sleep, sids-risk, cot-setup, night-feeds, baby-room]
 pairs_with:
   prompts: [plan-newborn-routine, choose-baby-gear, design-nursery]

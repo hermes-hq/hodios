@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cash-forecast, thirteen-week, liquidity, working-capital]
 pairs_with:
   prompts: [prepare-month-end-close, set-up-chart-of-accounts]

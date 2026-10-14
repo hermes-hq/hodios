@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [birthday-cake, layer-cake, cake-decorating, buttercream, bake-ahead, celebrations]
 pairs_with:
   prompts: [adapt-recipe, troubleshoot-recipe, plan-holiday-feast-schedule]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employee-engagement, enps, people-analytics, survey-privacy, comment-themes]
 pairs_with:
   prompts: [analyze-survey-results, classify-text-records]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-offer, total-compensation, decision-matrix, equity, benefits]
 pairs_with:
   prompts: [negotiate-job-offer, research-company]

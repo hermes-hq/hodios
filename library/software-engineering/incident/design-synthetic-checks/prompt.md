@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [synthetic-monitoring, uptime-checks, black-box-monitoring, user-journeys, probes]
 pairs_with:
   prompts: [define-slos, design-alerting-rules, design-service-dashboard, write-runbook]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-links, topic-clusters, site-architecture, anchor-text, orphan-pages]
 pairs_with:
   prompts: [audit-on-page-seo, audit-technical-seo, write-seo-content-brief, research-keywords]

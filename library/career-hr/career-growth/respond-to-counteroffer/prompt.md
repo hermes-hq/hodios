@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [counteroffer, resignation, job-offer, retention]
 pairs_with:
   prompts: [write-resignation-letter, negotiate-job-offer, decide-whether-to-quit, plan-notice-period]

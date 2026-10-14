@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bible-translations, quran-translations, sacred-texts, study-bible, editions, reading-choice]
 pairs_with:
   prompts: [plan-scripture-study, compare-translations-of-text, study-sacred-passage]

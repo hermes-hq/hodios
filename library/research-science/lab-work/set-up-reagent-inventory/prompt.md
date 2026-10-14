@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reagent-inventory, reorder-point, consumables, lab-ordering, stock-control]
 pairs_with:
   prompts: [set-up-sample-tracking, estimate-experiment-reagent-costs, bridge-new-reagent-lot]

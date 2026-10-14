@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [letter-writing, time-capsule, self-reflection, future-self]
 pairs_with:
   prompts: [write-legacy-letter, draft-memoir-scene]

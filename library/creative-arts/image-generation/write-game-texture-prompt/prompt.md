@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [game-textures, pbr, tileable, materials, game-art]
 pairs_with:
   prompts: [write-seamless-pattern-prompt, write-isometric-scene-prompt]

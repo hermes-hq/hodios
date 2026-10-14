@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [data-availability, open-science, code-sharing, research-data, journal-submission]
 pairs_with:
   prompts: [write-data-management-plan, write-methods-section, write-journal-cover-letter]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [email-design, email-modules, dark-mode, email-accessibility, responsive-email]
 pairs_with:
   prompts: [write-promo-email, audit-email-deliverability, write-email-sequence]

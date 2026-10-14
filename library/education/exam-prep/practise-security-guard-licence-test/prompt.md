@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [security-officer, door-supervisor, conflict-management, powers-of-arrest, incident-reports, licensing-exam]
 pairs_with:
   prompts: [prepare-certification-exam, write-workplace-incident-report]

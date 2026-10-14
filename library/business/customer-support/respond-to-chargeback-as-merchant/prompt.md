@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chargeback, payment-dispute, reason-code, dispute-evidence, friendly-fraud, rebuttal-letter]
 pairs_with:
   prompts: [design-returns-process, write-support-reply, build-service-recovery-playbook]

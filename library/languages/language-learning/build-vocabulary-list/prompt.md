@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [word-list, collocations, spaced-repetition]
 pairs_with:
   prompts: [write-graded-reader, generate-language-drills]

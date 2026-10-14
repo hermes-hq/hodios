@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, mcp-servers, tool-poisoning, prompt-injection, vetting]
 pairs_with:
   prompts: [choose-mcp-servers-for-project, audit-agent-permissions, vet-dependency]

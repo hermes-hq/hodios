@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [anonymisation, pseudonymisation, k-anonymity, personal-data, re-identification, data-sharing]
 pairs_with:
   prompts: [write-dataframe-transformation, deduplicate-records]

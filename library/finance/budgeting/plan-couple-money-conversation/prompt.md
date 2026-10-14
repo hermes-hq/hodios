@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [couples, money-conversation, joint-accounts, money-date, financial-disclosure]
 pairs_with:
   prompts: [split-shared-expenses, build-monthly-budget, plan-savings-goal, plan-debt-payoff]

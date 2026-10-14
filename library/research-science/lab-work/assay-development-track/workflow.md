@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [assay-development, method-validation, design-of-experiments, quality-control, method-transfer]
 pairs_with:
   prompts: [plan-bench-experiment, design-plate-layout, write-lab-protocol, optimize-qpcr-assay, calculate-measurement-uncertainty]

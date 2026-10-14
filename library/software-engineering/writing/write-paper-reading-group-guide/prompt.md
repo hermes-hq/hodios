@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reading-group, papers-we-love, distributed-systems, team-learning, discussion-questions]
 args:
   - name: paper

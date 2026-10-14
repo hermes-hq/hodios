@@ -12,6 +12,7 @@ role: [writer, editor, operations-manager, individual]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [plain-language, readability, iso-24495, active-voice]
 pairs_with:
   prompts: [simplify-to-plain-language, tighten-prose, write-decision-memo, write-handover-document]

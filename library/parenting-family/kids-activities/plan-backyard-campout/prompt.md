@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [garden-camping, first-campout, stargazing, family-adventure, outdoor-play, sleep-out]
 pairs_with:
   prompts: [plan-camping-trip, build-den-with-kids, plan-kids-sleepover]

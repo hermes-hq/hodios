@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [systematic-inventive-thinking, closed-world, product-innovation, inside-the-box, ideation-technique]
 pairs_with:
   prompts: [run-scamper-session, solve-contradiction-with-triz, run-morphological-analysis]

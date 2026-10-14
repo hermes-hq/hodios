@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [chart-review, misleading-charts, colour-blindness]
 pairs_with:
   prompts: [choose-chart-type, write-plotting-code]

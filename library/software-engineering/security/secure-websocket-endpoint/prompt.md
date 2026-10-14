@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [websockets, server-sent-events, cross-site-websocket-hijacking, authorization, realtime]
 pairs_with:
   prompts: [implement-realtime-updates, review-realtime-connection-code, review-api-security]

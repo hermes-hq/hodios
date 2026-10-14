@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [loan-accounting, interest, liabilities, loan-reconciliation]
 pairs_with:
   prompts: [build-amortization-schedule, review-balance-sheet, write-journal-entries]

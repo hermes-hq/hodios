@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [nursing-students, care-plan, nursing-process, adpie, clinical-reasoning, nanda-i]
 pairs_with:
   prompts: [write-sbar-handoff]

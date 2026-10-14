@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [product-vision, product-principles, narrative, alignment]
 pairs_with:
   prompts: [write-product-strategy, write-prfaq, build-outcome-roadmap, define-north-star-metric]

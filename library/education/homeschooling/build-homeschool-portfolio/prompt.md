@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [learning-portfolio, work-samples, record-keeping, annual-review, evidence-of-progress, evaluator-meeting]
 pairs_with:
   prompts: [plan-homeschool-year, run-homeschool-term-review, write-homeschool-transcript]

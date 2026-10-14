@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crisis-communications, holding-statement, reactive-qa]
 pairs_with:
   prompts: [write-press-release, pitch-journalist, handle-social-media-backlash]

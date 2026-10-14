@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [theory-of-change, outcomes-chain, impact-measurement, causal-assumptions, programme-design, indicators]
 pairs_with:
   prompts: [write-charity-three-year-strategy, write-impact-report, write-case-for-support]

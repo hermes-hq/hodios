@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [engagement-survey, action-planning, team-discussion, pulse-survey, employee-voice]
 pairs_with:
   prompts: [analyze-employee-survey, run-stay-interview, write-team-charter]

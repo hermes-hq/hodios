@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [icebreakers, team-building, group-activities, facilitation, warm-ups]
 pairs_with:
   prompts: [create-party-game-cards, host-trivia-night]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [optimistic-locking, concurrency-control, etag, lost-update, orm]
 pairs_with:
   prompts: [build-rest-endpoint, resolve-database-deadlocks]

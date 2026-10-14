@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rc-aircraft, model-aircraft, flight-simulator, lipo-safety, flying-club, model-making]
 args:
   - name: country

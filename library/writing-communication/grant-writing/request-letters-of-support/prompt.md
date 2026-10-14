@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [letters-of-support, letters-of-commitment, partners, stakeholder-outreach, deadline-tracking]
 pairs_with:
   prompts: [write-letter-of-support, write-grant-application, plan-consortium-grant-bid]

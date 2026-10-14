@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [figurative-language, idioms, autism, inference, sarcasm, neurodiversity]
 pairs_with:
   prompts: [explain-phrase-in-context, tutor-reading-comprehension]

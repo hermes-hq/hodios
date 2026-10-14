@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multiple-choice, wrong-options, quiz-app, answer-balance, question-writing]
 pairs_with:
   prompts: [review-quiz-questions, host-trivia-night]

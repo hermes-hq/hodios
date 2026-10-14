@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [macros, calories, protein, energy-needs, body-composition]
 pairs_with:
   prompts: [analyze-diet-log, build-training-plan]

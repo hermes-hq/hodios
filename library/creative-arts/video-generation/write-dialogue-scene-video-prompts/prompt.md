@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dialogue, lip-sync, shot-reverse-shot, character-voice]
 pairs_with:
   prompts: [plan-generated-scene-coverage, turn-storyboard-into-video-shots, fix-video-generation-drift]

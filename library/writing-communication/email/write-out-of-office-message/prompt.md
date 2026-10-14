@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [out-of-office, auto-reply, annual-leave, parental-leave, email-routing]
 pairs_with:
   prompts: [write-handover-document, triage-inbox, write-professional-email]

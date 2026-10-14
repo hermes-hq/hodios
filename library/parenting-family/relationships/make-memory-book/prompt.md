@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [scrapbooking, keepsakes, homemade-gifts, milestone-birthday, photo-gifts]
 pairs_with:
   prompts: [plan-anniversary, plan-send-off-for-friend, plan-group-gift]

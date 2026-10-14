@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [work-life-balance, overwork, evenings, stop-time, availability, sustainable-pace]
 pairs_with:
   prompts: [design-shutdown-ritual, set-boundary, protect-deep-work-blocks]

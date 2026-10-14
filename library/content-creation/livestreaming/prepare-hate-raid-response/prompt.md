@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hate-raids, bot-floods, harassment, stream-safety, chat-moderation]
 pairs_with:
   prompts: [write-chat-mod-handbook, audit-stream-for-privacy-leaks, respond-to-online-harassment]

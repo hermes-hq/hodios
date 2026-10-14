@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [craft-fair, farmers-market, pop-up-shop, stall-display, break-even, post-event-review]
 pairs_with:
   prompts: [price-services, plan-inventory, find-first-customers, plan-online-store]

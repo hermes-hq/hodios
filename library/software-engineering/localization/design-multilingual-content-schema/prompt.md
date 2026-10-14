@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-modeling, translatable-content, content-fallback]
 pairs_with:
   prompts: [implement-locale-aware-sorting-and-search, design-locale-detection-and-routing]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [self-directed-learning, learning-roadmap, project-based-learning]
 pairs_with:
   prompts: [create-study-plan, quiz-me-interactively]

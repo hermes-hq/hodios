@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [local-business, cash-flow, margins, owner-time]
 pairs_with:
   prompts: [price-services, plan-inventory, build-staff-schedule, prepare-supplier-negotiation, model-unit-economics]

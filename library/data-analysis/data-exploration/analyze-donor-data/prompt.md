@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [donor-retention, lybunt, rfm, recurring-giving, gift-analysis]
 pairs_with:
   prompts: [segment-customers, build-cohort-analysis, find-churn-drivers]

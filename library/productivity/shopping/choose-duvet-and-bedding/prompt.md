@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [duvet, bed-linen, thread-count, allergy-friendly, sleep-temperature]
 pairs_with:
   prompts: [choose-mattress, decode-product-claims, find-ethical-alternative-products, clean-mattress-and-pillows]

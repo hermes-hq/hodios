@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workforce-planning, attrition, hiring-plan, time-to-fill, staffing]
 pairs_with:
   prompts: [write-headcount-request, analyze-workforce-data, plan-team-capacity]

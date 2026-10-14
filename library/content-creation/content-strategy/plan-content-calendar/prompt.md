@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [content-calendar, cadence, repurposing, batching]
 pairs_with:
   prompts: [define-content-pillars, repurpose-video-into-posts, analyze-content-performance]

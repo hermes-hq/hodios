@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pinout, board-bring-up, interface-control-document, peripherals, hardware-revision]
 pairs_with:
   personas: [embedded-engineer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [whitelisting, paid-usage, usage-rights, ad-access, account-security]
 pairs_with:
   prompts: [build-creator-rate-card, review-sponsorship-contract]

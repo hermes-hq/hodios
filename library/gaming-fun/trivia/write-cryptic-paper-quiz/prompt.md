@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paper-quiz, cryptic-clues, puns, take-home, fundraiser-quiz, answer-key]
 pairs_with:
   prompts: [write-crossword-clues, review-quiz-questions]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-install, user-acquisition, skadnetwork, cost-per-install, app-store, mobile-attribution]
 pairs_with:
   prompts: [plan-media-budget, plan-ad-creative-tests, write-video-ad-script, localize-app-store-listing]

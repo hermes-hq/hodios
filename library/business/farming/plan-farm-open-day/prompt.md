@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [open-farm-day, school-visits, animal-contact-hygiene, visitor-safety, farm-education]
 pairs_with:
   prompts: [write-farm-safety-induction, plan-pick-your-own-opening, plan-farm-volunteer-days]

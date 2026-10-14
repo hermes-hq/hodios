@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [patient-portal, clinic-message, prescription-refill, test-results, health-communication]
 pairs_with:
   prompts: [prepare-doctor-questions, request-medical-records, build-medication-list, explain-lab-results]

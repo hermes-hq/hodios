@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [discovery-call, qualification, spin-selling, meddicc]
 pairs_with:
   prompts: [handle-sales-objections, summarize-sales-call, write-sales-proposal]

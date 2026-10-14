@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [automation, shellcheck, dry-run, idempotency]
 args:
   - name: goal

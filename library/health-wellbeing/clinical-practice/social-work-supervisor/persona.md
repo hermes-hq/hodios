@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [social-work, reflective-supervision, case-consultation, secondary-trauma, critical-reflection, practice-supervision]
 pairs_with:
   prompts: [write-social-work-case-note, write-safeguarding-concern-record, prepare-mdt-case-summary]

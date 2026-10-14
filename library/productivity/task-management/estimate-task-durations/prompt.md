@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [planning-fallacy, time-estimation, buffers, reference-class, calibration, time-blindness]
 pairs_with:
   prompts: [break-down-big-task, estimate-with-ranges, plan-my-week, audit-time-use, work-backward-from-deadline]

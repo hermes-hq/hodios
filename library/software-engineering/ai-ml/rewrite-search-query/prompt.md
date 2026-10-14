@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: intermediate
+depth: specific
 tags: [query-rewriting, conversational-search, coreference, hybrid-search, retrieval]
 pairs_with:
   prompts: [answer-from-retrieved-context, write-hypothetical-answer-for-retrieval, decompose-complex-question]

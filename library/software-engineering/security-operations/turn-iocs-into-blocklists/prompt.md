@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iocs, blocklists, threat-intel, edr, dns-filtering, change-control]
 pairs_with:
   prompts: [write-threat-intel-brief, investigate-suspicious-domain, write-siem-query, review-firewall-rules]

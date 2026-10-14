@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [csv, bulk-import, streaming, upsert, data-validation, idempotency]
 pairs_with:
   prompts: [implement-file-upload, implement-background-job, write-file-parser]

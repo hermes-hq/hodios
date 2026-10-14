@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fermentation, wild-yeast, starter-maintenance]
 pairs_with:
   prompts: [plan-bread-bake-schedule, troubleshoot-recipe]

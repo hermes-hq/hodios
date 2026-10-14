@@ -18,6 +18,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [how-i-did-it, personal-runbook, life-admin, gotchas]
 pairs_with:
   prompts: [write-household-operations-manual, write-til-note, build-reusable-checklist]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [solution-architecture, bids, client-proposal, assumptions, integration-design, presales]
 pairs_with:
   personas: [software-architect]

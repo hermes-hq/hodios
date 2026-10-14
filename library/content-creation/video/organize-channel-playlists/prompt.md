@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [playlists, binge-paths, end-screens, content-library, session-time]
 pairs_with:
   prompts: [plan-video-series, write-video-chapters, write-channel-trailer-script]

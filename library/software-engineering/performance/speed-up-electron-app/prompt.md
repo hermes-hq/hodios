@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [desktop-app, startup-time, main-process, ipc, memory-usage]
 pairs_with:
   prompts: [reduce-memory-footprint, read-flame-graph, speed-up-cli-startup]

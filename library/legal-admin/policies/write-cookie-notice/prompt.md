@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cookie-notice, cookie-banner, consent-management, trackers, eprivacy]
 pairs_with:
   prompts: [write-privacy-policy, audit-website-privacy-compliance]

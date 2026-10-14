@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [type-modeling, discriminated-unions, runtime-validation, tsconfig, esm]
 pairs_with:
   rules: [typescript-strict-rules]

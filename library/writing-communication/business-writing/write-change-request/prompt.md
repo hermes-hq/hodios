@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-control, change-request, project-governance, scope-change, impact-assessment]
 pairs_with:
   prompts: [write-status-report, write-decision-memo, write-requirement-change-request, write-construction-change-order]

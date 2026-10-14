@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [job-report, handover, trades, warranty, aftercare, service-report, cleaning-jobs]
 pairs_with:
   prompts: [write-customer-quote, present-repair-options, write-invoice, respond-to-online-review]

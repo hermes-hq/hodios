@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [credential-stuffing, account-takeover, bot-protection, authentication]
 pairs_with:
   prompts: [add-rate-limiting, implement-two-factor-auth, analyze-web-attack-logs, implement-session-revocation]

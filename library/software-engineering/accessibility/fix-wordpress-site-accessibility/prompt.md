@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wordpress-theme, gutenberg, page-builder, plugins, small-business-site]
 pairs_with:
   personas: [accessibility-specialist]

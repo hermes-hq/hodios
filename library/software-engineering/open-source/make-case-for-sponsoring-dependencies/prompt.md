@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [oss-funding, business-case, software-supply-chain, dependency-risk, sustainability]
 pairs_with:
   prompts: [audit-dependencies, choose-oss-funding-model, write-sponsorship-ask]

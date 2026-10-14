@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [citation-searching, snowballing, forward-citation, backward-citation, search-strategy, tarcis]
 pairs_with:
   prompts: [build-search-string, screen-studies, write-prisma-flow-report, build-literature-matrix]

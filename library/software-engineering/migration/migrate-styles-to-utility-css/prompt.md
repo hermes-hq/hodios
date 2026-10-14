@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [utility-css, css-modules, styled-components, design-tokens, visual-regression]
 pairs_with:
   rules: [tailwind-rules]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [monetization, revenue-model, subscriptions, usage-based-pricing]
 pairs_with:
   prompts: [design-pricing, model-unit-economics, analyze-business-model, design-free-tier]

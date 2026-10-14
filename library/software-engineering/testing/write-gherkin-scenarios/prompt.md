@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [bdd, gherkin, cucumber, specification-by-example, acceptance-tests]
 pairs_with:
   prompts: [write-acceptance-criteria, write-manual-test-cases]

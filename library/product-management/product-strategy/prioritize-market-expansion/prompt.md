@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [market-entry, localisation-effort, expansion-sequence, entry-test, market-scoring]
 pairs_with:
   prompts: [write-product-strategy, design-validation-experiment, set-kill-criteria]

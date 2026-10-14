@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [eisenhower, focus, delegation, overwhelm, top-three]
 pairs_with:
   prompts: [plan-my-week]

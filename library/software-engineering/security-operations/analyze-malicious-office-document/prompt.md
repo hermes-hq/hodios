@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maldoc, oletools, vba-macros, pdf-analysis, iocs, static-analysis]
 pairs_with:
   prompts: [investigate-reported-phishing, analyze-suspicious-script, triage-sandbox-report, write-yara-rule]

@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [photo-critique, composition, lighting, photo-assignments]
 pairs_with:
   prompts: [critique-photograph, plan-photography-learning, choose-camera-settings, edit-photo-step-by-step]

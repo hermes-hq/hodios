@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [heart-rate-zones, karvonen, lactate-threshold, endurance, zone-2]
 pairs_with:
   prompts: [plan-running-program, plan-endurance-event-training, interpret-wearable-data]

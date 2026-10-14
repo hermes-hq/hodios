@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rebalancing, asset-allocation, portfolio-drift, tax-efficiency]
 pairs_with:
   prompts: [write-investment-policy-statement, check-portfolio-diversification, explain-tax-on-investments]

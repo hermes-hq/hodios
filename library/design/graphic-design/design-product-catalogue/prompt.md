@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-catalogue, lookbook, editorial-layout, data-merge, print-design]
 pairs_with:
   prompts: [design-report-layout, prepare-print-files, design-packaging, write-product-description]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [class-generation, utility-classes, content-detection, build-config, specificity]
 pairs_with:
   prompts: [fix-css-layout-bug, upgrade-tailwind-to-v4, fix-frontend-build-error]

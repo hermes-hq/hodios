@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [god-class, modularity, cohesion, dependency-map]
 pairs_with:
   prompts: [add-characterization-tests]

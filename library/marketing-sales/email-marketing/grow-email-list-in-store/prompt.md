@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [list-growth, point-of-sale, qr-code, staff-script, sign-up-incentive, capture-rate]
 pairs_with:
   prompts: [write-email-sequence, design-loyalty-program]

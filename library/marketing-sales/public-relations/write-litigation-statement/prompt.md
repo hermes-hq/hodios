@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [litigation-pr, legal-communications, media-statement, reactive-qa, court-case]
 pairs_with:
   prompts: [write-holding-statement, reply-to-journalist-request, prepare-media-interview]

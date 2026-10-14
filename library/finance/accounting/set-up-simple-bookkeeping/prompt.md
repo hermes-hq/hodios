@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [sole-trader, freelancers, record-keeping, bank-reconciliation]
 pairs_with:
   prompts: [set-up-chart-of-accounts, track-business-expenses, prepare-year-end-accounts-pack]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [swiss-roll, roulade, yule-log, sponge-cake, whisked-sponge]
 pairs_with:
   prompts: [choose-buttercream, plan-celebration-cake, adapt-bake-to-different-tin]

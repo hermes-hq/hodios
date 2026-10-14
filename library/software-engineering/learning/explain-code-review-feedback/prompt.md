@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pull-request, review-comments, junior-developers, reviewer-intent]
 pairs_with:
   prompts: [respond-to-review-comments, review-code-for-learner]

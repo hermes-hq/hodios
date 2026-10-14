@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [async-review, screen-recording, code-walkthrough, handover, knowledge-sharing]
 pairs_with:
   prompts: [write-pr-description, write-testing-notes-for-qa]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trip-plan, emergency-contact, search-and-rescue, solo-hiking, mountain-safety]
 pairs_with:
   prompts: [set-turnaround-time, prepare-for-getting-lost, plan-camping-trip]

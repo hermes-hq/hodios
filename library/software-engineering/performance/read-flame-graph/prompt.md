@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [flame-graph, profiling, call-tree, self-time, first-profile]
 pairs_with:
   prompts: [profile-hot-path, hit-game-frame-budget]

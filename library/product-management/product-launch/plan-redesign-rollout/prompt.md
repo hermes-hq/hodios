@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [redesign, change-management, opt-in-preview, switch-back, cut-over]
 pairs_with:
   prompts: [plan-staged-feature-rollout, write-in-app-announcement, write-admin-change-notice, plan-visual-refresh-rollout]

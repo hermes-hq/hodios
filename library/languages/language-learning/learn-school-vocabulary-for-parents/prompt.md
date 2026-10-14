@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [newcomers, school-communication, parents-evening, absence-notes, survival-language]
 pairs_with:
   prompts: [handle-foreign-language-letter, learn-survival-phrases, build-personal-phrasebook]

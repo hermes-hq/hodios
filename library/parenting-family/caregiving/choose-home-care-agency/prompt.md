@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-care, domiciliary-care, care-agency, carers, vetting]
 pairs_with:
   prompts: [evaluate-care-homes, write-care-profile, set-up-household-employer, plan-long-term-care-costs]

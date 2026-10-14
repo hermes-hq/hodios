@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [written-discovery, interrogatories, requests-for-production, requests-for-admission, litigation-support]
 pairs_with:
   prompts: [index-case-documents, prepare-deposition-outline, outline-motion-argument]

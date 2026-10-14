@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [aquarium, fishkeeping, nitrogen-cycle, tropical-fish, fish-tank, aquarium-maintenance]
 pairs_with:
   prompts: [choose-pet-for-lifestyle, plan-new-pet-care]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [thought-leadership, executive-visibility, point-of-view, ghostwriting-workflow, b2b-content]
 pairs_with:
   prompts: [write-op-ed, pitch-freelance-article, write-linkedin-post]

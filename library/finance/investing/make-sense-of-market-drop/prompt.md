@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [market-downturn, bear-market, panic-selling, investor-behaviour]
 pairs_with:
   prompts: [write-investment-policy-statement, assess-risk-tolerance, explain-rebalancing, write-investment-decision-journal]

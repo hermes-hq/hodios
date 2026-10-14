@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [goroutines, context, error-wrapping, channels, pull-request]
 pairs_with:
   personas: [go-engineer]

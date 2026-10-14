@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [medical-leave, family-leave, fmla, sick-leave, job-protection, leave-request]
 pairs_with:
   prompts: [plan-phased-return-after-sick-leave, object-to-contract-change-at-work, write-discrimination-complaint]

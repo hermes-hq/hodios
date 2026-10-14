@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [listener-questions, audience-community, call-out, mailbag, consent]
 pairs_with:
   prompts: [plan-podcast-episode, invent-recurring-podcast-segments, plan-podcast-growth]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [catalog-ads, product-feed, product-sets, dynamic-retargeting, advantage-plus, merchandising]
 pairs_with:
   prompts: [optimize-shopping-feed, define-ad-audiences, write-retargeting-ad-sequence, calculate-break-even-roas]

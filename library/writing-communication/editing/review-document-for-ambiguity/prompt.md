@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ambiguity, clarity-review, policy-wording, requirements-review, plain-drafting]
 pairs_with:
   prompts: [simplify-to-plain-language, copyedit-to-style-guide, write-faq-from-documents]

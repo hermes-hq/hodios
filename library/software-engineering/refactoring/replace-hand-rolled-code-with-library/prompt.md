@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [standard-library, reinvented-wheel, dependencies, edge-cases]
 pairs_with:
   prompts: [reduce-duplication, remove-dead-code]

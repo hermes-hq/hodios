@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [low-bandwidth, mobile-learning, offline-learning, messaging-apps, data-costs, digital-divide]
 pairs_with:
   prompts: [convert-course-to-online, design-microlearning-series]

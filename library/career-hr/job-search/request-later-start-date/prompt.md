@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [start-date, notice-period, job-offer, start-date-change]
 pairs_with:
   prompts: [accept-job-offer-in-writing, write-resignation-letter]

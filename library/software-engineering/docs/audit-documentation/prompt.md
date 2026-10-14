@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [docs-audit, stale-docs, information-architecture, docs-as-code, diataxis]
 pairs_with:
   personas: [technical-writer]

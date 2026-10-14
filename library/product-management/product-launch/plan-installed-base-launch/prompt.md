@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cross-sell, existing-customers, expansion, account-based]
 pairs_with:
   prompts: [plan-expansion-revenue, plan-customer-marketing-program, plan-product-launch, write-sales-enablement-brief]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [no-show, missed-meeting, rebooking, scheduling, follow-up]
 pairs_with:
   prompts: [write-follow-up-email, reschedule-meeting-by-email, write-meeting-request-email]

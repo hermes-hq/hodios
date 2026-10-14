@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [self-editing, writing-habits, personal-style-guide, feedback-patterns]
 pairs_with:
   prompts: [capture-writing-voice, critique-draft, tighten-prose, proofread-text]

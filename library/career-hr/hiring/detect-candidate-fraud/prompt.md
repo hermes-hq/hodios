@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hiring-fraud, identity-verification, proxy-interviewing, remote-hiring, fabricated-experience]
 pairs_with:
   prompts: [plan-pre-employment-checks, run-reference-check, write-candidate-ai-policy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [seminars, critical-reading, speaking-confidence, international-students]
 pairs_with:
   prompts: [read-textbook-actively, prepare-office-hours-questions]

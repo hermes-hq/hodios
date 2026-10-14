@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [roleplay, tantrums, limit-setting, connection, sibling-fights, positive-discipline]
 pairs_with:
   prompts: [plan-behavior-approach, handle-sibling-conflict, explain-hard-topic-to-child]

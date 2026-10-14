@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [graduate-admissions, statement-of-purpose, masters-application, phd-application, programme-fit]
 pairs_with:
   prompts: [plan-phd-application, email-prospective-supervisor, prepare-recommender-packet, coach-personal-statement]

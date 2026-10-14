@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [scrum, agile, team-process, sprints, work-in-progress-limits]
 pairs_with:
   prompts: [design-kanban-workflow, plan-sprint, design-interrupt-rotation]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [large-files, duckdb, polars, csv, row-limit]
 pairs_with:
   prompts: [explore-dataset, translate-spreadsheet-to-pandas, process-large-file-in-streaming]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [grant-award, press-release, funder-acknowledgement, social-posts, announcement]
 pairs_with:
   prompts: [plan-post-award-setup, plan-funder-stewardship]

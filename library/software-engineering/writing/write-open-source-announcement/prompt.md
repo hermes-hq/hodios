@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [open-source-project, project-launch, launch-post, developer-community, open-sourcing]
 pairs_with:
   prompts: [write-readme, write-contributing-guide, write-launch-social-posts, plan-developer-community-posts, write-release-announcement-kit]

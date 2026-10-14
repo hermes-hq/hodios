@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [overheating, laptop-fan, cooling, device-safety, maintenance]
 pairs_with:
   prompts: [speed-up-slow-computer, fix-phone-battery-drain, explain-error-message]

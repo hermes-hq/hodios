@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gut-health, plant-diversity, fermented-foods, microbiome, fibre]
 pairs_with:
   prompts: [increase-fiber-gradually, plan-plant-based-nutrition, analyze-diet-log]

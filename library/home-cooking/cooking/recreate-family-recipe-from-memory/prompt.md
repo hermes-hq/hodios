@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [family-recipes, heritage-cooking, recipe-reconstruction, grandma-recipe, test-batch, food-memory]
 pairs_with:
   prompts: [compile-family-cookbook, troubleshoot-recipe, develop-original-recipe]

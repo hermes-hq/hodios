@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [evaluation-plan, outcome-indicators, monitoring-and-evaluation, data-collection, baseline]
 pairs_with:
   prompts: [write-grant-application, build-theory-of-change, write-grant-report]

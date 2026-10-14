@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [faculty-hiring, job-talk, search-committee, academic-careers, research-vision, campus-visit]
 pairs_with:
   prompts: [write-academic-cover-letter, write-academic-cv, prepare-interview-presentation, prepare-questions-for-interviewer]

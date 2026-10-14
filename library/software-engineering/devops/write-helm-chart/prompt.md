@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [helm-chart, packaging, chart-versioning, values-schema]
 pairs_with:
   personas: [devops-engineer]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [otp, supervision-trees, liveview, ecto, pattern-matching]
 pairs_with:
   prompts: [implement-realtime-updates, implement-background-job, design-database-schema]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [kids-quiz, fun-facts, voice-mode, read-aloud, general-knowledge, screen-free]
 pairs_with:
   prompts: [play-car-journey-games, write-jokes-for-kids]

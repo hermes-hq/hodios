@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [book-recommendations, what-to-read-next, appeal-factors, audiobooks]
 pairs_with:
   prompts: [build-reading-challenge, discuss-book-as-reading-buddy, triage-entertainment-backlog]

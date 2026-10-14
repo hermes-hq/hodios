@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [impersonation, fake-profile, account-takedown, social-accounts, platform-reporting, cloned-account]
 pairs_with:
   prompts: [respond-to-online-harassment, lock-down-social-privacy, recover-hacked-account, reduce-online-footprint]

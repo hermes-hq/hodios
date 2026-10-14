@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shopfront, fascia-sign, window-graphics, retail-design, small-business-marketing]
 pairs_with:
   prompts: [plan-signage, plan-visual-merchandising, build-diy-brand-kit]

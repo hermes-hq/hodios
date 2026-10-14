@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [renters, condition-report, security-deposit, move-in]
 pairs_with:
   prompts: [request-landlord-repair, build-home-inventory]

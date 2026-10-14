@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [account-takeover, guest-creator, safeguarding, approvals, content-brief]
 pairs_with:
   prompts: [plan-live-event-coverage, plan-instagram-stories, recover-hacked-account]

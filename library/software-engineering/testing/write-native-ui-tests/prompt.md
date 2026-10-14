@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [xcuitest, espresso, page-object, ui-automation, accessibility-identifiers]
 pairs_with:
   prompts: [write-e2e-test, fix-flaky-test, audit-mobile-accessibility]

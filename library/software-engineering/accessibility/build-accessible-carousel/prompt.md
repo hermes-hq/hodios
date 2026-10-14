@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [carousel, auto-rotation, aria-apg, keyboard, hero-banner]
 pairs_with:
   personas: [accessibility-specialist]

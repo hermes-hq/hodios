@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [skip-locked, job-queue, transactional-outbox, worker-leases, retry-backoff]
 pairs_with:
   prompts: [implement-background-job, implement-message-queue-consumer, fix-table-bloat-and-vacuum]

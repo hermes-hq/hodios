@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [idea-validation, riskiest-assumption, customer-interviews, smoke-test]
 pairs_with:
   prompts: [find-first-customers, analyze-business-model, estimate-market-size]

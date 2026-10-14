@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [seasonal-work, packhouse, pay-slips, injury-reporting, migrant-workers]
 pairs_with:
   prompts: [learn-survival-phrases, practise-asking-for-time-off, learn-language-for-work-role]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [grief, bereavement, what-to-say, funeral, sympathy, showing-up]
 pairs_with:
   prompts: [write-condolence-message, process-grief, support-grieving-employee, respond-supportively-to-disclosure]

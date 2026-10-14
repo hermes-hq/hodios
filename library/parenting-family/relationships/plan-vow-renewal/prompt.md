@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [vow-renewal, marriage, milestone-anniversary, ceremony-planning, celebration]
 pairs_with:
   prompts: [write-wedding-vows, plan-anniversary, write-run-of-show]

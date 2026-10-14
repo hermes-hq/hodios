@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [session-recap, game-mastering, campaign-journal, read-aloud, story-hooks]
 pairs_with:
   prompts: [create-npc, design-one-shot-adventure]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-lineage, orchestration, backfill, airflow, etl]
 pairs_with:
   prompts: [write-dataset-documentation, write-service-readme]

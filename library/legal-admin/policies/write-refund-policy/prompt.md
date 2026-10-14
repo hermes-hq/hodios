@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [returns-policy, consumer-rights, faulty-goods, cancellation]
 pairs_with:
   prompts: [write-terms-of-service, write-support-reply]

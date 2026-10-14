@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [climate-anxiety, eco-anxiety, climate-change, collective-action, news-overload, teens]
 pairs_with:
   prompts: [set-up-worry-time, reframe-negative-thoughts, find-volunteering-match]

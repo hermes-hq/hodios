@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [farm-gate-sales, honesty-box, direct-selling, price-board, smallholding]
 pairs_with:
   prompts: [plan-market-stall, calculate-product-margin, draft-farm-produce-labels, plan-csa-veg-box-scheme]

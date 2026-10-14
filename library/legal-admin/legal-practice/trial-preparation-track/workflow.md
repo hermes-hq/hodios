@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [trial-preparation, case-theory, proof-chart, trial-notebook, motions-in-limine]
 pairs_with:
   prompts: [prepare-cross-examination-outline, draft-opening-statement, draft-jury-instructions, build-litigation-deadline-calendar]

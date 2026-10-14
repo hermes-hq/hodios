@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [browse-abandonment, triggered-flow, product-views, frequency-cap, no-discount]
 pairs_with:
   prompts: [write-abandoned-cart-emails, map-email-automation-flows, write-back-in-stock-emails]

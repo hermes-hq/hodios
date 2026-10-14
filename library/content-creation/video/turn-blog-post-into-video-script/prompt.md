@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [repurposing, writing-for-the-ear, talking-head, voice-over, b-roll]
 pairs_with:
   prompts: [write-video-hooks, package-video-title-thumbnail, adapt-script-for-teleprompter]

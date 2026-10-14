@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [property-listings, estate-agents, international-buyers, area-conversion]
 pairs_with:
   prompts: [translate-product-listings, translate-contract, adapt-regional-variant]

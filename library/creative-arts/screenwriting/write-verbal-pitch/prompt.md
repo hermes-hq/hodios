@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pitch-meeting, verbal-pitch, spoken-delivery, story-pitch]
 pairs_with:
   prompts: [prepare-general-meeting, develop-tv-series-concept, write-film-treatment]

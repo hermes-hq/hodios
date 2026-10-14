@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [developer-newsletter, api-updates, developer-experience, community-update]
 pairs_with:
   prompts: [write-release-notes, write-api-deprecation-notice, write-api-launch-announcement]

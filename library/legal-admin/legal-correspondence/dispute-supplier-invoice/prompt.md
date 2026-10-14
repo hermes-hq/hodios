@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [invoice-dispute, accounts-payable, supplier-management, billing-error, b2b, contract-terms]
 pairs_with:
   prompts: [resolve-invoice-dispute, write-settlement-offer-letter, reply-to-letter-before-claim]

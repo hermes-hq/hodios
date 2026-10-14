@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [acquisition, due-diligence, franchise, valuation, owner-earnings, red-flags]
 pairs_with:
   prompts: [model-unit-economics, analyze-business-model, review-small-business-pnl]

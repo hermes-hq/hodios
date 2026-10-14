@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [proof-writing, induction, contradiction, discrete-math, rigour]
 pairs_with:
   prompts: [check-my-reasoning, hint-through-problem]

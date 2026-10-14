@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [formula-walkthrough, nested-functions, lookup-functions, learn-by-example]
 pairs_with:
   prompts: [debug-spreadsheet-formula, simplify-nested-formula, explain-inherited-spreadsheet]

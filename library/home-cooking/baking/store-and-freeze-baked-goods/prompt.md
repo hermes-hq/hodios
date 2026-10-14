@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [food-storage, freezing, make-ahead, staling, leftovers]
 pairs_with:
   prompts: [plan-cookie-baking-day, plan-bake-sale, pack-baked-goods-for-shipping]

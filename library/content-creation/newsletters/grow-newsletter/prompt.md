@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subscriber-growth, lead-magnet, referral-program, cross-promotion]
 pairs_with:
   prompts: [plan-newsletter-format, write-newsletter-welcome-email, write-newsletter-issue]

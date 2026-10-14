@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [letter-to-editor, post-publication-review, scholarly-correspondence, research-critique, journal-correspondence]
 pairs_with:
   prompts: [summarize-paper, appraise-study-quality, write-correction-notice]

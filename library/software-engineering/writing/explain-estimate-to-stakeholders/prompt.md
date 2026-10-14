@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [estimates, stakeholder-communication, scope-trade-offs, uncertainty]
 pairs_with:
   prompts: [estimate-with-ranges, explain-tech-to-executives]

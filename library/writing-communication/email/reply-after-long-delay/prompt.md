@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [late-reply, sorry-for-the-delay, overdue-response, inbox-backlog, repair]
 pairs_with:
   prompts: [reply-to-email, declutter-overflowing-inbox, write-client-apology]

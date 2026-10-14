@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deprecation, archiving, end-of-life, package-registry, package-name-takeover]
 pairs_with:
   prompts: [write-api-deprecation-notice, write-security-policy]

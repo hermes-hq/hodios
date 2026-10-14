@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [controls, audit-evidence, risk-register, data-protection]
 pairs_with:
   prompts: [build-compliance-checklist, map-personal-data-processing, review-data-processing-agreement, plan-data-breach-response, assess-ai-act-obligations]

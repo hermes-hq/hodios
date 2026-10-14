@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [emergency-fund, cash-buffer, rainy-day-fund, financial-resilience]
 pairs_with:
   prompts: [set-up-sinking-funds, compare-savings-accounts, plan-debt-payoff, budget-irregular-income]

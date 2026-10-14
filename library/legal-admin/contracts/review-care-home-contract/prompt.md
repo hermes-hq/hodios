@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [care-home, assisted-living, admission-agreement, care-fees, residential-care, nursing-home]
 pairs_with:
   prompts: [evaluate-care-homes, settle-relative-into-care-home, explain-contract-clause]

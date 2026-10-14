@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [no-shows, late-cancellations, deposits, cancellation-policy, waitlist, booking]
 pairs_with:
   prompts: [write-appointment-reminder-messages, build-staff-schedule, choose-small-business-kpis]

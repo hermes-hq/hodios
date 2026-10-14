@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [geschaeftskorrespondenz, siezen-duzen, anrede, grussformel, business-german, din-5008]
 pairs_with:
   prompts: [check-german-spelling-and-commas, write-german-b2b-cold-email, write-follow-up-email]

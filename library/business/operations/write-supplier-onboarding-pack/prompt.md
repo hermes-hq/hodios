@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [supplier-onboarding, purchase-orders, delivery-requirements, invoicing, supplier-manual, receiving]
 pairs_with:
   prompts: [vet-new-supplier, build-supplier-scorecard, write-vendor-sla, write-supplier-code-of-conduct]

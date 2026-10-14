@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [stock-tips, pump-and-dump, due-diligence, finfluencers, insider-trading]
 pairs_with:
   prompts: [spot-investment-scam, read-company-financials, summarize-earnings-call, explain-options-risks]

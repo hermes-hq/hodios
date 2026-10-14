@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [carousel-ads, card-sequence, product-showcase, swipe-story, image-direction]
 pairs_with:
   prompts: [write-social-ad-variations, plan-carousel-post, plan-ad-creative-tests]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [ecommerce]
 tags: [packaging-design, shelf-impact, labelling, sustainable-packaging, consumer-goods]
 pairs_with:

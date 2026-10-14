@@ -16,6 +16,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-customers, shadow-spreadsheets, intake-process, change-management, time-saved]
 pairs_with:
   prompts: [allocate-capacity-across-departments, plan-internal-tool-rollout, map-internal-tool-workarounds, define-internal-tool-metrics, evaluate-build-vs-buy]

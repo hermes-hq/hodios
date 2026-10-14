@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sentence-combining, syntax, sentence-variety, grammar-in-context, writing-craft]
 pairs_with:
   personas: [writing-tutor]

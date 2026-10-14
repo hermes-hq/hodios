@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [bread-making, learning-path, yeasted-dough, dough-shaping, cold-fermentation]
 pairs_with:
   prompts: [plan-bread-bake-schedule, convert-to-bakers-percentages, start-sourdough-starter, read-sourdough-crumb]

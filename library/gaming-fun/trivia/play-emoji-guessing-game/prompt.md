@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [emoji-puzzles, rebus, guessing-game, family-games, word-pictures, pop-culture]
 pairs_with:
   prompts: [play-bad-plot-summary-game, play-guess-the-country]

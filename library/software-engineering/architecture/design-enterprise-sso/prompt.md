@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [enterprise-sso, scim, user-provisioning, saml, identity-lifecycle]
 pairs_with:
   personas: [software-architect]

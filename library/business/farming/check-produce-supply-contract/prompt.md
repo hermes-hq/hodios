@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [supply-agreement, rejection-clause, payment-terms, force-majeure, exclusivity, price-mechanism]
 pairs_with:
   prompts: [prepare-produce-buyer-negotiation, explain-contract-clause, redline-contract]

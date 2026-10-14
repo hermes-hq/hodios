@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [site-migration, redirects, redesign, domain-change, launch-checklist]
 pairs_with:
   prompts: [audit-technical-seo, build-internal-linking-plan, write-meta-tags]

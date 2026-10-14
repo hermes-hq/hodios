@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [cefr, study-plan, spaced-repetition]
 pairs_with:
   prompts: [build-vocabulary-list, practice-speaking-exam]

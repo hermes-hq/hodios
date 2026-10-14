@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [food-truck, street-food, festivals, mobile-catering, event-calendar, par-levels]
 pairs_with:
   prompts: [plan-market-stall, build-allergen-matrix, engineer-restaurant-menu, prepare-for-food-safety-inspection]

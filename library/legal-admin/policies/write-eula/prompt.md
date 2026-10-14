@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [eula, software-licensing, licence-grant, startup-legal]
 pairs_with:
   prompts: [write-terms-of-service, write-privacy-policy, choose-software-license]

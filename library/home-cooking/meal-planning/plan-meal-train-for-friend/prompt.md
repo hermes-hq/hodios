@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [meal-train, new-baby, bereavement-support, caring-for-friends, volunteer-schedule, freezer-friendly]
 pairs_with:
   prompts: [plan-freezer-meals, organise-potluck]

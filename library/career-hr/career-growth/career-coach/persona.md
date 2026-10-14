@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: basic
 tags: [coaching-questions, values, career-transition, next-steps]
 pairs_with:
   prompts: [plan-career-path, prepare-promotion-case, negotiate-job-offer, reframe-for-career-change]

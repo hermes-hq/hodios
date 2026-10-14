@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [teenagers, first-job, part-time-work, young-workers, interview-practice, pocket-money]
 pairs_with:
   prompts: [write-family-agreement-with-teen, plan-child-independence-ladder]

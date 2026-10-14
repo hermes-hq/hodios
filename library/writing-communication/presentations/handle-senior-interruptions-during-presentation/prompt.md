@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [executive-audience, interruptions, bottom-line-up-front, time-recovery, composure]
 pairs_with:
   prompts: [drill-presentation-qa, build-decision-request-deck, plan-backup-slides, prepare-for-tough-questions]

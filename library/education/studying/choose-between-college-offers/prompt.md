@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [college-decision, university-offers, net-cost, campus-visit, decision-matrix]
 pairs_with:
   prompts: [compare-financial-aid-offers, plan-university-application, prepare-for-university-start]

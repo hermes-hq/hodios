@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [preference-test, design-options, visual-comparison, unmoderated-test, a-b-comparison]
 pairs_with:
   prompts: [plan-desirability-study, plan-five-second-test, compare-design-alternatives-with-users]

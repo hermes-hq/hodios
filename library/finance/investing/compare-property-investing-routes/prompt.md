@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [property-investing, reits, buy-to-let, real-estate-crowdfunding]
 pairs_with:
   prompts: [analyze-rental-property, evaluate-alternative-investment, check-portfolio-diversification, spot-investment-scam]

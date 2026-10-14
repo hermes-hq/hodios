@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [accomplishments-log, impact, self-advocacy, review-prep, evidence]
 pairs_with:
   prompts: [write-self-review, prepare-promotion-case, increase-work-visibility, ask-for-raise]

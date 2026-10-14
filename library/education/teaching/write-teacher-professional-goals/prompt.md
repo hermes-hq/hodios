@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [teacher-appraisal, professional-growth, smart-goals, evidence-portfolio]
 pairs_with:
   prompts: [prepare-for-formal-observation, analyze-class-assessment-results]

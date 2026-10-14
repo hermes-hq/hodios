@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [change-of-control, assignment-clause, consent-to-assign, m-and-a, contract-due-diligence]
 pairs_with:
   prompts: [build-contract-obligations-register, review-business-purchase-agreement, review-letter-of-intent]

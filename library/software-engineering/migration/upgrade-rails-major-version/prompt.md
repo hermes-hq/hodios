@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dual-boot, framework-defaults, zeitwerk, gems, breaking-changes]
 pairs_with:
   prompts: [runtime-upgrade-track, upgrade-major-dependency, review-rails-change]

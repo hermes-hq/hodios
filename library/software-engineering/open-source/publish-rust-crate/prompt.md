@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crates-io, cargo, msrv, cargo-features, docs-rs, package-publishing]
 pairs_with:
   prompts: [publish-package-from-ci, write-versioning-policy, write-changelog]

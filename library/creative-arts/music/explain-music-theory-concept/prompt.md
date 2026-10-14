@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [chord-theory, ear-training, modes, voice-leading]
 pairs_with:
   prompts: [suggest-chord-progressions, analyze-song-structure, plan-instrument-practice]

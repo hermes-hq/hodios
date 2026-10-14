@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [expats, immigrants, government-letters, bureaucracy, deadlines, reply-draft, moving-abroad]
 pairs_with:
   prompts: [translate-personal-document, translate-business-email, explain-legal-letter]

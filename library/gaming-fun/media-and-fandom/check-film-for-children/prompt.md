@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [content-check, age-ratings, family-viewing, scary-scenes, parental-guidance]
 pairs_with:
   prompts: [pick-movie-for-group, plan-movie-marathon]

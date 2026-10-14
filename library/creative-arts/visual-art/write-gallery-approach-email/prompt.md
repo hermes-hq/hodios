@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gallery-representation, art-career, outreach-email, selling-art]
 pairs_with:
   prompts: [write-artist-statement, prepare-art-portfolio, write-open-call-application]

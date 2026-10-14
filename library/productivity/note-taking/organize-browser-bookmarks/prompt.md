@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bookmarks, browser, read-later, link-cleanup, folders]
 pairs_with:
   prompts: [triage-reading-list, organize-digital-files, process-notes-inbox]

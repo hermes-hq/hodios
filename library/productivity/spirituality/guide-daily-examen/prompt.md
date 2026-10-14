@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 advice_risk: [mental-health]
 tags: [examen, self-examination, evening-reflection, gratitude, muhasaba, contemplative-practice]
 pairs_with:

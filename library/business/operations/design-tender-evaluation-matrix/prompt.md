@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tender-evaluation, procurement, bid-scoring, public-procurement, conflict-of-interest, moderation]
 pairs_with:
   prompts: [write-rfp, compare-vendors, build-supplier-scorecard]

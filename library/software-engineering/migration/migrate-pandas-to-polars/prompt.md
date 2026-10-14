@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [polars, dataframes, lazy-evaluation, data-pipelines, parity-testing]
 pairs_with:
   prompts: [speed-up-dataframe-code, write-dataframe-transformation, upgrade-major-dependency]

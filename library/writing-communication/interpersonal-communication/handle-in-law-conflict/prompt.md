@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [in-laws, extended-family, couples, united-front, boundaries]
 pairs_with:
   prompts: [set-boundary, navigate-family-gathering-tension, respond-to-unwanted-advice]

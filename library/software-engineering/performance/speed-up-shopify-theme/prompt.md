@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [liquid, theme-performance, app-scripts, theme-inspector, lcp]
 pairs_with:
   prompts: [build-shopify-theme-section, tame-third-party-scripts, optimize-images-for-web]

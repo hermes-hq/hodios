@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-tables, enterprise-ux, filtering, bulk-actions, responsive-design]
 pairs_with:
   prompts: [design-data-table, design-search-experience, design-empty-and-error-states, write-design-handoff]

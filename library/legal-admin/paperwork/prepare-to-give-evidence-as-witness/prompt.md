@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [witness, court-day, giving-evidence, cross-examination, witness-support]
 pairs_with:
   prompts: [explain-legal-letter, find-free-legal-help]

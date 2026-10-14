@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [technical-debt, impact-effort, maintainability, paydown-plan]
 pairs_with:
   prompts: [write-tech-debt-proposal, write-technical-roadmap, plan-large-refactor]

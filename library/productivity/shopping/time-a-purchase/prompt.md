@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sales-cycles, price-tracking, price-history, target-price, model-year, buy-or-wait]
 pairs_with:
   prompts: [decide-whether-to-buy, negotiate-retail-discount, choose-home-appliance]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [websockets, server-sent-events, polling, pub-sub, live-updates]
 pairs_with:
   prompts: [implement-offline-sync, implement-background-job, build-webhook-handler]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ratio-analysis, loan-covenants, trend-analysis, interest-cover]
 pairs_with:
   prompts: [review-balance-sheet, review-small-business-pnl, analyze-working-capital]

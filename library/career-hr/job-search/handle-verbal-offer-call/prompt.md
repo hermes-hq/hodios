@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [job-offer, verbal-offer, offer-call, buy-time, written-offer]
 pairs_with:
   prompts: [negotiate-job-offer, evaluate-job-offer, accept-job-offer-in-writing]

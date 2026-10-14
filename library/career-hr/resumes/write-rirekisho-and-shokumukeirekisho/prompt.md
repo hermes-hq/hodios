@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rirekisho, shokumukeirekisho, career-change, japan, mid-career-hiring]
 pairs_with:
   prompts: [write-entry-sheet, practise-japanese-job-interview, convert-cv-to-country-format]

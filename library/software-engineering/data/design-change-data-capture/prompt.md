@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [change-data-capture, transactional-outbox, replication-slots, event-ordering, schema-evolution, replication-lag]
 pairs_with:
   prompts: [design-data-pipeline, design-search-index, design-event-driven-system]

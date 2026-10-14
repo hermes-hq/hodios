@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [repurposing, article-to-video, voice-over, claim-fidelity]
 pairs_with:
   prompts: [write-short-form-script, write-b-roll-prompts, write-tts-voiceover-script]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [benchmarkdotnet, span, arraypool, allocations, linq]
 pairs_with:
   prompts: [tune-garbage-collector, write-microbenchmark, profile-hot-path]

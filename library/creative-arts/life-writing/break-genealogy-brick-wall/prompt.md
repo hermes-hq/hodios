@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [genealogy, brick-wall, research-plan, cluster-research, archival-records]
 pairs_with:
   prompts: [plan-genealogy-research, read-old-genealogy-record, write-dna-match-message]

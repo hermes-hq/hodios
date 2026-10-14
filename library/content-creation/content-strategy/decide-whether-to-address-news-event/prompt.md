@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [newsjacking, brand-voice, sensitive-topics, scheduled-posts, public-statements, crisis-response]
 pairs_with:
   prompts: [find-timely-content-angles, write-editorial-guidelines]

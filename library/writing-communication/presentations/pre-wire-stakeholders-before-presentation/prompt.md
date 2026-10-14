@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pre-wiring, stakeholder-meetings, objections, decision-meeting, buy-in]
 pairs_with:
   prompts: [build-decision-request-deck, plan-stakeholder-alignment, drill-presentation-qa, plan-backup-slides]

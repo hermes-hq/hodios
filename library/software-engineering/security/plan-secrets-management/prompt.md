@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [secrets, vault, rotation, workload-identity, secret-scanning]
 pairs_with:
   personas: [security-auditor, devops-engineer]

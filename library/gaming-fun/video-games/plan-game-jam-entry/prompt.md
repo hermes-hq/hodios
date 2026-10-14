@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [game-jam, scope-control, prototyping, schedule, indie-games]
 pairs_with:
   prompts: [design-game-mechanic, design-game-level]

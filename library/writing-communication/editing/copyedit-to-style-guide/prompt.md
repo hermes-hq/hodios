@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [style-guide-compliance, ap-style, chicago-style, apa-style, house-style, author-queries]
 pairs_with:
   prompts: [proofread-text, build-style-sheet, line-edit-prose]

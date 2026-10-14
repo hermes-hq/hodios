@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [price-increase, supplier-negotiation, purchasing, cost-control, contract-terms, should-cost]
 pairs_with:
   prompts: [prepare-supplier-negotiation, review-supplier-terms, plan-supplier-transition, calculate-product-margin]

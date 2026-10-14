@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [penetration-testing, rules-of-engagement, test-scoping, security-assessment, vendor-selection]
 pairs_with:
   prompts: [audit-app-security, threat-model-feature, triage-vulnerability-report]

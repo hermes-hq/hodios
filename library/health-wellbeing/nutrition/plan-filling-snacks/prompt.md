@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [snacking, satiety, protein, fibre, portable-food]
 pairs_with:
   prompts: [fix-afternoon-energy-crash, practice-hunger-and-fullness-cues, read-nutrition-label]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [product-questions, pre-sale-questions, marketplace-qa, product-faq, listing-gaps]
 pairs_with:
   prompts: [write-product-description, fix-listings-from-customer-reviews, write-marketplace-listing]

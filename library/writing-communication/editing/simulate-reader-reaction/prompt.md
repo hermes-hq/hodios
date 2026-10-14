@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reader-testing, audience-fit, beta-reading, drop-off, persuasion]
 pairs_with:
   prompts: [critique-draft, rewrite-for-audience, run-readability-check]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [global-mobility, secondment, expat-assignment, work-permit, repatriation]
 pairs_with:
   prompts: [design-benefits-package, write-workplace-policy, plan-employee-offboarding]

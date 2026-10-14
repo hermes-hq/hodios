@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employee-relations, record-keeping, consistency, disciplinary-process, retaliation-risk]
 pairs_with:
   prompts: [write-performance-improvement-plan, write-performance-review, plan-one-on-one, plan-new-hire-onboarding]

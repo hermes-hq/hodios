@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sermon-series, preaching-plan, liturgical-calendar, clergy, teaching-series, homiletics]
 pairs_with:
   prompts: [prepare-sermon-or-homily, plan-scripture-study, lead-faith-small-group]

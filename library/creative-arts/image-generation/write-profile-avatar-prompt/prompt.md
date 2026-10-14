@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [avatars, profile-pictures, likeness, reference-images]
 pairs_with:
   prompts: [write-image-edit-prompt, write-character-consistency-prompts]

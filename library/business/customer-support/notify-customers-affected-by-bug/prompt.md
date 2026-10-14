@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [proactive-outreach, customer-notification, billing-error, defect-remediation, apology]
 pairs_with:
   prompts: [write-known-issue-brief, write-incident-update, build-support-macros, plan-data-breach-response]

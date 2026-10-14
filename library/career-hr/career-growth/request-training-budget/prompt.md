@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [learning-and-development, professional-development, conference, business-case]
 pairs_with:
   prompts: [build-development-plan, evaluate-career-credential]

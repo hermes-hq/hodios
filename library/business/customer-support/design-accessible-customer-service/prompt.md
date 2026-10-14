@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [disabled-customers, disability-inclusion, access-guide, reasonable-adjustments, staff-training, inclusive-service]
 pairs_with:
   prompts: [run-customer-experience-audit, write-sop, build-service-recovery-playbook]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [coordinated-disclosure, security-advisory, cve, embargo, security-release]
 pairs_with:
   prompts: [triage-vulnerability-report, write-security-policy, write-versioning-policy, backport-fix-to-release-branches]

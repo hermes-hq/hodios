@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ai-disruption, competitive-threat, value-erosion, jobs-to-be-done, ai-strategy, defensibility]
 pairs_with:
   prompts: [evaluate-ai-feature-opportunity, plan-competitive-response, write-product-strategy, run-product-teardown]

@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rescisao, clt, fgts, trct, brasil]
 pairs_with:
   prompts: [claim-unpaid-wages, plan-finances-after-job-loss]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [permission-priming, notifications-permission, location-permission, privacy-ux, opt-in-rate]
 pairs_with:
   prompts: [design-onboarding-flow, design-notification-strategy, write-ux-microcopy, review-design-for-dark-patterns]

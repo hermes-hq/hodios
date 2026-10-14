@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [drought-tolerant, xeriscaping, dry-garden, water-saving, native-plants, mulching]
 pairs_with:
   prompts: [plan-garden-irrigation, design-garden-border, plan-pollinator-garden, cut-household-water-use]

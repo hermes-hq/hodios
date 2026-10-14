@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [negotiation-playbook, fallback-positions, contract-approvals, sales-contracts, clause-library, deal-desk]
 pairs_with:
   prompts: [redline-contract, draft-clause-options, write-negotiation-email]

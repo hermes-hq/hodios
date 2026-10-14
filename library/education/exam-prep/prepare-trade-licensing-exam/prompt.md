@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trade-licensing, electrical-code, plumbing-code, gas-safety, apprenticeship, code-lookup]
 pairs_with:
   prompts: [prepare-certification-exam, analyze-exam-mistakes]

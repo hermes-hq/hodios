@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [helpful-selling, owner-led-sales, follow-up-habits, pricing-confidence, tradespeople, makers]
 pairs_with:
   prompts: [triage-open-quotes, answer-price-shopper-calls, canvass-neighbours-after-job, present-repair-options, ask-clients-for-referrals]

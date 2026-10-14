@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [resiliation, preavis, lettre-recommandee, droit-de-la-consommation, france]
 pairs_with:
   prompts: [cancel-contract-or-subscription, write-german-termination-letter]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pull-request, test-gaps, changed-code, regression]
 pairs_with:
   prompts: [fill-test-gaps, add-regression-test, review-test-quality]

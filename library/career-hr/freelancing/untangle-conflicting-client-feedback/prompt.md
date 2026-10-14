@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [client-feedback, revision-rounds, stakeholder-alignment, design-feedback, decision-maker]
 pairs_with:
   prompts: [respond-to-unhappy-client, write-scope-change-email, write-client-welcome-pack]

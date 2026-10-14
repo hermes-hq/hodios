@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gst, gstr-3b, gstr-1, input-tax-credit, india, gstr-2b]
 pairs_with:
   prompts: [plan-business-tax-calendar, track-business-expenses, prepare-vat-return-workpaper]

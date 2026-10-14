@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pptx-generation, action-titles, speaker-notes, slide-automation]
 pairs_with:
   prompts: [write-insight-report, tell-data-story, critique-slide-deck, generate-docx-report-from-template]

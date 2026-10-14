@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [reverse-proxy, nginx, caddy, traefik, tls, websockets]
 pairs_with:
   prompts: [harden-web-app-config, deploy-to-vps]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [menu-translation, allergens, food-and-drink, multilingual, terminology]
 pairs_with:
   prompts: [translate-recipe, transcreate-marketing-copy, build-translation-glossary]

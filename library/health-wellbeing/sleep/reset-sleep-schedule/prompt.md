@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [body-clock, sleep-schedule, morning-light, night-owl, clock-change, back-to-school]
 pairs_with:
   prompts: [improve-sleep-habits, plan-shift-work-sleep]

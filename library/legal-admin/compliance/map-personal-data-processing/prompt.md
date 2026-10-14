@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ropa, data-mapping, data-protection, retention]
 pairs_with:
   prompts: [build-compliance-checklist, write-privacy-policy]

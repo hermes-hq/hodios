@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-grid, sorting, filtering, pagination, url-state, aria]
 args:
   - name: table_spec

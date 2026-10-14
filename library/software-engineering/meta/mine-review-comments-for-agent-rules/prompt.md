@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, agent-instructions, feedback-loop, code-review-comments]
 pairs_with:
   prompts: [review-agent-transcript, prune-agent-instructions, write-ai-reviewer-instructions]

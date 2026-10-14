@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pros-and-cons, weighting, yes-or-no, gut-check, trade-offs]
 pairs_with:
   prompts: [compare-options-matrix, check-when-to-trust-gut, widen-a-narrow-choice]

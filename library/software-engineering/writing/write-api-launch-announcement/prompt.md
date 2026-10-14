@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-launch, sdk, announcement, developer-experience]
 pairs_with:
   prompts: [write-api-quickstart, write-api-deprecation-notice, write-release-notes]

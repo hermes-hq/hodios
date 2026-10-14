@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reading-tone, overthinking, texting, workplace-messaging, anxiety-check]
 pairs_with:
   prompts: [reply-to-tricky-message, check-tone-before-sending, clear-up-misunderstanding]

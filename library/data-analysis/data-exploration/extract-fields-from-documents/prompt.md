@@ -17,6 +17,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [data-extraction, field-extraction, structured-output, document-processing]
 pairs_with:
   prompts: [extract-tables-from-pdf, classify-text-records, convert-data-format]

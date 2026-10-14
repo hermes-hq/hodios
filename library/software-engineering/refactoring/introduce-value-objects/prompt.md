@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [value-objects, primitive-obsession, domain-modeling, validation, immutability]
 pairs_with:
   prompts: [replace-loose-types, simplify-function-signature]

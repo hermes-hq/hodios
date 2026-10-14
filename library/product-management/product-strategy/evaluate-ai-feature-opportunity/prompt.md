@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [llm-apps]
 tags: [ai-features, llm-evals, ai-product-strategy, failure-modes, staged-rollout]
 pairs_with:

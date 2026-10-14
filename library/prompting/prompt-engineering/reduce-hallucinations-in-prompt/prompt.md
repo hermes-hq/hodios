@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grounding, fabrication, citations, not-found-handling, factual-accuracy]
 pairs_with:
   personas: [prompt-engineer]

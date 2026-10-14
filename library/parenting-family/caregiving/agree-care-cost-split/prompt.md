@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [siblings, care-costs, family-agreement, ageing-parents, fairness]
 pairs_with:
   prompts: [plan-long-term-care-costs, manage-parent-finances, build-care-rota, plan-family-meeting]

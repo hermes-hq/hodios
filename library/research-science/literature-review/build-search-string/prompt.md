@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [search-strategy, boolean-search, mesh, systematic-review, pubmed, scopus]
 pairs_with:
   prompts: [screen-studies, build-literature-matrix, write-literature-review-section]

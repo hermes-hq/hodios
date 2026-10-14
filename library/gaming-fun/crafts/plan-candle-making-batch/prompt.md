@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [candle-making, soy-wax, wick-sizing, fragrance-load, burn-test, fire-safety]
 pairs_with:
   prompts: [plan-soap-making-batch]

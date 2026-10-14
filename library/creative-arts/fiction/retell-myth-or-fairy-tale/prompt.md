@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retelling, fairy-tale, mythology, folklore, point-of-view]
 pairs_with:
   prompts: [write-short-story, critique-fiction-draft]

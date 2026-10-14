@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jetpack-compose, state-hoisting, recomposition, ui-state]
 pairs_with:
   personas: [kotlin-android-engineer]

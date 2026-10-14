@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [summer-bridge, widening-participation, transition, first-generation-students, belonging, peer-mentoring]
 pairs_with:
   prompts: [design-course-outline, plan-course-pilot, evaluate-training-effectiveness]

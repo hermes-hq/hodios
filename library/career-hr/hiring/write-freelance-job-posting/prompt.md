@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [freelance-marketplace, project-brief, hiring-a-freelancer, screening-questions, scope-of-work]
 pairs_with:
   prompts: [compare-freelancer-proposals, write-job-description]

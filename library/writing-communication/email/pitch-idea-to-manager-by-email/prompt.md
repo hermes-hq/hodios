@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [idea-pitch, improvement, managing-up, pilot, initiative]
 pairs_with:
   prompts: [write-project-proposal, request-approval-by-email, increase-work-visibility]

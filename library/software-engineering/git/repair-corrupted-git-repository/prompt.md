@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [repository-corruption, git-fsck, index-lock, cloud-sync, data-recovery]
 pairs_with:
   prompts: [recover-lost-git-work, explain-git-error, speed-up-large-repo]

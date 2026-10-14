@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [older-travellers, senior-travel, slow-travel, travel-insurance, family-travel]
 pairs_with:
   prompts: [plan-accessible-trip, choose-travel-insurance, travel-with-medication, plan-itinerary, teach-older-relative-smartphone]

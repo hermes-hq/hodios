@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [nonprofit]
 tags: [regular-giving, donor-retention, supporter-journey, recurring-donations, lifetime-value]
 pairs_with:

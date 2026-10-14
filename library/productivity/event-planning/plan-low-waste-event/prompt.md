@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sustainable-events, zero-waste, event-footprint, reusables, food-waste]
 pairs_with:
   prompts: [plan-event-budget, run-event-debrief, plan-event-catering-order]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [comparative-religion, big-questions, world-religions, humanism, ethics]
 pairs_with:
   prompts: [explain-religious-tradition, explore-faith-questions]

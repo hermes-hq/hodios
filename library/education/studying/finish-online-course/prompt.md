@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mooc, self-paced-learning, implementation-intentions, course-completion]
 pairs_with:
   prompts: [build-self-study-curriculum]

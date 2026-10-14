@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [writing-practice, register, cefr, real-world-tasks]
 pairs_with:
   prompts: [correct-my-sentences, explain-politeness-register, translate-business-email]

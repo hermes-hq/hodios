@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [audience-research, customer-interviews, interview-script, synthesis, listening]
 pairs_with:
   prompts: [mine-audience-questions, define-content-pillars, analyze-content-performance]

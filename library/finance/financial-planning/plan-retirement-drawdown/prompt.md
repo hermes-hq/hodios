@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retirement-income, drawdown, annuities, sequence-risk, withdrawal-rate, decumulation]
 pairs_with:
   prompts: [plan-retirement-scenarios, compare-retirement-accounts, prepare-financial-adviser-meeting, plan-long-term-care-costs]

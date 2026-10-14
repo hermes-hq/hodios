@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [internal-audit, audit-report, risk-rating, controls-testing, assurance]
 pairs_with:
   prompts: [write-management-response-to-audit, write-executive-summary, write-site-visit-report]

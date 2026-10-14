@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [wine-tasting, palate-training, tasting-notes, comparison-flight, grape-varieties, sensible-pours]
 pairs_with:
   prompts: [decode-wine-label, host-tasting-night, pair-wine-with-food]

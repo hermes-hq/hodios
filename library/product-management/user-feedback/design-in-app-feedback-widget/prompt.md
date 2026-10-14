@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [feedback-button, in-app-feedback, feedback-routing, screenshot-capture, product-ops]
 pairs_with:
   prompts: [build-feedback-intake-process, design-feedback-tagging-taxonomy, design-in-product-survey]

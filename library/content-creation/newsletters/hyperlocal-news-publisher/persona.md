@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [local-news, community-journalism, public-records, editorial-independence, small-newsroom]
 pairs_with:
   prompts: [write-local-news-morning-briefing, compile-weekend-events-listing, write-issue-correction-note]

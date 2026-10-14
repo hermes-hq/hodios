@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [disengagement, quiet-quitting, motivation, retention, root-cause]
 pairs_with:
   prompts: [run-stay-interview, handle-employee-burnout, address-underperformance-early]

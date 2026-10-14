@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [evidence-map, gap-map, evidence-synthesis, research-prioritisation, policy-evidence]
 pairs_with:
   prompts: [plan-scoping-review, find-research-gaps, plan-umbrella-review, build-literature-matrix]

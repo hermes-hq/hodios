@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [self-management, monthly-review, action-plan, symptom-diary, care-plan, fluctuating-conditions]
 pairs_with:
   prompts: [explore-flare-triggers, plan-activity-pacing, prepare-doctor-questions]

@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ci-gate, placeholder-checks, icu-messageformat, message-catalog, encoding]
 pairs_with:
   prompts: [review-translated-strings, automate-translation-file-sync, audit-translation-keys]

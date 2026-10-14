@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [java-upgrade, jdk, strong-encapsulation, jvm-flags, lts]
 pairs_with:
   prompts: [upgrade-major-dependency, migrate-javax-to-jakarta, inventory-deprecated-api-usage]

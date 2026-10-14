@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [default-notice, final-demand, arrears-letter, remedy-deadline, lender-reply]
 pairs_with:
   prompts: [negotiate-with-creditor, respond-to-debt-court-claim, compare-debt-relief-options, handle-mortgage-arrears]

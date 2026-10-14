@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [smart-bidding, target-cpa, target-roas, cost-cap, learning-period, conversion-volume]
 pairs_with:
   prompts: [calculate-break-even-roas, plan-ad-conversion-tracking, pace-ad-budget, analyze-ad-performance]

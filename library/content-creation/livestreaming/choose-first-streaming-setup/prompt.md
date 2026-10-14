@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [streaming-gear, microphones, webcams, beginner-streamer, room-acoustics]
 pairs_with:
   prompts: [plan-stream-scenes, diagnose-stream-quality-issues, grow-streaming-channel]

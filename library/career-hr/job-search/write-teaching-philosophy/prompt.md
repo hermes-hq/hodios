@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [teaching-statement, academic-job-market, pedagogy, job-application]
 pairs_with:
   prompts: [write-academic-cover-letter, prepare-teaching-demo-lesson, write-research-statement]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [steuererklaerung, elster, werbungskosten, finanzamt, deutschland]
 pairs_with:
   prompts: [check-nebenkostenabrechnung, explain-tax-notice]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [numbers, dates, prices, listening, speed-drill]
 pairs_with:
   prompts: [generate-language-drills, create-listening-exercise, learn-survival-phrases]

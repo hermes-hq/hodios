@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reverse-mortgage, later-life-lending, home-equity, retirement-income, inheritance]
 pairs_with:
   prompts: [plan-downsizing-home, plan-long-term-care-costs, plan-retirement-drawdown, prepare-financial-adviser-meeting]

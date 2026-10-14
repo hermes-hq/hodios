@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [day-camp, summer-camp, holiday-club, youth-programme, staffing-ratios, risk-assessment]
 pairs_with:
   prompts: [plan-after-school-club, plan-field-trip, plan-kids-summer]

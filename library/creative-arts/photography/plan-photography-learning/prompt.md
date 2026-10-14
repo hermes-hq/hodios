@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [learning-plan, photo-assignments, composition, deliberate-practice]
 pairs_with:
   prompts: [critique-photograph, choose-camera-settings, plan-photo-project]

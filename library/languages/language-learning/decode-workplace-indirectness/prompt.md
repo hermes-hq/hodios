@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pragmatics, indirectness, workplace-culture, understatement, reading-between-the-lines]
 pairs_with:
   prompts: [explain-phrase-in-context, explain-politeness-register, practise-polite-disagreement, practise-office-banter-and-humour]

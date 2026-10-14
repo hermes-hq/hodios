@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [grant-resubmission, summary-statement, response-to-review, funding, revise-and-resubmit]
 pairs_with:
   prompts: [review-grant-proposal, write-grant-application, respond-to-reviewers]

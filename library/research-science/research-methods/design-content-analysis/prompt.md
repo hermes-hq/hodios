@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-analysis, media-analysis, document-analysis, coding-scheme, intercoder-reliability]
 subject: [social-sciences]
 pairs_with:

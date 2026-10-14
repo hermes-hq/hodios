@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [docx-generation, report-template, document-automation, placeholders]
 pairs_with:
   prompts: [design-report-template, automate-recurring-report, build-report-deck-from-analysis]

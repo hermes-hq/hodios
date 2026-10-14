@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-tools, back-office, admin-panel, keyboard-shortcuts, bulk-actions, audit-trail]
 pairs_with:
   prompts: [design-interactive-table, design-empty-and-error-states, design-form-experience, write-design-handoff]

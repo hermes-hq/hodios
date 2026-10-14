@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [offer-design, value-proposition, guarantee, price-anchoring, service-business]
 pairs_with:
   prompts: [plan-promotional-offer, design-launch-offer, write-positioning-statement, build-ideal-customer-profile]

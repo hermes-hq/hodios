@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [device-matrix, cross-browser, device-farm, compatibility-testing, test-coverage]
 pairs_with:
   prompts: [write-test-plan, write-native-ui-tests, write-e2e-test]

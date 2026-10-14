@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [skills-matrix, capability-mapping, cross-training, team-development, training-needs-analysis]
 pairs_with:
   prompts: [plan-key-person-cover, build-career-ladder, build-development-plan]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [expert-claims, conflicts-of-interest, credentials, lateral-reading]
 pairs_with:
   prompts: [evaluate-source-credibility, check-journal-legitimacy, fact-check-claims]

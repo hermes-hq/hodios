@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [picture-book, bedtime-story, read-aloud, early-years]
 pairs_with:
   prompts: [write-short-story]

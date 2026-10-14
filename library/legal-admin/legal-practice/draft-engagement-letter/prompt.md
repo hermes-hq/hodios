@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [engagement-letter, retainer, scope-of-representation, legal-fees, law-firm-operations]
 pairs_with:
   prompts: [write-client-intake-questionnaire, write-client-status-update]

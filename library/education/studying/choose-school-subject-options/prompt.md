@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [subject-choices, gcse-options, a-level-choices, ib-diploma, teenagers]
 pairs_with:
   prompts: [choose-degree-course, plan-university-application]

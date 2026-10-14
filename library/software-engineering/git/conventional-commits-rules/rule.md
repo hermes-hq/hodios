@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: beginner
+depth: specific
 tags: [conventional-commits, commit-message, semver]
 pairs_with:
   prompts: [write-commit-message]

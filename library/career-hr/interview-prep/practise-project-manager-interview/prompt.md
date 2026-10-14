@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-delivery, scope-creep, stakeholder-scenarios, risk-management]
 pairs_with:
   prompts: [run-mock-interview, prepare-star-stories, practise-people-manager-interview]

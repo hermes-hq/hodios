@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [json-schema, editor-validation, config-reference, developer-experience]
 pairs_with:
   prompts: [document-configuration-options, annotate-config-file, write-cli-reference]

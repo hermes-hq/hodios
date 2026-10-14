@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [brain-dump, mind-sweep, next-actions, open-loops, overwhelm]
 pairs_with:
   prompts: [prioritize-todo-list, structure-messy-notes, break-down-big-task, plan-my-week]

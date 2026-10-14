@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-charter, stakeholder-map, raci, risk-register, kickoff-meeting, status-report]
 pairs_with:
   prompts: [write-project-plan, write-meeting-agenda, run-pre-mortem, design-meeting-cadence]

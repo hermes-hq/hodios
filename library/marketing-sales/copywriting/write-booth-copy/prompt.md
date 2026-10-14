@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trade-show, booth-graphics, lead-capture, conversation-opener]
 pairs_with:
   prompts: [plan-event-marketing, plan-booth-design, write-event-promo-copy, write-cold-call-script, qualify-leads]

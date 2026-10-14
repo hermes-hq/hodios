@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [business-listing, local-business, map-listing, review-replies, business-description, local-search]
 pairs_with:
   prompts: [plan-local-seo, respond-to-online-review, request-customer-testimonials, write-about-page]

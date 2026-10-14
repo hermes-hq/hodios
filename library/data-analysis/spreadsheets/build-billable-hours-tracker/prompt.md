@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [billable-hours, time-tracking, freelancer-billing, retainer, utilisation]
 pairs_with:
   prompts: [build-invoice-template-spreadsheet, build-timesheet-calculator, set-up-data-validation]

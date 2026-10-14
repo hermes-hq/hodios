@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [desk-work, sitting, posture, eye-strain, micro-breaks, office]
 pairs_with:
   prompts: [design-mobility-routine, start-walking-program, set-up-home-office]

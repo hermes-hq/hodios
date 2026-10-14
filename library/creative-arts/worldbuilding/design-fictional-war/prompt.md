@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fictional-history, war-causes, war-fiction, aftermath, setting-design]
 pairs_with:
   prompts: [design-fictional-military, build-world-timeline, design-fictional-factions, design-fictional-government]

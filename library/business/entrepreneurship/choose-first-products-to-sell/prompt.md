@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [launch-range, product-selection, landed-cost, opening-stock, hero-product]
 pairs_with:
   prompts: [plan-online-store, plan-shop-opening, vet-new-supplier, estimate-startup-costs]

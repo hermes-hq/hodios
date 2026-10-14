@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [renovation, contractor-bids, building-permits, punch-list, project-schedule]
 pairs_with:
   prompts: [plan-renovation-budget, hire-contractor, plan-diy-project]

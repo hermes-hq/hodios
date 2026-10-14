@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [competency-based-education, mastery-learning, standards-based-grading, reassessment, self-paced, rubrics]
 pairs_with:
   prompts: [write-learning-objectives, create-rubric, plan-course-assessment-mix]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [property-based-testing, hypothesis, fast-check, proptest, invariants]
 pairs_with:
   personas: [test-engineer]

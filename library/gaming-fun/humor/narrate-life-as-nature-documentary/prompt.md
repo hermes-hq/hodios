@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mock-documentary, voiceover, family-video, deadpan, short-video]
 pairs_with:
   prompts: [write-pet-inner-monologue, write-mock-movie-trailer]

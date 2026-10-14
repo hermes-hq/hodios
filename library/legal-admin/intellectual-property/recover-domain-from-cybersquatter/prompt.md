@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [domain-names, cybersquatting, domain-dispute, brand-protection]
 pairs_with:
   prompts: [write-trademark-infringement-letter, audit-small-business-ip, apply-for-trademark]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [business-ideas, side-income, founder-market-fit, self-employment]
 pairs_with:
   prompts: [validate-business-idea, plan-side-business, turn-annoyances-into-ideas]

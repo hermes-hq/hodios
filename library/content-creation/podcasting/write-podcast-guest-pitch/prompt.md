@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [guest-pitch, podcast-outreach, booking]
 pairs_with:
   prompts: [write-guest-interview-questions]

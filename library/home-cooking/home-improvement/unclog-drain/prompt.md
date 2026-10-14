@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [blocked-drain, plumbing, sink-trap, drain-snake, plunger, shower-drain]
 pairs_with:
   prompts: [diagnose-home-problem, fix-toilet-problem, find-source-of-bad-smell]

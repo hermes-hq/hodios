@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [supplier-escalation, carrier-claims, holding-message, vendor-accountability, b2b-email]
 pairs_with:
   prompts: [write-escalation-email, build-supplier-scorecard, write-support-reply, design-escalation-process]

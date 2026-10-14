@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [business-registration, company-formation, tax-registration, sole-trader, llc, startup-admin]
 pairs_with:
   prompts: [choose-business-structure, check-business-licences, set-up-first-payroll]

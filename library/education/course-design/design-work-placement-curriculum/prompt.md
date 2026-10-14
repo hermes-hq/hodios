@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [work-placement, internships, workplace-mentoring, supervision, work-based-learning, host-employer]
 pairs_with:
   prompts: [design-onboarding-curriculum, design-apprenticeship-plan]

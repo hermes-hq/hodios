@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cambridge-english, use-of-english, key-word-transformation, word-formation, b2-first, c1-advanced]
 pairs_with:
   prompts: [plan-language-exam-prep]

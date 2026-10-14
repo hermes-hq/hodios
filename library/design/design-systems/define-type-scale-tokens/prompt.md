@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [typography, type-scale, design-tokens, responsive-type, fluid-type]
 pairs_with:
   prompts: [define-design-tokens, pair-typefaces, generate-platform-token-files, define-layout-grid-and-breakpoints]

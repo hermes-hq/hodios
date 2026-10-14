@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [self-hosting, model-serving, quantisation, gpu-sizing, inference]
 pairs_with:
   prompts: [choose-llm-for-feature, add-llm-provider-fallback, write-docker-compose]

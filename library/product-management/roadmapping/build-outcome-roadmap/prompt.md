@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [now-next-later, outcome-based-roadmap, bets, product-planning]
 pairs_with:
   prompts: [prioritize-features, write-roadmap-update, write-product-strategy]

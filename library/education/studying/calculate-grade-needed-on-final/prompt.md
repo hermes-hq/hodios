@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [grade-calculation, weighted-average, syllabus, final-exam, target-grade]
 pairs_with:
   prompts: [calculate-gpa-and-target, recover-from-failed-midterm, create-study-plan]

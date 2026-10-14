@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prophet, holidays, changepoints, cross-validation, baselines]
 pairs_with:
   prompts: [forecast-time-series, clean-demand-history, add-event-adjustments-to-forecast]

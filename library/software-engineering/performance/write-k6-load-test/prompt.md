@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [k6, load-testing, thresholds, workload-model]
 pairs_with:
   personas: [performance-engineer]

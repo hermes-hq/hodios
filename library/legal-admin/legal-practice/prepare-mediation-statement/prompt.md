@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mediation, position-statement, settlement, adr, litigation-risk, batna]
 pairs_with:
   prompts: [build-damages-schedule, draft-legal-research-memo, write-client-status-update]

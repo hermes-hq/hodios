@@ -13,6 +13,7 @@ requires: [none]
 risk: read-only
 advice_risk: [legal]
 level: beginner
+depth: specific
 tags: [email-consent, opt-in, unsubscribe, transactional-email, sms-consent, anti-spam]
 pairs_with:
   prompts: [check-email-marketing-compliance, write-re-permission-campaign, write-email-preference-center]

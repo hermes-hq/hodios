@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [learning-by-teaching, protege-effect, roleplay, misconceptions, explanation-practice, self-explanation]
 pairs_with:
   prompts: [teach-topic-with-checks, check-my-reasoning]

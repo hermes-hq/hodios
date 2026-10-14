@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [functional-programming, immutability, scalafmt, effect-systems, adts]
 applies_to: ["**/*.scala", "**/*.sc", "build.sbt"]
 pairs_with:

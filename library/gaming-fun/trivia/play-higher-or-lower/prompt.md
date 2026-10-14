@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [higher-or-lower, comparisons, streak-game, estimation, general-knowledge]
 pairs_with:
   prompts: [play-guess-the-year, play-two-truths-and-a-lie]

@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [dependency-injection, transactions, jpa, actuator, slice-tests]
 applies_to: ["src/main/**/*.java", "src/main/**/*.kt", "src/test/**/*.java", "src/test/**/*.kt", "src/main/resources/application*.yml", "src/main/resources/application*.properties"]
 pairs_with:

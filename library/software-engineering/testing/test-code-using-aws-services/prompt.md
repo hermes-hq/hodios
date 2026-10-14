@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [moto, localstack, sdk-stubbing, s3, dynamodb]
 pairs_with:
   prompts: [build-fake-for-external-api, write-integration-tests, write-unit-tests]

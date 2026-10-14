@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [neurodivergence, autism, adhd, dyslexia, disclosure, workplace-adjustments, job-fit]
 pairs_with:
   prompts: [request-workplace-accommodation, plan-career-path, research-company, prepare-questions-for-interviewer]

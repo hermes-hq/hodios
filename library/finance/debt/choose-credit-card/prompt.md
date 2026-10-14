@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [card-types, cashback, rewards-cards, balance-transfer, annual-fee, eligibility-check]
 pairs_with:
   prompts: [build-credit-history-from-zero, review-credit-agreement, evaluate-debt-consolidation, improve-credit-score]

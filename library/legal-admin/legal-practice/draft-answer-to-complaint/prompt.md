@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [answer-to-complaint, pleadings, affirmative-defenses, statement-of-defence, responsive-pleading]
 pairs_with:
   prompts: [build-litigation-deadline-calendar, draft-legal-research-memo, index-case-documents]

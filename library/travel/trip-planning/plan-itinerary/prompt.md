@@ -19,7 +19,8 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
-tags: [day-by-day, sightseeing, pacing]
+depth: basic
+tags: [day-by-day, sightseeing, pacing, trip-plan, vacation-plan, city-break]
 pairs_with:
   prompts: [plan-trip-budget, build-packing-list, plan-food-exploration]
   personas: [travel-planner]

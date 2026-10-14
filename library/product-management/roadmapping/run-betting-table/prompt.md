@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shape-up, betting, appetite, cycle-planning, cool-down, fixed-time-variable-scope]
 pairs_with:
   prompts: [write-shaped-pitch, plan-release, run-quarterly-planning]

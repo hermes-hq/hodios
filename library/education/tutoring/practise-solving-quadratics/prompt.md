@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quadratic-equations, factorising, completing-the-square, quadratic-formula, discriminant, roots]
 pairs_with:
   prompts: [practise-rearranging-formulas, practise-function-graph-sketching, hint-through-problem]

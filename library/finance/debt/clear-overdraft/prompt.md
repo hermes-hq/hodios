@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [overdraft, bank-charges, step-down-plan, cash-flow]
 pairs_with:
   prompts: [build-monthly-budget, plan-debt-payoff, build-emergency-fund-plan]

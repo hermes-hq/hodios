@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [modest-fashion, hijab-styling, layering, coverage-rules, faith-and-dress]
 pairs_with:
   prompts: [decode-dress-code, find-flattering-colours, build-capsule-wardrobe]

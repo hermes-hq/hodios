@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [quote, estimate, scope-of-work, exclusions, trades, payment-terms]
 pairs_with:
   prompts: [build-job-quote-calculator, price-services, write-invoice]

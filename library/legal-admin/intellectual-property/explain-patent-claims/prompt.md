@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [patent-reading, claim-elements, technical-documents, patent-literacy]
 pairs_with:
   prompts: [respond-to-patent-infringement-letter, plan-prior-art-search, plan-freedom-to-operate-check]

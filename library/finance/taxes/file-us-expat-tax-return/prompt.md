@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [expat-tax, fbar, foreign-earned-income-exclusion, foreign-tax-credit, fatca, united-states]
 pairs_with:
   prompts: [plan-tax-move-abroad, check-foreign-income-tax, prepare-us-federal-tax-return]

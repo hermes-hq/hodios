@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [literature]
 tags: [book-cover, self-publishing, design-brief, typography, print-design]
 pairs_with:

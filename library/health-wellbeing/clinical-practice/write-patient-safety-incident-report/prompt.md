@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [incident-reporting, patient-safety, just-culture, clinical-governance, medication-errors, falls]
 pairs_with:
   prompts: [plan-clinical-audit, plan-pdsa-cycle, write-sbar-handoff]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [immutability, side-effects, global-state, aliasing, pure-functions]
 pairs_with:
   prompts: [decouple-for-testability, debug-race-condition]

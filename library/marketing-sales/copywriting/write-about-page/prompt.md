@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [about-page, brand-story, founder-story, website-copy]
 pairs_with:
   prompts: [write-landing-page-copy, write-taglines, write-messaging-framework]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [text-classification, nlp-models, fine-tuning, scikit-learn, baselines]
 pairs_with:
   prompts: [plan-ml-experiment, review-training-data, choose-ml-approach]

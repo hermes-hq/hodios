@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [freelance-journalism, story-pitch, editor-outreach, news-peg, pitch-email]
 pairs_with:
   prompts: [write-guest-post-pitch, write-feature-article, find-timely-content-angles]

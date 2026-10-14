@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [blocked-work, dependency-management, contract-first, escalation, stubs]
 pairs_with:
   prompts: [map-cross-team-dependencies, plan-cross-service-change, replan-slipping-project]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quiz-disputes, adjudication, quizmaster, fair-play, also-accept, pub-quiz]
 pairs_with:
   prompts: [review-quiz-questions, design-quiz-scoring-rules]

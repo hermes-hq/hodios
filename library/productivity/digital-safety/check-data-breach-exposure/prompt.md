@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [data-breach, password-reuse, phishing, credit-freeze, account-security, breach-notification]
 pairs_with:
   prompts: [secure-personal-accounts, respond-to-identity-theft, recover-hacked-account, check-suspicious-message]

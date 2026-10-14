@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-comments, readability, maintainability]
 pairs_with:
   rules: [code-comment-rules]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mistakes, diagnosis, expertise, symptoms-and-fixes]
 pairs_with:
   prompts: [write-listicle, write-myth-busting-post, write-how-to-article]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [exam-week, exam-timetable, morning-routine, exam-logistics, special-consideration]
 pairs_with:
   prompts: [support-child-exam-stress, plan-exam-day-strategy, prepare-eleven-plus]

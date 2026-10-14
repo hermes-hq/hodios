@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [preprints, study-appraisal, science-news, open-science]
 pairs_with:
   prompts: [check-science-news-against-paper, explain-state-of-evidence, check-references-for-retractions]

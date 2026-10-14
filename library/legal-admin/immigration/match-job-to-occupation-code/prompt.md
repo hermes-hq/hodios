@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [occupation-code, skilled-occupation-list, job-classification, nominated-occupation, sponsorship-eligibility]
 pairs_with:
   prompts: [write-employment-experience-letter, estimate-immigration-points-score, ask-employer-for-visa-sponsorship]

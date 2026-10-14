@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [listing-presentation, comparables, pricing-strategy, seller-objections, home-selling]
 pairs_with:
   prompts: [write-real-estate-listing, handle-sales-objections, prepare-deal-negotiation]

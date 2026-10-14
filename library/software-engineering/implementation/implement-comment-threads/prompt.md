@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [comments, mentions, notifications, moderation, replies]
 pairs_with:
   prompts: [design-comments-and-mentions, render-user-markdown-safely, implement-in-app-notifications]

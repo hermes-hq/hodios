@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [game-accessibility-guidelines, xbox-accessibility-guidelines, remapping, subtitles, colorblind, difficulty-options]
 pairs_with:
   prompts: [audit-motion-and-flashing, localize-game-strings-and-fonts]

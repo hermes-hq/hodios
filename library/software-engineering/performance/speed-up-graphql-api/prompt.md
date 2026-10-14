@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dataloader, resolver-tracing, query-cost, persisted-queries, batching]
 pairs_with:
   prompts: [fix-n-plus-one-queries, review-graphql-resolver-change, plan-caching-strategy]

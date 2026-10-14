@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-adoption, in-app-messaging, lifecycle-email, customer-enablement, adoption-funnel]
 pairs_with:
   prompts: [review-launch-results, define-feature-success-metrics, analyze-conversion-funnel, design-holdout-experiment]

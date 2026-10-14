@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [open-source-project, dev-to, build-in-public, launch-article, canonical-url]
 pairs_with:
   prompts: [write-tech-blog-post, plan-open-source-launch, write-show-hn-post]

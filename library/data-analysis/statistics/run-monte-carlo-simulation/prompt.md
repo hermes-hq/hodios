@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [monte-carlo, risk-analysis, simulation, uncertainty]
 pairs_with:
   prompts: [run-what-if-analysis, make-calibrated-forecast, forecast-time-series]

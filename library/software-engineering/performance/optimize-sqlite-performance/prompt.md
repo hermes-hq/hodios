@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [explain-query-plan, transactions, wal-mode, prepared-statements, local-database]
 pairs_with:
   prompts: [configure-sqlite-for-production, design-on-device-database, optimize-sql-query]

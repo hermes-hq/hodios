@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gpio, pwm, adc, interrupts, hardware-timers, breadboard]
 pairs_with:
   prompts: [write-microcontroller-firmware]

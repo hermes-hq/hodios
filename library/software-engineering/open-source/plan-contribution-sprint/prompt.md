@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [sprints, hackathon, newcomer-onboarding, sprint-mentors, events]
 pairs_with:
   prompts: [write-good-first-issues, write-contributing-guide, audit-contributor-funnel]

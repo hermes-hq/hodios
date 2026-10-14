@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [carers, carer-burnout, respite, boundaries, self-care]
 pairs_with:
   prompts: [build-care-rota, check-burnout-signs, support-struggling-friend]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [potty-training, toilet-training, toddlers, regression, readiness-signs]
 pairs_with:
   prompts: [plan-behavior-approach]

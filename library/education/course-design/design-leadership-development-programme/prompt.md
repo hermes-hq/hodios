@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [leadership-development, management-training, new-managers, cohort-programme, coaching, learning-and-development]
 pairs_with:
   prompts: [evaluate-training-effectiveness, design-training-role-play, run-training-needs-analysis]

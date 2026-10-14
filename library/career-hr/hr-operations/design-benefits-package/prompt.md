@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [employee-benefits, benefits-budget, total-rewards, health-cover, pension-contributions]
 pairs_with:
   prompts: [write-total-rewards-statement, design-salary-bands, design-engagement-survey]

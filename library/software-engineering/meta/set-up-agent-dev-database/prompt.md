@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, test-database, seed-data, isolation, worktrees]
 pairs_with:
   prompts: [write-agent-environment-setup, plan-parallel-agent-worktrees, design-agent-sandbox]

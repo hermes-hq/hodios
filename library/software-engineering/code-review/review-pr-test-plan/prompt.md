@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-plan, pull-request, coverage-gaps, manual-testing]
 pairs_with:
   personas: [code-reviewer]

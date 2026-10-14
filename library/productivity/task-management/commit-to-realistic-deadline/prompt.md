@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [due-dates, estimating, queue, promises, availability, planning-fallacy]
 pairs_with:
   prompts: [estimate-task-durations, acknowledge-request-and-set-timeline, push-back-on-deadline-by-email]

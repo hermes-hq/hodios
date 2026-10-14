@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [peer-assessment, self-assessment, success-criteria, formative-assessment, student-agency]
 pairs_with:
   prompts: [create-rubric, mark-student-work-against-rubric, design-formative-assessment, build-feedback-comment-bank]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [dress-codes, black-tie, smart-casual, cocktail-attire, wedding-guest, event-attire]
 pairs_with:
   prompts: [plan-clothing-care-and-repair, choose-fragrance]

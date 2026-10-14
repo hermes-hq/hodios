@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [physical-geography, human-geography, case-studies, map-skills, fieldwork]
 pairs_with:
   prompts: [practise-map-skills, explain-concept-at-level]

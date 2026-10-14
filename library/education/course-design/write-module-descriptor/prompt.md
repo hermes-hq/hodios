@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [module-specification, validation, quality-assurance, constructive-alignment, credit-hours, programme-approval]
 pairs_with:
   prompts: [write-learning-objectives, plan-course-assessment-mix, write-course-syllabus, build-course-reading-list]

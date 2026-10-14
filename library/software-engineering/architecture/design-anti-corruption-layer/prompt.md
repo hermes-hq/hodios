@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [anti-corruption-layer, domain-driven-design, legacy-integration, model-translation, bounded-context]
 pairs_with:
   personas: [software-architect]

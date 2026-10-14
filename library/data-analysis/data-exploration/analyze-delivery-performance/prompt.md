@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [otif, on-time-delivery, carrier-performance, shipping, lead-time]
 pairs_with:
   prompts: [analyze-process-cycle-times, run-pareto-analysis, analyze-inventory-data]

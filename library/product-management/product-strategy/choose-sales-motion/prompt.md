@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-motion, self-serve, inside-sales, partner-channel, cac-payback]
 pairs_with:
   prompts: [design-product-led-growth-motion, plan-move-upmarket, plan-move-downmarket, write-go-to-market-plan]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [stacked-prs, rebase-onto, update-refs, squash-merge]
 pairs_with:
   prompts: [split-large-pull-request, resolve-merge-conflict, recover-lost-git-work]

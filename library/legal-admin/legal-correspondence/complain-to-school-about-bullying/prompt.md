@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bullying, school-complaint, anti-bullying-policy, cyberbullying, child-safety, parent-advocacy]
 pairs_with:
   prompts: [support-child-being-bullied, write-complaint-letter, complain-to-ombudsman, request-special-education-assessment]

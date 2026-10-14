@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [k2-compiler, ksp, kapt, jetpack-compose, gradle]
 pairs_with:
   prompts: [upgrade-android-gradle-plugin, convert-java-to-kotlin, speed-up-gradle-build]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [language-immersion, homestay, language-school, cefr, study-trip]
 pairs_with:
   prompts: [assess-language-level, plan-language-learning, prepare-for-homestay]

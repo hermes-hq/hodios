@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tutorial, first-time-user-experience, teaching-mechanics, retention]
 pairs_with:
   prompts: [design-game-level, design-difficulty-curve, plan-playtest-session]

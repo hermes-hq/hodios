@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [churn-analysis, exit-survey, save-offers, retention, cancellation-flow]
 pairs_with:
   prompts: [analyze-user-feedback, design-in-product-survey, design-ab-test, diagnose-metric-drop]

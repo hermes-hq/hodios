@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [public-holidays, festivals, opening-hours, travel-dates, crowds]
 pairs_with:
   prompts: [plan-itinerary, choose-destination, plan-festival-trip, learn-local-etiquette]

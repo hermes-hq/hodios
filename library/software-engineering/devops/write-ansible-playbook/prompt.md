@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [configuration-management, idempotency, ansible-roles, ansible-vault, provisioning, linux-servers]
 pairs_with:
   personas: [devops-engineer]

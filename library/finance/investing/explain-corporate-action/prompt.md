@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [corporate-actions, rights-issue, stock-split, takeover-offer, spin-off]
 pairs_with:
   prompts: [explain-brokerage-statement, explain-equity-compensation]

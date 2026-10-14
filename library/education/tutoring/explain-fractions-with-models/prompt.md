@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fractions, bar-models, number-lines, area-models, concrete-pictorial-abstract, misconceptions]
 pairs_with:
   prompts: [hint-through-problem, explain-school-maths-method-to-parent]

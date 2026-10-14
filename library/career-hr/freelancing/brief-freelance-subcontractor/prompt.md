@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subcontracting, outsourcing, margin, ip-flow-down, quality-control]
 pairs_with:
   prompts: [write-statement-of-work, review-freelance-contract, draft-simple-agreement]

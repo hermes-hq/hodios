@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-queues, celery, sidekiq, bullmq, message-broker]
 pairs_with:
   prompts: [fix-scheduled-job-not-running, implement-background-job]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [key-account, account-management, business-review, renewal-prep, account-health]
 pairs_with:
   prompts: [prepare-business-review, prepare-renewal-conversation, extract-feedback-fields]

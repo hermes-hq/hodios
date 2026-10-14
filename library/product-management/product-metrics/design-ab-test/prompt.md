@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ab-testing, guardrail-metrics, minimum-detectable-effect, stopping-rules, online-experiments]
 pairs_with:
   prompts: [calculate-sample-size, review-launch-results, define-north-star-metric]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [long-distance, ageing-parents, carers, check-ins, emergency-plan]
 pairs_with:
   prompts: [build-care-rota, prepare-emergency-medical-summary, protect-relative-from-scams, choose-care-technology]

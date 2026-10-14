@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sports-travel, marathon, tournament, event-tickets, race-weekend]
 pairs_with:
   prompts: [plan-race-day, plan-festival-trip, beat-jet-lag, choose-travel-insurance, plan-itinerary]

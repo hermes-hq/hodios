@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [employee-recognition, peer-recognition, awards, company-values, retention]
 pairs_with:
   prompts: [design-engagement-survey, design-benefits-package]

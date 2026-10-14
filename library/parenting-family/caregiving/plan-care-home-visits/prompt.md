@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [care-homes, visiting, dementia, family-time, connection]
 pairs_with:
   prompts: [plan-dementia-conversations, write-life-story-profile-for-care, raise-concern-about-care]

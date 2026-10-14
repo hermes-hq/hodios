@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ethical-storytelling, informed-consent, strengths-based, impact-reporting, fundraising-appeals, dignity]
 pairs_with:
   prompts: [gather-impact-stories-with-consent, write-content-plan-one-pager, define-content-pillars]

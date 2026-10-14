@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [side-project, employer-ip-clause, invention-assignment, carve-out, moonlighting]
 pairs_with:
   prompts: [review-employment-contract, audit-small-business-ip, choose-software-license]

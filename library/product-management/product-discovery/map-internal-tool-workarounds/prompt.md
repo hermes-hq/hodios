@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workarounds, internal-tools, shadow-it, unmet-needs, process-risk]
 pairs_with:
   prompts: [interview-frontline-staff, estimate-problem-cost, write-problem-statement, translate-request-into-problem]

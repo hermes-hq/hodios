@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grpc, protobuf, api-reference, proto-comments]
 pairs_with:
   prompts: [document-public-api]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [interview-opener, elevator-pitch, personal-pitch, behavioural-interview]
 pairs_with:
   prompts: [prepare-phone-screen, prepare-star-stories, run-mock-interview]

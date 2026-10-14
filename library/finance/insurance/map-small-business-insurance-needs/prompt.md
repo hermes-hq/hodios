@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [public-liability, professional-indemnity, employers-liability, business-interruption, cyber-cover]
 pairs_with:
   prompts: [plan-business-continuity, check-business-licences, plan-service-business-launch]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [school-leavers, career-pathways, student-finance, earn-and-learn]
 pairs_with:
   prompts: [choose-degree-course, plan-university-application]

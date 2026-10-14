@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [coroutines, kotlin-flow, jetpack-compose, android-lifecycle, workmanager]
 pairs_with:
   personas: [mobile-engineer]

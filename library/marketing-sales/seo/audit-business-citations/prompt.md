@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [citations, nap-consistency, directories, duplicate-listings, business-listings]
 pairs_with:
   prompts: [plan-local-seo, plan-multi-location-search]

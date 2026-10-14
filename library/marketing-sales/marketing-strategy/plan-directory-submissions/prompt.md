@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-source-project, awesome-lists, directories, package-registries, backlinks, submission-tracker]
 pairs_with:
   prompts: [optimize-registry-listings, pitch-developer-media, plan-open-source-launch]

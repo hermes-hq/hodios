@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plain-language, community-languages, public-information, language-access]
 pairs_with:
   prompts: [back-translate-to-verify, write-translation-brief, brief-staff-on-working-with-interpreters]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [criticism, feedback-reception, defensiveness, clarifying-questions, emotional-regulation]
 pairs_with:
   prompts: [respond-to-criticism, practice-assertive-responses, rehearse-difficult-conversation]

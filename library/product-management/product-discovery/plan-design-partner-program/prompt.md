@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-partners, b2b-products, early-customers, customer-co-development, pilot-to-paid]
 pairs_with:
   prompts: [audit-idea-evidence, structure-paid-pilot, map-buying-committee, write-interview-outreach-messages]

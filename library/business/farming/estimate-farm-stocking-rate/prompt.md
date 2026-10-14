@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stocking-rate, livestock-units, grass-growth, feed-budget, drought-planning]
 pairs_with:
   prompts: [budget-winter-forage-stocks, plan-paddock-grazing-rotation, plan-tupping-calendar]

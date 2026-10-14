@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hospital-stay, delirium, advocacy, ageing-parents, carers]
 pairs_with:
   prompts: [write-care-profile, prepare-emergency-medical-summary, raise-concern-about-care, build-medication-list]

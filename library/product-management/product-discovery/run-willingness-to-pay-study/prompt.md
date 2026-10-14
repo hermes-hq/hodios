@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pricing-research, willingness-to-pay, van-westendorp, gabor-granger, survey-design]
 pairs_with:
   prompts: [plan-price-change-communication, write-customer-interview-guide, design-validation-experiment, write-research-screener]

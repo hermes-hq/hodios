@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [neighbour-dispute, noise, boundaries, mediation]
 pairs_with:
   prompts: [write-complaint-letter]

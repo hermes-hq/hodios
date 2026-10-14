@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fruit-pie, pie-crust, thickeners, soggy-bottom, lattice]
 pairs_with:
   prompts: [calibrate-home-oven, convert-baking-recipe-to-grams]

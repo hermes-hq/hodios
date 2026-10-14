@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [polymorphic-associations, exclusive-arc, referential-integrity, orm-relations, join-tables]
 pairs_with:
   prompts: [design-database-schema, model-hierarchical-data]

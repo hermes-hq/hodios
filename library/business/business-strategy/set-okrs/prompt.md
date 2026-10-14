@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [okrs, objectives, key-results, counter-metrics]
 pairs_with:
   prompts: [run-swot-analysis]

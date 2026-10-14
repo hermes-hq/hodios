@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [care-quality, safeguarding, care-homes, home-care, escalation]
 pairs_with:
   prompts: [write-complaint-letter, complain-to-ombudsman, evaluate-care-homes, choose-home-care-agency]

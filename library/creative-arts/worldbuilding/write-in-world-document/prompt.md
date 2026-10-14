@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [in-world-text, epigraph, game-handout, narrative-voice]
 pairs_with:
   prompts: [design-fictional-culture, build-world-timeline, build-series-bible, create-player-handouts]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-scoping, design-pricing, statement-of-work, client-management, creative-agency]
 pairs_with:
   prompts: [write-freelance-proposal, write-design-brief, assess-scope-change-request]

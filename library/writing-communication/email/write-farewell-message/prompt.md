@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [farewell, leaving-job, goodbye-email, handover-contacts, last-day]
 pairs_with:
   prompts: [write-handover-document, write-thank-you-note]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [buying-a-laptop, computer-specs, laptop-vs-desktop, ram, ssd]
 pairs_with:
   prompts: [speed-up-slow-computer, check-used-device]

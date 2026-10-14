@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [influencer-marketing, creator-partnerships, ad-disclosure, ugc, campaign-measurement]
 pairs_with:
   prompts: [write-creator-brief, plan-marketing-campaign, define-ad-audiences]

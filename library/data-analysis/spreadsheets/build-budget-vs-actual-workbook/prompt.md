@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [variance-report, management-accounts, ledger-mapping, year-to-date, month-end]
 pairs_with:
   prompts: [explain-budget-variance, write-power-query, build-small-business-budget]

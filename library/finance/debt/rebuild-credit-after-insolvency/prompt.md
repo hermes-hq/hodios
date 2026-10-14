@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bankruptcy, credit-rebuilding, fresh-start, credit-report]
 pairs_with:
   prompts: [improve-credit-score, dispute-credit-report-error, build-emergency-fund-plan, build-monthly-budget]

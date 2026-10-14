@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [school-run, shared-calendar, mental-load, weekly-planning]
 pairs_with:
   prompts: [create-chore-chart, plan-kids-party]

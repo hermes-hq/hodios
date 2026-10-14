@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [misconceptions, thought-experiments, units, estimation, homework]
 pairs_with:
   prompts: [hint-through-problem, check-my-reasoning, explain-concept-at-level]

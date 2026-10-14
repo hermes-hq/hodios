@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [word-choice, near-synonyms, synonyms, tip-of-the-tongue, register]
 pairs_with:
   prompts: [suggest-alternative-phrasings, tighten-prose, answer-grammar-usage-question]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [inductive-grammar, guided-discovery, noticing, grammar-rules, cefr]
 pairs_with:
   prompts: [explain-grammar-point, generate-language-drills, drill-verb-conjugations]

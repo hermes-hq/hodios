@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [feedback-literacy, written-feedback, coursework, improvement-targets]
 pairs_with:
   prompts: [analyze-exam-mistakes, understand-assignment-brief, prepare-office-hours-questions]

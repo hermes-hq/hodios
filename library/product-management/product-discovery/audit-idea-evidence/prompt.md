@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [validation, false-positives, commitment, evidence-strength, idea-review]
 pairs_with:
   prompts: [map-assumptions, design-validation-experiment, write-customer-interview-guide, review-interview-technique]

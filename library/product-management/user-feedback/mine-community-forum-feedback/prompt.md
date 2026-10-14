@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [community-feedback, forum-threads, online-community, power-users, theme-analysis, community-management]
 pairs_with:
   prompts: [analyze-user-feedback, check-feedback-sampling-bias, close-feedback-loop, audit-feature-voting-board]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [developmental-edit, editorial-letter, pacing, point-of-view]
 pairs_with:
   prompts: [punch-up-dialogue, check-story-continuity]

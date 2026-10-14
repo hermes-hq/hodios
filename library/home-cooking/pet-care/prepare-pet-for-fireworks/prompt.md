@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fireworks, noise-phobia, thunderstorms, dog-anxiety, cat-anxiety, desensitisation]
 pairs_with:
   prompts: [plan-separation-anxiety-training, prepare-vet-visit, build-pet-emergency-plan]

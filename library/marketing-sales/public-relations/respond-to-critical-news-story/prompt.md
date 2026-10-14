@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [negative-press, reputation-management, reactive-pr, issues-management, stakeholder-communication]
 pairs_with:
   prompts: [request-media-correction, write-public-apology-statement, write-holding-statement, decide-public-stance-on-issue]

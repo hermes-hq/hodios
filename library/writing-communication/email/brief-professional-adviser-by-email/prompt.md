@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [adviser-brief, billable-time, lawyer-email, accountant-email, case-summary, chronology]
 pairs_with:
   prompts: [prepare-for-accountant-meeting, summarize-email-thread, request-information-by-email]

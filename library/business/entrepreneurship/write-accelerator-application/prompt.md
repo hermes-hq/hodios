@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [accelerator, startup-application, one-liner, traction, why-now]
 pairs_with:
   prompts: [write-elevator-pitch, write-pitch-deck-outline, write-investor-intro-request]

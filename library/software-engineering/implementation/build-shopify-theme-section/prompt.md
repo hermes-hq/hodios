@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [liquid, theme-editor, section-schema, responsive-images, storefront-performance]
 pairs_with:
   personas: [frontend-engineer]

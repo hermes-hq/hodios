@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-generated-content, human-authorship, tool-terms, client-disclosure, provenance]
 pairs_with:
   prompts: [prepare-copyright-registration, write-licence-for-creative-work, secure-rights-to-commissioned-work]

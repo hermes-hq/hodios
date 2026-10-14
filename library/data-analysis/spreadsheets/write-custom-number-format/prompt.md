@@ -19,6 +19,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [number-format, format-codes, display-units, abbreviations]
 pairs_with:
   prompts: [write-conditional-formatting-rules, build-excel-report-from-data, build-sheets-dashboard]

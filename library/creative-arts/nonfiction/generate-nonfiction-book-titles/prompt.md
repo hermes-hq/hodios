@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [book-title, subtitle, title-ideas, book-positioning, discoverability]
 pairs_with:
   prompts: [write-nonfiction-book-proposal, choose-book-categories-and-keywords]

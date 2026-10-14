@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [usability-testing, test-plan, screener, think-aloud]
 pairs_with:
   prompts: [synthesize-usability-findings, run-heuristic-evaluation]

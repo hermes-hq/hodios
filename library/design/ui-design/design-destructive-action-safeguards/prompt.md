@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [destructive-actions, confirmation-dialogs, undo, soft-delete, trash]
 pairs_with:
   prompts: [spec-delete-and-restore-behaviour, design-account-deletion-flow, write-ux-microcopy, design-empty-and-error-states]

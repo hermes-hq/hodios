@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rfm, clustering, customer-segmentation]
 pairs_with:
   prompts: [explore-dataset, write-insight-report]

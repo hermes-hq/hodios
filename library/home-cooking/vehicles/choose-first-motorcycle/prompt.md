@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [motorcycles, scooters, new-riders, used-motorbike, riding-gear, buying-guide]
 pairs_with:
   prompts: [plan-motorbike-licence, plan-motorcycle-maintenance, inspect-used-car]

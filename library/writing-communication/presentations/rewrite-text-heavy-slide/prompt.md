@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bullet-points, slide-text, assertion-evidence, cognitive-load, speaker-notes]
 pairs_with:
   prompts: [critique-slide-deck, plan-slide-visuals, write-speaker-notes]

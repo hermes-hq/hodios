@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [live-coverage, event-social, run-sheet, photo-consent, live-posting, recap-thread]
 pairs_with:
   prompts: [write-event-recap, write-launch-social-posts, plan-livestream-run-of-show]

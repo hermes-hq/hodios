@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cooperative-games, co-op, alpha-player-problem, tabletop-design, threat-system, board-games]
 pairs_with:
   prompts: [design-board-game, design-solo-mode, write-board-game-rulebook]

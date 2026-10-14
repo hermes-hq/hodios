@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-hosting, vendor-selection, self-hosting, regulatory-requirements, migration-cost]
 pairs_with:
   prompts: [move-repository-to-new-host, back-up-git-repositories, migrate-ci-provider]

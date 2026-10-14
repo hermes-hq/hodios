@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [strategy-tools, swot, five-forces, business-model-canvas, plain-language, method-choice]
 pairs_with:
   prompts: [run-swot-analysis, run-five-forces-analysis, analyze-business-model, run-scenario-planning, design-pricing]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sponsorship, sponsorship-tiers, corporate-partnerships, sponsor-activation, event-sponsorship]
 pairs_with:
   prompts: [plan-fundraising-event, write-partnership-proposal, write-case-for-support]

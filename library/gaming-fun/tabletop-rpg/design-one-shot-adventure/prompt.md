@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [one-shot, session-prep, adventure-design, game-mastering]
 pairs_with:
   prompts: [balance-combat-encounter]

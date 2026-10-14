@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [agents-md, agent-instructions, context-engineering]
 args:
   - name: notes

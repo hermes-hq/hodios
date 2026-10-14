@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [small-models, cost-reduction, latency, prompt-migration]
 pairs_with:
   prompts: [adapt-prompt-for-reasoning-model, port-prompt-between-models, reduce-llm-costs]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [i18next, react-i18next, namespaces, plural-suffixes, language-detection]
 pairs_with:
   prompts: [extract-ui-strings, write-icu-plural-messages, generate-typed-translation-keys]

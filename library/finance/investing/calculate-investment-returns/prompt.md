@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [investment-returns, money-weighted-return, annualised-return, inflation-adjusted]
 pairs_with:
   prompts: [explain-brokerage-statement, calculate-fee-drag, write-investment-decision-journal, explain-investment-concept]

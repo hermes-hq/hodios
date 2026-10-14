@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [freedom-of-information, foia, public-records, transparency, access-to-information]
 pairs_with:
   prompts: [request-my-personal-data, complain-to-ombudsman, write-letter-to-elected-official]

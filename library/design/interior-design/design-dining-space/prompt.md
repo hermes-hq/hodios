@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dining-room, table-size, pendant-lighting, furniture-layout, entertaining]
 pairs_with:
   prompts: [zone-open-plan-space, plan-lighting-scheme, choose-rug-size]

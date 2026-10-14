@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [co-op, parent-rota, group-classes, safeguarding, shared-costs, community-group]
 pairs_with:
   prompts: [plan-homeschool-socialisation, design-homeschool-unit-study]

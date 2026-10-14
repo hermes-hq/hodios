@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-pages, product-schema, variants, manufacturer-copy, online-shop]
 pairs_with:
   prompts: [optimize-category-pages, write-product-description, write-schema-markup, decide-discontinued-product-pages]

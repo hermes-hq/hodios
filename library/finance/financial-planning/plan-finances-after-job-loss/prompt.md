@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [job-loss, redundancy, unemployment-benefits, severance, runway, lean-budget]
 pairs_with:
   prompts: [recover-from-layoff, build-tight-budget, review-severance-agreement, negotiate-with-creditor]

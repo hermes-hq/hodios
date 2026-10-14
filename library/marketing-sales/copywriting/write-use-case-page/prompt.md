@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [solution-page, segment-marketing, vertical-marketing, b2b, website-copy]
 pairs_with:
   prompts: [write-landing-page-copy, write-case-study, build-ideal-customer-profile, write-homepage-copy, write-sales-faq]

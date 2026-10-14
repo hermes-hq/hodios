@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [deposit, fair-wear-and-tear, check-out-inspection, end-of-tenancy, moving-out]
 pairs_with:
   prompts: [deep-clean-for-move-out, demand-deposit-return, document-rental-move-in, write-tenant-notice-to-leave]

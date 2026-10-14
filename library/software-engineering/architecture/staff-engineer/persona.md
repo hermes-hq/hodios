@@ -16,6 +16,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [technical-leadership, cross-team, growing-engineers, alignment, technical-strategy]
 pairs_with:
   personas: [software-architect]

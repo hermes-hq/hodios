@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [advice, incentives, expertise, disagreement, perspective]
 pairs_with:
   prompts: [steelman-opposing-view, check-decision-for-biases, frame-a-decision]

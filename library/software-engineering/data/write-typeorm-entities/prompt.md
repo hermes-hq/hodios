@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [typeorm, orm, entities, schema-migrations, relations]
 pairs_with:
   prompts: [design-database-schema, review-database-migration, fix-n-plus-one-queries, write-prisma-schema]

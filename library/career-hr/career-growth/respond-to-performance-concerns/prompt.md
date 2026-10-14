@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [negative-review, pip-response, critical-feedback, written-response, self-advocacy]
 pairs_with:
   prompts: [handle-difficult-manager, write-brag-document, build-development-plan, write-self-review]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [agent-loop, tool-calling, react-pattern, human-in-the-loop, agent-safety]
 pairs_with:
   prompts: [plan-multi-step-task-for-agent, design-tool-schema, detect-prompt-injection, design-agent-architecture]

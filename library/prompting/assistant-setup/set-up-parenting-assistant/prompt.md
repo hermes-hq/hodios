@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-profile, child-privacy, when-to-call-doctor, family-values]
 pairs_with:
   prompts: [write-memory-profile, set-up-household-assistant, set-up-ai-for-kids]

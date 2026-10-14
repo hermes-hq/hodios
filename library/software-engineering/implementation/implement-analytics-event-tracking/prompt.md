@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-analytics, event-tracking, instrumentation, consent, typed-events]
 pairs_with:
   prompts: [write-tracking-plan, add-feature-flag]

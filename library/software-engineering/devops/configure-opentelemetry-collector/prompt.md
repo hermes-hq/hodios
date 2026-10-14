@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [opentelemetry, otel-collector, tail-sampling, tracing, telemetry-pipeline]
 pairs_with:
   prompts: [instrument-service-observability, switch-observability-backend, reduce-observability-costs]

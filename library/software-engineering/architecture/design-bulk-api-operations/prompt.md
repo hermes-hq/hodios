@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [batch-api, async-jobs, long-running-operations, partial-failure, api-design]
 pairs_with:
   personas: [api-designer]

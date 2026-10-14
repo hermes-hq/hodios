@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recruiter-search, headline, personal-brand, keywords]
 pairs_with:
   prompts: [rewrite-resume-bullets, write-networking-message, plan-job-search]

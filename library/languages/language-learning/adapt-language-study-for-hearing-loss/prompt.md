@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hearing-loss, hearing-aids, cochlear-implants, captions, lipreading, exam-access-arrangements]
 pairs_with:
   prompts: [adapt-language-learning-for-dyslexia, adapt-language-study-for-low-vision, plan-sign-language-learning, learn-spelling-to-sound-rules]

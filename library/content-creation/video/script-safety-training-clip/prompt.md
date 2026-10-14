@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [toolbox-talk, safe-work-procedure, induction, plain-language, multilingual-captions]
 pairs_with:
   prompts: [write-tutorial-video-script, plan-video-shoot]

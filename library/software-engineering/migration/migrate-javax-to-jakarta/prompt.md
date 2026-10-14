@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jakarta-ee, namespace-change, spring-boot-3, java-upgrade, openrewrite]
 pairs_with:
   prompts: [upgrade-major-dependency, inventory-deprecated-api-usage]

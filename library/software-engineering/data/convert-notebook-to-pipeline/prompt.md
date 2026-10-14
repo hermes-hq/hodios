@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [notebook-refactoring, productionizing, reproducibility, parameterization]
 pairs_with:
   prompts: [design-data-pipeline, write-data-quality-checks]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [virtualization, windowing, data-tables, dom-size, inp]
 pairs_with:
   prompts: [fix-react-rerenders, improve-web-vitals, fix-data-table-accessibility]

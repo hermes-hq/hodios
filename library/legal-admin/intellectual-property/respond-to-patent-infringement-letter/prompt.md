@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [patent-assertion, demand-letter, infringement-claim, patent-counsel]
 pairs_with:
   prompts: [explain-patent-claims, respond-to-cease-and-desist, plan-freedom-to-operate-check]

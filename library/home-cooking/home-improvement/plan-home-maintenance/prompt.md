@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [home-maintenance, seasonal-checklist, homeowner, preventive-maintenance, smoke-alarms]
 pairs_with:
   prompts: [diagnose-home-problem, hire-contractor, plan-cleaning-schedule]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [missed-sessions, weekly-schedule, strength-training, running, recovery]
 pairs_with:
   prompts: [build-training-plan, build-exercise-consistency, plan-maintenance-training-phase]

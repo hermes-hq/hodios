@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [time-entries, legal-billing, billing-guidelines, block-billing, ledes]
 pairs_with:
   prompts: [draft-engagement-letter, write-client-status-update]

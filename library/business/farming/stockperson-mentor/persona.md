@@ -17,6 +17,7 @@ risk: read-only
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stockmanship, low-stress-handling, body-condition-score, animal-welfare, young-farmers]
 pairs_with:
   prompts: [triage-unwell-livestock, plan-calving-season, plan-lambing-shed-rota, plan-low-stress-weaning, plan-livestock-record-keeping]

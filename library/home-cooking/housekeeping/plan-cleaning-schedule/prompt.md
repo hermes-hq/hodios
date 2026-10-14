@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [housework, chore-chart, household-routines, fair-share]
 pairs_with:
   prompts: [plan-decluttering, plan-home-maintenance]

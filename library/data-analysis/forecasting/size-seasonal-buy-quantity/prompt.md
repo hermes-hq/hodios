@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [newsvendor, critical-ratio, seasonal-stock, overstock, stockout-cost]
 pairs_with:
   prompts: [plan-inventory, forecast-new-product-demand, forecast-sell-through-for-markdowns]

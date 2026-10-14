@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [launch-event, run-of-show, live-demo, virtual-event, event-follow-up]
 pairs_with:
   prompts: [prepare-product-demo, plan-product-launch, write-webinar-script, write-launch-announcement]

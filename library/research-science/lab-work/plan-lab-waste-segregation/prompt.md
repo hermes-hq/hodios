@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lab-waste, waste-segregation, sharps, chemical-compatibility, waste-labelling]
 pairs_with:
   prompts: [assess-lab-procedure-risks, write-lab-spill-procedure, write-lab-induction-checklist]

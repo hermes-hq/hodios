@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pay-equity, gender-pay-gap, equal-pay, pay-audit, remediation]
 pairs_with:
   prompts: [design-salary-bands, allocate-merit-increases, evaluate-job-for-grading]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [game-design-document, gdd, core-loop, vertical-slice, design-pillars, scope-control]
 pairs_with:
   prompts: [design-game-mechanic, design-game-level]

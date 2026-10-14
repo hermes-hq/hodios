@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [hr-calendar, annual-planning, pay-review-cycle, performance-cycle, statutory-deadlines]
 pairs_with:
   prompts: [define-hr-metrics, design-engagement-survey, allocate-merit-increases]

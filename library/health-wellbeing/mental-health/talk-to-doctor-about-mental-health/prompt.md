@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [doctor-appointment, depression, anxiety, self-advocacy, getting-help]
 pairs_with:
   prompts: [prepare-for-therapy, build-mood-tracker, prepare-doctor-questions]

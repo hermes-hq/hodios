@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [towing, trailers, caravans, nose-weight, trailer-sway, reversing]
 pairs_with:
   prompts: [check-car-before-road-trip, learn-basic-car-checks]

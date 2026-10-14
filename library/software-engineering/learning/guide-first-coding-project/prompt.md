@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [beginner-programming, project-based-learning, milestones, guided-practice]
 pairs_with:
   prompts: [pick-portfolio-project, review-code-for-learner, teach-debugging-method]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hotwire, turbo, stimulus, server-rendered, system-tests]
 args:
   - name: feature

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [price-benchmark, competitor-pricing, price-positioning, packaging]
 pairs_with:
   prompts: [design-pricing, analyze-competitor-price-data, plan-owner-led-price-rise, analyze-competitors]

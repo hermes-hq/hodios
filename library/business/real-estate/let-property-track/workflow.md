@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [landlord, letting, tenant-screening, check-in-inventory, first-let]
 pairs_with:
   prompts: [check-landlord-obligations, set-asking-rent, write-rental-listing, screen-tenant-applications, write-tenant-welcome-pack]

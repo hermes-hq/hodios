@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-analysis, worked-examples, self-checking, game, misconceptions]
 pairs_with:
   prompts: [check-my-reasoning, explain-worked-solution]

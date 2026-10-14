@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [regulated-industry, compliance-roadmap, product-approval, regulatory-risk, sandbox]
 pairs_with:
   prompts: [check-business-licences, validate-business-idea, choose-mvp-build-approach]

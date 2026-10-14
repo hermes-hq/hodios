@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [creative-testing, creative-analysis, hook-rate, ad-level-data, statistical-confidence]
 pairs_with:
   prompts: [plan-ad-creative-tests, diagnose-ad-fatigue, write-ad-creative-brief, analyze-ad-performance]

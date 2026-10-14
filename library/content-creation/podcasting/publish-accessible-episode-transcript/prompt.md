@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [accessible-transcripts, transcripts, deaf-and-hard-of-hearing, clean-verbatim, speaker-labels]
 pairs_with:
   prompts: [write-show-notes, create-podcast-edit-list]

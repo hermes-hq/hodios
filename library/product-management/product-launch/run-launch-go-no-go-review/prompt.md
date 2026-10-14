@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [go-no-go, launch-readiness, decision-record, release-criteria]
 pairs_with:
   prompts: [plan-product-launch, define-launch-tiers, write-launch-delay-notice, plan-launch-day-command-centre]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [safeguarding, child-protection, adults-at-risk, disclosure, concern-form, designated-safeguarding-lead]
 pairs_with:
   prompts: [write-social-work-case-note, write-reading-volunteer-guide, write-care-visit-notes]

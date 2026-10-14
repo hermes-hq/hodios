@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [saas]
 tags: [trust-center, security-page, procurement, data-handling, sub-processors]
 pairs_with:

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [layout-constraints, renderflex, widgets, overflow]
 pairs_with:
   prompts: [fix-mobile-build-failure, debug-mobile-crash]

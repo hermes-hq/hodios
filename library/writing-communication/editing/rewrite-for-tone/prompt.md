@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [register, formality, tone-of-voice]
 pairs_with:
   prompts: [tighten-prose, write-professional-email, reply-to-email]

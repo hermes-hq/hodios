@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [combinatorial-testing, all-pairs, test-design, configuration-testing]
 pairs_with:
   prompts: [derive-test-cases-from-requirements, plan-device-and-browser-matrix, write-property-based-tests]

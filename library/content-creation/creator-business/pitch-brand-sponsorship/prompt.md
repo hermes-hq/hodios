@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sponsorship-pitch, integration-concept, brand-outreach]
 pairs_with:
   prompts: [write-media-kit, plan-creator-monetization, write-podcast-ad-read]

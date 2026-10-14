@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [falco, runtime-security, pod-security, service-account-tokens, cluster-forensics]
 stack: [kubernetes, docker]
 pairs_with:

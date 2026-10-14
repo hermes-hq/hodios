@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [web-browser, browser-privacy, tracking-protection, extensions, ad-tracking]
 pairs_with:
   prompts: [secure-personal-accounts, vet-app-before-installing, reduce-online-footprint, clean-infected-computer]

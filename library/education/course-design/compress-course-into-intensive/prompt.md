@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [intensive-course, summer-session, accelerated-learning, workload, assessment-redesign, block-teaching]
 pairs_with:
   prompts: [write-course-syllabus, plan-course-assessment-mix, design-course-outline]

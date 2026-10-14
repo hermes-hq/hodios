@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [book-proposal, publishing, literary-agents, comparable-titles, author-platform]
 pairs_with:
   prompts: [outline-nonfiction-book, write-book-blurb]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [aftercare, tattoo, piercing, beauty-treatments, client-care, healing, salon]
 pairs_with:
   prompts: [write-salon-client-consultation, write-appointment-reminder-messages, respond-to-online-review]

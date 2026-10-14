@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [estimated-tax, freelancers, payments-on-account, tax-deadlines]
 pairs_with:
   prompts: [plan-freelance-tax-set-aside, estimate-annual-tax-bill, plan-business-tax-calendar]

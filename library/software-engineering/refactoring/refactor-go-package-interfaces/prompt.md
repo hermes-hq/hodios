@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [go-interfaces, consumer-defined-interfaces, package-design, test-doubles]
 pairs_with:
   prompts: [remove-needless-abstraction, decouple-for-testability]

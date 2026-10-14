@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [microcredentials, digital-badges, open-badges, credential-design, recognition-of-learning, stackable-credentials]
 pairs_with:
   prompts: [map-course-to-qualification-standards, write-learning-objectives, create-rubric]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [complaint-log, data-extraction, json, severity, escalation-flags]
 pairs_with:
   prompts: [analyze-support-tickets]

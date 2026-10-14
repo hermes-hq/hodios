@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chapbook, manuscript-preparation, poetry-collection, small-press]
 pairs_with:
   prompts: [order-poetry-manuscript, plan-poetry-submissions, title-poem, workshop-poem-revision]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [root-cause, bug-report, reproduction, regression-test]
 pairs_with:
   prompts: [reproduce-bug-report, find-root-cause, add-regression-test, write-pr-description]

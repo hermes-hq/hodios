@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jest, vitest, esm, test-environment, path-aliases]
 pairs_with:
   prompts: [mock-modules-in-jest-or-vitest, fix-module-import-error, set-up-testing-in-new-project]

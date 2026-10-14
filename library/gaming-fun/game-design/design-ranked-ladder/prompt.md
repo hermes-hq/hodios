@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [ranked-mode, matchmaking-rating, competitive-design, seasons, elo, skill-tiers]
 pairs_with:
   prompts: [design-progression-system, balance-asymmetric-factions]

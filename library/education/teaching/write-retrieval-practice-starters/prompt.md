@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [retrieval-practice, do-now, spaced-practice, interleaving, starters]
 pairs_with:
   prompts: [write-multiple-choice-questions, analyze-class-assessment-results, create-review-game]

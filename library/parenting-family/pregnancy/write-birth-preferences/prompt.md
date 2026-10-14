@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [birth-plan, labour, maternity-care, midwife, birth-partner]
 pairs_with:
   prompts: [prepare-prenatal-visits, write-birth-partner-guide, plan-labour-day-logistics]

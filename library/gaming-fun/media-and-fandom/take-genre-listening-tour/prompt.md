@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [music-history, listening-guide, landmark-recordings, genre-history]
 pairs_with:
   prompts: [discover-new-music, explain-music-theory-concept]

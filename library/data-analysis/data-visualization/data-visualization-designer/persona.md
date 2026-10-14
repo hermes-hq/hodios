@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chart-design, visual-encoding, data-storytelling, annotation]
 pairs_with:
   prompts: [choose-chart-type, critique-chart, write-plotting-code, describe-chart-for-accessibility]

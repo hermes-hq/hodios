@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sick-day-rules, diabetes, adrenal-insufficiency, kidney-disease, emergency-card, carers]
 pairs_with:
   prompts: [prepare-emergency-medical-summary, set-up-medication-routine, plan-flare-day-logistics]

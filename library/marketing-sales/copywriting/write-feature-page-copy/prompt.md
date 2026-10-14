@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-page, product-marketing, software-product, screenshot-captions, website-copy]
 pairs_with:
   prompts: [translate-features-to-benefits, write-landing-page-copy, write-homepage-copy, write-in-app-announcement, critique-marketing-copy]

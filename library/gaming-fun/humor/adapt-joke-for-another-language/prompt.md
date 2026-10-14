@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [localisation, humour-translation, wordplay, transcreation, multilingual]
 pairs_with:
   prompts: [explain-joke-or-meme, write-puns]

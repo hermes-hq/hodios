@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [factory-audit, supplier-audit, quality-systems, social-compliance, corrective-action, sourcing]
 pairs_with:
   prompts: [vet-new-supplier, build-supplier-scorecard, write-manufacturing-spec-sheet, run-five-whys]

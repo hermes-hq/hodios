@@ -19,6 +19,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [csv-import, encoding, leading-zeros, date-formats, data-prep]
 pairs_with:
   prompts: [clean-messy-spreadsheet, write-power-query, convert-data-format]

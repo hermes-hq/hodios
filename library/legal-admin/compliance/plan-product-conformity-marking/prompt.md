@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-safety, ce-marking, ukca, technical-file, declaration-of-conformity]
 pairs_with:
   prompts: [build-compliance-checklist, run-vendor-due-diligence]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [personal-care, washing, dressing, dignity, carers]
 pairs_with:
   prompts: [plan-continence-care, reduce-falls-risk-at-home, choose-home-care-agency]

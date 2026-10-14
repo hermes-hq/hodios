@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [insurance-claim, claim-denial, policy-wording, ombudsman]
 pairs_with:
   prompts: [explain-legal-letter, write-complaint-letter]

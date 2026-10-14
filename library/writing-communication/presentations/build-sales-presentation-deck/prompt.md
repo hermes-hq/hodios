@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-deck, prospect-meeting, buyer-problem, objections, customer-proof]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, drill-presentation-qa, plan-backup-slides]

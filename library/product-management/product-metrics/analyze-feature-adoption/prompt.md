@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [adoption-funnel, feature-usage, repeat-usage, breadth-and-depth, segment-analysis, discoverability]
 pairs_with:
   prompts: [review-launch-results, define-feature-success-metrics, analyze-conversion-funnel, write-tracking-plan]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [variable-pay, bonus-pool, incentive-design, payout-curve, compensation]
 pairs_with:
   prompts: [build-merit-increase-matrix, design-salary-bands, check-kpi-for-perverse-incentives, write-total-rewards-statement]

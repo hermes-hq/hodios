@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: expert
+depth: advanced
 tags: [referral-letter, clinical-correspondence, primary-care, specialist-referral, care-transitions, secondary-care]
 pairs_with:
   prompts: [summarize-patient-records, write-letter-of-medical-necessity, rewrite-clinic-letter-for-patient, structure-soap-note]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [html-dashboard, static-site, chart-selection, colour-blind-safe, number-checks]
 pairs_with:
   prompts: [choose-chart-type, choose-chart-colors, design-dashboard, audit-dashboard, write-plotting-code]

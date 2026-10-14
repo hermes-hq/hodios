@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dmca, counter-notice, copyright-strike, fair-use, content-id]
 pairs_with:
   prompts: [request-content-takedown, respond-to-cease-and-desist, explain-legal-letter]

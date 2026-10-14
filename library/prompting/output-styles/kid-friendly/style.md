@@ -11,6 +11,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: beginner
+depth: specific
 role: [parent, teacher, student]
 tags: [children, age-appropriate, simple-language, storytelling]
 pairs_with:

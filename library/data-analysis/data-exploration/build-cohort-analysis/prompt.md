@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retention, cohorts, churn]
 pairs_with:
   prompts: [answer-question-with-sql, define-metric]

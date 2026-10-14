@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [null-safety, missing-values, defaults, optional-chaining, pull-request]
 pairs_with:
   personas: [code-reviewer]

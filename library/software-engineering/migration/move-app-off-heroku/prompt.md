@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [heroku, paas-migration, procfile, buildpacks, dns-cutover]
 pairs_with:
   prompts: [deploy-app-to-paas, plan-cloud-migration, move-database-to-managed-service]

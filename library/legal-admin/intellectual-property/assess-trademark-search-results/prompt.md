@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trademark-clearance, likelihood-of-confusion, nice-classes, brand-name]
 pairs_with:
   prompts: [apply-for-trademark, vet-brand-name, evaluate-trademark-opposition]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [gratitude, thank-you-card, recognition, interview-follow-up]
 pairs_with:
   prompts: [give-feedback-sbi, write-professional-email]

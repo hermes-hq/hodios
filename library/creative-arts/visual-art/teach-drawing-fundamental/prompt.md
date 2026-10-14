@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [drawing-fundamentals, perspective, proportion, value-structure, gesture-drawing]
 pairs_with:
   prompts: [plan-drawing-practice, critique-artwork, generate-sketchbook-prompts]

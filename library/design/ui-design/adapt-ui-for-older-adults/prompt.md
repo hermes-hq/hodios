@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [older-adults, age-inclusive-design, readability, touch-targets, plain-language, wcag]
 pairs_with:
   prompts: [critique-ui-screen, write-ux-microcopy, design-form-experience, plan-inclusive-usability-study]

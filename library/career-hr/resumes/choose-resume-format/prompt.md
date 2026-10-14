@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [resume-structure, chronological-resume, hybrid-resume, section-order]
 pairs_with:
   prompts: [write-resume-from-scratch, reframe-for-career-change, explain-career-gap]

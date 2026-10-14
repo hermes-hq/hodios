@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [pep-talk, confidence, nerves, stage-fright, exam-nerves, reappraisal]
 pairs_with:
   prompts: [manage-event-anxiety, build-self-confidence, guide-breathing-exercise]

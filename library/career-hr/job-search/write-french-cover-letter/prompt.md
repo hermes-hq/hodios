@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lettre-de-motivation, france, job-application, alternance, formal-letter]
 pairs_with:
   prompts: [analyze-job-posting, convert-cv-to-country-format, write-internship-report-france]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [discovery-sprint, product-trio, assumption-testing, customer-interviews, decision-readout]
 pairs_with:
   prompts: [write-problem-statement, map-assumptions, write-customer-interview-guide, synthesize-customer-interviews, design-validation-experiment]

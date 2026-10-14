@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [inter-rater-reliability, cohens-kappa, icc, krippendorff-alpha]
 pairs_with:
   prompts: [run-factor-analysis, classify-text-records]

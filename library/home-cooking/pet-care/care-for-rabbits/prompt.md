@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rabbits, small-pets, hay-diet, bonding, rabbit-housing, gut-stasis]
 pairs_with:
   prompts: [choose-pet-for-lifestyle, plan-new-pet-care, plan-pet-enrichment, prepare-vet-visit]

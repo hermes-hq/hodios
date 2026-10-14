@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [specificity, important-overrides, cascade-layers, legacy-css, visual-regression]
 pairs_with:
   prompts: [fix-css-layout-bug, audit-hardcoded-styles-against-tokens, remove-dead-code]

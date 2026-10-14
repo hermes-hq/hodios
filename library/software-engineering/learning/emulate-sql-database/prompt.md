@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sql-practice, query-results, simulator, practice-sandbox]
 pairs_with:
   prompts: [explain-sql-query, answer-question-with-sql]

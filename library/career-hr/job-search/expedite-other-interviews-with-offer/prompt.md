@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competing-offers, expedite, offer-deadline, hiring-timeline, leverage]
 pairs_with:
   prompts: [ask-for-offer-deadline-extension, follow-up-on-job-application, evaluate-job-offer]

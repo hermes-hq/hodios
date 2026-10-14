@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [upgrade-guide, breaking-changes, semver]
 pairs_with:
   personas: [technical-writer]

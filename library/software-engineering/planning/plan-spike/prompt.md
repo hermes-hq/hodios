@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [spike, timebox, prototype, risk-reduction]
 pairs_with:
   prompts: [estimate-with-ranges, compare-design-options]

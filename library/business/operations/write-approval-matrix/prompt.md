@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [delegation-of-authority, approval-limits, spending-authority, governance, decision-rights]
 pairs_with:
   prompts: [set-up-purchase-order-process, build-raci-matrix, set-up-internal-controls]

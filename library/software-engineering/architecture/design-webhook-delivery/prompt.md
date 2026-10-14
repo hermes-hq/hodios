@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [webhooks, event-delivery, retries, hmac-signing, ssrf]
 pairs_with:
   personas: [software-architect]

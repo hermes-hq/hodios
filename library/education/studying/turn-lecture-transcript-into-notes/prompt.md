@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lecture-recording, lecture-notes, exam-hints, auto-captions, rewatch-list]
 pairs_with:
   prompts: [convert-lecture-notes-to-cornell, make-study-guide, make-flashcards, review-notes-for-gaps]

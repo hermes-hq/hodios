@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [search-terms, negative-keywords, match-types, search-intent, wasted-spend]
 pairs_with:
   prompts: [audit-search-ads-account, write-google-ads, plan-ad-conversion-tracking]

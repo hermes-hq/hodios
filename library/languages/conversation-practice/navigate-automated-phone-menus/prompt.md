@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [phone-menus, listening-speed, identity-check, newcomers, cefr]
 pairs_with:
   prompts: [practice-phone-call-in-language, drill-numbers-and-dates, handle-service-contract-conversation]

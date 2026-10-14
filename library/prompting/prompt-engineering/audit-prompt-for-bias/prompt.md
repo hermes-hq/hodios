@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fairness, bias-audit, counterfactual-testing, responsible-ai, inclusive-language]
 pairs_with:
   prompts: [red-team-prompt, build-prompt-test-set, improve-prompt, write-judge-prompt]

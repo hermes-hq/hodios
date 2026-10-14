@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lesson-prep, pupil-privacy, differentiation, marking-feedback, school-policy]
 pairs_with:
   prompts: [build-project-instructions, prepare-knowledge-files, write-lesson-plan]

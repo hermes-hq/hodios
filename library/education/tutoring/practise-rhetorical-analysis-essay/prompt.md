@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rhetorical-analysis, ap-language, rhetorical-situation, line-of-reasoning, commentary, timed-writing]
 pairs_with:
   prompts: [give-essay-feedback, map-argument-structure]

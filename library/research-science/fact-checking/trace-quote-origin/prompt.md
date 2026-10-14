@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [misattribution, quotations, primary-sources, source-trail]
 pairs_with:
   prompts: [fact-check-claims, evaluate-source-credibility]

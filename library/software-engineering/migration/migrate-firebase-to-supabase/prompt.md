@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [baas-migration, firestore, row-level-security, auth-migration, data-remodelling]
 pairs_with:
   prompts: [build-supabase-backend, secure-supabase-project, audit-firebase-security-rules, migrate-auth-provider]

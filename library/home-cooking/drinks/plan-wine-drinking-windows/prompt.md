@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wine-cellar, drinking-window, wine-storage, ageing-potential, cellar-log, collection]
 pairs_with:
   prompts: [decode-wine-label, pair-wine-with-food]

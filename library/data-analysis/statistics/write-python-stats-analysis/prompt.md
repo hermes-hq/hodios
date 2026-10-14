@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [statsmodels, scipy, reproducible-analysis, assumption-checks]
 pairs_with:
   prompts: [write-r-analysis-script, choose-statistical-test, interpret-regression-output]

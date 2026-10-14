@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [streaming-services, subscription-rotation, watchlist, cancel-and-resubscribe, household-budget]
 pairs_with:
   prompts: [triage-entertainment-backlog, plan-franchise-watch-order, pick-movie-for-group]

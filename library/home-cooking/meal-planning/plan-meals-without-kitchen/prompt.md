@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [kitchen-renovation, temporary-kitchen, freezer-stock-up, washing-up, takeaway-budget, one-pot]
 pairs_with:
   prompts: [plan-freezer-meals, check-food-safety]

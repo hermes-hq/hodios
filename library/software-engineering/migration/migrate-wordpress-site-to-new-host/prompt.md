@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hosting, dns, wp-cli, ssl, domain-change, cutover]
 pairs_with:
   prompts: [plan-site-migration-seo, harden-wordpress-site, fix-wordpress-critical-error]

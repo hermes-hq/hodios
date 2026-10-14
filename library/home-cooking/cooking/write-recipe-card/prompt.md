@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recipe-writing, food-blog, cookbook, recipe-format, food-writing]
 pairs_with:
   prompts: [develop-original-recipe, compile-family-cookbook, translate-recipe]

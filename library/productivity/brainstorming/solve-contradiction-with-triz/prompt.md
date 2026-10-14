@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [triz, inventive-principles, contradictions, separation-principles, ideal-final-result, problem-solving]
 pairs_with:
   prompts: [find-ideas-from-analogies, run-morphological-analysis, reason-from-first-principles, brainstorm-ideas]

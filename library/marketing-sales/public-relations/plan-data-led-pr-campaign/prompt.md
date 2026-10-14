@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [survey-pr, original-research, methodology-note, earned-media, data-story]
 pairs_with:
   prompts: [write-press-release, build-media-list]

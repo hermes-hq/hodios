@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [target-setting, okrs, control-limits, seasonality, sandbagging, forecast-range]
 pairs_with:
   prompts: [define-feature-success-metrics, estimate-feature-impact, check-kpi-for-perverse-incentives]

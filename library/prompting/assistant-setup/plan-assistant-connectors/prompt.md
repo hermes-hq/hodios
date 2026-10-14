@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [app-integrations, least-privilege, prompt-injection, email-access, calendar-access]
 pairs_with:
   prompts: [limit-ai-data-sharing, set-up-recurring-assistant-tasks]

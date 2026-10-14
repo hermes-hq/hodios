@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cycle-touring, bikepacking, cycling, e-bike, route-planning]
 pairs_with:
   prompts: [choose-bike, fix-bike-puncture, plan-bike-maintenance, build-packing-list, plan-long-distance-walk]

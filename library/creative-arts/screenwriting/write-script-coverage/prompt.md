@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [script-coverage, screenplay-analysis, story-analyst, logline, development]
 pairs_with:
   prompts: [write-logline-and-synopsis, write-beat-sheet]

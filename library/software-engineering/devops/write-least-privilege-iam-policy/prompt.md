@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [iam, least-privilege, workload-identity, access-policy]
 pairs_with:
   prompts: [review-cloud-iam-policy, set-up-keyless-ci-deploys, write-terraform-module]

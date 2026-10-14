@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [home-budget, mortgage-payment, rate-stress-test, first-time-buyer, home-buying]
 pairs_with:
   prompts: [estimate-home-buying-costs, prepare-mortgage-application, compare-rent-vs-buy, check-rent-affordability]

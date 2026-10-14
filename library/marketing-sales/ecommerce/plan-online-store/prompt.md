@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [shop-launch, dropshipping, fulfilment, contribution-margin, store-setup]
 pairs_with:
   prompts: [model-unit-economics, plan-inventory, find-first-customers]

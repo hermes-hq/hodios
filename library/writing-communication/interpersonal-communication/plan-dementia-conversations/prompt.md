@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dementia, alzheimers, validation-approach, family-carers, eldercare, carers]
 pairs_with:
   prompts: [prepare-doctor-questions, prepare-difficult-conversation]

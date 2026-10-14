@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [method-comparison, bland-altman, limits-of-agreement, measurement]
 pairs_with:
   prompts: [calculate-inter-rater-reliability, calculate-measurement-uncertainty]

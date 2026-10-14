@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [server-actions, app-router, form-handling, zod, revalidation]
 args:
   - name: mutation

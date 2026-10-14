@@ -7,6 +7,7 @@ description: Maps an argument into premises and conclusion, surfaces unstated as
 category: tutoring
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn, review]
 role: [student, researcher, writer]
 subject: [philosophy]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-challenge, whiteboard-exercise, ux-interview, product-design]
 pairs_with:
   prompts: [prepare-portfolio-review-interview, practice-product-sense-interview]

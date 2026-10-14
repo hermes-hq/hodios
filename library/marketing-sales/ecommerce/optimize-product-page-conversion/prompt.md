@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conversion-rate-optimisation, product-page, add-to-cart, trust-signals, ab-testing, mobile-first]
 pairs_with:
   prompts: [write-product-description, analyze-web-analytics, fix-listings-from-customer-reviews]

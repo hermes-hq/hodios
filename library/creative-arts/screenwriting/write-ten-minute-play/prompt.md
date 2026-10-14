@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ten-minute-play, stage-play, theatre-festival, one-scene]
 pairs_with:
   prompts: [format-screenplay-scene, write-short-film-script, plan-community-theatre-production]

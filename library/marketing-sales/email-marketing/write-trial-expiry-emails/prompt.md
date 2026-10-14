@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [free-trial, trial-conversion, subscription-pricing, lifecycle-marketing]
 pairs_with:
   prompts: [write-email-sequence, write-dunning-emails, map-subscription-lifecycle]

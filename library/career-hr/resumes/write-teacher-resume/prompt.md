@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [teaching-resume, school-jobs, pupil-outcomes, teaching-certification]
 pairs_with:

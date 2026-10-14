@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [saying-goodbye, leaving-well, friendships, moving-away, transition]
 pairs_with:
   prompts: [plan-long-distance-connection, wind-down-home-country-before-move, prepare-children-for-move-abroad]

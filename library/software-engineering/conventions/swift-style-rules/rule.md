@@ -7,6 +7,7 @@ description: Standing rules for Swift an assistant writes, covering value types,
 category: conventions
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [build]
 role: [mobile-engineer, software-engineer, backend-engineer]
 stack: [swift]

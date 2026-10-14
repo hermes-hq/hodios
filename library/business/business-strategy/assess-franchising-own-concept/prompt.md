@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [franchise, franchisor, replicability, royalty-model, licensing, growth-route]
 pairs_with:
   prompts: [plan-second-location, write-operations-manual, map-growth-options, model-unit-economics]

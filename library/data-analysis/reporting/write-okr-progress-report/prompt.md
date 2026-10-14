@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [okrs, progress-report, goal-tracking, check-in]
 pairs_with:
   prompts: [set-okrs, write-weekly-metrics-update, design-report-template]

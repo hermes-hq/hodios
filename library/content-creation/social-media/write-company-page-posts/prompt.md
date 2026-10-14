@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [company-page, b2b-social, employee-spotlight, customer-stories, brand-voice]
 pairs_with:
   prompts: [plan-employee-advocacy, write-linkedin-post, write-monthly-social-report]

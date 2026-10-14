@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-night-effect, sleep-kit, hotel-sleep, tent-sleep, travel-sleep, earplugs]
 pairs_with:
   prompts: [beat-jet-lag, audit-bedroom-for-sleep]

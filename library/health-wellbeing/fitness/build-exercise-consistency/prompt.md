@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [adherence, motivation, minimum-session, routine, behaviour-change]
 pairs_with:
   prompts: [restart-lapsed-habit, adjust-week-after-missed-workouts, design-commitment-device]

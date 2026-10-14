@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [drink-balance, dilution, sour-ratio, home-bar, taste-adjustment, mixology]
 pairs_with:
   prompts: [invent-alcohol-free-cocktail, stock-home-bar]

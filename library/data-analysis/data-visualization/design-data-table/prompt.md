@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [table-design, number-formatting, report-design, slide-design]
 pairs_with:
   prompts: [choose-chart-type, write-insight-report, write-monthly-business-review]

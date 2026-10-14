@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [breaking-changes, changelog, semver, dependencies]
 args:
   - name: dependency

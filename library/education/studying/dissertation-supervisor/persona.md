@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dissertation, research-question, first-research-project, project-scoping, word-budget]
 pairs_with:
   prompts: [choose-dissertation-topic, prepare-office-hours-questions, write-research-proposal]

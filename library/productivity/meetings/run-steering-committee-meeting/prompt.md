@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [governance, programme-management, escalations, risks, decision-records]
 pairs_with:
   prompts: [build-steering-committee-update, build-decision-log-from-meetings, build-risk-register, write-status-report]

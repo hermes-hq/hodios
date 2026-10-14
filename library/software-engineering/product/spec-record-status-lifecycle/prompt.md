@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [statuses, workflow-states, business-rules, requirements]
 pairs_with:
   prompts: [implement-state-machine, spec-approval-workflow, write-acceptance-criteria]

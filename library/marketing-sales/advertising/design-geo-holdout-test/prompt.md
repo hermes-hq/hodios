@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [incrementality, geo-lift, matched-markets, holdout-test, media-measurement, causal-inference]
 pairs_with:
   prompts: [analyze-marketing-attribution, design-holdout-experiment, plan-media-budget, decide-brand-keyword-bidding]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [parallel-text, bilingual, glosses, side-by-side, reading]
 pairs_with:
   prompts: [gloss-authentic-text, write-graded-reader, translate-preserving-tone]

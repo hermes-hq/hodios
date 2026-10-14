@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [genetic-testing, genetic-counselling, family-history, hereditary-risk, variant-of-uncertain-significance, informed-consent]
 pairs_with:
   prompts: [organize-family-medical-history, prepare-doctor-questions, explain-lab-results]

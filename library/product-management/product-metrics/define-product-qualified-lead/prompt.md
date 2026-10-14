@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-qualified-lead, product-led-sales, lead-scoring, conversion-signals, sales-handoff, backtesting]
 pairs_with:
   prompts: [convert-trial-users-with-sales, define-activation-metric, analyze-free-to-paid-conversion, define-account-level-metrics]

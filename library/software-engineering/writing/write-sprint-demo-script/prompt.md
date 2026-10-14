@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sprint-review, demo, stakeholders, agile, stakeholder-questions]
 pairs_with:
   prompts: [write-shipped-this-week-update, prepare-product-demo, outline-tech-talk-with-live-demo]

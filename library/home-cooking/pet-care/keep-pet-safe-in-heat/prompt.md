@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [heatwave, heatstroke, hot-weather, flat-faced-breeds, rabbits-in-heat, summer-safety]
 pairs_with:
   prompts: [build-pet-emergency-plan, plan-hike-with-dog, care-for-rabbits, plan-pet-enrichment]

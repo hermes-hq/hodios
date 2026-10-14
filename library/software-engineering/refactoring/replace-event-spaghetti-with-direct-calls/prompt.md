@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [event-emitters, observers, signals, control-flow]
 pairs_with:
   prompts: [remove-needless-abstraction, untangle-circular-dependencies]

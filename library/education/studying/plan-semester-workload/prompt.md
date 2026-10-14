@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [semester-planning, deadlines, workload, backward-planning, early-warning]
 pairs_with:
   prompts: [understand-assignment-brief, create-study-plan, plan-group-project]

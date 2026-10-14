@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [media-literacy, framing-analysis, news-comparison, sourcing, omission]
 pairs_with:
   prompts: [fact-check-claims, evaluate-source-credibility, check-science-news-against-paper]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [backward-design, syllabus, constructive-alignment]
 pairs_with:
   prompts: [write-learning-objectives, create-rubric]

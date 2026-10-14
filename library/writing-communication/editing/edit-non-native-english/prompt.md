@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [second-language-writers, non-native-writers, idiomatic-english, error-patterns, business-english]
 pairs_with:
   prompts: [proofread-text, rewrite-for-tone, correct-my-sentences]

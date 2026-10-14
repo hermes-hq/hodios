@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pre-read, async-communication, action-titles, executive-audience, storyline]
 pairs_with:
   prompts: [convert-slides-to-handout, turn-document-into-slides, write-executive-summary-slide]

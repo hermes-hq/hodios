@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [recognition, shout-out, kudos, appreciation, team-morale, all-hands]
 pairs_with:
   prompts: [write-thank-you-note, write-award-nomination, give-feedback-sbi]

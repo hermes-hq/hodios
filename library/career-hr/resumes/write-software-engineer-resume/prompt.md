@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [engineering-resume, tech-hiring, impact-bullets, levelling]
 pairs_with:
   prompts: [write-skills-section, write-resume-projects-section, practice-coding-interview]

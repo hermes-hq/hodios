@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [redrafting, review-comments, track-changes, response-to-reviewers, feedback-log]
 pairs_with:
   prompts: [reconcile-reviewer-feedback, compare-draft-versions, write-tactful-edit-comments]

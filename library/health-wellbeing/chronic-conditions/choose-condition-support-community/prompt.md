@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [peer-support, online-communities, misinformation, privacy, patient-organisations]
 pairs_with:
   prompts: [cope-with-chronic-illness-emotions, check-treatment-claim-for-condition, write-invisible-illness-explainer]

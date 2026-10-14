@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hot-chocolate, cocoa, winter-drinks, alcohol-free]
 pairs_with:
   prompts: [make-plant-milk, make-hot-punch-for-crowd]

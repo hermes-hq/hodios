@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [regular-eating, meal-routine, low-effort-meals, adhd-friendly, busy-schedule]
 pairs_with:
   prompts: [plan-filling-snacks, fix-afternoon-energy-crash, plan-shift-work-eating, manage-emotional-eating]

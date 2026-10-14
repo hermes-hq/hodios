@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [class-timetable, fitness-studio, yoga, workshops, booking-page]
 pairs_with:
   prompts: [write-event-promo-copy, write-service-menu-descriptions, write-local-business-profile]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [farming-game, crop-rotation, cash-flow, weather-risk]
 args:
   - name: farm_type

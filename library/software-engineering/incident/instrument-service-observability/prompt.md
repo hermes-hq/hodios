@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [opentelemetry, structured-logging, distributed-tracing, golden-signals, metric-cardinality]
 pairs_with:
   prompts: [define-slos, write-runbook, triage-production-alert, debug-production-only-bug]

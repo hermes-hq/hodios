@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-handoff, feasibility, designer-collaboration, estimates, ui-review]
 pairs_with:
   prompts: [review-spec-for-gaps, explain-estimate-to-stakeholders]

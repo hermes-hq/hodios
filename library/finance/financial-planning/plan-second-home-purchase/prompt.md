@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [holiday-home, vacation-property, additional-property, property-decision, total-cost-of-ownership]
 pairs_with:
   prompts: [estimate-home-buying-costs, compare-short-let-vs-long-let, prioritize-financial-goals, build-lifetime-cash-flow-plan]

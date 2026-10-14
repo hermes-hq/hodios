@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [first-apartment, furnishing, second-hand, moving-out, low-cost]
 pairs_with:
   prompts: [plan-room-layout, maximize-small-space-storage, document-rental-move-in]

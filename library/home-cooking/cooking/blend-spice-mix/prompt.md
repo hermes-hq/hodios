@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [spices, dry-rub, flavour-building, pantry, homemade-seasoning]
 pairs_with:
   prompts: [learn-cuisine-basics, learn-to-season-by-taste, plan-barbecue-cook]

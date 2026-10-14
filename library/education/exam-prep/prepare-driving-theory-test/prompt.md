@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [driving-test, theory-test, hazard-perception, road-rules, learner-driver]
 pairs_with:
   prompts: [quiz-me-interactively, create-memory-aids]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reduced-motion, photosensitive-epilepsy, vestibular, animation, carousels, wcag]
 pairs_with:
   personas: [accessibility-specialist]

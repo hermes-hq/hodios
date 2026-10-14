@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [longitudinal-research, panel-study, cohort-study, attrition, retention, repeated-measures]
 pairs_with:
   prompts: [design-sampling-plan, plan-missing-data-handling, run-multilevel-model, write-data-management-plan]

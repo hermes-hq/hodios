@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [programme-officer, funder-contact, pre-application, funder-relations, cold-email]
 pairs_with:
   prompts: [decide-whether-to-apply-for-grant, write-letter-of-inquiry]

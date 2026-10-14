@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [restorative-practice, behaviour, conflict-resolution, pastoral-care, repair]
 pairs_with:
   prompts: [write-behaviour-incident-record, plan-student-behavior-support, write-parent-email]

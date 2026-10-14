@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [packaging, plan-tiers, add-ons, monetisation, grandfathering]
 pairs_with:
   prompts: [design-pricing, plan-product-launch, plan-price-change-communication, write-paywall-and-upgrade-copy]

@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [content-design, microcopy, terminology, error-messages, voice-and-tone]
 pairs_with:
   prompts: [write-ux-microcopy, write-brand-voice-guide, design-form-experience, design-notification-strategy, write-design-handoff]

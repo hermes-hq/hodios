@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [key-naming, data-structures, ttl, eviction-policy, sorted-sets, memory-sizing]
 pairs_with:
   prompts: [implement-redis-cache-aside, plan-caching-strategy, add-rate-limiting]

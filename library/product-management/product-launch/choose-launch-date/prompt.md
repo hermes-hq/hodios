@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [launch-timing, scheduling, holidays, release-date]
 pairs_with:
   prompts: [plan-launch-calendar, plan-product-launch, run-launch-go-no-go-review, write-launch-delay-notice]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [creative-fatigue, ad-frequency, creative-refresh, ctr-decay, iteration]
 pairs_with:
   prompts: [plan-ad-creative-tests, analyze-creative-test-results, write-ad-creative-brief, write-social-ad-variations]

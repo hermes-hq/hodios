@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [call-centre, de-escalation, clarifying-questions, accents, call-scoring]
 pairs_with:
   prompts: [practice-phone-call-in-language, practise-conversation-strategies, decode-workplace-indirectness]

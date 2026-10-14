@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [total-rewards, employee-benefits, compensation-statement, employer-contributions, pay-communication]
 pairs_with:
   prompts: [design-benefits-package, write-pay-review-letters]

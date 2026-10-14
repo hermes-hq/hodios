@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [concept-map, mermaid, elaboration, propositions, retrieval-practice]
 pairs_with:
   prompts: [make-study-guide, make-flashcards, run-feynman-check]

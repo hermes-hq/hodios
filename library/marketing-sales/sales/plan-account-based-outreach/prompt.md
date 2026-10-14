@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [abm, buying-committee, multi-threading, outbound, target-account]
 pairs_with:
   prompts: [research-prospect-account, write-outbound-sequence, plan-social-selling]

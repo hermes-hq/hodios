@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [student-voice, course-evaluation, mid-term-feedback, survey-design, you-said-we-did]
 pairs_with:
   prompts: [design-formative-assessment, write-survey-questionnaire, analyze-class-assessment-results]

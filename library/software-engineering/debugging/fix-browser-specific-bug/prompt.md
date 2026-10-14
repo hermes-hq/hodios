@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cross-browser, safari, webkit, compatibility, browserslist]
 pairs_with:
   prompts: [fix-css-layout-bug, debug-network-request, fix-cookie-not-being-set]

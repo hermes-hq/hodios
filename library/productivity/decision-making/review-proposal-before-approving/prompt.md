@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [approvals, sign-off, proposal-review, governance, due-diligence]
 pairs_with:
   prompts: [write-decision-memo, run-pre-mortem, surface-hidden-assumptions]

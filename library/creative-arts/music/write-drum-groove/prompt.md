@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [drums, groove, beat-programming, rhythm]
 pairs_with:
   prompts: [plan-song-arrangement, suggest-chord-progressions]

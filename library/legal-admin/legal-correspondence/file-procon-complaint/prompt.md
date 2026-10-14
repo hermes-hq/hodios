@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [procon, consumidor-gov, cdc, direito-do-consumidor, brasil]
 pairs_with:
   prompts: [write-complaint-letter, dispute-card-charge]

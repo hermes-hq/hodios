@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [perennial-weeds, bindweed, ground-elder, couch-grass, sheet-mulching, invasive-plants]
 pairs_with:
   prompts: [diagnose-plant-problem, plan-first-allotment-year, build-raised-bed-plan, start-composting]

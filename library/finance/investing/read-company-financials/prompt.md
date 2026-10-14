@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [financial-statements, ratios, fundamental-analysis, free-cash-flow]
 pairs_with:
   prompts: [explain-investment-concept]

@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [broken-links, link-checking, anchors, docs-maintenance]
 pairs_with:
   prompts: [audit-documentation, sync-docs-with-code-change]

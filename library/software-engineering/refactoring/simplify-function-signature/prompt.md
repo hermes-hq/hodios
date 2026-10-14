@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [function-signatures, parameter-object, flag-arguments, api-ergonomics]
 pairs_with:
   prompts: [simplify-function, improve-naming, rename-public-api-safely]

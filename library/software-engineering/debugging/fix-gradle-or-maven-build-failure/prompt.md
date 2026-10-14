@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gradle, maven, jdk, build-errors]
 pairs_with:
   prompts: [resolve-dependency-conflict, triage-failing-ci]

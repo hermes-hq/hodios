@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [severe-weather, farm-resilience, flood-plan, heat-stress, snow-plan, action-card]
 pairs_with:
   prompts: [set-up-farm-lone-working-checks, write-emergency-procedures-for-staff, write-relief-worker-handover]

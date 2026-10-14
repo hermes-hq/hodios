@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [risk-of-bias, critical-appraisal, rob-2, robins-i, casp, evidence-synthesis]
 pairs_with:
   prompts: [screen-studies, summarize-paper, build-literature-matrix, check-manuscript-reporting]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [account-closure, cancellation, data-export, exit-interview, churn]
 pairs_with:
   prompts: [handle-membership-cancellation-requests, resolve-cancellation-fee-dispute, plan-at-risk-account-save]

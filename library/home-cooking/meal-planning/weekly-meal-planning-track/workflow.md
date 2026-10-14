@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weekly-routine, grocery-list, leftovers, food-waste, family-meals, habit-building]
 pairs_with:
   prompts: [plan-weekly-meals, build-grocery-list-from-recipes, plan-meal-prep-session, plan-zero-waste-kitchen]

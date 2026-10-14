@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [short-form-video, vertical-video, hooks, loop, captions]
 pairs_with:
   prompts: [write-video-hooks, repurpose-video-into-posts]

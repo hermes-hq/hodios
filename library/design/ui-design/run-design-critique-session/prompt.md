@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [design-critique, design-feedback, facilitation, design-review, team-rituals]
 pairs_with:
   prompts: [critique-ui-screen, critique-graphic-design, write-design-principles, design-meeting-cadence]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [importing, supplier-vetting, incoterms, customs-clearance, quality-inspection, sourcing]
 pairs_with:
   prompts: [calculate-landed-cost, prepare-shipping-documents-checklist, prepare-supplier-negotiation, compare-vendors]

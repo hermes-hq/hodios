@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [budget-justification, grant-budget, indirect-costs, cost-allocation, grant-compliance]
 pairs_with:
   prompts: [write-grant-application, write-letter-of-inquiry, write-grant-report]

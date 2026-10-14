@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [form-actions, progressive-enhancement, load-functions, server-side-validation]
 pairs_with:
   prompts: [implement-form-validation, implement-protected-routes]

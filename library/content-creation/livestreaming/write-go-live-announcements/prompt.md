@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stream-title, go-live-notification, discord-announcement, stream-discovery]
 pairs_with:
   prompts: [grow-streaming-channel, write-chat-bot-commands]

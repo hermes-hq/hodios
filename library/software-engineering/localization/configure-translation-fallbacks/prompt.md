@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fallback-chain, missing-keys, cldr-parent-locales, bcp-47, error-reporting]
 pairs_with:
   prompts: [design-locale-detection-and-routing, validate-translation-files-in-ci, lazy-load-translation-bundles]

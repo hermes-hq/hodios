@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [dentistry, treatment-plan, informed-consent, patient-letters, plain-language, dental-practice]
 pairs_with:
   prompts: [rewrite-clinic-letter-for-patient, write-patient-education-handout, write-teach-back-script]

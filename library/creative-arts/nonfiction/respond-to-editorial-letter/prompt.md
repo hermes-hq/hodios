@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [editorial-letter, revision-plan, developmental-edit, author-editor, manuscript-revision]
 pairs_with:
   prompts: [answer-copyedit-queries, cut-book-manuscript-to-length]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [hotel-request, accessible-room, early-check-in, special-occasion, booking-confirmation]
 pairs_with:
   prompts: [plan-arrival-day, answer-group-booking-enquiry, cancel-trip-bookings]

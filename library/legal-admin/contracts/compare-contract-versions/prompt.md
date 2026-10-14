@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [redline, contract-review, counter-proposal, change-tracking]
 pairs_with:
   prompts: [summarize-contract, explain-contract-clause, review-employment-contract]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deliberate-practice, skill-drills, feedback-loops, practice-log]
 pairs_with:
   prompts: [practice-mental-math]

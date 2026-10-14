@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [farmers-market, craft-fair, small-producer, pre-orders, weekly-posts]
 pairs_with:
   prompts: [plan-market-stall, write-local-business-facebook-posts]

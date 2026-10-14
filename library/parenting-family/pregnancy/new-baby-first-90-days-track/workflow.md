@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fourth-trimester, postpartum-recovery, feeding-log, safe-sleep, return-to-work]
 pairs_with:
   prompts: [prepare-for-new-baby, plan-newborn-routine, check-in-on-new-parent-wellbeing, build-care-rota]

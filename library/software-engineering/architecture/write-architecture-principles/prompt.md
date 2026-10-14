@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [architecture-principles, engineering-strategy, design-review, technical-governance]
 pairs_with:
   personas: [software-architect, staff-engineer]

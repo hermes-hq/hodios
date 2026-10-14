@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [secret-scanning, git-history, credential-rotation, redaction, open-sourcing]
 pairs_with:
   prompts: [respond-to-leaked-secret, plan-secrets-management]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [self-tape, audition-prep, slate, eyeline, casting, home-studio]
 pairs_with:
   prompts: [break-down-scene-for-actor, learn-lines]

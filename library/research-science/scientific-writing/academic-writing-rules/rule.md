@@ -12,6 +12,7 @@ role: [researcher, student, writer, editor]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [hedging, academic-integrity, citations, scholarly-style, precision]
 pairs_with:
   prompts: [write-introduction-section, write-results-section, write-discussion-section, verify-citations]

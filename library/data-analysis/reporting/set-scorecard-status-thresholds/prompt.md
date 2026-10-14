@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rag-status, kpi-scorecard, tolerance-bands, exception-reporting]
 pairs_with:
   prompts: [define-metric, design-report-template, write-monthly-business-review, detect-anomalies]

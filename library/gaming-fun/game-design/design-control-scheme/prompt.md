@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [controls, input-mapping, gamepad, keyboard-and-mouse, touch-controls, remapping]
 pairs_with:
   prompts: [design-game-onboarding, improve-game-feel, design-game-hud]

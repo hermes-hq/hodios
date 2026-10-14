@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [arrangement, instrumentation, dynamics, music-production]
 pairs_with:
   prompts: [analyze-song-structure, suggest-chord-progressions, plan-live-set]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [roleplay, customer-forum, handling-objections, expectation-setting, public-meeting, facilitation]
 pairs_with:
   prompts: [build-consultation-coding-frame, close-feedback-loop]

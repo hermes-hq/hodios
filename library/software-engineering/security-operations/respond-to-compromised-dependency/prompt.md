@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [software-supply-chain, malicious-package, lockfiles, install-scripts, secret-rotation]
 pairs_with:
   prompts: [vet-dependency, investigate-ci-cd-compromise, respond-to-leaked-secret, respond-to-critical-cve]

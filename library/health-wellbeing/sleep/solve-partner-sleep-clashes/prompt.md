@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shared-bed, snoring, chronotypes, couples, separate-bedrooms, sleep-environment]
 pairs_with:
   prompts: [audit-bedroom-for-sleep, prepare-sleep-doctor-appointment]

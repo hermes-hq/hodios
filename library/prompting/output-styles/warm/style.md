@@ -7,6 +7,7 @@ description: Makes any answer warmer and more personal, from simply friendly to 
 category: output-styles
 version: 1.0.0
 status: incubating
+depth: specific
 output: [rewrite]
 risk: read-only
 tags: [empathy, friendly-voice, kindness, emotional-support-tone]

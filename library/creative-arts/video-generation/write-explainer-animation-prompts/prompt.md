@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [motion-graphics, explainer, visual-metaphor, voice-over-timing]
 pairs_with:
   prompts: [write-explainer-video-script, turn-storyboard-into-video-shots, write-tts-voiceover-script]

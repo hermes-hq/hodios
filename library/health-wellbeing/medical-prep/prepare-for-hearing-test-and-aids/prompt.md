@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hearing-loss, audiology, hearing-aids, tinnitus, older-adults, cost-comparison]
 pairs_with:
   prompts: [prepare-doctor-questions, prepare-telehealth-visit]

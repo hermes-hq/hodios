@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mri, ct-scan, endoscopy, biopsy, claustrophobia, appointment-anxiety]
 pairs_with:
   prompts: [explain-imaging-report, prepare-for-surgery, prepare-doctor-questions]

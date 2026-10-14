@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [metalanguage, grammar-terminology, heritage-speakers, explicit-knowledge, teacher-training, exam-preparation]
 pairs_with:
   prompts: [explain-grammar-point, discover-grammar-rule-from-examples, expand-heritage-register]

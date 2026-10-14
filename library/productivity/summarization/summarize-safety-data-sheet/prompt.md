@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sds, msds, hazardous-substances, workplace-safety, cleaning-products]
 pairs_with:
   prompts: [summarize-user-manual, interrogate-a-document, extract-instructions-from-transcript]

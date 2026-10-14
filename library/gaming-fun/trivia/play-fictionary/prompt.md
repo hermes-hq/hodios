@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dictionary-game, bluffing, obscure-words, word-learning, word-play, fake-definitions]
 pairs_with:
   prompts: [play-two-truths-and-a-lie, play-taboo-word-game]

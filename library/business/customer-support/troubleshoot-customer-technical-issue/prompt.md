@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [technical-support, diagnosis, tier-1, root-cause, next-questions]
 pairs_with:
   prompts: [write-support-reply, write-actionable-bug-report, write-help-center-article]

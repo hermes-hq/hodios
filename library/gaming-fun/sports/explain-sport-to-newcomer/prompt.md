@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [sport-rules, first-match, spectator-guide, sports-jargon, newcomer]
 pairs_with:
   prompts: [explain-sports-stat, learn-new-sport-as-adult]

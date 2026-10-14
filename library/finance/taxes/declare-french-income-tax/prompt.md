@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [impot-sur-le-revenu, declaration-preremplie, prelevement-a-la-source, quotient-familial, france]
 pairs_with:
   prompts: [explain-tax-notice, organize-tax-documents]

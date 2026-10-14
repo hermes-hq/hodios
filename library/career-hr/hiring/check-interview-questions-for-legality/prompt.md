@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [interview-compliance, anti-discrimination, application-form, protected-characteristics, fair-hiring]
 pairs_with:
   prompts: [write-role-interview-questions, train-interviewers, plan-pre-employment-checks]

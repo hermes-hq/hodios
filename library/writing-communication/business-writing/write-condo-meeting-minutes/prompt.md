@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ata, condominio, meeting-minutes, sindico, voting-record, housing]
 pairs_with:
   prompts: [write-corporate-email-brazil, write-neighbourhood-notice]

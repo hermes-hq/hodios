@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chatbot-testing, multi-turn, conversation-design, regression-tests, test-scripts]
 pairs_with:
   prompts: [build-prompt-test-set, write-system-prompt, red-team-prompt]

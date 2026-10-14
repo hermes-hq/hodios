@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [git-lfs, large-files, binary-assets, history-rewrite, monorepo]
 pairs_with:
   prompts: [purge-file-from-git-history]

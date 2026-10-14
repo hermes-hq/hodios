@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [case-competition, business-school, recommendation, pyramid-principle, judges-questions]
 pairs_with:
   prompts: [outline-presentation, plan-backup-slides, drill-presentation-qa, plan-group-class-presentation]

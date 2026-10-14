@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [nclex, nursing-school, nursing-priorities, delegation, select-all-that-apply, clinical-judgement]
 pairs_with:
   prompts: [drill-medical-terminology, analyze-exam-mistakes]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [seasonal-low-mood, winter, daylight, light-therapy, routine, behavioural-activation]
 pairs_with:
   prompts: [build-mood-tracker, improve-sleep-habits, build-connection-plan, talk-to-doctor-about-mental-health]

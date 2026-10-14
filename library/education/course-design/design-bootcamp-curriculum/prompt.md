@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [bootcamp, project-based, intensive-course, career-change, job-readiness, portfolio]
 pairs_with:
   prompts: [design-course-outline, design-capstone-project, plan-course-pilot]

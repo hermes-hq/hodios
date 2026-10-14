@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [utility-css, class-variants, duplicate-markup, component-extraction]
 pairs_with:
   prompts: [consolidate-duplicate-ui-components, reduce-duplication]

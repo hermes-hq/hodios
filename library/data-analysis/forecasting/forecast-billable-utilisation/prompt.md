@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [utilisation, professional-services, resource-forecast, fee-income]
 pairs_with:
   prompts: [forecast-headcount, review-sales-pipeline, write-forecast-commentary]

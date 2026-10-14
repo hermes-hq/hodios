@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [return-to-sport, after-birth, detraining, post-illness, graded-return]
 pairs_with:
   prompts: [build-training-plan, plan-running-program, plan-strength-for-older-adults]

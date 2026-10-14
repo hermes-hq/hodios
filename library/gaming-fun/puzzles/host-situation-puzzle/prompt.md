@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [lateral-thinking, situation-puzzles, yes-no-questions, brain-teasers, deduction]
 pairs_with:
   prompts: [write-lateral-thinking-puzzles, play-twenty-questions]

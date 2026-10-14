@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [affidavit, statutory-declaration, witness-statement, statement-of-truth, exhibits, sworn-evidence]
 pairs_with:
   prompts: [prepare-to-give-evidence-as-witness, prepare-small-claims-case, prepare-to-self-represent, correct-error-on-official-record]

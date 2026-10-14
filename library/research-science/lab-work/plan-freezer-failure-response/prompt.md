@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [ultra-low-freezer, sample-storage, temperature-excursion, business-continuity, cold-chain]
 pairs_with:
   prompts: [set-up-sample-tracking, plan-instrument-calibration-schedule]

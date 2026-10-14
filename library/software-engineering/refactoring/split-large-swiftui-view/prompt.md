@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [view-decomposition, state-ownership, observable-model, ios-ui]
 pairs_with:
   personas: [swift-ios-engineer]

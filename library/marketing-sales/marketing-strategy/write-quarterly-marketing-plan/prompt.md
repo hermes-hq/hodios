@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quarterly-plan, marketing-priorities, capacity-planning, marketing-goals, planning-cycle]
 pairs_with:
   prompts: [write-marketing-plan, build-annual-marketing-calendar, define-marketing-kpis, write-marketing-performance-report]

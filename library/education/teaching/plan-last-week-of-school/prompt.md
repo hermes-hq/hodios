@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [end-of-year, reflection, classroom-routines, celebration]
 pairs_with:
   prompts: [plan-first-week-of-school, write-class-handover-notes, write-report-card-comments]

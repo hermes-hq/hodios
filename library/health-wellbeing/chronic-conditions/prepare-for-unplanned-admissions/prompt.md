@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hospital-admission, grab-bag, emergency-department, self-advocacy, care-plan, sickle-cell]
 pairs_with:
   prompts: [plan-flare-day-logistics, write-up-sick-day-plan, coordinate-care-across-specialists]

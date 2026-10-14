@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [spend-analysis, procurement, tail-spend, supplier-consolidation, maverick-spend]
 pairs_with:
   prompts: [find-business-cost-savings, deduplicate-records, run-pareto-analysis, classify-text-records]

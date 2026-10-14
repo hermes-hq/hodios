@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [growth-conversations, development-plan, stretch-assignments, retention, coaching-questions]
 pairs_with:
   prompts: [plan-one-on-one, coach-with-grow-model, write-promotion-nomination]

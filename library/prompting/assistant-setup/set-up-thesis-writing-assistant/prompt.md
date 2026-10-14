@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [thesis, academic-integrity, chapter-tracking, supervisor-feedback, ai-disclosure]
 pairs_with:
   prompts: [build-project-instructions, set-up-writing-coach-assistant, plan-thesis-structure]

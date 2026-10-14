@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [item-analysis, data-driven-instruction, reteaching, formative-assessment]
 pairs_with:
   prompts: [design-formative-assessment, differentiate-lesson, write-multiple-choice-questions]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [community-supported-agriculture, veg-box, market-garden, small-farm, subscription-pricing]
 pairs_with:
   prompts: [plan-market-garden-succession, plan-subscription-business, plan-delivery-routes, model-unit-economics]

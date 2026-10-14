@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gmat, quantitative-reasoning, critical-reasoning, business-school, pacing, error-log]
 pairs_with:
   prompts: [practice-gmat-data-insights, prepare-standardized-test, analyze-exam-mistakes]

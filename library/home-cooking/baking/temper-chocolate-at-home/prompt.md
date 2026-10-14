@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chocolate-tempering, chocolate-work, dipping, chocolate-moulds, confectionery]
 pairs_with:
   prompts: [choose-buttercream, plan-celebration-cake, plan-cookie-baking-day]

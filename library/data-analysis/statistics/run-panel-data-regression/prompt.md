@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [panel-data, fixed-effects, random-effects, clustered-standard-errors, hausman-test, econometrics]
 pairs_with:
   prompts: [estimate-causal-effect, run-multilevel-model, interpret-regression-output]

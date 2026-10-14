@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [conferences, knowledge-sharing, trip-report, team-learning]
 args:
   - name: notes

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [brain-fog, cognitive-fatigue, memory-aids, routines, long-covid, multiple-sclerosis]
 pairs_with:
   prompts: [plan-activity-pacing, request-workplace-accommodation, request-study-adjustments]

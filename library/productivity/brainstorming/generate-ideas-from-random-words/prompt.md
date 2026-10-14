@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [random-entry, forced-connections, lateral-thinking, creative-block, ideation-technique]
 pairs_with:
   prompts: [find-ideas-from-analogies, use-provocations-for-ideas, brainstorm-ideas]

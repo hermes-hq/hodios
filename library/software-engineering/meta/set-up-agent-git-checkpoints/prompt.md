@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [coding-agents, checkpoint-commits, branching, revert-points]
 pairs_with:
   prompts: [recover-from-bad-agent-session, plan-parallel-agent-worktrees, write-agents-md]

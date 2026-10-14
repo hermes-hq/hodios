@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [payment-providers, payment-methods, transaction-fees, digital-wallets, local-payment-methods, payouts]
 pairs_with:
   prompts: [evaluate-pay-later-checkout, diagnose-cart-abandonment, plan-cross-border-selling]

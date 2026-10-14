@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [family-quiz, all-ages, mixed-age-teams, holiday-gathering, family-reunion]
 pairs_with:
   prompts: [host-trivia-night, design-quiz-scoring-rules]

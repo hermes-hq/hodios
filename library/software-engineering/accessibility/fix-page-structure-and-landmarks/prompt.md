@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [headings, landmarks, skip-link, semantic-html, page-title, screen-reader]
 pairs_with:
   personas: [accessibility-specialist]

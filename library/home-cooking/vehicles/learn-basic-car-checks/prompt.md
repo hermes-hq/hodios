@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [car-checks, engine-oil, tyre-pressure, tyre-tread, coolant, new-drivers]
 pairs_with:
   prompts: [plan-car-maintenance, check-car-before-road-trip, diagnose-car-warning]

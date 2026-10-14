@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grant-pipeline, prospect-research, funding-calendar, funder-diversification, capacity-planning]
 pairs_with:
   prompts: [decide-whether-to-apply-for-grant, write-letter-of-inquiry]

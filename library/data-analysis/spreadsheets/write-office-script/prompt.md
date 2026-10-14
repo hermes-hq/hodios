@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [office-scripts, power-automate, excel-on-the-web, excel-automation, scheduled-flow]
 pairs_with:
   prompts: [write-spreadsheet-automation, write-power-query, convert-excel-to-google-sheets]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [randomness, seeding, deterministic-tests, statistical-testing]
 pairs_with:
   prompts: [write-property-based-tests, test-time-dependent-code, fix-flaky-test]

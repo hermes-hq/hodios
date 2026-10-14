@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bridge-round, extension-round, insider-round, runway, cost-cutting]
 pairs_with:
   prompts: [calculate-cash-runway, evaluate-down-round-terms, write-investor-update]

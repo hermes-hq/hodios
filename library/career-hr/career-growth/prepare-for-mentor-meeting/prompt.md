@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mentee, mentor-session, meeting-agenda, career-advice]
 pairs_with:
   prompts: [find-mentor, build-development-plan]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [retail-shop, store-opening, visual-merchandising, inventory-planning, launch-marketing]
 pairs_with:
   prompts: [plan-restaurant-opening, plan-online-store, plan-market-stall, write-business-plan]

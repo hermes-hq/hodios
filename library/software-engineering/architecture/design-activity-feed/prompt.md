@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [activity-feed, fan-out, timeline, pagination, capacity-planning, caching]
 pairs_with:
   personas: [software-architect, backend-engineer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [how-might-we, design-thinking, problem-framing, insights, workshop-prep]
 pairs_with:
   prompts: [brainstorm-ideas, facilitate-group-brainstorm, cluster-ideas]

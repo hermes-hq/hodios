@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bullying, cyberbullying, school, child-wellbeing, evidence-log, self-confidence]
 pairs_with:
   prompts: [write-email-to-teacher, support-anxious-child, talk-to-teen-about-online-safety]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [places-of-worship, dress-norms, visitor-conduct, religious-sites]
 pairs_with:
   prompts: [learn-local-etiquette, check-local-festivals-and-holidays, explain-religious-art-and-symbols]

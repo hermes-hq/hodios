@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [first-week, arrival, newcomers, orientation, moving-abroad]
 pairs_with:
   prompts: [set-up-phone-and-data-abroad, master-city-transit, open-bank-account-as-newcomer, set-up-home-utilities-abroad]

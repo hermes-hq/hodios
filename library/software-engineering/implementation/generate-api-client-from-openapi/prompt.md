@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [code-generator, api-client, type-safety, contract-drift, sdk]
 pairs_with:
   prompts: [integrate-third-party-api, implement-token-refresh-interceptor, share-types-across-client-and-server]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 advice_risk: [mental-health]
 tags: [yahrzeit, shraddha, memorial-mass, remembrance, mourning-customs, death-anniversary]
 pairs_with:

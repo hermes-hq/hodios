@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [capture-routine, behind-the-scenes, trade-content, content-ideas, batching, low-effort]
 pairs_with:
   prompts: [plan-content-calendar, define-content-pillars, plan-content-repurposing-system]

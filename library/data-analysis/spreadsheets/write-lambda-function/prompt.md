@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: expert
+depth: advanced
 tags: [excel-lambda, let-function, named-functions, dynamic-arrays, reusable-formulas]
 pairs_with:
   prompts: [write-spreadsheet-formula, debug-spreadsheet-formula]

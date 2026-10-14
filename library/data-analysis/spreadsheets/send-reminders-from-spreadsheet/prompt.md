@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [email-reminders, due-dates, apps-script, time-driven-trigger, renewal-alerts]
 pairs_with:
   prompts: [write-spreadsheet-automation, write-office-script, calculate-dates-and-workdays]

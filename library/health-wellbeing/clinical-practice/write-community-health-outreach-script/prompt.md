@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [community-health-workers, health-outreach, screening-uptake, vaccination, health-equity, plain-language]
 pairs_with:
   prompts: [plan-health-promotion-session, write-clinic-phone-scripts, write-patient-education-handout]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [marketplace-ads, sponsored-products, acos, keyword-harvesting, etsy-ads]
 pairs_with:
   prompts: [write-marketplace-listing, plan-media-budget, analyze-ad-performance, audit-search-ads-account]

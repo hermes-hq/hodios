@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [collecting, coins, stamps, trading-cards, vinyl-records, grading, counterfeits]
 args:
   - name: item_type

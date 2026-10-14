@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [landlord, tenant-screening, fair-housing, referencing, letting]
 pairs_with:
   prompts: [check-landlord-obligations, write-rental-listing]

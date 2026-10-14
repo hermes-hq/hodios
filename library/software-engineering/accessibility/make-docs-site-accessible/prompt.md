@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [documentation-site, code-blocks, syntax-highlighting, docusaurus, static-site]
 pairs_with:
   personas: [accessibility-specialist]

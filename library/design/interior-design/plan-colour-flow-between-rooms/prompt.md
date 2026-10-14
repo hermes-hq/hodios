@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [colour-scheme, whole-home, paint, palette, undertones]
 pairs_with:
   prompts: [choose-paint-colours, identify-interior-style]

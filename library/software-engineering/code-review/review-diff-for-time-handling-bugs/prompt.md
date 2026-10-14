@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [time-zones, daylight-saving, date-handling, scheduling, pull-request]
 pairs_with:
   personas: [code-reviewer]

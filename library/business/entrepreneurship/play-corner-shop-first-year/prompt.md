@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [business-simulation, cash-flow, retail-game, price-elasticity, stock-control, profit-vs-cash]
 pairs_with:
   prompts: [plan-shop-opening, model-unit-economics, try-career-for-a-day]

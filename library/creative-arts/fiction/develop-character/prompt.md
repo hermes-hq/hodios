@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [character-arc, want-vs-need, backstory, character-voice]
 pairs_with:
   prompts: [outline-story, punch-up-dialogue]

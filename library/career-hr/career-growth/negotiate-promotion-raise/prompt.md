@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [salary-negotiation, pay-raise, compensation, pay-band, new-level]
 pairs_with:
   prompts: [ask-for-raise, benchmark-my-salary, prepare-promotion-case]

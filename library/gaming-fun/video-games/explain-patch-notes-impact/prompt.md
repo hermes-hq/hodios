@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [patch-notes, balance-changes, meta-shifts, character-build, deckbuilding]
 pairs_with:
   prompts: [plan-game-strategy, plan-ranked-climb]

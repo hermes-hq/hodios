@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-response, data-interpretation, percentage-change, trend-and-anomaly, use-of-evidence]
 pairs_with:
   prompts: [drill-exam-command-words, grade-practice-answers, analyze-past-papers]

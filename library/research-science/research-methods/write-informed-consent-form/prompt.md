@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [informed-consent, participant-information-sheet, research-ethics, plain-language, irb]
 pairs_with:
   prompts: [write-ethics-application, write-data-management-plan, write-research-interview-protocol]

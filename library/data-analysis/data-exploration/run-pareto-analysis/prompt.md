@@ -17,6 +17,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [pareto, 80-20, vital-few, quality-improvement, concentration]
 pairs_with:
   prompts: [analyze-sales-data, segment-customers, build-spreadsheet-chart]

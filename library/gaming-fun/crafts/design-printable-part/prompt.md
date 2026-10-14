@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [3d-printing, cad, tolerances, print-orientation, functional-prints, maker-tools]
 pairs_with:
   prompts: [troubleshoot-3d-print]

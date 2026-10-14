@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [animation, progressive-disclosure, slide-design, pacing, live-presenting]
 pairs_with:
   prompts: [plan-slide-visuals, write-speaker-notes, critique-slide-deck]

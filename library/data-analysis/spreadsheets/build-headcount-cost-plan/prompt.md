@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [people-costs, salary-budget, employer-on-costs, vacancy-planning, fte]
 pairs_with:
   prompts: [calculate-true-cost-of-hire, forecast-headcount, build-three-year-projections, run-what-if-analysis]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-newsletter, holiday-card, year-in-review, self-deprecating, round-robin-letter]
 pairs_with:
   prompts: [write-card-message, write-limericks]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pending-pods, pod-eviction, cluster-autoscaler, node-pressure, scheduling]
 pairs_with:
   prompts: [diagnose-crashlooping-pod, tune-kubernetes-resources, collect-incident-evidence]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [route-to-market, channel-strategy, online-marketplace-selling, resellers, channel-economics]
 pairs_with:
   prompts: [plan-wholesale-pricing, recruit-resellers, plan-market-entry, choose-marketing-channels]

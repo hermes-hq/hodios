@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mergers-and-acquisitions, brand-transition, brand-equity, brand-migration, change-communication]
 pairs_with:
   prompts: [design-brand-architecture, plan-rebrand, run-brand-audit, vet-brand-name]

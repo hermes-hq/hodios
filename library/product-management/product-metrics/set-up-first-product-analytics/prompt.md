@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [analytics-setup, starter-events, early-stage, consent, starter-dashboard, instrumentation]
 pairs_with:
   prompts: [write-tracking-plan, define-activation-metric, define-north-star-metric, audit-event-tracking-data]

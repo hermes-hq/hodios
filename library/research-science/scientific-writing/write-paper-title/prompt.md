@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [paper-title, running-head, discoverability, journal-submission, keywords]
 pairs_with:
   prompts: [write-abstract, choose-target-journal, write-paper-highlights]

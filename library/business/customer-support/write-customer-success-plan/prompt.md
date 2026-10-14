@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [success-plan, account-management, outcomes, adoption, renewals]
 pairs_with:
   prompts: [plan-customer-onboarding, prepare-business-review, plan-at-risk-account-save]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lightning-talk, pechakucha, ignite, meetup-talk, timed-slides]
 pairs_with:
   prompts: [outline-presentation, write-speaker-notes, plan-slide-visuals]

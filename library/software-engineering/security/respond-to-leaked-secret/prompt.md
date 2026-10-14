@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [secrets, credential-rotation, secret-scanning, blast-radius]
 pairs_with:
   personas: [security-auditor, incident-commander]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-migration, cutover, cdc, zero-downtime]
 args:
   - name: source

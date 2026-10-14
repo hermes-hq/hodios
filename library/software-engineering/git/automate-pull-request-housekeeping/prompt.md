@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [labelling, reviewer-assignment, stale-pull-requests, auto-merge, pull-request-target]
 pairs_with:
   prompts: [write-codeowners-file, configure-branch-protection, configure-dependency-update-bot, triage-stale-pull-requests]

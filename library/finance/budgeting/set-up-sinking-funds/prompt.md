@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [sinking-funds, irregular-expenses, annual-costs, envelope-method]
 pairs_with:
   prompts: [budget-for-holidays-and-gifts, build-monthly-budget, build-emergency-fund-plan, budget-irregular-income]

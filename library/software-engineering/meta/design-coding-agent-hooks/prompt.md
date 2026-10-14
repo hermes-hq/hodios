@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [agent-hooks, guardrails, lifecycle-events, team-setup, automation]
 pairs_with:
   prompts: [audit-agent-permissions, write-agents-md, plan-coding-agent-rollout]

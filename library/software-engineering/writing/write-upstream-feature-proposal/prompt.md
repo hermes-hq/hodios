@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [upstream, feature-request, open-source-contribution, issue-writing]
 pairs_with:
   prompts: [write-actionable-bug-report, write-design-doc]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [nursing-communication, lay-language, teach-back, empathy-phrases, international-nurses]
 pairs_with:
   prompts: [practise-shift-handover-in-language, practise-osce-station, write-teach-back-script]

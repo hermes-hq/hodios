@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rollout, progress-deadline, readiness-probes, deployments, pod-disruption-budget]
 pairs_with:
   prompts: [diagnose-crashlooping-pod, fix-kubernetes-service-unreachable, write-helm-chart]

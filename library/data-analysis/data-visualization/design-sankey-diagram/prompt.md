@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sankey, alluvial, flows, user-journeys, chart-design]
 pairs_with:
   prompts: [choose-chart-type, write-plotting-code, analyze-conversion-funnel]

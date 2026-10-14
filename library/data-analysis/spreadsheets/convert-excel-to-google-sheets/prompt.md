@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [workbook-migration, vba, apps-script, office-scripts, formula-compatibility]
 pairs_with:
   prompts: [write-spreadsheet-automation, explain-inherited-spreadsheet, audit-spreadsheet-model]

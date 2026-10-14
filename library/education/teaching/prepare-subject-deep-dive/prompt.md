@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [school-inspection, subject-leadership, curriculum-intent, sequencing, work-scrutiny]
 pairs_with:
   prompts: [align-lesson-to-standards, draft-school-improvement-plan, design-unit-plan]

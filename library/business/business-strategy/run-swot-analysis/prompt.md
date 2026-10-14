@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [swot, tows-matrix, competitive-analysis, strategic-priorities]
 pairs_with:
   prompts: [analyze-business-model, estimate-market-size]

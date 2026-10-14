@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [redundancy, selection-pool, scoring-matrix, fair-selection, restructuring]
 pairs_with:
   prompts: [plan-layoff-conversation, plan-employee-offboarding, analyze-pay-equity]

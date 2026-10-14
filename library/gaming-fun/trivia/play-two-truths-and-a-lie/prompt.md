@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [two-truths-and-a-lie, fact-or-fiction, misconceptions, spot-the-lie, general-knowledge]
 pairs_with:
   prompts: [play-guess-the-year, host-trivia-night]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [expand-contract, backward-compatibility, deploy-order, microservices, api-contract]
 pairs_with:
   prompts: [plan-zero-downtime-schema-change, plan-incremental-migration, map-cross-team-dependencies]

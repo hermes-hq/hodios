@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [executive-summary, stakeholder-communication, bluf, tech-debt]
 args:
   - name: technical_detail

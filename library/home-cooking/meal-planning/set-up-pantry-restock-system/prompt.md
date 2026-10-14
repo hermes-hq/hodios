@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [restock-levels, staples, running-list, stock-rotation, grocery-list, duplicate-buying]
 pairs_with:
   prompts: [plan-weekly-meals, build-grocery-list-from-recipes, stock-starter-pantry]

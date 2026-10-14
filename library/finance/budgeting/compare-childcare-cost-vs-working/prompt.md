@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [childcare-costs, return-to-work, household-income, career-break]
 pairs_with:
   prompts: [choose-childcare, plan-parental-leave-finances, plan-switch-to-part-time-finances]

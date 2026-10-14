@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-review, lessons-learned, delivery, estimation, blameless]
 pairs_with:
   prompts: [write-project-cancellation-writeup, write-postmortem, write-spike-report]

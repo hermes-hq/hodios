@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [harassment-report, bullying, first-response, escalation, anti-retaliation]
 pairs_with:
   prompts: [respond-to-complaint-about-coworker, triage-employee-concern, conduct-workplace-investigation]

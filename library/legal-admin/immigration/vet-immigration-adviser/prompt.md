@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [adviser-vetting, visa-scams, regulated-advisers, engagement-letter, consumer-protection]
 pairs_with:
   prompts: [find-free-legal-help, compare-visa-routes, respond-to-visa-refusal]

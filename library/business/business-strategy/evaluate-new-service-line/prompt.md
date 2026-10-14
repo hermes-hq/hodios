@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [new-service, diversification, unit-economics, cannibalisation, pilot, small-business-growth]
 pairs_with:
   prompts: [validate-business-idea, calculate-break-even, price-services, model-unit-economics]

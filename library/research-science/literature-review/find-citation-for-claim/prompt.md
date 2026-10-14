@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [citations, citation-needed, claim-support, search-strategy]
 pairs_with:
   prompts: [build-search-string, write-literature-review-section, verify-citations]

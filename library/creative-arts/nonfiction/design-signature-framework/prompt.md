@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prescriptive-books, framework, method, mental-model, book-structure]
 pairs_with:
   prompts: [outline-nonfiction-book, write-chapter-exercises]

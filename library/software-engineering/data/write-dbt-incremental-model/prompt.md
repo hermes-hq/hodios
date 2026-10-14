@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [incremental-models, merge-strategy, late-arriving-data, full-refresh, analytics-engineering]
 pairs_with:
   prompts: [write-dbt-model, set-up-dbt-project, write-data-quality-checks]

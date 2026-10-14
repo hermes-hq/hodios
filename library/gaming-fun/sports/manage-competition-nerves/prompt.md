@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [sport-psychology, pre-performance-routine, competition-anxiety, mental-skills, choking, reset-routine]
 pairs_with:
   prompts: [prepare-for-sports-tryout, learn-new-sport-as-adult]

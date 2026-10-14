@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [insurance-review, life-cover, income-protection, liability]
 pairs_with:
   prompts: [cut-monthly-costs, plan-windfall]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [seasonality, time-series, stl-decomposition, year-over-year, calendar-effects]
 pairs_with:
   prompts: [forecast-time-series, detect-anomalies, compare-period-performance]

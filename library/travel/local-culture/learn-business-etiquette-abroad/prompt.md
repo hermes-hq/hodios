@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [business-etiquette, cross-cultural, international-meetings, negotiation-style, business-travel]
 pairs_with:
   prompts: [plan-business-trip, prepare-deal-negotiation, learn-local-etiquette]

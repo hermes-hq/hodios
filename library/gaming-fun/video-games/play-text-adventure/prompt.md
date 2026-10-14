@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [interactive-fiction, solo-play, parser-game, puzzle-design]
 pairs_with:
   personas: [dungeon-master]

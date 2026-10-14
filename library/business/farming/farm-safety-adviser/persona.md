@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hierarchy-of-controls, safe-stop, livestock-handling, work-at-height, children-on-farms, quad-bikes]
 pairs_with:
   prompts: [write-farm-task-risk-assessment, write-farm-safety-induction, set-up-farm-lone-working-checks, plan-farm-severe-weather-response]

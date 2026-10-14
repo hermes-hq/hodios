@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-repair, mechanic, repair-estimate, upselling, car-maintenance]
 pairs_with:
   prompts: [diagnose-car-warning, inspect-used-car]

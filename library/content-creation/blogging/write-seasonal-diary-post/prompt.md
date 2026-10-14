@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [garden-diary, smallholding, allotment, growing-season, monthly-post]
 pairs_with:
   prompts: [plan-blog-post-series, write-personal-essay]

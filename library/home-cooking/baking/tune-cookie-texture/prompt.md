@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cookie-texture, recipe-testing, chewy-cookies, cookie-spread, baking-science]
 pairs_with:
   prompts: [plan-cookie-baking-day, convert-baking-recipe-to-grams, calibrate-home-oven]

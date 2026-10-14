@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [terminology, term-base, do-not-translate]
 pairs_with:
   prompts: [translate-string-catalog, review-translated-strings]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [early-stage, early-adopters, product-market-fit, founder-led, first-customers]
 pairs_with:
   prompts: [plan-beta-program, design-in-product-survey, write-customer-interview-guide]

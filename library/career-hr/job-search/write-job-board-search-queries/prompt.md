@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [boolean-search, job-alerts, job-boards, keywords, filters]
 pairs_with:
   prompts: [find-job-titles-for-my-skills, prioritize-job-applications, set-up-job-application-tracker]

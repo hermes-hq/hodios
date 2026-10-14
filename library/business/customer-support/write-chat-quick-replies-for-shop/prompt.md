@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [quick-replies, messaging-apps, local-shop, click-and-collect, away-message]
 pairs_with:
   prompts: [build-multilingual-reply-snippets, build-support-macros, write-missed-call-textbacks]

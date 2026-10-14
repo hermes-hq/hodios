@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [voluntary-redundancy, severance-package, early-retirement-offer, job-security, pension-impact]
 pairs_with:
   prompts: [review-severance-agreement, plan-finances-after-job-loss, plan-early-retirement-bridge, recover-from-layoff]

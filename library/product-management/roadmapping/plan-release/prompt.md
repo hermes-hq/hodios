@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [release-planning, feature-flags, progressive-rollout, go-no-go, dependencies]
 pairs_with:
   prompts: [plan-product-launch, write-release-notes, write-roadmap-update, break-down-epic]

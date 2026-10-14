@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [e2e, page-object-model, test-maintainability, locators]
 pairs_with:
   prompts: [write-e2e-test, refactor-test-suite, set-up-playwright-in-ci]

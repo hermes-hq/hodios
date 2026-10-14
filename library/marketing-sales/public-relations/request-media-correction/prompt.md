@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [media-correction, factual-error, corrections-policy, press-complaint, reputation]
 pairs_with:
   prompts: [reply-to-journalist-request]

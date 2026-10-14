@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [step-by-step, instructions, tutorial-writing, fix-common-failures]
 pairs_with:
   prompts: [write-article-headlines-and-standfirsts, write-blog-post-draft]

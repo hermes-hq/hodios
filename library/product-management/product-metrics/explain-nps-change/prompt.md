@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [net-promoter-score, csat, margin-of-error, mix-shift, statistical-significance, score-reporting]
 pairs_with:
   prompts: [design-nps-program, diagnose-metric-drop, check-feedback-sampling-bias]

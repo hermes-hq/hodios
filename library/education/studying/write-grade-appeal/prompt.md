@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [regrade-request, rubric, marking-error, instructor-email, coursework-marks]
 pairs_with:
   prompts: [act-on-marked-feedback, self-check-draft-against-rubric, appeal-university-decision]

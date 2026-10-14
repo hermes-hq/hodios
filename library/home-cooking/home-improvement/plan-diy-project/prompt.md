@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [home-repair, tools, materials-list, safety, permits]
 pairs_with:
   prompts: [diagnose-home-problem]

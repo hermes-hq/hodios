@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gossip, rumours, workplace, reputation, group-dynamics]
 pairs_with:
   prompts: [respond-to-criticism, clear-up-misunderstanding, set-boundary]

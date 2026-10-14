@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [review-thread, merge-blockers, catch-up, open-questions]
 pairs_with:
   prompts: [respond-to-review-comments, walk-through-pull-request]

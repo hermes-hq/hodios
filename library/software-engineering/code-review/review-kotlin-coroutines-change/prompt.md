@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coroutines, kotlin-flow, structured-concurrency, cancellation, pull-request]
 pairs_with:
   personas: [kotlin-android-engineer]

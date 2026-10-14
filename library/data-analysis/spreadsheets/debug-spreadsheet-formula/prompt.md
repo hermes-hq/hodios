@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [formula-errors, lookup, absolute-references]
 pairs_with:
   prompts: [write-spreadsheet-formula, clean-messy-spreadsheet]

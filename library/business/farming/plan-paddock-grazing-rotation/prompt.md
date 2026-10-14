@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rotational-grazing, grass-cover, paddock-design, grass-walk, set-stocking, water-troughs]
 pairs_with:
   prompts: [estimate-farm-stocking-rate, budget-winter-forage-stocks, plan-grassland-reseed]

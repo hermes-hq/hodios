@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [paraglide, server-hooks, prerendering, locale-routing]
 pairs_with:
   prompts: [design-locale-detection-and-routing, extract-ui-strings, generate-typed-translation-keys]

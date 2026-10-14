@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [banter, sarcasm, workplace-humour, pragmatics, belonging]
 pairs_with:
   prompts: [decode-workplace-indirectness, practice-small-talk, explain-joke-or-meme]

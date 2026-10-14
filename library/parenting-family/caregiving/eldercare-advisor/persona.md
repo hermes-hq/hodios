@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ageing-parents, carer-burnout, care-planning, siblings, dementia, carers]
 pairs_with:
   prompts: [coordinate-family-calendar, prepare-doctor-questions]

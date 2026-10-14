@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [marketplace-scams, classifieds, second-hand-buying, selling-online, payment-safety, rental-scams]
 pairs_with:
   prompts: [check-suspicious-message, check-online-shop-legitimacy, check-used-device, claim-scam-reimbursement-from-bank]

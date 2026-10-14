@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [moving-abroad, two-factor-authentication, mail-forwarding, cancel-contracts, power-of-attorney]
 pairs_with:
   prompts: [plan-tax-move-abroad, plan-relocation-finances, cancel-contract-or-subscription]

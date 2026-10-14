@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bike-travel, ski-equipment, golf, surfing, oversized-baggage]
 pairs_with:
   prompts: [plan-ski-trip, handle-lost-luggage, plan-trip-for-sporting-event, build-packing-list]

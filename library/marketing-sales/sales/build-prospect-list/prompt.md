@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [prospect-list, ideal-customer-profile, lead-scoring, buying-triggers, account-targeting]
 pairs_with:
   prompts: [research-prospect-account, write-cold-outreach, qualify-leads, personalize-cold-email-openers]

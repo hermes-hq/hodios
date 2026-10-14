@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dataframes, polars, joins, missing-values, pull-request]
 pairs_with:
   personas: [data-engineer]

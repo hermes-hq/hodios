@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [countdown-calendar, advent-activities, family-traditions, holiday-build-up, low-cost-fun, screen-free]
 pairs_with:
   prompts: [plan-family-kindness-project, create-kids-craft, plan-family-game-night]

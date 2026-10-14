@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [connected-speech, reductions, elision, weak-forms, listening-comprehension, natural-speech]
 pairs_with:
   prompts: [practise-sentence-stress-and-intonation, create-shadowing-script, create-listening-exercise, plan-learning-with-tv-shows]

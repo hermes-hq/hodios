@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [first-click-testing, unmoderated-testing, navigation, findability, heatmaps]
 pairs_with:
   prompts: [plan-tree-test, plan-card-sort, design-information-architecture, write-usability-test-plan]

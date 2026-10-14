@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, tool-selection, vendor-evaluation]
 pairs_with:
   prompts: [benchmark-coding-agents-on-repo, plan-coding-agent-rollout, audit-agent-permissions]

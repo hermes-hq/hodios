@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [scientific-consensus, evidence-quality, uncertainty, contested-questions]
 pairs_with:
   prompts: [evaluate-source-credibility, fact-check-claims, brief-me-on-topic]

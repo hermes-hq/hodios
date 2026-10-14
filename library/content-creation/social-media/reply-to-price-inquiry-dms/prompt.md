@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [social-selling, direct-messages, saved-replies, scam-awareness, home-business]
 pairs_with:
   prompts: [write-fcommerce-facebook-post, reply-to-comments]

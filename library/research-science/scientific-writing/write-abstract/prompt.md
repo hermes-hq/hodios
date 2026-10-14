@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [manuscript, word-limit, reporting-guidelines]
 pairs_with:
   prompts: [explain-research-to-public, respond-to-reviewers]

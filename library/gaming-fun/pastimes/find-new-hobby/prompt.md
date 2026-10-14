@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [hobby-ideas, trial-plan, self-discovery, free-time, new-skills]
 args:
   - name: time_per_week_hours

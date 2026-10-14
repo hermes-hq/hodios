@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [first-hr-hire, hr-foundations, employee-records, hr-processes, growing-company]
 pairs_with:
   prompts: [write-employee-handbook, design-probation-review-process, plan-employee-offboarding, select-hr-system, plan-hr-annual-calendar]

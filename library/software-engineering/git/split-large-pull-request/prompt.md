@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pull-request, stacked-prs, code-review-size]
 args:
   - name: diff_summary

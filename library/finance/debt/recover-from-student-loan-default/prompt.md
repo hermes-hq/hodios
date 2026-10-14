@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [student-loans, loan-default, rehabilitation, repayment-plans]
 pairs_with:
   prompts: [compare-student-loan-repayment, improve-credit-score, respond-to-debt-collector, build-tight-budget]

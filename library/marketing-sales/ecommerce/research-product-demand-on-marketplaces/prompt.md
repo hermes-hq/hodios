@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-research, market-demand, competition-analysis, best-seller-rank, review-mining, amazon, etsy]
 pairs_with:
   prompts: [vet-dropshipping-supplier, calculate-amazon-fba-profit, plan-online-store]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jetpack-compose, uikit, interop, state-hoisting, design-tokens, incremental-rollout]
 pairs_with:
   prompts: [plan-incremental-migration]

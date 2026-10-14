@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [peer-support, support-groups, facilitation, ground-rules, community]
 pairs_with:
   prompts: [support-struggling-friend, manage-caregiver-stress, build-connection-plan]

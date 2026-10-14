@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [persuasion, argumentation, evidence-gaps, objection-handling, proposals]
 pairs_with:
   prompts: [critique-draft, plan-persuasive-argument, write-decision-memo, edit-for-structure]

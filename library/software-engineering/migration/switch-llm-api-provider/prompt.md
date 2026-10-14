@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [llm-api, vendor-switch, tool-calling, streaming, structured-output]
 pairs_with:
   prompts: [port-prompt-between-models, add-llm-provider-fallback, plan-incremental-migration]

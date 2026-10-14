@@ -17,6 +17,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [trade-offs, system-design-review, scalability]
 pairs_with:
   prompts: [write-adr, design-api-contract, review-system-design, compare-design-options]

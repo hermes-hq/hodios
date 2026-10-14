@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-bloat, simplification, product-complexity, feature-usage, maintenance-cost]
 pairs_with:
   prompts: [plan-feature-sunset, analyze-feature-adoption, rationalize-product-line, write-product-principles]

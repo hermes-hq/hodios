@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [teaming-agreement, collaboration, joint-proposal, revenue-split, prime-contractor]
 pairs_with:
   prompts: [write-freelance-proposal, write-statement-of-work, brief-freelance-subcontractor]

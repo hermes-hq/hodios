@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [external-monitor, dual-monitor, docking-station, display-scaling, home-office]
 pairs_with:
   prompts: [choose-right-cable-or-adapter, set-up-new-computer, fix-tv-connection]

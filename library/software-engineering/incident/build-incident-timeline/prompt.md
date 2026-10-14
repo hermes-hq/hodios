@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [postmortem, timeline, time-to-detect, blameless]
 pairs_with:
   personas: [incident-commander]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [undefined-behaviour, memory-safety, dangling-references, raii, pull-request]
 pairs_with:
   personas: [cpp-engineer]

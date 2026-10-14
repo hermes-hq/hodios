@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [post-office, parcels, customs-form, errands, newcomers, cefr]
 pairs_with:
   prompts: [roleplay-real-situation, drill-numbers-and-dates, navigate-automated-phone-menus]

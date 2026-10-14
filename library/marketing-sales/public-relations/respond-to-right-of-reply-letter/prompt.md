@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [right-of-reply, investigative-journalism, issues-management, media-statement, reputation-risk]
 pairs_with:
   prompts: [reply-to-journalist-request, write-holding-statement, request-media-correction, prepare-media-interview]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [book-introduction, opening-chapter, reader-promise, chapter-roadmap, front-matter]
 pairs_with:
   prompts: [outline-nonfiction-book, draft-nonfiction-chapter, write-book-conclusion]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [commercial-lease, rent-review, service-charge, break-clause, personal-guarantee, dilapidations]
 pairs_with:
   prompts: [review-lease, summarize-contract, redline-contract, check-business-licences]

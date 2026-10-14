@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [logging, log-levels, debug-output, stdout-stderr]
 pairs_with:
   prompts: [modernize-python-idioms, tidy-research-script]

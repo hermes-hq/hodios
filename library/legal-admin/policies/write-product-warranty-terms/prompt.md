@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-warranty, guarantee-terms, statutory-rights, warranty-claims, consumer-goods]
 pairs_with:
   prompts: [write-refund-policy, answer-product-warranty-claim, write-terms-of-service]

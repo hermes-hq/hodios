@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [support-enablement, internal-docs, edge-cases, diagnosis, feature-behaviour]
 pairs_with:
   prompts: [write-known-issue-brief, write-troubleshooting-guide]

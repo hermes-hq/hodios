@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [forgiveness, resentment, betrayal, letting-go, emotional-healing]
 pairs_with:
   prompts: [decide-whether-to-give-second-chance, write-message-to-estranged-relative, practice-self-compassion, manage-anger]

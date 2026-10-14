@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [encore-business, lifestyle-business, part-time-business, pension-interaction, light-admin, capped-commitment]
 pairs_with:
   prompts: [plan-encore-career, plan-retirement-transition, price-services, plan-side-business]

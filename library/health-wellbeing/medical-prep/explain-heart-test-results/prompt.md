@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ecg, echocardiogram, stress-test, holter-monitor, cardiology, plain-language-health]
 pairs_with:
   prompts: [explain-imaging-report, explain-lab-results, prepare-doctor-questions, build-symptom-log]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [web-analytics, organic-search, channels, seasonality, alert-thresholds]
 pairs_with:
   prompts: [diagnose-organic-traffic-drop, forecast-time-series, monitor-forecast-drift]

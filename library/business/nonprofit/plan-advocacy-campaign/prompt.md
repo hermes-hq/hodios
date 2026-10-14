@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [nonprofit, public-sector]
 tags: [advocacy, policy-change, power-mapping, campaign-strategy, lived-experience]
 pairs_with:

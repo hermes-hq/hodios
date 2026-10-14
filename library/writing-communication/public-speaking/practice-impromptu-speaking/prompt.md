@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [impromptu-speaking, prep-framework, filler-words, table-topics, thinking-on-your-feet]
 pairs_with:
   prompts: [prepare-for-tough-questions, write-speech]

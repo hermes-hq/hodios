@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pnpm, yarn, npm, lockfile, workspaces, monorepo]
 pairs_with:
   prompts: [switch-build-tool, resolve-lockfile-merge-conflict, plan-monorepo-migration]

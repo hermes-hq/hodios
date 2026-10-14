@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rent-negotiation, lease-terms, apartment-hunting, offer-message]
 pairs_with:
   prompts: [compare-rental-offers, review-lease, prepare-rental-application]

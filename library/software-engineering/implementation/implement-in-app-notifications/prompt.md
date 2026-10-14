@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [notifications, activity-feed, unread-count, fan-out, realtime]
 pairs_with:
   prompts: [implement-realtime-updates, implement-push-notifications, implement-transactional-email, implement-background-job]

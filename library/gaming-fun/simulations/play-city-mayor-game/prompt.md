@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [civics, local-government, public-budget, zoning, policy-tradeoffs]
 args:
   - name: town_size

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [likert-scale, ordinal-data, survey-analysis, diverging-bar-chart]
 pairs_with:
   prompts: [analyze-survey-results, run-factor-analysis, write-survey-questionnaire]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 advice_risk: [medical]
 tags: [virtual-reality, vr-comfort, motion-sickness, headset-setup, comfort-settings]
 pairs_with:

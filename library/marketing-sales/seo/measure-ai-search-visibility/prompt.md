@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-search, llm-citations, brand-mentions, share-of-answer, answer-engines]
 pairs_with:
   prompts: [optimize-for-ai-search, set-up-seo-tracking, write-search-ranking-report]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feeds, cards, infinite-scroll, pagination, loading-states]
 pairs_with:
   prompts: [design-search-experience, design-empty-and-error-states, review-design-for-dark-patterns, spec-motion-and-microinteractions]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [lakehouse, iceberg, delta-lake, partitioning, compaction, small-files]
 pairs_with:
   prompts: [design-data-pipeline, plan-table-partitioning, design-star-schema]

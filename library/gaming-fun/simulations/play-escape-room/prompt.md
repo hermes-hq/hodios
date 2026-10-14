@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [escape-room, lock-chain, tiered-hints, family-game, classroom-game]
 pairs_with:
   prompts: [create-escape-room-puzzles, play-text-adventure]

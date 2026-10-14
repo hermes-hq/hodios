@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 stack: [linkedin]
 tags: [linkedin-ads, b2b, matched-audiences, lead-gen-forms, job-titles, pipeline]
 pairs_with:

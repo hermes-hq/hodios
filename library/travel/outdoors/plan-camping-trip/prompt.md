@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gear-checklist, leave-no-trace, campfire-cooking, backcountry]
 pairs_with:
   prompts: [build-packing-list, plan-road-trip, plan-family-trip]

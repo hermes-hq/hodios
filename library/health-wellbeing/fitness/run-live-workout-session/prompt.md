@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [strength-training, autoregulation, rpe, reps-in-reserve, gym-session, workout-coaching]
 pairs_with:
   prompts: [build-training-plan, check-exercise-form, design-warm-up]

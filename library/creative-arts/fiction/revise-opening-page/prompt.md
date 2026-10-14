@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [opening-lines, first-page, hook, voice, manuscript-submission]
 pairs_with:
   prompts: [critique-fiction-draft, write-query-letter, revise-show-dont-tell]

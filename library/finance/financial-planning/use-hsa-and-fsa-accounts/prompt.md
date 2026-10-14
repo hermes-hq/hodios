@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hsa, fsa, health-accounts, open-enrollment, tax-advantaged-accounts, usa]
 pairs_with:
   prompts: [choose-workplace-insurance-benefits, compare-health-insurance-plans, budget-for-ongoing-health-costs]

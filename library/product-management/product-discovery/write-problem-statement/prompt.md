@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [problem-framing, evidence, outcomes, solution-bias]
 pairs_with:
   prompts: [map-assumptions, map-opportunity-solution-tree, write-customer-interview-guide, define-jobs-to-be-done]

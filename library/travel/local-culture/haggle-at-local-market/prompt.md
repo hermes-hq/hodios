@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [bargaining, markets, price-haggling, travel-phrases]
 pairs_with:
   prompts: [find-authentic-local-crafts, learn-local-etiquette]

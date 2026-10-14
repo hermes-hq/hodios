@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [eloquent, opcache, artisan-optimize, queues, eager-loading]
 pairs_with:
   prompts: [fix-n-plus-one-queries, optimize-sql-query, plan-caching-strategy]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [letter-before-action, demand-response, pre-action, debt-dispute, holding-reply]
 pairs_with:
   prompts: [explain-legal-letter, write-settlement-offer-letter, defend-small-claim, respond-to-cease-and-desist]

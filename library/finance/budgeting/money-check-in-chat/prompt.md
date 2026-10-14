@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [weekly-review, spending-check-in, money-habits, accountability]
 pairs_with:
   prompts: [build-monthly-budget, categorize-expenses, plan-savings-goal]

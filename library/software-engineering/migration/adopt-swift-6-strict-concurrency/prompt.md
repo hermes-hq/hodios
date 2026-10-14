@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [swift-6, sendable, actor-isolation, main-actor, data-race-safety]
 pairs_with:
   prompts: [review-swift-concurrency-change, write-swift-testing-tests, convert-callbacks-to-async-await]

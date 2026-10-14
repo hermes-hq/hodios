@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [notifications, transactional-email, push-notifications, sms, kill-switch]
 pairs_with:
   prompts: [write-incident-update, quantify-incident-impact, write-postmortem]

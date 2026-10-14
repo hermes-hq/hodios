@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [lone-working, check-in-routine, missed-check-in, farm-family, personal-alarm]
 pairs_with:
   prompts: [write-farm-task-risk-assessment, build-farm-daily-job-sheet, write-farm-safety-induction]

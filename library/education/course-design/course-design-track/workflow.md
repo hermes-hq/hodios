@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [backward-design, instructional-design-process, constructive-alignment]
 pairs_with:
   prompts: [design-course-outline, write-learning-objectives, create-rubric, write-lesson-plan]

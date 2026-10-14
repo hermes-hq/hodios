@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [vietnamese-forms, application-letter, leave-application, formal-letter, workplace-vietnamese]
 pairs_with:
   prompts: [write-leave-application-letter, write-hindi-application-letter, write-formal-letter]

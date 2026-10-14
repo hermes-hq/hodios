@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [yoy, like-for-like, calendar-effects, variance-bridge, seasonality]
 pairs_with:
   prompts: [decompose-revenue-change, write-monthly-business-review, write-weekly-metrics-update]

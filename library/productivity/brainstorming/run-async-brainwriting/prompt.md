@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [brainwriting, 6-3-5, remote-teams, async-collaboration, time-zones]
 pairs_with:
   prompts: [facilitate-group-brainstorm, cluster-ideas, write-how-might-we-questions]

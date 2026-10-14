@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [digital-legacy, legacy-contact, estate-planning, password-manager, digital-assets]
 pairs_with:
   prompts: [write-legacy-letter, set-up-backups, secure-personal-accounts]

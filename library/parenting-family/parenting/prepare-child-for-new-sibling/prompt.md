@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-sibling, big-brother, big-sister, regression, jealousy, newborn-care]
 pairs_with:
   prompts: [prepare-for-new-baby, handle-sibling-conflict, plan-behavior-approach]

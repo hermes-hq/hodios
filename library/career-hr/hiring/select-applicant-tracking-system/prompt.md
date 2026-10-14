@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [applicant-tracking-system, recruiting-software, vendor-selection, software-evaluation, demo-script]
 pairs_with:
   prompts: [select-hr-system, audit-candidate-experience]

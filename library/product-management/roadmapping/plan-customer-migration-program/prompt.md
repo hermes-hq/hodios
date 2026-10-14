@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [customer-migration, migration-waves, cohorts, readiness-gates, legacy-platform, rollback]
 pairs_with:
   prompts: [plan-feature-sunset, plan-staged-feature-rollout, plan-system-go-live-cutover, write-roadmap-update]

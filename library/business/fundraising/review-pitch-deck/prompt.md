@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pitch-deck, deck-review, investor-materials, storytelling, deck-critique]
 pairs_with:
   prompts: [write-pitch-deck-outline, prepare-investor-qa, write-investor-one-pager]

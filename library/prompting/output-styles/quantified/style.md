@@ -11,6 +11,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: intermediate
+depth: specific
 role: [individual, manager, data-analyst]
 tags: [estimation, base-rates, fermi-estimate, numeracy, assumptions]
 pairs_with:

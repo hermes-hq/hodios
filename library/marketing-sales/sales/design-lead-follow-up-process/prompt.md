@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [inbound-leads, speed-to-lead, lead-routing, follow-up-cadence]
 pairs_with:
   prompts: [reply-to-inbound-lead, qualify-leads, reactivate-old-leads]

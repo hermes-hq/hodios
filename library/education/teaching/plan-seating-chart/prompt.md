@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [seating-plan, classroom-layout, behaviour-management, inclusion]
 pairs_with:
   prompts: [design-classroom-management-plan, form-balanced-student-groups, write-class-handover-notes]

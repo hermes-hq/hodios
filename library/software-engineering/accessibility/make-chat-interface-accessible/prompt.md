@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [chat-ui, streaming, aria-live, screen-reader, ai-assistant]
 pairs_with:
   personas: [accessibility-specialist]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [race-condition, deadlock, async, thread-safety, interleaving]
 pairs_with:
   prompts: [review-pull-request, debug-race-condition]

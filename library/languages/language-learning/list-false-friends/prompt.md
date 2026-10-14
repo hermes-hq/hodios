@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [false-friends, cognates, interference-errors, language-transfer, self-test]
 pairs_with:
   prompts: [distinguish-confusing-words, build-vocabulary-list, diagnose-recurring-errors]

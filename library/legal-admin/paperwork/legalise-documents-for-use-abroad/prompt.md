@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [apostille, consular-legalisation, sworn-translation, certified-copies, documents-abroad]
 pairs_with:
   prompts: [translate-personal-document, get-qualifications-recognised, prepare-visa-application]

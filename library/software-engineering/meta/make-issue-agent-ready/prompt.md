@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [issue-writing, acceptance-criteria, async-agents, definition-of-done, ticket-hygiene]
 pairs_with:
   prompts: [write-subagent-brief, write-agents-md, plan-parallel-agent-worktrees, benchmark-coding-agents-on-repo]

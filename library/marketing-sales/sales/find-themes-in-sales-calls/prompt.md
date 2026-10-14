@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [call-analysis, conversation-intelligence, objections, sales-enablement, buyer-insights]
 pairs_with:
   prompts: [summarize-sales-call, run-win-loss-analysis, handle-sales-objections, write-voice-of-customer-report]

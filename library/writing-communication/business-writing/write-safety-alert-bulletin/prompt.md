@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [safety-alert, near-miss, health-and-safety, noticeboard, toolbox-talk, safety-bulletin]
 pairs_with:
   prompts: [write-workplace-incident-report, write-job-aid, plan-shift-team-huddle]

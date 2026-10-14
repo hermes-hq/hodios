@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [news-literacy, personal-impact, policy-change, interest-rates, facts-vs-speculation]
 pairs_with:
   prompts: [build-news-digest, summarize-what-applies-to-me, brief-me-on-topic]

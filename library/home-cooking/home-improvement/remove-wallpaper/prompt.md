@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [wallpaper-removal, wall-preparation, drywall, plaster, steamer, stripping-paper]
 pairs_with:
   prompts: [plan-room-painting, repair-wall-holes, plan-diy-project]

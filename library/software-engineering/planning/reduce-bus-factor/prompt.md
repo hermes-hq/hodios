@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [bus-factor, knowledge-sharing, cross-training, key-person-risk]
 pairs_with:
   prompts: [plan-team-capacity, write-ownership-handover-doc, pick-starter-tasks-for-new-engineer]

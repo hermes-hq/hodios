@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: basic
 tags: [writing-habits, writers-block, argumentation, academic-prose, editing-feedback, clarity]
 pairs_with:
   prompts: [write-introduction-section, write-discussion-section, turn-thesis-chapter-into-paper, write-abstract]

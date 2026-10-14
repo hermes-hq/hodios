@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [puppet-show, kids-theatre, sock-puppets, pretend-play, kids-performing, script-for-kids]
 pairs_with:
   prompts: [create-kids-craft, write-jokes-for-kids, plan-rainy-day-activities]

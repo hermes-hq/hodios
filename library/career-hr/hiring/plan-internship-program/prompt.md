@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internships, early-careers, graduate-hiring, intern-mentors, intern-projects]
 pairs_with:
   prompts: [design-interview-loop, plan-new-hire-onboarding, design-mentoring-program, write-job-description]

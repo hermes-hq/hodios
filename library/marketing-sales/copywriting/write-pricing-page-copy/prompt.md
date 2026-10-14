@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pricing-page, plan-names, feature-labels, billing-terms, conversion]
 pairs_with:
   prompts: [design-pricing-page, write-sales-faq, write-guarantee-wording, critique-marketing-copy, write-paywall-and-upgrade-copy]

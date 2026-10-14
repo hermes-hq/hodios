@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [social-work, case-recording, case-notes, child-protection, adult-social-care, defensible-practice]
 pairs_with:
   prompts: [write-safeguarding-concern-record, prepare-mdt-case-summary]

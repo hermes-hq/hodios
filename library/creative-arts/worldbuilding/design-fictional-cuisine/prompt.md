@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [food-culture, fictional-food, customs, tavern-menus, setting-design]
 pairs_with:
   prompts: [design-fictional-culture, design-fictional-ecosystem, design-fictional-economy, design-fictional-calendar]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [immigration-office, appointment-preparation, interpreter, required-documents, newcomers]
 pairs_with:
   prompts: [understand-residence-permit-conditions, write-immigration-status-enquiry, prepare-visa-application, find-free-legal-help]

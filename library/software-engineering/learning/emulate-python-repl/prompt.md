@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [repl, tracebacks, simulator, practice-sandbox]
 pairs_with:
   prompts: [explain-concept-with-code, review-code-for-learner]

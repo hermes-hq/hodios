@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cross-cultural, non-native-listeners, interpreters, idioms, global-teams, plain-english]
 pairs_with:
   prompts: [write-speaker-notes, make-presentation-accessible, critique-slide-deck]

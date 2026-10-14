@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reference-photos, pose-reference, shot-list, drawing-reference, location-scouting]
 pairs_with:
   prompts: [thumbnail-comic-page, write-character-model-sheet-brief, plan-comic-production-schedule]

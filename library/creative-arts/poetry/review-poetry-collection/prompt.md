@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [book-review, literary-criticism, literary-journals, close-reading]
 pairs_with:
   prompts: [analyze-poem, critique-poem]

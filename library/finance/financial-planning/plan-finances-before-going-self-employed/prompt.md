@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [career-change, cash-runway, employee-benefits, irregular-income]
 pairs_with:
   prompts: [start-freelance-business, plan-freelance-tax-set-aside, budget-irregular-income, build-emergency-fund-plan]

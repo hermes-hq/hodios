@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [charades, pictionary, taboo, would-you-rather, game-night, card-deck]
 pairs_with:
   prompts: [write-icebreaker-games, host-trivia-night]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [purple-team, adversary-emulation, detection-validation, mitre-attack, rules-of-engagement]
 pairs_with:
   prompts: [map-detection-coverage, plan-security-tabletop, write-sigma-rule, write-threat-hunt-plan]

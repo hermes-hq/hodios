@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [stand-up, daily-scrum, agile, team-rituals, async]
 pairs_with:
   prompts: [design-meeting-cadence, reduce-meeting-load, run-retrospective]

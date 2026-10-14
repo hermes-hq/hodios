@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [stand-up, open-mic, punchline, act-out]
 args:
   - name: premise

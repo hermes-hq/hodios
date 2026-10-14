@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [experience-letter, relieving-letter, service-certificate, employee-exit, hr-letters]
 pairs_with:
   prompts: [write-reference-letter, write-employment-experience-letter, plan-employee-offboarding]

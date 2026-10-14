@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [school-choice, admissions, school-visits, child-wellbeing, shortlist]
 pairs_with:
   prompts: [choose-school-type-abroad, compare-options-matrix, decide-where-to-live]

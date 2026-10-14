@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [guitar, tablature, fingering, notation]
 pairs_with:
   prompts: [suggest-chord-progressions, plan-instrument-practice]

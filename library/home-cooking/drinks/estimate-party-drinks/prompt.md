@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [party-planning, drinks-quantities, shopping-list, responsible-drinking]
 pairs_with:
   prompts: [design-cocktail-menu, make-hot-punch-for-crowd]

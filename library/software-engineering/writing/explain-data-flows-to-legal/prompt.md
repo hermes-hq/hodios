@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [personal-data, data-inventory, privacy-review, subprocessors, data-retention]
 pairs_with:
   prompts: [audit-data-protection-compliance]

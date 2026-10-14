@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [web-analytics, ga4, site-traffic, conversion-rate, client-reporting]
 pairs_with:
   prompts: [analyze-web-analytics, write-search-ranking-report, write-monthly-social-report, check-report-figures]

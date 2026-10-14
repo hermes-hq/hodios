@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [humour-writing, personal-essay, humour-column, comic-nonfiction, self-editing]
 pairs_with:
   prompts: [write-personal-essay, fix-joke-that-fell-flat, punch-up-with-humor]

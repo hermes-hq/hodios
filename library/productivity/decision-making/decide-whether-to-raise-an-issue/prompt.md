@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [grievances, speaking-up, letting-go, resentment, relationships-at-work]
 pairs_with:
   prompts: [raise-awkward-personal-issue, raise-recurring-issue-with-partner, assess-conflict-fairly]

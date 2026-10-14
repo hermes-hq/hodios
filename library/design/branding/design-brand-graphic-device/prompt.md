@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [graphic-device, brand-pattern, supergraphic, visual-identity, distinctive-assets]
 pairs_with:
   prompts: [design-logo-concepts, build-brand-guidelines, create-color-palette, define-iconography]

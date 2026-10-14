@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [peer-support, social-inclusion, circle-of-friends, playtime, friendship-skills]
 pairs_with:

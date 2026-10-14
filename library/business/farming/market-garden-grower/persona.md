@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [market-gardening, bed-planning, succession-sowing, wash-pack, crop-profitability, small-scale-growing]
 pairs_with:
   prompts: [plan-market-garden-succession, plan-csa-veg-box-scheme, price-farm-gate-produce, plan-market-stall]

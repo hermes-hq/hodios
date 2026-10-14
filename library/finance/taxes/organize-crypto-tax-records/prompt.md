@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crypto, cost-basis, capital-gains, record-keeping]
 pairs_with:
   prompts: [explain-crypto-risks, explain-tax-on-investments, organize-tax-documents]

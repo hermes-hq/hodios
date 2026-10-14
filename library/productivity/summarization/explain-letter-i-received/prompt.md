@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [everyday-letters, household-admin-letters, what-to-do-next, deadlines, plain-english]
 pairs_with:
   prompts: [extract-deadlines, summarize-what-applies-to-me, summarize-photographed-pages]

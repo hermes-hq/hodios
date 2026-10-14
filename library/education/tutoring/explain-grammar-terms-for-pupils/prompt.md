@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [primary-grammar, word-classes, clauses, spag, spotting-game, ks2]
 pairs_with:
   prompts: [tutor-spelling-and-punctuation, coach-peel-paragraphs]

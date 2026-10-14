@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [facilitation, workshop-agenda, dot-voting, decision-rules, pre-reads]
 pairs_with:
   prompts: [build-outcome-roadmap, run-quarterly-planning, prioritize-features, plan-stakeholder-alignment]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pii, data-minimisation, privacy-review, data-map, consent]
 pairs_with:
   prompts: [map-personal-data-processing, threat-model-feature, redact-personal-data]

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [phone-etiquette, telephone-training, new-employee, message-taking, complaint-handling, keigo]
 pairs_with:
   prompts: [practise-keigo, practice-phone-call-in-language]

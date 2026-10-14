@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [emotional-granularity, naming-feelings, emotional-literacy, body-signals, teens]
 pairs_with:
   prompts: [guided-journaling, talk-through-a-bad-day, reframe-negative-thoughts]

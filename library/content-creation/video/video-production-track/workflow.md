@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audience-retention, hooks, packaging, video-description]
 pairs_with:
   prompts: [write-video-hooks, write-youtube-script, package-video-title-thumbnail, write-video-chapters]

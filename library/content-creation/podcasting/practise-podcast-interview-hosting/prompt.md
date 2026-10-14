@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [roleplay, interviewing, follow-up-questions, active-listening, host-coaching]
 pairs_with:
   prompts: [write-guest-interview-questions, plan-podcast-episode, create-podcast-edit-list]

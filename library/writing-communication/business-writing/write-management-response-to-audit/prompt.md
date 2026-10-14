@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audit-response, management-action-plan, audit-findings, corrective-action, governance]
 pairs_with:
   prompts: [write-internal-audit-report, write-a3-report, answer-farm-audit-findings]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [match-funding, in-kind-contributions, co-funding, cost-share, volunteer-time-valuation]
 pairs_with:
   prompts: [build-grant-budget, write-grant-budget-narrative, write-capital-grant-application]

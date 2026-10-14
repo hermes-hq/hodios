@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [opera, ballet, classical-concert, theatre-etiquette, first-timer]
 pairs_with:
   prompts: [take-genre-listening-tour]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-doc, ticket-writing, work-breakdown, tracker-import, dependencies, vertical-slices]
 pairs_with:
   prompts: [break-down-epic, write-implementation-plan, size-backlog-items]

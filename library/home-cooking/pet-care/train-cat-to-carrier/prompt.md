@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cat-carrier, vet-visit, cat-anxiety, cooperative-care, desensitisation, cat-travel]
 pairs_with:
   prompts: [prepare-vet-visit, solve-cat-behavior-problem, plan-travel-with-pet, move-house-with-pet]

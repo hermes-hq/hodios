@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [landlord, rental-pricing, comparables, letting, market-rent]
 pairs_with:
   prompts: [write-rental-listing, analyze-rental-property, analyze-property-comparables]

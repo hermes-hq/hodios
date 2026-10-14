@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [gig-booking, booking-emails, live-performance, promoters]
 pairs_with:
   prompts: [write-artist-bio, plan-live-set, pitch-music-to-curators]

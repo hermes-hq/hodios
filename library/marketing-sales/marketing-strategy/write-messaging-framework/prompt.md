@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [messaging-framework, value-pillars, message-house, brand-voice, product-marketing]
 pairs_with:
   prompts: [write-positioning-statement, build-ideal-customer-profile, write-landing-page-copy, write-taglines]

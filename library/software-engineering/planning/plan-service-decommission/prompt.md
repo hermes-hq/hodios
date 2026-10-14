@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [decommissioning, service-retirement, brownout, data-retention, cloud-cleanup, deprecation]
 pairs_with:
   prompts: [map-system-ownership, plan-cross-service-change]

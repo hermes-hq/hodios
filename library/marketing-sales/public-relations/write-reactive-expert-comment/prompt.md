@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reactive-pr, newsjacking, expert-comment, rapid-response, spokesperson, journalist-requests]
 pairs_with:
   prompts: [pitch-journalist, reply-to-journalist-request, build-media-list]

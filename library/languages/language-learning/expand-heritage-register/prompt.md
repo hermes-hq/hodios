@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [heritage-speakers, register-shifting, formal-language, professional-vocabulary, style-shifting, diaspora]
 pairs_with:
   prompts: [plan-heritage-language-learning, explain-politeness-register, untangle-mixed-language-sentences, name-grammar-you-already-use]

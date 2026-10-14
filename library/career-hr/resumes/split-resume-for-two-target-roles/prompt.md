@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [two-tracks, resume-versions, dual-job-search, targeted-resumes]
 pairs_with:
   prompts: [tailor-resume-to-job, build-master-resume, reframe-for-career-change]

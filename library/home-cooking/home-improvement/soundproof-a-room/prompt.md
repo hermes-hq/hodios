@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [soundproofing, noise-reduction, acoustic-treatment, noisy-neighbours, home-studio, quiet-bedroom]
 pairs_with:
   prompts: [set-up-home-office, diagnose-home-problem, hire-contractor]

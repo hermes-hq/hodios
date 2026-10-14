@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [enem, redacao, argumentative-essay, essay-feedback, brazil]
 pairs_with:
   prompts: [plan-concurso-publico-study, grade-practice-answers, analyze-exam-mistakes]

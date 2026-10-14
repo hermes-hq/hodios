@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [drink-storage, opened-wine, vermouth, shelf-life, home-bar]
 pairs_with:
   prompts: [stock-home-bar, plan-wine-drinking-windows]

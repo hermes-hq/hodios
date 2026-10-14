@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [legal-aid, law-clinic, pro-bono, access-to-justice, legal-expenses-insurance]
 pairs_with:
   prompts: [explain-legal-letter, prepare-small-claims-case, prepare-to-self-represent]

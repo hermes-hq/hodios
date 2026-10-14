@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quota-setting, sales-capacity, territory-potential, sales-planning, ramp]
 pairs_with:
   prompts: [plan-sales-territory, design-sales-compensation-plan, analyze-sales-rep-performance, plan-new-rep-ramp]

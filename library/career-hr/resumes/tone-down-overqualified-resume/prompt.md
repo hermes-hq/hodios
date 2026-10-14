@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [overqualified, step-down, downshift, hands-on-skills]
 pairs_with:
   prompts: [tailor-resume-to-job, write-resume-summary, age-proof-resume]

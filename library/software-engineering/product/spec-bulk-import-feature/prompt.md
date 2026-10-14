@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [csv-import, data-onboarding, bulk-actions, requirements]
 pairs_with:
   prompts: [implement-csv-import, spec-form-fields-and-validation, list-feature-edge-cases]

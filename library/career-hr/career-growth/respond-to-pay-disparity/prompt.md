@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pay-gap, pay-equity, compensation, equal-pay]
 pairs_with:
   prompts: [ask-for-raise, benchmark-my-salary]

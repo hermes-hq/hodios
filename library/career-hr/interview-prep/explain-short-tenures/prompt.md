@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [short-stints, job-hopping, reason-for-leaving, retention-concern]
 pairs_with:
   prompts: [explain-job-loss-in-interview, answer-motivation-questions, prepare-phone-screen]

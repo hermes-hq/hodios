@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [manuscript, reporting-guidelines, reproducibility, equator-network]
 pairs_with:
   prompts: [check-manuscript-reporting, write-discussion-section, write-abstract, write-lab-protocol]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [financial-adviser, meeting-prep, advisory-fees, conflicts-of-interest, suitability]
 pairs_with:
   prompts: [choose-financial-advisor, compare-ways-to-invest, plan-retirement-drawdown, plan-windfall]

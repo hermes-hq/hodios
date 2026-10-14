@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [email-filters, inbox-rules, labels, email-organization, inbox-zero, unsubscribe]
 pairs_with:
   prompts: [triage-inbox, build-email-templates]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [music-production, mixing, arrangement, recording-session]
 pairs_with:
   prompts: [plan-song-arrangement, plan-music-release, analyze-song-structure, plan-live-set]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audience-retention, hooks, pattern-interrupts, call-to-action, voice-matching]
 pairs_with:
   prompts: [write-video-hooks, package-video-title-thumbnail, write-video-chapters]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-review, wcag, contrast, focus-order, target-size, shift-left]
 pairs_with:
   personas: [accessibility-specialist]

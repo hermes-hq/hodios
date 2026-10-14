@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bad-news, warning-shot, family-news, delivering-news, compassion]
 pairs_with:
   prompts: [write-bad-news-email, plan-breaking-bad-news, respond-supportively-to-disclosure]

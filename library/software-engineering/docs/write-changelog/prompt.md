@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [changelog, release-notes, semver]
 pairs_with:
   personas: [technical-writer]

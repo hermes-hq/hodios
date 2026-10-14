@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rollback, fix-forward, feature-flags, mitigation, schema-migration]
 pairs_with:
   prompts: [triage-production-alert, collect-incident-evidence, write-incident-update, write-runbook]

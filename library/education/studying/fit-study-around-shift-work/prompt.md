@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [shift-work, part-time-study, working-learners, energy-management]
 pairs_with:
   prompts: [plan-semester-workload, review-study-week, create-study-plan]

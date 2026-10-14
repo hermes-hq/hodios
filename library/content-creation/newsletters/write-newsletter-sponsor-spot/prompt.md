@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [newsletter-sponsorship, native-ad, ad-disclosure, click-through]
 pairs_with:
   prompts: [write-sponsored-post, write-newsletter-issue, write-media-kit]

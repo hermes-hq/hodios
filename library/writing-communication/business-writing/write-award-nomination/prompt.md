@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [award-nomination, recognition, selection-criteria, evidence-mapping]
 pairs_with:
   prompts: [write-performance-review, write-professional-bio]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [framework-method, qualitative-analysis, framework-matrix, applied-research, interview-data, health-services-research]
 pairs_with:
   prompts: [build-qualitative-codebook, prepare-interview-transcripts, plan-qualitative-rigour, run-thematic-analysis]

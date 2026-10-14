@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [calendar, invites, preparation, pre-reads]
 pairs_with:
   prompts: [write-meeting-agenda, write-meeting-request-email, find-meeting-time-across-time-zones]

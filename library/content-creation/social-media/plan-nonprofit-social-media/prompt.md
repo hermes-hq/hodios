@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [nonprofit]
 tags: [storytelling-consent, volunteers, fundraising-campaigns, community-groups, small-charities]
 pairs_with:

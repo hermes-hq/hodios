@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [heat-illness, heatstroke, sun-protection, desert-hiking, canyon-hiking, electrolytes]
 pairs_with:
   prompts: [plan-trail-water, set-turnaround-time, plan-hike-with-dog]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [one-on-ones, direct-reports, running-agenda, feedback-log, manager-notes]
 pairs_with:
   prompts: [plan-one-on-one, prepare-for-one-on-one, write-note-templates, set-up-work-logbook]

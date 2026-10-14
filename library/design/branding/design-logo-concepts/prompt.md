@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [logo-design, visual-identity, wordmark, design-brief, trademark-screening]
 pairs_with:
   prompts: [name-brand, build-brand-platform, build-brand-guidelines, create-color-palette, pair-typefaces]

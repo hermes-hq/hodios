@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [business-formation, sole-trader, limited-company, llc]
 pairs_with:
   prompts: [validate-business-idea, apply-for-trademark]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [engagement, readability, storytelling, internal-communications, explainers]
 pairs_with:
   prompts: [strengthen-opening-and-closing, rewrite-for-tone, make-numbers-readable-in-text]

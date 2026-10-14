@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dividends, dividend-yield, total-return, income-investing]
 pairs_with:
   prompts: [read-company-financials, explain-tax-on-investments, check-portfolio-diversification, explain-investment-concept]

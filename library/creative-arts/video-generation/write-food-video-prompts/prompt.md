@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [food-video, menu-video, liquid-physics, food-styling]
 pairs_with:
   prompts: [write-food-photo-prompt, write-image-to-video-motion-prompt, write-slow-motion-shot-prompt]

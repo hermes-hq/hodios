@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 advice_risk: [legal]
 tags: [sla-credit, outage-compensation, vendor-management, uptime, contract-claim]
 pairs_with:

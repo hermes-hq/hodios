@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pollinators, native-plants, wildlife-garden, bees, butterflies]
 pairs_with:
   prompts: [design-garden-border, start-composting, build-garden-calendar]

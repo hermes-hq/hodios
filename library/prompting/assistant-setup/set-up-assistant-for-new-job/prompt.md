@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [new-starter, first-90-days, workplace-glossary, employer-ai-rules]
 pairs_with:
   prompts: [build-project-instructions, write-custom-instructions, write-ai-use-policy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [computer-upgrade, ssd, ram-upgrade, repair-or-replace, hardware]
 pairs_with:
   prompts: [speed-up-slow-computer, choose-computer-specs, plan-os-end-of-support, set-up-backups]

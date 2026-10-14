@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [working-carers, flexible-working, carers-leave, workplace, carers]
 pairs_with:
   prompts: [manage-caregiver-stress, build-care-rota, check-burnout-signs]

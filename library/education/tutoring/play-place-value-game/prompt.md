@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [place-value, number-sense, maths-games, digit-cards, primary-maths]
 pairs_with:
   prompts: [practice-mental-math]

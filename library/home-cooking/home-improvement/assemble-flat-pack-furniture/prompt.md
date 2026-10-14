@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [flat-pack, furniture-assembly, wall-anchoring, diy-basics, step-by-step, tip-over-safety]
 pairs_with:
   prompts: [plan-diy-project, furnish-first-apartment, childproof-home]

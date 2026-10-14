@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [strategic-risk, risk-appetite, signposts, concentration-risk, board-reporting]
 pairs_with:
   prompts: [run-scenario-planning, run-pestle-analysis, prepare-for-economic-downturn, map-supply-risk]

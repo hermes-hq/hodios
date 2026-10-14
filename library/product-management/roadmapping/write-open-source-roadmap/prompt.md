@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [oss-project, volunteer-capacity, contributors, help-wanted, project-direction, roadmap-md]
 pairs_with:
   prompts: [plan-next-release-milestone, write-community-update, plan-rfc-process, write-contributing-guide]

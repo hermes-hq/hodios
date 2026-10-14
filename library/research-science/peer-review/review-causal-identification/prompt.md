@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [causal-inference, econometrics, difference-in-differences, instrumental-variables, regression-discontinuity, manuscript]
 pairs_with:
   prompts: [review-statistical-methods, estimate-causal-effect, write-peer-review]

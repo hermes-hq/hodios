@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [low-fodmap, ibs, elimination-diet, food-reintroduction, gut-symptoms]
 pairs_with:
   prompts: [build-symptom-log, diversify-plants-for-gut-health, plan-eating-for-condition, increase-fiber-gradually]

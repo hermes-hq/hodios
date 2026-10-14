@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-finance, negative-equity, repossession, refinancing]
 pairs_with:
   prompts: [negotiate-with-creditor, plan-car-purchase, build-tight-budget]

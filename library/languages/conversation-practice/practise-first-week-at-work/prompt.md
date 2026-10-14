@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-job, induction, workplace-language, checking-instructions, phrase-list]
 pairs_with:
   prompts: [practice-small-talk, practise-conversation-strategies, learn-language-for-work-role]

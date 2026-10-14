@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [prisma, flow-diagram, systematic-review, study-selection, evidence-synthesis]
 pairs_with:
   prompts: [screen-studies, write-systematic-review-protocol, chase-citations, write-results-section]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [retrospective, lessons-learned, reflection, after-action-review, keep-change-try]
 pairs_with:
   prompts: [run-monthly-review, run-weekly-review, run-decision-journal, build-reusable-checklist]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [theoretical-framework, theory-comparison, conceptual-framework, thesis]
 pairs_with:
   prompts: [trace-concept-origins, outline-literature-review, refine-research-question]

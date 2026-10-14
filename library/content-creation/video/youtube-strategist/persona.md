@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [packaging, audience-retention, analytics, series-planning]
 pairs_with:
   prompts: [analyze-video-retention, package-video-title-thumbnail, write-video-hooks, write-youtube-script]

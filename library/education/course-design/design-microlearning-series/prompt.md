@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [microlearning, spaced-repetition, retrieval-practice, learning-and-development, drip-course]
 pairs_with:
   prompts: [write-learning-objectives, design-elearning-module, evaluate-training-effectiveness]

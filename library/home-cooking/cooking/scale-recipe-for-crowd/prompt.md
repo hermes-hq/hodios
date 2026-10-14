@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cooking-for-a-crowd, batch-cooking, food-safety, catering, shopping-list]
 pairs_with:
   prompts: [adapt-recipe, plan-dinner-party-menu, plan-meal-prep-session]

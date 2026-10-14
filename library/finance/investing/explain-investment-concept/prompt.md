@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [financial-literacy, index-funds, compounding, fees]
 pairs_with:
   prompts: [read-company-financials, plan-retirement-scenarios]

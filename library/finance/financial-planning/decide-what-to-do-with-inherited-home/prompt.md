@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [inherited-property, co-heirs, sibling-buyout, empty-property, estate-planning]
 pairs_with:
   prompts: [compare-sell-vs-rent-out-home, plan-windfall, settle-estate-checklist, compare-short-let-vs-long-let]

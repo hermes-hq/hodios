@@ -17,6 +17,7 @@ effort: quick
 interaction: one-shot
 model_tier: mid
 level: beginner
+depth: specific
 tags: [weekly-update, kpi, variance-analysis]
 pairs_with:
   prompts: [define-metric, write-insight-report]

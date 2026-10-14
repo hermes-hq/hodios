@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [climate-adjustment, winter-darkness, heat-and-humidity, home-ventilation, seasonal-routine]
 pairs_with:
   prompts: [plan-sleep-in-hot-weather, set-up-home-utilities-abroad, handle-homesickness]

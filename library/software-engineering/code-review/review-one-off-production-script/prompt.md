@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [backfill, data-fix, production-safety, runbook, batch-updates]
 pairs_with:
   personas: [code-reviewer]

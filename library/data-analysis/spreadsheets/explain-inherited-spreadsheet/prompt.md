@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [handover, knowledge-transfer, formula-explanation, legacy-files]
 pairs_with:
   prompts: [audit-spreadsheet-model, debug-spreadsheet-formula]

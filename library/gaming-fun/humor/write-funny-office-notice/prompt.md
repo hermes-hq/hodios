@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [office-kitchen, house-share, shared-fridge, signage, behaviour-change]
 pairs_with:
   prompts: [write-clean-jokes, punch-up-with-humor]

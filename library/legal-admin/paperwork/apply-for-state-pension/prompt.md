@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [state-pension, social-security, retirement-claim, contribution-record, pension-abroad]
 pairs_with:
   prompts: [compare-state-pension-claiming-ages, build-retiree-budget, prepare-government-form, organize-important-documents]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [analytics-engineering, project-structure, slim-ci, environments, sources]
 pairs_with:
   prompts: [write-dbt-model, refactor-dbt-project, write-dbt-incremental-model]

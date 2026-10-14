@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [freedom-to-operate, patent-risk, launch-readiness, patent-search]
 pairs_with:
   prompts: [plan-prior-art-search, explain-patent-claims, choose-invention-protection-route]

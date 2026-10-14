@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [upsc, civil-services, mains-answer-writing, hindi-medium, india]
 pairs_with:
   prompts: [write-model-exam-answer, analyze-exam-mistakes, plan-exam-day-strategy]

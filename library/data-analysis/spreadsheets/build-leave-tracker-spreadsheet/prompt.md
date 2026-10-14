@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-leave, holiday-tracker, pro-rata, absence-calendar, small-team]
 pairs_with:
   prompts: [calculate-dates-and-workdays, write-conditional-formatting-rules, build-timesheet-calculator]

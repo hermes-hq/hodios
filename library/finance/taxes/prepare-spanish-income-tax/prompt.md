@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [irpf, renta-web, borrador, agencia-tributaria, espana]
 pairs_with:
   prompts: [file-autonomo-quarterly-vat, explain-tax-notice]

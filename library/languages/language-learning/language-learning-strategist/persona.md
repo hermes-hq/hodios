@@ -16,6 +16,7 @@ invocation: user
 interaction: interactive
 model_tier: frontier
 level: beginner
+depth: specific
 tags: [learning-strategy, comprehensible-input, spaced-repetition, plateau, habit-design, cefr]
 pairs_with:
   prompts: [plan-language-learning, assess-language-level, plan-learning-with-tv-shows, diagnose-recurring-errors]

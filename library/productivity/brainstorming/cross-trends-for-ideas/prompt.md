@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trend-crossing, foresight, opportunity-spotting, innovation]
 pairs_with:
   prompts: [validate-business-idea, run-scenario-planning, reverse-assumptions-for-ideas]

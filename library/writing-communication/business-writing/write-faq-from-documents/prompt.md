@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [faq, knowledge-base, policy-communication, source-tracing, event-info]
 pairs_with:
   prompts: [simplify-to-plain-language, write-internal-announcement, review-document-for-ambiguity]

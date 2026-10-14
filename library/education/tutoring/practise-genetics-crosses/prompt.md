@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [genetics, punnett-squares, inheritance, mendelian-ratios, sex-linkage, codominance]
 pairs_with:
   personas: [science-tutor]

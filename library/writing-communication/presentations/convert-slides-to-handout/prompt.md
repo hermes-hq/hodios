@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [handout, leave-behind, speaker-notes, slide-deck, pre-read]
 pairs_with:
   prompts: [turn-document-into-slides, write-speaker-notes, write-executive-summary]

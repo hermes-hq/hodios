@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [adoption, fostering, home-study, kinship-care, trauma-informed-parenting, foster-carer]
 pairs_with:
   prompts: [plan-blended-family-transition, choose-childcare]

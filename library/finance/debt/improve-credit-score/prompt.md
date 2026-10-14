@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [credit-report, credit-utilisation, dispute-errors, rebuild-credit]
 pairs_with:
   prompts: [plan-debt-payoff, prepare-mortgage-application, negotiate-with-creditor, compare-loan-offers, dispute-credit-report-error]

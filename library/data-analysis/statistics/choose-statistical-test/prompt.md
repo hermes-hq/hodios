@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [hypothesis-testing, assumptions, effect-size]
 pairs_with:
   prompts: [calculate-sample-size, check-analysis-for-pitfalls]

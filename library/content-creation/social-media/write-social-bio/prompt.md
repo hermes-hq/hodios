@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [profile-bio, character-limits, value-proposition, personal-brand]
 pairs_with:
   prompts: [write-linkedin-post, define-content-pillars]

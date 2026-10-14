@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scaling, marginal-cpa, budget-increase, horizontal-scaling, diminishing-returns]
 pairs_with:
   prompts: [calculate-break-even-roas, pace-ad-budget, plan-media-budget, diagnose-ad-fatigue]

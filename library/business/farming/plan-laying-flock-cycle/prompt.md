@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [laying-hens, egg-production, point-of-lay, red-mite, lighting-programme, egg-sales]
 pairs_with:
   prompts: [set-up-farm-biosecurity, plan-livestock-record-keeping, triage-unwell-livestock]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [unsent-letter, grief-writing, reflective-writing, expressive-writing, closure]
 pairs_with:
   prompts: [write-legacy-letter, write-letter-to-future-self]

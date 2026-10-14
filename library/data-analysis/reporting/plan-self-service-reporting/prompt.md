@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [self-service-bi, certified-datasets, bi-governance, data-literacy, semantic-layer]
 pairs_with:
   prompts: [prune-report-inventory, build-metrics-glossary, set-up-report-request-intake, set-up-report-row-level-security]

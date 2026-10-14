@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [car-import, vehicle-registration, shipping-a-car, moving-abroad, sell-or-ship]
 pairs_with:
   prompts: [exchange-driving-licence-abroad, plan-car-purchase, compare-international-removal-quotes]

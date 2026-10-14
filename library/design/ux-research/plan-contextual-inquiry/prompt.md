@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [contextual-inquiry, field-research, shadowing, observation-guide, ethnography]
 pairs_with:
   prompts: [build-service-blueprint, build-user-journey-map, design-diary-study, build-empathy-map]

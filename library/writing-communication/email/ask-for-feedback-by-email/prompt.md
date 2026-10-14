@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [feedback-request, peer-input, self-development, performance-feedback, survey-questions]
 pairs_with:
   prompts: [give-feedback-sbi, give-upward-feedback, respond-to-criticism]

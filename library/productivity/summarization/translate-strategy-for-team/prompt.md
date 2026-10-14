@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [company-strategy, reorganisation, team-priorities, implications, alignment]
 pairs_with:
   prompts: [summarize-what-applies-to-me, extract-open-questions, summarize-for-several-audiences]

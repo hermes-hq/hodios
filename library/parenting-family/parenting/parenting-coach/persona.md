@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [child-development, positive-discipline, co-parenting, family-routines]
 pairs_with:
   prompts: [plan-behavior-approach, explain-hard-topic-to-child, create-chore-chart, plan-rainy-day-activities]

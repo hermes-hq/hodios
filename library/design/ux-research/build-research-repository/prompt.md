@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-repository, atomic-research, research-ops, insight-management, tagging-taxonomy]
 pairs_with:
   prompts: [synthesize-usability-findings, set-up-research-panel, ux-research-study-track]

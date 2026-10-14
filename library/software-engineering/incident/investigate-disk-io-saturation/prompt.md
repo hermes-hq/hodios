@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [iowait, iops, burst-credits, block-storage, saturation]
 pairs_with:
   prompts: [investigate-latency-spike, collect-incident-evidence, write-incident-update]

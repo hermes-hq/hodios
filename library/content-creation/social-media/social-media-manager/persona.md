@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-voice, platform-native, community-management, social-analytics]
 pairs_with:
   prompts: [run-social-media-audit, reply-to-comments, write-linkedin-post, write-instagram-caption, handle-social-media-backlash]

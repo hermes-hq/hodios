@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-impact, pathways-to-impact, research-funding, broader-impacts, impact-case-study, theory-of-change]
 pairs_with:
   prompts: [write-research-proposal, plan-research-dissemination, write-policy-brief]

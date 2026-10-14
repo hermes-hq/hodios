@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [connection-pool, littles-law, pool-sizing, timeouts, connection-leaks]
 pairs_with:
   prompts: [optimize-sql-query, plan-service-scaling, reduce-tail-latency]

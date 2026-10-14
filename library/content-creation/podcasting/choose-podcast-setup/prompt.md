@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [podcast-gear, microphones, remote-recording, room-acoustics, audio-quality]
 pairs_with:
   prompts: [launch-podcast, plan-podcast-episode]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-playbook, sales-process, qualification, battlecards, rep-onboarding]
 pairs_with:
   prompts: [build-ideal-customer-profile, prepare-discovery-call, handle-sales-objections, write-mutual-action-plan, write-outbound-sequence]

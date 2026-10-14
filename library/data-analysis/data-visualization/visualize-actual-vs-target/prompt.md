@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bullet-chart, budget-vs-actual, variance, scorecards]
 pairs_with:
   prompts: [design-dashboard, explain-budget-variance, design-waterfall-chart]

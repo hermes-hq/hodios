@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [type-2-diabetes, cholesterol, blood-pressure, dash-diet, dietitian, heart-health]
 pairs_with:
   prompts: [read-nutrition-label, analyze-diet-log, prepare-doctor-questions, reduce-added-sugar]

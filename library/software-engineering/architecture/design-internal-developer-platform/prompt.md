@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [platform-engineering, golden-paths, developer-experience, self-service]
 pairs_with:
   personas: [staff-engineer, software-architect]

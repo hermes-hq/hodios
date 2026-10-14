@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [product-analytics, usage-data, behavioural-signals, research-questions, workarounds]
 pairs_with:
   prompts: [analyze-feature-adoption, analyze-conversion-funnel, write-customer-interview-guide, check-feedback-against-usage-data]

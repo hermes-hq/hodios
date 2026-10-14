@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [writers-block, first-draft, plotting, writing-exercises]
 pairs_with:
   prompts: [critique-fiction-draft, outline-story, plan-novel-draft-schedule]

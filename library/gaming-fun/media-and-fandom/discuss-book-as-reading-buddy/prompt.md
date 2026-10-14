@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [reading-buddy, spoiler-free, book-discussion, close-reading]
 pairs_with:
   prompts: [catch-up-on-series-spoiler-free, recommend-next-book]

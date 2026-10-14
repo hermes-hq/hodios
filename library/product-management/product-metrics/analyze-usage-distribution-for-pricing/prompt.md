@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [plan-limits, value-metric, usage-based-pricing, packaging, percentiles, free-tier-limits]
 pairs_with:
   prompts: [design-pricing, design-free-tier, analyze-free-to-paid-conversion, design-pricing-experiment]

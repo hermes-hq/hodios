@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [narration, charlotte-mason, comprehension, read-aloud, living-books]
 pairs_with:
   prompts: [choose-homeschool-approach, plan-homeschool-morning-time]

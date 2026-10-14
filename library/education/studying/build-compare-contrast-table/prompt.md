@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [comparison-table, discrimination, commonly-confused, revision-grid]
 pairs_with:
   prompts: [build-concept-map, make-flashcards, generate-elaborative-questions]

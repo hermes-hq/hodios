@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feasibility-study, viability, go-no-go, options-appraisal, new-initiative]
 pairs_with:
   prompts: [write-project-proposal, write-decision-memo, write-executive-summary]

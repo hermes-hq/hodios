@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [exam-season, budget-eating, steady-energy, hydration, batch-cooking, students-on-a-budget]
 pairs_with:
   prompts: [read-nutrition-label, plan-caffeine-reduction]

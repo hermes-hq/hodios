@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tips, tip-pool, service-charge, gratuities, tronc, staff-pay, payroll]
 pairs_with:
   prompts: [build-staff-schedule, write-operations-manual]

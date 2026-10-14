@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [nonprofit]
 tags: [corporate-partnerships, employee-volunteering, team-volunteering, run-sheet]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [missed-promotion, career-setback, feedback-conversation, next-level]
 pairs_with:
   prompts: [prepare-promotion-case, decide-whether-to-quit, build-development-plan]

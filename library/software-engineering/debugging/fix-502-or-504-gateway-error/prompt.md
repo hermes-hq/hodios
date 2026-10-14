@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reverse-proxy, load-balancer, nginx, timeouts, keep-alive]
 pairs_with:
   prompts: [debug-network-request, investigate-latency-spike]

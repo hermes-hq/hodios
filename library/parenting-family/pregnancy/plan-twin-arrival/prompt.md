@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [twins, multiple-birth, triplets, tandem-feeding, household-help]
 pairs_with:
   prompts: [choose-baby-gear, plan-infant-feeding, prepare-for-neonatal-unit-stay]

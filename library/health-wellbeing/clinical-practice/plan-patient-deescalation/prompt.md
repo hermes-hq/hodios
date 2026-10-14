@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [de-escalation, workplace-violence, aggression-management, emergency-department, dementia-care, staff-safety]
 pairs_with:
   prompts: [plan-breaking-bad-news, write-patient-safety-incident-report, write-person-centred-care-plan]

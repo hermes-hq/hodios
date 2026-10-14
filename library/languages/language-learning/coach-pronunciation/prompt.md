@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ipa, minimal-pairs, accent]
 pairs_with:
   prompts: [explain-phrase-in-context]

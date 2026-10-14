@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [instagram-growth, short-form-video, organic-reach, content-pillars, creator-strategy]
 pairs_with:
   prompts: [run-social-media-audit, write-instagram-caption, plan-carousel-post, plan-instagram-stories]

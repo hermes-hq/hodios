@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [protein, high-protein, food-swaps, budget-eating, satiety]
 pairs_with:
   prompts: [plan-nutrition-targets, plan-muscle-gain-nutrition, plan-filling-snacks, plan-plant-based-nutrition]

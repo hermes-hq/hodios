@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [beta-programme, early-access, pilot-agreement, feedback-licence, pre-release-software, confidentiality]
 pairs_with:
   prompts: [plan-beta-program, plan-beta-to-ga-transition, write-terms-of-service, draft-data-processing-agreement]

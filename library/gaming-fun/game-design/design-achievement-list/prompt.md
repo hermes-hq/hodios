@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [achievements, trophies, completionism, player-motivation, platform-requirements, secrets]
 pairs_with:
   prompts: [design-progression-system, write-game-design-document]

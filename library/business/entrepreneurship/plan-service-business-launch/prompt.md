@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [local-business, home-services, service-pricing, local-marketing, booking]
 pairs_with:
   prompts: [price-services, find-first-customers, start-freelance-business, plan-side-business]

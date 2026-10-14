@@ -19,7 +19,8 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [gift-ideas, birthdays, anniversaries, personal-touch]
+depth: specific
+tags: [gift-ideas, birthdays, anniversaries, personal-touch, present-ideas, gift-for-mum, christmas-gifts]
 pairs_with:
   prompts: [plan-relationship-check-in, plan-kids-party]
 args:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [personality-quiz, which-are-you, scoring-key, result-profiles, party-fun]
 pairs_with:
   prompts: [create-party-game-cards, host-trivia-night]

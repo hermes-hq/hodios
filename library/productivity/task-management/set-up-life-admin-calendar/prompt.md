@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [life-admin, renewals, reminders, household-admin, recurring-tasks, deadlines]
 pairs_with:
   prompts: [clear-life-admin-backlog, run-monthly-review, write-household-operations-manual, plan-digital-legacy]

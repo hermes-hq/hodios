@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [annual-review, person-centred-planning, review-meeting, family-partnership, meeting-agenda]
 pairs_with:

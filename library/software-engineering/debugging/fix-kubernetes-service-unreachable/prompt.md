@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [services, ingress, endpoints, network-policies, cluster-dns]
 pairs_with:
   prompts: [diagnose-crashlooping-pod, write-kubernetes-manifests]

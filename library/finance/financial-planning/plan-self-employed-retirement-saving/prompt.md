@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sole-trader, no-employer-match, pension-contributions, irregular-income, retirement-saving]
 pairs_with:
   prompts: [compare-retirement-accounts, plan-freelance-tax-set-aside, plan-retirement-scenarios, plan-finances-before-going-self-employed]

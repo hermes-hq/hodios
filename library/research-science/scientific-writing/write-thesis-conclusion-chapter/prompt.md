@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thesis, dissertation, original-contribution, phd, viva]
 pairs_with:
   prompts: [write-discussion-section, plan-thesis-structure]

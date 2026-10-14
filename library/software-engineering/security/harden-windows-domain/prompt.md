@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [active-directory, windows-hardening, admin-tiering, laps, ransomware-resilience]
 pairs_with:
   prompts: [harden-linux-server, review-cloud-iam-policy, prioritize-vulnerability-backlog]

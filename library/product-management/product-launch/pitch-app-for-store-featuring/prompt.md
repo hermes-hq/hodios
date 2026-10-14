@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [app-store, google-play, editorial-featuring, mobile-apps, app-store-optimisation]
 pairs_with:
   prompts: [plan-mobile-app-launch, write-app-store-listing, plan-soft-launch]

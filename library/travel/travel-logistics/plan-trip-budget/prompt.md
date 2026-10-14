@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [travel-costs, cost-estimate]
 pairs_with:
   prompts: [plan-itinerary, plan-group-trip]

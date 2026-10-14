@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [set-pieces, set-plays, tactics, restarts, amateur-coach, playbook]
 pairs_with:
   prompts: [scout-opponent, plan-youth-sports-practice, choose-team-formation]

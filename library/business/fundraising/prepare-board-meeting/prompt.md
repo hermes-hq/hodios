@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [board-pack, board-agenda, pre-read, governance, investor-relations]
 pairs_with:
   prompts: [write-investor-update, build-annual-operating-plan, explain-term-sheet]

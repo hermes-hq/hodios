@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [hiking-with-kids, baby-carrier, family-walks, lost-child-plan, trail-snacks, toddlers]
 pairs_with:
   prompts: [plan-nature-walk-activities, plan-trail-water, build-outdoor-first-aid-kit]

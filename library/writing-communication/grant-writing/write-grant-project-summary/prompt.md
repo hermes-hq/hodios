@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [project-summary, grant-abstract, lay-summary, character-limit, first-impression]
 pairs_with:
   prompts: [write-grant-application, write-needs-statement]

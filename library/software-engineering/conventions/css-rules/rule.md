@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: beginner
+depth: specific
 tags: [custom-properties, specificity, sass-nesting, responsive-layout, design-tokens]
 applies_to: ["**/*.css", "**/*.scss", "**/*.module.css"]
 pairs_with:

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [job-offer, non-compete, notice-period, restrictive-covenants]
 pairs_with:
   prompts: [summarize-contract, explain-contract-clause, compare-contract-versions]

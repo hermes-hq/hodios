@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [launch-sequence, course-launch, cart-close, objection-handling, open-cart]
 pairs_with:
   prompts: [write-promo-email, write-email-subject-lines, write-event-email-sequence]

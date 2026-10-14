@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flexible-working, remote-work, hybrid-work, part-time, compressed-hours, four-day-week]
 pairs_with:
   prompts: [ask-for-raise, plan-one-on-one]

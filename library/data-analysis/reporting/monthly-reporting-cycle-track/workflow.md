@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [month-end, recurring-reporting, data-quality, variance-commentary, sign-off]
 pairs_with:
   prompts: [write-monthly-business-review, compare-period-performance, explain-metric-discrepancy, automate-recurring-report, write-data-methodology-note]

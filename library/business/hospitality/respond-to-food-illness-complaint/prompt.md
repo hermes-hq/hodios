@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [food-poisoning, food-safety, allergen, environmental-health, incident-record]
 pairs_with:
   prompts: [write-support-reply, respond-to-online-review]

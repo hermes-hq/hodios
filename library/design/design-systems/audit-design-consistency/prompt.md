@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ui-inventory, design-debt, consolidation, style-audit]
 pairs_with:
   prompts: [define-design-tokens, write-component-spec, critique-ui-screen]

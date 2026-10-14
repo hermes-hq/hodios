@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [double-entry, ledger, account-balances, money-movement, reconciliation, idempotency]
 pairs_with:
   prompts: [implement-money-arithmetic, implement-idempotency-keys, review-diff-for-money-handling-bugs]

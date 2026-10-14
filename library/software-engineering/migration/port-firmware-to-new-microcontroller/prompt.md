@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [mcu-port, hal, board-bring-up, pin-mapping, interrupts, bootloader]
 pairs_with:
   personas: [embedded-engineer, migration-engineer]

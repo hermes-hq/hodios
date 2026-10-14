@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [calendar-template, month-grid, event-list, date-formulas, year-planner]
 pairs_with:
   prompts: [calculate-dates-and-workdays, write-conditional-formatting-rules, build-leave-tracker-spreadsheet]

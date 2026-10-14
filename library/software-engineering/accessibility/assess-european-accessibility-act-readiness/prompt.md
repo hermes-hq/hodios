@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [european-accessibility-act, en-301-549, eu-market, gap-analysis, accessibility-compliance]
 pairs_with:
   personas: [accessibility-specialist]

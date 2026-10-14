@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [terminal, command-line, simulator, linux, practice-sandbox]
 pairs_with:
   personas: [coding-mentor]

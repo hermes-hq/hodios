@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [life-cover, term-life, needs-analysis, dependants, death-in-service]
 pairs_with:
   prompts: [review-insurance-coverage, explain-insurance-policy, compare-income-protection-policies]

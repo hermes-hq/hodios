@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [weekly-update, managing-up, 1-on-1-prep, blockers, priorities]
 pairs_with:
   prompts: [write-status-report, give-upward-feedback]

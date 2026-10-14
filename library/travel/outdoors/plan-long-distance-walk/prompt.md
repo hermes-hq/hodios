@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [long-distance-walking, pilgrimage, camino, hut-to-hut, trekking]
 pairs_with:
   prompts: [prepare-for-long-hike, build-packing-list, plan-trip-budget]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [text-to-sql, nl2sql, query-safety, read-only, parameterized-queries]
 pairs_with:
   prompts: [answer-question-with-sql, add-llm-output-guardrails, decompose-complex-question]

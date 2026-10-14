@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [character-consistency, character-sheet, reference-images, turnaround]
 pairs_with:
   prompts: [build-image-style-guide, write-image-prompt, create-storyboard]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [saying-no, lending, family-pressure, refusal, guilt]
 pairs_with:
   prompts: [set-boundary, plan-supporting-family-financially, decide-on-cosigning-loan]

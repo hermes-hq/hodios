@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [report-migration, parity-testing, power-query, dax, cutover]
 pairs_with:
   prompts: [design-power-bi-data-model, write-dax-measure, write-power-query, write-report-runbook]

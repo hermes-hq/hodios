@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [toasts, bar-etiquette, alcohol-laws, social-drinking]
 pairs_with:
   prompts: [prepare-for-dinner-at-local-home, learn-business-etiquette-abroad, learn-local-etiquette]

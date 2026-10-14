@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [working-backwards, press-release, internal-faq, new-initiative]
 pairs_with:
   prompts: [write-product-vision, map-assumptions, write-product-strategy, write-launch-faq]

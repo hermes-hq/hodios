@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ramadan, eid, seasonal-campaign, mena]
 pairs_with:
   prompts: [plan-promotional-offer, write-launch-social-posts]

@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coaching-cycle, classroom-observation, professional-development]
 pairs_with:
   prompts: [write-lesson-plan, differentiate-lesson, design-classroom-activity]

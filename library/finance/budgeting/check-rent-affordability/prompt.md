@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rent-affordability, moving-out, rental-costs, move-in-costs]
 pairs_with:
   prompts: [build-monthly-budget, compare-rent-vs-buy, split-shared-expenses, plan-first-job-finances]

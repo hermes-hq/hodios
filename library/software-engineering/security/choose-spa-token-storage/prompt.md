@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [token-storage, backend-for-frontend, cookies, authentication]
 pairs_with:
   prompts: [implement-jwt-refresh-tokens, implement-token-refresh-interceptor, add-csrf-protection, implement-oauth-login]

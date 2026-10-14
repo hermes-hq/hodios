@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mountain-weather, go-no-go, wind-chill, freezing-level, lightning, mountain-safety]
 pairs_with:
   prompts: [set-turnaround-time, plan-winter-hill-day, write-trip-intentions-plan]

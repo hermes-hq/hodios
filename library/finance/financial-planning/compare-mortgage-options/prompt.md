@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mortgage, fixed-rate, variable-rate, overpayments, offset-mortgage, rate-shock]
 pairs_with:
   prompts: [prepare-mortgage-application, compare-rent-vs-buy, compare-loan-offers, build-monthly-budget]

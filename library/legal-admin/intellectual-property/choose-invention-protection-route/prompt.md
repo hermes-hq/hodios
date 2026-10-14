@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [patent-strategy, trade-secrets, defensive-publication, design-rights, protection-options]
 pairs_with:
   prompts: [prepare-invention-disclosure, plan-prior-art-search, audit-small-business-ip]

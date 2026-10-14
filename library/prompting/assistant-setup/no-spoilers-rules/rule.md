@@ -13,6 +13,7 @@ requires: [none]
 output: [explanation]
 risk: read-only
 level: beginner
+depth: specific
 tags: [spoilers, tv-series, books, plot-twists, recaps]
 pairs_with:
   prompts: [write-book-club-guide]

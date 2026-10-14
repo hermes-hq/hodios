@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [webinar, registration-page, live-workshop, reminders, show-up-rate]
 pairs_with:
   prompts: [write-webinar-script, write-event-email-sequence, write-event-promo-copy, write-headline-variations]

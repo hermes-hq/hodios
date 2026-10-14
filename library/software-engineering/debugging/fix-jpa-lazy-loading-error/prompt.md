@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [jpa, hibernate, lazy-loading, transactions]
 pairs_with:
   prompts: [fix-n-plus-one-queries, fix-spring-bean-creation-error]

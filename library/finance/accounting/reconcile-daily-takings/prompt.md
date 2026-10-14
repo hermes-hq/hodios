@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [daily-takings, cash-handling, till-variance, card-terminal, point-of-sale]
 pairs_with:
   prompts: [reconcile-payment-processor-payouts, reconcile-bank-account, set-up-internal-controls]

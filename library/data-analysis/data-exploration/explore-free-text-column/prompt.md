@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [text-analysis, n-grams, text-profiling, open-text, nlp]
 pairs_with:
   prompts: [classify-text-records, explore-dataset, anonymize-dataset]

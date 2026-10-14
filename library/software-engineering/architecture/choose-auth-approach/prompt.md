@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [authentication, sessions, identity-provider, passkeys, build-vs-buy]
 pairs_with:
   personas: [software-architect]

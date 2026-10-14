@@ -7,6 +7,7 @@ description: Generates many diverse ideas with structured techniques such as SCA
 category: brainstorming
 version: 1.0.0
 status: incubating
+depth: basic
 stage: [discover, design]
 inputs: [topic, text]
 output: [ideas, table]

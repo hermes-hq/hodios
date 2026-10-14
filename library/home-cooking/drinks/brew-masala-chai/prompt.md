@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [masala-chai, spiced-tea, stovetop, plant-milk]
 pairs_with:
   prompts: [brew-tea-properly, make-plant-milk]

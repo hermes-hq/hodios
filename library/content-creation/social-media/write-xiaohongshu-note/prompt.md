@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [xiaohongshu, lifestyle-notes, sponsored-disclosure, china]
 pairs_with:
   prompts: [write-taobao-product-detail-page, write-wechat-official-account-article]

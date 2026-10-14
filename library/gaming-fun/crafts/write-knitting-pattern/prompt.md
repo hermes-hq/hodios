@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [knitting, crochet, pattern-writing, tech-editing, grading, fibre-crafts]
 pairs_with:
   prompts: [resize-knitting-pattern, plan-knitting-project, design-colourwork-chart]

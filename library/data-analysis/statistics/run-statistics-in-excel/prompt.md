@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [analysis-toolpak, t-test, anova, linest, spreadsheet-statistics]
 pairs_with:
   prompts: [choose-statistical-test, interpret-statistical-test-output, write-spreadsheet-formula]

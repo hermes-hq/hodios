@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [post-mortem, variance-bridge, root-cause, assumptions, bias]
 pairs_with:
   prompts: [measure-forecast-accuracy, write-forecast-commentary, monitor-forecast-drift]

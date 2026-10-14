@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [side-hustle, gig-economy, reselling, platform-reporting]
 pairs_with:
   prompts: [plan-freelance-tax-set-aside, track-business-expenses, check-sales-tax-obligations]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [new-diagnosis, care-team, health-information, medical-records, telling-work, patient-advocacy]
 pairs_with:
   prompts: [explain-diagnosis, prepare-second-opinion, prepare-treatment-decision, plan-chronic-condition-self-management]

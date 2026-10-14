@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [api-reference, typedoc, sphinx-autodoc, rustdoc, javadoc, doc-comments]
 pairs_with:
   prompts: [document-public-api, set-up-docs-site]

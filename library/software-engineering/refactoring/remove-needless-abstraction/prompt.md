@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [over-engineering, speculative-generality, indirection, inline, yagni]
 pairs_with:
   prompts: [remove-dead-code, apply-design-pattern]

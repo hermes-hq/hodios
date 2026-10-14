@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [stock-options, rsu, vesting-schedule, exercise-window, good-leaver, equity-grant]
 pairs_with:
   prompts: [explain-equity-compensation, evaluate-job-offer, explain-contract-clause]

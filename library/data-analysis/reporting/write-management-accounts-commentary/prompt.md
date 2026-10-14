@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [management-accounts, month-end, profit-and-loss, working-capital, board-pack]
 pairs_with:
   prompts: [explain-budget-variance, write-monthly-business-review, forecast-cash-flow, check-report-figures]

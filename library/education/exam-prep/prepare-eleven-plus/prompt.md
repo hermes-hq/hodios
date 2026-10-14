@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [eleven-plus, grammar-school, verbal-reasoning, non-verbal-reasoning, entrance-test, child-wellbeing]
 pairs_with:
   prompts: [create-study-plan, plan-exam-day-strategy]

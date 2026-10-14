@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ielts, toefl, dele, delf, goethe, writing-assessment, band-score, cefr]
 pairs_with:
   prompts: [practice-speaking-exam, correct-my-sentences, plan-language-learning]

@@ -7,6 +7,7 @@ description: Standing rules for React code an assistant writes, covering functio
 category: conventions
 version: 1.0.0
 status: experimental
+depth: specific
 stage: [build]
 role: [frontend-engineer, fullstack-engineer, software-engineer]
 stack: [react]

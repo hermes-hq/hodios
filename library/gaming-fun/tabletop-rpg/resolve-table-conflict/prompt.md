@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [group-dynamics, game-mastering, table-etiquette, spotlight, play-styles]
 pairs_with:
   prompts: [run-session-zero, adjudicate-rules-dispute]

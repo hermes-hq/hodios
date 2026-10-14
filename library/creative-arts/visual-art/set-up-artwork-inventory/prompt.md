@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [artwork-records, art-business, consignment, provenance, spreadsheet]
 pairs_with:
   prompts: [price-artwork, plan-print-edition, plan-art-exhibition]

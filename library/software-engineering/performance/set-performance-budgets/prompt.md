@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [performance-budgets, core-web-vitals, ci-gates, regression-prevention, lighthouse-ci]
 pairs_with:
   prompts: [improve-web-vitals, reduce-bundle-size, speed-up-app-cold-start]

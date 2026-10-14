@@ -19,6 +19,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [test-coverage, risk-based-testing, mutation-testing, churn-analysis]
 pairs_with:
   prompts: [fill-test-gaps, run-mutation-testing, add-characterization-tests, review-test-quality]

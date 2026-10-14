@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-support-agent, chatbot-testing, answer-accuracy, human-handoff, test-set]
 pairs_with:
   prompts: [design-support-chatbot-flow, audit-help-center-content, design-escalation-process]

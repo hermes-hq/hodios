@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sensitive-topics, crisis-routing, professional-referral, safety-policy, overrefusal]
 pairs_with:
   prompts: [write-system-prompt, red-team-prompt, write-conversation-test-scripts]

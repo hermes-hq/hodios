@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-prototyping, ui-generation, screen-spec, vibe-coding, prototypes]
 pairs_with:
   prompts: [write-spec-for-coding-agent, write-design-system-ai-instructions, create-wireframe-spec, derive-screen-inventory]

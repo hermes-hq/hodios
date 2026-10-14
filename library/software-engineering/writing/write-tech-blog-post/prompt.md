@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [engineering-blog]
 pairs_with:
   prompts: [rewrite-for-clarity]

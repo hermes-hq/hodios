@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [strategy-kernel, diagnosis, guiding-policy, coherent-action, bad-strategy]
 pairs_with:
   prompts: [write-three-year-strategic-plan, pick-strategy-framework, run-swot-analysis, write-one-page-strategy-for-owners]

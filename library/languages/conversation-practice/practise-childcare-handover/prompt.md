@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 advice_risk: [medical]
 tags: [childcare, nursery, handover, allergies, newcomers]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [random-selection, prize-draw, audit-sampling, stratified-sample, randarray]
 pairs_with:
   prompts: [write-spreadsheet-formula, clean-messy-spreadsheet]

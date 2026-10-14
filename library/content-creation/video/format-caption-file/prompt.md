@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [captions, srt, webvtt, deaf-access, reading-speed, line-breaks]
 pairs_with:
   prompts: [translate-subtitles, write-audio-description-script, build-video-publish-checklist]

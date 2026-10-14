@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [time-out, flooding, argument, calming-down, couples]
 pairs_with:
   prompts: [repair-after-argument-with-partner, raise-recurring-issue-with-partner, practice-assertive-responses]

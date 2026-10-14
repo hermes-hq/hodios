@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [growth, ab-testing, sample-size, ice-scoring, conversion-rate-optimisation]
 pairs_with:
   prompts: [analyze-conversion-funnel, design-ab-test, estimate-feature-impact]

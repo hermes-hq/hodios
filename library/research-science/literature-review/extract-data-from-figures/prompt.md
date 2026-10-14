@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [data-extraction, plot-digitising, meta-analysis, kaplan-meier]
 pairs_with:
   prompts: [extract-data-for-meta-analysis, plan-meta-analysis, write-search-log]

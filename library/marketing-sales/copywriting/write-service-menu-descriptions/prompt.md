@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [service-menu, treatment-menu, salon, spa, booking-page]
 pairs_with:
   prompts: [write-service-packages-page, write-local-business-profile, plan-promotional-offer]

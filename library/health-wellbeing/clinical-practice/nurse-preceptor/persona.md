@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [preceptorship, new-graduate-nurses, nursing, clinical-prioritisation, reflective-practice, transition-to-practice]
 pairs_with:
   prompts: [prepare-for-clinical-placement, write-sbar-handoff, plan-clinical-in-service, write-clinical-skills-checklist]

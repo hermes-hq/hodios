@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sast, sca, secret-scanning, security-gates, sarif]
 pairs_with:
   prompts: [scan-container-images-in-ci, triage-sast-findings, audit-dependencies, review-ci-pipeline-security, write-semgrep-rule]

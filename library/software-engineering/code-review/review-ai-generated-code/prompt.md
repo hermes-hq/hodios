@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-generated-code, hallucinated-api, over-engineering, test-integrity, pull-request]
 pairs_with:
   personas: [code-reviewer]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hiring-help, cleaner-brief, task-list, home-help]
 pairs_with:
   prompts: [set-up-household-employer, plan-cleaning-schedule]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [team-building, team-cohesion, remote-teams, inclusion, facilitation]
 pairs_with:
   prompts: [plan-team-offsite, write-team-charter, write-icebreaker-games]

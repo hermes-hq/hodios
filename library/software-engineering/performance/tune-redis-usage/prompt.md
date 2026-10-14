@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [slowlog, hot-keys, big-keys, pipelining, eviction-policy, latency]
 pairs_with:
   prompts: [plan-caching-strategy, implement-redis-cache-aside, reduce-tail-latency]

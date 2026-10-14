@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [takeaway, delivery-apps, commission, click-and-collect, contribution-margin, channel-mix]
 pairs_with:
   prompts: [plan-delivery-routes, plan-owner-led-price-rise, test-capacity-before-growth, engineer-restaurant-menu]

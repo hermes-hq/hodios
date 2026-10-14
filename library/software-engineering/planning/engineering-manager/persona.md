@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [engineering-leadership, priorities, one-on-ones, team-health, delivery, performance-feedback]
 pairs_with:
   prompts: [plan-sprint, write-technical-roadmap, write-tech-debt-proposal, estimate-with-ranges]

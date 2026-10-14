@@ -7,6 +7,7 @@ description: Summarises a non-fiction book's argument, key ideas, evidence and c
 category: summarization
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [learn]
 role: [individual, student, manager, founder]
 inputs: [topic, notes, document]

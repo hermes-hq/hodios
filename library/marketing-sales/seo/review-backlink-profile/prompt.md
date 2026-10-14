@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [backlinks, disavow, link-audit, toxic-links]
 pairs_with:
   prompts: [write-link-building-outreach, write-reconsideration-request, diagnose-organic-traffic-drop]

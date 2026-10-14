@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deadline, commitment, trade-offs, stakeholder-communication, scope-negotiation]
 pairs_with:
   prompts: [estimate-with-ranges, assess-scope-change-request, replan-slipping-project]

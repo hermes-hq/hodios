@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [poster-design, visual-hierarchy, grid-systems, typography, print-specs]
 pairs_with:
   prompts: [write-design-brief, pair-typefaces, create-color-palette, prepare-print-files, critique-graphic-design]

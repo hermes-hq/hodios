@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [apprenticeship, on-the-job-training, competency-matrix, trades, apprentice-mentor, workplace-learning]
 pairs_with:
   prompts: [design-onboarding-curriculum, run-training-needs-analysis, evaluate-training-effectiveness]

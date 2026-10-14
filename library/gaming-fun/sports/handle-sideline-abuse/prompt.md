@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [touchline-behaviour, spectator-abuse, respect-for-officials, de-escalation, club-welfare, youth-sports]
 pairs_with:
   prompts: [write-referee-incident-report, plan-team-season]

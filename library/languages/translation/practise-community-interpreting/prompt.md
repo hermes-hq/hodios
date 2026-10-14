@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [community-interpreting, consecutive-interpreting, interpreter-ethics, dialogue-interpreting, volunteers]
 pairs_with:
   prompts: [interpret-conversation, build-translation-glossary, translate-medical-information]

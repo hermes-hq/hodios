@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [baking-tools, kitchen-equipment, stand-mixer, kitchen-scale, buying-guide]
 pairs_with:
   prompts: [calibrate-home-oven, convert-baking-recipe-to-grams]

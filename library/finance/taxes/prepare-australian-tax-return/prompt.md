@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mytax, ato, work-related-deductions, medicare-levy, australia, tax-return]
 pairs_with:
   prompts: [claim-employee-tax-deductions, organize-tax-documents, explain-tax-notice]

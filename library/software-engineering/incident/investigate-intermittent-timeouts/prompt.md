@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [timeouts, connection-pool, retries, keep-alive, flaky-network]
 pairs_with:
   prompts: [investigate-latency-spike, collect-incident-evidence, add-retries-and-timeouts]

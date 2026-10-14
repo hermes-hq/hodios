@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [storytelling, anecdote, story-structure, star-method, toast]
 pairs_with:
   prompts: [write-speech, write-lightning-talk]

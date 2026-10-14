@@ -7,6 +7,7 @@ description: Shifts any answer toward a formal, professional register, from ligh
 category: output-styles
 version: 1.0.0
 status: incubating
+depth: specific
 output: [rewrite]
 risk: read-only
 tags: [register, professional-tone, business-correspondence, formality]

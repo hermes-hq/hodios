@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [neighbourhood-guide, fair-housing, estate-agents, area-guide]
 pairs_with:
   prompts: [write-real-estate-market-update, write-meta-tags, write-schema-markup]

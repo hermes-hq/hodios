@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [error-analysis, fossilisation, interlanguage, remediation-plan, accuracy]
 pairs_with:
   prompts: [correct-my-sentences, explain-grammar-point, generate-language-drills, run-language-journal]

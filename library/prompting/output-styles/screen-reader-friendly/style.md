@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: beginner
+depth: specific
 role: [individual]
 tags: [screen-reader, inclusive-writing, blind-and-low-vision, assistive-technology, alt-text]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [bet-portfolio, capacity-allocation, horizons, investment-mix, core-vs-new, product-bets]
 pairs_with:
   prompts: [set-kill-criteria, write-product-strategy, prepare-product-review-meeting, rationalize-product-line]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [home-bar, bar-tools, spirits, mixers, alcohol-free, shopping-list]
 pairs_with:
   prompts: [fix-unbalanced-cocktail, invent-alcohol-free-cocktail, design-cocktail-menu]

@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [further-education, vocational-training, apprenticeships, gcse-resits, adult-learning, work-readiness]
 pairs_with:
   prompts: [write-individual-learning-plan, write-lesson-plan, create-rubric]

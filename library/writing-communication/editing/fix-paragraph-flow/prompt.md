@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [cohesion, transitions, topic-sentences, essay-writing, signposting]
 pairs_with:
   prompts: [edit-for-structure, line-edit-prose, strengthen-opening-and-closing]

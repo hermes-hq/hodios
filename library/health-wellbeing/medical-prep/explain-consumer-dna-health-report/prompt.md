@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [genetic-testing, direct-to-consumer-test, genetic-risk, brca, apoe, plain-language-health]
 pairs_with:
   prompts: [prepare-for-genetic-counselling, organize-family-medical-history, prepare-doctor-questions]

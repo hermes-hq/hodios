@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [landlord, rental-property, safety-checks, deposit-protection, letting, fair-housing]
 pairs_with:
   prompts: [analyze-rental-property, review-lease, draft-simple-agreement, build-compliance-checklist, organize-rental-income-records, set-up-rental-maintenance-process]

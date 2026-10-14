@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pilates, core-strength, mat-work, breathing, posture]
 pairs_with:
   prompts: [design-yoga-sequence, design-mobility-routine, plan-fitness-class]

@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [capabilities, ipc, tauri-commands, desktop-app, auto-update]
 applies_to: ["src-tauri/**", "src/**/*.ts", "src/**/*.tsx"]
 pairs_with:

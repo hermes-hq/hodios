@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pay-transparency, salary-range, job-ad, internal-equity, compensation]
 pairs_with:
   prompts: [design-salary-bands, audit-job-description, respond-to-candidate-counteroffer, analyze-pay-equity]

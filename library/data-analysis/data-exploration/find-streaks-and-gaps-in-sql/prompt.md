@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [gaps-and-islands, streaks, sessionization, window-functions, analytics-sql]
 pairs_with:
   prompts: [write-window-function-query, answer-question-with-sql]

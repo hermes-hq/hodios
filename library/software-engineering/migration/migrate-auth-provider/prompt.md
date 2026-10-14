@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [authentication, identity-provider, password-hashing, mfa, sso, user-migration]
 pairs_with:
   prompts: [plan-incremental-migration, implement-oauth-login]

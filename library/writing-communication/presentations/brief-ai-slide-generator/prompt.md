@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [ai-slide-tools, copilot, gamma, slide-outline, deck-generation]
 pairs_with:
   prompts: [outline-presentation, critique-slide-deck, proofread-slide-deck]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mood-tracking, triggers, self-monitoring, therapy-prep, patterns]
 pairs_with:
   prompts: [prepare-for-therapy, improve-sleep-habits, build-coping-plan]

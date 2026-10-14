@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [algorithm-analysis, data-structures, big-o, worked-example, coding-interviews]
 pairs_with:
   prompts: [explain-concept-with-code, create-coding-exercises]

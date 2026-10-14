@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [message-match, landing-pages, conversion-rate, scent, ad-relevance]
 pairs_with:
   prompts: [write-landing-page-copy, analyze-ad-performance, write-google-ads, write-social-ad-variations]

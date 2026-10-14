@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [risk-based-testing, exploratory-testing, exit-criteria, release-testing]
 pairs_with:
   prompts: [fill-test-gaps, write-e2e-test, write-acceptance-criteria]

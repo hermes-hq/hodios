@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [legacy-systems, system-replacement, reverse-engineering, requirements]
 pairs_with:
   prompts: [add-characterization-tests, write-prd, review-spec-for-gaps]

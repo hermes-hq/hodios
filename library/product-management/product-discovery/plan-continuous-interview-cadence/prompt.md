@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [continuous-discovery, interview-cadence, product-trio, automated-recruiting, interview-snapshot]
 pairs_with:
   prompts: [write-customer-interview-guide, synthesize-customer-interviews, map-opportunity-solution-tree, write-research-screener]

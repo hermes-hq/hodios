@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [process-mining, cycle-time, bottlenecks, flow-efficiency, lean]
 pairs_with:
   prompts: [run-pareto-analysis, answer-question-with-sql, write-dataframe-transformation]

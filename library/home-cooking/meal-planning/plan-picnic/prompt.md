@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [picnic, outdoor-eating, packing-list, cool-box, food-safety, summer]
 pairs_with:
   prompts: [organise-potluck, plan-barbecue-cook]

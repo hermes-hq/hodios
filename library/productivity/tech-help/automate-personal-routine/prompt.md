@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [personal-automation, apple-shortcuts, tasker, power-automate, ifttt]
 pairs_with:
   prompts: [plan-smart-home]

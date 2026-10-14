@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wireframe, information-architecture, ui-states, responsive-design]
 pairs_with:
   prompts: [critique-ui-screen, write-component-spec, write-ux-microcopy]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [corrective-action, non-conformance, root-cause, audit-response, farm-inspection]
 pairs_with:
   prompts: [prepare-farm-assurance-audit, plan-livestock-record-keeping]

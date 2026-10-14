@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [information-security, isms, access-control, security-questionnaire, staff-security-rules]
 pairs_with:
   prompts: [answer-security-questionnaire, plan-data-breach-response, write-ai-use-policy]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [impact-report, annual-report, outcomes, storytelling, transparency, social-enterprise]
 pairs_with:
   prompts: [write-grant-report, write-case-for-support, write-donor-appeal]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, multi-agent, subagents, least-privilege]
 pairs_with:
   prompts: [write-subagent-brief, write-agent-custom-command, audit-agent-permissions]

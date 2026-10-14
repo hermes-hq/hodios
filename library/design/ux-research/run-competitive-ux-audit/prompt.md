@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitive-analysis, ux-benchmark, design-patterns, friction]
 pairs_with:
   prompts: [run-heuristic-evaluation, critique-ui-screen, analyze-competitors]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rejection, resilience, self-worth, setbacks, job-applications, submissions]
 pairs_with:
   prompts: [reframe-negative-thoughts, practice-self-compassion, respond-to-job-rejection, build-self-confidence]

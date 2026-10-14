@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [order-tracking, delivery-promise, contact-deflection, proactive-updates, dispatch-times]
 pairs_with:
   prompts: [analyze-support-tickets, write-support-reply, build-support-macros]

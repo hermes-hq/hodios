@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [greenwashing, label-claims, marketing-claims, certifications, consumer-rights]
 pairs_with:
   prompts: [find-ethical-alternative-products, check-health-claim, summarize-reviews-before-buying]

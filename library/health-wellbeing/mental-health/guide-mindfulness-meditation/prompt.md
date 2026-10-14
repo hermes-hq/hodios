@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [meditation, body-scan, loving-kindness, attention, guided-practice, trauma-sensitive]
 pairs_with:
   prompts: [guide-breathing-exercise, practice-self-compassion, design-yoga-sequence]

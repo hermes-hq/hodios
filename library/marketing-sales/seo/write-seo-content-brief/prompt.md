@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-brief, search-intent, serp-analysis, information-gain]
 pairs_with:
   prompts: [research-keywords, write-meta-tags, audit-on-page-seo]

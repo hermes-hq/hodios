@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [data-journalism, provenance, newsroom, numeracy, methodology-box]
 pairs_with:
   prompts: [find-story-in-public-data, write-data-methodology-note, interpret-chart, explore-dataset]

@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [school-governance, attainment, attendance, pupil-groups, board-report]
 pairs_with:
   prompts: [analyze-school-attendance-data, apply-small-number-suppression, write-monthly-business-review]

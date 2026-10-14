@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [reorganisation, org-design, change-management, reporting-lines, team-topology]
 pairs_with:
   prompts: [plan-layoff-conversation, write-team-charter, write-internal-announcement, write-headcount-request]

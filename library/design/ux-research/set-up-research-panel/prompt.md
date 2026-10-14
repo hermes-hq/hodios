@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-ops, participant-panel, participant-recruitment, research-incentives, consent, data-protection]
 pairs_with:
   prompts: [write-research-screener, write-informed-consent-form, map-personal-data-processing]

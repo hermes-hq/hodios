@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [csv-export, scheduled-reports, data-reconciliation, b2b, report-builder]
 pairs_with:
   prompts: [write-prd, list-feature-edge-cases, define-non-functional-requirements]

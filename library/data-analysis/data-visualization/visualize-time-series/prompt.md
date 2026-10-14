@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [line-chart, trend-chart, seasonality, chart-design]
 pairs_with:
   prompts: [choose-chart-type, design-small-multiples, write-plotting-code, replace-dual-axis-chart]

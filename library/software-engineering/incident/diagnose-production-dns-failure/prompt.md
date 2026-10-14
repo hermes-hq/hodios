@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dns, ttl, coredns, dnssec, name-resolution]
 pairs_with:
   prompts: [triage-production-alert, investigate-intermittent-timeouts, write-incident-update]

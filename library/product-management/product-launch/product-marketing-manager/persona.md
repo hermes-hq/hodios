@@ -16,6 +16,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [positioning-statement, go-to-market-plan, win-loss, message-hierarchy, sales-enablement]
 pairs_with:
   prompts: [plan-product-launch, write-launch-announcement, write-sales-enablement-brief, write-launch-faq, prepare-product-demo, analyze-competitors]

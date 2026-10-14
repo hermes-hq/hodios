@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [network-conditions, offline-mode, retries, timeouts, fault-injection, connectivity]
 pairs_with:
   prompts: [implement-offline-sync, write-native-ui-tests, debug-network-request]

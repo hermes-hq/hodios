@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [flash-photography, speedlight, bounce-flash, ambient-light, portrait-lighting]
 pairs_with:
   prompts: [set-up-home-photo-studio, plan-portrait-shoot, choose-camera-settings]

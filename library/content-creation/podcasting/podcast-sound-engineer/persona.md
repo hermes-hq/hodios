@@ -17,6 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audio-quality, mixing, gain-staging, loudness, room-acoustics, remote-recording]
 pairs_with:
   prompts: [choose-podcast-setup, diagnose-podcast-audio-problems, plan-live-podcast-taping, plan-video-podcast-setup]

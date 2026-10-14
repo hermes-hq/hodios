@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [reseller-program, distributors, channel-margins, territory-terms, partner-enablement]
 pairs_with:
   prompts: [plan-sales-territory, build-sales-playbook, write-cold-outreach]

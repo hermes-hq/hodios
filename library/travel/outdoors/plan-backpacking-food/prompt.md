@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [trail-food, calorie-density, pack-weight, stove-fuel, resupply, bear-safety]
 pairs_with:
   prompts: [plan-trail-water, plan-camping-trip, prepare-for-long-hike]

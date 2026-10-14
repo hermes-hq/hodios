@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-performance, seasonality, customer-concentration, product-mix]
 pairs_with:
   prompts: [decompose-revenue-change, run-pareto-analysis, compare-period-performance, segment-customers]

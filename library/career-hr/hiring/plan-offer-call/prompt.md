@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-offer, verbal-offer, closing-candidates, offer-acceptance, candidate-motivators]
 pairs_with:
   prompts: [respond-to-candidate-counteroffer, write-offer-letter, run-hiring-debrief]

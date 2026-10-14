@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [community-meetings, time-zones, meeting-notes, facilitation, contributor-engagement]
 pairs_with:
   prompts: [choose-community-channels, write-project-governance, plan-contribution-sprint]

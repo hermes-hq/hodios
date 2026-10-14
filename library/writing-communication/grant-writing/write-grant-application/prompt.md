@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: basic
 tags: [logic-model, budget-narrative, funder-criteria]
 args:
   - name: organization

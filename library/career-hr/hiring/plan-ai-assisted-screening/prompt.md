@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-in-hiring, automated-decision-making, bias-audit, human-review, responsible-ai]
 pairs_with:
   prompts: [write-candidate-ai-policy, screen-resumes, select-applicant-tracking-system, assess-ai-act-obligations]

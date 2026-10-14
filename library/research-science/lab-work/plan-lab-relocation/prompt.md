@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lab-move, decommissioning, cold-chain, hazardous-materials-transport, instrument-requalification]
 pairs_with:
   prompts: [plan-freezer-failure-response, set-up-sample-tracking, plan-instrument-calibration-schedule]

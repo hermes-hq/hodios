@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [tender-feedback, lost-deal, bid-debrief, buyer-relationship, sales-learning]
 pairs_with:
   prompts: [run-win-loss-analysis, write-follow-up-email, write-freelance-proposal]

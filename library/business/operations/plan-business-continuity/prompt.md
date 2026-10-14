@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [business-continuity, contingency-plan, disaster-recovery, critical-functions, cyber-incident, tabletop-exercise]
 pairs_with:
   prompts: [write-sop, map-business-process, compare-vendors]

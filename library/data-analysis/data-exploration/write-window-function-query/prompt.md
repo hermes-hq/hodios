@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [window-functions, analytics-sql, running-total, ranking, period-over-period]
 pairs_with:
   prompts: [answer-question-with-sql, review-analysis-sql]

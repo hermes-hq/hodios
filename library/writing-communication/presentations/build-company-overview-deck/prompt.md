@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [credentials-deck, proof-points, deck-reuse, value-proposition, modular-content]
 pairs_with:
   prompts: [build-sales-presentation-deck, adapt-deck-for-new-audience, add-sources-to-slides, migrate-deck-to-new-template]

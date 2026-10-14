@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [small-multiples, faceting, trellis, chart-design]
 pairs_with:
   prompts: [critique-chart, choose-chart-type, write-plotting-code]

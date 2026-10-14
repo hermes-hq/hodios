@@ -18,6 +18,7 @@ effort: standard
 interaction: interactive
 model_tier: mid
 level: beginner
+depth: specific
 tags: [learning-plan, practice-datasets, upskilling, self-study]
 pairs_with:
   prompts: [write-spreadsheet-formula, build-pivot-analysis]

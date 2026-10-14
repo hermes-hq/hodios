@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [guest-room, spare-room, sofa-bed, dual-purpose, furniture-layout]
 pairs_with:
   prompts: [set-up-home-office, plan-room-layout]

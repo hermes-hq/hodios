@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [payroll-error, overpayment, underpayment, repayment-plan, employee-communication]
 pairs_with:
   prompts: [set-up-first-payroll, answer-employee-hr-question, define-hr-metrics]

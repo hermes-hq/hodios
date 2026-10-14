@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [work-visa, international-careers, credential-recognition, expat, moving-abroad]
 pairs_with:
   prompts: [convert-cv-to-country-format, plan-job-search, research-company, prepare-visa-application]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [abitur, eroerterung, argumentative-essay, essay-structure, germany]
 pairs_with:
   prompts: [write-model-exam-answer, grade-practice-answers, plan-exam-day-strategy]

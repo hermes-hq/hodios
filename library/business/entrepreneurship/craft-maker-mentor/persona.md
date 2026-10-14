@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [makers, handmade-pricing, craft-fairs, wholesale, consignment, creative-burnout]
 pairs_with:
   prompts: [test-hobby-for-selling, plan-market-stall, plan-online-store, plan-pop-up-shop, decide-stall-to-shopfront-move]

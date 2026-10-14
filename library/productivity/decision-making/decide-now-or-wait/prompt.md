@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [timing, cost-of-delay, procrastination, windows, triggers]
 pairs_with:
   prompts: [decide-whether-to-research-more, time-a-purchase, make-decision-under-time-pressure]

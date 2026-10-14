@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [game-genres, beginner-gamer, learning-curve, difficulty-settings, entry-games]
 pairs_with:
   prompts: [recommend-games, set-up-accessible-gaming]

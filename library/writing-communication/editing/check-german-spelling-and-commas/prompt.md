@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [rechtschreibung, kommasetzung, capitalisation, spelling, grammar-rules, duden]
 pairs_with:
   prompts: [proofread-text, choose-du-or-sie, diagnose-recurring-errors]

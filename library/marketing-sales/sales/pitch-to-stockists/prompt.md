@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [stockists, wholesale-terms, independent-shops, makers, sale-or-return, buyer-pitch]
 pairs_with:
   prompts: [nudge-trade-account-reorders, handle-haggling-at-stall, write-cold-outreach]

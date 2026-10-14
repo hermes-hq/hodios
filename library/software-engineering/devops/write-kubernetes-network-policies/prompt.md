@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [network-policy, default-deny, zero-trust, cni, egress-control]
 pairs_with:
   prompts: [write-kubernetes-manifests, configure-kubernetes-rbac, fix-kubernetes-service-unreachable]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [database-migrations, deploy-pipeline, schema-changes, rollout-ordering]
 pairs_with:
   prompts: [plan-zero-downtime-schema-change, review-database-migration, design-deployment-strategy]

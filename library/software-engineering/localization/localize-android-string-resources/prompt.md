@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [strings-xml, per-app-language, jetpack-compose]
 pairs_with:
   prompts: [extract-ui-strings, plan-rtl-support]

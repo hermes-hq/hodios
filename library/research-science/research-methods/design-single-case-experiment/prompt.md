@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [single-case-design, multiple-baseline, n-of-1, applied-behaviour-analysis, visual-analysis]
 subject: [psychology, education-sector]
 pairs_with:

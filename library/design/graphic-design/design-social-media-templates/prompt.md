@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [social-templates, visual-consistency, carousel-design, safe-zones, brand-application]
 pairs_with:
   prompts: [build-brand-guidelines, design-infographic, create-color-palette]

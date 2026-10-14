@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [open-source-licenses, license-compliance, spdx, copyleft, sbom, notices]
 pairs_with:
   prompts: [audit-dependencies, vet-dependency]

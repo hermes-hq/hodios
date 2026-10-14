@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [property-ads, fair-housing, special-ad-category, open-house, lettings, seller-leads]
 pairs_with:
   prompts: [write-real-estate-listing, write-open-house-promotion, check-ad-policy-compliance]

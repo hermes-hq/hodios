@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [knitting, crochet, yarn, gauge, pattern-reading, fibre-crafts]
 pairs_with:
   prompts: [plan-sewing-project]

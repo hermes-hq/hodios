@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [type-level-programming, generics, conditional-types, type-tests]
 pairs_with:
   prompts: [replace-loose-types, consolidate-duplicate-type-definitions, fix-typescript-type-error]

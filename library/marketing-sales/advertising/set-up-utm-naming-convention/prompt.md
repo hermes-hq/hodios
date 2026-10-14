@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [utm-parameters, naming-convention, campaign-tagging, ga4, channel-grouping, link-builder]
 pairs_with:
   prompts: [plan-ad-conversion-tracking, write-monthly-ads-report, build-content-measurement-plan]

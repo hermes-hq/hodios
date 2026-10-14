@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [food-photography, food-styling, menu-imagery, recipe-blog, lighting]
 pairs_with:
   prompts: [write-image-prompt, write-product-photo-prompt]

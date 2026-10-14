@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [retail-sales, in-store-selling, consultative-selling, staff-training, customer-experience]
 pairs_with:
   prompts: [handle-sales-objections, build-sales-playbook]

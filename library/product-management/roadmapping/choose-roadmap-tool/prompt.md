@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tool-selection, product-tools, software-evaluation, integrations, trial-plan]
 pairs_with:
   prompts: [set-up-roadmap-cadence, design-roadmap-visual, consolidate-team-roadmaps]

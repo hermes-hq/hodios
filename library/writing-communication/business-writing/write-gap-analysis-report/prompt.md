@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gap-analysis, current-vs-target, readiness-assessment, impact-effort, action-plan]
 pairs_with:
   prompts: [write-consulting-report, write-executive-summary, write-project-proposal]

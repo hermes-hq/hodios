@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [driving-licence, licence-exchange, international-driving-permit, newcomers, car-insurance]
 pairs_with:
   prompts: [prepare-government-form, translate-personal-document]

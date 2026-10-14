@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [form-1099-nec, form-w-9, information-returns, contractors, year-end, united-states]
 pairs_with:
   prompts: [check-contractor-tax-status, plan-business-tax-calendar, track-business-expenses]

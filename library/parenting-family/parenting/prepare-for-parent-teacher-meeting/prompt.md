@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [parent-teacher-conference, parents-evening, school-progress, raising-concerns, home-school-partnership]
 pairs_with:
   prompts: [write-email-to-teacher, prepare-for-iep-meeting, complain-to-school-about-bullying]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [client-alert, legal-update, law-firm-marketing, regulatory-change, case-update]
 pairs_with:
   prompts: [draft-legal-research-memo, write-client-status-update]

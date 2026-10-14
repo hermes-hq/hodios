@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gifted-and-talented, acceleration, curriculum-compacting, depth-and-complexity, independent-project, advanced-learners]
 pairs_with:
   prompts: [differentiate-lesson, design-pbl-project, create-rubric]

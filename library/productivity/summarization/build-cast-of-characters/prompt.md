@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [whos-who, characters, entities, reading-aid, case-files]
 pairs_with:
   prompts: [build-timeline-from-documents, extract-references-and-resources, summarize-long-document]

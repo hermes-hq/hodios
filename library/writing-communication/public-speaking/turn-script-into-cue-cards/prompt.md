@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [cue-cards, speaking-notes, keyword-outline, speech-timing]
 pairs_with:
   prompts: [learn-speech-without-script, mark-up-script-for-delivery, write-speech]

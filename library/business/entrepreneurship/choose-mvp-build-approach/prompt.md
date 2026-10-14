@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mvp, no-code, build-vs-buy, technical-cofounder, concierge-mvp]
 pairs_with:
   prompts: [define-mvp-scope, spec-app-idea-for-developers, review-dev-agency-proposal, find-cofounder]

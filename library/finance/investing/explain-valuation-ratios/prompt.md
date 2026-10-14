@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [valuation-multiples, price-to-earnings, enterprise-value, free-cash-flow, peer-comparison]
 pairs_with:
   prompts: [read-company-financials, learn-dcf-valuation, research-company-stock]

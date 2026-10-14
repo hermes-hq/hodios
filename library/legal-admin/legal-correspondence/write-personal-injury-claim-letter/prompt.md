@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [personal-injury, letter-of-claim, slip-and-fall, negligence, compensation-claim, insurer]
 pairs_with:
   prompts: [prepare-small-claims-case, write-settlement-offer-letter, find-free-legal-help]

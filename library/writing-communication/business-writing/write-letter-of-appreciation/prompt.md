@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: off
 level: beginner
+depth: specific
 tags: [appreciation-letter, commendation, personnel-file, supplier-relations, volunteers]
 pairs_with:
   prompts: [write-recognition-message, write-thank-you-note, write-reference-letter]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vite, vue-cli, webpack, bundler, vitest]
 pairs_with:
   prompts: [migrate-vue-2-to-vue-3, migrate-create-react-app-to-vite, switch-build-tool]

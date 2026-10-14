@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [legal-research, irac, office-memo, citations]
 pairs_with:
   prompts: [brief-court-case, index-case-documents]

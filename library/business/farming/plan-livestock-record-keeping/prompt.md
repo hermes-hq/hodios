@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [livestock, farm-records, animal-traceability, medicine-records, smallholding]
 pairs_with:
   prompts: [plan-farm-diversification, write-farm-safety-induction]

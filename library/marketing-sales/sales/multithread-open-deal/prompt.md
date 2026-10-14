@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multithreading, stakeholder-mapping, enterprise-sales, deal-risk, champion-building, b2b-sales]
 pairs_with:
   prompts: [map-buying-committee, inspect-deal-qualification, write-champion-forwardable-email, revive-stalled-deal]

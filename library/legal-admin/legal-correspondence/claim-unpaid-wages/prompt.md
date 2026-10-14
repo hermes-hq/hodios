@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [unpaid-wages, holiday-pay, wage-claim, final-paycheck, workers-rights, overtime]
 pairs_with:
   prompts: [write-workplace-grievance, review-severance-agreement, prepare-small-claims-case, prepare-to-self-represent]

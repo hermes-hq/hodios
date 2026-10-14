@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [hosting, paas, serverless, managed-containers, build-vs-buy]
 pairs_with:
   prompts: [deploy-app-to-paas, deploy-to-vps, estimate-cloud-costs]

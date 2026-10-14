@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: small
 level: intermediate
+depth: specific
 tags: [voiceover, talkback, dynamic-type, touch-targets, wcag]
 pairs_with:
   personas: [accessibility-specialist]

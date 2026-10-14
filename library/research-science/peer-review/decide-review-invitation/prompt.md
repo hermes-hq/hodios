@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [review-invitation, conflict-of-interest, reviewer-workload, academic-service]
 pairs_with:
   prompts: [write-peer-review, check-journal-legitimacy]

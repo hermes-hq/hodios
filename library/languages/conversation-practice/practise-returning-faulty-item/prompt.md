@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [shop-returns, refunds, persistence, cefr]
 pairs_with:
   prompts: [practise-polite-disagreement, handle-service-contract-conversation, roleplay-real-situation]

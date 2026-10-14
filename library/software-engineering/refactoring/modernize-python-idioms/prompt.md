@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pythonic-code, legacy-python, pyupgrade, ruff]
 pairs_with:
   prompts: [modernize-python-packaging, replace-print-statements-with-logging]

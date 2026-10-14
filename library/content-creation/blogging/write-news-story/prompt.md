@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [journalism, inverted-pyramid, news-writing, attribution, hard-news]
 pairs_with:
   prompts: [fact-check-claims, write-article-headlines-and-standfirsts]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [roleplay, review-practice, feedback-skills, junior-developers]
 pairs_with:
   prompts: [respond-to-review-comments, play-code-review-bug-hunt]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [bluf, upward-communication, decision-request, incident-brief, busy-reader]
 pairs_with:
   prompts: [summarize-email-thread, write-tldr-for-draft, summarize-group-chat]

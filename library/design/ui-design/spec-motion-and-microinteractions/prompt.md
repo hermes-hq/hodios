@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [motion-design, microinteractions, animation, reduced-motion, design-handoff]
 pairs_with:
   prompts: [write-design-handoff, define-design-tokens, write-component-spec]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [repository-migration, mirror-clone, issue-import, cutover, code-hosting]
 pairs_with:
   prompts: [choose-git-hosting-platform, migrate-ci-provider, set-up-git-lfs, configure-branch-protection]

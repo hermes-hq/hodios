@@ -17,6 +17,7 @@ risk: read-only
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [release-management, release-train, go-no-go, semantic-versioning, backports, change-freeze]
 pairs_with:
   prompts: [design-deployment-strategy, write-changelog, write-incident-update]

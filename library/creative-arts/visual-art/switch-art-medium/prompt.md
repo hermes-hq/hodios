@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [art-mediums, oil-painting, watercolour, gouache, skill-transfer]
 pairs_with:
   prompts: [choose-art-supplies, plan-painting-step-by-step, troubleshoot-painting-problem]

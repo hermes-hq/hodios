@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [pipeline-security, software-supply-chain, workflow-injection, least-privilege, oidc]
 pairs_with:
   prompts: [write-github-actions-workflow, plan-secrets-management, review-cloud-iam-policy, sign-release-artifacts]

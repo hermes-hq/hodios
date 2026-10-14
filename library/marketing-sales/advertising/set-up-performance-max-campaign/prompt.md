@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [google-ads, performance-max, asset-groups, audience-signals, brand-exclusions, merchant-feed]
 pairs_with:
   prompts: [optimize-shopping-feed, decide-brand-keyword-bidding, plan-ad-conversion-tracking, calculate-break-even-roas]

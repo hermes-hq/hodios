@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-history, picture-book, grandparents, true-story, read-aloud]
 pairs_with:
   prompts: [write-family-history, interview-relative-for-oral-history, write-childrens-story]

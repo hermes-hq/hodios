@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [take-selection, dailies, quality-review, usable-range]
 pairs_with:
   prompts: [fix-video-generation-drift, plan-video-generation-budget, turn-storyboard-into-video-shots]

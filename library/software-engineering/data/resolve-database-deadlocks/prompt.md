@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [deadlocks, lock-waits, lock-ordering, isolation-levels, gap-locks, retry-logic]
 pairs_with:
   prompts: [review-database-indexes]

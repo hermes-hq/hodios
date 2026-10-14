@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rename-detection, git-blame, file-split, log-follow]
 pairs_with:
   prompts: [reorganize-project-structure, investigate-code-history, land-repo-wide-reformat]

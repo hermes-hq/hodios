@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fake-shops, online-shopping, scam-website, buyer-protection, chargeback]
 pairs_with:
   prompts: [check-suspicious-message, check-used-device]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [conflict-resolution, interest-based-negotiation, neutrality, common-ground]
 pairs_with:
   prompts: [prepare-difficult-conversation, give-feedback-sbi]

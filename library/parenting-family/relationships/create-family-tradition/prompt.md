@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [family-traditions, rituals, blended-families, multicultural-families, holidays, family-bonding]
 pairs_with:
   prompts: [plan-holiday-visits-between-families, plan-family-game-night, plan-grandparent-time]

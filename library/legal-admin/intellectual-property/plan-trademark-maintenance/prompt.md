@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [trademark-renewal, proof-of-use, brand-protection, ip-calendar]
 pairs_with:
   prompts: [apply-for-trademark, audit-small-business-ip, evaluate-trademark-opposition]

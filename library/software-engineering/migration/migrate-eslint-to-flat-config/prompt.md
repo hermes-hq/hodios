@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [eslint, flat-config, linting, tooling-config]
 pairs_with:
   prompts: [fix-lint-violations-repo-wide, upgrade-major-dependency]

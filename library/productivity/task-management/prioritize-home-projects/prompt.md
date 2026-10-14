@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [home-projects, house-repairs, sequencing, seasonal-timing, homeowner, renovation-order]
 pairs_with:
   prompts: [plan-diy-project, budget-for-home-repairs]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [mars, space-colony, resource-management, life-support, science-game]
 pairs_with:
   prompts: [play-space-mission-control, play-survival-scenario]

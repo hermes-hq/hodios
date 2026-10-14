@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [aliens, fantasy-races, speculative-biology, first-contact, setting-design]
 pairs_with:
   prompts: [design-alien-planet, design-fictional-creature, design-fictional-culture, create-fictional-language]

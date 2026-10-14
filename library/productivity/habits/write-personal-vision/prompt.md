@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [personal-vision, life-design, milestones, values, reflection, long-term-planning]
 pairs_with:
   prompts: [clarify-personal-values, plan-personal-quarter, set-woop-goals]

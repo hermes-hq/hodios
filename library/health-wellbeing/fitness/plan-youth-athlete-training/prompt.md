@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [youth-sport, teen-athlete, long-term-athlete-development, growth-spurt, injury-prevention]
 pairs_with:
   prompts: [plan-sport-conditioning, design-warm-up, plan-child-nutrition]

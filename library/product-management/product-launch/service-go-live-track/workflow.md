@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-readiness, soft-launch, go-no-go, staff-training, backstage-processes, first-month-review]
 pairs_with:
   prompts: [brief-frontline-staff-on-release, plan-branch-by-branch-rollout, plan-launch-retrospective]

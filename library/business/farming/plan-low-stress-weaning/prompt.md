@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [weaning, fence-line-weaning, creep-feeding, animal-welfare, weighing, young-stock]
 pairs_with:
   prompts: [plan-calving-season, plan-tupping-calendar, budget-winter-forage-stocks]

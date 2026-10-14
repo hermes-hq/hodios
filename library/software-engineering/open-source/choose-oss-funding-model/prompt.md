@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [maintainer-funding, open-core, sustainability, github-sponsors, research-grants]
 pairs_with:
   prompts: [write-sponsorship-ask, write-grant-application, design-pricing]

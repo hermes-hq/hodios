@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [art-pricing, selling-art, art-prints, commissions]
 pairs_with:
   prompts: [set-up-art-commissions, plan-art-exhibition, write-artist-statement]

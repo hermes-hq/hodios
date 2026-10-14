@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [copyedit, author-queries, stet, style-sheet, book-production]
 pairs_with:
   prompts: [respond-to-editorial-letter, build-style-sheet]

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [cross-examination, leading-questions, impeachment, trial-advocacy, witness-examination]
 pairs_with:
   prompts: [summarize-deposition-transcript, prepare-deposition-outline, draft-opening-statement]

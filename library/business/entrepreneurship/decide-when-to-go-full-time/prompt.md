@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quit-your-job, personal-runway, traction-thresholds, fallback-plan, go-no-go]
 pairs_with:
   prompts: [plan-side-business, decide-whether-to-quit, set-founder-salary, assess-founder-fit]

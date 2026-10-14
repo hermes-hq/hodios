@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [schema-migrations, migration-ordering, alembic-heads, django-migrations, branch-merge]
 pairs_with:
   prompts: [resolve-merge-conflict, review-database-migration]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [translation-practice, sentence-production, adaptive-practice, error-explanation, cefr]
 pairs_with:
   prompts: [correct-my-sentences, diagnose-recurring-errors, drill-verb-conjugations]

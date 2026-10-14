@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [derivatives, chain-rule, product-rule, quotient-rule, differentiation, ap-calculus]
 pairs_with:
   prompts: [build-intuition-for-calculus, practise-function-graph-sketching]

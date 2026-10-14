@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ocr, document-processing, pdf-extraction, table-extraction, layout-analysis]
 pairs_with:
   prompts: [build-structured-extraction, redact-personal-data]

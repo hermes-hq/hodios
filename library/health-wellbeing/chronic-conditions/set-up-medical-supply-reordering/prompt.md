@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [medical-supplies, diabetes-tech, stock-tracking, reorder-reminders, sharps-disposal]
 pairs_with:
   prompts: [set-up-medication-routine, plan-flare-day-logistics, coordinate-care-across-specialists]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [manuscript, hedging, limitations, overclaiming, thesis]
 pairs_with:
   prompts: [write-methods-section, write-abstract, respond-to-reviewers]

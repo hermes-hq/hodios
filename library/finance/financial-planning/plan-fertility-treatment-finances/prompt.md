@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [ivf-costs, treatment-budget, insurance-coverage, multi-cycle-packages, medical-costs]
 pairs_with:
   prompts: [prepare-fertility-consultation, prioritize-financial-goals, plan-parental-leave-finances, build-monthly-budget]

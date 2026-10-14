@@ -12,6 +12,7 @@ role: [software-engineer, backend-engineer, frontend-engineer, fullstack-enginee
 requires: [none]
 risk: read-only
 level: intermediate
+depth: specific
 tags: [exceptions, error-messages, retries, logging, resilience]
 pairs_with:
   prompts: [review-error-handling]

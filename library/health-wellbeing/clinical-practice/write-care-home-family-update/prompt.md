@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [care-homes, family-communication, resident-wellbeing, monthly-update, consent-and-privacy, keyworker]
 pairs_with:
   prompts: [plan-dementia-friendly-activities, write-care-visit-notes]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [vue-composables, single-file-components, component-design, composition-api]
 pairs_with:
   personas: [vue-engineer]

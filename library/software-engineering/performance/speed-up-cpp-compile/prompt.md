@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [compile-time, include-hygiene, precompiled-headers, ccache, cmake]
 pairs_with:
   prompts: [speed-up-ci-pipeline, speed-up-monorepo-builds, profile-hot-path]

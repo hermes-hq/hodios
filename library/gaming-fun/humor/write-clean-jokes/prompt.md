@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [clean-comedy, workplace-humour, family-friendly, icebreaker, meeting-opener]
 pairs_with:
   prompts: [write-puns, punch-up-with-humor, write-jokes-for-kids]

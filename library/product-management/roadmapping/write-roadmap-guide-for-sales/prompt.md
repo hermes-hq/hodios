@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sales-guidance, safe-phrasing, commitment-process, roadmap-communication, deal-support, overpromising]
 pairs_with:
   prompts: [audit-customer-commitments, write-public-roadmap, answer-customer-roadmap-question, set-up-roadmap-cadence]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [inset, professional-development, deliberate-practice, instructional-coaching, school-leadership]
 pairs_with:
   prompts: [write-lesson-observation-feedback]

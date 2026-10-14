@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ai-in-education, academic-integrity, assessment-design, authentic-assessment, ai-use-policy]
 pairs_with:
   prompts: [create-rubric, align-lesson-to-standards]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [word-choice, near-synonyms, false-friends, minimal-contrast, usage]
 pairs_with:
   prompts: [explain-grammar-point, explain-phrase-in-context, generate-language-drills]

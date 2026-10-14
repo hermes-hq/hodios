@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 subject: [hospitality, retail]
 tags: [working-interview, trial-day, frontline-jobs, unpaid-work]
 pairs_with:

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [graphic-organizer, learning-scaffolds, thinking-skills, sentence-frames, printable]
 pairs_with:
   prompts: [differentiate-lesson, design-classroom-activity, create-practice-worksheet]

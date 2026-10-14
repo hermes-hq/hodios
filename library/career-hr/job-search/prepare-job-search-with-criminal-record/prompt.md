@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [criminal-record, fair-chance-hiring, reentry, disclosure, background-checks, second-chance]
 pairs_with:
   prompts: [explain-career-gap, plan-job-search, write-cover-letter, brief-your-references]

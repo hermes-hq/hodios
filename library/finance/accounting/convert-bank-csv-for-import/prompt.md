@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [csv-import, bank-statements, data-cleaning, bookkeeping-software]
 pairs_with:
   prompts: [reconcile-bank-account, switch-accounting-software, write-bank-rules]

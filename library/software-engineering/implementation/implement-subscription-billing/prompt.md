@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [subscriptions, recurring-billing, dunning, proration, entitlements, webhooks]
 pairs_with:
   prompts: [integrate-payments, build-webhook-handler, implement-money-arithmetic, migrate-payment-provider]

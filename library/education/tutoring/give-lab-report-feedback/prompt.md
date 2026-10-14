@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [lab-report, scientific-method, uncertainty, error-analysis, formative-feedback, data-presentation]
 pairs_with:
   prompts: [give-essay-feedback, create-rubric]

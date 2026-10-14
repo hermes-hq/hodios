@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [guest-promotion, promo-kit, podcast-clips, quote-cards]
 pairs_with:
   prompts: [write-show-notes, plan-podcast-growth, write-podcast-guest-pitch]

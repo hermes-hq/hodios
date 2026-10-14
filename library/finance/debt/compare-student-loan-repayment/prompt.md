@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [student-loans, loan-forgiveness, income-driven-repayment, overpayment, refinancing]
 pairs_with:
   prompts: [plan-debt-payoff, budget-for-university, plan-first-job-finances, compare-loan-offers]

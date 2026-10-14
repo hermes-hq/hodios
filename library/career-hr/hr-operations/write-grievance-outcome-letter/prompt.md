@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [grievance-outcome, employee-relations, appeal-rights, formal-complaint, hr-letter]
 pairs_with:
   prompts: [conduct-workplace-investigation, triage-employee-concern, write-workplace-grievance]

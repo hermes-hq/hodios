@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [bad-news, missed-deadline, recovery-plan, accountability, stakeholders, executive-audience]
 pairs_with:
   prompts: [drill-presentation-qa, outline-presentation, write-speaker-notes]

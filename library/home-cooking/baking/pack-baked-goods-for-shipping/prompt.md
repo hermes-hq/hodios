@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [mailing-food, care-package, edible-gifts, food-packaging, shelf-life]
 pairs_with:
   prompts: [plan-cookie-baking-day, tune-cookie-texture]

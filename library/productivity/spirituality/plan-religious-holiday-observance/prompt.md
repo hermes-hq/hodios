@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [holy-days, festivals, fasting, family-traditions, religious-calendar]
 pairs_with:
   prompts: [plan-ramadan-meals, request-religious-accommodation, write-blessing-or-prayer]

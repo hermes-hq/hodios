@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [indexing, search-console, crawling, canonicals, noindex]
 pairs_with:
   prompts: [audit-technical-seo, assess-page-helpfulness, diagnose-organic-traffic-drop]

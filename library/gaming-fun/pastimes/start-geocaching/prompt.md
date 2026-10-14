@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [geocaching, treasure-hunting, outdoor-hobby, gps, family-outing, navigation]
 pairs_with:
   prompts: [hide-geocache]

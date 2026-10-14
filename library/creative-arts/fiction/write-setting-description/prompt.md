@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [setting, sensory-detail, point-of-view, atmosphere]
 pairs_with:
   prompts: [revise-show-dont-tell, design-fictional-geography, design-fictional-culture]

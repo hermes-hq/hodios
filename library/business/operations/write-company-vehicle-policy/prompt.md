@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fleet-management, company-vehicles, driver-policy, vehicle-checks, driving-for-work]
 pairs_with:
   prompts: [write-health-and-safety-policy, plan-equipment-maintenance, write-sop]

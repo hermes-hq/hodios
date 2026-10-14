@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [meal-times, opening-hours, siesta, daily-schedule]
 pairs_with:
   prompts: [check-local-festivals-and-holidays, plan-food-exploration]

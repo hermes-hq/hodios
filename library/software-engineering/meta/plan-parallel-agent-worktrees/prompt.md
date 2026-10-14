@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [multi-agent, git-worktrees, task-decomposition, merge-order, parallel-work]
 pairs_with:
   prompts: [write-subagent-brief, write-agent-handoff, manage-agent-context-for-long-task]

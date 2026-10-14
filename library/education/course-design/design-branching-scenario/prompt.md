@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scenario-based-learning, branching, judgement-practice, e-learning, debrief]
 pairs_with:
   prompts: [design-elearning-module, design-onboarding-curriculum, design-workshop]

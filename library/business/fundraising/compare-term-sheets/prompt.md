@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [term-sheet, valuation, liquidation-preference, board-control, offer-comparison, venture-capital]
 pairs_with:
   prompts: [explain-term-sheet, model-exit-waterfall, plan-term-sheet-negotiation, reference-check-investor]

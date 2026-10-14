@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [croissants, laminated-dough, viennoiserie, butter-block, puff-pastry]
 pairs_with:
   prompts: [calibrate-home-oven, plan-choux-pastry]

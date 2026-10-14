@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [mind-mapping, radiant-thinking, free-association, divergent-thinking, ideation-technique]
 pairs_with:
   prompts: [cluster-ideas, run-lotus-blossom, brainstorm-ideas]

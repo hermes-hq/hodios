@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [change-management, cutover, hypercare, champions, adoption, decommissioning]
 pairs_with:
   prompts: [brief-frontline-staff-on-release, plan-branch-by-branch-rollout, allocate-capacity-across-departments]

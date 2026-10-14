@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [new-driver, teen-driving, car-booking, insurance-check, driving-agreement, household-costs]
 pairs_with:
   prompts: [write-family-agreement-with-teen, plan-child-independence-ladder, coordinate-family-calendar]

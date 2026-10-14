@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [annual-budget, variance-analysis, revenue-drivers, seasonality]
 pairs_with:
   prompts: [forecast-cash-flow, review-small-business-pnl, calculate-break-even]

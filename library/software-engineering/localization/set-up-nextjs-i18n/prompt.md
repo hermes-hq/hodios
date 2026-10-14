@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [app-router, next-intl, locale-routing, server-components, static-rendering]
 pairs_with:
   prompts: [design-locale-detection-and-routing, extract-ui-strings, choose-i18n-library]

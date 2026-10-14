@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [qpcr, primer-design, amplification-efficiency, reference-genes, miqe]
 pairs_with:
   prompts: [troubleshoot-failed-experiment, calculate-solution-dilutions, write-methods-section]

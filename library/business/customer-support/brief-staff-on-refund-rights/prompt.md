@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [refund-rules, returns, till-phrases, consumer-rights, staff-training]
 pairs_with:
   prompts: [write-refund-policy, write-job-aid, answer-product-warranty-claim]

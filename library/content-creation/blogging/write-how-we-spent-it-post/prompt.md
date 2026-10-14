@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [financial-transparency, donor-trust, impact-reporting, accountability, community-funds]
 pairs_with:
   prompts: [write-crowdfunding-backer-update]

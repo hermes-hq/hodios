@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [needs-analysis, syllabus-design, cefr, can-do-statements, course-planning, assessment-plan]
 pairs_with:
   prompts: [build-placement-test-for-intake, write-speaking-assessment-rubric, plan-task-based-language-lesson, plan-vocabulary-recycling-across-unit]

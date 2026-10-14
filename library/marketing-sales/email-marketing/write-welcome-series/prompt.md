@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [welcome-flow, first-purchase, lifecycle-marketing, email-automation, sign-up-incentive]
 pairs_with:
   prompts: [write-double-opt-in-emails, write-abandoned-cart-emails, map-email-automation-flows]

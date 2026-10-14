@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [slo, error-budget, burn-rate, alerting]
 pairs_with:
   prompts: [write-runbook]

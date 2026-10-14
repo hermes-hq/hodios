@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hypothesis, test-design, posting-time, format-test, decision-rule, noise]
 pairs_with:
   prompts: [analyze-content-performance, build-content-measurement-plan, plan-content-calendar]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 subject: [education-sector]
 tags: [transition-planning, preparing-for-adulthood, person-centred-planning, life-skills, supported-employment]
 pairs_with:

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reasonable-adjustments, needs-assessment, assistive-technology, disability-support, exam-access]
 pairs_with:
   prompts: [adapt-study-for-learning-difference, reformat-notes-for-accessibility]

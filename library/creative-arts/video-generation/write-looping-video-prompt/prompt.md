@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [seamless-loop, background-video, stream-overlay, visualiser]
 pairs_with:
   prompts: [write-image-to-video-motion-prompt, write-background-music-cues, grow-streaming-channel]

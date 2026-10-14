@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [readability, identifiers, maintainability, pull-request]
 pairs_with:
   personas: [code-reviewer]

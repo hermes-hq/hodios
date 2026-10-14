@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [pupil-passport, person-centred-planning, special-educational-needs, supply-cover, pupil-voice]
 pairs_with:
   prompts: [write-teaching-assistant-briefing, plan-substitute-lesson, write-iep-goals]

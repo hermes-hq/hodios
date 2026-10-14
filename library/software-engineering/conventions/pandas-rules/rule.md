@@ -16,6 +16,7 @@ risk: read-only
 invocation: user
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [dataframes, vectorization, dtypes, merges, missing-values]
 applies_to: ["**/*.py", "**/*.ipynb"]
 pairs_with:

@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [letter-of-authority, third-party-consent, authorisation-letter, representative, caregiver-admin]
 pairs_with:
   prompts: [prepare-power-of-attorney-questions, manage-parent-finances, find-free-legal-help]

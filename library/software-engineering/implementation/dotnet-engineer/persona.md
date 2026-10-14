@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [async-await, dependency-injection, nullable-reference-types, entity-framework, aspnet-core]
 pairs_with:
   rules: [csharp-style-rules]

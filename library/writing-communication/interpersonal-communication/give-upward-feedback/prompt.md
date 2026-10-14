@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [upward-feedback, managing-up, sbi, power-dynamics]
 pairs_with:
   prompts: [give-feedback-sbi, prepare-difficult-conversation, write-escalation-email]

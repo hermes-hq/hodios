@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [serverless, cold-start, function-init, scale-to-zero, provisioned-concurrency]
 pairs_with:
   prompts: [profile-hot-path, reduce-bundle-size, speed-up-cli-startup]

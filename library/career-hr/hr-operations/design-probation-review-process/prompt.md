@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [probation-period, probation-review, new-starters, review-templates, confirmation-of-employment]
 pairs_with:
   prompts: [plan-new-hire-onboarding, write-performance-improvement-plan, write-offer-letter]

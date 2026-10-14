@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [wine-list, by-the-glass, price-ladder, sommelier, cellar-space, low-and-no]
 pairs_with:
   prompts: [price-bar-drinks-list, engineer-restaurant-menu]

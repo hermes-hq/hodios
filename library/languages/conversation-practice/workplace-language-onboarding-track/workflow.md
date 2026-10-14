@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [workplace-language, new-starter, phrase-bank, real-interaction-review, first-month]
 pairs_with:
   prompts: [learn-language-for-work-role, practise-first-week-at-work, practise-conversation-strategies, review-speaking-transcript]

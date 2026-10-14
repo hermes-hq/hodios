@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [terraform-docs, module-readme, infrastructure-as-code, upgrade-notes]
 pairs_with:
   prompts: [write-terraform-module, document-infrastructure]

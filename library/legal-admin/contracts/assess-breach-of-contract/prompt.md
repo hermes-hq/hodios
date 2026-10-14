@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [breach-of-contract, contract-dispute, notice-and-cure, remedies, evidence-gathering, limitation-period]
 pairs_with:
   prompts: [plan-contract-exit, write-complaint-letter, prepare-small-claims-case, draft-letter-before-action]

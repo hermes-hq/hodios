@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [case-presentation, ward-rounds, medical-education, grand-rounds, clinical-reasoning, residents]
 pairs_with:
   prompts: [summarize-patient-records, plan-clinical-in-service]

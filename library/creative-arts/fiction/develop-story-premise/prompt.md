@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [premise, what-if, story-stakes, genre-promise]
 pairs_with:
   prompts: [outline-story, develop-character, write-logline-and-synopsis]

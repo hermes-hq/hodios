@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [kitchen-game, dinner-rush, ticket-times, management-game]
 args:
   - name: concept

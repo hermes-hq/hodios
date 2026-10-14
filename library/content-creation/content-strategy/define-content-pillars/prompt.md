@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [content-pillars, audience-definition, not-doing-list]
 pairs_with:
   prompts: [plan-content-calendar, generate-blog-post-ideas]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [gold, precious-metals, commodities, bullion, inflation-hedge]
 pairs_with:
   prompts: [evaluate-alternative-investment, spot-investment-scam, check-portfolio-diversification]

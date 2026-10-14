@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [email-headers, spf, dkim, dmarc, spoofing]
 pairs_with:
   prompts: [investigate-reported-phishing, triage-soc-alert]

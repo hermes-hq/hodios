@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [window-cleaning, glass, streak-free, working-at-height]
 pairs_with:
   prompts: [clean-by-surface-material, plan-cleaning-schedule]

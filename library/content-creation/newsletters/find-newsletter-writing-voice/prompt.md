@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [writing-voice, voice-note, coaching, beginner-writers, reader-relationship]
 pairs_with:
   prompts: [capture-writing-voice, plan-newsletter-format, write-newsletter-welcome-email]

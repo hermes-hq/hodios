@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [deep-learning, training-loop, tensor-shapes, code-reading]
 pairs_with:
   prompts: [write-pytorch-training-loop, debug-neural-network-training, find-leakage-in-training-code]

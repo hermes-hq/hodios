@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [price-match, price-adjustment, competitor-price, retail-policy, margin]
 pairs_with:
   prompts: [decide-goodwill-refund, write-support-reply]

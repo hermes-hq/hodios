@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [learning-games, game-based-learning, spelling, times-tables, social-skills]
 pairs_with:
   prompts: [design-kids-science-experiment, plan-rainy-day-activities]

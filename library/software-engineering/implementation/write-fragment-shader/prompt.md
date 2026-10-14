@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [shaders, glsl, hlsl, visual-effects, post-processing, gpu]
 pairs_with:
   personas: [graphics-programmer, game-developer]

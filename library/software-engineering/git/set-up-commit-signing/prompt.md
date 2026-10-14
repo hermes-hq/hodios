@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [commit-signing, ssh-keys, gpg, verified-commits, dco]
 pairs_with:
   prompts: [set-up-git-on-new-machine, configure-branch-protection]

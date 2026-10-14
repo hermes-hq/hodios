@@ -21,6 +21,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rate-limiting, token-bucket, http-429, abuse-prevention, api-quotas]
 pairs_with:
   personas: [backend-engineer]

@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [legacy-code, code-archaeology, module-docs, reverse-engineering]
 pairs_with:
   prompts: [write-ownership-handover-doc, document-public-api, document-configuration-options, investigate-code-history]

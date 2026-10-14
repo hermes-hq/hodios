@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [signature-block, contact-details, company-information, personal-branding, plain-text]
 pairs_with:
   prompts: [write-out-of-office-message, write-professional-bio, design-stationery-set]

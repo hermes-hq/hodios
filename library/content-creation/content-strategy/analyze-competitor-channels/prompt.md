@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [competitor-analysis, outlier-content, content-gaps, format-analysis]
 pairs_with:
   prompts: [define-content-pillars, mine-audience-questions, plan-video-series]

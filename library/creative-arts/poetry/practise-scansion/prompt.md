@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [scansion, meter, iambic-pentameter, prosody, poetry-practice]
 pairs_with:
   prompts: [analyze-poem, write-poem-in-form]

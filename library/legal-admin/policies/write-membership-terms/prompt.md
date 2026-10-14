@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [membership-terms, gym-contracts, minimum-term, membership-cancellation, house-rules]
 pairs_with:
   prompts: [handle-membership-cancellation-requests, write-refund-policy, write-terms-of-service]

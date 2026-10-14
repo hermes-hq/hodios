@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [doctor-letter, confidentiality, consent, ageing-parents, advocacy]
 pairs_with:
   prompts: [prepare-memory-assessment-visit, plan-parent-care-conversation, prepare-doctor-questions]

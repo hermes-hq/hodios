@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [getting-started, first-term, new-homeschoolers, leaving-school, starter-plan]
 pairs_with:
   prompts: [choose-homeschool-approach, plan-deschooling-period, plan-homeschool-year, design-homeschool-record-system]

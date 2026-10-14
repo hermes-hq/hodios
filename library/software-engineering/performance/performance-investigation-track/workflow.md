@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [performance-investigation, baseline, profiling, hypothesis-testing, latency]
 pairs_with:
   prompts: [profile-hot-path, read-flame-graph, analyze-load-test-results, tune-garbage-collector]

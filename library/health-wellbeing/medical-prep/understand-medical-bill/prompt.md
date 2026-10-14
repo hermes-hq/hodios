@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [medical-billing, explanation-of-benefits, health-insurance, billing-errors, appeals]
 pairs_with:
   prompts: [build-medication-list, prepare-second-opinion]

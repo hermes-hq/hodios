@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [numpy, vectorization, broadcasting, numerical-computing, dtypes]
 pairs_with:
   prompts: [speed-up-python-code, speed-up-dataframe-code, parallelize-python-workload, write-microbenchmark]

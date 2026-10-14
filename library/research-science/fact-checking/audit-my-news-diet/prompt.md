@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [news-habits, information-diet, media-literacy, doomscrolling]
 pairs_with:
   prompts: [compare-news-framing, evaluate-source-credibility, build-news-digest]

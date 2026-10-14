@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [credit-file, late-payment-marker, goodwill-adjustment, mortgage-ready]
 pairs_with:
   prompts: [dispute-credit-report-error, read-credit-report, improve-credit-score]

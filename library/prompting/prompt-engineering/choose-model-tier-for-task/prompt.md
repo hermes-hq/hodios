@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [model-selection, cost-latency, reasoning-effort, cascading, thinking-mode]
 pairs_with:
   prompts: [choose-llm-for-feature, adapt-prompt-for-small-model, adapt-prompt-for-reasoning-model, build-prompt-test-set]

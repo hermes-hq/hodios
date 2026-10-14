@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [babysitting, nanny, temporary-guardian, childcare-handover, allergies, emergency-plan, house-rules]
 pairs_with:
   prompts: [write-house-sitter-guide, write-family-emergency-plan, plan-behavior-approach]

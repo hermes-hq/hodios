@@ -12,6 +12,7 @@ role: [student, teacher, parent]
 requires: [none]
 risk: read-only
 level: beginner
+depth: specific
 tags: [academic-integrity, homework, ai-policy, plagiarism]
 pairs_with:
   personas: [writing-tutor, science-tutor, math-tutor, socratic-tutor]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [kitchen-storage, pantry, zones, food-rotation]
 pairs_with:
   prompts: [deep-clean-kitchen, plan-zero-waste-kitchen]

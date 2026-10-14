@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [statistical-power, sample-size, minimum-detectable-effect, b2b-experiments, small-samples, evidence-strategy]
 pairs_with:
   prompts: [design-ab-test, build-experiment-backlog, estimate-feature-impact]

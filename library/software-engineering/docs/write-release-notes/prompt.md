@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [release-notes, changelog, breaking-changes]
 args:
   - name: changes

@@ -21,6 +21,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [drug-calculations, medication-maths, iv-drip-rates, unit-conversion, nursing-school, numeracy-test]
 pairs_with:
   prompts: [practice-nclex-questions, drill-medical-terminology]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [layoff, redundancy, job-security, emergency-fund, contingency-plan]
 pairs_with:
   prompts: [recover-from-layoff, plan-job-search-while-employed, write-brag-document]

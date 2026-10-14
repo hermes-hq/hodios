@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [watch-party, finale-night, match-day, hosting]
 pairs_with:
   prompts: [plan-movie-marathon, create-custom-bingo, pick-movie-for-group]

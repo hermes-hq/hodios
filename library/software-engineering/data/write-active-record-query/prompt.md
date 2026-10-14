@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [activerecord, orm, aggregation, subqueries, eager-loading]
 pairs_with:
   prompts: [extract-reusable-orm-query-scopes, speed-up-rails-endpoint, fix-n-plus-one-queries, review-database-indexes]

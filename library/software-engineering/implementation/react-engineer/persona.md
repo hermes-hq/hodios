@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [hooks, derived-state, data-fetching, server-components, testing-library]
 pairs_with:
   personas: [frontend-engineer]

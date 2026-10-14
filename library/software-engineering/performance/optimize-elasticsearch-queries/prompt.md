@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [shard-sizing, profile-api, bulk-indexing, mappings, search-latency]
 pairs_with:
   prompts: [write-elasticsearch-query, design-search-index, reduce-tail-latency]

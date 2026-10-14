@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [job-title, role-recognition, career-ladder, manager-conversation]
 pairs_with:
   prompts: [prepare-promotion-case, ask-for-raise, find-job-titles-for-my-skills]

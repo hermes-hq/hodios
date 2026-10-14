@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [white-paper, b2b-content, thought-leadership, citations]
 pairs_with:
   prompts: [write-executive-summary, turn-document-into-slides, edit-for-structure]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [royal-families, succession, family-tree, political-intrigue, setting-design]
 pairs_with:
   prompts: [design-fictional-government, design-fictional-heraldry, build-world-timeline, design-fictional-factions]

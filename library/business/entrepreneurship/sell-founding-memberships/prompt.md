@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [presale, founding-members, demand-test, go-no-go, refund-policy, memberships]
 pairs_with:
   prompts: [validate-business-idea, model-unit-economics, find-first-customers, write-crowdfunding-campaign]

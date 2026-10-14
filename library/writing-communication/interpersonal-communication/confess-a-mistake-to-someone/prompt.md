@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [disclosure, honesty, owning-up, accountability, mistakes]
 pairs_with:
   prompts: [apologize-effectively, rebuild-trust-after-breaking-it, share-bad-news-in-person]

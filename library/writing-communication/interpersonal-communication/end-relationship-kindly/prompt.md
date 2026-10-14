@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [breakups, ending-friendships, business-partnerships, kind-honesty, closure]
 pairs_with:
   prompts: [prepare-difficult-conversation, set-boundary, rehearse-difficult-conversation]

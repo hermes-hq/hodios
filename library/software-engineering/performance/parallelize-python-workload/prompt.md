@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [gil, multiprocessing, concurrent-futures, asyncio, thread-pool]
 pairs_with:
   prompts: [speed-up-dataframe-code, implement-asyncio-concurrent-requests, profile-hot-path]

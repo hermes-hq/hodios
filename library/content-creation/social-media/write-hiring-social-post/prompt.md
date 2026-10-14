@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [job-ad, pay-transparency, inclusive-language, referrals]
 pairs_with:
   prompts: [write-job-description, write-linkedin-post]

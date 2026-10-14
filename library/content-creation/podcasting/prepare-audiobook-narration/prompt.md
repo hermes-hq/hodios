@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [audiobook, narration, self-publishing, character-voices]
 pairs_with:
   prompts: [write-tts-voiceover-script, choose-podcast-setup, create-podcast-edit-list]

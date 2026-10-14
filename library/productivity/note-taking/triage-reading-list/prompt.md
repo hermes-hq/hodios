@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [read-later, information-diet, backlog, reading-queue]
 pairs_with:
   prompts: [make-reading-notes, summarize-long-document, summarize-book]

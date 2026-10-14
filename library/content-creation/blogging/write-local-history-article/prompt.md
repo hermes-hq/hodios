@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [local-history, heritage, citations, community-writing, oral-history]
 pairs_with:
   prompts: [write-feature-article, write-explainer-article, write-community-digest]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [operating-rhythm, team-rituals, async-work, standups, focus-time]
 pairs_with:
   prompts: [reduce-meeting-load, write-meeting-agenda, run-retrospective]

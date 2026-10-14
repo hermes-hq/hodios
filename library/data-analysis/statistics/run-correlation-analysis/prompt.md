@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [pearson-correlation, spearman-correlation, partial-correlation, scatterplot, fisher-z]
 pairs_with:
   prompts: [run-regression-analysis, check-analysis-for-pitfalls, correct-for-multiple-comparisons]

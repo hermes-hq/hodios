@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [app-safety, browser-extensions, malware, app-store, permissions, privacy]
 pairs_with:
   prompts: [review-app-permissions, check-suspicious-message, set-up-parental-controls]

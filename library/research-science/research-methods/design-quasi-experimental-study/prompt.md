@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [quasi-experiment, difference-in-differences, interrupted-time-series, regression-discontinuity, programme-evaluation, natural-experiment]
 pairs_with:
   prompts: [build-causal-diagram, estimate-causal-effect, write-statistical-analysis-plan, plan-secondary-data-analysis]

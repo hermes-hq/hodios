@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [product-ops, voice-of-customer-program, process-audit, health-check, feedback-governance]
 pairs_with:
   prompts: [build-feedback-intake-process, design-feedback-tagging-taxonomy, check-feedback-sampling-bias]

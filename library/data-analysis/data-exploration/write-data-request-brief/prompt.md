@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [data-requests, requirements, stakeholder-requests, metric-definitions]
 pairs_with:
   prompts: [write-analysis-plan, define-metric, answer-question-with-sql]

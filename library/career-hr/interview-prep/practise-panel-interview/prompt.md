@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [panel-interview, stakeholder-agendas, interviewer-simulation, cross-questioning]
 pairs_with:
   prompts: [run-mock-interview, drill-star-answers, prepare-questions-for-interviewer, debrief-interview]

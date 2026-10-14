@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [editorial-letter, developmental-edit, manuscript-feedback, revision-plan]
 pairs_with:
   prompts: [edit-for-structure, critique-draft, respond-to-editorial-letter]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: small
 reasoning: off
 level: beginner
+depth: specific
 tags: [conference-follow-up, networking-email, relationship-building, after-event, nice-to-meet-you]
 pairs_with:
   prompts: [prepare-networking-conversation, write-networking-message, follow-up-event-leads]

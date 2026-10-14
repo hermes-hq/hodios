@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [fitness-test, baseline, self-assessment, progress-tracking, balance]
 pairs_with:
   prompts: [build-training-plan, track-fitness-progress, start-walking-program]

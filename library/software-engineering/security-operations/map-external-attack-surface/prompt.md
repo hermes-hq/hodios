@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [attack-surface, asset-inventory, subdomain-takeover, certificate-transparency, exposure-management]
 pairs_with:
   prompts: [review-firewall-rules, respond-to-critical-cve, prioritize-vulnerability-backlog, investigate-suspicious-domain]

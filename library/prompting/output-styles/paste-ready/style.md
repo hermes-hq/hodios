@@ -11,6 +11,7 @@ requires: [none]
 output: [rewrite]
 risk: read-only
 level: beginner
+depth: specific
 role: [individual]
 tags: [plain-text, copy-paste, no-markdown, character-limits]
 pairs_with:

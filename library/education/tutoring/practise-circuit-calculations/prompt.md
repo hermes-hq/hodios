@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [electric-circuits, ohms-law, series-parallel, potential-divider, misconceptions, electrical-apprenticeship]
 pairs_with:
   personas: [science-tutor]

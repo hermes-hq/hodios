@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [reader-survey, question-design, audience-research, self-selection, decision-rules]
 pairs_with:
   prompts: [audit-newsletter-performance, plan-newsletter-format]

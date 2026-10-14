@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [office-assistant, workplace-ai, email-summaries, document-drafting, checkable-output]
 pairs_with:
   prompts: [write-spreadsheet-ai-prompts, write-task-prompt, build-ai-output-review-checklist]

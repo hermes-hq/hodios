@@ -7,6 +7,7 @@ description: Standing rules for Kotlin an assistant writes, covering null safety
 category: conventions
 version: 1.0.0
 status: incubating
+depth: specific
 stage: [build]
 role: [mobile-engineer, backend-engineer, software-engineer]
 stack: [kotlin]

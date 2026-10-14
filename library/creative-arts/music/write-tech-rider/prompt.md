@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [tech-rider, stage-plot, input-list, live-sound]
 pairs_with:
   prompts: [plan-live-set, pitch-gig-to-venue]

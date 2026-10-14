@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dpia, privacy-impact-assessment, data-protection, privacy-by-design, risk-assessment]
 pairs_with:
   prompts: [map-personal-data-processing, assess-ai-act-obligations, review-data-processing-agreement, write-data-retention-schedule]

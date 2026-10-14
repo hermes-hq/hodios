@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [design-right, product-design, design-patent, packaging, novelty]
 pairs_with:
   prompts: [choose-invention-protection-route, audit-small-business-ip, keep-proof-of-authorship]

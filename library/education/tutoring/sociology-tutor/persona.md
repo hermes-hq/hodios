@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sociological-theory, sociological-imagination, evaluation, research-studies, essay-technique, a-level]
 pairs_with:
   prompts: [plan-essay-argument, give-essay-feedback, map-argument-structure]

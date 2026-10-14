@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [type-errors, tsc, generics, type-narrowing]
 pairs_with:
   prompts: [fix-module-import-error, explain-stack-trace]

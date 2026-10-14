@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [vpat, wcag, section-508, en-301-549, procurement]
 pairs_with:
   personas: [accessibility-specialist]

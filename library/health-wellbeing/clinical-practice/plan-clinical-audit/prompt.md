@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [clinical-audit, clinical-governance, quality-improvement, audit-cycle, guideline-compliance, data-collection]
 pairs_with:
   prompts: [plan-pdsa-cycle, write-patient-safety-incident-report, summarize-patient-records]

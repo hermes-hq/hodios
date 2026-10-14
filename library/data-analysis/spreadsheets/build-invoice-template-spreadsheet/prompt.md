@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [invoicing, invoice-template, sales-tax, invoice-register, invoice-numbering]
 pairs_with:
   prompts: [write-invoice, set-up-data-validation, chase-late-payment]

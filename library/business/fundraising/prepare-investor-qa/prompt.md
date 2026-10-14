@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [investor-meetings, due-diligence, objection-handling, startup-fundraising]
 pairs_with:
   prompts: [write-pitch-deck-outline, write-investor-update]

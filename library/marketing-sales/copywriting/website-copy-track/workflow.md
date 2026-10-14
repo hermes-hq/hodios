@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [website-copy, sitemap, homepage, local-business, page-plan]
 pairs_with:
   prompts: [write-landing-page-copy, write-about-page, write-messaging-framework, write-meta-tags, critique-marketing-copy, request-customer-testimonials]

@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [index-files, re-exports, import-graph, build-speed]
 pairs_with:
   prompts: [untangle-circular-dependencies, reorganize-project-structure]

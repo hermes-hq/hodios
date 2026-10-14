@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [offboarding, leaver-checklist, access-revocation, final-pay, knowledge-handover]
 pairs_with:
   prompts: [run-exit-interview, plan-layoff-conversation, write-reference-letter]

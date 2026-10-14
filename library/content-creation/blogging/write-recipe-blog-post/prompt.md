@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [recipe-card, food-blogging, substitutions, baking-fixes, measurements]
 pairs_with:
   prompts: [adapt-recipe, write-article-headlines-and-standfirsts]

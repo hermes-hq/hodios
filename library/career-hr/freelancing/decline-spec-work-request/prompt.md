@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [spec-work, free-sample, unpaid-test, paid-discovery, sales-qualification]
 pairs_with:
   prompts: [screen-freelance-inquiry, write-freelance-proposal, respond-to-discount-request]

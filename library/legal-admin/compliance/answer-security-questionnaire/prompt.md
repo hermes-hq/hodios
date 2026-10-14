@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [security-questionnaire, vendor-due-diligence, procurement, trust-and-assurance]
 pairs_with:
   prompts: [review-data-processing-agreement, build-compliance-checklist]

@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [feature-film, screenplay-development, scene-outline, first-draft]
 pairs_with:
   prompts: [write-logline-and-synopsis, write-beat-sheet, review-first-ten-pages, plan-rewrite-from-notes]

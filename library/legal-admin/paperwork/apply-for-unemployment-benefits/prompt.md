@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [unemployment-insurance, jobseekers-allowance, benefit-claim, job-loss, work-search]
 pairs_with:
   prompts: [recover-from-layoff, plan-finances-after-job-loss, appeal-benefits-decision, prepare-government-form]

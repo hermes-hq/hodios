@@ -18,6 +18,7 @@ effort: standard
 interaction: one-shot
 model_tier: mid
 level: intermediate
+depth: specific
 tags: [matplotlib, ggplot2, annotation, colour-blind-safe]
 pairs_with:
   prompts: [choose-chart-type, critique-chart]

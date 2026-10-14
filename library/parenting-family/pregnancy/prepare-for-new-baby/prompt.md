@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [parental-leave, safe-sleep]
 pairs_with:
   prompts: [coordinate-family-calendar, prepare-doctor-questions]

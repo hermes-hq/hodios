@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [epoxy-resin, resin-casting, silicone-moulds, pour-depth, sensitisation, river-table]
 pairs_with:
   prompts: [plan-woodworking-project, plan-jewellery-piece]

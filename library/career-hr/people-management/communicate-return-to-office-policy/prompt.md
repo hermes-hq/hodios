@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [return-to-office, hybrid-work, attendance-policy, exception-requests, pushback]
 pairs_with:
   prompts: [assess-flexible-working-request, plan-workplace-adjustments-as-manager, handle-team-resistance-to-change]

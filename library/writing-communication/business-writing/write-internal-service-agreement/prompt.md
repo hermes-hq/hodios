@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [service-level-agreement, operating-level-agreement, shared-services, response-targets, team-agreements]
 pairs_with:
   prompts: [write-service-level-terms-for-contract-clients, write-team-charter]

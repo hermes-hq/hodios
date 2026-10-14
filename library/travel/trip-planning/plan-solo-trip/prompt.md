@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [solo-travel, travel-safety, meeting-people, hostels, travel-budget]
 pairs_with:
   prompts: [choose-destination, plan-itinerary, check-destination-safety, plan-trip-budget]

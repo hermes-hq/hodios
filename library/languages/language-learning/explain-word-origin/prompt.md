@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [etymology, word-history, cognates, folk-etymology, word-roots, mnemonics]
 pairs_with:
   prompts: [list-false-friends, build-vocabulary-list, create-memory-aids]

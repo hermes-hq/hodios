@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-search, competitor-keywords, incrementality, holdout-test, trademark]
 pairs_with:
   prompts: [audit-search-ads-account, analyze-ad-performance, triage-search-terms-report]

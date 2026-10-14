@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [phishing, indicators-of-compromise, email-security, credential-reset, user-reported]
 pairs_with:
   prompts: [analyze-email-headers, triage-soc-alert, write-security-awareness-module]

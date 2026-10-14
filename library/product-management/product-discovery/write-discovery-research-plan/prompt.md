@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-plan, learning-goals, method-selection, sample-size, decision-driven]
 pairs_with:
   prompts: [write-customer-interview-guide, write-research-screener, design-validation-experiment, write-discovery-readout]

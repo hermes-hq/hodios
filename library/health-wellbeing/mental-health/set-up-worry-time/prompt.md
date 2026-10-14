@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [worry, worry-postponement, rumination, cbt-skills, overthinking]
 pairs_with:
   prompts: [reframe-negative-thoughts, improve-sleep-habits, manage-event-anxiety]

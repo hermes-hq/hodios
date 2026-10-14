@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [memoir, chronology, memory, family-stories, life-events]
 pairs_with:
   prompts: [mine-memories-for-life-story, shape-memoir-story, fact-check-memoir-draft]

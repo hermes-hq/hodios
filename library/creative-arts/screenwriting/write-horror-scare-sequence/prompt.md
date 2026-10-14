@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [horror, dread, jump-scare, suspense]
 pairs_with:
   prompts: [build-suspense-in-scene, format-screenplay-scene, write-beat-sheet]

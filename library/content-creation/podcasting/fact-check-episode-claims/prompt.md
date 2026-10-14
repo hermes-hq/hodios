@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pre-release-check, defamation-risk, claim-extraction, corrections, editorial-standards]
 pairs_with:
   prompts: [create-podcast-edit-list, handle-sensitive-story-episode, build-episode-research-brief]

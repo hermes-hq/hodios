@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: optional
 level: beginner
+depth: specific
 tags: [interpreting, consecutive-interpreting, two-way-translation, multilingual-family]
 pairs_with:
   prompts: [learn-survival-phrases, translate-business-email]

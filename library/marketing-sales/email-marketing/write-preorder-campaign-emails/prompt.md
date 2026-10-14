@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [pre-orders, delivery-window, delay-notice, production-updates, crowdfunding-style]
 pairs_with:
   prompts: [write-collection-drop-emails, write-promo-email]

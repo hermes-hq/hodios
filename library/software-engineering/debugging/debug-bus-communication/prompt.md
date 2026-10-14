@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [i2c, spi, uart, can-bus, logic-analyser, wiring]
 pairs_with:
   personas: [embedded-engineer]

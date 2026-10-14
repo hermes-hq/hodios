@@ -20,6 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [dataframes, data-cleaning, reshaping, simulator, practice-sandbox]
 pairs_with:
   prompts: [translate-spreadsheet-to-pandas, explore-dataset]

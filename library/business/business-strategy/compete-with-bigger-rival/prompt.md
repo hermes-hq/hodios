@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [small-vs-large, differentiation, niche-strategy, local-business, competitive-position]
 pairs_with:
   prompts: [plan-competitive-response, assess-competitive-advantage, draw-strategy-canvas, profile-a-competitor]

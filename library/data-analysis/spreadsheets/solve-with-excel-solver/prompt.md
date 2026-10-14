@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [solver, linear-programming, product-mix, resource-allocation, integer-constraints]
 pairs_with:
   prompts: [run-what-if-analysis, design-spreadsheet-model]

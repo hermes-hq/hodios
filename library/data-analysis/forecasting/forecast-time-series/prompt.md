@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [backtesting, prediction-intervals, seasonality]
 pairs_with:
   prompts: [explore-dataset, write-weekly-metrics-update]

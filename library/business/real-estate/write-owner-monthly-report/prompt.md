@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [owner-statement, client-reporting, landlord, compliance-dates]
 pairs_with:
   prompts: [write-property-inspection-report, set-up-rental-maintenance-process]

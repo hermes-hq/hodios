@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [ux-patterns, pattern-documentation, usage-guidelines, interaction-design, consistency]
 pairs_with:
   prompts: [write-component-spec, write-accessibility-annotations, design-empty-and-error-states]

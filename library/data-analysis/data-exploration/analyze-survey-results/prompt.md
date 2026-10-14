@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [surveys, cross-tabs, weighting, response-bias]
 pairs_with:
   prompts: [classify-text-records, calculate-sample-size, write-insight-report]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [older-adults, digital-skills, accessibility-settings, cheat-sheet, scam-awareness]
 pairs_with:
   prompts: [protect-relative-from-scams, set-up-backups]

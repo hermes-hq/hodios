@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [brand-narrative, strategic-narrative, founder-story, storytelling, message-consistency]
 pairs_with:
   prompts: [build-brand-platform, write-positioning-statement, write-brand-voice-guide, write-about-page, write-pitch-deck-outline]

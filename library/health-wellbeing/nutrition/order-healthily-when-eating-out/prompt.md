@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [eating-out, restaurant-menus, takeaway, dietary-needs, portion-control]
 pairs_with:
   prompts: [read-nutrition-label, plan-filling-snacks, manage-food-allergy-at-home]

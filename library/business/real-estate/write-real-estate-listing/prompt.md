@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: basic
 tags: [property-listing, fair-housing, listing-description, home-selling]
 pairs_with:
   prompts: [write-listing-presentation, write-brochure-copy]

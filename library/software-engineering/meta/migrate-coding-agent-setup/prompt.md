@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [coding-agents, tool-migration, agent-config, agent-instructions]
 pairs_with:
   prompts: [consolidate-agent-instruction-files, write-agents-md, write-scoped-agent-rules, share-agent-config-across-team]

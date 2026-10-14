@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [t-test, welch-test, mann-whitney, effect-size, confidence-interval]
 pairs_with:
   prompts: [choose-statistical-test, run-paired-comparison, calculate-effect-size]

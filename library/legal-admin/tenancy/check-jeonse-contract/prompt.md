@@ -22,6 +22,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [jeonse, jeonse-fraud, deungibu, bojeung-boheom, korea]
 pairs_with:
   prompts: [review-lease, prepare-year-end-tax-settlement]

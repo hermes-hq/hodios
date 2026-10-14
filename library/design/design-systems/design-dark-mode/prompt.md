@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [dark-mode, theming, color-contrast, semantic-tokens, wcag]
 pairs_with:
   prompts: [define-design-tokens, create-color-palette, audit-design-consistency]

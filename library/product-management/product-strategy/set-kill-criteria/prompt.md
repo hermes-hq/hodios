@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [kill-criteria, product-bets, leading-indicators, decision-rights, sunk-cost]
 pairs_with:
   prompts: [assess-product-market-fit, define-feature-success-metrics, plan-feature-sunset, prepare-product-review-meeting]

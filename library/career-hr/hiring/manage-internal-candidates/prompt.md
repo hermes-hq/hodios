@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [internal-mobility, internal-applicants, unsuccessful-candidate, retention, promotion-from-within]
 pairs_with:
   prompts: [design-interview-loop, write-candidate-rejection, build-development-plan]

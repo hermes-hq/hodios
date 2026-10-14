@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [economic-abuse, coerced-borrowing, identity-misuse, safety-planning, vulnerable-customer]
 pairs_with:
   prompts: [split-joint-debts-after-breakup, dispute-credit-report-error, read-credit-report, negotiate-with-creditor]

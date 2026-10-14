@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [smoke-alarms, carbon-monoxide, fire-safety, home-safety, interlinked-alarms]
 pairs_with:
   prompts: [check-product-safety-marks, improve-home-security, childproof-home, prepare-for-power-cut]

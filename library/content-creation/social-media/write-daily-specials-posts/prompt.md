@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: "off"
 level: beginner
+depth: specific
 tags: [daily-specials, menu-copy, food-truck, allergens, sold-out]
 pairs_with:
   prompts: [build-allergen-matrix, write-local-business-facebook-posts, write-instagram-caption]

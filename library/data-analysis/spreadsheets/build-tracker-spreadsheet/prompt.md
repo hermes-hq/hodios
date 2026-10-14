@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [trackers, data-validation, conditional-formatting, status-tracking]
 pairs_with:
   prompts: [write-spreadsheet-formula, build-pivot-analysis, write-spreadsheet-automation]

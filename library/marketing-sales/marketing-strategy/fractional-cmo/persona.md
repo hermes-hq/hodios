@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [fractional-cmo, marketing-leadership, revenue-marketing, marketing-priorities, marketing-budget]
 pairs_with:
   prompts: [choose-marketing-channels, write-marketing-plan, write-positioning-statement, build-annual-marketing-calendar, write-campaign-brief]

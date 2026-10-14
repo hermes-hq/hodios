@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-audit, research-reuse, evidence-review, knowledge-gaps, insight-inventory]
 pairs_with:
   prompts: [build-research-repository, scope-ux-research-project, run-desk-research-scan]

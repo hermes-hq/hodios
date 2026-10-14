@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [golden-signals, red-method, use-method, dashboards-as-code, grafana]
 pairs_with:
   prompts: [instrument-service-observability, define-slos, write-observability-queries, write-runbook]

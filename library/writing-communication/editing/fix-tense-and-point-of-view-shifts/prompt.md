@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [verb-tense, grammatical-person, consistency, narrative-voice, grammar-check]
 pairs_with:
   prompts: [proofread-text, line-edit-prose, unify-voice-in-multi-author-document]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [qa-handoff, test-notes, manual-testing, regression-risk, release-testing]
 pairs_with:
   prompts: [write-pr-description, write-known-issue-brief]

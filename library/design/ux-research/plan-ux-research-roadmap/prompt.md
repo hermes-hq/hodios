@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [research-roadmap, research-prioritisation, research-ops, capacity-planning, research-questions]
 pairs_with:
   prompts: [build-research-repository, write-discovery-research-plan, ux-research-study-track]

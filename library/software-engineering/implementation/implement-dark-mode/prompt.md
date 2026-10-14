@@ -20,6 +20,7 @@ interaction: autonomous
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [dark-mode, theming, css-variables, prefers-color-scheme, design-tokens]
 args:
   - name: app

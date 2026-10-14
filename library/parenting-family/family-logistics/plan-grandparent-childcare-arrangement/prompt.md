@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [grandparents, family-childcare, house-rules, expectations, backup-childcare, regular-check-in]
 pairs_with:
   prompts: [write-babysitter-handbook, plan-family-meeting, plan-sick-day-childcare-cover]

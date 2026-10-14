@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [bibliometrics, science-mapping, co-citation-analysis, citation-analysis, research-trends]
 pairs_with:
   prompts: [build-search-string, plan-scoping-review, build-evidence-gap-map, find-research-gaps]

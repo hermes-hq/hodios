@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [grocery-deals, budget-meals, unit-price, grocery-list, food-waste]
 pairs_with:
   prompts: [plan-budget-meals, plan-weekly-meals, plan-freezer-meals, build-grocery-list-from-recipes]

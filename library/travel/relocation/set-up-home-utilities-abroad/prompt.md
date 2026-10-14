@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [utilities, internet-setup, meter-readings, moving-abroad, household-bills]
 pairs_with:
   prompts: [decode-household-bill-language, open-bank-account-as-newcomer, document-rental-move-in]

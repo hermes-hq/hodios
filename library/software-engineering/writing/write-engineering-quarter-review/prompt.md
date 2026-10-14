@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [quarterly-review, engineering-metrics, team-health, tech-debt, stakeholder-update]
 pairs_with:
   prompts: [explain-tech-to-executives, write-technical-roadmap, write-okr-progress-report]

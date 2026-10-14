@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [procurement, sourcing, total-cost-of-ownership, supplier-negotiation, tendering, audit-trail]
 pairs_with:
   prompts: [write-rfp, design-tender-evaluation-matrix, build-supplier-scorecard, map-supply-risk, prepare-supplier-negotiation, compare-vendors]

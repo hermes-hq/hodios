@@ -21,6 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [home-selling, seller-disclosure, conveyancing, property-documents, sales-progression]
 pairs_with:
   prompts: [prepare-home-for-sale, write-real-estate-listing]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [arithmetic-errors, calculations, unit-handling, show-workings, rounding]
 pairs_with:
   prompts: [diagnose-prompt-failures, write-data-analysis-prompt, practise-spotting-ai-errors]

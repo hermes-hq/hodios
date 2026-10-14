@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [rfi, market-sounding, procurement, supplier-research, pre-tender]
 pairs_with:
   prompts: [write-rfp, compare-vendors, write-sole-source-justification]

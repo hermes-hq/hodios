@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [selling-online, second-hand, listing-copy, selling-used-items, honest-description]
 pairs_with:
   prompts: [write-puns, punch-up-with-humor]

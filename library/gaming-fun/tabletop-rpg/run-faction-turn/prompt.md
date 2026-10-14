@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [factions, sandbox, living-world, game-mastering, progress-clocks]
 pairs_with:
   prompts: [design-campaign-arc, write-session-recap]

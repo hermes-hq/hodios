@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [accounts-payable, payment-run, cash-management, supplier-relations]
 pairs_with:
   prompts: [forecast-cash-flow, calculate-cash-runway, analyze-working-capital, prepare-month-end-close]

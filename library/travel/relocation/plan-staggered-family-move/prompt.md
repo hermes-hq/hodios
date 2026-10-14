@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [split-family-move, living-apart, solo-parenting, family-reunion, moving-abroad]
 pairs_with:
   prompts: [plan-long-distance-connection, prepare-children-for-move-abroad, find-rental-from-abroad, plan-relocation-finances]

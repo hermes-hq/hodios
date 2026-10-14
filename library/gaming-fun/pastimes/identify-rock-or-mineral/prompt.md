@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [rockhounding, mineral-identification, geology, meteorites, specimen-testing, field-tests]
 pairs_with:
   prompts: [plan-fossil-hunting-trip, start-a-collection]

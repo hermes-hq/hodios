@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [hindsight-bias, outcome-bias, luck-versus-skill, post-decision-review, lessons-learned]
 pairs_with:
   prompts: [run-decision-journal, decide-whether-to-reverse-decision, learn-from-a-regret, check-decision-for-biases]

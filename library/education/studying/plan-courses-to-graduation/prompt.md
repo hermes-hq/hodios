@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [degree-plan, prerequisites, degree-audit, course-registration, academic-advising]
 pairs_with:
   prompts: [plan-semester-workload, calculate-gpa-and-target, decide-whether-to-drop-course, plan-college-transfer]

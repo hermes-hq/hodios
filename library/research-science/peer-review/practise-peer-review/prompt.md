@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [refereeing, early-career, reviewer-training, critical-appraisal, coaching]
 pairs_with:
   prompts: [write-peer-review, appraise-study-quality, read-paper-with-me]

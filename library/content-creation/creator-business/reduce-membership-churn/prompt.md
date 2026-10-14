@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [memberships, churn, member-retention, member-welcome, member-survey]
 pairs_with:
   prompts: [design-membership-tiers, review-creator-income-mix]

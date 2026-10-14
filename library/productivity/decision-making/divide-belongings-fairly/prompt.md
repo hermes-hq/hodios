@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [fair-division, inheritance, heirlooms, siblings, separation]
 pairs_with:
   prompts: [settle-estate-checklist, declutter-sentimental-items, make-group-decision]

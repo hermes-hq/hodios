@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: small
 reasoning: optional
 level: beginner
+depth: specific
 tags: [error-messages, detached-head, push-rejected, plain-language]
 pairs_with:
   prompts: [choose-git-undo-command, recover-lost-git-work, resolve-merge-conflict]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
+depth: specific
 tags: [blooms-taxonomy, seminar, socratic-questioning]
 pairs_with:
   prompts: [write-lesson-plan, design-classroom-activity]

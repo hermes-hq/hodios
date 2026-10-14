@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [seasonality, off-season, pre-booking, maintenance-plans, early-bird, past-customers]
 pairs_with:
   prompts: [build-annual-marketing-calendar, plan-promotional-offer, design-loyalty-program, evaluate-new-service-line]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [evergreen-content, content-reserve, publishing-cadence, archive-refresh, sustainable-writing]
 pairs_with:
   prompts: [index-newsletter-archive, plan-newsletter-format, write-newsletter-issue]

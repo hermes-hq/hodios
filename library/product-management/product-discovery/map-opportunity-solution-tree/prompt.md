@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [opportunity-solution-tree, continuous-discovery, assumption-testing, outcomes]
 pairs_with:
   prompts: [synthesize-customer-interviews, define-jobs-to-be-done, define-mvp-scope]

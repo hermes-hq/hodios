@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [service-kpis, digital-take-up, cost-per-transaction, completion-rate, digital-inclusion, outcome-measures]
 pairs_with:
   prompts: [set-up-failure-demand-tracking, check-kpi-for-perverse-incentives, set-metric-targets-from-baseline]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [flooring, laminate, vinyl-plank, hardwood, carpet, tiles]
 pairs_with:
   prompts: [plan-renovation-budget, hire-contractor, plan-room-makeover]

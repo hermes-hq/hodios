@@ -19,6 +19,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [yank, deprecate, hotfix-release, incident-response, package-registry]
 pairs_with:
   prompts: [coordinate-security-release, publish-package-from-ci, write-postmortem]

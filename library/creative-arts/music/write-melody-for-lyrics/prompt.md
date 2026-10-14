@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [melody-writing, prosody, topline, songwriting-craft]
 pairs_with:
   prompts: [suggest-chord-progressions, write-song-lyrics, critique-song-lyrics]

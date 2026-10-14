@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [media-training, key-messages, bridging, soundbites, spokesperson, press-interview]
 pairs_with:
   prompts: [prepare-for-tough-questions, handle-social-media-backlash]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [size-chart, fit-guide, apparel, footwear, returns-reduction, product-page]
 pairs_with:
   prompts: [write-product-description, design-returns-process]

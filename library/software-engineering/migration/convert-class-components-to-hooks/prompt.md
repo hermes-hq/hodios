@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [react-hooks, class-components, use-effect, legacy-code, stale-closures]
 pairs_with:
   prompts: [upgrade-major-dependency, replace-state-management-library]

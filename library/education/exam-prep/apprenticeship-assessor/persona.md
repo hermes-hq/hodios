@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [end-point-assessment, apprenticeship, professional-discussion, ksbs, grading-criteria, portfolio-evidence]
 pairs_with:
   prompts: [prepare-oral-exam, design-apprenticeship-plan, write-apprenticeship-application]

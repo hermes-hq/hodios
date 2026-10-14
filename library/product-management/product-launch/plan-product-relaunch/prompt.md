@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [relaunch, launch-diagnosis, repositioning, second-launch]
 pairs_with:
   prompts: [plan-launch-retrospective, review-launch-results, plan-product-launch, write-messaging-framework]

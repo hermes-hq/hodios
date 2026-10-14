@@ -18,6 +18,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: basic
 tags: [money-habits, financial-literacy, emergency-fund, spending-review]
 pairs_with:
   prompts: [build-monthly-budget, categorize-expenses, plan-savings-goal, plan-debt-payoff, explain-investment-concept]

@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [battery-life, energy-profiling, wakelocks, background-work, location-updates]
 pairs_with:
   prompts: [speed-up-app-cold-start]

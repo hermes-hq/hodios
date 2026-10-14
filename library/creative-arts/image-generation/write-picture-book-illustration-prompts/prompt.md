@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [picture-books, childrens-books, page-layout, character-consistency, illustration]
 pairs_with:
   prompts: [write-character-consistency-prompts, build-image-style-guide]

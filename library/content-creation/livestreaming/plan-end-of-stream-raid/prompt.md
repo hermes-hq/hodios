@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [raids, stream-networking, raid-etiquette, community-building, small-streamers]
 pairs_with:
   prompts: [plan-collab-stream, grow-streaming-channel, prepare-hate-raid-response]

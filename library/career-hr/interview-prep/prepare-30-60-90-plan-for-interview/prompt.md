@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [thirty-sixty-ninety, first-90-days, final-round, interview-deliverable]
 pairs_with:
   prompts: [plan-first-90-days, prepare-interview-presentation, research-company]

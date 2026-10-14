@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [weekly-planning, lesson-sequence, planning-template, lesson-design]
 pairs_with:
   prompts: [write-lesson-plan, design-unit-plan, align-lesson-to-standards]

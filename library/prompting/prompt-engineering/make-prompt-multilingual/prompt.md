@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [multilingual, localisation, reply-language, locale-formats, glossary]
 pairs_with:
   personas: [prompt-engineer]

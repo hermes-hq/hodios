@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [crumb-structure, proofing, bulk-fermentation, bread-scoring, loaf-analysis]
 pairs_with:
   prompts: [plan-bread-bake-schedule, start-sourdough-starter, convert-to-bakers-percentages]

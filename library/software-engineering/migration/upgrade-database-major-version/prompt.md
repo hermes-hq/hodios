@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+depth: advanced
 tags: [version-upgrade, logical-replication, pg-upgrade, downtime-budget, rollback, end-of-life]
 pairs_with:
   prompts: [migrate-database-engine, plan-zero-downtime-schema-change]

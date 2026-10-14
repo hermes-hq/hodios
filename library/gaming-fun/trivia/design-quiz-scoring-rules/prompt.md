@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [scoring-rules, jokers, handicaps, tie-break, scoresheet, pub-quiz]
 pairs_with:
   prompts: [host-trivia-night, rule-on-disputed-quiz-answer]

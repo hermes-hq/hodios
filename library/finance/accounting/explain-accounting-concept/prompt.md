@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [double-entry, journal-entries, accrual-accounting, financial-statements, bookkeeping-basics]
 pairs_with:
   prompts: [read-company-financials, review-small-business-pnl, set-up-chart-of-accounts]

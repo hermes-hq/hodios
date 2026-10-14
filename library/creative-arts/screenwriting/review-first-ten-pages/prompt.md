@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [opening-pages, script-feedback, first-impression, reader-attention]
 pairs_with:
   prompts: [write-script-coverage, write-character-introductions, cut-script-page-count]

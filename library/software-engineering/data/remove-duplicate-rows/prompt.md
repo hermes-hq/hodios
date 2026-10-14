@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [duplicates, unique-constraint, foreign-keys, batched-deletes, data-cleanup]
 pairs_with:
   prompts: [plan-zero-downtime-schema-change, review-database-migration, implement-idempotency-keys]

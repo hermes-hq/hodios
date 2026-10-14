@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
+depth: specific
 tags: [name-ideas, pet-names, team-names, band-names, project-names, wordplay]
 pairs_with:
   prompts: [brainstorm-ideas, name-brand, rank-options-pairwise]

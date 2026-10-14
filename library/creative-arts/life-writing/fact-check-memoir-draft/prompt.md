@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [memoir, claim-verification, memory, creative-nonfiction, sources]
 pairs_with:
   prompts: [build-life-timeline, write-memoir-authors-note, check-memoir-for-privacy-risks]

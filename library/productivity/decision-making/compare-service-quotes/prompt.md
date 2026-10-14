@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [quotes, like-for-like, exclusions, payment-terms, red-flags]
 pairs_with:
   prompts: [hire-contractor, compare-options-matrix, compare-total-cost-of-options]

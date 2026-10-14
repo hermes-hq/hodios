@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [job-description, inclusive-language, outcomes-based, pay-transparency]
 pairs_with:
   prompts: [design-interview-loop, plan-new-hire-onboarding]

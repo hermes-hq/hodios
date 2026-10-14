@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [voiceover, talkback, mobile-accessibility, wcag, dynamic-type, touch-targets]
 pairs_with:
   personas: [accessibility-specialist, mobile-engineer]

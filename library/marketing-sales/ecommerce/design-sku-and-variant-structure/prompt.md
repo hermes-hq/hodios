@@ -20,6 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [sku-codes, product-variants, catalogue-structure, product-options, inventory-data, naming-convention]
 pairs_with:
   prompts: [audit-product-catalog-data, plan-inventory, plan-multichannel-inventory-sync]

@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [science-fiction, speculative-tech, hard-sf, story-consistency, steampunk]
 pairs_with:
   prompts: [build-magic-system, build-series-bible, design-fictional-factions]

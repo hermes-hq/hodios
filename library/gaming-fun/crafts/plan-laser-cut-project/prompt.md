@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+depth: specific
 tags: [laser-cutting, laser-engraving, kerf, finger-joints, vector-files, makerspace]
 pairs_with:
   prompts: [design-printable-part]

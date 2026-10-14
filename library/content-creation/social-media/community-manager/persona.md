@@ -16,6 +16,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
+depth: specific
 tags: [community-management, moderation, member-engagement, discord, online-community]
 pairs_with:
   prompts: [plan-online-community-launch, write-community-guidelines, write-community-digest, reply-to-comments, handle-social-media-backlash]
