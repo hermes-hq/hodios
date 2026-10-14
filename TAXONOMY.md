@@ -1,4 +1,4 @@
-# Hodios taxonomy (vocab 1.4.0)
+# Hodios taxonomy (vocab 1.5.0)
 
 How Hodios organises entries so the library can grow from dozens to millions without breaking a link, an install or a contributor's mental model. This file explains the rules. The data lives in [`vocab/`](vocab/), and the validator enforces it (rules PS050–PS060, §5.4).
 
@@ -15,7 +15,7 @@ entry = kind  +  ONE place (domain → category [→ subcategory])  +  many face
 
 - **Kind** says what sort of thing the entry is: prompt, persona, workflow, rule or style (§1).
 - **Domain → category** is the single primary axis: the field of activity, then the job inside it. It decides the folder: `library/<domain>/<category>/<id>/<kind>.md`. The entry declares only its `category`. The domain is computed from `vocab/category.yml`, so moving a category to another domain never touches an entry file (§2).
-- **Facets** are everything else, each one a controlled vocabulary with synonyms: stage, role, stack, subject, works_in, inputs, output, risk, advice_risk, model tier, level, language and tags (§3).
+- **Facets** are everything else, each one a controlled vocabulary with synonyms: stage, role, stack, subject, works_in, inputs, output, risk, advice_risk, model tier, level, depth, language and tags (§3).
 - **The id** is a flat, never-reused slug. It contains no domain, category or kind, so the taxonomy can change under it freely (§4).
 - **Packs** are curated, many-to-many install bundles. They are not part of the taxonomy.
 
@@ -210,6 +210,24 @@ Tags are free kebab-case slugs: at most 8 per entry, at most 32 characters each,
 - A tag used on 25 or more entries is proposed for promotion into a facet value or a subcategory.
 - npm keywords and GitHub topics show the ceiling of free tags without normalisation: discovery with no synonyms (npm) or with 20 lowercase topics and a separate curated layer (GitHub explore). Tags here are only ever the third signal, after category and facets.
 
+### 3.12 Depth (how general an entry is inside its category)
+
+`depth` is one value from [`vocab/depth.yml`](vocab/depth.yml), an **ordered** vocabulary: today `basic` ("Start here"), `specific` and `advanced`. Every category view, domain view and search shows the first level first, then the others as sections in vocab order. Labels and order live only in the vocab: the CLI, the site and Hermes IDE read them from the catalog's vocab object (`vocab.depth.values`, in order) and never hard-code the ids, so a level can be renamed or added with a vocab change alone. A row or entry without a depth counts as the middle level (`vocab.depth.default`).
+
+- **basic** is the category's front door: general, starts from a blank page, asks for what it needs and hands off to the specific entries (`pairs_with`). "Plan a trip", "Write an email", "Review a pull request".
+- **specific** is one situation, audience, tool or format: "Plan a road trip with children", "Review a Django change".
+- **advanced** assumes expert judgement: "Plan croissant lamination", "Forecast intermittent demand".
+
+Every entry sets `depth`. `hodios validate` warns when it is missing (PS064, with the heuristic's suggestion) and fails when a live category with entries has no first-level prompt or workflow (a category of styles or rules only needs a first-level entry of any kind). A new category therefore cannot land without its front door.
+
+**The seeding heuristic** (`suggestDepth` in `@hermes-hq/hodios-core`, applied by `tools/release/fill-depth.mjs` to entries without a depth) is deterministic:
+
+1. `level: expert` → the last level.
+2. Take the words of the id. Drop stop words, generic verbs (plan, write, make, choose, fix, review, …) and generic role nouns (coach, tutor, planner, track, …). If every remaining word names the category or its domain (the value, its label or a synonym, compared by a light stem) and the entry has no `stack` → the first level (`plan-itinerary` in trip-planning, `travel-planner`, `code-reviewer`).
+3. Otherwise → the middle level.
+
+Reviewers override it in front matter wherever it reads wrong; `node tools/release/fill-depth.mjs --set <id>=<depth>` does the edit. When depth was introduced (vocab 1.5.0) the heuristic seeded all entries, every category without a front door got one (an existing general entry promoted to `basic`, or a new front-door prompt), and the essentials were set to `basic`.
+
 ## 4. IDs: never break
 
 ### 4.1 Grammar (frozen in schema v1)
@@ -316,6 +334,10 @@ Clients ignore unknown facets and values (the design's "ignore unknown fields" r
 | PS058 | warning | `stack` or `subject` lists a value together with something it implies |
 | PS059 | warning | Cardinality above the `vocab/facets.yml` limit for `stage` (workflows exempt), `stack`, `requires`, `inputs`, `output`. New facets (`role`, `subject`, `advice_risk`) enforce their limits in the schema |
 | PS060 | error | `curated.txt` (§6.1) is sorted, lists each id once, names only live entries (not an alias, not deprecated, not in `other/unsorted`) and holds at most 2,000 |
+| PS061 | error | `essentials.yml` (§6.2): `level1` ≤ 24 and `level2` ≤ 200 live ids, no duplicates, `level1` ⊂ `level2`, first-depth entries only |
+| PS062 | error | `vocab/intent.yml` (§6.3) maps every live category to 1–2 known intents and one known topic; entry `intent`/`topic` overrides use known ids |
+| PS063 | error | `queries.yml` (§6.4): every phrase is lower-case words and routes to exactly one live entry; `refine` ids are live entries |
+| PS064 | error / warning | Depth (§3.12): every live category with entries has a first-level prompt or workflow (error); an entry without `depth` (warning, with the heuristic's suggestion) |
 
 PS006 continues to check every faceted value against its vocab, including the new `role`, `subject`, `subcategory` and `advice-risk` vocabs. It warns on deprecated values and names the successor.
 
@@ -373,6 +395,39 @@ Every catalog row carries a `tier`, computed at release and never authored in an
 4. Never added automatically: `other/unsorted`, deprecated entries, and entries with `advice_risk`, whose promotion needs a reviewer from the domain's CODEOWNERS group (§3.9). A maintainer adds those by hand after that review.
 
 To curate an entry by hand, add its id. To keep an entry out, write `!<id>`: it leaves the tier and the script never adds it back. The first list kept every entry of catalog 2026.1003.0, the last release that shipped the whole library to hodios-dist.
+
+### 6.2 Essentials (`essentials.yml`)
+
+[`essentials.yml`](essentials.yml) holds two fixed-size, nested lists of first-depth entries:
+
+- `level1`: at most **24** front doors, shown first on every home screen (the Hermes Library, hermes-ide.com/prompts). General, everyday, start-from-zero entries, plus a few developer ones. Rows carry `ess: 2`.
+- `level2`: at most **200** everyday essentials, the shelf below them. It includes every `level1` id. Rows of the rest carry `ess: 1`; every other row `ess: 0`.
+
+The caps are fixed: **to add an id, remove one** (one in, one out). PS061 fails on a list over its cap, a `level1` id missing from `level2`, an id listed twice, an id that is not a live entry (not an alias, not deprecated, not in `other/unsorted`), and an entry whose depth is not the first level.
+
+### 6.3 Intents and topics (`vocab/intent.yml`)
+
+[`vocab/intent.yml`](vocab/intent.yml) is the everyday browse layer over the categories: **intents** are what people want to do (Write, Plan, Learn, Decide, Fix, Create, Talk it through, Code), **topics** what it is about (Travel, Food, Money, Health, Family, Career, Learning, Software, Work, Life), both in display order. Every live category maps to 1–2 intents and one topic (PS062). An entry may override its category with front matter `intent: [..]` (1–2) and `topic:`. Rows carry the result as `int` and `top`, and the catalog's vocab object carries the whole file as `vocab.intent`. Query keys: `intent:plan`, `topic:travel`.
+
+### 6.4 Everyday words (`queries.yml`)
+
+[`queries.yml`](queries.yml) routes the words people type to a front door: each item names an entry (`to`), the lower-case `phrases` that mean it ("trip", "vacation", "weekend away") and the specialists to offer next (`refine`). When a query contains a phrase, its entry comes first and the refine list next, whatever else matches. The longest phrase found wins and the first item listed breaks a tie; words are compared by a light stem, so "trips" finds "trip". A phrase routes to exactly one entry and every id must be live (PS063). The build compiles the file into the catalog (manifest `queries`, also `vocab.queries`) and adds each phrase to its entry's `syn` search terms.
+
+[`test/golden-queries.yml`](test/golden-queries.yml) lists about a hundred plain queries with the entries that must come back in the top 3. The test runs the core ranking over the real catalog and fails below 90%, and fails when any category's first entry is not a "Start here" entry. When a plain query lands on the wrong entry, add a phrase here and the query there.
+
+### 6.5 Ranking: static order, commonness and text
+
+**Static order** (`compareStatic`, the order of any listing and the tie-break of every search): deprecated last, then `ess` (higher first), then depth in vocab order (first level first), then `q` (higher first), then tier (curated, verified, community), then usage `u`, and the id only as the final tie-break.
+
+**Commonness `q`** (0–100, computed at build, deterministic): essentials `level1` = 100, `level2` = 80, deprecated = 0. Every other entry starts at 40 and gets: curated tier +10; first depth +8, last depth −8; `level: beginner` +6, `expert` −6; `role` includes `individual` or is empty (anyone) +6; status experimental or stable (it has evals) +4; a title of at most 3 words +6, 4 words +3, 7 or more words −5; a qualified title (" for ", " with ", " in ", " on ", " from ", a colon or a parenthesis) −6; a `stack` −4; text in a language other than English −10. The result is clamped to 1–79, so every essential ranks above every other entry.
+
+**Text** (`search` in `@hermes-hq/hodios-core/catalog`; Hermes IDE and the site implement the same plan):
+
+1. Stop words are dropped ("help me plan a trip to …" searches plan, trip, …).
+2. Each remaining term must match a word that starts with it (or with its stem) in the id or title (weight 5), `syn` (4: the category label and synonyms, the queries.yml phrases routed to the entry, and its aliases), aliases or tags (3), or the description (2).
+3. If no row matches every term, rows matching any term are ranked by how many terms they match, then by score (`fallback`).
+4. A queries.yml route puts its front door first and its refine list next.
+5. The words the top hit does not match are returned as `leftover`, as typed ("plan a 5-day trip to Lisbon" → `5-day`, `Lisbon` for Plan a trip), so a UI can pass them to the entry as arguments.
 
 ## 7. The v1 vocabulary
 
@@ -441,7 +496,7 @@ Hermes does not show every entry at once. Search always covers the whole catalog
 | **Current Track phase** | The active Feature Track step | `stage` | medium while a Track is active |
 | **Situation** (opt-in) | Workspace state Hermes already sees: merge conflict, failing test output, an uncommitted diff | `inputs`, `category` (e.g. conflict → `git`, stack trace → `debugging`) | low, shown as a hint chip |
 | **Level and language** | Profile level; app locale | `level`, `lang` | low boost; a language mismatch sinks unless `lang` is unset |
-| *Global quality* | From the catalog row, not personal | tier, `q`, `u` | the static rank every score starts from |
+| *Global quality* | From the catalog row, not personal | `ess`, `dep`, `q`, tier, `u` (§6.5) | the static rank every score starts from |
 
 **Scoring:** `score = static_rank + Σ weightᶠ · matchᶠ`, applied to the 300 static-rank candidates the query plan already produces (design §5.5). The cost is constant at any catalog size. Every boosted card can say why ("Because your project uses React · you picked Backend engineer").
 

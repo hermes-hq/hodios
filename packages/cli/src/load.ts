@@ -4,7 +4,10 @@ import {
   buildVocab,
   checkVocabFile,
   parseCuratedList,
+  parseEssentials,
   parseIdsLock,
+  parseIntentVocab,
+  parseQueries,
   parseYamlDocument,
   type EntrySource,
   type Issue,
@@ -107,6 +110,17 @@ export function loadRepo(root: string): LoadedRepo {
   const curatedPath = join(root, 'curated.txt');
   const curated = existsSync(curatedPath) ? parseCuratedList(readFileSync(curatedPath, 'utf8')) : undefined;
 
+  // The everyday layer (TAXONOMY.md §6.2–§6.4): optional files, checked by PS061–PS063 when present.
+  const yamlFile = <T>(rel: string, parse: (data: unknown) => { value?: T; problems: string[] }) => {
+    const path = join(root, rel);
+    if (!existsSync(path)) return undefined;
+    const doc = parseYamlDocument(readFileSync(path, 'utf8'));
+    return doc.error ? { problems: [doc.error] } : parse(doc.data);
+  };
+  const essentials = yamlFile('essentials.yml', parseEssentials);
+  const intent = yamlFile('vocab/intent.yml', parseIntentVocab);
+  const queries = yamlFile('queries.yml', parseQueries);
+
   // library/<domain>/<category>/[<subcategory>/]<id>/… (legacy: library/<category>/<id>/).
   // An entry folder is any folder that directly holds a <kind>.md file; the core checks its depth (PS051).
   const sources: EntrySource[] = [];
@@ -145,5 +159,9 @@ export function loadRepo(root: string): LoadedRepo {
     issues.push({ rule: 'PS009', severity: 'error', file: 'library', message: 'library/ is missing' });
   } else walkLibrary(libraryDir, 'library', 1);
 
-  return { context: { vocab: buildVocab(vocabFiles), partials, idsLock, curated }, sources, issues };
+  return {
+    context: { vocab: buildVocab(vocabFiles), partials, idsLock, curated, essentials, intent, queries },
+    sources,
+    issues,
+  };
 }

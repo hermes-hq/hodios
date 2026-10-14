@@ -95,6 +95,12 @@ export interface EntryFrontmatter {
   model_tier?: ModelTier;
   reasoning?: Reasoning;
   level?: Level;
+  /** How general the entry is inside its category: a value from vocab/depth.yml (TAXONOMY.md §3.12). */
+  depth?: string;
+  /** Overrides the category's intents from vocab/intent.yml (1–2 verbs). */
+  intent?: string[];
+  /** Overrides the category's topic from vocab/intent.yml. */
+  topic?: string;
   pairs_with?: PairsWith;
   args?: EntryArg[];
   output_contract?: OutputContract;

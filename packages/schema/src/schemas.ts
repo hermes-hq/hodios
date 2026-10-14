@@ -125,6 +125,22 @@ export const entrySchema = {
     model_tier: { enum: [...MODEL_TIERS] },
     reasoning: { enum: [...REASONING] },
     level: { enum: [...LEVELS] },
+    depth: {
+      type: 'string',
+      pattern: SLUG_PATTERN,
+      description:
+        'How general the entry is inside its category, from vocab/depth.yml. The first value is the category front door ("Start here"); TAXONOMY.md §3.12.',
+    },
+    intent: {
+      ...slugList('Overrides the category intents from vocab/intent.yml (verbs such as plan, write, fix).'),
+      minItems: 1,
+      maxItems: FACET_LIMITS.intent,
+    },
+    topic: {
+      type: 'string',
+      pattern: SLUG_PATTERN,
+      description: 'Overrides the category topic from vocab/intent.yml (nouns such as travel, food, money).',
+    },
     pairs_with: {
       type: 'object',
       description: 'UI hint only; never a runtime dependency.',

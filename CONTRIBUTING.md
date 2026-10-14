@@ -45,7 +45,7 @@ version: 1.0.0
 status: incubating            # new entries start here
 ```
 
-Then add the facets that apply (`stage`, `role`, `stack`, `subject`, `requires`, `inputs`, `output`, `tags`, `args`). Values come from [`vocab/`](vocab/); [TAXONOMY.md](TAXONOMY.md) explains each facet and how to pick the category. Entries in health, legal or finance categories also need `advice_risk` and the guardrail partials it names.
+Then set `depth` (`basic` for the general start-here entry of a need, `specific` for one situation, `advanced` for expert work; see [TAXONOMY.md §3.12](TAXONOMY.md#312-depth-how-general-an-entry-is-inside-its-category)) and add the facets that apply (`stage`, `role`, `stack`, `subject`, `requires`, `inputs`, `output`, `tags`, `args`). Values come from [`vocab/`](vocab/); [TAXONOMY.md](TAXONOMY.md) explains each facet and how to pick the category. Entries in health, legal or finance categories also need `advice_risk` and the guardrail partials it names.
 
 **4. Write the body.** For a prompt: `<context>`, `<task>`, `<constraints>`, `<output_format>`, and optionally `<examples>`. Reference arguments as `{{name}}` and shared guardrails as `{{> guardrails/scope-discipline}}`.
 
@@ -88,6 +88,8 @@ CI runs the same checks. A maintainer reviews, and the next daily release ships 
 **Category tie-break:** pick the category whose outcome the user judges success by; read its `scope_note` in `vocab/category.yml`. Inside software engineering: security > accessibility > performance > specific activity > code-review > generic. Across domains, the domain of the material wins over the domain of the audience (TAXONOMY.md §2.2). Personas go in their discipline's category, workflows in the category of their end goal, rules in `conventions` unless they have a single subject.
 
 **Never author computed fields:** `works_in`, `packs`, `quality`, `tested_on`, `hash`, `created`, `updated`, `license`. The build derives them.
+
+**Front doors and essentials.** Every category needs at least one `depth: basic` prompt: general, works from a blank start, asks two or three questions when the essentials are missing, then does the job and offers the specialists through `pairs_with`. A new category cannot land without one (PS064). [`essentials.yml`](essentials.yml) lists the 24 front doors shown first everywhere and the 200 everyday essentials; both lists are full by design, so **to add an entry, remove one** in the same PR and say why (PS061). [`queries.yml`](queries.yml) routes everyday words to a front door; when a plain search lands on the wrong entry, add a phrase there and the query to [`test/golden-queries.yml`](test/golden-queries.yml).
 
 **Status.** New entries start as `incubating`. `experimental` and `stable` need an `evals.yaml` with at least three cases (a happy path, an edge case and a negative case) and must beat the `baseline` prompt.
 

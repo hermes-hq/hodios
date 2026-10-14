@@ -59,7 +59,7 @@ describe('vocab/ in this repository', () => {
   it('loads with no problems', () => {
     const repo = loadRepo(repoRoot);
     expect(repo.issues.filter((i) => i.file.startsWith('vocab/'))).toEqual([]);
-    for (const facet of ['domain', 'category', 'role', 'subject', 'advice-risk', 'subcategory']) {
+    for (const facet of ['domain', 'category', 'role', 'subject', 'advice-risk', 'subcategory', 'depth']) {
       expect(repo.context.vocab.has(facet)).toBe(true);
     }
   });

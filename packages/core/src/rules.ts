@@ -35,6 +35,11 @@ export const RULES = {
   PS058: 'stack and subject do not list a value together with one it implies',
   PS059: 'facet cardinality stays within vocab/facets.yml limits',
   PS060: 'curated.txt lists live entries outside the holding area, sorted, not deprecated, at most 2,000',
+  PS061:
+    'essentials.yml: level1 at most 24 and level2 at most 200 live ids, level1 inside level2, first-depth entries only',
+  PS062: 'vocab/intent.yml maps every live category to 1-2 intents and a topic; entry intent/topic overrides are known',
+  PS063: 'queries.yml routes each phrase to one live entry; refine ids are live entries',
+  PS064: 'every live category has a first-depth (front door) prompt or workflow; every entry sets depth',
 } as const;
 
 export type RuleId = keyof typeof RULES;

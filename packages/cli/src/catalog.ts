@@ -9,6 +9,7 @@ import {
   type Manifest,
   type ObjectRef,
   type PackObject,
+  type QueriesObject,
   type ShardList,
   type Tier,
   type VocabObject,
@@ -184,6 +185,12 @@ export class Catalog {
 
   async vocab(): Promise<VocabObject> {
     return JSON.parse(await this.object(this.manifest.vocab)) as VocabObject;
+  }
+
+  /** queries.yml routes: the manifest's `queries` object, else the vocab's copy, else none (format 1.0). */
+  async queries(vocab?: VocabObject): Promise<QueriesObject['routes'] | undefined> {
+    if (this.manifest.queries) return (JSON.parse(await this.object(this.manifest.queries)) as QueriesObject).routes;
+    return vocab?.queries;
   }
 
   async pack(name: string): Promise<PackObject | undefined> {

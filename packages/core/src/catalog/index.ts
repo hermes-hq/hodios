@@ -1,8 +1,12 @@
 // `@hermes-hq/hodios-core/catalog`: the v1 index format, its builder and the query engine. No schema validator.
 export * from './types.js';
 export {
+  CATALOG_FORMAT,
   ROWS_PER_SHARD,
   buildCatalog,
+  commonness,
+  queriesObject,
+  rowContext,
   objectPath,
   parseShard,
   prefixLenFor,
@@ -10,11 +14,17 @@ export {
   vocabObject,
   worksIn,
 } from './build.js';
-export type { CatalogInput, CatalogOutput } from './build.js';
+export type { CatalogInput, CatalogOutput, RowContext } from './build.js';
 export {
   QUERY_KEYS,
+  ROUTE_BOOST,
+  STOP_WORDS,
+  TEXT_WEIGHTS,
   WEIGHTS,
   compareStatic,
+  depthRanker,
+  routeQuery,
+  searchWords,
   findRow,
   impliesOf,
   parseQuery,

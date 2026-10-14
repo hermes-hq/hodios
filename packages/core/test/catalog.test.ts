@@ -123,6 +123,7 @@ describe('search', () => {
   it('parses keys, OR within a key and AND across keys', () => {
     expect(parseQuery('flaky kind:prompt stack:react,vue')).toEqual({
       terms: ['flaky'],
+      raw: ['flaky'],
       filters: { kind: ['prompt'], stack: ['react', 'vue'] },
     });
     expect(ids('stage:verify stack:react')).toEqual(['test-react-hooks']);
@@ -130,7 +131,14 @@ describe('search', () => {
 
   it('matches text on id, title, tags and description, every term', () => {
     expect(ids('flaky')).toEqual(['fix-flaky-test']);
-    expect(ids('flaky python')).toEqual([]);
+    expect(search(rows, 'flaky').fallback).toBe(false);
+  });
+
+  it('falls back to any-term matching, most matched terms first, and reports the leftover words', () => {
+    const result = search(rows, 'flaky Python thing', { vocab: vocabObject });
+    expect(result.fallback).toBe(true);
+    expect(result.hits[0]?.row.id).toBe('fix-flaky-test');
+    expect(result.leftover).toEqual(['Python', 'thing']);
   });
 
   it('expands synonyms and implies (entries for nextjs match a react query)', () => {

@@ -11,6 +11,14 @@ import {
   type Kind,
 } from '@hermes-hq/hodios-schema';
 import { checkCurated, type CuratedList } from './curation.js';
+import {
+  checkEveryday,
+  suggestDepth,
+  type Essentials,
+  type IntentVocab,
+  type Parsed,
+  type QueryRoute,
+} from './everyday.js';
 import type { IdsLock } from './ids-lock.js';
 import { parseFrontmatter, parseYamlDocument } from './parse.js';
 import type { Issue, RuleId, Severity } from './rules.js';
@@ -32,6 +40,12 @@ export interface LibraryContext {
   idsLock: IdsLock;
   /** curated.txt, when the checkout has one. Without it every entry is curated. */
   curated?: CuratedList;
+  /** essentials.yml (TAXONOMY.md §6.2), when the checkout has one. */
+  essentials?: Parsed<Essentials>;
+  /** vocab/intent.yml (TAXONOMY.md §6.3), when the checkout has one. */
+  intent?: Parsed<IntentVocab>;
+  /** queries.yml (TAXONOMY.md §6.4), when the checkout has one. */
+  queries?: Parsed<QueryRoute[]>;
 }
 
 export interface CheckedEntry {
@@ -232,6 +246,7 @@ export function checkEntry(src: EntrySource, ctx: LibraryContext): { checked: Ch
     ['inputs', fm.inputs ?? []],
     ['output', fm.output ?? []],
     ['advice-risk', fm.advice_risk ?? []],
+    ['depth', fm.depth ? [fm.depth] : []],
   ];
   for (const [facet, values] of facetValues) {
     if (facet === 'subcategory' && values.length > 0 && !ctx.vocab.has(facet)) {
@@ -266,6 +281,23 @@ export function checkEntry(src: EntrySource, ctx: LibraryContext): { checked: Ch
       );
   }
   if ((fm.tags?.length ?? 0) > 8) r.error('PS007', file, `${fm.tags?.length} tags; at most 8`);
+  if (!fm.depth && ctx.vocab.has('depth')) {
+    const suggested = suggestDepth(fm, ctx.vocab);
+    r.add(
+      'PS064',
+      'warning',
+      file,
+      `set depth${suggested ? ` (the heuristic suggests "${suggested}")` : ''}; see vocab/depth.yml`,
+    );
+  }
+  const iv = ctx.intent?.value;
+  if (iv) {
+    for (const i of fm.intent ?? [])
+      if (!iv.intents.some((d) => d.id === i))
+        r.error('PS062', file, `intent: unknown value "${i}" (see vocab/intent.yml)`);
+    if (fm.topic && !iv.topics.some((t) => t.id === fm.topic))
+      r.error('PS062', file, `topic: unknown value "${fm.topic}" (see vocab/intent.yml)`);
+  }
   checkTaxonomyFacets(r, file, fm, ctx.vocab);
   if (fm.aliases?.includes(fm.id)) r.error('PS008', file, 'aliases must not contain the entry’s own id');
 
@@ -672,6 +704,12 @@ export function checkLibrary(sources: EntrySource[], ctx: LibraryContext): Check
     const live = entries.flatMap((e) => (e.frontmatter && e.file ? [e.frontmatter] : []));
     issues.push(...checkCurated(ctx.curated, live));
   }
+  issues.push(
+    ...checkEveryday(
+      ctx,
+      entries.flatMap((e) => (e.frontmatter && e.file ? [e.frontmatter] : [])),
+    ),
+  );
 
   return { entries, issues };
 }

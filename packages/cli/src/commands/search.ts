@@ -49,7 +49,8 @@ export async function runSearch(args: string[], io: Io): Promise<number> {
   // "The ones for you, not all of them": inside a project, an empty search ranks what fits this project first.
   const personal = !values.all && (values.here || (empty && looksLikeProject(io.cwd)));
   const profile: Profile | undefined = personal ? projectProfile(io.cwd, vocab, io.env) : undefined;
-  const result = search(rows, query, { vocab, profile, limit, offset: (page - 1) * limit });
+  const queries = await catalog.queries(vocab);
+  const result = search(rows, query, { vocab, queries, profile, limit, offset: (page - 1) * limit });
 
   if (values.json) {
     io.out(
@@ -59,6 +60,9 @@ export async function runSearch(args: string[], io: Io): Promise<number> {
           total: result.total,
           page,
           profile,
+          route: result.route,
+          fallback: result.fallback,
+          leftover: result.leftover,
           hits: result.hits.map((h) => ({ ...h.row, score: h.score, why: h.reasons })),
         },
         null,
@@ -78,11 +82,16 @@ export async function runSearch(args: string[], io: Io): Promise<number> {
     io.out('No entries match. Try fewer filters, or `hodios search` with no query to browse.');
     return 0;
   }
+  if (result.fallback) io.out('Nothing matches every word; showing the entries that match the most.\n');
   const width = Math.max(...result.hits.map((h) => h.row.id.length));
   for (const { row, reasons } of result.hits) {
     io.out(`${row.id.padEnd(width)}  ${row.kind.padEnd(8)} ${row.title}`);
     io.out(`${' '.repeat(width)}  ${row.desc}`);
     if (reasons.length) io.out(`${' '.repeat(width)}  why: ${reasons.join(' · ')}`);
+  }
+  const top = result.hits[0]?.row;
+  if (page === 1 && top && result.leftover.length > 0) {
+    io.out(`\nNot matched by ${top.id}: ${result.leftover.join(' ')} (pass them to it: hodios use ${top.id} --arg …)`);
   }
   const shown = (page - 1) * limit + result.hits.length;
   const more = result.total > shown ? ` Next: --page ${page + 1}.` : '';

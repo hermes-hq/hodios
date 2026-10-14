@@ -29,6 +29,14 @@ export interface Manifest {
   deltas: { from: number; to: number; object: ObjectRef; bytes: number }[];
   packs: Record<string, ObjectRef>;
   vocab: ObjectRef;
+  /**
+   * Catalog format revision, `MAJOR.MINOR`. Absent means "1.0". 1.1 adds the row fields `ess`, `dep`, `int`, `top`,
+   * `syn` and `adv`, a computed `q`, the vocab's `depth`, `intent` and `queries`, and `queries` below. Additive: a
+   * 1.0 reader ignores them.
+   */
+  format?: string;
+  /** The compiled queries.yml ({@link QueriesObject}), when the release has one. */
+  queries?: ObjectRef;
 }
 
 export interface ShardList {
@@ -63,8 +71,23 @@ export interface CatalogRow {
   risk?: string;
   level?: string;
   lang?: string;
-  /** Quality score 0-100 (evals for promoted tiers). */
+  /**
+   * Commonness 0-100 (TAXONOMY.md §6.5): 100 for essentials level 1, 80 for level 2, otherwise 1-79 from tier, depth,
+   * level, audience, evals and how short and unqualified the title is. Deterministic.
+   */
   q: number;
+  /** Essentials level: 2 = front door (essentials.yml level1), 1 = essentials shelf (level2 only), 0 = neither. */
+  ess?: number;
+  /** Depth, a value of the vocab's `depth` (in its order; a row without one counts as `depth.default`). */
+  dep?: string;
+  /** Intent ids (vocab `intent.intents`), from the category or the entry's override. */
+  int?: string[];
+  /** Topic id (vocab `intent.topics`), from the category or the entry's override. */
+  top?: string;
+  /** Extra search terms: category label and synonyms, queries.yml phrases routed here, and aliases. Lower case. */
+  syn?: string[];
+  /** advice_risk values (medical, mental-health, legal, financial): show a care notice. */
+  adv?: string[];
   /** Usage bucket 0-15. */
   u: number;
   aliases: string[];
@@ -96,4 +119,20 @@ export interface VocabObject {
   domains: Record<string, string>;
   /** stack value -> detection hints (TAXONOMY.md §8) */
   detect: Record<string, { files?: string[]; deps?: string[] }>;
+  /** vocab/depth.yml in display order; `default` is what a row without `dep` counts as (format 1.1). */
+  depth?: { values: { id: string; label: string; description?: string }[]; default: string };
+  /** vocab/intent.yml: intents and topics in display order, and the category map (format 1.1). */
+  intent?: {
+    intents: { id: string; label: string; hint?: string }[];
+    topics: { id: string; label: string }[];
+    categories: Record<string, { intents: string[]; topic: string }>;
+  };
+  /** Same content as the manifest's `queries` object, for clients that only fetch the vocab (format 1.1). */
+  queries?: QueriesObject['routes'];
+}
+
+/** The compiled queries.yml: everyday phrases routed to a front door, plus the specialists to offer next. */
+export interface QueriesObject {
+  schema: 1;
+  routes: { to: string; phrases: string[]; refine: string[] }[];
 }

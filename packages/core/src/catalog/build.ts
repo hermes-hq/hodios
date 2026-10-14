@@ -1,7 +1,16 @@
 import type { ResolvedEntry } from '../compile/types.js';
+import {
+  defaultDepth,
+  depthLevels,
+  normalizePhrase,
+  type Essentials,
+  type IntentVocab,
+  type QueryRoute,
+} from '../everyday.js';
 import type { Vocab } from '../vocab.js';
 import {
   TIER_ORDER,
+  type QueriesObject,
   type CatalogRow,
   type Manifest,
   type ObjectRef,
@@ -55,11 +64,82 @@ export function worksIn(entry: ResolvedEntry): string[] {
 /** Stable JSON for content addressing: keys in insertion order, no whitespace. */
 const json = (v: unknown) => JSON.stringify(v);
 
+/** What `toRow` needs beyond the entry to fill the everyday fields (format 1.1). Built once per catalog. */
+export interface RowContext {
+  /** id -> essentials level (2 = level1, 1 = level2). */
+  ess?: Map<string, number>;
+  intent?: IntentVocab;
+  /** id -> queries.yml phrases routed to it. */
+  phrases?: Map<string, string[]>;
+  /** category -> its label and synonyms, as search words. */
+  categoryTerms?: Map<string, string[]>;
+  /** depth values in vocab order. */
+  depthLevels?: string[];
+}
+
+export function rowContext(
+  vocab: Vocab,
+  opts: { essentials?: Essentials; intent?: IntentVocab; queries?: readonly QueryRoute[] } = {},
+): RowContext {
+  const ess = new Map<string, number>();
+  for (const id of opts.essentials?.level2 ?? []) ess.set(id, 1);
+  for (const id of opts.essentials?.level1 ?? []) ess.set(id, 2);
+  const phrases = new Map<string, string[]>();
+  for (const route of opts.queries ?? []) phrases.set(route.to, [...(phrases.get(route.to) ?? []), ...route.phrases]);
+  const categoryTerms = new Map<string, string[]>();
+  for (const [value, meta] of vocab.get('category')?.meta ?? []) {
+    categoryTerms.set(value, [meta.label, ...(meta.synonyms ?? []).map((s) => s.replaceAll('-', ' '))]);
+  }
+  return { ess, intent: opts.intent, phrases, categoryTerms, depthLevels: depthLevels(vocab) };
+}
+
+/**
+ * Commonness `q` (TAXONOMY.md §6.5), deterministic: essentials level 1 = 100, level 2 = 80, deprecated = 0. Otherwise
+ * 40, plus: curated tier +10; first depth +8, last depth -8; level beginner +6, expert -6; audience includes
+ * `individual` or is empty +6; evals (experimental or stable) +4; title of at most 3 words +6, 4 words +3, 7 or more
+ * words -5; a qualified title (" for ", " with ", " in ", " on ", " from ", ":" or "(") -6; a `stack` -4; text in
+ * a language other than English -10. Clamped to 1-79, so every essential ranks above every other entry.
+ */
+export function commonness(
+  fm: ResolvedEntry['fm'],
+  opts: { tier: Tier; ess?: number; depth?: string; depthLevels?: readonly string[] },
+): number {
+  if (fm.status === 'deprecated') return 0;
+  if (opts.ess === 2) return 100;
+  if (opts.ess === 1) return 80;
+  const levels = opts.depthLevels ?? [];
+  let q = 40;
+  if (opts.tier === 'curated') q += 10;
+  if (levels.length > 1 && opts.depth === levels[0]) q += 8;
+  if (levels.length > 1 && opts.depth === levels.at(-1)) q -= 8;
+  if (fm.level === 'beginner') q += 6;
+  if (fm.level === 'expert') q -= 6;
+  if (!fm.role?.length || fm.role.includes('individual')) q += 6;
+  if (fm.status === 'experimental' || fm.status === 'stable') q += 4;
+  const words = fm.title.trim().split(/\s+/).length;
+  q += words <= 3 ? 6 : words === 4 ? 3 : words >= 7 ? -5 : 0;
+  if (/ (for|with|in|on|from) |[:(]/i.test(fm.title)) q -= 6;
+  if (fm.stack?.length) q -= 4;
+  if (fm.lang && fm.lang !== 'en' && !fm.lang.startsWith('en-')) q -= 10;
+  return Math.max(1, Math.min(79, q));
+}
+
+const unique = (list: string[]) => [...new Set(list.map((s) => s.toLowerCase().trim()).filter(Boolean))];
+
 export function toRow(
   entry: ResolvedEntry,
-  opts: { body: ObjectRef; bytes: number; tier: Tier; domain?: string },
+  opts: { body: ObjectRef; bytes: number; tier: Tier; domain?: string; context?: RowContext },
 ): CatalogRow {
   const { fm } = entry;
+  const ctx = opts.context ?? {};
+  const ess = ctx.ess?.get(fm.id) ?? 0;
+  const dep = fm.depth ?? defaultDepth(ctx.depthLevels ?? []);
+  const mapped = ctx.intent?.categories[fm.category];
+  const syn = unique([
+    ...(ctx.categoryTerms?.get(fm.category) ?? []),
+    ...(ctx.phrases?.get(fm.id) ?? []).map(normalizePhrase),
+    ...(fm.aliases ?? []).map((a) => a.replaceAll('-', ' ')),
+  ]);
   const row: CatalogRow = {
     id: fm.id,
     v: fm.version,
@@ -82,16 +162,25 @@ export function toRow(
     risk: fm.risk,
     level: fm.level,
     lang: fm.lang,
-    q: 0,
+    q: commonness(fm, { tier: opts.tier, ess, depth: dep, depthLevels: ctx.depthLevels }),
     u: 0,
     aliases: fm.aliases ?? [],
     body: opts.body,
     bytes: opts.bytes,
+    ess,
+    dep,
+    int: fm.intent ?? mapped?.intents ?? [],
+    top: fm.topic ?? mapped?.topic,
+    syn,
+    adv: fm.advice_risk ?? [],
   };
   return JSON.parse(json(row)) as CatalogRow;
 }
 
-export function vocabObject(vocab: Vocab): VocabObject {
+export function vocabObject(
+  vocab: Vocab,
+  extra: { intent?: IntentVocab; queries?: readonly QueryRoute[] } = {},
+): VocabObject {
   const facets: VocabObject['facets'] = {};
   const domains: Record<string, string> = {};
   const detect: VocabObject['detect'] = {};
@@ -107,7 +196,26 @@ export function vocabObject(vocab: Vocab): VocabObject {
     const synonyms = Object.fromEntries([...index.synonyms].sort(([a], [b]) => a.localeCompare(b)));
     facets[facet] = { labels, synonyms, implies };
   }
-  return { schema: 1, facets, domains, detect };
+  const out: VocabObject = { schema: 1, facets, domains, detect };
+  const levels = depthLevels(vocab);
+  if (levels.length > 0) {
+    const meta = vocab.get('depth')?.meta;
+    out.depth = {
+      values: levels.map((id) => ({ id, label: meta?.get(id)?.label ?? id, description: meta?.get(id)?.description })),
+      default: defaultDepth(levels) as string,
+    };
+  }
+  if (extra.intent) out.intent = extra.intent;
+  if (extra.queries) out.queries = queriesObject(extra.queries).routes;
+  return out;
+}
+
+/** The compiled queries.yml: phrases normalised (lower case, single spaces), order kept (earlier wins ties). */
+export function queriesObject(queries: readonly QueryRoute[]): QueriesObject {
+  return {
+    schema: 1,
+    routes: queries.map((r) => ({ to: r.to, phrases: r.phrases.map(normalizePhrase), refine: [...r.refine] })),
+  };
 }
 
 export interface CatalogInput {
@@ -123,7 +231,14 @@ export interface CatalogInput {
   /** Tier per entry (curated.txt decides it at release). Each tier gets its own shard list. */
   tierOf?: (entry: ResolvedEntry) => Tier;
   minClientVersion?: string;
+  /** essentials.yml, vocab/intent.yml and queries.yml (format 1.1). */
+  essentials?: Essentials;
+  intent?: IntentVocab;
+  queries?: readonly QueryRoute[];
 }
+
+/** Catalog format written by this builder (see `Manifest.format`). */
+export const CATALOG_FORMAT = '1.1';
 
 export interface CatalogOutput {
   manifest: Manifest;
@@ -141,7 +256,8 @@ export function buildCatalog(input: CatalogInput): CatalogOutput {
     return ref;
   };
   const tierOf = input.tierOf ?? (() => input.tier ?? 'curated');
-  const vocab = vocabObject(input.vocab);
+  const vocab = vocabObject(input.vocab, { intent: input.intent, queries: input.queries });
+  const context = rowContext(input.vocab, input);
   const rows = [...input.entries]
     .sort((a, b) => a.fm.id.localeCompare(b.fm.id))
     .map((entry) => {
@@ -152,6 +268,7 @@ export function buildCatalog(input: CatalogInput): CatalogOutput {
         bytes: new TextEncoder().encode(text).length,
         tier: tierOf(entry),
         domain: vocab.domains[entry.fm.category],
+        context,
       });
     });
 
@@ -181,6 +298,7 @@ export function buildCatalog(input: CatalogInput): CatalogOutput {
 
   const manifest: Manifest = {
     schema: 1,
+    format: CATALOG_FORMAT,
     catalog: input.catalog,
     seq: input.seq ?? 0,
     minClientVersion: input.minClientVersion ?? '0.1.0',
@@ -190,6 +308,7 @@ export function buildCatalog(input: CatalogInput): CatalogOutput {
     packs,
     vocab: put(`${json(vocab)}\n`),
   };
+  if (input.queries) manifest.queries = put(`${json(queriesObject(input.queries))}\n`);
   return { manifest, objects, rows };
 }
 

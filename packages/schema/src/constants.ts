@@ -78,6 +78,7 @@ export const FACET_LIMITS = {
   inputs: 4,
   output: 4,
   advice_risk: 4,
+  intent: 2,
   tags: 8,
 } as const;
 

@@ -10,7 +10,10 @@ import {
   resolveEntry,
   resolvePack,
   type CatalogOutput,
+  type Essentials,
+  type IntentVocab,
   type Issue,
+  type QueryRoute,
   type PackObject,
   type ResolvedEntry,
   type Vocab,
@@ -26,6 +29,10 @@ export interface Library {
   issues: Issue[];
   /** Ids in the curated tier (curated.txt; every entry when the checkout has none). The rest are verified. */
   curated: Set<string>;
+  /** essentials.yml, vocab/intent.yml and queries.yml, when the checkout has them. */
+  essentials?: Essentials;
+  intent?: IntentVocab;
+  queries?: QueryRoute[];
 }
 
 /** Validates the checkout and resolves every entry into its self-contained form. Errors stop the build. */
@@ -62,7 +69,17 @@ export function loadLibrary(root: string): Library {
       );
     }
   }
-  return { entries, packs, vocab: repo.context.vocab, issues, curated };
+  const { essentials, intent, queries } = repo.context;
+  return {
+    entries,
+    packs,
+    vocab: repo.context.vocab,
+    issues,
+    curated,
+    essentials: essentials?.value,
+    intent: intent?.value,
+    queries: queries?.value,
+  };
 }
 
 /** Today's catalog CalVer, `YYYY.MDD.0` (UTC). */
@@ -80,6 +97,9 @@ export function writeCatalog(lib: Library, dir: string, catalog: string, seq = 0
     packs: lib.packs,
     seq,
     tierOf: (entry) => (lib.curated.has(entry.fm.id) ? 'curated' : 'verified'),
+    essentials: lib.essentials,
+    intent: lib.intent,
+    queries: lib.queries,
   });
   for (const [ref, text] of out.objects) {
     const path = join(dir, objectPath(ref));
