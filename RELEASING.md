@@ -62,7 +62,7 @@ curl https://purge.jsdelivr.net/gh/hermes-hq/hodios-dist@latest/catalog/v1/manif
 
 The CLI (`@hermes-hq/hodios`) and its libraries are published to npm by the maintainer, whose account needs a passkey, so no release script publishes them. Publish in dependency order (`packages/schema`, `packages/core`, `packages/cli`) after `npm run build`, and only the packages whose version changed.
 
-Published: `@hermes-hq/hodios-schema` 0.1.0, `@hermes-hq/hodios-core` 0.1.1, `@hermes-hq/hodios` 0.1.1.
+Published: `@hermes-hq/hodios-schema` 0.2.0, `@hermes-hq/hodios-core` 0.2.0, `@hermes-hq/hodios` 0.2.0.
 
 ```sh
 npm whoami || npm login --auth-type=web   # an expired login makes publish answer 404
